@@ -1,0 +1,38 @@
+﻿@using Entities.Enums;
+@using Service.Identity;
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_Layout";
+}
+<style>
+    .login-card .card-body {
+        padding: 29px 60px 40px;
+    }
+</style>
+@if (Model.StatusCode == ResponseStatus.Success)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> @Model.ResponseText
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (Model.StatusCode == ResponseStatus.warning)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning!</strong> @Model.ResponseText
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h5>Create your  Account.</h5>
+@Html.Partial("PartialView/_Register")
+<hr>
+<div class="actions align-left">
+    <span class="additional-link">Have an account? </span>
+    <a href="~/Account/Login" class="btn btn-dark">Login</a>
+</div>

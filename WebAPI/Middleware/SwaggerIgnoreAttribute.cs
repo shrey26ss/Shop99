@@ -19,7 +19,6 @@ namespace WebAPI.Middleware
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }
     }
-
     public class SwaggerIgnoreFilter : ISchemaFilter
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext schemaFilterContext)

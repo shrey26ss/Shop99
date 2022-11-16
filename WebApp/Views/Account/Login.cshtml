@@ -1,0 +1,75 @@
+﻿@using WebApp.Models.ViewModels;
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+<p class="login-card-description">Sign into your account</p>
+<form asp-action="Login" asp-route-ReturnUrl="@ViewBag.returnUrl">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="MobileNo" class="sr-only"></label>
+        <input asp-for="MobileNo" id="txtemail" autocomplete="off" class="form-control" placeholder="xyz@gmail.com" />
+        <span asp-validation-for="MobileNo" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4">
+        <label asp-for="Password" class="sr-only"></label>
+        <input asp-for="Password" id="txtpassord" class="form-control" placeholder="***********" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    @if (Model.IsTwoFactorEnabled)
+    {
+        <div class="form-group mb-4">
+            <label asp-for="GAuthPin" class="sr-only"></label>
+            <input asp-for="GAuthPin" id="GAuthPin" class="form-control" placeholder="***********" />
+            <span class="text-danger">Enter Google Authentication Pin</span>
+        </div>
+    }
+    <button type="submit" id="btnsubmit" class="btn btn-block login-btn mb-4">Login</button>
+</form>
+<a href="#!" class="forgot-password-link" data-toggle="modal" id="forgotPass">Forgot password?</a>
+<p class="login-card-footer-text">Don't have an account? <a href="~/Account/Register" class="text-reset">Register here</a></p>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Password Recovery</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#btnsubmit').click(function (e) {
+                if ($('#txtemail').val() == '') {
+                    e.preventDefault();
+                    Q.notify(-1, 'Email Required');
+                    return false;
+                }
+                if ($('#txtpassord').val() == '') {
+                    e.preventDefault();
+                    Q.notify(-1, 'Password Required');
+                    return false;
+                }
+            });
+            $('#forgotPass').click(function (e) {
+                $.post('/Account/ForgotPasswordView').done(result => {
+                    $('.modal-body').html(result);
+                    $('#myModal').modal('show');
+                }).fail(xhr => {
+                    console.log(xhr.responseText);
+                });
+            });
+        })
+    </script>
+}

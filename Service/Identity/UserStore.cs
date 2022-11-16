@@ -46,7 +46,29 @@ namespace Services.Identity
             try
             {
                 var param = _mapper.Map<ApplicationUserProcModel>(user);
-                var res = await _dapperRepository.ExecuteAsync("AddUser", param, commandType: CommandType.StoredProcedure);
+                var res = await _dapperRepository.ExecuteAsync("AddUser", new
+                {
+                    param.Id,
+                    param.UserId,
+                    param.SecurityStamp,
+                    param.PhoneNumber,
+                    param.PhoneNumberConfirmed,
+                    param.PasswordHash,
+                    param.NormalizedUserName,
+                    param.NormalizedEmail,
+                    param.LockoutEnd,
+                    param.LockoutEnabled,
+                    param.EmailConfirmed,
+                    param.Email,
+                    param.ConcurrencyStamp,
+                    param.AccessFailedCount,
+                    param.TwoFactorEnabled,
+                    param.UserName,
+                    param.Role,
+                    param.Name,
+                    param.FOSId,
+                    param.GAuthPin
+                }, commandType: CommandType.StoredProcedure);
                 var description = Utility.O.GetErrorDescription(res);
                 if (res > 0 && res < 10)
                 {
@@ -240,9 +262,24 @@ namespace Services.Identity
 
         public async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            var param = _mapper.Map<UserUpdateRequest>(user);
-            var result = await _dapperRepository.ExecuteAsync("UpdateUser", param, commandType: CommandType.StoredProcedure);
-            return result > 0 ? IdentityResult.Success : IdentityResult.Failed();
+            try
+            {
+                //var param = _mapper.Map<UserUpdateRequest>(user);
+                var param = new UserUpdateRequest
+                {
+                    Id = user.Id,
+                    PasswordHash = user.PasswordHash,
+                    RefreshToken = user.RefreshToken,
+                    RefreshTokenExpiryTime = user.RefreshTokenExpiryTime,
+                    TwoFactorEnabled = user.TwoFactorEnabled
+                };
+                var result = await _dapperRepository.ExecuteAsync("UpdateUser", param, commandType: CommandType.StoredProcedure);
+                return result > 0 ? IdentityResult.Success : IdentityResult.Failed();
+            }
+            catch(Exception ex)
+            {
+                return IdentityResult.Failed();
+            }            
         }
 
         public async Task<int> GetAccessFailedCountAsync(ApplicationUser user, CancellationToken cancellationToken)

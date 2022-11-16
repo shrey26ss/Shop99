@@ -1,15 +1,16 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Service.Identity;
 using Services.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 
-namespace WebAPI.Middleware
+namespace Service.Identity
 {
     public class ApplicationDbContext
     {
