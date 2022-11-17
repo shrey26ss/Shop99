@@ -37,16 +37,6 @@ namespace WebAPI.Middleware
             services.AddScoped<IRoleStore<ApplicationRole>, RoleStore>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
-            //services.AddScoped<IRepository<EmailConfig>, EmailConfigRepo>();
-            //services.AddScoped<IPackageService, PackageService>();
-            //services.AddScoped<IReportService, ReportService>();
-            //services.AddScoped<IPaymentGatewayService, PaymentGateway.PaymentGatewayService>();
-            //services.AddScoped<IPaymentGateway, Reops.PaymentGatewayService>();
-            //services.AddScoped<ITransactionStatusCheckService, TransactionStatusCheckService>();
-            //services.AddScoped<ITransactionService, TransactionService>();
-            //services.AddScoped<IPhonePayService, PhonePayService>();
-            //services.AddScoped<IAPILogger, APILogger>();
-            //services.AddScoped<IUPISettingService, UPISettingService>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
             //services.AddProgressiveWebApp();
@@ -68,7 +58,6 @@ namespace WebAPI.Middleware
             JWTConfig jwtConfig = new JWTConfig();
             configuration.GetSection("JWT").Bind(jwtConfig);
             services.AddSingleton(jwtConfig);
-
             services.AddSwaggerGen(option =>
             {
                 option.SchemaFilter<SwaggerIgnoreFilter>();

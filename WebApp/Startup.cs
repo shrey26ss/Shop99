@@ -1,5 +1,6 @@
 using Entities.Models;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,11 +38,16 @@ namespace WebApp
         {
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
             services.RegisterService(Configuration);
-            services.AddAuthentication(option =>
+            services.AddAuthentication(option => new AuthenticationOptions
             {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme,
+                DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme,
+                DefaultScheme = "JWT_OR_COOKIE",/*JwtBearerDefaults.AuthenticationScheme*/
+                DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme,
+                RequireAuthenticatedSignIn = true,
+                //    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                //option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddCookie("Cookies", options =>
             {
                 options.LoginPath = "/Account/login";
@@ -69,7 +76,8 @@ namespace WebApp
                     if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
                         return "Bearer";
                     // otherwise always check for cookie auth
-                    return "Cookies";
+                    //return "Cookies";
+                    return "Bearer";
                 };
             });
             /* End Jwd */
@@ -134,7 +142,7 @@ namespace WebApp
                 app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
                 app.UseHsts();
             }
-            app.UseStatusCodePagesWithRedirects("/Error/Status404");
+            //app.UseStatusCodePagesWithRedirects();
             //app.ConfigureExceptionHandler(logger);
             app.UseStaticFiles();
             app.UseRouting();
@@ -142,7 +150,7 @@ namespace WebApp
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
             //app.UseMiddleware<JwtMiddleware>();

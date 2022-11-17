@@ -17,6 +17,8 @@ using System.Text;
 using Service.Identity;
 using Entities.Models;
 using WebAPI.Middleware;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
 
 namespace WebAPI
 {
@@ -57,7 +59,7 @@ namespace WebAPI
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["JWT:Issuer"],
                     ValidAudience = Configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secretkey"]))
                 };
             }).AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
             {
@@ -74,7 +76,9 @@ namespace WebAPI
             });
             /* End Jwd */
             services.AddControllersWithViews();
-            services.AddMvc();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            //services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
             services.AddHsts(option =>
             {
                 option = new Microsoft.AspNetCore.HttpsPolicy.HstsOptions
@@ -85,7 +89,6 @@ namespace WebAPI
                 };
             });
             #region Identity
-
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -130,11 +133,28 @@ namespace WebAPI
             }
             else
             {
-                app.UseExceptionHandler("/Error/Status404");
+                app.UseExceptionHandler(appError =>
+                {
+                    appError.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        context.Response.ContentType = "application/json";
+                        var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                        if (contextFeature != null)
+                        {
+                            await context.Response.WriteAsync(new ErrorDetails()
+                            {
+                                StatusCode = context.Response.StatusCode,
+                                Message = "Internal Server Error."
+                            }.ToString());
+                        }
+                    });
+                });
+                app.UseDeveloperExceptionPage();
                 app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
                 app.UseHsts();
             }
-            app.UseStatusCodePagesWithRedirects("/Error/Status404");
+            //app.UseStatusCodePagesWithRedirects("/Error/Status404");
             //app.ConfigureExceptionHandler(logger);
             app.UseStaticFiles();
             app.UseRouting();
