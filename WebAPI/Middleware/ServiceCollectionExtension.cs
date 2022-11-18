@@ -15,6 +15,7 @@ using FluentMigrator.Runner;
 using Infrastructure.Repos;
 using Infrastructure.Interface;
 using Service.Repos;
+using Service.Categories;
 
 namespace WebAPI.Middleware
 {
@@ -36,6 +37,8 @@ namespace WebAPI.Middleware
             services.AddScoped<IUserStore<ApplicationUser>, UserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, RoleStore>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAPILogger, APILogger>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
