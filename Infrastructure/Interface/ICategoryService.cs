@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interface
 {
-    public interface ICategory
+    public interface ICategoryService
     {
-        Task<Response> AddUpdate(CommonRequest<Category> category);
-        Task<IEnumerable<Category>> GetCategories();
-        Task<Category> GetCategoryById(int id);
+        Task<Response> AddUpdate(RequestBase<Category> category);
+        Task<Response<IEnumerable<Category>>> GetCategories(RequestBase<SearchItem> request);
         Task<Response> Delete(int id);
     }
 }
