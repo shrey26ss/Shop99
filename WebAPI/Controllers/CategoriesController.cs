@@ -36,5 +36,10 @@ namespace WebAPI.Controllers
         {
             return Ok(await _category.GetCategories(request));
         }
+        [Route("Category/GetMenu")]
+        public async Task<IActionResult> GetMenu(Request request)
+        {
+            return Ok(await _category.GetMenu(request));
+        }
     }
 }
