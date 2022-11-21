@@ -102,26 +102,6 @@ namespace Service.Categories
             response.Result = result;
             return response;
         }
-        //private async Task<List<MenuItem>> GetMenu2(List<MenuItem> mainMenu)
-        //{
-        //    var response = new List<MenuItem>();
-        //    var res = mainMenu;
-        //    var rootList = new List<MenuItem>();
-        //    //Root menu
-        //    var rootmenu = res.Where(a => a.ParentId == 0).ToList();
-        //    // Child Menu
-        //    foreach (var parent in rootmenu)
-        //    {
-        //        var childMenu = res.Where(a => a.ParentId == parent.CategoryId).ToList();
-        //        response.Add(parent);
-        //        if (childMenu.Count > 0)
-        //        {
-        //            parent.CategoryList = await GetChildrens(childMenu, res.ToList());
-        //        }
-        //        response.Add(parent);
-        //    }
-        //    return response;
-        //}
         private async Task<List<MenuItem>> GetChildrens(List<MenuItem> menu, List<MenuItem> MainMenu)
         {
             var res = new List<MenuItem>();
@@ -142,7 +122,6 @@ namespace Service.Categories
         private static List<MenuItem> GenerateTreeWithRoot(IEnumerable<Menu> collection)
         {
             List<MenuItem> lst = new List<MenuItem>();
-            //List<List<MenuItem>> topList = new List<List<MenuItem>>();
             try
             {
                 foreach (var rootItem in collection)
@@ -179,7 +158,6 @@ namespace Service.Categories
         }
         private async Task<Response<IEnumerable<Menu>>> Categories(Request request)
         {
-            string sp = string.Empty;
             var res = new Response<IEnumerable<Menu>>();
             sp = @"Select CategoryId,	CategoryName,	ParentId from Category(nolock) order by CategoryId";
             res.Result = await _dapper.GetAllAsync<Menu>(sp, null, CommandType.Text);
