@@ -94,36 +94,37 @@ namespace Service.Categories
             return res;
         }
 
-        public async Task<Response<Menu>> GetMenu(Request request)
+        public async Task<Response<List<MenuItem>>> GetMenu(Request request)
         {
-            var response = new Response<Menu>() { Result = new Menu() };
+            var response = new Response<List<MenuItem>>() { Result = new List<MenuItem>() };
             var res = await Categories(request);
-            var resssss = GetMenu2(res.Result.ToList());
+            var result = GenerateTreeWithRoot(res.Result);
+            response.Result = result;
             return response;
         }
-        private async Task<List<Menu>> GetMenu2(List<Menu> mainMenu)
+        //private async Task<List<MenuItem>> GetMenu2(List<MenuItem> mainMenu)
+        //{
+        //    var response = new List<MenuItem>();
+        //    var res = mainMenu;
+        //    var rootList = new List<MenuItem>();
+        //    //Root menu
+        //    var rootmenu = res.Where(a => a.ParentId == 0).ToList();
+        //    // Child Menu
+        //    foreach (var parent in rootmenu)
+        //    {
+        //        var childMenu = res.Where(a => a.ParentId == parent.CategoryId).ToList();
+        //        response.Add(parent);
+        //        if (childMenu.Count > 0)
+        //        {
+        //            parent.CategoryList = await GetChildrens(childMenu, res.ToList());
+        //        }
+        //        response.Add(parent);
+        //    }
+        //    return response;
+        //}
+        private async Task<List<MenuItem>> GetChildrens(List<MenuItem> menu, List<MenuItem> MainMenu)
         {
-            var response = new List<Menu>();
-            var res = mainMenu;
-            var rootList = new List<Menu>();
-            //Root menu
-            var rootmenu = res.Where(a => a.ParentId == 0).ToList();
-            // Child Menu
-            foreach (var parent in rootmenu)
-            {
-                var childMenu = res.Where(a => a.ParentId == parent.CategoryId).ToList();
-                response.Add(parent);
-                if (childMenu.Count > 0)
-                {
-                    parent.CategoryList = await GetChildrens(childMenu, res.ToList());
-                }
-                response.Add(parent);
-            }
-            return response;
-        }
-        private async Task<List<Menu>> GetChildrens(List<Menu> menu, List<Menu> MainMenu)
-        {
-            var res = new List<Menu>();
+            var res = new List<MenuItem>();
             foreach (var subChild in menu)
             {
                 var subChilds = MainMenu.Where(a => a.ParentId == subChild.CategoryId).ToList();
@@ -137,6 +138,41 @@ namespace Service.Categories
                 }
             }
             return res;
+        }
+        private static List<MenuItem> GenerateTreeWithRoot(IEnumerable<Menu> collection)
+        {
+            List<MenuItem> lst = new List<MenuItem>();
+            //List<List<MenuItem>> topList = new List<List<MenuItem>>();
+            try
+            {
+                foreach (var rootItem in collection)
+                {
+                    var child = GenerateTree(collection, rootItem);
+
+                    lst.Add(new MenuItem { CategoryName = rootItem.CategoryName, Children = child });
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return lst;
+        }
+        private static List<MenuItem> GenerateTree(IEnumerable<Menu> collection,Menu rootItem)
+        {
+            List<MenuItem> lst = new List<MenuItem>();
+            foreach (Menu c in collection.Where(c => c.ParentId == rootItem.CategoryId))
+            {
+
+                lst.Add(new MenuItem
+                {
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.CategoryName,
+                    Children = GenerateTree(collection, c)
+                });
+            }
+            return lst;
         }
         private async Task<Response<IEnumerable<Menu>>> Categories(Request request)
         {

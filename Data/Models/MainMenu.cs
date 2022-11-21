@@ -5,8 +5,23 @@ using System.Text;
 
 namespace Data.Models
 {
-    public class Menu : Category
+    public class MenuItem : Category
     {
-        public IEnumerable<Menu> CategoryList { get; set; } = new List<Menu>();
+        public IEnumerable<MenuItem> Children { get; set; } = new List<MenuItem>();
+    }
+    public class Menu
+    {
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public int? ParentId { get; set; }
+        public bool IsPublish { get; set; }
+        public string Icon { get; set; }
+
+        //public Menu(int id, string name, int? parentID)
+        //{
+        //    this.CategoryId = id;
+        //    this.CategoryName = name;
+        //    this.ParentId = parentID;
+        //}
     }
 }

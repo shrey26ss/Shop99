@@ -12,6 +12,6 @@ namespace Infrastructure.Interface
         Task<Response> AddUpdate(RequestBase<Category> category);
         Task<Response<IEnumerable<Category>>> GetCategories(RequestBase<SearchItem> request);
         Task<Response> Delete(int id);
-        Task<Response<Menu>> GetMenu(Request request);
+        Task<Response<List<MenuItem>>> GetMenu(Request request);
     }
 }
