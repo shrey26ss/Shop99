@@ -87,7 +87,7 @@ namespace Service.Categories
                 else
                 {
                     sp = @"Select * from Category(nolock) where EntryBy = @LoginId";
-                    res.Result = await _dapper.GetAllAsync<Category>(sp, new {request.LoginId}, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.LoginId }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
@@ -101,30 +101,17 @@ namespace Service.Categories
 
         public async Task<Response<List<MenuItem>>> GetMenu(Request request)
         {
-            var response = new Response<List<MenuItem>>() { Result = new List<MenuItem>() };
-            var res = await Categories(request);
-            var result = GenerateTreeWithRoot(res.Result);
-            response.Result = result;
+            var response = new Response<List<MenuItem>>()
+            {
+                StatusCode = ResponseStatus.Success,
+                ResponseText = ResponseStatus.Success.ToString(),
+                Result = new List<MenuItem>()
+            };
+            var res = await Categories();
+            response.Result = GenerateTreeWithRoot(res.Result);
             return response;
         }
-        private async Task<List<MenuItem>> GetChildrens(List<MenuItem> menu, List<MenuItem> MainMenu)
-        {
-            var res = new List<MenuItem>();
-            foreach (var subChild in menu)
-            {
-                var subChilds = MainMenu.Where(a => a.ParentId == subChild.CategoryId).ToList();
-                foreach(var childitem in subChilds)
-                {
-                    var subChild2 = MainMenu.Where(a => a.ParentId == childitem.CategoryId).ToList();
-                    if(subChild2.Count > 0)
-                    {
-                       await GetChildrens(subChild2, MainMenu);
-                    }
-                }
-            }
-            return res;
-        }
-        private static List<MenuItem> GenerateTreeWithRoot(IEnumerable<Category> collection)
+        private List<MenuItem> GenerateTreeWithRoot(IEnumerable<Category> collection)
         {
             List<MenuItem> lst = new List<MenuItem>();
             try
@@ -134,8 +121,16 @@ namespace Service.Categories
                     if (rootItem.ParentId == 0)
                     {
                         var child = GenerateTree(collection, rootItem);
-                    
-                        lst.Add(new MenuItem { CategoryId = rootItem.CategoryId, CategoryName = rootItem.CategoryName, ChildNode = child });
+
+                        lst.Add(new MenuItem
+                        {
+                            CategoryId = rootItem.CategoryId,
+                            CategoryName = rootItem.CategoryName,
+                            ParentId = rootItem.ParentId,
+                            Icon = rootItem.Icon,
+                            IsPublish = rootItem.IsPublish,
+                            ChildNode = child
+                        });
                     }
                 }
             }
@@ -146,7 +141,7 @@ namespace Service.Categories
 
             return lst;
         }
-        private static List<MenuItem> GenerateTree(IEnumerable<Category> collection, Category rootItem)
+        private List<MenuItem> GenerateTree(IEnumerable<Category> collection, Category rootItem)
         {
             List<MenuItem> lst = new List<MenuItem>();
             foreach (Category c in collection.Where(c => c.ParentId == rootItem.CategoryId))
@@ -155,15 +150,18 @@ namespace Service.Categories
                 {
                     CategoryId = c.CategoryId,
                     CategoryName = c.CategoryName,
+                    IsPublish = c.IsPublish,
+                    Icon = c.Icon,
+                    ParentId = c.ParentId,
                     ChildNode = GenerateTree(collection, c)
                 });
             }
             return lst;
         }
-        private async Task<Response<IEnumerable<Category>>> Categories(Request request)
+        private async Task<Response<IEnumerable<Category>>> Categories()
         {
             var res = new Response<IEnumerable<Category>>();
-            string sp = @"Select CategoryId,	CategoryName,	ParentId from Category(nolock) order by CategoryId";
+            string sp = @"Select CategoryId,CategoryName,ParentId,Icon from Category(nolock) Where IsPublish = 1 order by CategoryId";
             res.Result = await _dapper.GetAllAsync<Category>(sp, null, CommandType.Text);
             return res;
         }
