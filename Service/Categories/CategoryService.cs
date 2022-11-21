@@ -151,7 +151,6 @@ namespace Service.Categories
             List<MenuItem> lst = new List<MenuItem>();
             foreach (Menu c in collection.Where(c => c.ParentId == rootItem.CategoryId))
             {
-
                 lst.Add(new MenuItem
                 {
                     CategoryId = c.CategoryId,
