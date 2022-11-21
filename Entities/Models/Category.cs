@@ -8,7 +8,6 @@ namespace Entities.Models
     public class Category
     {
         public int CategoryId { get; set; }
-        [Required(ErrorMessage ="Please provide category name")]
         public string CategoryName { get; set; }
         public int ParentId { get; set; }
         public bool IsPublish { get; set; }
