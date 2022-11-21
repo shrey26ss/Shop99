@@ -15,7 +15,7 @@ using System.Linq;
 namespace Service.API
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class JWTAuthorizeAttribute : Attribute, IAuthorizationFilter
+    public class JWTAuthorizeAttribute : System.Attribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
