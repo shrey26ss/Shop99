@@ -16,6 +16,7 @@ using Infrastructure.Repos;
 using Infrastructure.Interface;
 using Service.Repos;
 using Service.Categories;
+using Service.Brand;
 
 namespace WebAPI.Middleware
 {
@@ -39,6 +40,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAPILogger, APILogger>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IBrands, BrandService>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
