@@ -1,7 +1,9 @@
-﻿using Data;
+﻿using AppUtility.Helper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -30,26 +32,29 @@ namespace Service.Categories
                 int i = -5;
                 if (category.Data.CategoryId != 0 && category.Data.CategoryId > 0)
                 {
-                    sqlQuery = @"Update Category(nolock) Set CategoryName=@CategoryName, ParentId=@ParentId,IsPublish=@ParentId,Icon=@Icon,ModifyBy=@LoginId,ModifyOn=GETDATE() where CategoryId = @CategoryId";
+                    sqlQuery = @"Update Category Set CategoryName=@CategoryName, ParentId=@ParentId,IsPublish=@ParentId,Icon=@Icon,ModifyOn=GETDATE() where CategoryId = @CategoryId";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Category(nolock) (CategoryName, ParentId,IsPublish,Icon,EntryOn,EntryBy)values(@CategoryName,@ParentId,@IsPublish,@Icon,GETDATE(),@LoginId);";
+                    sqlQuery = @"Insert into Category (CategoryName, ParentId,IsPublish,Icon,EntryOn)values(@CategoryName,@ParentId,@IsPublish,@Icon,GETDATE());";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
-                    category.LoginId,
-                    category.RoleId,
                     category.Data.CategoryId,
                     category.Data.CategoryName,
                     category.Data.ParentId,
                     category.Data.IsPublish,
                     category.Data.Icon
                 }, CommandType.Text);
-                if (i > -1)
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
                 {
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = ResponseStatus.Success.ToString();
+                }
+                else
+                {
+                    res.ResponseText = description;
                 }
             }
             catch (Exception ex)
@@ -72,10 +77,10 @@ namespace Service.Categories
             var res = new Response<IEnumerable<Category>>();
             try
             {
-                if(request.Data.Id != 0 && request.Data.Id > 0)
+                if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
                     sp = @"Select * from Category(nolock) where Categoryid = @Id";
-                    res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id}, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
