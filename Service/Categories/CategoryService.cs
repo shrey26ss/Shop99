@@ -86,8 +86,8 @@ namespace Service.Categories
                 }
                 else
                 {
-                    sp = @"Select * from Category(nolock)";
-                    res.Result = await _dapper.GetAllAsync<Category>(sp, null, CommandType.Text);
+                    sp = @"Select * from Category(nolock) where EntryBy = @LoginId";
+                    res.Result = await _dapper.GetAllAsync<Category>(sp, new {request.LoginId}, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
