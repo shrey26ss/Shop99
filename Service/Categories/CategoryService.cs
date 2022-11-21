@@ -147,9 +147,12 @@ namespace Service.Categories
             {
                 foreach (var rootItem in collection)
                 {
-                    var child = GenerateTree(collection, rootItem);
-
-                    lst.Add(new MenuItem { CategoryName = rootItem.CategoryName, Children = child });
+                    if (rootItem.ParentId == 0)
+                    {
+                        var child = GenerateTree(collection, rootItem);
+                    
+                        lst.Add(new MenuItem { CategoryId = rootItem.CategoryId, CategoryName = rootItem.CategoryName, Children = child });
+                    }
                 }
             }
             catch (Exception ex)
@@ -178,7 +181,7 @@ namespace Service.Categories
         {
             string sp = string.Empty;
             var res = new Response<IEnumerable<Menu>>();
-            sp = @"Select * from Category(nolock)";
+            sp = @"Select CategoryId,	CategoryName,	ParentId from Category(nolock) order by CategoryId";
             res.Result = await _dapper.GetAllAsync<Menu>(sp, null, CommandType.Text);
             return res;
         }

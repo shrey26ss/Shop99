@@ -14,14 +14,12 @@ namespace Data.Models
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public int? ParentId { get; set; }
-        public bool IsPublish { get; set; }
-        public string Icon { get; set; }
-
-        //public Menu(int id, string name, int? parentID)
-        //{
-        //    this.CategoryId = id;
-        //    this.CategoryName = name;
-        //    this.ParentId = parentID;
-        //}
+     
+        public Menu(int CategoryId, string CategoryName, int? ParentId)
+        {
+            this.CategoryId = CategoryId;
+            this.CategoryName = CategoryName;
+            this.ParentId = ParentId;
+        }
     }
 }
