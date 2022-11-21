@@ -17,7 +17,7 @@ namespace Entities.Enums
         InvalidObjectName = 208,
         [Description("Incorrect syntax")]
         IncorrectSyntax = 156,
-        [Description("Incorrect syntax near '=' ")]
+        [Description("Incorrect sql syntax")]
         IncorrectSyntaxNearEquals = 102,
         [Description("Could not find stored procedure")]
         CouldNotFindStoredProcedure = 2812,
@@ -27,5 +27,7 @@ namespace Entities.Enums
         ViolationOfUniqueKeyConstraint = 50000,
         [Description("Mobile number is already exists.")]
         CredentialAlreadyExists = 3903,
+        [Description("Cannot insert duplicate Value")]
+        RowAlreadyExists = 2627
     }
 }
