@@ -74,13 +74,13 @@ namespace Service.Categories
             {
                 if(request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select * from Category(nolock) where Categoryid = @Id";
-                    res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id}, CommandType.Text);
+                    sp = @"Select * from Category(nolock) where Categoryid = @Id and EntryBy = @LoginId";
+                    res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id, request.LoginId}, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select * from Category(nolock)";
-                    res.Result = await _dapper.GetAllAsync<Category>(sp, null, CommandType.Text);
+                    sp = @"Select * from Category(nolock) where EntryBy = @LoginId";
+                    res.Result = await _dapper.GetAllAsync<Category>(sp, new {request.LoginId}, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
