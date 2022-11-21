@@ -164,7 +164,7 @@ namespace Service.Categories
         private async Task<Response<IEnumerable<Menu>>> Categories(Request request)
         {
             var res = new Response<IEnumerable<Menu>>();
-            sp = @"Select CategoryId,	CategoryName,	ParentId from Category(nolock) order by CategoryId";
+            string sp = @"Select CategoryId,	CategoryName,	ParentId from Category(nolock) order by CategoryId";
             res.Result = await _dapper.GetAllAsync<Menu>(sp, null, CommandType.Text);
             return res;
         }
