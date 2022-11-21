@@ -7,19 +7,6 @@ namespace Data.Models
 {
     public class MenuItem : Category
     {
-        public IEnumerable<MenuItem> Children { get; set; } = new List<MenuItem>();
-    }
-    public class Menu
-    {
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public int? ParentId { get; set; }
-     
-        public Menu(int CategoryId, string CategoryName, int? ParentId)
-        {
-            this.CategoryId = CategoryId;
-            this.CategoryName = CategoryName;
-            this.ParentId = ParentId;
-        }
+        public IEnumerable<MenuItem> ChildNode { get; set; } = new List<MenuItem>();
     }
 }
