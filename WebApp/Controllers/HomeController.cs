@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,8 +20,18 @@ namespace WebApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [Route("/dashboard")]
+        public async Task<IActionResult> Index()
         {
+            string path = "_AdminDashboard";
+            //if (role.Equals("apiuser", StringComparison.OrdinalIgnoreCase) || role.Equals("2"))
+            //{
+            //    path = "_ApiDashboard";
+            //    if (!await _upiSetting.IsAnyConfigurationExists(User.GetLoggedInUserId<int>()))
+            //    {
+            //        path = "~/views/Merchant/Index.cshtml";
+            //    }
+            //}
             return View();
         }
 

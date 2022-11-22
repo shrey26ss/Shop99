@@ -15,6 +15,7 @@ using FluentMigrator.Runner;
 using Infrastructure.Repos;
 using Infrastructure.Interface;
 using Service.Repos;
+using WebApp.Models;
 
 namespace WebApp.Middleware
 {
@@ -58,7 +59,9 @@ namespace WebApp.Middleware
             JWTConfig jwtConfig = new JWTConfig();
             configuration.GetSection("JWT").Bind(jwtConfig);
             services.AddSingleton(jwtConfig);
-
+            AppSettings appSettings = new AppSettings();
+            configuration.Bind(appSettings);
+            services.AddSingleton(appSettings);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace WebAPI.Middleware
     {
         public static T GetLoggedInUserId<T>(this ClaimsPrincipal principal)
         {
-            var loggedInUserId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInUserId = principal.FindFirstValue("id");
             if (typeof(T) == typeof(string))
             {
                 return (T)Convert.ChangeType(loggedInUserId, typeof(T));
@@ -27,7 +27,7 @@ namespace WebAPI.Middleware
             if (principal == null)
                 throw new ArgumentNullException(nameof(principal));
 
-            return principal.FindFirstValue(ClaimTypes.Name);
+            return principal.FindFirstValue("UserName");
         }
 
         public static string GetLoggedInUserEmail(this ClaimsPrincipal principal)
