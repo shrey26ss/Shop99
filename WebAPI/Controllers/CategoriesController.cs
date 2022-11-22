@@ -9,6 +9,7 @@ using Service.API;
 using Service.Identity;
 using System.Net;
 using System.Threading.Tasks;
+using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
@@ -26,20 +27,31 @@ namespace WebAPI.Controllers
 
         [Route("Category/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddUpdateCategory(RequestBase<Category> category)
+        public async Task<IActionResult> AddUpdateCategory(Category req)
         {
-            return Ok(await _category.AddUpdate(category));
+            return Ok(await _category.AddUpdate(new RequestBase<Category>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
 
         [Route("Category/GetCategory")]
-        public async Task<IActionResult> GetCategory(RequestBase<SearchItem> request)
+        public async Task<IActionResult> GetCategory(SearchItem req)
         {
-            return Ok(await _category.GetCategories(request));
+            return Ok(await _category.GetCategories(new RequestBase<SearchItem>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
         [Route("Category/GetMenu")]
         public async Task<IActionResult> GetMenu()
         {
-            Request request = new Request();
+            Request request = new Request
+            {
+                LoginId= User.GetLoggedInUserId<int>()
+            };
             return Ok(await _category.GetMenu(request));
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
@@ -21,28 +22,44 @@ namespace WebAPI.Controllers
 
         [Route("Brand/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddUpdateBrand(RequestBase<Brands> request)
+        public async Task<IActionResult> AddUpdateBrand(Brands req)
         {
-            return Ok(await _brand.AddUpdate(request));
+            return Ok(await _brand.AddUpdate(new RequestBase<Brands>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
 
         [Route("Brand/GetBrands")]
-        public async Task<IActionResult> GetBrands(RequestBase<SearchItem> request)
+        public async Task<IActionResult> GetBrands(SearchItem req)
         {
-            return Ok(await _brand.GetBrands(request));
+            return Ok(await _brand.GetBrands(new RequestBase<SearchItem>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
 
         [Route("Brand/AddBrandCatMap")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddBrandCategoryMapping(RequestBase<BrandCategoryMapping> request)
+        public async Task<IActionResult> AddBrandCategoryMapping(BrandCategoryMapping req)
         {
-            return Ok(await _brand.AddUpdateBrandCategoryMapping(request));
+            return Ok(await _brand.AddUpdateBrandCategoryMapping(new RequestBase<BrandCategoryMapping>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
 
         [Route("Brand/GetBrandCatMap")]
-        public async Task<IActionResult> GetBrandCategoryMapping(RequestBase<SearchItem> request)
+        public async Task<IActionResult> GetBrandCategoryMapping(SearchItem req)
         {
-            return Ok(await _brand.GetBrandCategoryMapping(request));
+            return Ok(await _brand.GetBrandCategoryMapping(new RequestBase<SearchItem>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
     }
 }

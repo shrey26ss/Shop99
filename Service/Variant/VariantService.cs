@@ -9,19 +9,19 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Attribute
+namespace Service.Variant
 {
-    public class AttributeService : IAttributes
+    public class VariantService : IVariant
     {
         private IDapperRepository _dapper;
         private readonly ILogger<DapperRepository> _logger;
-        public AttributeService(IDapperRepository dapper, ILogger<DapperRepository> logger)
+        public VariantService(IDapperRepository dapper, ILogger<DapperRepository> logger)
         {
             _dapper = dapper;
             _logger = logger;
         }
 
-        public async Task<Response> AddUpdate(RequestBase<Attributes> request)
+        public async Task<Response> AddUpdate(RequestBase<Variants> request)
         {
             var res = new Response();
             try
@@ -30,19 +30,22 @@ namespace Service.Attribute
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Attributes Set Name=@Name,Value=@Value,ModifyOn=GETDATE(),ModifyBy=@LoginId where Id = @Id";
+                    sqlQuery = @"Update Variants Set ProductId=@ProductId,AttributeId=@AttributeId,AttributeValue=@AttributeValue,Quantity=@Quantity,MRP=@MRP,ModifyOn=GETDATE(),ModifyBy=@LoginId where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Attributes (Name,Value,EntryOn,EntryBy) values(@Name,@Value,GETDATE(),@LoginId)";
+                    sqlQuery = @"Insert into Variants(ProductId,AttributeId,AttributeValue,Quantity,MRP,EntryBy,EntryOn) values(@ProductId,@AttributeId,@AttributeValue,@Quantity,@MRP,@LoginId,GETDATE())";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     request.LoginId,
                     request.RoleId,
-                    request.Data.Name,
                     request.Data.Id,
-                    request.Data.Value
+                    request.Data.ProductId,
+                    request.Data.AttributeId,
+                    request.Data.AttributeValue,
+                    request.Data.Quantity,
+                    request.Data.MRP
                 }, CommandType.Text);
                 if (i > -1 && i < 100)
                 {
@@ -57,23 +60,23 @@ namespace Service.Attribute
             return res;
         }
 
-        public async Task<Response<IEnumerable<Attributes>>> GetAttributes(RequestBase<SearchItem> request)
+        public async Task<Response<IEnumerable<Variants>>> GetVariants(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
                 request.Data = new SearchItem();
-            var res = new Response<IEnumerable<Attributes>>();
+            var res = new Response<IEnumerable<Variants>>();
             try
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select * from Attributes(nolock) where Id = @Id and EntryBy = @LoginId";
-                    res.Result = await _dapper.GetAllAsync<Attributes>(sp, new { request.Data.Id }, CommandType.Text);
+                    sp = @"Select * from Variants(nolock) where Id = @Id and EntryBy = @LoginId";
+                    res.Result = await _dapper.GetAllAsync<Variants>(sp, new { request.Data.Id, request.LoginId }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select * from Attributes(nolock) where EntryBy = @LoginId";
-                    res.Result = await _dapper.GetAllAsync<Attributes>(sp, new { request.LoginId }, CommandType.Text);
+                    sp = @"Select * from Variants(nolock) where EntryBy = @LoginId";
+                    res.Result = await _dapper.GetAllAsync<Variants>(sp, new { request.LoginId }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";

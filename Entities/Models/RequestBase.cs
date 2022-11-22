@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Entities.Models
 {
     public class RequestBase<T> : Request
@@ -10,8 +7,8 @@ namespace Entities.Models
     }
     public class Request
     {
-        public int LoginId { get; set; }
-        public int RoleId { get; set; }
+        public int LoginId { get; set; } = 0;
+        public int RoleId { get; set; } = 0;
     }
     public class SearchItem
     {
