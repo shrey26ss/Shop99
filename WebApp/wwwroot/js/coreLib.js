@@ -1,10 +1,17 @@
-﻿const xhrText = { 0: 'Internet is not connected', 404: 'Requested path not find', 405: 'Method Not Allowed' }
-const regexExpression = {
-    isHTML: '/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i'
+﻿var xhrText = { 0: 'Internet is not connected', 404: 'Requested path not find', 405: 'Method Not Allowed' }
+
+const regx = {
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    mobile: /^([0|\+[0-9]{1,5})?([7-9][0-9]{8})$/,
+    OnlyName: /^[a-zA-Z]*$/
 };
+
 var Q;
-/*var Q;*/
 (Q => {
+    Q.geoLocationDetail = {
+        Latitude: '',
+        Longitude: ''
+    };
     function htmlEncoder(a) {
         switch (a) {
             case '&': return '&amp;';
@@ -27,6 +34,10 @@ var Q;
         if (options.hasOwnProperty('maxWidth')) {
             maxWidth = options.maxWidth != '' && options.maxWidth >= maxWidth ? maxWidth : options.maxWidth;
         }
+        if (options.top == null || options.top=='') {
+            var pos = $('.seen').position();
+            options.top = pos?.top + 200;
+        }
         options = $.extend({
             htmlEncode: false,
             isOkButton: false,
@@ -41,12 +52,21 @@ var Q;
             create: function (e, ui) {
                 var that = $(this);
                 var dlg = $(this).dialog("widget");
+                //var min = $("<button>", {
+                //    class: "ui-dialog-titlebar-min d-none",
+                //    type: "button",
+                //    title: "Minimize"
+                //}).button({
+                //        icon: "ui-icon-minusthick",
+                //        showLabel: false
+                //    });
                 var max = $("<button>", {
                     class: "ui-dialog-titlebar-max",
                     type: "button",
-                    title: "Maximize"
+                    title: "Maximize",
+                    text:'🗖'
                 }).button({
-                    icon: "ui-icon-arrowthick-2-ne-sw",
+                    /*icon: "ui-icon-arrowthick-2-ne-sw",*/
                     showLabel: false
                 });
                 var oSize = {
@@ -67,6 +87,10 @@ var Q;
                         of: window
                     }
                 };
+                //min.click(function (e) {
+                //    $('.ui-dialog-titlebar-max,.ui-dialog-titlebar-min').toggleClass('d-none');
+                //    that.dialog("option", oSize);
+                //});
                 max.click(function (e) {
                     let cls = $(e.currentTarget).attr('class');
                     if (cls.includes('restoreWindow')) {
@@ -79,20 +103,21 @@ var Q;
                     $('.ui-button-icon').toggleClass('ui-icon-arrowthick-2-ne-sw ui-icon-minusthick');
                 });
                 $(".ui-dialog-titlebar .ui-dialog-title", dlg).after(max);
+                //$(".ui-dialog-titlebar .ui-dialog-title", dlg).after(min,max);
             },
             width: '540px',
             maxWidth: maxWidth,
             minWidth: '25%',
             fluid: true,
             responsive: true,
-            top: '',
+            top: options.top,
             resizable: true,
             open: function () {
                 if (options.onOpen)
                     options.onOpen.call(this);
                 if (options.top !== undefined && options.top !== '')
                     $('.ui-dialog').css({ 'top': options.top })
-                $('.ui-dialog-titlebar-close').text('x');
+                $('.ui-dialog-titlebar-close').text('✖');
             },
             close: function () {
                 dialog.dialog('destroy');
@@ -100,6 +125,7 @@ var Q;
                     options.onClose();
             }
         }, options);
+
         if (options.htmlEncode)
             options.body = Q.htmlEncode(options.body);
         if (!options.buttons && options.isOkButton) {
@@ -130,8 +156,6 @@ var Q;
         extendedTimeOut: 500,
         positionClass: 'toast-top-right'
     };
-
-
     function getToastrOptions(options) {
         options = $.extend({}, Q.defaultNotifyOptions, options);
         positionToastContainer(false);
@@ -206,6 +230,7 @@ var Q;
             open: function () {
                 if (options.onOpen)
                     options.onOpen.call(this);
+                $('.ui-dialog-titlebar-close').text('✖');
             },
             close: function () {
                 dialog.dialog('destroy');
@@ -348,24 +373,43 @@ var Q;
     };
 
     Q.getFormData = ($form) => {
-        var unindexed_array = $form.serializeArray();
-        var indexed_array = {};
+        let unindexed_array = $form.serializeArray();
+        let indexed_array = {};
         $.map(unindexed_array, function (n) {
             indexed_array[n['name']] = n['value'] === 'on' ? true : n['value'];
         });
         return indexed_array;
     };
 
-    Q.geoLoaction = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(geoSuccess);
-        }
-        function geoSuccess(position) {
-            geoLoactionDetail.Latitude = position.coords.latitude;
-            geoLoactionDetail.Longitute = position.coords.longitude;
-        }
+    Q.watchGeoLoaction = () => {
+        navigator.geolocation.watchPosition(function (position) {
+            console.log("i'm tracking you!");
+            Q.geoLocationDetail.Latitude = position.coords.latitude;
+            Q.geoLocationDetail.Longitude = position.coords.longitude;
+        },
+            function (error) {
+                if (error.code == error.PERMISSION_DENIED) {
+                    Q.notify(-1, 'Alert!Your location permission is denied.Please allow location first.');
+                }
+            });
     };
 
+    Q.geoLoaction = () => {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            if (!position) {
+                console.log('Your location permission is denied.Please allow location first.');
+                return {};
+            }
+            else {
+                Q.geoLocationDetail.Latitude = position.coords.latitude;
+                Q.geoLocationDetail.Longitude = position.coords.longitude;
+                return position.coords;
+            }
+        });
+    }
+
+    Q.getKeyByValue = (object, value) => Object.keys(object).find(key => object[key] === value);
+    
     Q.insertAtCaret = (areaId, text) => {
         var txtarea = document.getElementById(areaId);
         if (!txtarea) {
@@ -415,12 +459,25 @@ var Q;
         Q.notify(1, 'Text copied to clipboard')
     };
 
+    Q.isUrlExists = (url, cb) => {
+        $.ajax({
+            url: url,
+            dataType: 'text',
+            type: 'GET',
+            complete: function (xhr) {
+                if (typeof cb === 'function')
+                    cb.apply(this, [xhr.status]);
+            }
+        });
+    };
+
     Q.pasteAtControl = (ctrl, txtToAdd) => {
         var caretPos = ctrl[0].selectionStart;
         var textAreaTxt = ctrl.val();
         ctrl.val(textAreaTxt.substring(0, caretPos) + txtToAdd + textAreaTxt.substring(caretPos));
         ctrl.focus();
     };
+
     Q.reset = () => {
         $('input').val('');
         $('textarea').val('');
@@ -804,7 +861,7 @@ function printDiv(divName) {
             for (var i = 0; i < validationErrors.length; i++) {
                 let __span = $('span[data-valmsg-for="' + validationErrors[i].key + '"]');
                 if (__span.index() == -1) {
-                    console.log('[name="' + validationErrors[i].key + '"]');
+                    console.log('[name="' + validationErrors[i] + '"]');
                     $('[name="' + validationErrors[i].key + '"]').parent('div').append(`<span data-valmsg-for="${validationErrors[i].key}" class="error">${validationErrors[i].errors[0]}</span>`);
                 }
                 else {
@@ -905,9 +962,8 @@ function printDiv(divName) {
             <div class= "modal-dialog modal-dialog-centered ${size}" role="document">
                 <div class="modal-content">
                     <div class="${this.isHeaderBorder ? 'modal-header' : 'pl-3 pr-3 mt-2'} custome">
-    <h3 class="${this.headerClass} modal-title">${this.title === "" ? 'Alert' : this.title}</h3>
+                        <h3 class="${this.headerClass} modal-title">${this.title === "" ? 'Alert' : this.title}</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
                     </div>
                     <div class="modal-body">${this.content}</div>
                 </div>
@@ -957,7 +1013,8 @@ function printDiv(divName) {
                         <button class="btn btn-outline-danger" id="mdlCancel">No</button>
                     </div>
                 </div>`;
-        }
+        },
+        preloader: () =>` <div class="preloaderGif"><img src="/Img/Preloader.gif"/></div>`
     };
 
     Q.modal = modalAlert;
@@ -1038,6 +1095,70 @@ function printDiv(divName) {
             currentElement.focus();
         }
     }
+
+    Q.dateRangeFilter = (fromDateSelector = "dtFromDate", toDateSelector = "dtToDate") => {
+        fromDateSelector = $('#' + fromDateSelector);
+        toDateSelector = $('#' + toDateSelector);
+        fromDateSelector.datepicker({
+            dateFormat: 'dd M yy',
+            maxDate: new Date(),
+            autoClose:true,
+            onSelect: function (dateText, inst) {
+                //let toDateSelector = $('#dtToDate');
+                let date = $(this).val();
+                let fDate = new Date(date), fy = fDate.getFullYear(), fm = fDate.getMonth();
+                let tDate = new Date(toDateSelector.val()), tm = tDate.getMonth(), ty = tDate.getFullYear();
+                let lastDay_f = new Date(fy, fm + 1, 0);
+                if (fDate > tDate) {
+                    toDateSelector.datepicker("setDate", date);
+                }
+                else {
+                    if (fy == ty) {
+                        var curDate = new Date(moment(new Date()).format('D MMM YYYY')), cm = curDate.getMonth();
+                        if (cm == fm) {
+                            if (curDate == fDate && fDate != tDate) {
+                                toDateSelector.val(moment(curDate).format('D MMM YYYY'));
+                            } else if (fDate < curDate) {
+                                curDate = curDate.setDate(curDate.getDate() - 1)
+                                toDateSelector.val(moment(curDate).format('D MMM YYYY'));
+                            }
+                        }
+                        else if (tm > fm) {
+                            toDateSelector.val(moment(lastDay_f).format('D MMM YYYY'));
+                        }
+                    } else if (fy < ty) {
+                        toDateSelector.val(moment(lastDay_f).format('D MMM YYYY'));
+                    }
+                }
+            }
+        });
+        toDateSelector.datepicker({
+            dateFormat: 'dd M yy',
+            maxDate: new Date(),
+            onSelect: function (dateText, inst) {
+                //let fromDateSelector = $('#dtFromDate'), toDateSelector = $('#dtToDate');
+                let date = $(this).val();
+                let fDate = new Date(fromDateSelector.val()), fm = fDate.getMonth(), fy = fDate.getFullYear();
+                let tDate = new Date(toDateSelector.val()), tm = tDate.getMonth(), ty = tDate.getFullYear();
+                let firstDay_t = new Date(ty, tm, 1);
+                let curDate = new Date(moment(new Date()).format('D MMM YYYY'));
+                if (curDate.toString() == tDate.toString()) {
+                    fromDateSelector.val(moment(curDate).format('D MMM YYYY'));
+                }
+                else if (fDate > tDate) {
+                    fromDateSelector.val(toDateSelector.val());
+                } else {
+                    if (fy == ty) {
+                        if (tm > fm) {
+                            fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
+                        }
+                    } else if (fy < ty) {
+                        fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
+                    }
+                }
+            }
+        });
+    };
 })(Q || (Q = {}));
 
 class ShowJsTimer {
@@ -1076,90 +1197,13 @@ class ShowJsTimer {
     }
 }
 
-const alertNormal = {
-    title: '',
-    content: '',
-    color: { green: 'alert-success', red: 'alert-danger', blue: 'alert-info', warning: 'alert-warning' },
-    tcolor: { green: 'text-success', red: 'text-danger', blue: 'text-info', warning: 'text-warning' },
-    linkClass: 'alert-link',
-    iclass: { failed: 'fas fa-times-circle', warning: 'fas fa-exclamation-triangle', success: 'fas fa-check-circle', info: 'fas fa-info-circle' },
-    type: { failed: -1, warning: 0, success: 1, info: 2 },
-    rtype: { rechPend: 1, rechSucc: 2, rechFail: 3, rechRef: 4 },
-    parent: $('#alertmsg'),
-    id: 'alert',
-    div: `<div id={id} class="alert {color} alert-dismissible fade position-fixed alert-custom r-t" role="alert">
-            <strong><i class="{iclass}"></i> {title}!</strong> {content}
-            <button type="button" class= "close pr-2" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button >
-          </div>`,
-    alert: function (type) {
-        var cls = this.color.blue;
-        if (type === this.type.success || type === this.type.rechSucc) cls = this.color.green;
-        else if (type === this.type.failed || type === this.type.rechFail) cls = this.color.red;
-        else if (type === this.type.warning || type === this.type.rechPend) cls = this.color.warning;
-        var icls = this.iclass.info;
-        if (type === this.type.success || type === this.type.rechSucc) icls = this.iclass.success;
-        else if (type === this.type.failed || type === this.type.rechFail) icls = this.iclass.failed;
-        else if (type === this.type.warning || type === this.type.rechPend) icls = this.iclass.warning;
-        this.parent.html(this.div.replace('{id}', this.id).replace('{title}', this.title).replace('{content}', this.content).replace('{color}', cls).replace('{iclass}', icls));
-        this.show();
-        let _this = this;
-        if (_this.autoClose > 0) {
-            setTimeout(function () {
-                _this.remove();
-            }, _this.autoClose * 1000);
-        }
-    },
-    ralert: function (type) {
-        var cls = this.color.blue;
-        if (type === this.type.rechSucc) cls = this.color.green;
-        else if (type === this.type.rechFail) cls = this.color.red;
-        else if (type === this.type.rechPend) cls = this.color.warning;
-        var icls = this.iclass.info;
-        if (type === this.type.rechSucc) icls = this.iclass.success;
-        else if (type === this.type.rechFail) icls = this.iclass.failed;
-        else if (type === this.type.rechPend) icls = this.iclass.warning;
-        this.parent.html(this.div.replace('{id}', this.id).replace('{title}', this.title).replace('{content}', this.content).replace('{color}', cls).replace('{iclass}', icls));
-        this.show();
-        if (this.autoClose > 0) {
-            setTimeout(function () {
-                alertNormal.close();
-            }, this.autoClose * 1000);
-        }
-    },
-    getColor: function (type) {
-        var cls = this.color.blue;
-        if (type === this.rtype.rechSucc) cls = this.color.green;
-        else if (type === this.rtype.rechFail) cls = this.color.red;
-        else if (type === this.rtype.rechPend) cls = this.color.warning;
-        return cls;
-    },
-    getTColor: function (type) {
-        var cls = this.color.blue;
-        if (type === this.rtype.rechSucc) cls = this.tcolor.green;
-        else if (type === this.rtype.rechFail) cls = this.tcolor.red;
-        else if (type === this.rtype.rechPend) cls = this.tcolor.warning;
-        return cls;
-    },
-    close: function () {
-        $('#' + this.id).removeClass('show');
-    },
-    show: function () {
-        $('#' + this.id).addClass('show');
-    },
-    autoClose: 0,
-    remove: function () {
-        $('#' + this.id).remove();
-    }
-};
-var an = alertNormal;
-
 (function ($) {
     $.fn.fixTableHeader = function () {
         let scrollTop = $(window).scrollTop(),
             elementOffset = $('table:last').offset().top,
             distance = (elementOffset - scrollTop),
             footer = $('footer').height();
-        let _style = `<style>.calcHeight{height: calc(100vh - ${distance}px - 93px); }.fixedHeader th {background: #dcdbc1!important; position: sticky;top: -1px; z-index:9;padding:10px;}</style>`
+        let _style = `<style>.calcHeight{height: calc(100vh - ${distance}px - 93px); }.fixedHeader th {background: #44519e!important;border-color: #44519e; position: sticky;top: -1px; z-index:9;padding:10px;}</style>`
         $('head').append(_style);
         $(this).addClass('fixedHeader');
         $(this).closest('div').addClass('calcHeight');
@@ -1177,97 +1221,64 @@ var an = alertNormal;
     };
 })($);
 
-//function ajaxFormSubmit(form) {
-//    event.preventDefault();
-//    /*$.validator.unobtrusive.parse(form);*/
-//    if ($("#CollectionType").val() == undefined) {
-//        SaveAjax(form);
-//        return false;
-//    }
-
-//    if ($("#CollectionType").val() != undefined && $("#CollectionType").val().toLowerCase() != 'cash') {
-//        if ($("#ddlBanks").val() == 0) {
-//            $("#ddlBanks").focus();
-//            $("#BankValidate").text("Please select bank");
-//            return false;
-//        }
-//    }
-//    if ($('[name="TransactionType"]').val() != undefined && $('[name="TransactionType"]').val() == 'dr') {
-//        if ($("#ddlHead").val() == 0) {
-//            $("#ddlHead").focus();
-//            $("#HeadValidate").text("Please select head");
-//            return false;
-//        }
-//    }
-
-//    if ($("#CollectionType").val() != undefined && $("#CollectionType").val().toLowerCase() == 'upi' || $("#CollectionType").val().toLowerCase() == 'bank' && $("#ddlBanks").val() != 0) {
-//        SaveAjax(form);
-//        return false;
-//    }
-//    if ($('[name="TransactionType"]').val() != undefined && $('[name="TransactionType"]').val() == 'dr' || $('[name="TransactionType"]').val() == 'cr' && $("#ddlBanks").val() == 0) {
-//        SaveAjax(form);
-//        return false;
-//    }
-
-//}
 function ajaxFormSubmit(form) {
     event.preventDefault();
-    let btnSubmit = $(form).find('[type="submit"]');
-    let originalText = "SUBMIT";
-    if (btnSubmit.prop('tagName')?.toLowerCase() == 'button') {
-        originalText = btnSubmit.text();
-        btnSubmit.prop('disabled', true).text('Please wait....');
-    }
-    else {
-        originalText = btnSubmit.val();
-        btnSubmit.prop('disabled', true).val('Please wait....');
-    }
+    /*$.validator.unobtrusive.parse(form);*/
     var data, enctype = '';
+    let isMultipart = false;
     if ($(form).find('input[type="file"]').index() == -1) {
         data = $(form).serializeArray();
     }
     else {
         enctype = 'multipart/form-data';
         data = new FormData(form);
+        isMultipart = true;
     }
-    var ajaxConfig = {
-        type: 'POST',
-        url: form.action,
-        data: data,
-        success: function (response) {
-            Q.notify(response.statusCode, response.responseText);
-            if (response.statusCode == 1) {
-                $('.error').text('');
-                $(form).trigger("reset");
-                $('button.ui-dialog-titlebar-close').click();
-                if (typeof loadData !== 'undefined' && $.isFunction(loadData))
-                    loadData();
-                if (response.redirectUrl) {
-                    window.location.href = response.redirectUrl;
+    if (isMultipart) {
+        var ajaxConfig = {
+            type: 'POST',
+            url: form.action,
+            data: data,
+            success: function (response) {
+                Q.notify(response.statusCode, response.msg);
+                if (response.statusCode == 1) {
+                    $('.error').text('');
+                    /*$(form).trigger("reset");*/
+                    $('.ui-dialog-titlebar-close').click();
+                  /*  Q.reset();*/
+                    if (typeof loadData !== 'undefined' && $.isFunction(loadData))
+                        loadData();
                 }
-            }
-        },
-        error: function (xhr) {
-            Q.renderError(xhr);
-        },
-        complete: function () {
-            if (btnSubmit.prop('tagName')?.toLowerCase() == 'button') {
-                btnSubmit.prop('disabled', false).text(originalText);
-            }
-            else {
-                btnSubmit.prop('disabled', false).val(originalText);
+            },
+            error: function (xhr) {
+                Q.renderError(xhr);
             }
         }
+        if (enctype == "multipart/form-data") {
+            ajaxConfig["contentType"] = false;
+            ajaxConfig["processData"] = false;
+        }
+        $.ajax(ajaxConfig);
     }
-    if (enctype == "multipart/form-data") {
-        ajaxConfig["contentType"] = false;
-        ajaxConfig["processData"] = false;
+    else {
+        $.post(form.action, data).done(response => {
+            Q.notify(response.statusCode, response.msg);
+            if (response.statusCode == 1) {
+                $('.error').text('');
+                /*$(form).trigger("reset");*/
+                $('.ui-dialog-titlebar-close').click();
+              /*  Q.reset();*/
+                if (typeof loadData !== 'undefined' && $.isFunction(loadData))
+                    loadData();
+            }
+        }).fail(xhr => Q.renderError(xhr)).always(() => {});
     }
-    $.ajax(ajaxConfig);
 }
 
-
-
+$('body').on('click', '[data-dismiss="modal"]', () => $('button.ui-dialog-titlebar-close').click());
+$('body').on('submit', 'form', function () {
+    ajaxFormSubmit(this)
+});
 
 (function ($) {
     $.renderDataTable = function (options) {
@@ -1282,9 +1293,6 @@ function ajaxFormSubmit(form) {
                 'pdfHtml5'
             ],
             filters: {},
-            scrollY:'',
-            searching: true,
-            afterDrawback: null
         }, options);
         $(options.selector).dataTable({
             processing: true,
@@ -1292,7 +1300,6 @@ function ajaxFormSubmit(form) {
             paging: true,
             destroy: true,
             dom: 'Bfrtip',
-            searching: options.searching,
             buttons: options.buttons,
             ajax: {
                 url: options.apiUrl,
@@ -1304,128 +1311,123 @@ function ajaxFormSubmit(form) {
                 //dataSrc: "data",
             },
             aoColumns: options.columns,
-            scrollY: options.scrollY,
-            scrollX: window.innerWidth,
+            //scrollY: $('[name="Applicationlist"]').offset().top + 118,
             scrollCollapse: true,
             // dom: 'R<"top"Bf>rt<"bottom"ilp><"clear">',
-            drawCallback: function (settings) {
-                options.afterDrawback();
-            }
         });
     }
 }($));
 
+//$.fn.dataTable.pipeline = function (opts) {
+//    // Configuration options
+//    var conf = $.extend({
+//        pages: 5,     // number of pages to cache
+//        url: '',      // script url
+//        data: null,   // function or object with parameters to send to the server
+//        // matching how `ajax.data` works in DataTables
+//        method: 'POST', // Ajax HTTP method
+//        customeEvent: false
+//    }, opts);
 
-$.fn.dataTable.pipeline = function (opts) {
-    // Configuration options
-    var conf = $.extend({
-        pages: 5,     // number of pages to cache
-        url: '',      // script url
-        data: null,   // function or object with parameters to send to the server
-        // matching how `ajax.data` works in DataTables
-        method: 'POST', // Ajax HTTP method
-        customeEvent: false
-    }, opts);
+//    // Private variables for storing the cache
+//    let cacheLower = -1;
+//    let cacheUpper = null;
+//    let cacheLastRequest = true;
+//    let cacheLastJson = null;
 
-    // Private variables for storing the cache
-    let cacheLower = -1;
-    let cacheUpper = null;
-    let cacheLastRequest = true;
-    let cacheLastJson = null;
+//    return function (request, drawCallback, settings) {
+//        let ajax = false;
+//        let requestStart = request.start;
+//        let drawStart = request.start;
+//        let requestLength = request.length;
+//        let requestEnd = requestStart + requestLength;
 
-    return function (request, drawCallback, settings) {
-        let ajax = false;
-        let requestStart = request.start;
-        let drawStart = request.start;
-        let requestLength = request.length;
-        let requestEnd = requestStart + requestLength;
+//        if (settings.clearCache) {
+//            // API requested that the cache be cleared
+//            ajax = true;
+//            settings.clearCache = false;
+//        }
+//        else if (cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper) {
+//            // outside cached data - need to make a request
+//            ajax = true;
+//        }
+//        else if (JSON.stringify(request.order) !== JSON.stringify(cacheLastRequest.order) ||
+//            JSON.stringify(request.columns) !== JSON.stringify(cacheLastRequest.columns)
+//            || JSON.stringify(request.search) !== JSON.stringify(cacheLastRequest.search)
+//        ) {
+//            // properties changed (ordering, columns, searching)
+//            ajax = true;
+//        }
+//        if (conf.customeEvent == true) {
+//            ajax = true;
+//        }
+//        // Store the request for checking next time around
+//        cacheLastRequest = $.extend(true, {}, request);
 
-        if (settings.clearCache) {
-            // API requested that the cache be cleared
-            ajax = true;
-            settings.clearCache = false;
-        }
-        else if (cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper) {
-            // outside cached data - need to make a request
-            ajax = true;
-        }
-        else if (JSON.stringify(request.order) !== JSON.stringify(cacheLastRequest.order) ||
-            JSON.stringify(request.columns) !== JSON.stringify(cacheLastRequest.columns)
-            || JSON.stringify(request.search) !== JSON.stringify(cacheLastRequest.search)
-        ) {
-            // properties changed (ordering, columns, searching)
-            ajax = true;
-        }
-        if (conf.customeEvent == true) {
-            ajax = true;
-        }
-        // Store the request for checking next time around
-        cacheLastRequest = $.extend(true, {}, request);
-
-        if (ajax) {
-            // Need data from the server
-            if (requestStart < cacheLower) {
-                requestStart = requestStart - (requestLength * (conf.pages - 1));
-                if (requestStart < 0) {
-                    requestStart = 0;
-                }
-            }
-            cacheLower = requestStart;
-            cacheUpper = requestStart + (requestLength * conf.pages);
-            request.start = requestStart;
-            request.length = requestLength * conf.pages;
-            // Provide the same `data` options as DataTables.
-            if (typeof conf.data === 'function') {
-                // As a function it is executed with the data object as an arg
-                // for manipulation. If an object is returned, it is used as the
-                // data object to submit
-                var d = conf.data(request);
-                if (d) {
-                    $.extend(request, d);
-                }
-            }
-            else if ($.isPlainObject(conf.data)) {
-                // As an object, the data given extends the default
-                $.extend(request, conf.data);
-            }
-            else if (opts.filters) {
-                $.extend(request, opts.filters);
-            }
-            //var additionalFilters = opts.filters
-            return $.ajax({
-                "type": conf.method,
-                "url": conf.url,
-                "data": request,
-                "dataType": "json",
-                "cache": false,
-                "success": function (json) {
-                    cacheLastJson = $.extend(true, {}, json);
-                    if (cacheLower != drawStart) {
-                        json.data?.splice(0, drawStart - cacheLower);
-                    }
-                    if (requestLength >= -1) {
-                        json.data?.splice(requestLength, json.data.length);
-                    }
-                    drawCallback(json);
-                }
-            });
-        }
-        else {
-            json = $.extend(true, {}, cacheLastJson);
-            json.draw = request.draw; // Update the echo for each response
-            json.data?.splice(0, requestStart - cacheLower);
-            json.data?.splice(requestLength, json.data?.length);
-            drawCallback(json);
-        }
-    }
-};
-// Register an API method that will empty the pipelined data, forcing an Ajax
-// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
-$.fn.dataTable.Api.register('clearPipeline()', function () {
-    return this.iterator('table', function (settings) {
-        settings.clearCache = true;
-    });
-});
+//        if (ajax) {
+//            // Need data from the server
+//            if (requestStart < cacheLower) {
+//                requestStart = requestStart - (requestLength * (conf.pages - 1));
+//                if (requestStart < 0) {
+//                    requestStart = 0;
+//                }
+//            }
+//            cacheLower = requestStart;
+//            cacheUpper = requestStart + (requestLength * conf.pages);
+//            request.start = requestStart;
+//            request.length = requestLength * conf.pages;
+//            // Provide the same `data` options as DataTables.
+//            if (typeof conf.data === 'function') {
+//                // As a function it is executed with the data object as an arg
+//                // for manipulation. If an object is returned, it is used as the
+//                // data object to submit
+//                var d = conf.data(request);
+//                if (d) {
+//                    $.extend(request, d);
+//                }
+//            }
+//            else if ($.isPlainObject(conf.data)) {
+//                // As an object, the data given extends the default
+//                $.extend(request, conf.data);
+//            }
+//            else if (opts.filters) {
+//                $.extend(request, opts.filters);
+//            }
+//            //var additionalFilters = opts.filters
+//            return $.ajax({
+//                "type": conf.method,
+//                "url": conf.url,
+//                "data": request,
+//                "dataType": "json",
+//                "cache": false,
+//                "success": function (json) {
+//                    cacheLastJson = $.extend(true, {}, json);
+//                    if (cacheLower != drawStart) {
+//                        json.data?.splice(0, drawStart - cacheLower);
+//                    }
+//                    if (requestLength >= -1) {
+//                        json.data?.splice(requestLength, json.data.length);
+//                    }
+//                    drawCallback(json);
+//                }
+//            });
+//        }
+//        else {
+//            json = $.extend(true, {}, cacheLastJson);
+//            json.draw = request.draw; // Update the echo for each response
+//            json.data?.splice(0, requestStart - cacheLower);
+//            json.data?.splice(requestLength, json.data?.length);
+//            drawCallback(json);
+//        }
+//    }
+//};
+//// Register an API method that will empty the pipelined data, forcing an Ajax
+//// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+//$.fn.dataTable.Api.register('clearPipeline()', function () {
+//    return this.iterator('table', function (settings) {
+//        settings.clearCache = true;
+//    });
+//});
 //
 // DataTables initialisation
 (function ($) {
@@ -1437,11 +1439,6 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
             searching: true,
             customeEvent: false,
             createdRow: function () { },
-            afterDrawback: null,
-            searching: options.searching,
-            responsive: false,
-            scrollY: '',
-            scrollX: true,
             buttons: [
                 'copyHtml5',
                 'excelHtml5',
@@ -1456,11 +1453,10 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
             paging: true,
             customeEvent: false,
             destroy: true,
-            responsive: options.responsive,
             //dom: 'Bfrtip',
             dom: "<'row'<'col-sm-12'Bfrt>>" +
-                "<'row'<'col-sm-3'l><'col-sm-3'i><'col-sm-6'p>>", //+
-                /*"<'row'<'col-sm-12'i>>",*/
+                "<'row'<'col-sm-4'l><'col-sm-8'p>>" +
+                "<'row'<'col-sm-12'i>>",
             searching: options.searching,
             buttons: options.buttons,
             stateSave: true,
@@ -1471,20 +1467,17 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
                 customeEvent: options.customeEvent
             }),
             aoColumns: options.columns,
-            scrollY: options.scrollY,
-            scrollX: options.scrollX,
-            scroller: true,
+            scrollY: "600px",
+
             scrollCollapse: true,
             initComplete: function () {
                 delaySearch(this.api())
             },
             drawCallback: function (settings) {
                 //this.api().fnAdjustColumnSizing();
-                if (!options.afterDrawback()) {
-                    options.afterDrawback();
-                }               
             },
             createdRow: options.createdRow
+
         });
 
         function delaySearch(api) {
@@ -1503,3 +1496,28 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
         }
     }
 }($));
+$(document).on('click', '.modal-close', () => $('.ui-dialog-titlebar-close').click());
+
+$(function () {
+    $(window).scroll(function () {
+        var first = null;
+        $("tr").each(function () {
+            if (isScrolledIntoView($(this)) && !first) {
+                first = $(this);
+                first.addClass("seen")
+            }
+            else
+                $(this).removeClass("seen");
+        });
+    });
+
+    function isScrolledIntoView(elem) {
+        var docViewTop = $(window).scrollTop();
+        var docViewBottom = docViewTop + $(window).height();
+
+        var elemTop = $(elem).offset().top;
+        var elemBottom = elemTop + $(elem).height();
+
+        return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    }
+});
