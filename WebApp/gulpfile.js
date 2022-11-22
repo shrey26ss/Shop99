@@ -44,11 +44,10 @@ gulp.task("bundleJS", async function () {
         'node_modules/jquery/dist/jquery.js',
         'node_modules/jquery-ui/dist/jquery-ui.js',
         'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
-        'node_modules/toastr/toastr.js'
+        'node_modules/toastr/toastr.js',
+        'wwwroot/js/coreLib.js',
     ])
-        //.pipe(concat('bundleJS'))
         .pipe(babel({ compact: false, presets: ['@babel/preset-env'] }))
-        //.pipe(gulp.dest(destPPath))
         .pipe(uglify())
         .pipe(concat('bundleJS.js'))
         .pipe(gulp.dest(destPath));
