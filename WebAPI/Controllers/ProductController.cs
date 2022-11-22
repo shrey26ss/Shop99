@@ -11,30 +11,29 @@ namespace WebAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
-    public class AttributeController : Controller
+    public class ProductController : Controller
     {
-        private readonly IAttributes _attr;
+        private readonly IProducts _products;
 
-        public AttributeController(IAttributes attr)
+        public ProductController(IProducts products)
         {
-            _attr = attr;            
+            _products = products;
         }
-
-        [Route("Attribute/AddUpdate")]
+        [Route("Product/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddUpdateBrand(Attributes req)
+        public async Task<IActionResult> AddUpdateProduct(Products req)
         {
-            return Ok(await _attr.AddUpdate(new RequestBase<Attributes>
+            return Ok(await _products.AddUpdate(new RequestBase<Products>
             {
                 Data = req,
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
 
-        [Route("Attribute/GetAttributes")]
-        public async Task<IActionResult> GetAttributes(SearchItem req)
+        [Route("Product/GetProducts")]
+        public async Task<IActionResult> GetProducts(SearchItem req)
         {
-            return Ok(await _attr.GetAttributes(new RequestBase<SearchItem>
+            return Ok(await _products.GetProducts(new RequestBase<SearchItem>
             {
                 Data = req,
                 LoginId = User.GetLoggedInUserId<int>()

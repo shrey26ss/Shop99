@@ -44,7 +44,7 @@ namespace Service.Brand
                     request.Data.Description,
                     request.Data.Id
                 }, CommandType.Text);
-                if (i > -1)
+                if (i > -1 && i < 100)
                 {
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = ResponseStatus.Success.ToString();
@@ -107,7 +107,7 @@ namespace Service.Brand
                     request.Data.Id,
                     request.Data.BrandId
                 }, CommandType.Text);
-                if (i > -1)
+                if (i > -1 && i < 100)
                 {
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = ResponseStatus.Success.ToString();

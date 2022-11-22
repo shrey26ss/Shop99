@@ -18,6 +18,8 @@ using Service.Repos;
 using Service.Categories;
 using Service.Brand;
 using Service.Attribute;
+using Service.Product;
+using Service.Variant;
 
 namespace WebAPI.Middleware
 {
@@ -43,6 +45,8 @@ namespace WebAPI.Middleware
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IBrands, BrandService>();
             services.AddScoped<IAttributes, AttributeService>();
+            services.AddScoped<IProducts, ProductService>();
+            services.AddScoped<IVariant, VariantService>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
