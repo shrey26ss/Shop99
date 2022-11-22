@@ -10,6 +10,6 @@ namespace Entities.Models
         public int Id { get; set; }
         [Required(ErrorMessage ="Please provide attribute name")]
         public string Name { get; set; }
-        public string Value { get; set; }        
+        public string Value { get; set; } 
     }
 }

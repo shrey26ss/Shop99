@@ -9,6 +9,7 @@ namespace Entities.Models
     {
         public int LoginId { get; set; } = 0;
         public int RoleId { get; set; } = 0;
+        public int Ind { get; set; } = 0;
     }
     public class SearchItem
     {

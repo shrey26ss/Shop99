@@ -35,7 +35,7 @@ namespace Service.Product
                 }
                 else
                 {
-                    sqlQuery = @"insert into Products (Specification,Description,BrandId,CategoryId,VendorId,EntryBy,EntryOn) values(@Specification,@Description,@BrandId,@CategoryId,@VendorId,@LoginId,Getdate())";
+                    sqlQuery = @"insert into Products (Specification,Description,BrandId,CategoryId,VendorId,EntryBy,EntryOn,ModifyOn,ModifyBy) values(@Specification,@Description,@BrandId,@CategoryId,@VendorId,@LoginId,Getdate(),Getdate(),@LoginId)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {

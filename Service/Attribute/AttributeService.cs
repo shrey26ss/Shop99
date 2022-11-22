@@ -30,15 +30,15 @@ namespace Service.Attribute
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Attributes Set Name=@Name,Value=@Value,ModifyOn=GETDATE(),ModifyBy=@LoginId where Id = @Id";
+                    sqlQuery = @"Update Attributes Set Name=@Name,Value=@Value,ModifyOn=GETDATE(),Ind=@Ind where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Attributes (Name,Value,EntryOn,EntryBy) values(@Name,@Value,GETDATE(),@LoginId)";
+                    sqlQuery = @"Insert into Attributes (Name,Value,EntryOn,Ind) values(@Name,@Value,GETDATE(),@Ind)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
-                    request.LoginId,
+                    request.Ind,
                     request.RoleId,
                     request.Data.Name,
                     request.Data.Id,
