@@ -37,8 +37,7 @@ gulp.task("publish:plugins", async function () {
     } 
 })
 
-var destPath = './wwwroot/publishjs';
-
+var destPath = './wwwroot/build';
 
 gulp.task("bundleJS", async function () {
     gulp.src([
@@ -105,6 +104,5 @@ gulp.task("min:css", function () {
         .pipe(cssmin())
         .pipe(gulp.dest("."));
 });
-
 
 gulp.task("build", gulp.series("clean:js", "clean:css", "publish:plugins", "bundleJS"));
