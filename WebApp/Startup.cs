@@ -1,6 +1,7 @@
 using Entities.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -38,49 +39,6 @@ namespace WebApp
         {
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
             services.RegisterService(Configuration);
-            services.AddAuthentication(option => new AuthenticationOptions
-            {
-                DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme,
-                DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme,
-                DefaultScheme = "JWT_OR_COOKIE",/*JwtBearerDefaults.AuthenticationScheme*/
-                DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme,
-                RequireAuthenticatedSignIn = true,
-                //    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                //option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddCookie("Cookies", options =>
-            {
-                options.LoginPath = "/Account/login";
-                options.ExpireTimeSpan = TimeSpan.FromDays(7);
-            }).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = false;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["JWT:Issuer"],
-                    ValidAudience = Configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
-                };
-            }).AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
-            {
-                // runs on each request
-                options.ForwardDefaultSelector = context =>
-                {
-                    // filter by auth type
-                    string authorization = context.Request.Headers[HeaderNames.Authorization];
-                    if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
-                        return "Bearer";
-                    // otherwise always check for cookie auth
-                    //return "Cookies";
-                    return "Bearer";
-                };
-            });
-            /* End Jwd */
             services.AddControllersWithViews();
             services.AddMvc();
             services.AddHsts(option =>
@@ -92,23 +50,7 @@ namespace WebApp
                     MaxAge = TimeSpan.FromDays(7),
                 };
             });
-            #region Identity
-
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 3;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.AllowedForNewUsers = false;
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.User.RequireUniqueEmail = true;
-            }).AddUserStore<UserStore>()
-            .AddRoleStore<RoleStore>()
-            .AddUserManager<ApplicationUserManager>()
-            .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, ApplicationRole>();
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
@@ -118,7 +60,7 @@ namespace WebApp
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
             });
-            #endregion
+            //#endregion
             services.Configure<JWTConfig>(Configuration.GetSection("JWT"));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDataProtection().SetApplicationName($"{WebHostEnvironment.EnvironmentName}")
@@ -150,10 +92,8 @@ namespace WebApp
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseMiddleware<JwtMiddleware>();
             app.UseHangfireDashboard("/mydashboard", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthorizationFilter() }
@@ -162,7 +102,7 @@ namespace WebApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=login}/{id?}");
             });
         }
     }

@@ -17,6 +17,7 @@ namespace Service.API
 
         public AuthenticateResponse(ApplicationUser user, string token)
         {
+            user = user ?? new ApplicationUser();
             Id = user.Id;
             Username = user.UserName;
             Role = user.Role;

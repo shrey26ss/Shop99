@@ -5,7 +5,7 @@
     Layout = "_Layout";
 }
 <p class="login-card-description">Sign into your account</p>
-<form asp-action="Login" asp-route-ReturnUrl="@ViewBag.returnUrl">
+<form asp-action="Login" asp-route-ReturnUrl="@ViewBag.returnUrl" data-ajax="false">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="MobileNo" class="sr-only"></label>
@@ -50,18 +50,18 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#btnsubmit').click(function (e) {
-                if ($('#txtemail').val() == '') {
-                    e.preventDefault();
-                    Q.notify(-1, 'Email Required');
-                    return false;
-                }
-                if ($('#txtpassord').val() == '') {
-                    e.preventDefault();
-                    Q.notify(-1, 'Password Required');
-                    return false;
-                }
-            });
+            //$('#btnsubmit').click(function (e) {
+            //    if ($('#txtemail').val() == '') {
+            //        e.preventDefault();
+            //        Q.notify(-1, 'Email Required');
+            //        return false;
+            //    }
+            //    if ($('#txtpassord').val() == '') {
+            //        e.preventDefault();
+            //        Q.notify(-1, 'Password Required');
+            //        return false;
+            //    }
+            //});
             $('#forgotPass').click(function (e) {
                 $.post('/Account/ForgotPasswordView').done(result => {
                     $('.modal-body').html(result);
