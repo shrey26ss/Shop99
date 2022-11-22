@@ -8,5 +8,6 @@ namespace Entities.Enums
     {
         Admin = 1,
         APIUser = 2,
+        Vendor = 3
     }
 }

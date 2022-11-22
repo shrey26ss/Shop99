@@ -35,7 +35,7 @@ namespace WebAPI.Middleware
             if (principal == null)
                 throw new ArgumentNullException(nameof(principal));
 
-            return principal.FindFirstValue(ClaimTypes.Email);
+            return principal.FindFirstValue("UserName");
         }
 
         public static string GetLoggedInUserRoles(this ClaimsPrincipal principal)

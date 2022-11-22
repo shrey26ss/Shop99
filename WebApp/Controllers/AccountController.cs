@@ -51,7 +51,7 @@ namespace WebApp.Controllers
             //_signInManager = signInManager;
             //_users = users;
             //_tokenService = tokenService;
-            _apiBaseURL=appSettings.WebAPIBaseUrl;
+            _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
         #region Register
@@ -114,85 +114,6 @@ namespace WebApp.Controllers
             ViewBag.returnUrl = returnUrl;
             return View(new LoginViewModel { IsTwoFactorEnabled = false });
         }
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel model, string ReturnUrl)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View();
-        //    }
-        //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //    ReturnUrl = ReturnUrl ?? Url.Content("~/");
-        //    try
-        //    {
-        //        var result = await _signInManager.PasswordSignInAsync(model.MobileNo, model.Password, model.RememberMe, lockoutOnFailure: true);
-        //        if (result.Succeeded)
-        //        {
-        //            ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Home/Index" : ReturnUrl;
-        //            return LocalRedirect(ReturnUrl);
-        //        }
-        //        else if (result.RequiresTwoFactor)
-        //        {
-        //            if (!string.IsNullOrEmpty(model.GAuthPin))
-        //            {
-        //                var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-        //                if (user == null)
-        //                {
-        //                    throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        //                }
-        //                var results = await _signInManager.TwoFactorAuthenticatorSignInAsync(model.GAuthPin, false, false);
-
-        //                if (results.Succeeded)
-        //                {
-        //                    _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
-        //                    ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
-        //                    return LocalRedirect(ReturnUrl);
-        //                }
-        //                else
-        //                {
-        //                    ModelState.Remove(string.Empty);
-        //                    model = new LoginViewModel { IsTwoFactorEnabled = true };
-        //                    ModelState.AddModelError(string.Empty, "Invalid Pin Entered");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                ModelState.Remove(string.Empty);
-        //                model = new LoginViewModel { IsTwoFactorEnabled = true };
-        //                ModelState.AddModelError(string.Empty, "Google Authentication Pin Required");
-        //            }
-        //        }
-        //        else if (!result.Succeeded)
-        //        {
-        //            ModelState.Remove(string.Empty);
-        //            ModelState.AddModelError(string.Empty, "Invalid email id or password");
-        //        }
-        //        else if (result.IsLockedOut)
-        //        {
-        //            //ModelState.Remove(string.Empty);
-        //            //ModelState.AddModelError(string.Empty, "Your account is locked out.");
-        //            //var Scheme = Request.Scheme;
-        //            //var forgotPassLink = Url.Action(nameof(ForgotPassword), "Account", new { }, Request.Scheme);
-        //            //var content = string.Format("Your account is locked out, to reset your password, please click this link: {0}", forgotPassLink);
-        //            //var config = _emailConfig.GetAllAsync(new EmailConfig { Id = 2 }).Result;
-        //            //if (config == null || config.Count() == 0)
-        //            //    _logger.LogError("No Email configuration found", new { this.GetType().Name, fn = nameof(this.Login) });
-        //            //var setting = _mapper.Map<EmailSettings>(config?.Count() > 0 ? config.FirstOrDefault() : new EmailConfig());
-        //            //setting.Body = content;
-        //            //setting.Subject = "Locked out account information";
-        //            //var _ = AppUtility.O.SendMail(setting);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message.ToString(), new { this.GetType().Name, fn = nameof(this.Login) });
-        //    }
-        //    return View(model);
-        //}
-
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string ReturnUrl)
         {
@@ -207,13 +128,13 @@ namespace WebApp.Controllers
                 using (var client = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                    using (var Response = await client.PostAsync($"{_apiBaseURL}/api/LoginNewtwo", content))
+                    using (var Response = await client.PostAsync($"{_apiBaseURL}/api/Login", content))
                     {
                         if (Response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var apiContent = await Response.Content.ReadAsStringAsync();
                             var deserializeObject = JsonConvert.DeserializeObject<Response<AuthenticateResponse>>(apiContent);
-                            if (deserializeObject.StatusCode==ResponseStatus.Success)
+                            if (deserializeObject.StatusCode == ResponseStatus.Success)
                             {
                                 var applicationUser = deserializeObject.Result;
                                 ApplicationUser user = new ApplicationUser
@@ -223,13 +144,6 @@ namespace WebApp.Controllers
                                     RefreshToken = applicationUser.RefreshToken,
                                     Role = applicationUser.Role
                                 };
-                                //var claims = new List<Claim>();
-                                //claims.Add(new Claim(ClaimTypes.Name, applicationUser.Name));
-                                //claims.Add(new Claim("Username", applicationUser.Username));
-                                //var id = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-
-                                //await _userManager.AddClaimsAsync(user, claims);
-
                                 var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                                 identity.AddClaim(new Claim("Id", user.Id.ToString()));
                                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));

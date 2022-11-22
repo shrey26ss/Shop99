@@ -67,7 +67,9 @@ namespace Services.Identity
                     param.Role,
                     param.Name,
                     param.FOSId,
-                    param.GAuthPin
+                    param.GAuthPin,
+                    param.RefreshToken,
+                    param.RefreshTokenExpiryTime
                 }, commandType: CommandType.StoredProcedure);
                 var description = Utility.O.GetErrorDescription(res);
                 if (res > 0 && res < 10)
@@ -103,7 +105,7 @@ namespace Services.Identity
 
         public async Task<ApplicationUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
-            var sqlQuery = $"select * from Users where NormalizedEmail='{normalizedEmail}'";
+            var sqlQuery = $"select u.*, r.RoleId [Role] from Users u inner join UserRoles r on r.UserId = u.Id where u.NormalizedEmail='{normalizedEmail}'";
             var user = await _dapperRepository.GetAsync<ApplicationUser>(sqlQuery, null, commandType: CommandType.Text);
             return user ?? new ApplicationUser();
         }
