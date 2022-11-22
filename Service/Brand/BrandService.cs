@@ -29,20 +29,17 @@ namespace Service.Brand
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Brands Set CategoryId=@CategoryId,Name=@Name,Description=@Description,ModifyOn=GETDATE(),ModifyBy=@LoginId where Id = @Id";
+                    sqlQuery = @"Update Brands Set Name=@Name,ModifyOn=GETDATE(),Ind=@Ind where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Brands(CategoryId,Name,Description,EntryOn,EntryBy) values(@CategoryId,@Name,@Description,GETDATE(),@LoginId)";
+                    sqlQuery = @"Insert into Brands(Name,EntryOn,ModifyOn,Ind) values(@Name,GETDATE(),GETDATE(),@Ind)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
-                    request.LoginId,
-                    request.RoleId,
-                    request.Data.CategoryId,
                     request.Data.Name,
-                    request.Data.Description,
-                    request.Data.Id
+                    request.Data.Id,
+                    request.Ind
                 }, CommandType.Text);
                 if (i > -1 && i < 100)
                 {
@@ -67,13 +64,13 @@ namespace Service.Brand
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select * from Brands(nolock) where Id = @Id and EntryBy = @LoginId";
+                    sp = @"Select * from Brands(nolock) where Id = @Id";
                     res.Result = await _dapper.GetAllAsync<Brands>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select * from Brands(nolock) where EntryBy = @LoginId";
-                    res.Result = await _dapper.GetAllAsync<Brands>(sp, new { request.LoginId}, CommandType.Text);
+                    sp = @"Select * from Brands(nolock) order by Ind";
+                    res.Result = await _dapper.GetAllAsync<Brands>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
@@ -101,7 +98,6 @@ namespace Service.Brand
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
-                    request.LoginId,
                     request.RoleId,
                     request.Data.CategoryId,
                     request.Data.Id,
@@ -129,12 +125,12 @@ namespace Service.Brand
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select * from BrandCategoryMapping(nolock) where Id = @Id";
+                    sp = @"select bcm.*,b.Name BrandName,c.CategoryName from BrandCategoryMapping bcm inner join Brands b on bcm.BrandId=b.Id inner join Category c on c.CategoryId=bcm.CategoryId where Id = @Id order by c.Ind,b.Ind";
                     res.Result = await _dapper.GetAllAsync<BrandCategoryMapping>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select * from BrandCategoryMapping(nolock)";
+                    sp = @"select bcm.*,b.Name BrandName,c.CategoryName from BrandCategoryMapping bcm inner join Brands b on bcm.BrandId=b.Id inner join Category c on c.CategoryId=bcm.CategoryId order by c.Ind,b.Ind";
                     res.Result = await _dapper.GetAllAsync<BrandCategoryMapping>(sp, null, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;

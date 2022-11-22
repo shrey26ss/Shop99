@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Variant
@@ -30,11 +29,11 @@ namespace Service.Variant
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Variants Set ProductId=@ProductId,AttributeId=@AttributeId,AttributeValue=@AttributeValue,Quantity=@Quantity,MRP=@MRP,ModifyOn=GETDATE(),ModifyBy=@LoginId where Id = @Id";
+                    sqlQuery = @"Update Variants Set ProductId=@ProductId,AttributeId=@AttributeId,AttributeValue=@AttributeValue,Quantity=@Quantity,MRP=@MRP,ModifyOn=GETDATE(),ModifyBy=@LoginId,Ind=@Ind where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Variants(ProductId,AttributeId,AttributeValue,Quantity,MRP,EntryBy,EntryOn) values(@ProductId,@AttributeId,@AttributeValue,@Quantity,@MRP,@LoginId,GETDATE())";
+                    sqlQuery = @"Insert into Variants(ProductId,AttributeId,AttributeValue,Quantity,MRP,EntryBy,EntryOn,Ind,ModifyOn,ModifyBy) values(@ProductId,@AttributeId,@AttributeValue,@Quantity,@MRP,@LoginId,GETDATE(),GETDATE(),@LoginId)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
@@ -75,7 +74,7 @@ namespace Service.Variant
                 }
                 else
                 {
-                    sp = @"Select * from Variants(nolock) where EntryBy = @LoginId";
+                    sp = @"Select * from Variants(nolock) where EntryBy = @LoginId order by Ind";
                     res.Result = await _dapper.GetAllAsync<Variants>(sp, new { request.LoginId }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
