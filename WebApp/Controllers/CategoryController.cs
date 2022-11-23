@@ -17,6 +17,7 @@ using System.Linq;
 namespace WebApp.Controllers
 {
 
+    [Authorize]
     public class CategoryController : Controller
 
     {
@@ -28,7 +29,6 @@ namespace WebApp.Controllers
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
-        [Authorize]
         // GET: CategoryController
         [HttpGet("/Category")]
         public ActionResult Index()
