@@ -24,6 +24,10 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Service.API;
+using AppUtility.APIRequest;
+using System.Net;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Controllers
 {
@@ -119,47 +123,49 @@ namespace WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             ReturnUrl = ReturnUrl ?? Url.Content("~/");
             try
             {
-                using (var client = new HttpClient())
+                var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Login", JsonConvert.SerializeObject(model));
+                if (Response.HttpStatusCode== HttpStatusCode.OK)
                 {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                    using (var Response = await client.PostAsync($"{_apiBaseURL}/api/Login", content))
-                    {
-                        if (Response.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            var apiContent = await Response.Content.ReadAsStringAsync();
-                            var deserializeObject = JsonConvert.DeserializeObject<Response<AuthenticateResponse>>(apiContent);
-                            if (deserializeObject.StatusCode == ResponseStatus.Success)
-                            {
-                                var applicationUser = deserializeObject.Result;
-                                ApplicationUser user = new ApplicationUser
-                                {
-                                    Id = applicationUser.Id,
-                                    Name = applicationUser.Name,
-                                    RefreshToken = applicationUser.RefreshToken,
-                                    Role = applicationUser.Role
-                                };
-                                var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
-                                identity.AddClaim(new Claim("Id", user.Id.ToString()));
-                                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
-                                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
-                                    new ClaimsPrincipal(identity));
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<AuthenticateResponse>>(Response.Result);
 
-                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
-                                return LocalRedirect(ReturnUrl);
-                            }
-                        }
-                        else
+                    if (deserializeObject.StatusCode == ResponseStatus.Success)
+                    {
+                        if (deserializeObject.StatusCode == ResponseStatus.Success)
                         {
-                            ModelState.Clear();
-                            ModelState.AddModelError(string.Empty, "Username or Password is Incorrect");
+                            var applicationUser = deserializeObject.Result;
+                            ApplicationUser user = new ApplicationUser
+                            {
+                                Id = applicationUser.Id,
+                                Name = applicationUser.Name,
+                                RefreshToken = applicationUser.RefreshToken,
+                                Role = applicationUser.Role
+                            };
+                            var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+                            identity.AddClaim(new Claim("Id", user.Id.ToString()));
+                            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
+                            await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                                new ClaimsPrincipal(identity));
+
+                            ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
+                            return LocalRedirect(ReturnUrl);
                         }
                     }
+                    else
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError(string.Empty, "Username or Password is Incorrect");
+                    }
+                }
+                else
+                {
+                    ModelState.Clear();
+                    ModelState.AddModelError(string.Empty, Response.HttpMessage);
                 }
             }
             catch (Exception ex)
