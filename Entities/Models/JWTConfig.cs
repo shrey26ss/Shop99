@@ -19,5 +19,6 @@ namespace Entities.Models
         public const string Id = "id";
         public const string Role = "role";
         public const string UserName = "userName";
+        public const string RefreshToken = "refreshToken";
     }
 }

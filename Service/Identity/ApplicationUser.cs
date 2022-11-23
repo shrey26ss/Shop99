@@ -12,7 +12,7 @@ namespace Service.Identity
         public bool OnlyDebtCustomer { get; set; }
         public string FOS { get; set; }
         public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -24,9 +24,8 @@ namespace Service.Identity
         public string Name { get; set; }
         public string GAuthPin { get; set; }
         public int FOSId { get; set; }
-
-
-
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
     }
 
@@ -36,6 +35,6 @@ namespace Service.Identity
         public string PasswordHash { get; set; }
         public bool TwoFactorEnabled { get; set; }
         public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

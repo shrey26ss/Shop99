@@ -69,7 +69,8 @@ namespace Service.API
                     {
                         Id = int.Parse(claims.First(x => x.Type == ClaimTypesExtension.Id).Value),
                         Role = Convert.ToString(claims.First(x => x.Type == ClaimTypesExtension.Role).Value),
-                        UserName = Convert.ToString(claims.First(x => x.Type == ClaimTypesExtension.UserName).Value)
+                        UserName = Convert.ToString(claims.First(x => x.Type == ClaimTypesExtension.UserName).Value),
+                        RefreshToken = Convert.ToString(claims.First(x => x.Type == ClaimTypesExtension.RefreshToken).Value)
                     }
                 };
                 context.Items["User"] = loginResponse;
