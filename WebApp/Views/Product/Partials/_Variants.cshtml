@@ -1,0 +1,135 @@
+﻿
+
+
+<style>
+    .custOne {
+        height: 0px;
+        overflow: hidden;
+    }
+
+    .custTwo {
+        width: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        height: 0px
+    }
+</style>
+
+
+<div class="card card-secondary card-outline" data-card-name="product-info" data-hideattribute="ProductPage.HideInfoBlock" id="product-info">
+    <div class="card-header with-border clearfix"><div class="card-title"><i class="fas fa-info"></i>Product info</div><div class="card-tools float-right"><button class="btn btn-tool" data-card-widget="collapse" type="button"><i class="fa toggle-icon fa-minus"></i></button></div></div>
+    <div class="card-body">
+        <div id="attributecombinations-grid_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <input type="button" id="btnAddNewAttribute" class="btn btn-primary" value="Attribute Combination" />
+                </div>
+                <div class="col-md-12">
+                    <div class="dataTables_scroll">
+                        <table class="table table-bordered table-hover table-striped dataTable no-footer" width="100%" id="attributecombinations-grid" role="grid" aria-describedby="attributecombinations-grid_info" style="width: 100%;">
+                            <thead>
+                                <tr role="row" style="height: 0px;">
+                                    <th class="sorting_disabled custTwo" rowspan="1" colspan="1">
+                                        Attributes
+                                    </th>
+                                    <th class="sorting_disabled custTwo" rowspan="1" colspan="1">
+                                        Some One
+                                    </th>
+                                    <th class="sorting_disabled custTwo" rowspan="1" colspan="1">
+                                        Some Two
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" type="text" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="col-form-label" for="Value">Value</label><div title="Enter Value for Attribute" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group input-group-required">
+                        <input class="form-control text-box single-line" type="text" id="Value" name="Value">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="col-form-label" for="HSN">HSN</label><div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group input-group-required">
+                        <input class="form-control text-box single-line" type="text" id="HSN">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="col-form-label" for="Stock">Stock</label><div title="Enter Value for Stock" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group input-group-required">
+                        <input class="form-control text-box single-line" type="text" id="Stock">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="col-form-label" for="Price">Price</label><div title="Enter Value for Price" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group input-group-required">
+                        <input class="form-control text-box single-line" type="text" id="Price">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="col-form-label" for="GTIN">GTIN</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group input-group-required">
+                        <input class="form-control text-box single-line" type="text" id="GTIN">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnAddNewAttribute').unbind().click(()=>{
+        $.post('/Product/AddAttributes').done((result) => {
+            console.log(result);
+            Q.alert({
+                title: 'Add Attribute',
+                body: result,
+                width : 900
+            });
+        })
+    })
+    $(document).on('click', '#btnAttributeSubmit', function(){
+        alert(1);
+        let param = {
+
+        };
+        $('.ui-dialog-titlebar-close').click();
+        console.log('param : ' ,param);
+    })
+</script>

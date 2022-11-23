@@ -7,6 +7,6 @@ namespace AppUtility.APIRequest
 {
     public interface IAppWebRequest
     {
-        Task<HttpResponse> PostAsync(string URL, string PostData, string ContentType);
+        Task<HttpResponse> PostAsync(string URL, string PostData, string AccessToken = "", string ContentType = "application/json");
     }
 }
