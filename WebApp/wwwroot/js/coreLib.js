@@ -1277,10 +1277,8 @@ function ajaxFormSubmit(form) {
 
 $('body').on('click', '[data-dismiss="modal"]', () => $('button.ui-dialog-titlebar-close').click());
 $('body').on('submit', 'form', function () {
-    let ajaxCall = "TRUE";
-    ajaxCall = $(this).attr('data-ajax');
-    console.log('ajaxCall : ',ajaxCall);
-    if (ajaxCall==='TRUE') {
+    let ajaxCall = $(this).attr('data-ajax');
+    if(!ajaxCall){
         ajaxFormSubmit(this);
     }
 });
