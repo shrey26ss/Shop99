@@ -94,7 +94,7 @@ namespace Service.Identity
                     var v = new IdentityError()
                     {
                         Code = "-1",
-                        Description = res == -1 ? "Mobile Or EmailID Allready Exists." : res == -2 ? "Email Allready Exists." : "Some Thin Is Wrong Try Again Later."
+                        Description = res == -1 ? "Mobile Or EmailID already exists." : res == -2 ? "Email already exists!" : "Something went wrong! Try again later."
                     };
                     var resp = IdentityResult.Failed(v);
                     return resp;
