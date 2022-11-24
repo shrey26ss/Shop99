@@ -26,6 +26,7 @@ namespace Service.Identity
         public int FOSId { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public string Token { get; set; }
 
     }
 

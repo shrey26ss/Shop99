@@ -1,0 +1,59 @@
+﻿@using Entities.Models;
+@model Products
+
+<div class="card card-secondary card-outline" data-card-name="product-info" data-hideattribute="ProductPage.HideInfoBlock" id="product-info">
+    <div class="card-header with-border clearfix"><div class="card-title"><i class="fas fa-info"></i>Product info</div><div class="card-tools float-right"><button class="btn btn-tool" data-card-widget="collapse" type="button"><i class="fa toggle-icon fa-minus"></i></button></div></div>
+    <div class="card-body">
+        <div id="product-details-area">
+            <div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="col-form-label" for="Name">Product name</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The name of the product."><i class="fas fa-question-circle"></i></div></div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required"><input class="form-control text-box single-line" asp-for="Name" type="text"><div class="input-group-btn"><span class="required">*</span></div></div>
+                        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="col-form-label" for="Specification">Specification</label><div title="" data-toggle="tooltip" class="ico-help" ><i class="fas fa-question-circle"></i></div></div>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea asp-for="Specification" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="col-form-label" for="FullDescription">Full description</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Full description is the text that is displayed in product page."><i class="fas fa-question-circle"></i></div></div>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="col-form-label" for="Sku">SKU</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Product stock keeping unit (SKU). Your internal unique identifier that can be used to track this product."><i class="fas fa-question-circle"></i></div></div>
+                </div>
+                <div class="col-md-9">
+                    <input class="form-control text-box single-line" asp-for="SKU" type="text">
+                    <span class="field-validation-valid" data-valmsg-for="Sku" data-valmsg-replace="true"></span><span class="field-validation-custom"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-3">
+                <div class="label-wrapper"><label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
+            </div>
+            <div class="col-md-9">
+                <select asp-for="CategoryId" class="form-control">
+                    <option value="1">Men</option>
+                    <option value="2">Women</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

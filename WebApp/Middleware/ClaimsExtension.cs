@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System;
 
-namespace WebAPI.Middleware
+namespace WebApp.Middleware
 {
     public static class ClaimsExtension
     {
@@ -35,6 +35,13 @@ namespace WebAPI.Middleware
                 throw new ArgumentNullException(nameof(principal));
 
             return principal.FindFirstValue("UserName");
+        } 
+        public static string GetLoggedInUserToken(this ClaimsPrincipal principal)
+        {
+            if (principal == null)
+                throw new ArgumentNullException(nameof(principal));
+
+            return principal.FindFirstValue("Token");
         }
 
         public static string GetLoggedInUserRoles(this ClaimsPrincipal principal)

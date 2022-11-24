@@ -1,10 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AppUtility.APIRequest;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using WebApp.Middleware;
+using WebApp.Models;
+using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
+
+        private string _apiBaseURL;
+        public ProductController(AppSettings appSettings) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
+        {
+            _apiBaseURL = appSettings.WebAPIBaseUrl;
+        }
         // GET: ProductController
         [HttpGet("/Product")]
         public ActionResult Index()
@@ -19,9 +35,30 @@ namespace WebApp.Controllers
         }
 
         // GET: ProductController/Create
-        public ActionResult Create()
+        public ActionResult Create(int Id = 0)
         {
-            return View();
+            ProductViewModel model = new ProductViewModel();
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetProductSectionView(int Id = 0)
+        {
+            ProductViewModel model = new ProductViewModel();
+            if (Id != 0)
+            {
+                model = new ProductViewModel();
+            }
+            return PartialView("Partials/_Product",model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetAttributeSectionView(int Id = 0)
+        {
+            return PartialView("Partials/_Variants");
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddAttributes()
+        {
+            return PartialView("Partials/_AddAttributes");
         }
 
         // POST: ProductController/Create

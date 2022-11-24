@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using WebApp.Middleware;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -22,11 +23,8 @@ namespace WebApp.Controllers
     {
 
         private string _apiBaseURL;
-
-
         public BrandController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
         {
-
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
@@ -48,7 +46,8 @@ namespace WebApp.Controllers
             Brands brand = new Brands();
             if (Id != 0)
             {
-                var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/GetBrands", JsonConvert.SerializeObject(new SearchItem { Id = Id }));
+                string _token = User.GetLoggedInUserToken();
+                var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/GetBrands", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
                 if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<List<Brands>>>(brandRes.Result);
@@ -65,8 +64,9 @@ namespace WebApp.Controllers
             Response response = new Response();
             try
             {
+                string _token = User.GetLoggedInUserToken();
                 var body = JsonConvert.SerializeObject(brands);
-                var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/AddUpdate", body);
+                var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/AddUpdate", body, _token);
                 if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response>(brandRes.Result);
