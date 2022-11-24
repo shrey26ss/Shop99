@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Entities.Models.Brands>
+
+@if (Model != null && Model.Any())
+{
+    int i = 0;
+    foreach (var item in Model)    
+    {
+        i++;
+        <tr>    
+            <td>@i</td>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>@item.Icon</td>
+        </tr>
+
+    }
+}
+else
+{
+    <tr>
+        <td colspan="4">No Data Found</td>
+    </tr>
+}

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Entities.Models.Category>
+
+@if (Model != null && Model.Any())
+{
+    int i = 0;
+    foreach (var item in Model)        
+    {
+        i++;
+        <tr>           
+            <td>@i</td>
+            <td>@item.CategoryName</td>
+            <td>@item.IsPublish</td>
+            <td>@item.Icon</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="4">No Data Found</td>
+    </tr>
+}

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Entities.Models.Attributes>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <tr>
+
+        </tr>
+    }
+}
+else
+{
+        <tr>
+            <td colspan="4">No Data Found</td>
+        </tr>
+}
