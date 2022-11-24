@@ -40,19 +40,21 @@ namespace WebApp.Controllers
         //private readonly SignInManager<ApplicationUser> _signInManager;
         //private IUserService _users;
         private readonly ILogger<AccountController> _logger;
+        private readonly SignInManager<Service.Identity.ApplicationUser> _signInManager;
+
         //private readonly IRepository<EmailConfig> _emailConfig;
         //private readonly ITokenService _tokenService;
         private IMapper _mapper;
         private string _apiBaseURL;
         #endregion
 
-        public AccountController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
+        public AccountController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<Service.Identity.ApplicationUser> signInManager) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
         {
             _logger = logger;
             _mapper = mapper;
             //_userManager = userManager;
             //_roleManager = roleManager;
-            //_signInManager = signInManager;
+            _signInManager = signInManager;
             //_users = users;
             //_tokenService = tokenService;
             _apiBaseURL = appSettings.WebAPIBaseUrl;
@@ -177,6 +179,15 @@ namespace WebApp.Controllers
             return View(model);
         }
         #endregion
+
+        public async Task<IActionResult> Logout(string returnUrl = "/")
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Cookies");
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            return LocalRedirect(returnUrl);
+        }
 
     }
 }
