@@ -16,11 +16,12 @@ using System.Linq;
 
 namespace WebApp.Controllers
 {
-
+    [Authorize]
     public class CategoryController : Controller
 
     {
         private string _apiBaseURL;
+
 
         public CategoryController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
         {
@@ -28,7 +29,7 @@ namespace WebApp.Controllers
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
-        [Authorize]
+  
         // GET: CategoryController
         [HttpGet("/Category")]
         public ActionResult Index()

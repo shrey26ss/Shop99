@@ -9,10 +9,9 @@ namespace Entities.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please Enter CategoryId")]
-        public int CategoryId { get; set; }
         [Required(ErrorMessage ="Please Enter Brand Name")]
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Icon { get; set; }
     }
 }
