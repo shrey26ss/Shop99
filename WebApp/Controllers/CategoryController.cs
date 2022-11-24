@@ -24,11 +24,11 @@ namespace WebApp.Controllers
         private string _apiBaseURL;
 
         public CategoryController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
-        {           
+        {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
-  
+
         // GET: CategoryController
         [HttpGet("/Category")]
         public ActionResult Index()
@@ -39,17 +39,31 @@ namespace WebApp.Controllers
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return PartialView();
+        }
+
+        [HttpPost("Category/List")]
+        public async  Task<ActionResult> List(int Id)
+        {
+            List<Category> categories = new List<Category>();
+            string _token = User.GetLoggedInUserToken();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Category>>>(apiResponse.Result);
+                categories = deserializeObject.Result;
+            }
+            return PartialView(categories);
         }
 
         // GET: CategoryController/Create
-        public async Task<IActionResult> Create(int Id =0)
+        public async Task<IActionResult> Create(int Id = 0)
         {
             Category category = new Category();
             if (Id != 0)
             {
                 string _token = User.GetLoggedInUserToken();
-                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem {Id=Id } ), _token);
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<List<Category>>>(categoryrRes.Result);
@@ -62,9 +76,9 @@ namespace WebApp.Controllers
         // POST: CategoryController/Create
         [HttpPost]
 
-        public async Task<ActionResult> Create(Category category,IFormFile Icon)
+        public async Task<ActionResult> Create(Category category, IFormFile Icon)
         {
-            Response response= new Response();
+            Category response = new Category();
             try
             {
                 string _token = User.GetLoggedInUserToken();
@@ -72,7 +86,7 @@ namespace WebApp.Controllers
                 var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/AddUpdate", jsonData, _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Category>(categoryrRes.Result);
                     response = deserializeObject;
                 }
             }
@@ -80,7 +94,7 @@ namespace WebApp.Controllers
             {
                 return View();
             }
-            return Json(response);
+            return PartialView(response);
         }
 
 

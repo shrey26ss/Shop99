@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
-        // GET: AttributeController
+        [HttpGet("/Attribute")]
         public ActionResult Index()
         {
             return View();
@@ -38,6 +38,19 @@ namespace WebApp.Controllers
             return View();
         }
 
+        [HttpPost("Attribute/List")]
+        public async Task<ActionResult> List()
+        {
+            List<Attributes> attributes = new List<Attributes>();
+            string _token = User.GetLoggedInUserToken();
+            var attributesRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/GetAttributes",string.Empty, _token);
+            if (attributesRes.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Attributes>>>(attributesRes.Result);
+                attributes = deserializeObject.Result;
+            }
+            return PartialView(attributes);
+        }
         // GET: AttributeController/Create
         public async Task<ActionResult> Create(int Id)
         {
@@ -57,10 +70,9 @@ namespace WebApp.Controllers
 
         // POST: AttributeController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Attributes attributes)
         {
-            Response response=new Response();
+            Attributes response =new Attributes();
             try
             {
                 string _token = User.GetLoggedInUserToken();
@@ -68,7 +80,7 @@ namespace WebApp.Controllers
                 var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/AddUpdate", jsonData, _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Attributes>(categoryrRes.Result);
                     response = deserializeObject;
                 }
             }
@@ -76,7 +88,7 @@ namespace WebApp.Controllers
             {
                 return View();
             }
-            return View(response);  
+            return PartialView(response);  
         }
 
         // GET: AttributeController/Edit/5

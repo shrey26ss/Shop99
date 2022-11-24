@@ -29,6 +29,7 @@ namespace WebApp.Controllers
         }
 
         // GET: BrandController
+        [HttpGet("/Brand")]
         public ActionResult Index()
         {
             return View();
@@ -40,10 +41,24 @@ namespace WebApp.Controllers
             return View();
         }
 
+        [HttpPost("Brand/List")]
+        public async Task<ActionResult> List(int Id)
+        {
+            List<Brands> brands = new List<Brands>();
+            string _token = User.GetLoggedInUserToken();
+            var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/GetBrands", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
+            if (brandRes.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Brands>>>(brandRes.Result);
+                brands = deserializeObject.Result;
+            }
+            return PartialView(brands);
+        }
+
         // GET: BrandController/Create
         public async Task<ActionResult> Create( int Id=0)
         {
-            Brands brand = new Brands();
+            Brands brands = new Brands();
             if (Id != 0)
             {
                 string _token = User.GetLoggedInUserToken();
@@ -51,17 +66,17 @@ namespace WebApp.Controllers
                 if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<List<Brands>>>(brandRes.Result);
-                    brand = deserializeObject.Result.FirstOrDefault();
+                    brands = deserializeObject.Result.FirstOrDefault();
                 }
             }
-            return View(brand);
+            return View(brands);
         }
 
         // POST: BrandController/Create
         [HttpPost]
         public async Task<ActionResult> Create(Brands brands, IFormFile Icon)
         {
-            Response response = new Response();
+            Brands response = new Brands();
             try
             {
                 string _token = User.GetLoggedInUserToken();
@@ -69,7 +84,7 @@ namespace WebApp.Controllers
                 var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/AddUpdate", body, _token);
                 if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response>(brandRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Brands>(brandRes.Result);
                     response = deserializeObject;
                 }
             }
@@ -77,7 +92,7 @@ namespace WebApp.Controllers
             {
                 return View();
             }
-            return Json(response);
+            return PartialView(response);
 
         }
 
