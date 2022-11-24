@@ -72,8 +72,8 @@ namespace Service.Attribute
                 }
                 else
                 {
-                    sp = @"Select * from Attributes(nolock) where EntryBy = @LoginId";
-                    res.Result = await _dapper.GetAllAsync<Attributes>(sp, new { request.LoginId }, CommandType.Text);
+                    sp = @"Select * from Attributes(nolock) order by Ind";
+                    res.Result = await _dapper.GetAllAsync<Attributes>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
