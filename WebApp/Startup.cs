@@ -39,6 +39,42 @@ namespace WebApp
         {
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
             services.RegisterService(Configuration);
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddCookie("Cookies", options =>
+            {
+                options.LoginPath = "/Account/login";
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["JWT:Issuer"],
+                    ValidAudience = Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
+                };
+            }).AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
+            {
+                // runs on each request
+                options.ForwardDefaultSelector = context =>
+                {
+                    // filter by auth type
+                    string authorization = context.Request.Headers[HeaderNames.Authorization];
+                    if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+                        return "Bearer";
+                    // otherwise always check for cookie auth
+                    return "Cookies";
+                };
+            });
             services.AddControllersWithViews();
             services.AddMvc();
             services.AddHsts(option =>
