@@ -14,10 +14,12 @@ namespace AppUtility.APIRequest
         private static Lazy<AppWebRequest> Instance = new Lazy<AppWebRequest>(() => new AppWebRequest());
         private AppWebRequest() { }
 
-        public async Task<HttpResponse> PostAsync(string URL, string PostData, string ContentType = "application/json",int timeout=0)
+        public async Task<HttpResponse> PostAsync(string URL, string PostData, string AccessToken = "", string ContentType = "application/json",int timeout=0)
         {
             HttpResponse httpResponse = new HttpResponse();
             HttpWebRequest http = (HttpWebRequest)WebRequest.Create(URL);
+            if (!string.IsNullOrEmpty(AccessToken))
+                http.Headers.Add("Authorization", "Bearer " + AccessToken);
             http.Timeout = timeout == 0 ? 5 * 60 * 1000 : timeout;
             var data = Encoding.ASCII.GetBytes(PostData);
             http.Method = "POST";

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using WebApp.Middleware;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -23,7 +24,6 @@ namespace WebApp.Controllers
 
         public AttributeController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
         {
-
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
         // GET: AttributeController
@@ -44,7 +44,8 @@ namespace WebApp.Controllers
             Attributes attributes = new Attributes();
             if (Id != 0)
             {
-                var attributesRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/GetAttributes", JsonConvert.SerializeObject(new SearchItem { Id = Id }));
+                string _token = User.GetLoggedInUserToken();
+                var attributesRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/GetAttributes", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
                 if (attributesRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<List<Attributes>>>(attributesRes.Result);
@@ -62,8 +63,9 @@ namespace WebApp.Controllers
             Response response=new Response();
             try
             {
-                var body = JsonConvert.SerializeObject(attributes);
-                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/AddUpdate", body);
+                string _token = User.GetLoggedInUserToken();
+                var jsonData = JsonConvert.SerializeObject(attributes);
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/AddUpdate", jsonData, _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);

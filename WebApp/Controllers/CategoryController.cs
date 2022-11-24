@@ -13,6 +13,7 @@ using WebApp.Models;
 using AppUtility.APIRequest;
 using System.Collections.Generic;
 using System.Linq;
+using WebApp.Middleware;
 
 namespace WebApp.Controllers
 {
@@ -22,10 +23,8 @@ namespace WebApp.Controllers
     {
         private string _apiBaseURL;
 
-
         public CategoryController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
-        {
-
+        {           
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
@@ -49,7 +48,8 @@ namespace WebApp.Controllers
             Category category = new Category();
             if (Id != 0)
             {
-                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem {Id=Id } ));
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem {Id=Id } ), _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<List<Category>>>(categoryrRes.Result);
@@ -67,8 +67,9 @@ namespace WebApp.Controllers
             Response response= new Response();
             try
             {
-                var body = JsonConvert.SerializeObject(category);
-                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/AddUpdate", body);
+                string _token = User.GetLoggedInUserToken();
+                var jsonData = JsonConvert.SerializeObject(category);
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/AddUpdate", jsonData, _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);

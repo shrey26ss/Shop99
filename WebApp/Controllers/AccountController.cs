@@ -144,10 +144,12 @@ namespace WebApp.Controllers
                                 Id = applicationUser.Id,
                                 Name = applicationUser.Name,
                                 RefreshToken = applicationUser.RefreshToken,
-                                Role = applicationUser.Role
+                                Role = applicationUser.Role,
+                                Token = applicationUser.Token
                             };
                             var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));
+                            identity.AddClaim(new Claim("Token", user.Token.ToString()));
                             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
                             await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                 new ClaimsPrincipal(identity));
