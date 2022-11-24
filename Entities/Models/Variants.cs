@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class Variants
+    public class ProductVariant
     {
         public int Id { get; set; }
         [Required]
@@ -19,10 +19,11 @@ namespace Entities.Models
         public string AttributeValue { get; set; }
         public int Quantity { get; set; }
         public decimal MRP { get; set; }
-        public int EntryBy { get; set; }
-        public int ModifyBy { get; set; }
-        public string EntryOn { get; set; }
-        public string ModifyOn { get; set; }
+        public bool AllowFiltering { get; set; }
+        public bool ShowOnProductPage { get; set; }
+        public string HSN { get; set; }
+        public decimal Price { get; set; }
+        public string GTIN { get; set; }
 
     }
 }
