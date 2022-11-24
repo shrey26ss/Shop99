@@ -11,10 +11,7 @@
             </small>
         </h1>
         <div class="float-right">
-            <button type="submit" name="save" class="btn btn-primary">
-                <i class="far fa-save"></i>
-                Save
-            </button>
+            <input type="button" value="Save" class="btn btn-primary" id="SaveProduct" />
             <button type="submit" name="save-continue" class="btn btn-primary">
                 <i class="far fa-save"></i>
                 Save and Continue Edit
@@ -95,6 +92,40 @@
                 $('#AttributeView').html(result);
             })
         }
+        $(document).on('click', '#SaveProduct', () => {
+            let Products = {
+                Name: $('#Name').val(),
+                Specification: $('#Specification').val(),
+                Description: $('#Description').val(),
+                SKU: $('#SKU').val(),
+                CategoryId: $('#CategoryId').val()
+            };
+            let AttributeCombinations = [];
+            let length = $('#Counter').val();
+            console.log('length : ', length);
+            for (let i = 1; i <= length; i++) {
+                let combination = {
+                    AttributeId: $('#Attribute_'+i).val(),
+                    AllowFiltering: $('#isFiltering_' + i).is(':checked'),
+                    ShowOnProductPage: $('#isShow_' + i).is(':checked'),
+                    AttributeValue: $('#Value_' + i).val(),
+                    HSN: $('#HSN_' + i).val(),
+                    Price: $('#Price_' + i).val(),
+                    GTIN: $('#GTIN_' + i).val()
+                };
+                AttributeCombinations.push(combination);
+            }
+            let param = {
+                Products: Products,
+                ProductVariants: AttributeCombinations
+            };
+            console.log('Param :', param);
+            $.post('/Product/Create', param).done((result) => {
+                console.log(result);
+            })
+
+
+        })
     </script>
 
 }

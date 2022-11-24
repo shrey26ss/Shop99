@@ -8,7 +8,7 @@ namespace Infrastructure.Interface
 {
     public interface IVariant
     {
-        Task<Response> AddUpdate(RequestBase<Variants> request);
-        Task<Response<IEnumerable<Variants>>> GetVariants(RequestBase<SearchItem> request);
+        Task<Response> AddUpdate(RequestBase<ProductVariant> request);
+        Task<Response<IEnumerable<ProductVariant>>> GetVariants(RequestBase<SearchItem> request);
     }
 }

@@ -48,7 +48,7 @@ namespace WebApp.Controllers
             {
                 model = new ProductViewModel();
             }
-            return PartialView("Partials/_Product",model);
+            return PartialView("Partials/_Product",model.Products);
         }
         [HttpPost]
         public async Task<IActionResult> GetAttributeSectionView(int Id = 0)
@@ -63,29 +63,7 @@ namespace WebApp.Controllers
 
         // POST: ProductController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Create(ProductViewModel model)
         {
             try
             {
