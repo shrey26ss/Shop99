@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     {
         Task<Response> AddUpdate(RequestBase<Products> request);
         Task<Response<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request);
+        Task<Response> AddProductVariant(RequestBase<VariantCombination> request);
     }
 }

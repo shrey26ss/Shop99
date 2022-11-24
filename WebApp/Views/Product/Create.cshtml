@@ -1,5 +1,5 @@
 ﻿@using WebApp.Models.ViewModels;
-@model ProductViewModel
+@model VariantViewModel
 
 <form asp-action="Create" data-ajax="false">
     <div class="content-header clearfix">
@@ -58,12 +58,7 @@
                     </div>
                 </div>
                 <nop-cards id="product-cards">
-
-                    @*Main Product Card Start*@
-                    <nop-card id="mainProduct">
-                    </nop-card>
-                    @*End Main Product Card*@
-
+                    <input type="hidden" asp-for="ProductId" />
                     @*Attribute Starts*@
                     <nop-card id="AttributeView">
                     </nop-card>
@@ -76,51 +71,44 @@
 </form>
 
 @section Scripts{
-
     <script>
         $(() => {
-            ProductSection();
             AttributetSection();
         });
-        var ProductSection = () => {
-            $.post('/Product/GetProductSectionView').done((result) => {
-                $('#mainProduct').html(result);
-            })
-        }
+
         var AttributetSection = () => {
             $.post('/Product/GetAttributeSectionView').done((result) => {
                 $('#AttributeView').html(result);
             })
         }
+
         $(document).on('click', '#SaveProduct', () => {
-            let Products = {
-                Name: $('#Name').val(),
-                Specification: $('#Specification').val(),
-                Description: $('#Description').val(),
-                SKU: $('#SKU').val(),
-                CategoryId: $('#CategoryId').val()
-            };
             let AttributeCombinations = [];
+            let ProductVariantGroups = [];
             let length = $('#Counter').val();
-            console.log('length : ', length);
             for (let i = 1; i <= length; i++) {
                 let combination = {
+                    ProductId: $('#ProductId').val(),
                     AttributeId: $('#Attribute_'+i).val(),
-                    AllowFiltering: $('#isFiltering_' + i).is(':checked'),
+                    AllowFiltering: $('#isFiltering_' + i).is(':checked')                    
+                };
+                let groups = {
                     ShowOnProductPage: $('#isShow_' + i).is(':checked'),
                     AttributeValue: $('#Value_' + i).val(),
                     HSN: $('#HSN_' + i).val(),
                     Price: $('#Price_' + i).val(),
-                    GTIN: $('#GTIN_' + i).val()
-                };
+                    GTIN: $('#GTIN_' + i).val(),
+                    Quantity: $('#Quantity_' + i).val()
+                }
                 AttributeCombinations.push(combination);
+                ProductVariantGroups.push(groups);
             }
             let param = {
-                Products: Products,
-                ProductVariants: AttributeCombinations
+                ProductVariants: AttributeCombinations,
+                ProductVariantGroups: ProductVariantGroups
             };
             console.log('Param :', param);
-            $.post('/Product/Create', param).done((result) => {
+            $.post('/Product/AddVariant', param).done((result) => {
                 console.log(result);
             })
 
