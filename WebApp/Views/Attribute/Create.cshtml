@@ -1,0 +1,56 @@
+﻿@using Entities.Models;
+@{
+    Layout = "~/views/shared/_Adminlayout.cshtml";
+}
+@model Attributes
+
+<form asp-action="Create" method="Post">
+    <nop-card>
+        <div class="card card-secondary card-outline">
+            <div class="card-header with-border clearfix">
+                <div class="card-title">Attributes</div>
+                <div class="card-tools float-right">
+                    <button class="btn btn-tool" data-card-widget="collapse" type="button"><i class="fa toggle-icon fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div id="product-details-area">
+                    <div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="label-wrapper">
+                                    <label class="col-form-label" for="Name">Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="input-group input-group-required">
+                                    <input class="form-control text-box single-line" asp-for="Name" type="text" required="Please fill Attribute name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="label-wrapper">
+                                    <label class="col-form-label" for="Name">Value</label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="input-group input-group-required">
+                                    <input class="form-control text-box single-line" asp-for="Value" type="text" >
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <input class="" type="submit" value="Submit">
+            </div>
+
+        </div>
+
+    </nop-card>
+
+</form>
