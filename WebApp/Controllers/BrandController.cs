@@ -13,6 +13,7 @@ using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
 using WebApp.Models;
+using AppUtility.APIRequest;
 
 namespace WebApp.Controllers
 {
@@ -76,13 +77,17 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Brands brands, IFormFile Icon)
         {
-            Brands response = new Brands();
+            Brands response = new Brands();      
             try
             {
                 string _token = User.GetLoggedInUserToken();
                 var body = JsonConvert.SerializeObject(brands);
                 var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/AddUpdate", body, _token);
-                if (brandRes.HttpStatusCode == HttpStatusCode.OK)
+               
+                 
+
+            
+            if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Brands>(brandRes.Result);
                     response = deserializeObject;

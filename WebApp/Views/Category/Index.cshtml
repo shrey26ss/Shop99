@@ -53,7 +53,7 @@
         };
 
         var AddCategory = function (Id) {
-            $.post('/Category/Create', { Id: Id })
+            $.get('/Category/Create', { Id: Id })
                 .done(result => {
                     Q.alert({
                         title: 'Category',
