@@ -41,10 +41,7 @@ namespace Service.Variant
                     request.RoleId,
                     request.Data.Id,
                     request.Data.ProductId,
-                    request.Data.AttributeId,
-                    request.Data.AttributeValue,
-                    request.Data.Quantity,
-                    request.Data.MRP
+                    request.Data.AttributeId
                 }, CommandType.Text);
                 if (i > -1 && i < 100)
                 {

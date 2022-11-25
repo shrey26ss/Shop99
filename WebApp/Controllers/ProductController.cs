@@ -1,10 +1,14 @@
 ﻿using AppUtility.APIRequest;
 using AutoMapper;
+using Entities.Models;
+using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
 using WebApp.Models;
@@ -23,33 +27,64 @@ namespace WebApp.Controllers
         }
         // GET: ProductController
         [HttpGet("/Product")]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
-
-        // GET: ProductController/Details/5
-        public ActionResult Details(int id)
+        [HttpPost]
+        public async Task<IActionResult> ProductList()
         {
-            return View();
+            var response = new List<Products>();
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = 0 });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", jsonData, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Products>>>(apiResponse.Result);
+                response = deserializeObject.Result;
+            }
+            return PartialView("Partials/_ProductList", response);
         }
 
         // GET: ProductController/Create
         public ActionResult Create(int Id = 0)
         {
-            ProductViewModel model = new ProductViewModel();
+            VariantViewModel model = new VariantViewModel()
+            {
+                ProductId= Id,
+            };
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> GetProductSectionView(int Id = 0)
         {
-            ProductViewModel model = new ProductViewModel();
-            if (Id != 0)
-            {
-                model = new ProductViewModel();
-            }
-            return PartialView("Partials/_Product",model.Products);
+            Products model = new Products();
+            return PartialView("Partials/_Product",model);
         }
+       
+        // POST: ProductController/Create
+        [HttpPost]
+        public async Task<IActionResult> Create(Products model)
+        {
+            var response = new Response();
+            try
+            {
+                string _token = User.GetLoggedInUserToken();
+                var jsonData = JsonConvert.SerializeObject(model);
+                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddUpdate", jsonData, _token);
+                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                    response = deserializeObject;
+                }
+            }
+            catch
+            {
+                
+            }
+            return Json(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> GetAttributeSectionView(int Id = 0)
         {
@@ -60,40 +95,27 @@ namespace WebApp.Controllers
         {
             return PartialView("Partials/_AddAttributes");
         }
-
-        // POST: ProductController/Create
         [HttpPost]
-        public ActionResult Create(ProductViewModel model)
+        public async Task<IActionResult> AddVariant(VariantCombination model)
         {
+            var response = new Response();
             try
             {
-                return RedirectToAction(nameof(Index));
+                string _token = User.GetLoggedInUserToken();
+                var jsonData = JsonConvert.SerializeObject(model);
+                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
+                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                    response = deserializeObject;
+                }
             }
             catch
             {
-                return View();
+
             }
+            return Json(model);
         }
 
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

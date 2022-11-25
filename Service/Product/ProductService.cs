@@ -1,10 +1,13 @@
-﻿using Data;
+﻿using AppUtility.Helper;
+using Dapper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -31,19 +34,21 @@ namespace Service.Product
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Products Set Specification=@Specification,Description=@Description,BrandId=@BrandId,CategoryId=@CategoryId,VendorId=@VendorId,ModifyOn=GETDATE(),ModifyBy=@LoginId where Id = @Id";
+                    sqlQuery = @"Update Products Set Name=@Name, Title=@Title,Description=@Description,SKU=@SKU,BrandId=@BrandId,CategoryId=@CategoryId,VendorId=@VendorId,ModifyBy=@LoginId,ModifyOn=GETDATE() where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"insert into Products (Specification,Description,BrandId,CategoryId,VendorId,EntryBy,EntryOn,ModifyOn,ModifyBy) values(@Specification,@Description,@BrandId,@CategoryId,@VendorId,@LoginId,Getdate(),Getdate(),@LoginId)";
+                    sqlQuery = @"insert into Products (Name,Title,Description,SKU,BrandId,CategoryId,VendorId,EntryBy,ModifyBy,EntryOn,ModifyOn) values(@Name,@Title,@Description,@SKU,@BrandId,@CategoryId,@VendorId,@LoginId,@LoginId,GETDATE(),GETDATE())";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     request.LoginId,
                     request.RoleId,
                     request.Data.Id,
-                    request.Data.Specification,
+                    request.Data.Name,
+                    request.Data.Title,
                     request.Data.Description,
+                    request.Data.SKU,
                     request.Data.BrandId,
                     request.Data.CategoryId,
                     request.Data.VendorId
@@ -71,12 +76,12 @@ namespace Service.Product
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select * from Products(nolock) where Id = @Id and EntryBy = @LoginId";
-                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id,request.LoginId }, CommandType.Text);
+                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId c.Id = @Id ";
+                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id, request.LoginId }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select * from Products(nolock) where EntryBy = @LoginId";
+                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId order by [Name]";
                     res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.LoginId }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
@@ -86,6 +91,32 @@ namespace Service.Product
             {
 
             }
+            return res;
+        }
+
+        public async Task<Response> AddProductVariant(RequestBase<VariantCombination> request)
+        {
+            var res = new Response();
+            try
+            {
+                var ProductVariant = ConvertToDataTable.ToDataTable(request.Data.ProductVariants);
+                var GroupType = ConvertToDataTable.ToDataTable(request.Data.ProductVariantGroups);
+                string sqlQuery = "Proc_AddVariant";
+                int i = -5;
+                DynamicParameters param = new DynamicParameters();
+                param.Add("ProductVariant", ProductVariant, DbType.Object);
+                param.Add("GroupType", GroupType, DbType.Object);
+                i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
+                if (i > -1 && i < 100)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
             return res;
         }
     }

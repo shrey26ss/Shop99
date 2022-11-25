@@ -14,7 +14,7 @@ namespace Data
     {
         DbConnection GetDbconnection();
         IDbConnection GetMasterConnection();
-        Task<T> GetAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
+        Task<T> GetByDynamicParamAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
         Task<T> GetAsync<T>(string sp, object parms = null, CommandType commandType = CommandType.StoredProcedure);
         IQueryable<T> GetAsQueryable<T>(string sp, object parms = null, CommandType commandType = CommandType.Text);
         Task<IEnumerable<T>> GetAllAsync<T>(string sp, object parms = null, CommandType commandType = CommandType.StoredProcedure);

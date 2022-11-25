@@ -97,6 +97,16 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-md-3">
+                                                <div class="label-wrapper"><label class="col-form-label" for="GTIN">Quantity</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="input-group input-group-required">
+                                                    <input class="form-control text-box single-line" type="text" id="Quantity_1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
                                                 <div class="label-wrapper"><label class="col-form-label" for="GTIN">GTIN</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
                                             </div>
                                             <div class="col-md-9">
@@ -111,7 +121,7 @@
                         </table>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -128,7 +138,7 @@
     })
     $(document).on('click', '#btnAttributeSubmit', function () {
         let param = {
-            Attribute : $('#AttributeId').val(),
+            Attribute: $('#AttributeId').val(),
             AllowFiltering: $('#AllowFiltering').is(':checked'),
             ShowOnProductPage: $('#ShowOnProductPage').is(':checked')
         };
@@ -138,66 +148,76 @@
         $('.ui-dialog-titlebar-close').click();
         console.log('count s: ', count);
         let _html = `<tr>
-                         <td>
-                             <select class="form-control" id="Attribute_${count}">
-                              <option value="1">Color</option>
-                              <option selected value="2">Size</option>
-                             </select>
-                         </td>
-                         <td>
-                                 <input class="" checked="${param.AllowFiltering}" type="checkbox" id="isFiltering_${count}" />
-                         </td>
-                         <td>
-                                 <input class="" checked="${param.ShowOnProductPage}" type="checkbox" id="isShow_${count}" />
-                         </td>
-                         <td>
-                             <input class="btn btn-primary edit" type="button" id="edit_${count}" value="Edit" />
-                         </td>
-                     </tr>
-                     <tr>
-                         <td colspan="4">
-                             <div class="form-group row">
-                                 <div class="col-md-3">
-                                     <div class="label-wrapper"><label class="col-form-label" for="Value">Value</label><div title="Enter Value for Attribute" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                 </div>
-                                 <div class="col-md-9">
-                                     <div class="input-group input-group-required">
-                                         <input class="form-control text-box single-line" type="text" id="Value_${count}" name="Value_${count}">
+                             <td>
+                                 <select class="form-control" id="Attribute_${count}">
+                                  <option value="1">Color</option>
+                                  <option selected value="2">Size</option>
+                                 </select>
+                             </td>
+                             <td>
+                                     <input class="" checked="${param.AllowFiltering}" type="checkbox" id="isFiltering_${count}" />
+                             </td>
+                             <td>
+                                     <input class="" checked="${param.ShowOnProductPage}" type="checkbox" id="isShow_${count}" />
+                             </td>
+                             <td>
+                                 <input class="btn btn-primary edit" type="button" id="edit_${count}" value="Edit" />
+                             </td>
+                         </tr>
+                         <tr>
+                             <td colspan="4">
+                                 <div class="form-group row">
+                                     <div class="col-md-3">
+                                         <div class="label-wrapper"><label class="col-form-label" for="Value">Value</label><div title="Enter Value for Attribute" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                                     </div>
+                                     <div class="col-md-9">
+                                         <div class="input-group input-group-required">
+                                             <input class="form-control text-box single-line" type="text" id="Value_${count}" name="Value_${count}">
+                                         </div>
                                      </div>
                                  </div>
-                             </div>
-                             <div class="form-group row">
-                                 <div class="col-md-3">
-                                     <div class="label-wrapper"><label class="col-form-label" for="HSN">HSN</label><div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                 </div>
-                                 <div class="col-md-9">
-                                     <div class="input-group input-group-required">
-                                         <input class="form-control text-box single-line" type="text" id="HSN_${count}">
+                                 <div class="form-group row">
+                                     <div class="col-md-3">
+                                         <div class="label-wrapper"><label class="col-form-label" for="HSN">HSN</label><div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                                     </div>
+                                     <div class="col-md-9">
+                                         <div class="input-group input-group-required">
+                                             <input class="form-control text-box single-line" type="text" id="HSN_${count}">
+                                         </div>
                                      </div>
                                  </div>
-                             </div>
-                             <div class="form-group row">
-                                 <div class="col-md-3">
-                                     <div class="label-wrapper"><label class="col-form-label" for="Price">Price</label><div title="Enter Value for Price" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                 </div>
-                                 <div class="col-md-9">
-                                     <div class="input-group input-group-required">
-                                         <input class="form-control text-box single-line" type="text" id="Price_${count}">
+                                 <div class="form-group row">
+                                     <div class="col-md-3">
+                                         <div class="label-wrapper"><label class="col-form-label" for="Price">Price</label><div title="Enter Value for Price" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                                     </div>
+                                     <div class="col-md-9">
+                                         <div class="input-group input-group-required">
+                                             <input class="form-control text-box single-line" type="text" id="Price_${count}">
+                                         </div>
                                      </div>
                                  </div>
-                             </div>
-                             <div class="form-group row">
-                                 <div class="col-md-3">
-                                     <div class="label-wrapper"><label class="col-form-label" for="GTIN">GTIN</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                 </div>
-                                 <div class="col-md-9">
-                                     <div class="input-group input-group-required">
-                                         <input class="form-control text-box single-line" type="text" id="GTIN_${count}">
+                                     <div class="form-group row">
+                                         <div class="col-md-3">
+                                                 <div class="label-wrapper"><label class="col-form-label" for="GTIN">Quantity</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                                         </div>
+                                         <div class="col-md-9">
+                                             <div class="input-group input-group-required">
+                                                 <input class="form-control text-box single-line" type="text" id="Quantity_${count}">
+                                             </div>
+                                         </div>
+                                     </div>
+                                 <div class="form-group row">
+                                     <div class="col-md-3">
+                                         <div class="label-wrapper"><label class="col-form-label" for="GTIN">GTIN</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
+                                     </div>
+                                     <div class="col-md-9">
+                                         <div class="input-group input-group-required">
+                                             <input class="form-control text-box single-line" type="text" id="GTIN_${count}">
+                                         </div>
                                      </div>
                                  </div>
-                             </div>
-                         </td>
-                     </tr>`;
+                             </td>
+                         </tr>`;
         $('#attributecombinations-grid tr:last').after(_html);
     })
 </script>

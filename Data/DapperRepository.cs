@@ -60,7 +60,7 @@ namespace Data
             return i;
         }
 
-        public async Task<T> GetAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.Text)
+        public async Task<T> GetByDynamicParamAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.Text)
         {
             T result;
             try

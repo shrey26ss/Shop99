@@ -1,0 +1,22 @@
+﻿@using Entities.Models;
+@model IEnumerable<Products>
+
+@if(Model.Any()){
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        counter++;
+        <tr>
+            <td>@counter</td>
+            <td>@item.Name</td>
+            <td>@item.Title</td>
+            <td>@item.CategoryName</td>
+            <td>@item.BrandName</td>
+            <td>@item.Description</td>
+            <td>@item.SKU</td>
+            <td>
+                <a  class="btn btn-primary" href="/Product/Create?Id=@item.Id" >Add Attribute </a>
+            </td>
+        </tr>
+    }
+}

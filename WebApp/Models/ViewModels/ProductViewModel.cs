@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace WebApp.Models.ViewModels
 {
-    public class ProductViewModel
+    public class VariantViewModel
     {
-        public Products Products { get; set; }
+        public int ProductId { get; set; }
         public List<ProductVariant> ProductVariants { get; set; }
+        public List<ProductVariantGroup> ProductVariantGroups { get; set; }
     }
 }
