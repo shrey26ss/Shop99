@@ -84,5 +84,22 @@ namespace Service.Attribute
             }
             return res;
         }
+
+        public async Task<Response<IEnumerable<AttributesDDL>>> GetAttributeDDL()
+        {
+            string sp = @"Select Id, [Name] from Attributes Order By [Name]";
+            var res = new Response<IEnumerable<AttributesDDL>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<AttributesDDL>(sp, new { }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
     }
 }

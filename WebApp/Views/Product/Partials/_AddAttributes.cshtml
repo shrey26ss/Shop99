@@ -1,4 +1,9 @@
-﻿
+﻿@using Entities.Models;
+@model ViewVariantCombinationModel
+@{
+    var attrDDl = new SelectList(Model.Attributes, "Id", "Name");
+}
+
 <div class="card card-default">
     <div class="card-body">
         <div class="form-group row">
@@ -6,30 +11,39 @@
                 <div class="label-wrapper"><label class="col-form-label" for="AttributeTypeName">Attribute</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose attribute type."><i class="fas fa-question-circle"></i></div></div>
             </div>
             <div class="col-md-9">
-                <select class="form-control" data-val="true" data-val-required="The AttributeTypeId field is required." id="AttributeId" name="AttributeId">
-                    <option value="1">Color</option>
+                <select class="form-control" id="AttributeId" name="AttributeId" asp-items="@attrDDl">
+                    <option value="0">Select Attribute</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group row" id="AllowFilteringSection">
+        <div class="form-group row">
+            <div class="col-md-3">
+                <div class="label-wrapper"><label class="col-form-label" for="AttrValue">Attribute Vaue</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Allow product filtering by this attribute."><i class="fas fa-question-circle"></i></div></div>
+            </div>
+            <div class="col-md-9">
+                <input class="form-control" id="AttrValue" name="AttrValue" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group row" >
             <div class="col-md-3">
                 <div class="label-wrapper"><label class="col-form-label" for="AllowFiltering">Allow filtering</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Allow product filtering by this attribute."><i class="fas fa-question-circle"></i></div></div>
             </div>
             <div class="col-md-9">
-                <input class="check-box" data-val="true" data-val-required="The Allow filtering field is required." id="AllowFiltering" name="AllowFiltering" type="checkbox" value="true">
-                <span class="field-validation-valid" data-valmsg-for="AllowFiltering" data-valmsg-replace="true"></span>
+                <input class="check-box" data-val="true" data-val-required="The Allow filtering field is required." id="AllowFiltering" name="AllowFiltering" type="checkbox" >
             </div>
         </div>
+
         <div class="form-group row">
             <div class="col-md-3">
                 <div class="label-wrapper"><label class="col-form-label" for="ShowOnProductPage">Show on product page</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The value of the specification attribute. Be visible on the product page."><i class="fas fa-question-circle"></i></div></div>
             </div>
             <div class="col-md-9">
-                <input checked="checked" class="check-box" data-val="true" data-val-required="The Show on product page field is required." id="ShowOnProductPage" name="ShowOnProductPage" type="checkbox" value="true">
-                <span class="field-validation-valid" data-valmsg-for="ShowOnProductPage" data-valmsg-replace="true"></span>
+                <input  class="check-box"  id="ShowOnProductPage" name="ShowOnProductPage" type="checkbox" >    
             </div>
         </div>
+
         <hr />
         <div class="row mt-3">
             <input type="button" class="btn btn-primary ml-2" id="btnAttributeSubmit" value="Add Attribute" />

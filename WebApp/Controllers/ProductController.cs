@@ -1,4 +1,5 @@
 ﻿using AppUtility.APIRequest;
+using AppUtility.Helper;
 using AutoMapper;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -7,7 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
@@ -25,6 +29,8 @@ namespace WebApp.Controllers
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
+
+        #region Add Product
         // GET: ProductController
         [HttpGet("/Product")]
         public IActionResult Index()
@@ -46,25 +52,17 @@ namespace WebApp.Controllers
             return PartialView("Partials/_ProductList", response);
         }
 
-        // GET: ProductController/Create
-        public ActionResult Create(int Id = 0)
-        {
-            VariantViewModel model = new VariantViewModel()
-            {
-                ProductId= Id,
-            };
-            return View(model);
-        }
         [HttpPost]
         public async Task<IActionResult> GetProductSectionView(int Id = 0)
         {
-            Products model = new Products();
-            return PartialView("Partials/_Product",model);
+            var model = new ProductViewModel();
+            model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(),_apiBaseURL);
+            model.Brands = await DDLHelper.O.GetBrandsDDL(GetToken(),_apiBaseURL);
+            return PartialView("Partials/_Product", model);
         }
-       
-        // POST: ProductController/Create
+
         [HttpPost]
-        public async Task<IActionResult> Create(Products model)
+        public async Task<IActionResult> AddProduct(Products model)
         {
             var response = new Response();
             try
@@ -80,9 +78,25 @@ namespace WebApp.Controllers
             }
             catch
             {
-                
+
             }
             return Json(model);
+        }
+        #endregion
+
+
+        #region Add Variants
+
+        // GET: ProductController/Create
+        public async Task<IActionResult> AddVariant(int Id = 0)
+        {
+            VariantViewModel model = new VariantViewModel()
+            {
+
+                ProductId = Id,
+                AttributesDDLs = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -93,10 +107,12 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAttributes()
         {
-            return PartialView("Partials/_AddAttributes");
+            var model = new ViewVariantCombinationModel();
+            model.Attributes = await DDLHelper.O.GetAttributeDDL(GetToken(),_apiBaseURL);
+            return PartialView("Partials/_AddAttributes", model);
         }
         [HttpPost]
-        public async Task<IActionResult> AddVariant(VariantCombination model)
+        public async Task<IActionResult> SaveVariants(VariantCombination model)
         {
             var response = new Response();
             try
@@ -116,6 +132,15 @@ namespace WebApp.Controllers
             }
             return Json(model);
         }
+        #endregion
+
+
+        #region Private Method
+        private string GetToken()
+        {
+            return User.GetLoggedInUserToken();
+        }
+        #endregion
 
     }
 }

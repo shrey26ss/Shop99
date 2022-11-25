@@ -39,9 +39,7 @@ namespace Service.Variant
                 {
                     request.LoginId,
                     request.RoleId,
-                    request.Data.Id,
-                    request.Data.ProductId,
-                    request.Data.AttributeId
+                    request.Data.Id
                 }, CommandType.Text);
                 if (i > -1 && i < 100)
                 {

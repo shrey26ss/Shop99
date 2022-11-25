@@ -5,11 +5,14 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class Attributes
+    public class Attributes : AttributesDDL
+    {
+        public string Value { get; set; } 
+    }
+    public class AttributesDDL
     {
         public int Id { get; set; }
-        [Required(ErrorMessage ="Please provide attribute name")]
+        [Required(ErrorMessage = "Please provide attribute name")]
         public string Name { get; set; }
-        public string Value { get; set; } 
     }
 }
