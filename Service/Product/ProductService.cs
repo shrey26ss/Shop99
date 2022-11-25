@@ -1,4 +1,5 @@
 ﻿using AppUtility.Helper;
+using Dapper;
 using Data;
 using Entities.Enums;
 using Entities.Models;
@@ -76,7 +77,7 @@ namespace Service.Product
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
                     sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId c.Id = @Id ";
-                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id,request.LoginId }, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id, request.LoginId }, CommandType.Text);
                 }
                 else
                 {
@@ -101,12 +102,11 @@ namespace Service.Product
                 var ProductVariant = ConvertToDataTable.ToDataTable(request.Data.ProductVariants);
                 var GroupType = ConvertToDataTable.ToDataTable(request.Data.ProductVariantGroups);
                 string sqlQuery = "Proc_AddVariant";
-                int i = -5;                
-                i = await _dapper.ExecuteAsync(sqlQuery, new
-                {
-                    ProductVariant,
-                    GroupType 
-                }, CommandType.StoredProcedure);
+                int i = -5;
+                DynamicParameters param = new DynamicParameters();
+                param.Add("ProductVariant", ProductVariant, DbType.Object);
+                param.Add("GroupType", GroupType, DbType.Object);
+                i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
                 if (i > -1 && i < 100)
                 {
                     res.StatusCode = ResponseStatus.Success;
@@ -118,6 +118,6 @@ namespace Service.Product
             }
 
             return res;
-        }       
+        }
     }
 }
