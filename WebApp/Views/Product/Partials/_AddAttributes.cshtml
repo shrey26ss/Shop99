@@ -22,16 +22,16 @@
                 <div class="label-wrapper"><label class="col-form-label" for="AttrValue">Attribute Vaue</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Allow product filtering by this attribute."><i class="fas fa-question-circle"></i></div></div>
             </div>
             <div class="col-md-9">
-                <input class="form-control" id="AttrValue" name="AttrValue" type="text" >
+                <input class="form-control" id="AttrValue" name="AttrValue" type="text">
             </div>
         </div>
 
-        <div class="form-group row" >
+        <div class="form-group row">
             <div class="col-md-3">
                 <div class="label-wrapper"><label class="col-form-label" for="AllowFiltering">Allow filtering</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Allow product filtering by this attribute."><i class="fas fa-question-circle"></i></div></div>
             </div>
             <div class="col-md-9">
-                <input class="check-box" data-val="true" data-val-required="The Allow filtering field is required." id="AllowFiltering" name="AllowFiltering" type="checkbox" >
+                <input class="check-box" data-val="true" data-val-required="The Allow filtering field is required." id="AllowFiltering" name="AllowFiltering" type="checkbox">
             </div>
         </div>
 
@@ -40,7 +40,7 @@
                 <div class="label-wrapper"><label class="col-form-label" for="ShowOnProductPage">Show on product page</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The value of the specification attribute. Be visible on the product page."><i class="fas fa-question-circle"></i></div></div>
             </div>
             <div class="col-md-9">
-                <input  class="check-box"  id="ShowOnProductPage" name="ShowOnProductPage" type="checkbox" >    
+                <input class="check-box" id="ShowOnProductPage" name="ShowOnProductPage" type="checkbox">
             </div>
         </div>
 
@@ -50,3 +50,29 @@
         </div>
     </div>
 </div>
+<script>
+    $('#btnAttributeSubmit').click(function () {
+        let param = {
+            AttributeId: $('#AttributeId').val(),
+            AttributeText: $("#AttributeId option:selected").text(),
+            AttrValue: $('#AttrValue').val(),
+            AllowFiltering: $('#AllowFiltering').is(':checked') ? "checked" : "",
+            ShowOnProductPage: $('#ShowOnProductPage').is(':checked') ? "checked" : ""
+        };
+        let attributeGrid = $('#attributeGrid tr');
+        let AttrCounter = parseInt($('#AttrCounter').val());
+        let count = parseInt($('#VariantCounter_' + AttrCounter).val());
+        count = count + 1;
+       
+        $('#VariantCounter_' + AttrCounter).val(count);
+        $('.ui-dialog-titlebar-close').click();
+        let _html = `<tr data-attr-Id="${param.AttributeId}" data-attr-value="${param.AttrValue}" data-filter-allowed=${param.AllowFiltering}>
+                                <td>${attributeGrid.length}</td>
+                            <td>${param.AttributeText}</td>
+                            <td>${param.AttrValue}</td>
+                            <td>${param.AllowFiltering}</td>
+                            <td><span class="btn btn-danger"><i class="fa fa-times"></i><span></td>
+                         </tr>`;
+            attributeGrid.after(_html);
+    });
+</script>

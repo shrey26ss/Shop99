@@ -104,6 +104,12 @@ namespace WebApp.Controllers
         {
             return PartialView("Partials/_Variants");
         }
+        
+        public async Task<IActionResult> AddAttributeGroup()
+        {
+            return PartialView("Partials/_AddAttributeGroup");
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddAttributes()
         {
