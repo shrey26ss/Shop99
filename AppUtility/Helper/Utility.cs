@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using AppUtility.Extensions;
 using System.Drawing.Imaging;
-using System.Drawing;
+using System.Drawing;   
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
@@ -47,7 +47,7 @@ namespace AppUtility.Helper
                     }
                     var filename = ContentDispositionHeaderValue.Parse(request.file.ContentDisposition).FileName.Trim('"');
                     string originalExt = Path.GetExtension(filename).ToLower();
-                    string[] Extensions = { ".png", ".jpeg", ".jpg" };
+                    string[] Extensions = { ".png", ".jpeg", ".jpg", ".svg" };
                     if (Extensions.Contains(originalExt))
                     {
                         //originalExt = ".jpg";
