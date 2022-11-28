@@ -26,9 +26,9 @@ namespace WebAPI.Controllers
         }
         [Route("Variant/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddUpdateVariant(ProductVariant req)
+        public async Task<IActionResult> AddUpdateVariant(AttributeInfo req)
         {
-            return Ok(await _variant.AddUpdate(new RequestBase<ProductVariant>
+            return Ok(await _variant.AddUpdate(new RequestBase<AttributeInfo>
             {
                 Data = req,
                 LoginId = User.GetLoggedInUserId<int>()

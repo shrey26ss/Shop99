@@ -145,7 +145,7 @@
                             Id: j,
                             AttributeId: cAttr.attrId,
                             AttributeValue: cAttr.attrValue,
-                            AllowFiltering: cAttr.filterAllowed,
+                            AllowFiltering: cAttr.filterAllowed == "checked" ? true : false,
                             GroupId: groupId
                         };
                         attrInfo.push(attributes);
@@ -157,14 +157,14 @@
                     MRP: currentGroup.find('[name="MRP"]').val(),
                     Quantity: currentGroup.find('[name="Quantity"]').val(),
                     GTIN: currentGroup.find('[name="Quantity"]').val(),
-                   // attributes : attrInfo
+                    // attributes : attrInfo
                 };
                 groupInfo.push(groupDetail);
             });
             let param = {
-                ProductId: $('#ProductId').val(),
-                ProductVariant: attrInfo,
-                ProductVariantGroups: groupInfo
+                ProductId: parseInt($('#ProductId').val()),
+                AttributeInfo: attrInfo,
+                GroupInfo: groupInfo
             };
             console.log('Param :', param);
             $.post('/Product/SaveVariants', param).done((result) => {

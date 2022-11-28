@@ -5,22 +5,7 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class ProductVariantGroup
-    {
-        public int Id { get; set; }
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Please Select a Product")]
-        public int ProductId { get; set; }
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Please Select a Attribute")]
-        public int AttributeId { get; set; }
-        [Required(ErrorMessage = "AttributeValue")]
-        public string AttributeValue { get; set; }
-        public bool AllowFiltering { get; set; }
-        public bool ShowOnProductPage { get; set; }
-
-    }
-    public class ProductVariant
+    public class VariantGroup
     {
         public int Id { get; set; }
         public string HSN { get; set; }
@@ -29,14 +14,23 @@ namespace Entities.Models
         [Required(ErrorMessage = "Quantity is required.")]
         public int Quantity { get; set; }
         public string GTIN { get; set; }
-        public int ProductVariantsGroupId { get; set; }
+    }
+    public class AttributeInfo
+    {
+        public int Id { get; set; }
+        public int AttributeId { get; set; }
+        public string AttributeValue { get; set; }
+        public bool AllowFiltering { get; set; }
+        public int GroupId { get; set; }    
+
     }
     public class VariantCombination
     {
+        public int ProductId { get; set; }
         [Required(ErrorMessage = "Please add atleaste one variant")]
-        public List<ProductVariant> ProductVariant { get; set; }
+        public List<AttributeInfo> AttributeInfo { get; set; }
         [Required(ErrorMessage = "Please add atleaste one variant")]
-        public List<ProductVariantGroup> ProductVariantGroups { get; set; }
+        public List<VariantGroup> GroupInfo { get; set; }
     }
     public class ViewVariantCombinationModel : VariantCombination
     {
