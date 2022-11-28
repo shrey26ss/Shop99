@@ -1,0 +1,98 @@
+﻿using AppUtility.Helper;
+using Data;
+using Entities.Enums;
+using Entities.Models;
+using Infrastructure.Interface;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Service.Vendor
+{
+    public class VendorService : IVendor
+    {
+        private IDapperRepository _dapper;
+        private readonly ILogger<DapperRepository> _logger;
+        public VendorService(IDapperRepository dapper, ILogger<DapperRepository> logger)
+        {
+            _dapper = dapper;
+            _logger = logger;
+        }
+
+        public async Task<Response<bool>> ValidateVendor(RequestBase<SearchItem> request)
+        {
+            var res = new Response<bool>();
+            try
+            {
+                string sqlQuery = "Proc_ValidateVendor";
+                res = await _dapper.GetAsync<Response<bool>>(sqlQuery, new {request.LoginId}, CommandType.StoredProcedure);
+                if (res.StatusCode == ResponseStatus.Success)
+                    res.Result = true;
+            }
+            catch (Exception ex)
+            {
+            }
+            return res;
+        }
+        public async Task<Response> AddUpdate(RequestBase<VendorProfile> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+                if (request.Data.Id != 0 && request.Data.Id > 0)
+                {
+                    sqlQuery = @"Update VendorProfile Set UserId=@LoginId,ShopName=@ShopName,GSTNumber=@GSTNumber,TIN=@TIN,Address=@Address,ContactNo=@ContactNo,ModifyBy=@LoginId,ModifyOn=Getdate() where Id = @Id";
+                }
+                else
+                {
+                    sqlQuery = @"insert into VendorProfile (UserId,ShopName,GSTNumber,TIN,Address,ContactNo,EntryBy,ModifyBy,EntryOn,ModifyOn)values(@LoginId,@ShopName,@GSTNumber,@TIN,@Address,@ContactNo,@LoginId,@LoginId,Getdate(),Getdate())";
+                }
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    request.LoginId, request.Data.Id,request.Data.ShopName,
+                    request.Data.GSTNumber,
+                    request.Data.TIN,request.Data.Address,request.Data.ContactNo
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return res;
+        }
+
+        public async Task<Response<VendorProfile>> GetVendorDetails(RequestBase<SearchItem> request)
+        {
+            string sp = string.Empty;
+            var res = new Response<VendorProfile>();
+            try
+            {
+                sp = @"Select * from VendorProfile(nolock) where UserId = @LoginId";
+                res.Result = await _dapper.GetAsync<VendorProfile>(sp, new { request.LoginId }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
+
+    }
+}

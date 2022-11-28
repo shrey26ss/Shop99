@@ -28,6 +28,7 @@ using AppUtility.APIRequest;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Http;
+using WebApp.Middleware;
 
 namespace WebApp.Controllers
 {
@@ -153,10 +154,13 @@ namespace WebApp.Controllers
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));
                             identity.AddClaim(new Claim("Token", user.Token.ToString()));
                             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
+                            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role ?? string.Empty));
                             await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                 new ClaimsPrincipal(identity));
-
-                            ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
+                            if (applicationUser.Role.Equals("3")) // Vendor
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Vendor/Index" : ReturnUrl;
+                            else if (applicationUser.Role.Equals("1")) // Admin
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
                             return LocalRedirect(ReturnUrl);
                         }
                     }

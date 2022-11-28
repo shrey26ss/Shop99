@@ -11,8 +11,8 @@ namespace WebApp.Models.ViewModels
     public class VariantViewModel
     {
         public int ProductId { get; set; }
-        public List<ProductVariant> ProductVariants { get; set; }
-        public List<ProductVariantGroup> ProductVariantGroups { get; set; }
+        public List<AttributeInfo> ProductVariants { get; set; }
+        public List<VariantGroup> ProductVariantGroups { get; set; }
         public List<AttributesDDL> AttributesDDLs { get; set; }
     }
 

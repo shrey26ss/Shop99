@@ -99,13 +99,15 @@ namespace Service.Product
             var res = new Response();
             try
             {
-                var ProductVariantGroup = ConvertToDataTable.ToDataTable(request.Data.ProductVariantGroups);
-                var ProductVariant = ConvertToDataTable.ToDataTable(request.Data.ProductVariant);
+                var VariantGroup = ConvertToDataTable.ToDataTable(request.Data.GroupInfo);
+                var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
                 string sqlQuery = "Proc_AddVariant";
                 int i = -5;
                 DynamicParameters param = new DynamicParameters();
-                param.Add("ProductVariantGroup", ProductVariantGroup, DbType.Object);
-                param.Add("ProductVariant", ProductVariant, DbType.Object);
+                param.Add("VariantGroup", VariantGroup, DbType.Object);
+                param.Add("AttributeInfo", AttributeInfo, DbType.Object);
+                param.Add("ProductId", request.Data.ProductId, DbType.Int32);
+                param.Add("EntryBy", request.LoginId, DbType.Int32);
                 i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
                 if (i > -1 && i < 100)
                 {
