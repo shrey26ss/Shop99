@@ -25,27 +25,27 @@ namespace Service.Variant
             var res = new Response();
             try
             {
-                string sqlQuery = "";
-                int i = -5;
-                if (request.Data.Id != 0 && request.Data.Id > 0)
-                {
-                    sqlQuery = @"Update AttributeInfo Set ProductId=@ProductId,AttributeId=@AttributeId,AttributeValue=@AttributeValue,Quantity=@Quantity,MRP=@MRP,ModifyOn=GETDATE(),ModifyBy=@LoginId,Ind=@Ind where Id = @Id";
-                }
-                else
-                {
-                    sqlQuery = @"Insert into AttributeInfo(ProductId,AttributeId,AttributeValue,Quantity,MRP,EntryBy,EntryOn,Ind,ModifyOn,ModifyBy) values(@ProductId,@AttributeId,@AttributeValue,@Quantity,@MRP,@LoginId,GETDATE(),GETDATE(),@LoginId)";
-                }
-                i = await _dapper.ExecuteAsync(sqlQuery, new
-                {
-                    request.LoginId,
-                    request.RoleId,
-                    request.Data.Id
-                }, CommandType.Text);
-                if (i > -1 && i < 100)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
-                }
+                //string sqlQuery = "";
+                //int i = -5;
+                //if (request.Data.Id != 0 && request.Data.Id > 0)
+                //{
+                //    sqlQuery = @"Update AttributeInfo Set ProductId=@ProductId,AttributeId=@AttributeId,AttributeValue=@AttributeValue,Quantity=@Quantity,MRP=@MRP,ModifyOn=GETDATE(),ModifyBy=@LoginId,Ind=@Ind where Id = @Id";
+                //}
+                //else
+                //{
+                //    sqlQuery = @"Insert into AttributeInfo(ProductId,AttributeId,AttributeValue,Quantity,MRP,EntryBy,EntryOn,Ind,ModifyOn,ModifyBy) values(@ProductId,@AttributeId,@AttributeValue,@Quantity,@MRP,@LoginId,GETDATE(),GETDATE(),@LoginId)";
+                //}
+                //i = await _dapper.ExecuteAsync(sqlQuery, new
+                //{
+                //    request.LoginId,
+                //    request.RoleId,
+                //    request.Data.Id
+                //}, CommandType.Text);
+                //if (i > -1 && i < 100)
+                //{
+                //    res.StatusCode = ResponseStatus.Success;
+                //    res.ResponseText = ResponseStatus.Success.ToString();
+                //}
             }
             catch (Exception ex)
             {
