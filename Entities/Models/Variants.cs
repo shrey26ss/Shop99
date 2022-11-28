@@ -17,7 +17,6 @@ namespace Entities.Models
     }
     public class AttributeInfo
     {
-        public int Id { get; set; }
         public int AttributeId { get; set; }
         public string AttributeValue { get; set; }
         public bool AllowFiltering { get; set; }
