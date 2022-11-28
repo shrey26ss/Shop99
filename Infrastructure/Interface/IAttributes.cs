@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     {
         Task<Response> AddUpdate(RequestBase<Attributes> request);
         Task<Response<IEnumerable<Attributes>>> GetAttributes(RequestBase<SearchItem> request);
+        Task<Response<IEnumerable<AttributesDDL>>> GetAttributeDDL();
     }
 }

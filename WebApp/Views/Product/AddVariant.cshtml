@@ -1,0 +1,188 @@
+﻿@using WebApp.Models.ViewModels;
+@model VariantViewModel
+@{
+    var attrDDl = new SelectList(Model.AttributesDDLs, "Id", "Name");
+    string s = string.Empty;
+}
+<style>
+    .custOne {
+        height: 0px;
+        overflow: hidden;
+    }
+
+    .custTwo {
+        width: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        height: 0px
+    }
+</style>
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        Edit product details - Build your own computer
+        <small>
+            <i class="fas fa-arrow-circle-left"></i>
+            <a href="/Admin/Product/List">back to product list</a>
+        </small>
+    </h1>
+    <div class="float-right">
+        <input type="button" value="Save" class="btn btn-primary" id="SaveProduct" />
+        <button type="submit" name="save-continue" class="btn btn-primary">
+            <i class="far fa-save"></i>
+            Save and Continue Edit
+        </button>
+        <button type="button" name="copyproduct" class="btn bg-olive" data-toggle="modal" data-target="#copyproduct-window">
+            <i class="far fa-clone"></i>
+            Copy product
+        </button>
+        <span id="product-delete" class="btn btn-danger" data-toggle="modal" data-target="#productmodel-Delete-delete-confirmation">
+            <i class="far fa-trash-alt"></i>
+            Delete
+        </span>
+    </div>
+</div>
+<div class="validation-summary-valid" data-valmsg-summary="true">
+    <ul>
+        <li style="display:none"></li>
+    </ul>
+</div>
+<input type="hidden" data-val="true" data-val-required="The Id field is required." id="Id" name="Id" value="1">
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div class="float-left">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="advanced-settings-mode" checked="checked">
+                                    <label class="onoffswitch-label" for="advanced-settings-mode">
+                                        <span class="onoffswitch-inner" data-locale-basic="Basic" data-locale-advanced="Advanced"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-info float-left mx-2" id="product-editor-settings" data-toggle="modal" data-target="#productsettings-window">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </button>
+                </div>
+            </div>
+            <input type="hidden" id="ProductId" asp-for="ProductId" />
+            @*Attribute Starts*@
+            <div id="AttributeView">
+                <div class="card card-secondary card-outline" data-card-name="product-info" data-hideattribute="ProductPage.HideInfoBlock" id="product-info">
+                    <div class="card-header with-border clearfix">
+                        <div class="card-title">
+                            <i class="fas fa-info"></i>Attribute Combination
+                        </div>
+                        <div class="card-tools float-right">
+                            <button class="btn btn-tool" data-card-widget="collapse"><i class="fa toggle-icon fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-right mb-3">
+                                <button id="btnNewAttrGroup" class="btn btn-primary">Add Variant</button>
+                            </div>
+                        </div>
+                        <attrGroup>
+                            <div class="row">
+                                <h4 class="col-sm-12">
+                                    Combination-1
+                                    <hr />
+                                </h4>
+
+                                @Html.Partial("Partials/_AddAttributeGroup")
+                            </div>
+                        </attrGroup>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+
+    <script>
+        $(document).on('click', '.btnAddNewAttribute', e => {
+            let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
+            $.post('/Product/AddAttributes', { combinationId }).done((result) => {
+                Q.alert({
+                    title: 'Add Attribute',
+                    body: result,
+                    width: 900
+                });
+            })
+        })
+    </script>
+
+
+    <script>
+        //$(() => {
+
+        //});
+
+        $(document).on('click', '#SaveProduct', () => {
+            let groupInfo = [];
+            let attrInfo = [];
+            $('.attrCombination').each(function (i) {
+                let groupId = i + 1;
+                let currentGroup = $(this);
+                //let attrInfo = [];
+                let attributes = currentGroup.find('.attributeGrid tr').each(function (j) {
+                    let cAttr = $(this).data();
+                    if (!$.isEmptyObject(cAttr)) {
+                        let attributes = {
+                            Id: j,
+                            AttributeId: cAttr.attrId,
+                            AttributeValue: cAttr.attrValue,
+                            AllowFiltering: cAttr.filterAllowed,
+                            GroupId: groupId
+                        };
+                        attrInfo.push(attributes);
+                    }
+                });
+                let groupDetail = {
+                    Id: groupId,
+                    HSN: currentGroup.find('[name="HSN"]').val(),
+                    MRP: currentGroup.find('[name="MRP"]').val(),
+                    Quantity: currentGroup.find('[name="Quantity"]').val(),
+                    GTIN: currentGroup.find('[name="Quantity"]').val(),
+                   // attributes : attrInfo
+                };
+                groupInfo.push(groupDetail);
+            });
+            let param = {
+                ProductId: $('#ProductId').val(),
+                ProductVariant: attrInfo,
+                ProductVariantGroups: groupInfo
+            };
+            console.log('Param :', param);
+            $.post('/Product/SaveVariants', param).done((result) => {
+                Q.notify(result.statusCode, result.responseText);
+            })
+        })
+
+        $('#btnNewAttrGroup').click(function () {
+            $.get("/Product/AddAttributeGroup").done(result => {
+                let _count = $('.attrCombination').length;
+                $('attrGroup')
+                    .append(`<div class="row"><h4 class="col-sm-12">Combination-${_count + 1}<span class="float-right text-danger fa fa-times rmComb"></span>  <hr /></h4>${result}</div>`);
+                $('.rmComb').click(e => {
+                    $(e.currentTarget).parents('div.row').remove();
+                });
+            }).fail(xhr => console.log(xhr.responseText));
+        });
+    </script>
+
+
+ }

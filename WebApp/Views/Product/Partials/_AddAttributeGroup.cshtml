@@ -1,0 +1,65 @@
+﻿<div class="col-md-12 attrCombination" id="@DateTime.Now.ToString("ddMMyyyyhhmmssmmm")">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="HSN">HSN</label>
+                <div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="HSN_1" name="HSN">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label class="col-form-label" for="Price">Price</label>
+            <span title="Enter Value for Price" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="Price_1" name="MRP">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label class="col-form-label" for="GTIN">Quantity</label>
+            <span title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="Quantity_1" name="Quantity">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <label class="col-form-label" for="GTIN">GTIN</label>
+            <span title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="GTIN_1" name="GTIN">
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right">Add Attribute</button>
+    <table class="table table-bordered table-hover table-striped attributeGrid">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-nowrap">Attribute</th>
+                <th class="text-nowrap">Attribute Value</th>
+                <th class="text-nowrap">Allow filtering</th>
+                <th class="text-nowrap">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+

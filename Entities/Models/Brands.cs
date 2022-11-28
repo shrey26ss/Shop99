@@ -5,13 +5,16 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class Brands
+    public class Brands : BrandsDDL
+    {
+        public string Description { get; set; }
+        public string Icon { get; set; }
+    }
+    public class BrandsDDL
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Please Enter Brand Name")]
+        [Required(ErrorMessage = "Please Enter Brand Name")]
         public string Name { get; set; }
-        public string Description { get; set; }
-        public string Icon { get; set; }
     }
 }

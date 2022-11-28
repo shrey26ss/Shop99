@@ -21,7 +21,7 @@ namespace AppUtility.APIRequest
             if (!string.IsNullOrEmpty(AccessToken))
                 http.Headers.Add("Authorization", "Bearer " + AccessToken);
             http.Timeout = timeout == 0 ? 5 * 60 * 1000 : timeout;
-            var data = Encoding.ASCII.GetBytes(PostData);
+            var data = Encoding.ASCII.GetBytes(PostData ?? "");
             http.Method = "POST";
             http.ContentType = ContentType;
             http.ContentLength = data.Length;

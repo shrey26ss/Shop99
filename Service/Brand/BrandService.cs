@@ -142,5 +142,21 @@ namespace Service.Brand
             }
             return res;
         }
+        public async Task<Response<IEnumerable<BrandsDDL>>> GetBrandDDL()
+        {
+            string sp = @"Select Id,[Name] from Brands order by [Name]";
+            var res = new Response<IEnumerable<BrandsDDL>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<BrandsDDL>(sp, new { }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
     }
 }

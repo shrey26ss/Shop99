@@ -96,7 +96,6 @@ namespace Service.Categories
             }
             return res;
         }
-
         public async Task<Response<List<MenuItem>>> GetMenu(Request request)
         {
             var response = new Response<List<MenuItem>>()
@@ -109,6 +108,26 @@ namespace Service.Categories
             response.Result = GenerateTreeWithRoot(res.Result);
             return response;
         }
+
+        public async Task<Response<IEnumerable<CategoryDDL>>> GetCategoriesDDL()
+        {
+            string sp = @"Select CategoryId, CategoryName from Category where IsPublish = 1 order by CategoryName";
+            var res = new Response<IEnumerable<CategoryDDL>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<CategoryDDL>(sp, new { }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
+
+
+        #region Private Method
         private List<MenuItem> GenerateTreeWithRoot(IEnumerable<Category> collection)
         {
             List<MenuItem> lst = new List<MenuItem>();
@@ -163,6 +182,8 @@ namespace Service.Categories
             res.Result = await _dapper.GetAllAsync<Category>(sp, null, CommandType.Text);
             return res;
         }
+        #endregion
+
 
     }
 }

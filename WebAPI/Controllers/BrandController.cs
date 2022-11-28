@@ -61,5 +61,10 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Brand/GetBrandDDL")]
+        public async Task<IActionResult> GetBrandDDL()
+        {
+            return Ok(await _brand.GetBrandDDL());
+        }
     }
 }

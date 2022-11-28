@@ -1,7 +1,10 @@
-﻿@using Entities.Models;
-@model Products
-
-<form method="post" asp-action="Create">
+﻿@using WebApp.Models.ViewModels;
+@model ProductViewModel
+@{
+    var catDDl = new SelectList(Model.Categories, "CategoryId", "CategoryName");
+    var brandDDL = new SelectList(Model.Brands, "Id", "Name");
+}
+<form method="post" asp-action="AddProduct">
     <div class="card-body">
         <div id="product-details-area">
             <div>
@@ -10,20 +13,18 @@
                         <div class="label-wrapper"><label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
                     </div>
                     <div class="col-md-9">
-                        <select asp-for="CategoryId" class="form-control">
-                            <option value="1">Men</option>
-                            <option value="2">Women</option>
+                        <select asp-for="CategoryId" class="form-control" asp-items="@catDDl">
+                            <option value="0">Select Category</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
+                        <div class="label-wrapper"><label class="col-form-label">Brand</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
                     </div>
                     <div class="col-md-9">
-                        <select asp-for="BrandId" class="form-control">
-                            <option value="1">Some</option>
-                            <option value="2">SoneOne</option>
+                        <select asp-for="BrandId" class="form-control" asp-items="@brandDDL">
+                            <option value="0">Select Brand</option>
                         </select>
                     </div>
                 </div>

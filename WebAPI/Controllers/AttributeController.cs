@@ -40,5 +40,10 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Attribute/GetAttributeDDL")]
+        public async Task<IActionResult> GetAttributeDDL()
+        {
+            return Ok(await _attr.GetAttributeDDL());
+        }
     }
 }
