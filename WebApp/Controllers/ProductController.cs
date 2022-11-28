@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using WebApp.AppCode.Attributes;
 using WebApp.Middleware;
 using WebApp.Models;
 using WebApp.Models.ViewModels;
@@ -111,13 +112,17 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAttributes()
+        public async Task<IActionResult> AddAttributes(string combinationId)
         {
-            var model = new ViewVariantCombinationModel();
-            model.Attributes = await DDLHelper.O.GetAttributeDDL(GetToken(),_apiBaseURL);
+            var model = new ViewVariantCombinationModel
+            {
+                CombinationId = combinationId,
+                Attributes  = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
+            };
             return PartialView("Partials/_AddAttributes", model);
         }
         [HttpPost]
+        [ValidateAjax]
         public async Task<IActionResult> SaveVariants(VariantCombination model)
         {
             var response = new Response();

@@ -74,7 +74,7 @@
                     </button>
                 </div>
             </div>
-            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" id="ProductId" asp-for="ProductId" />
             @*Attribute Starts*@
             <div id="AttributeView">
                 <div class="card card-secondary card-outline" data-card-name="product-info" data-hideattribute="ProductPage.HideInfoBlock" id="product-info">
@@ -94,8 +94,11 @@
                         </div>
                         <attrGroup>
                             <div class="row">
-                                <h4>Combination-1</h4>
-                                <hr />
+                                <h4 class="col-sm-12">
+                                    Combination-1
+                                    <hr />
+                                </h4>
+
                                 @Html.Partial("Partials/_AddAttributeGroup")
                             </div>
                         </attrGroup>
@@ -110,8 +113,9 @@
 @section Scripts{
 
     <script>
-        $(document).on('click', '.btnAddNewAttribute', () => {
-            $.post('/Product/AddAttributes').done((result) => {
+        $(document).on('click', '.btnAddNewAttribute', e => {
+            let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
+            $.post('/Product/AddAttributes', { combinationId }).done((result) => {
                 Q.alert({
                     title: 'Add Attribute',
                     body: result,
@@ -119,67 +123,6 @@
                 });
             })
         })
-
-        $(document).on('click', '#btnAddNewAttr', function () {
-            let AttrCounter = parseInt($('#AttrCounter').val());
-            AttrCounter = AttrCounter + 1;
-            let _html = `<tr>
-                                                                                                                                               <td colspan="4">
-                                                                                                                                                   <div class="form-group row">
-                                                                                                                                                       <div class="col-md-3">
-                                                                                                                                                           <div class="label-wrapper"><label class="col-form-label" for="HSN">HSN</label><div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                                                                                                                                       </div>
-                                                                                                                                                       <div class="col-md-9">
-                                                                                                                                                           <div class="input-group input-group-required">
-                                                                                                                                                                       <input class="form-control text-box single-line" type="text" id="HSN_${AttrCounter}">
-                                                                                                                                                           </div>
-                                                                                                                                                       </div>
-                                                                                                                                                   </div>
-                                                                                                                                                   <div class="form-group row">
-                                                                                                                                                       <div class="col-md-3">
-                                                                                                                                                           <div class="label-wrapper"><label class="col-form-label" for="Price">Price</label><div title="Enter Value for Price" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                                                                                                                                       </div>
-                                                                                                                                                       <div class="col-md-9">
-                                                                                                                                                           <div class="input-group input-group-required">
-                                                                                                                                                                       <input class="form-control text-box single-line" type="text" id="Price_${AttrCounter}">
-                                                                                                                                                           </div>
-                                                                                                                                                       </div>
-                                                                                                                                                   </div>
-                                                                                                                                                   <div class="form-group row">
-                                                                                                                                                       <div class="col-md-3">
-                                                                                                                                                           <div class="label-wrapper"><label class="col-form-label" for="GTIN">Quantity</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                                                                                                                                       </div>
-                                                                                                                                                       <div class="col-md-9">
-                                                                                                                                                           <div class="input-group input-group-required">
-                                                                                                                                                                       <input class="form-control text-box single-line" type="text" id="Quantity_${AttrCounter}">
-                                                                                                                                                           </div>
-                                                                                                                                                       </div>
-                                                                                                                                                   </div>
-                                                                                                                                                   <div class="form-group row">
-                                                                                                                                                       <div class="col-md-3">
-                                                                                                                                                           <div class="label-wrapper"><label class="col-form-label" for="GTIN">GTIN</label><div title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></div></div>
-                                                                                                                                                       </div>
-                                                                                                                                                       <div class="col-md-9">
-                                                                                                                                                           <div class="input-group input-group-required">
-                                                                                                                                                                       <input class="form-control text-box single-line" type="text" id="GTIN_${AttrCounter}">
-                                                                                                                                                           </div>
-                                                                                                                                                       </div>
-                                                                                                                                                   </div>
-                                                                                                                                               </td>
-                                                                                                                                               <td>
-                                                                                                                                                                           <input type="hidden" id="VariantCounter_${AttrCounter}" value="0" />
-                                                                                                                                                   <input type="button" class="btn btn-sm btn-info btnAddNewAttribute" value="Add Variant" />
-                                                                                                                                               </td>
-                                                                                                                                           </tr>`;
-            $('#attributecombinations-grid tr:last').after(_html);
-            $('#AttrCounter').val(AttrCounter);
-        })
-        $('#Attribute_1_1').change(() => {
-            let vals = $('#Attribute_1_1').val();
-            $('#Attribute_1_1').attr('data-attr-Id', vals);
-            $('#Tr_1_1').attr('data-item-id', vals);
-        })
-
     </script>
 
 
@@ -189,50 +132,57 @@
         //});
 
         $(document).on('click', '#SaveProduct', () => {
-            let ProductVariant = [];
-            let ProductVariantGroups = [];
-            let Attrlength = $('#AttrCounter').val();
-            for (let k = 1; k <= Attrlength; k++) {
-                let Productvari = {
-                    Id: k,
-                    HSN: $('#HSN_' + k).val(),
-                    MRP: $('#Price_' + k).val(),
-                    Quantity: $('#Quantity_' + k).val(),
-                    GTIN: $('#GTIN_' + k).val()
+            let groupInfo = [];
+            let attrInfo = [];
+            $('.attrCombination').each(function (i) {
+                let groupId = i + 1;
+                let currentGroup = $(this);
+                //let attrInfo = [];
+                let attributes = currentGroup.find('.attributeGrid tr').each(function (j) {
+                    let cAttr = $(this).data();
+                    if (!$.isEmptyObject(cAttr)) {
+                        let attributes = {
+                            Id: j,
+                            AttributeId: cAttr.attrId,
+                            AttributeValue: cAttr.attrValue,
+                            AllowFiltering: cAttr.filterAllowed,
+                            GroupId: groupId
+                        };
+                        attrInfo.push(attributes);
+                    }
+                });
+                let groupDetail = {
+                    Id: groupId,
+                    HSN: currentGroup.find('[name="HSN"]').val(),
+                    MRP: currentGroup.find('[name="MRP"]').val(),
+                    Quantity: currentGroup.find('[name="Quantity"]').val(),
+                    GTIN: currentGroup.find('[name="Quantity"]').val(),
+                   // attributes : attrInfo
                 };
-                ProductVariant.push(Productvari);
-                let Variantlength = $('#VariantCounter_' + k).val();
-                for (let i = 1; i <= Variantlength; i++) {
-                    let combination = {
-                        Id: k,
-                        ProductId: $('#ProductId').val(),
-                        AttributeId: $('#Attribute_' + k + '_' + i).data().attrId,
-                        AttributeValue: $('#Value_' + k + '_' + i).val(),
-                        AllowFiltering: $('#isFiltering_' + k + '_' + i).is(':checked'),
-                        ShowOnProductPage: $('#isShow_' + k + '_' + i).is(':checked'),
-                    };
-                    ProductVariantGroups.push(combination);
-                }
-            }
+                groupInfo.push(groupDetail);
+            });
             let param = {
-                ProductVariant: ProductVariant,
-                ProductVariantGroups: ProductVariantGroups
+                ProductId: $('#ProductId').val(),
+                ProductVariant: attrInfo,
+                ProductVariantGroups: groupInfo
             };
             console.log('Param :', param);
             $.post('/Product/SaveVariants', param).done((result) => {
                 Q.notify(result.statusCode, result.responseText);
             })
-
-
         })
 
         $('#btnNewAttrGroup').click(function () {
             $.get("/Product/AddAttributeGroup").done(result => {
                 let _count = $('.attrCombination').length;
-                $('attrGroup').append(`<h4>Combination-${_count + 1}</h4><hr />`).append(result)
+                $('attrGroup')
+                    .append(`<div class="row"><h4 class="col-sm-12">Combination-${_count + 1}<span class="float-right text-danger fa fa-times rmComb"></span>  <hr /></h4>${result}</div>`);
+                $('.rmComb').click(e => {
+                    $(e.currentTarget).parents('div.row').remove();
+                });
             }).fail(xhr => console.log(xhr.responseText));
         });
     </script>
 
 
-}
+ }
