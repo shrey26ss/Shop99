@@ -57,8 +57,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> GetProductSectionView(int Id = 0)
         {
             var model = new ProductViewModel();
-            model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(),_apiBaseURL);
-            model.Brands = await DDLHelper.O.GetBrandsDDL(GetToken(),_apiBaseURL);
+            model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
+            model.Brands = await DDLHelper.O.GetBrandsDDL(GetToken(), _apiBaseURL);
             return PartialView("Partials/_Product", model);
         }
 
@@ -105,7 +105,7 @@ namespace WebApp.Controllers
         {
             return PartialView("Partials/_Variants");
         }
-        
+
         public async Task<IActionResult> AddAttributeGroup()
         {
             return PartialView("Partials/_AddAttributeGroup");
@@ -123,9 +123,34 @@ namespace WebApp.Controllers
         }
         [HttpPost]
         [ValidateAjax]
-        public async Task<IActionResult> SaveVariants(List<IFormFile> file, string jsonObj)
+        public async Task<IActionResult> SaveVariants(List<PictureInformationReq> req, string jsonObj)
         {
+            List<PictureInformation> ImageInfo = new List<PictureInformation>();
+            if (req!=null && req.Any())
+            {
+                foreach (var item in req)
+                {
+                    string fileName = DateTime.Now.ToString("ddMMyyyyhhmmssmmm");
+                    Utility.O.UploadFile(new FileUploadModel
+                    {
+                        file = item.file,
+                        FileName = fileName,
+                        FilePath = FileDirectories.ProductVariant,
+                        IsThumbnailRequired = true,
+                    });
+                    ImageInfo.Add(new PictureInformation
+                    {
+                        Title = item.Title,
+                        Alt = item.Alt,
+                        Color = item.Color,
+                        DisplayOrder = item.DisplayOrder,
+                        GroupId = item.GroupId,
+                        ImagePath = string.Concat("hhtps://yourdomain.com/", FileDirectories.ProductSuffix, fileName)
+                    });
+                }
+            }
             var model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj);
+            model.PictureInfo=ImageInfo;
             var response = new Response();
             try
             {

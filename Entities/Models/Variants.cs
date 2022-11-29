@@ -30,7 +30,7 @@ namespace Entities.Models
         public int DisplayOrder { get; set; }    
         public string Title { get; set; }    
         public string Alt { get; set; }    
-        public string ImagePath { get; set; }    
+        public string ImagePath { get; set; }
     }
     public class VariantCombination
     {

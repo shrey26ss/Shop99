@@ -72,9 +72,12 @@
                         <td><span class="btn btn-danger rmRow"><i class="fa fa-times"></i><span></td>
                      </tr>`;
         attributeGrid.append(_html);
-        console.log('param', param);
         if (param.AttributeId == "1" || param.AttributeText == "Color"){
-            let _option = `<option value=${param.AttrValue}>${param.AttrValue}</option>`;
+            if ($('#attrColor option[value="Default"]').index()==0){
+                $('#attrColor option[value="Default"]').remove();
+            }
+            groupId = $('.attrCombination').length;
+            let _option = `<option value="${param.AttrValue}" data-group-Id="${groupId}">${param.AttrValue}</option>`;
             $('#attrColor').append(_option);
         }
     });
