@@ -15,7 +15,7 @@ namespace AppUtility.Helper
     public class FileDirectories
     {
         public const string CategorySuffix = "Image/Category/";
-        public const string ProductSuffix = "Image/Product/";
+        public const string ProductSuffix = "Image/Product/{0}/";
         public static string Receipt = "wwwroot/receipt/";
         public static string Thumbnail = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Thumbnail/");
         public static string Category = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{CategorySuffix}");

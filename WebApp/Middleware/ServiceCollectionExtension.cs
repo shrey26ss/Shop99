@@ -16,6 +16,7 @@ using Infrastructure.Repos;
 using Infrastructure.Interface;
 using Service.Repos;
 using WebApp.Models;
+using WebApp.AppCode.Extension;
 
 namespace WebApp.Middleware
 {
@@ -62,6 +63,7 @@ namespace WebApp.Middleware
             AppSettings appSettings = new AppSettings();
             configuration.Bind(appSettings);
             services.AddSingleton(appSettings);
+            services.ConfigureDictionary<ImageSize>(configuration.GetSection("ImageSize"));
         }
     }
 }
