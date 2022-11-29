@@ -23,6 +23,15 @@ namespace Entities.Models
         public int GroupId { get; set; }    
 
     }
+    public class PictureInformation
+    {
+        public int GroupId { get; set; }
+        public string Color { get; set; }    
+        public int DisplayOrder { get; set; }    
+        public string Title { get; set; }    
+        public string Alt { get; set; }    
+        public string ImagePath { get; set; }    
+    }
     public class VariantCombination
     {
         public int ProductId { get; set; }
@@ -30,6 +39,7 @@ namespace Entities.Models
         public List<AttributeInfo> AttributeInfo { get; set; }
         [Required(ErrorMessage = "Please add atleaste one variant")]
         public List<VariantGroup> GroupInfo { get; set; }
+        public List<PictureInformation> PictureInfo { get; set; }
     }
     public class ViewVariantCombinationModel : VariantCombination
     {

@@ -80,9 +80,37 @@
 </section>
 
 
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <input type="hidden" id="ProductId" asp-for="ProductId" />
+            <div id="AttributeView">
+                <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
+                    <div class="card-header with-border clearfix">
+                        <div class="card-title">
+                            <i class="fas fa-info"></i>Pictures
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <attrGroup>
+                            <div class="row">
+                                @Html.Partial("Partials/_AddPictures")
+                            </div>
+                        </attrGroup>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 @section Scripts{
 
     <script>
+
+        newFileList = [];
         $(document).on('click', '.btnAddNewAttribute', e => {
             let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
             $.post('/Product/AddAttributes', { combinationId }).done((result) => {
@@ -97,6 +125,7 @@
         $(document).on('click', '#SaveProduct', () => {
             let groupInfo = [];
             let attrInfo = [];
+            let pictureInfo = [];
             $('.attrCombination').each(function (i) {
                 let groupId = i + 1;
                 let currentGroup = $(this);
@@ -124,15 +153,56 @@
                 };
                 groupInfo.push(groupDetail);
             });
+
+            $('.pictureGrid tbody tr').each(function (i) {
+                console.log(this);
+                let pictureGroup = $(this).data();
+
+                let pic = {
+                    Alt: pictureGroup.altValue,
+                    Title: pictureGroup.titleValue,
+                    DisplayOrder: pictureGroup.displayValue,
+                    AttrColor: pictureGroup.colorValue
+                }
+                pictureInfo.push(pic);
+            });
             let param = {
                 ProductId: parseInt($('#ProductId').val()),
                 AttributeInfo: attrInfo,
-                GroupInfo: groupInfo
+                GroupInfo: groupInfo,
+                PictureInfo: pictureInfo
             };
+            formData = new FormData();
+            for (let i = 0; i < this.newFileList.length; i++) {
+                formData.append('file', this.newFileList[i]);
+            }
+            formData.append('jsonObj', JSON.stringify(param));
+           
+           
+            
             console.log('Param :', param);
-            $.post('/Product/SaveVariants', param).done((result) => {
-                Q.notify(result.statusCode, result.responseText);
-            })
+            //$.post('/Product/SaveVariants', param).done((result) => {
+            //    Q.notify(result.statusCode, result.responseText);
+            //})
+
+
+            //const formData = new FormData();
+            //var fileInputElement = $('#PictureFile')[0].files[0];
+            //formData.append("File", fileInputElement);
+            //formData.append("stringObj", fileInputElement);
+
+            $.ajax({
+                url: '/Product/SaveVariants',
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    Q.notify(1, response.msg)
+                }
+            });
+
         })
 
         $('#btnNewAttrGroup').click(function () {
@@ -140,6 +210,7 @@
                 let _count = $('.attrCombination').length;
                 $('attrGroup')
                     .append(`<div class="row"><h4 class="col-sm-12">Combination-${_count + 1}<button class="btn btn-primary btnCloneAttrGroup float-right">Clone Group</button><span class="float-right text-danger fa fa-times rmComb"></span>  <hr /></h4>${result}</div>`);
+
             }).fail(xhr => console.log(xhr.responseText));
         });
 
@@ -150,11 +221,39 @@
             $('.rmRow').click(e => $(e.currentTarget).closest('tr').remove());
         })
 
-        $(document).on('click', '.btnCloneAttrGroup',e =>{
+        $(document).on('click', '.btnCloneAttrGroup', e => {
             let __html = $(e.currentTarget).parents('.row').find('.attrCombination').html();
             let _count = $('.attrCombination').length;
             $('attrGroup')
                 .append(`<div class="row"><h4 class="col-sm-12">Combination-${_count + 1}<button class="btn btn-primary btnCloneAttrGroup float-right">Clone Group</button><span class="float-right text-danger fa fa-times rmComb"></span>  <hr /></h4><div class="col-md-12 attrCombination" id="clone_${_count}">${__html}</div></div>`);
         });
+
+
+
+        $(document).on('click', '#AddProductImg', () => {
+            let param = {
+                File: $('#PictureFile')[0].files[0],
+                Alt: $('#Alt').val(),
+                Title: $('#Title').val(),
+                DisplayOrder: $('#DisplayOrder').val(),
+                AttrColor: $("#attrColor option:selected").text()
+            };
+            let count = $('.pictureGrid tr').length;
+            this.newFileList.push($('#PictureFile')[0].files[0]);
+            let _html = `<tr data-alt-value="${param.Alt}", data-title-value="${param.Title}", data-display-value="${param.DisplayOrder}", data-color-value="${param.AttrColor}">
+                                    <td>${count}</td>
+                                    <td><img id="blah_${count}" src="#" alt="image" /></td>
+                                    <td>${param.DisplayOrder}</td>
+                                    <td>${param.Alt}</td>
+                                    <td>${param.Title}</td>
+                                    <td><span class="btn btn-danger rmRow" > <i class="fa fa-times" > </i><span></td>
+                                </tr>`;
+            let pictureGrid = $(`.pictureGrid`);
+            let blah = $(`#blah_${count}`);
+            blah.src = URL.createObjectURL(param.File);
+            pictureGrid.append(_html);
+        });
+
+
     </script>
  }

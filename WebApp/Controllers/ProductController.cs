@@ -123,8 +123,9 @@ namespace WebApp.Controllers
         }
         [HttpPost]
         [ValidateAjax]
-        public async Task<IActionResult> SaveVariants(VariantCombination model)
+        public async Task<IActionResult> SaveVariants(List<IFormFile> file, string jsonObj)
         {
+            var model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj);
             var response = new Response();
             try
             {

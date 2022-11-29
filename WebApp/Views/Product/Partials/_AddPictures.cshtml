@@ -1,0 +1,95 @@
+﻿<div class="col-md-12 attrCombination" id="@DateTime.Now.ToString("ddMMyyyyhhmmssmmm")">
+    <table class="table table-bordered table-hover table-striped pictureGrid">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-nowrap">Picture</th>
+                <th class="text-nowrap">Display Order</th>
+                <th class="text-nowrap">Alt</th>
+                <th class="text-nowrap">Title</th>
+                <th class="text-nowrap">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="Price">Picture</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <img src="~/images/static/no-image.png">
+                <input class="text-box single-line" type="file" accept=".jpg,jpeg" id="PictureFile" name="PictureFile">
+                <input type="button" class="btn btn-sm btn-success" value="Upload File" onclick="$('#PictureFile').click()" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="Alt">Alt</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="Alt" name="Alt">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="Title">Title</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="Title" name="Title">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="Displayorder">Display order</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="number" id="DisplayOrder" name="DisplayOrder">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="Displayorder">Colors</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <select class="form-control text-box single-line" id="attrColor">
+                    <option value="">Select Color</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="btn btn-sm btn-success" type="button" id="AddProductImg" value="Add Product Image">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
