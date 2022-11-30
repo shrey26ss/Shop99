@@ -194,7 +194,7 @@ namespace WebApp.Controllers
                                         Color = item.Color,
                                         DisplayOrder = item.DisplayOrder,
                                         GroupId = item.GroupId,
-                                        ImagePath = string.Concat("hhtps://yourdomain.com/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
+                                        ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
                                     });
                                 }
                             }
