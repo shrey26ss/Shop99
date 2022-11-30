@@ -70,7 +70,7 @@ namespace WebApp.Controllers
                     brands = deserializeObject.Result.FirstOrDefault();
                 }
             }
-            return View(brands);
+            return PartialView(brands);
         }
 
         // POST: BrandController/Create

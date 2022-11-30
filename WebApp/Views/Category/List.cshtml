@@ -9,8 +9,10 @@
         <tr>           
             <td>@i</td>
             <td>@item.CategoryName</td>
+            <td>@item.ParentName</td>
             <td>@item.IsPublish</td>
             <td>@item.Icon</td>
+            <td><input type="button" value="Edit" onclick="AddCategory('@item.CategoryId')" class="btn btn-sm btn-success"></td>
         </tr>
     }
 }

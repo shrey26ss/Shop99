@@ -30,19 +30,18 @@ namespace Service.Attribute
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Attributes Set Name=@Name,Value=@Value,ModifyOn=GETDATE(),Ind=@Ind where Id = @Id";
+                    sqlQuery = @"Update Attributes Set Name=@Name,ModifyOn=GETDATE(),Ind=@Ind where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Attributes (Name,Value,EntryOn,Ind) values(@Name,@Value,GETDATE(),@Ind)";
+                    sqlQuery = @"Insert into Attributes (Name,EntryOn,ModifyOn,Ind) values(@Name,GETDATE(),GETDATE(),@Ind)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     request.Ind,
                     request.RoleId,
                     request.Data.Name,
-                    request.Data.Id,
-                    request.Data.Value
+                    request.Data.Id
                 }, CommandType.Text);
                 if (i > -1 && i < 100)
                 {
@@ -67,7 +66,7 @@ namespace Service.Attribute
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select * from Attributes(nolock) where Id = @Id and EntryBy = @LoginId";
+                    sp = @"Select * from Attributes(nolock) where Id = @Id";
                     res.Result = await _dapper.GetAllAsync<Attributes>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else

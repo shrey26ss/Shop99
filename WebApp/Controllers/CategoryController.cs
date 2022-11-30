@@ -10,13 +10,13 @@ using Service.API;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.Models;
-using AppUtility.APIRequest;
 using System.Collections.Generic;
 using System.Linq;
 using WebApp.Middleware;
 using System;
 using Entities.Enums;
 using AppUtility.Helper;
+using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -62,17 +62,18 @@ namespace WebApp.Controllers
         // GET: CategoryController/Create
         public async Task<IActionResult> Create(int Id = 0)
         {
-            Category category = new Category();
+            var category = new CategoryViewModel();
             if (Id != 0)
             {
                 string _token = User.GetLoggedInUserToken();
                 var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response<List<Category>>>(categoryrRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<List<CategoryViewModel>>>(categoryrRes.Result);
                     category = deserializeObject.Result.FirstOrDefault();
                 }
             }
+            category.categoryDDLs = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
             return PartialView(category);
         }
 
@@ -128,6 +129,10 @@ namespace WebApp.Controllers
             {
                 return View();
             }
+        }
+        private string GetToken()
+        {
+            return User.GetLoggedInUserToken();
         }
     }
 }

@@ -1,1 +1,24 @@
-﻿<h1>Vendor Dashboard</h1>
+﻿@model bool
+@if(Model == true){
+
+}
+else{
+    @section scripts{
+            <script>
+            $(() => {
+            alert(1);
+                AddNewItem();
+            })
+            var AddNewItem = function () {
+                $.get('/Vendor/VendorDetails').done((result) => {
+                    Q.alert({
+                        title: 'Vendor Details',
+                        body: result,
+                        width: 800
+                    });
+                })
+            };
+        </script>
+    }
+    
+}

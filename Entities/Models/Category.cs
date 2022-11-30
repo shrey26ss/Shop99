@@ -8,6 +8,7 @@ namespace Entities.Models
     public class Category : CategoryDDL
     {
         public int ParentId { get; set; }
+        public string ParentName { get; set; }
         public bool IsPublish { get; set; }
         public string Icon { get; set; }
     }

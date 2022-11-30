@@ -1,7 +1,10 @@
-﻿@using Entities.Models;
+﻿@using WebApp.Models.ViewModels;
 
-@model Category
 
+@model CategoryViewModel
+@{
+    var ddl = new SelectList(Model.categoryDDLs, "Id", "Name");
+}
 <form asp-action="Create" method="Post">
     
         <div class="card-body">
@@ -29,7 +32,7 @@
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <select class="form-control" asp-for="ParentId">
+                        <select class="form-control" asp-for="ParentId" asp-items="@ddl">
                                 <option value="0">Parent</option>
                             </select>
                         </div>
