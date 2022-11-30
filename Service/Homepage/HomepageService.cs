@@ -1,5 +1,6 @@
 ﻿using Data;
 using Entities.Enums;
+using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using Service.Models;
@@ -20,16 +21,15 @@ namespace Service.Homepage
             _logger = logger;
         }
 
-        public async Task<IResponse<IEnumerable<IProductResponse>>> GetProductByCategory(IProductRequest<int> productRequest)
+        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProductByCategory(ProductRequest<int> productRequest)
         {
-            IResponse<IEnumerable<IProductResponse>> res = new Response<IEnumerable<IProductResponse>>();
+            var res = new Response<IEnumerable<ProductResponse>>();
             try
             {
-                int i = -5;
-                string sqlQuery = @"Select vg.ProductId ProductID,vg.Id VariantID,vg.PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
             inner join VariantGroup vg on vg.ProductId = p.Id 
             where p.CategoryId = @MoreFilters and vg.IsShowOnHome=1 ";
-                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
@@ -41,32 +41,32 @@ namespace Service.Homepage
             return res;
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse>>> GetRandomProduct(IProductRequest productRequest)
+        public Task<IResponse<IEnumerable<ProductResponse>>> GetRandomProduct(ProductRequest productRequest)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse>>> GetNewArrivals(IProductRequest productRequest)
+        public Task<IResponse<IEnumerable<ProductResponse>>> GetNewArrivals(ProductRequest productRequest)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse>>> GetFeaturedProduct(IProductRequest productRequest)
+        public Task<IResponse<IEnumerable<ProductResponse>>> GetFeaturedProduct(ProductRequest productRequest)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse>>> GetBestSellerProduct(IProductRequest productRequest)
+        public Task<IResponse<IEnumerable<ProductResponse>>> GetBestSellerProduct(ProductRequest productRequest)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse>>> GetOnSaleProducts(IProductRequest productRequest)
+        public Task<IResponse<IEnumerable<ProductResponse>>> GetOnSaleProducts(ProductRequest productRequest)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse<IHotDealsResponse>>>> GetHotDeals(IProductRequest productRequest)
+        public Task<IResponse<IEnumerable<ProductResponse<HotDealsResponse>>>> GetHotDeals(ProductRequest productRequest)
         {
             throw new NotImplementedException();
         }

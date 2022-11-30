@@ -1,10 +1,6 @@
-﻿
-
-using Infrastructure.Interface;
-
-namespace Service.Models
+﻿namespace Entities.Models
 {
-    public class ProductResponse : IProductResponse
+    public class ProductResponse
     {
         public string ImagePath { get; set; }
         public decimal MRP { get; set; }
@@ -17,17 +13,23 @@ namespace Service.Models
         public int VariantID { get; set; }
     }
 
-    public class ProductResponse<T> : ProductResponse, IProductResponse<T>
+    public class ProductResponse<T> : ProductResponse
     {
-        T IProductResponse<T>.MoreDetails { get ; set; }
+        public T MoreDetails { get ; set; }
+        
     }
-    public class ProductRequest : IProductRequest
+    public class ProductRequest 
     {
         public string OrderBy { get; set; }
         public int Top { get; set; }
     }
-    public class ProductRequest<T> : ProductRequest, IProductRequest<T>
+    public class ProductRequest<T> : ProductRequest
     {
-        T IProductRequest<T>.MoreFilters { get; set; }
+        public T MoreFilters { get; set; }
+    }
+    public class HotDealsResponse
+    {
+        public string Description { get; set; }
+        public string DealEndsOn { get; set; }
     }
 }
