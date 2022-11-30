@@ -15,6 +15,7 @@ using WebApp.Middleware;
 using WebApp.Models;
 using AppUtility.APIRequest;
 using Service.Models;
+using System;
 
 namespace WebApp.Controllers
 {
@@ -58,7 +59,7 @@ namespace WebApp.Controllers
         }
 
         // GET: BrandController/Create
-        public async Task<ActionResult> Create( int Id=0)
+        public async Task<ActionResult> Create(int Id = 0)
         {
             Brands brands = new Brands();
             if (Id != 0)
@@ -78,27 +79,23 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Brands brands, IFormFile Icon)
         {
-            Brands response = new Brands();      
+            var response = new Response();
             try
             {
                 string _token = User.GetLoggedInUserToken();
                 var body = JsonConvert.SerializeObject(brands);
                 var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/AddUpdate", body, _token);
-               
-                 
-
-            
-            if (brandRes.HttpStatusCode == HttpStatusCode.OK)
+                if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Brands>(brandRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(brandRes.Result);
                     response = deserializeObject;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                response.ResponseText = ex.Message;
             }
-            return PartialView(response);
+            return Ok(response);
 
         }
 

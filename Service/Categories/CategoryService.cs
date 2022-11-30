@@ -80,12 +80,12 @@ namespace Service.Categories
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select c.*,p.CategoryName as ParentName from Category(nolock) c inner join Category(nolock) p on p.ParentId = c.CategoryId where c.CategoryId = @Id";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId where c.CategoryId = @Id";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select c.*,p.CategoryName as ParentName from Category(nolock) c inner join Category(nolock) p on p.ParentId = c.CategoryId order by c.Ind";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
