@@ -23,6 +23,7 @@ using Service.Variant;
 using Service.Vendor;
 using Service.TopBanners;
 using Service.TopLowerBanners;
+using Service.Homepage;
 
 namespace WebAPI.Middleware
 {
@@ -56,6 +57,7 @@ namespace WebAPI.Middleware
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
+            services.AddScoped<IHomepageService, HomepageService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
