@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         private readonly IProducts _products;
 

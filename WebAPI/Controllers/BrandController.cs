@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
-    public class BrandController : Controller
+    public class BrandController : ControllerBase
     {
         private readonly IBrands _brand;
 

@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
-    public class AttributeController : Controller
+    public class AttributeController : ControllerBase
     {
         private readonly IAttributes _attr;
 

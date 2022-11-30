@@ -4,7 +4,7 @@
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <link href="~/css/productedit.head.styles.css" rel="stylesheet" />   
+    <link href="~/css/productedit.head.styles.css" rel="stylesheet" />
     <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
 </head>
 <body class="sidebar-mini layout-fixed control-sidebar-slide-open basic-settings-mode" style="height: auto;">
@@ -113,34 +113,28 @@
                                                     <p> Categories</p>
                                                 </a>
                                             </li>
-                                                <li class="nav-item">
+                                            <li class="nav-item">
                                                 <a href="/Brand" class="nav-link">
                                                     <i class="nav-icon far fa-dot-circle"></i>
                                                     <p> Brand</p>
                                                 </a>
                                             </li>
-                                                <li class="nav-item">
+                                            <li class="nav-item">
                                                 <a href="/Attribute" class="nav-link">
                                                     <i class="nav-icon far fa-dot-circle"></i>
                                                     <p> Attribute</p>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="/Admin/Manufacturer/List" class="nav-link">
+                                                <a href="/TopBanner/Index" class="nav-link">
                                                     <i class="nav-icon far fa-dot-circle"></i>
-                                                    <p> Manufacturers</p>
+                                                    <p> Top Banner</p>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="/Admin/ProductReview/List" class="nav-link">
+                                                <a href="/TopLowerBanner/Index" class="nav-link">
                                                     <i class="nav-icon far fa-dot-circle"></i>
-                                                    <p> Product reviews</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="/Admin/Product/ProductTags" class="nav-link">
-                                                    <i class="nav-icon far fa-dot-circle"></i>
-                                                    <p> Product tags</p>
+                                                    <p> Top Lower Banner</p>
                                                 </a>
                                             </li>
                                             <li class="nav-item has-treeview">
@@ -824,16 +818,16 @@
         <div id="sidebar-overlay"></div>
     </div>
 
-     <script src="~/build/bundlejs.js"></script>
-     <script>
-         $(document).ready(function(){
-             $('.has-treeview').click(e=>{
+    <script src="~/build/bundlejs.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.has-treeview').click(e => {
                 let tree = $(e.currentTarget);
-                 tree.toggleClass('.menu-open');
+                tree.toggleClass('.menu-open');
                 tree.find('.nav-treeview').toggle();
-             })
-         })
-     </script>
+            })
+        })
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

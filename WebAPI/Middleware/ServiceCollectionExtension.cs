@@ -21,6 +21,8 @@ using Service.Attribute;
 using Service.Product;
 using Service.Variant;
 using Service.Vendor;
+using Service.TopBanners;
+using Service.TopLowerBanners;
 
 namespace WebAPI.Middleware
 {
@@ -49,6 +51,8 @@ namespace WebAPI.Middleware
             services.AddScoped<IProducts, ProductService>();
             services.AddScoped<IVariant, VariantService>();
             services.AddScoped<IVendor, VendorService>();
+            services.AddScoped<ITopBanner, TopBannerService>();
+            services.AddScoped<ITopLowerBanner, TopLowerBannerService>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
