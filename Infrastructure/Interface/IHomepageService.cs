@@ -5,13 +5,13 @@ namespace Infrastructure.Interface
 {
     public interface IHomepageService
     {
-        Task<IResponse<List<IProductResponse>>> GetProductByCategory(IProductRequest<int> productRequest);
-        Task<IResponse<List<IProductResponse>>> GetRandomProduct(IProductRequest productRequest);
-        Task<IResponse<List<IProductResponse>>> GetNewArrivals(IProductRequest productRequest);
-        Task<IResponse<List<IProductResponse>>> GetFeaturedProduct(IProductRequest productRequest);
-        Task<IResponse<List<IProductResponse>>> GetBestSellerProduct(IProductRequest productRequest);
-        Task<IResponse<List<IProductResponse>>> GetOnSaleProducts(IProductRequest productRequest);
-        Task<IResponse<List<IProductResponse<IHotDealsResponse>>>> GetHotDeals(IProductRequest productRequest);
+        Task<IResponse<IEnumerable<IProductResponse>>> GetProductByCategory(IProductRequest<int> productRequest);
+        Task<IResponse<IEnumerable<IProductResponse>>> GetRandomProduct(IProductRequest productRequest);
+        Task<IResponse<IEnumerable<IProductResponse>>> GetNewArrivals(IProductRequest productRequest);
+        Task<IResponse<IEnumerable<IProductResponse>>> GetFeaturedProduct(IProductRequest productRequest);
+        Task<IResponse<IEnumerable<IProductResponse>>> GetBestSellerProduct(IProductRequest productRequest);
+        Task<IResponse<IEnumerable<IProductResponse>>> GetOnSaleProducts(IProductRequest productRequest);
+        Task<IResponse<IEnumerable<IProductResponse<IHotDealsResponse>>>> GetHotDeals(IProductRequest productRequest);
         //IProductResponse GetTopBanners(IProductRequest productRequest);
         //IProductResponse GetTopLowerBanners();
     }
