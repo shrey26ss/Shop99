@@ -1,7 +1,7 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Extensions;
-using Entities.Enums;
 using Entities.Models;
+using Entities.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
