@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Text;
 
-namespace Entities.Entity
+namespace Entities.Models
 {
     public class Register : Response
     {

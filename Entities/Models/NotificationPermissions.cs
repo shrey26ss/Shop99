@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Entity
+namespace Entities.Models
 {
     public class NotificationPermissions
     {

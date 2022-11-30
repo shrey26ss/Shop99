@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Entities.Entity
+namespace Entities.Models
 {
     public class BrandCategoryMapping
     {

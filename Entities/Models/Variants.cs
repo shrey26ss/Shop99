@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Entities.Entity
+namespace Entities.Models
 {
     public class VariantGroup
     {
