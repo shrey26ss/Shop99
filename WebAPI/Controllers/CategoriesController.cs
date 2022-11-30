@@ -45,6 +45,7 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [AllowAnonymous]
         [Route("Category/GetMenu")]
         public async Task<IActionResult> GetMenu()
         {

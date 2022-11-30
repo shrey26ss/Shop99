@@ -10,6 +10,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\assets\js\bootstrap-notify.min.js" />
+    <None Include="wwwroot\assets\js\bootstrap.js" />
+    <None Include="wwwroot\assets\js\captcha.js" />
+    <None Include="wwwroot\assets\js\checkout.js" />
+    <None Include="wwwroot\assets\js\feather-icon.js" />
+    <None Include="wwwroot\assets\js\feather.min.js" />
+    <None Include="wwwroot\assets\js\ion.rangeSlider.js" />
+    <None Include="wwwroot\assets\js\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\assets\js\jquery.elevatezoom.js" />
+    <None Include="wwwroot\assets\js\menu.js" />
+    <None Include="wwwroot\assets\js\modal.js" />
+    <None Include="wwwroot\assets\js\order-tracking.js" />
+    <None Include="wwwroot\assets\js\popper.min.js" />
+    <None Include="wwwroot\assets\js\rangeslidermain.js" />
+    <None Include="wwwroot\assets\js\script.js" />
+    <None Include="wwwroot\assets\js\slick.js" />
+    <None Include="wwwroot\assets\js\timer1.js" />
+    <None Include="wwwroot\assets\js\timer2.js" />
+    <None Include="wwwroot\assets\js\tippy-bundle.iife.min.js" />
+    <None Include="wwwroot\assets\js\tippy-popper.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.30" />
     <PackageReference Include="Hangfire" Version="1.7.31" />

@@ -1,0 +1,56 @@
+﻿@using Data.Models
+@using Entities.Enums
+@using Entities.Models
+@model Response<List<MenuItem>>
+
+@if (Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result != null && Model.Result.Any())
+{
+    var menus = Model.Result;
+    @foreach (var item in menus)
+    {
+        <li class="mega">
+
+            <a class="dark-menu-item" href="javascript:void(0)">@item.CategoryName</a>
+            @if (@item.ChildNode != null && @item.ChildNode.Any())
+            {
+                <ul class="mega-menu full-mega-menu ratio_landscape">
+                    <li>
+                        <div class="container">
+                            <div class="row">
+                                @foreach (var child in @item.ChildNode)
+                                {
+
+
+
+                                    <div class="col mega-box">
+                                        <div class="link-section">
+                                            <div class="menu-title">
+                                                <h5>@child.CategoryName</h5>
+                                            </div>
+                                            <div class="menu-content">
+                                                <ul>
+                                                    @foreach (var child2 in child.ChildNode)
+                                                    {
+                                                        <li><a href="grid-2-col.html">@child2.CategoryName</a></li>
+                                                        <ul>
+                                                            <li><a href="category-page(left-sidebar).html"></a></li>
+                                                        </ul>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                }
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            }
+
+        </li>
+    }
+
+}
