@@ -7,8 +7,8 @@ namespace Entities.Models
 {
     public class Brands : BrandsDDL
     {
-        public string Description { get; set; }
-        public string Icon { get; set; }
+        //public string Description { get; set; }
+        //public string Icon { get; set; }
     }
     public class BrandsDDL
     {

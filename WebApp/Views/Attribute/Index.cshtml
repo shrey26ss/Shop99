@@ -19,7 +19,7 @@
                             <tr role="row" style="" class="">
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Value</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -42,7 +42,6 @@
             let request = {
                 Id: 0
             };
-
             $.post('/Attribute/List', request).done(function (result) {
                 $('#Grid tbody').html(result);
             }).fail(function (xhr) {
@@ -50,11 +49,9 @@
                 alert('something went wrong');
             })
         };
-
-
         var AddAttribute = function (Id) {
-            $.post('/Attribute/Create', { Id: Id })
-            .done(result => {
+            $.get('/Attribute/Create', { Id: Id })
+                .done(result => {
                     Q.alert({
                         title: 'Attribute',
                         body: result
@@ -62,4 +59,4 @@
                 }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
         };
     </script>
-        }
+}

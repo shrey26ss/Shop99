@@ -7,7 +7,6 @@ namespace Entities.Models
 {
     public class Attributes : AttributesDDL
     {
-        public string Value { get; set; } 
     }
     public class AttributesDDL
     {

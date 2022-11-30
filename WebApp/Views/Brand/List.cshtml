@@ -9,8 +9,7 @@
         <tr>    
             <td>@i</td>
             <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@item.Icon</td>
+            <td><input type="button" value="Edit" class="btn btn-sm btn-success" onclick="AddBrand('@item.Id')" /></td>
         </tr>
 
     }
@@ -18,6 +17,6 @@
 else
 {
     <tr>
-        <td colspan="4">No Data Found</td>
+        <td colspan="3">No Data Found</td>
     </tr>
 }

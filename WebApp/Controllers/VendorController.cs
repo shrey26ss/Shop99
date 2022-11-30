@@ -2,6 +2,7 @@
 using AutoMapper;
 using Entities.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,19 +18,22 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebApp.Middleware;
 using WebApp.Models;
+using static Dapper.SqlMapper;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "3")]
     public class VendorController : Controller
     {
 
         private string _apiBaseURL;
-        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings)
+        private readonly SignInManager<Service.Identity.ApplicationUser> _signInManager;
+        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<Service.Identity.ApplicationUser> signInManager)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
+            _signInManager = signInManager;
         }
         // GET: VendorController
+        [Authorize(Roles = "3")]
         public async Task<IActionResult> Index()
         {
             bool isValidvendor = true;
@@ -41,27 +45,29 @@ namespace WebApp.Controllers
                 if (deserializeObject.Result == false)
                 {
                     isValidvendor = false;
-                    //var role = User.GetLoggedInUserRoles();
-                    //var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
-                    //identity.RemoveClaim(new Claim(ClaimTypes.Role, User.GetLoggedInUserRoles()));
-                    //var role2 = User.GetLoggedInUserRoles();
-                    return RedirectToAction("VendorDetails");
+                    var Identity = HttpContext.User.Identity as ClaimsIdentity;
+                    Identity.RemoveClaim(Identity.FindFirst(ClaimTypes.Role));
+                    Identity.AddClaim(new Claim(ClaimTypes.Role, "0"));
+                    await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,new ClaimsPrincipal(Identity));
                 }
             }
             return View(isValidvendor);
         }
+        [Authorize(Roles ="0")]
         public IActionResult VendorDetails()
         {
-            return View();
+            return PartialView("PartialView/_VendorDetails");
         }
 
         // GET: VendorController/Create
+        [Authorize(Roles = "3")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: VendorController/Create
+        [Authorize(Roles = "3")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -77,12 +83,14 @@ namespace WebApp.Controllers
         }
 
         // GET: VendorController/Delete/5
+        [Authorize(Roles = "3")]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
         // POST: VendorController/Delete/5
+        [Authorize(Roles = "3")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

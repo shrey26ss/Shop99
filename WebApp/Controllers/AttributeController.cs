@@ -43,7 +43,7 @@ namespace WebApp.Controllers
         {
             List<Attributes> attributes = new List<Attributes>();
             string _token = User.GetLoggedInUserToken();
-            var attributesRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/GetAttributes",string.Empty, _token);
+            var attributesRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/GetAttributes", JsonConvert.SerializeObject(new SearchItem()), _token);
             if (attributesRes.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<Attributes>>>(attributesRes.Result);
@@ -65,7 +65,7 @@ namespace WebApp.Controllers
                     attributes = deserializeObject.Result.FirstOrDefault();
                 }
             }
-            return View(attributes);
+            return PartialView(attributes);
         }
 
         // POST: AttributeController/Create
@@ -89,27 +89,6 @@ namespace WebApp.Controllers
                 return View();
             }
             return PartialView(response);  
-        }
-
-        // GET: AttributeController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AttributeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: AttributeController/Delete/5
