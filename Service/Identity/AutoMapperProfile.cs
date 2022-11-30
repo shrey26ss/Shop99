@@ -2,6 +2,7 @@
 using Entities.Models;
 using Microsoft.Win32;
 using Service.EmailConfig;
+using Service.Models;
 using Services.Identity;
 using System;
 using System.Collections.Generic;

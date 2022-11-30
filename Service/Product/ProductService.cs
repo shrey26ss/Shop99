@@ -5,6 +5,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +26,7 @@ namespace Service.Product
             _logger = logger;
         }
 
-        public async Task<Response> AddUpdate(RequestBase<Products> request)
+        public async Task<IResponse> AddUpdate(RequestBase<Products> request)
         {
             var res = new Response();
             try
@@ -65,8 +66,7 @@ namespace Service.Product
 
             return res;
         }
-
-        public async Task<Response<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
@@ -93,8 +93,7 @@ namespace Service.Product
             }
             return res;
         }
-
-        public async Task<Response> AddProductVariant(RequestBase<VariantCombination> request)
+        public async Task<IResponse> AddProductVariant(RequestBase<VariantCombination> request)
         {
             var res = new Response();
             try

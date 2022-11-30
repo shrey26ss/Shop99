@@ -1,6 +1,4 @@
-﻿using Entities.Models;
-using FluentMigrator.Infrastructure;
-using Microsoft.Win32;
+﻿using Service.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebAPI.Models.ViewModels

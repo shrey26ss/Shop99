@@ -8,8 +8,8 @@ namespace Infrastructure.Interface
 {
     public interface IAttributes
     {
-        Task<Response> AddUpdate(RequestBase<Attributes> request);
-        Task<Response<IEnumerable<Attributes>>> GetAttributes(RequestBase<SearchItem> request);
-        Task<Response<IEnumerable<AttributesDDL>>> GetAttributeDDL();
+        Task<IResponse> AddUpdate(RequestBase<Attributes> request);
+        Task<IResponse<IEnumerable<Attributes>>> GetAttributes(RequestBase<SearchItem> request);
+        Task<IResponse<IEnumerable<AttributesDDL>>> GetAttributeDDL();
     }
 }

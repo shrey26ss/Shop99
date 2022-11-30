@@ -1,6 +1,8 @@
 ﻿using Data;
 using Entities.Enums;
 using Entities.Models;
+using Infrastructure.Interface;
+using Service.Models;
 using Services.Identity;
 using System;
 using System.Collections.Generic;
@@ -17,8 +19,7 @@ namespace Service.Identity
         {
             _dapper = dapper;
         }
-
-        public async Task<Response> AddAsync(ApplicationUser entity)
+        public async Task<IResponse> AddAsync(ApplicationUser entity)
         {
             var res = await _dapper.ExecuteAsync("UpdateUser", entity, commandType: CommandType.StoredProcedure);
             return new Response
@@ -27,8 +28,7 @@ namespace Service.Identity
                 ResponseText = res != -1 ? ResponseStatus.Success.ToString() : ResponseStatus.Failed.ToString(),
             };
         }
-
-        public async Task<Response> ChangeAction(int id)
+        public async Task<IResponse> ChangeAction(int id)
         {
             string sqlQuery = @"UPDATE Users SET IsActive = 1^IsActive Where id = @id";
             int i = await _dapper.ExecuteAsync(sqlQuery, new { id }, CommandType.Text);
@@ -40,9 +40,7 @@ namespace Service.Identity
             }
             return response;
         }
-
-
-        public async Task<Response> TwoFactorEnabled(int id)
+        public async Task<IResponse> TwoFactorEnabled(int id)
         {
             string sqlQuery = @"UPDATE Users SET TwoFactorEnabled = 1^TwoFactorEnabled Where Id = @id";
             int i = await _dapper.ExecuteAsync(sqlQuery, new { id }, CommandType.Text);
@@ -54,32 +52,27 @@ namespace Service.Identity
             }
             return response;
         }
-
-        public async Task<Response> AssignPackage(int userId, int packageId)
+        public async Task<IResponse> AssignPackage(int userId, int packageId)
         {
             var response = await _dapper.GetAsync<Response>("Proc_AssignPackage", new { userId, packageId }, CommandType.StoredProcedure);
             return response;
         }
-
-        public async Task<Response> Assignpackage(int TID)
+        public async Task<IResponse> Assignpackage(int TID)
         {
             var response = await _dapper.GetAsync<Response>("proc_UpdatePayment", new { TID }, commandType: CommandType.StoredProcedure);
             return response;
         }
-
-        public Task<Response> DeleteAsync(int id)
+        public Task<IResponse> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
-
         public async Task<IEnumerable<ApplicationUser>> GetAllAsync(ApplicationUser entity = null, int loginId = 0)
         {
             string sqlQuery = @"select Id ,UserId,Email,PhoneNumber,UserName,TwoFactorEnabled,[Name],IsActive from Users(nolock) order by Id desc";
             var res = await _dapper.GetAllAsync<ApplicationUser>(sqlQuery, entity, CommandType.Text);
             return res ?? new List<ApplicationUser>();
         }
-
-        public async Task<Response<ApplicationUser>> GetByIdAsync(int id)
+        public async Task<IResponse<ApplicationUser>> GetByIdAsync(int id)
         {
             Response<ApplicationUser> res = new Response<ApplicationUser>();
             try
@@ -103,7 +96,6 @@ namespace Service.Identity
             }
             return res;
         }
-
         public Task<IReadOnlyList<ApplicationUser>> GetDropdownAsync(ApplicationUser entity)
         {
             throw new NotImplementedException();

@@ -1,6 +1,6 @@
 ﻿@using Data.Models
 @using Entities.Enums
-@using Entities.Models
+@using Service.Models
 @model Response<List<MenuItem>>
 
 @if (Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result != null && Model.Result.Any())

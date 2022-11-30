@@ -8,10 +8,10 @@ namespace Infrastructure.Interface
 {
     public interface IBrands
     {
-        Task<Response> AddUpdate(RequestBase<Brands> request);
-        Task<Response<IEnumerable<Brands>>> GetBrands(RequestBase<SearchItem> request);
-        Task<Response> AddUpdateBrandCategoryMapping(RequestBase<BrandCategoryMapping> request);
-        Task<Response<IEnumerable<BrandCategoryMapping>>> GetBrandCategoryMapping(RequestBase<SearchItem> request);
-        Task<Response<IEnumerable<BrandsDDL>>> GetBrandDDL();
+        Task<IResponse> AddUpdate(RequestBase<Brands> request);
+        Task<IResponse<IEnumerable<Brands>>> GetBrands(RequestBase<SearchItem> request);
+        Task<IResponse> AddUpdateBrandCategoryMapping(RequestBase<BrandCategoryMapping> request);
+        Task<IResponse<IEnumerable<BrandCategoryMapping>>> GetBrandCategoryMapping(RequestBase<SearchItem> request);
+        Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDL();
     }
 }

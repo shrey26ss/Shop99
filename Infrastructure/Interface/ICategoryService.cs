@@ -9,10 +9,10 @@ namespace Infrastructure.Interface
 {
     public interface ICategoryService
     {
-        Task<Response> AddUpdate(RequestBase<Category> category);
-        Task<Response<IEnumerable<Category>>> GetCategories(RequestBase<SearchItem> request);
-        Task<Response> Delete(int id);
-        Task<Response<List<MenuItem>>> GetMenu(Request request); 
-        Task<Response<IEnumerable<CategoryDDL>>> GetCategoriesDDL();
+        Task<IResponse> AddUpdate(RequestBase<Category> category);
+        Task<IResponse<IEnumerable<Category>>> GetCategories(RequestBase<SearchItem> request);
+        Task<IResponse> Delete(int id);
+        Task<IResponse<List<MenuItem>>> GetMenu(Request request); 
+        Task<IResponse<IEnumerable<CategoryDDL>>> GetCategoriesDDL();
     }
 }

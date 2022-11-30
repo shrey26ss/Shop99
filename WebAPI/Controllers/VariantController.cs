@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Identity;
+using Service.Models;
 using System;
 using System.Net;
 using System.Security.Claims;

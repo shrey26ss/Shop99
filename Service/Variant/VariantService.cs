@@ -3,6 +3,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,7 +21,7 @@ namespace Service.Variant
             _logger = logger;
         }
 
-        public async Task<Response> AddUpdate(RequestBase<AttributeInfo> request)
+        public async Task<IResponse> AddUpdate(RequestBase<AttributeInfo> request)
         {
             var res = new Response();
             try
@@ -54,7 +55,7 @@ namespace Service.Variant
             return res;
         }
 
-        public async Task<Response<IEnumerable<AttributeInfo>>> GetVariants(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<AttributeInfo>>> GetVariants(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)

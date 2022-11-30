@@ -1,4 +1,5 @@
 ﻿using Data;
+using Entities.Enums;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using Service.Models;
@@ -19,9 +20,9 @@ namespace Service.Homepage
             _logger = logger;
         }
 
-        public Task<IResponse<IEnumerable<IProductResponse>>> GetProductByCategory(IProductRequest<int> productRequest)
+        public async Task<IResponse<IEnumerable<IProductResponse>>> GetProductByCategory(IProductRequest<int> productRequest)
         {
-            var res = new Response<IEnumerable<ProductResponse>>();
+            IResponse<IEnumerable<IProductResponse>> res = new Response<IEnumerable<IProductResponse>>();
             try
             {
                 int i = -5;
@@ -35,8 +36,8 @@ namespace Service.Homepage
             }
             catch (Exception ex)
             {
+                res.ResponseText = ex.Message;
             }
-
             return res;
         }
 

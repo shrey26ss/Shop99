@@ -4,6 +4,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +23,7 @@ namespace Service.Vendor
             _logger = logger;
         }
 
-        public async Task<Response<bool>> ValidateVendor(RequestBase<SearchItem> request)
+        public async Task<IResponse<bool>> ValidateVendor(RequestBase<SearchItem> request)
         {
             var res = new Response<bool>();
             try
@@ -37,7 +38,7 @@ namespace Service.Vendor
             }
             return res;
         }
-        public async Task<Response> AddUpdate(RequestBase<VendorProfile> request)
+        public async Task<IResponse> AddUpdate(RequestBase<VendorProfile> request)
         {
             var res = new Response();
             try
@@ -76,7 +77,7 @@ namespace Service.Vendor
             return res;
         }
 
-        public async Task<Response<VendorProfile>> GetVendorDetails(RequestBase<SearchItem> request)
+        public async Task<IResponse<VendorProfile>> GetVendorDetails(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             var res = new Response<VendorProfile>();

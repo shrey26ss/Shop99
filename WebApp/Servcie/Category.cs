@@ -4,6 +4,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Newtonsoft.Json;
+using Service.Models;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace WebApp.Servcie
 {
     public interface ICategory
     {
-        Task<Response<List<MenuItem>>> GetMenu();
+        Task<IResponse<List<MenuItem>>> GetMenu();
     }
     public class Category : ICategory
     {
@@ -22,7 +23,7 @@ namespace WebApp.Servcie
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
-        public async Task<Response<List<MenuItem>>> GetMenu()
+        public async Task<IResponse<List<MenuItem>>> GetMenu()
         {
             var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetMenu", JsonConvert.SerializeObject(new Request()));
             if (Response.HttpStatusCode == HttpStatusCode.OK)

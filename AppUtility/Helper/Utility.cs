@@ -1,24 +1,18 @@
 ﻿using Entities.Enums;
-using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml;
 using AppUtility.Extensions;
 using System.Drawing.Imaging;
 using System.Drawing;   
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
+using Response = AppUtility.UtilityModels;
 
 namespace AppUtility.Helper
 {

@@ -8,8 +8,8 @@ namespace Infrastructure.Interface
 {
     public interface IProducts
     {
-        Task<Response> AddUpdate(RequestBase<Products> request);
-        Task<Response<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request);
-        Task<Response> AddProductVariant(RequestBase<VariantCombination> request);
+        Task<IResponse> AddUpdate(RequestBase<Products> request);
+        Task<IResponse<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request);
+        Task<IResponse> AddProductVariant(RequestBase<VariantCombination> request);
     }
 }
