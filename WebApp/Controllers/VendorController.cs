@@ -1,25 +1,18 @@
 ﻿using AppUtility.APIRequest;
 using AutoMapper;
-using Entities.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Service.Models;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using WebApp.Middleware;
 using WebApp.Models;
-using static Dapper.SqlMapper;
 
 namespace WebApp.Controllers
 {

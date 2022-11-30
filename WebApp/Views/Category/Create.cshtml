@@ -3,7 +3,8 @@
 
 @model CategoryViewModel
 @{
-    var ddl = new SelectList(Model.categoryDDLs, "Id", "Name");
+    var ddl = new SelectList(Model.categoryDDLs, "CategoryId", "CategoryName");
+    string sd = string.Empty;
 }
 <form asp-action="Create" method="Post">
     

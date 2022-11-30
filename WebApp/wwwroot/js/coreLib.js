@@ -1240,7 +1240,7 @@ function ajaxFormSubmit(form) {
             url: form.action,
             data: data,
             success: function (response) {
-                Q.notify(response.statusCode, response.msg);
+                Q.notify(response.statusCode, response.responseText);
                 if (response.statusCode == 1) {
                     $('.error').text('');
                     /*$(form).trigger("reset");*/
@@ -1262,7 +1262,7 @@ function ajaxFormSubmit(form) {
     }
     else {
         $.post(form.action, data).done(response => {
-            Q.notify(response.statusCode, response.msg);
+            Q.notify(response.statusCode, response.responseText);
             if (response.statusCode == 1) {
                 $('.error').text('');
                 /*$(form).trigger("reset");*/

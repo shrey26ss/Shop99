@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Service.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -73,7 +74,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Attributes attributes)
         {
-            Attributes response =new Attributes();
+            Response response =new Response();
             try
             {
                 string _token = User.GetLoggedInUserToken();
@@ -81,15 +82,15 @@ namespace WebApp.Controllers
                 var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/AddUpdate", jsonData, _token);
                 if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Attributes>(categoryrRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
                     response = deserializeObject;
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                response.ResponseText = ex.Message;
             }
-            return PartialView(response);  
+            return Ok(response);  
         }
 
         // GET: AttributeController/Delete/5
