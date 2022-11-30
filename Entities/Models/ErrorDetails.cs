@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace Entities.Models
+namespace Entities.Entity
 {
     public class ErrorDetails
     {

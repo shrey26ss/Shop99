@@ -1,5 +1,5 @@
 ﻿
-namespace Entities.Models
+namespace Entities.Entity
 {
     public class RequestBase<T> : Request
     {

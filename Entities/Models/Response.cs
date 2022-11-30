@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Models
+namespace Entities.Entity
 {
     public class Response<T> : IResponse<T>
     {

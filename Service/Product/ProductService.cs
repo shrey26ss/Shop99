@@ -76,7 +76,7 @@ namespace Service.Product
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId c.Id = @Id ";
+                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId where c.Id = @Id ";
                     res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id, request.LoginId }, CommandType.Text);
                 }
                 else

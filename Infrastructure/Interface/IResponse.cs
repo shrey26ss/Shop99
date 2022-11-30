@@ -9,7 +9,6 @@ namespace Infrastructure.Interface
     {
         ResponseStatus StatusCode { get; set; }
         string ResponseText { get; set; }
-        Exception Exception { get; set; }
         T Result { get; set; }
     }
 
@@ -24,4 +23,6 @@ namespace Infrastructure.Interface
         string AuthToken { get; set; }
         T Param { get; set; }
     }
+
+    
 }
