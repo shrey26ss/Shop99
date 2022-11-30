@@ -17,6 +17,7 @@ using Infrastructure.Interface;
 using Service.Repos;
 using WebApp.Models;
 using WebApp.AppCode.Extension;
+using WebApp.AppCode;
 
 namespace WebApp.Middleware
 {
@@ -34,6 +35,7 @@ namespace WebApp.Middleware
             //services.AddScoped<IEmailService, EmailFactory>();
             services.AddSingleton<IConnectionString>(ch);
             services.AddScoped<IDapperRepository, DapperRepository>();
+            services.AddScoped<IHttpRequestInfo, HttpRequestInfo>();
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IUserStore<ApplicationUser>, UserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, RoleStore>();

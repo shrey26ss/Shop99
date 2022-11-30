@@ -19,6 +19,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using W.AppCode.Helper;
+using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
 using WebApp.Middleware;
 using WebApp.Models;
@@ -32,10 +34,12 @@ namespace WebApp.Controllers
 
         private string _apiBaseURL;
         private readonly Dictionary<string, string> _ImageSize;
-        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
+        private readonly IHttpRequestInfo _httpInfo;
+        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _ImageSize=imageSize.Value;
+            _httpInfo = httpInfo;
         }
 
         #region Add Product
@@ -157,7 +161,7 @@ namespace WebApp.Controllers
                             Color = item.Color,
                             DisplayOrder = item.DisplayOrder,
                             GroupId = item.GroupId,
-                            ImagePath = string.Concat("hhtps://yourdomain.com/", FileDirectories.ProductSuffix.Replace("{0}", string.Empty), fileName)
+                            ImagePath = string.Concat(_httpInfo.AbsoluteURL(), FileDirectories.ProductSuffix.Replace("{0}", string.Empty), fileName)
                         });
                         foreach (var iSize in _ImageSize)
                         {
