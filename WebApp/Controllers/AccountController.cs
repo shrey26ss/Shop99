@@ -29,6 +29,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Http;
 using WebApp.Middleware;
+using Service.Models;
 
 namespace WebApp.Controllers
 {

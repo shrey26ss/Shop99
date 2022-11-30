@@ -17,6 +17,7 @@ using System;
 using Entities.Enums;
 using AppUtility.Helper;
 using WebApp.Models.ViewModels;
+using Service.Models;
 
 namespace WebApp.Controllers
 {

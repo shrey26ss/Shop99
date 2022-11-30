@@ -5,6 +5,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +23,7 @@ namespace Service.Categories
             _dapper = dapper;
             _logger = logger;
         }
-        public async Task<Response> AddUpdate(RequestBase<Category> category)
+        public async Task<IResponse> AddUpdate(RequestBase<Category> category)
         {
             var res = new Response();
             try
@@ -64,12 +65,12 @@ namespace Service.Categories
             return res;
         }
 
-        public async Task<Response> Delete(int id)
+        public async Task<IResponse> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Response<IEnumerable<Category>>> GetCategories(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<Category>>> GetCategories(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
@@ -96,7 +97,7 @@ namespace Service.Categories
             }
             return res;
         }
-        public async Task<Response<List<MenuItem>>> GetMenu(Request request)
+        public async Task<IResponse<List<MenuItem>>> GetMenu(Request request)
         {
             var response = new Response<List<MenuItem>>()
             {
@@ -109,7 +110,7 @@ namespace Service.Categories
             return response;
         }
 
-        public async Task<Response<IEnumerable<CategoryDDL>>> GetCategoriesDDL()
+        public async Task<IResponse<IEnumerable<CategoryDDL>>> GetCategoriesDDL()
         {
             string sp = @"Select CategoryId, CategoryName from Category where IsPublish = 1 order by CategoryName";
             var res = new Response<IEnumerable<CategoryDDL>>();
@@ -175,13 +176,15 @@ namespace Service.Categories
             }
             return lst;
         }
-        private async Task<Response<IEnumerable<Category>>> Categories()
+        private async Task<IResponse<IEnumerable<Category>>> Categories()
         {
             var res = new Response<IEnumerable<Category>>();
             string sp = @"Select CategoryId,CategoryName,ParentId,Icon from Category(nolock) Where IsPublish = 1 order by Ind";
             res.Result = await _dapper.GetAllAsync<Category>(sp, null, CommandType.Text);
             return res;
         }
+
+        
         #endregion
 
 

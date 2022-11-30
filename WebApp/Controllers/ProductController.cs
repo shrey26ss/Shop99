@@ -12,6 +12,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Validations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -4,6 +4,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +22,7 @@ namespace Service.TopLowerBanners
             _dapper = dapper;
             _logger = logger;
         }
-        public async Task<Response> AddUpdate(RequestBase<TopLowerBanner> request)
+        public async Task<IResponse> AddUpdate(RequestBase<TopLowerBanner> request)
         {
             var res = new Response();
             try
@@ -64,7 +65,7 @@ namespace Service.TopLowerBanners
             return res;
         }
 
-        public async Task<Response<IEnumerable<TopLowerBanner>>> GetDetails(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<TopLowerBanner>>> GetDetails(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             var res = new Response<IEnumerable<TopLowerBanner>>();

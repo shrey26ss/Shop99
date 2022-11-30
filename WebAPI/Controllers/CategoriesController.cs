@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.API;
 using Service.Identity;
+using Service.Models;
 using System.Net;
 using System.Threading.Tasks;
 using WebAPI.Middleware;

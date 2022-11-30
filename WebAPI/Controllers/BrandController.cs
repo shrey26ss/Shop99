@@ -2,6 +2,7 @@
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Models;
 using System.Net;
 using System.Threading.Tasks;
 using WebAPI.Middleware;

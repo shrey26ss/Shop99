@@ -8,7 +8,7 @@ namespace Infrastructure.Interface
 {
     public interface IVariant
     {
-        Task<Response> AddUpdate(RequestBase<AttributeInfo> request);
-        Task<Response<IEnumerable<AttributeInfo>>> GetVariants(RequestBase<SearchItem> request);
+        Task<IResponse> AddUpdate(RequestBase<AttributeInfo> request);
+        Task<IResponse<IEnumerable<AttributeInfo>>> GetVariants(RequestBase<SearchItem> request);
     }
 }

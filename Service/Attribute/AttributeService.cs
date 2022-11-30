@@ -3,6 +3,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +22,7 @@ namespace Service.Attribute
             _logger = logger;
         }
 
-        public async Task<Response> AddUpdate(RequestBase<Attributes> request)
+        public async Task<IResponse> AddUpdate(RequestBase<Attributes> request)
         {
             var res = new Response();
             try
@@ -56,7 +57,7 @@ namespace Service.Attribute
             return res;
         }
 
-        public async Task<Response<IEnumerable<Attributes>>> GetAttributes(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<Attributes>>> GetAttributes(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
@@ -84,7 +85,7 @@ namespace Service.Attribute
             return res;
         }
 
-        public async Task<Response<IEnumerable<AttributesDDL>>> GetAttributeDDL()
+        public async Task<IResponse<IEnumerable<AttributesDDL>>> GetAttributeDDL()
         {
             string sp = @"Select Id, [Name] from Attributes Order By [Name]";
             var res = new Response<IEnumerable<AttributesDDL>>();

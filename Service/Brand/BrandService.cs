@@ -3,6 +3,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,7 +21,7 @@ namespace Service.Brand
             _dapper = dapper;
             _logger = logger;
         }
-        public async Task<Response> AddUpdate(RequestBase<Brands> request)
+        public async Task<IResponse> AddUpdate(RequestBase<Brands> request)
         {
             var res = new Response();
             try
@@ -53,8 +54,7 @@ namespace Service.Brand
 
             return res;
         }
-
-        public async Task<Response<IEnumerable<Brands>>> GetBrands(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<Brands>>> GetBrands(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
@@ -81,7 +81,7 @@ namespace Service.Brand
             }
             return res;
         }
-        public async Task<Response> AddUpdateBrandCategoryMapping(RequestBase<BrandCategoryMapping> request)
+        public async Task<IResponse> AddUpdateBrandCategoryMapping(RequestBase<BrandCategoryMapping> request)
         {
             var res = new Response();
             try
@@ -115,7 +115,7 @@ namespace Service.Brand
 
             return res;
         }
-        public async Task<Response<IEnumerable<BrandCategoryMapping>>> GetBrandCategoryMapping(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<BrandCategoryMapping>>> GetBrandCategoryMapping(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
@@ -142,7 +142,7 @@ namespace Service.Brand
             }
             return res;
         }
-        public async Task<Response<IEnumerable<BrandsDDL>>> GetBrandDDL()
+        public async Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDL()
         {
             string sp = @"Select Id,[Name] from Brands order by [Name]";
             var res = new Response<IEnumerable<BrandsDDL>>();

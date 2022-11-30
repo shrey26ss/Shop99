@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using WebApp.Middleware;
 using WebApp.Models;
 using AppUtility.APIRequest;
+using Service.Models;
 
 namespace WebApp.Controllers
 {

@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Services.Identity;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Service.Models;
 
 namespace WebAPI.Controllers
 {
