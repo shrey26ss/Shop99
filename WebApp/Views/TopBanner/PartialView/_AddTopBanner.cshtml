@@ -1,0 +1,75 @@
+﻿@using WebApp.Models.ViewModels;
+@model TopBannerViewModel
+@{
+    string src = string.Empty;
+    if (!string.IsNullOrEmpty(Model.BannerPath))
+        src = Model.BannerPath;
+    else
+        src = "/image/static/no-image.png";
+}
+<form method="post" asp-action="Edit">
+    <div class="row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-sm-6 col-md-6 text-center">
+            <div class="card clrText">
+                <div class="valign-wrapper pr12ImgNameDiv">
+                    <img src="@src" class="img-fluid rounded-circle" id="blah" style="width:255px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
+                    <div class="pr12AuthName fw500 fs18"></div>
+                </div>
+                <div>
+                    <div class="col-sm-12 my-2" style="text-align:center;">
+                        <input asp-for="File" hidden />
+                        <input type="button" class="btn btn-sm btn-info" value="Upload Banner" onclick="$('#File').click()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Subtitle"></label>
+                    <input asp-for="Subtitle" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="BackLinkText"></label>
+                    <input asp-for="BackLinkText" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="BackLinkURL"></label>
+                    <input asp-for="BackLinkURL" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row text-center">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $('#File').change(function(){
+        const file = this.files[0];
+        if (file){
+          let reader = new FileReader();
+          reader.onload = function(event){
+            console.log(event.target.result);
+            $('#blah').attr('src', event.target.result);
+          }
+          reader.readAsDataURL(file);
+        }
+      });
+</script>

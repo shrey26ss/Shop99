@@ -15,6 +15,8 @@ namespace AppUtility.Helper
     public class FileDirectories
     {
         public const string CategorySuffix = "Image/Category/";
+        public const string TopBannerSuffix = "Image/TopBanner/";
+        public const string TopLowerBannerSuffix = "Image/TopLowerBanner/";
         public const string ProductSuffix = "Image/Product/{0}/";
         public static string Receipt = "wwwroot/receipt/";
         public static string Thumbnail = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Thumbnail/");
@@ -22,6 +24,8 @@ namespace AppUtility.Helper
         public static string ProfilePic = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Profile/");
         public static string ProductVariant = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{ProductSuffix}");
         public static string JsonDoc = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/doc/");
+        public static string TopBanner = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{TopBannerSuffix}");
+        public static string TopLowerBanner = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{TopLowerBannerSuffix}");
     }
 
     public class FileUploadModel

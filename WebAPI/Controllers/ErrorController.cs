@@ -2,11 +2,11 @@
 
 namespace WebAPI.Controllers
 {
-    public class ErrorController : Controller
+    public class ErrorController : ControllerBase
     {
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
     }
 }

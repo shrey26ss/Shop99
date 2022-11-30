@@ -1,0 +1,22 @@
+﻿@using Entities.Models;
+@model IEnumerable<TopLowerBanner>
+
+@if (Model.Any())
+{
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        counter++;
+        <tr>
+            <td>@counter</td>
+            <td>@item.BannerPath</td>
+            <td>@item.Title</td>
+            <td>@item.Subtitle</td>
+            <td>@item.BackLinkText</td>
+            <td>@item.BackLinkURL</td>
+            <td>
+                <input type="button" value="Edit" class="btn btn-sm btn-success">
+            </td>
+        </tr>
+    }
+}

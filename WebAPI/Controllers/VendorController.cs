@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
-    public class VendorController : Controller
+    public class VendorController : ControllerBase
     {
         private readonly IVendor _vendor;
 

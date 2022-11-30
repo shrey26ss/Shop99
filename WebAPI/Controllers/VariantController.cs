@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
-    public class VariantController : Controller
+    public class VariantController : ControllerBase
     {
         private readonly IVariant _variant;
         private readonly UserManager<ApplicationUser> _userManager;
