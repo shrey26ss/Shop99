@@ -15,10 +15,16 @@ namespace WebAPI.Controllers
         {
             _homepageService = homepageService;
         }
-        [HttpPost(nameof(Details))]
-        public async Task<ActionResult> Details(ProductRequest<int> productRequest)
+        [HttpPost(nameof(GetByCategoryProduct))]
+        public async Task<ActionResult> GetByCategoryProduct(ProductRequest<int> productRequest)
         {
             var res = await _homepageService.GetProductByCategory(productRequest);
+            return Ok(res);
+        }
+        [HttpPost(nameof(GetRandomProduct))]
+        public async Task<ActionResult> GetRandomProduct(ProductRequest productRequest)
+        {
+            var res = await _homepageService.GetRandomProduct(productRequest);
             return Ok(res);
         }
 
