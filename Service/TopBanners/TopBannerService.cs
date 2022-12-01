@@ -64,14 +64,14 @@ namespace Service.TopBanners
 
             return res;
         }
-        public async Task<IResponse<IEnumerable<TopBanner>>> GetDetails(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<TopBanner>>> GetDetails()
         {
             string sp = string.Empty;
             var res = new Response<IEnumerable<TopBanner>>();
             try
             {
                 sp = @"Select * from TopBanner(nolock) order by Id desc";
-                res.Result = await _dapper.GetAllAsync<TopBanner>(sp, new { request.LoginId }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<TopBanner>(sp, new {  }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
             }
