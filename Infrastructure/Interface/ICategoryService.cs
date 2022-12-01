@@ -14,6 +14,7 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<Category>>> TopCategories();
         Task<IResponse> Delete(int id);
         Task<IResponse<List<MenuItem>>> GetMenu(Request request); 
+
         Task<IResponse<IEnumerable<CategoryDDL>>> GetCategoriesDDL();
     }
 }
