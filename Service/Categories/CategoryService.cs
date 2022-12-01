@@ -99,7 +99,7 @@ namespace Service.Categories
         }
         public async Task<IResponse<IEnumerable<Category>>> TopCategories()
         {
-            string sp = @"Select *  from Category where ParentId=0 Order by Ind";
+            string sp = @"Select *  from Category where ParentId=0 and IsPublish=1 Order by Ind";
 
             var res = new Response<IEnumerable<Category>>();
             try
