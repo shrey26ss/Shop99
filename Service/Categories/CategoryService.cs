@@ -97,6 +97,23 @@ namespace Service.Categories
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<Category>>> TopCategories()
+        {
+            string sp = @"Select *  from Category where ParentId=0 Order by Ind";
+
+            var res = new Response<IEnumerable<Category>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<Category>(sp, new { }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
         public async Task<IResponse<List<MenuItem>>> GetMenu(Request request)
         {
             var response = new Response<List<MenuItem>>()

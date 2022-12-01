@@ -56,6 +56,12 @@ namespace WebAPI.Controllers
             };
             return Ok(await _category.GetMenu(request));
         }
+        [AllowAnonymous]
+        [Route("Category/TopCategory")]
+        public async Task<IActionResult> TopCategory()
+        {
+            return Ok(await _category.TopCategories());
+        }
         [Route("Category/GetCategoriesDDL")]
         public async Task<IActionResult> GetCategoriesDDL()
         {
