@@ -7,6 +7,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Service.Homepage
@@ -41,9 +42,24 @@ namespace Service.Homepage
             return res;
         }
 
-        public Task<IResponse<IEnumerable<ProductResponse>>> GetRandomProduct(ProductRequest productRequest)
+        public async Task<IResponse<IEnumerable<ProductResponse>>> GetRandomProduct(ProductRequest productRequest)
         {
-            throw new NotImplementedException();
+            var res = new Response<IEnumerable<ProductResponse>>();
+            try
+            {
+                string sqlQuery = @"Select top (Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+            inner join VariantGroup vg on vg.ProductId = p.Id
+            where vg.IsShowOnHome = 1 order by NEWID() desc ";
+                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
+
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = ex.Message;
+            }
+            return res;
         }
 
         public Task<IResponse<IEnumerable<ProductResponse>>> GetNewArrivals(ProductRequest productRequest)
