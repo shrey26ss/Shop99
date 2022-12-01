@@ -15,18 +15,41 @@ namespace WebAPI.Controllers
         {
             _homepageService = homepageService;
         }
-        [HttpPost(nameof(GetByCategoryProduct))]
-        public async Task<ActionResult> GetByCategoryProduct(ProductRequest<int> productRequest)
+        [HttpPost(nameof(ByCategoryProduct))]
+        public async Task<ActionResult> ByCategoryProduct(ProductRequest<int> productRequest)
         {
             var res = await _homepageService.GetProductByCategory(productRequest);
             return Ok(res);
         }
-        [HttpPost(nameof(GetRandomProduct))]
-        public async Task<ActionResult> GetRandomProduct(ProductRequest productRequest)
+        [HttpPost(nameof(RandomProduct))]
+        public async Task<ActionResult> RandomProduct(ProductRequest productRequest)
         {
             var res = await _homepageService.GetRandomProduct(productRequest);
             return Ok(res);
         }
-
+        [HttpPost(nameof(NewArrivals))]
+        public async Task<ActionResult> NewArrivals(ProductRequest<int> productRequest)
+        {
+            var res = await _homepageService.GetNewArrivals(productRequest);
+            return Ok(res);
+        }
+        [HttpPost(nameof(BestSellerProduct))]
+        public async Task<ActionResult> BestSellerProduct(ProductRequest productRequest)
+        {
+            var res = await _homepageService.GetBestSellerProduct(productRequest);
+            return Ok(res);
+        }
+        [HttpPost(nameof(OnSaleProducts))]
+        public async Task<ActionResult> OnSaleProducts(ProductRequest productRequest)
+        {
+            var res = await _homepageService.GetOnSaleProducts(productRequest);
+            return Ok(res);
+        }
+        [HttpPost(nameof(HotDeals))]
+        public async Task<ActionResult> HotDeals(ProductRequest productRequest)
+        {
+            var res = await _homepageService.GetHotDeals(productRequest);
+            return Ok(res);
+        }
     }
 }
