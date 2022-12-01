@@ -41,7 +41,7 @@ namespace WebApp.Middleware
             services.AddScoped<IUserStore<ApplicationUser>, UserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, RoleStore>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICategory, WebApp.Servcie.Category>();
+            services.AddScoped<ICategoryAPI, WebApp.Servcie.CategoryAPI>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();

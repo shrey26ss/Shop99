@@ -15,8 +15,8 @@ namespace WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<UserHomeController> _logger;
-        private readonly ICategory _category;
-        public HomeController(ILogger<UserHomeController> logger, ICategory category)
+        private readonly ICategoryAPI _category;
+        public HomeController(ILogger<UserHomeController> logger, ICategoryAPI category)
         {
             _logger = logger;
             _category = category;
@@ -25,12 +25,12 @@ namespace WebApp.Controllers
         {
             return View();
         }
-        [Route("LoadMainCategory")]
+        [Route("LoadTopCategory")]
         [HttpPost]
-        public async Task<IActionResult> GetMainCategory()
+        public async Task<IActionResult> GetTopCategory()
         {
-           // var res = _category.GetMenu();
-            return Json("OK");
+             var res = _category.GetTopCategory().Result;
+             return Json(res);
         }
     }
 }
