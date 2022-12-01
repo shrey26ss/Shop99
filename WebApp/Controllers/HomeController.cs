@@ -32,5 +32,17 @@ namespace WebApp.Controllers
            // var res = _category.GetMenu();
             return Json("OK");
         }
+
+        
+      
+        public async Task<IActionResult> Error(int statusCode)
+        {
+            switch (statusCode)
+            {
+                case 404:
+                    return View("404");
+            }
+            return View("Error");
+        }
     }
 }
