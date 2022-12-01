@@ -92,7 +92,7 @@ namespace WebApp.Controllers
             {
 
             }
-            return Json(model);
+            return Json(response);
         }
         #endregion
 

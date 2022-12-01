@@ -35,11 +35,11 @@ namespace Service.Product
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Products Set Name=@Name, Title=@Title,Description=@Description,SKU=@SKU,BrandId=@BrandId,CategoryId=@CategoryId,VendorId=@VendorId,ModifyBy=@LoginId,ModifyOn=GETDATE() where Id = @Id";
+                    sqlQuery = @"Update Products Set Name=@Name, Title=@Title,Description=@Description,SKU=@SKU,BrandId=@BrandId,CategoryId=@CategoryId,VendorId=@LoginId,ModifyBy=@LoginId,ModifyOn=GETDATE() where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"insert into Products (Name,Title,Description,SKU,BrandId,CategoryId,VendorId,EntryBy,ModifyBy,EntryOn,ModifyOn) values(@Name,@Title,@Description,@SKU,@BrandId,@CategoryId,@VendorId,@LoginId,@LoginId,GETDATE(),GETDATE())";
+                    sqlQuery = @"insert into Products (Name,Title,Description,SKU,BrandId,CategoryId,VendorId,EntryBy,ModifyBy,EntryOn,ModifyOn,ShortDescription) values(@Name,@Title,@Description,@SKU,@BrandId,@CategoryId,@LoginId,@LoginId,@LoginId,GETDATE(),GETDATE(),'ShortDescription')";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
