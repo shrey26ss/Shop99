@@ -16,27 +16,15 @@ namespace WebAPI.Controllers
     {
         private readonly ITopBanner _banner;
 
-        public TopBannerController(ITopBanner banner)
-        {
-            _banner = banner;
-        }
+        public TopBannerController(ITopBanner banner) => _banner = banner;
         [Route("TopBanner/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddUpdate(TopBanner req)
+        public async Task<IActionResult> AddUpdate(TopBanner req) => Ok(await _banner.AddUpdate(new RequestBase<TopBanner>
         {
-            return Ok(await _banner.AddUpdate(new RequestBase<TopBanner>
-            {
-                Data = req,
-                LoginId = User.GetLoggedInUserId<int>()
-            }));
-        }
+            Data = req,
+            LoginId = User.GetLoggedInUserId<int>()
+        }));
         [Route("TopBanner/GetDetails")]
-        public async Task<IActionResult> GetDetails()
-        {
-            return Ok(await _banner.GetDetails(new RequestBase<SearchItem>
-            {
-                LoginId = User.GetLoggedInUserId<int>()
-            }));
-        }
+        public async Task<IActionResult> GetDetails() => Ok(await _banner.GetDetails());
     }
 }
