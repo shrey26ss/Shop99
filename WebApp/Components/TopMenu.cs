@@ -8,8 +8,8 @@ namespace WebApp.Components
 {
     public class TopMenu : ViewComponent
     {
-        private readonly ICategory _category;
-        public TopMenu(ICategory category)
+        private readonly ICategoryAPI _category;
+        public TopMenu(ICategoryAPI category)
         {
             _category = category;
         }

@@ -5,6 +5,7 @@ using Entities.Models;
 using Infrastructure.Interface;
 using Newtonsoft.Json;
 using Service.Models;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,14 +13,15 @@ using WebApp.Models;
 
 namespace WebApp.Servcie
 {
-    public interface ICategory
+    public interface ICategoryAPI
     {
         Task<IResponse<List<MenuItem>>> GetMenu();
+        Task<IResponse<IEnumerable<Category>>> GetTopCategory();
     }
-    public class Category : ICategory
+    public class CategoryAPI : ICategoryAPI
     {
         private string _apiBaseURL;
-        public Category(AppSettings appSettings)
+        public CategoryAPI(AppSettings appSettings)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
@@ -43,24 +45,27 @@ namespace WebApp.Servcie
 
         }
 
-        //public async Task<IResponse<List<MenuItem>>> GetTopCategory()
-        //{
-        //    var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/TopCategory",null);
-        //    if (Response.HttpStatusCode == HttpStatusCode.OK)
-        //    {
-        //        var deserializeObject = JsonConvert.DeserializeObject<Response<List<MenuItem>>>(Response.Result);
-        //        return deserializeObject;
-        //    }
-        //    else
-        //    {
-        //        var res = new Response<List<MenuItem>>
-        //        {
-        //            StatusCode = ResponseStatus.Failed,
-        //            ResponseText = "Somthing Went Wrong",
-        //        };
-        //        return res;
-        //    }
-
-        //}
+        public async Task<IResponse<IEnumerable<Category>>> GetTopCategory()
+        {
+            var res = new Response<IEnumerable<Category>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/TopCategory", null);
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<Category>>>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
     }
 }

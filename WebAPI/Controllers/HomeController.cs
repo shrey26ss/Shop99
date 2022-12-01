@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("Home/")]
+    [Route("/api/{controller}")]
     public class HomeController : ControllerBase
     {
         private readonly IHomepageService _homepageService;

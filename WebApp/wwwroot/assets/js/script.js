@@ -1754,17 +1754,19 @@ $('.feature-slide').slick({
   /*=====================
     13. Tab js
    ==========================*/
-  $("#tab-1").css("display", "Block");
-  $(".default").css("display", "Block");
-  $(".tabs li a").on('click', function () {
+  $("#tab1").css("display", "Block");
+    $(".default").css("display", "Block");
+    $(document).on('click', ".tabs li a", function () {
     event.preventDefault();
     $('.tab_product_slider').slick('unslick');
     $('.product-4').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
-    $(this).parent().addClass("current");
+        $(this).parent().addClass("current");
+        $(".tab-content").css("display", "none");
     var currunt_href = $(this).attr("href");
-    $('#' + currunt_href).show();
-    $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+        $('#' + currunt_href).show();
+        
+    //$(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
     $(".product-4").slick({
       arrows: true,
       dots: false,
