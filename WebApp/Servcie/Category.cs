@@ -42,5 +42,25 @@ namespace WebApp.Servcie
             }
 
         }
+
+        //public async Task<IResponse<List<MenuItem>>> GetTopCategory()
+        //{
+        //    var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/TopCategory",null);
+        //    if (Response.HttpStatusCode == HttpStatusCode.OK)
+        //    {
+        //        var deserializeObject = JsonConvert.DeserializeObject<Response<List<MenuItem>>>(Response.Result);
+        //        return deserializeObject;
+        //    }
+        //    else
+        //    {
+        //        var res = new Response<List<MenuItem>>
+        //        {
+        //            StatusCode = ResponseStatus.Failed,
+        //            ResponseText = "Somthing Went Wrong",
+        //        };
+        //        return res;
+        //    }
+
+        //}
     }
 }
