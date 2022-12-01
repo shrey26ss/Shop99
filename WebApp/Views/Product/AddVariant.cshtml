@@ -49,7 +49,11 @@
     </ul>
 </div>
 <input type="hidden" data-val="true" data-val-required="The Id field is required." id="Id" name="Id" value="1">
-
+<div class="row text-center">
+    <div class="col-10">
+        <span id="GroupinfoErr" class="d-none"></span>
+    </div>
+</div>
 <section class="content">
     <div class="container-fluid">
         <div class="form-horizontal">
@@ -124,12 +128,14 @@
             let groupInfo = [];
             let attrInfo = [];
             let pictureInfo = [];
+            let valCount = 0;
             $('.attrCombination').each(function (i) {
                 let groupId = i + 1;
                 let currentGroup = $(this);
                 //let attrInfo = [];
                 let attributes = currentGroup.find('.attributeGrid tr').each(function (j) {
                     let cAttr = $(this).data();
+                    let cAttrs = $(this).closest('.attributeGrid');
                     if (!$.isEmptyObject(cAttr)) {
                         let attributes = {
                             Id: j,
@@ -139,6 +145,10 @@
                             GroupId: groupId
                         };
                         attrInfo.push(attributes);
+                    }
+                    if (groupInfo.length <= 0) {
+                        $(`<small class="text-danger">Please add at least one attribute</small>`).insertBefore(cAttrs);
+                        valCount++;
                     }
                 });
                 let groupDetail = {
@@ -153,8 +163,13 @@
                     IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
                 };
                 groupInfo.push(groupDetail);
-            });
 
+            });
+            console.log(valCount);
+            if (valCount >= 0) {                
+                return false;
+            }
+            //return false;
             $('.pictureGrid tbody tr').each(function (i) {
                 let pictureGroup = $(this).data();
                 let pic = {
@@ -229,13 +244,13 @@
             variantImages.push(param);
             let _src = URL.createObjectURL(param.File);
             let _html = `<tr data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
-                           <td>${count}</td>
-                           <td><img src="${_src}" alt="image" style="width:100px"/></td>
-                           <td>${param.DisplayOrder}</td>
-                           <td>${param.Alt}</td>
-                           <td>${param.Title}</td>
-                           <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
-                        </tr>`;
+                                                   <td>${count}</td>
+                                                   <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                                   <td>${param.DisplayOrder}</td>
+                                                   <td>${param.Alt}</td>
+                                                   <td>${param.Title}</td>
+                                                   <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                                                </tr>`;
             pictureGrid.append(_html);
             $('.rmImage').unbind().click(e => {
                 let _ele = $(e.currentTarget).closest('tr');

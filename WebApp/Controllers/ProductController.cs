@@ -1,6 +1,7 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
 using AutoMapper;
+using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +39,7 @@ namespace WebApp.Controllers
         public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
-            _ImageSize=imageSize.Value;
+            _ImageSize = imageSize.Value;
             _httpInfo = httpInfo;
         }
 
@@ -128,7 +129,7 @@ namespace WebApp.Controllers
             var model = new ViewVariantCombinationModel
             {
                 CombinationId = combinationId,
-                Attributes  = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
+                Attributes = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
             };
             return PartialView("Partials/_AddAttributes", model);
         }
@@ -137,12 +138,11 @@ namespace WebApp.Controllers
         public async Task<IActionResult> SaveVariants(List<PictureInformationReq> req, string jsonObj)
         {
             var model = new VariantCombination();
-
             var response = new Response();
             try
             {
                 List<PictureInformation> ImageInfo = new List<PictureInformation>();
-                if (req!=null && req.Any())
+                if (req != null && req.Any())
                 {
                     foreach (var item in req)
                     {
@@ -178,7 +178,7 @@ namespace WebApp.Controllers
                                     var formFile = new FormFile(stream, 0, stream.Length, "req[0].file", fileName)
                                     {
                                         Headers = new HeaderDictionary(),
-                                        ContentDisposition="form-data;FileName="+fileName,
+                                        ContentDisposition = "form-data;FileName=" + fileName,
                                         ContentType = "image/jpeg"
                                     };
                                     Utility.O.UploadFile(new FileUploadModel
@@ -203,8 +203,14 @@ namespace WebApp.Controllers
                         }
                     }
                 }
-                model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj);
-                model.PictureInfo=ImageInfo;
+                model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+                if (!TryValidateModel(model) || model.GroupInfo.Count <= 0 || model.AttributeInfo.Count <= 0)
+                {
+                    response.StatusCode = ResponseStatus.Failed;
+                    response.ResponseText = "Invalid Details";
+                    return Json(response);
+                }
+                model.PictureInfo = ImageInfo;
                 string _token = User.GetLoggedInUserToken();
                 var jsonData = JsonConvert.SerializeObject(model);
                 var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
@@ -218,7 +224,7 @@ namespace WebApp.Controllers
             {
 
             }
-            return Json(model);
+            return Json(response);
         }
         #endregion
 

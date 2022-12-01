@@ -3,8 +3,7 @@
 });
 
 const loadMainCategory = async function () {
-    await $.post("/LoadMainCategory").done(res => {
-        alert(res);
+    await $.post("/LoadMainCategory").done(res => {        
     }).fail(xhr => {
         an.title = "Oops! Error";
         an.content = xhr.responseText;
