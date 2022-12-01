@@ -21,8 +21,8 @@ namespace WebAPI.Controllers
         }
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails());
-        [HttpGet(nameof(TopBanners))]
-        public async Task<IActionResult> GetDetails() => Ok(await _topLowerBanner.GetDetails());
+        [HttpGet(nameof(TopLowerBanners))]
+        public async Task<IActionResult> TopLowerBanners() => Ok(await _topLowerBanner.GetDetails());
         [HttpPost(nameof(ByCategoryProduct))]
         public async Task<ActionResult> ByCategoryProduct(ProductRequest<int> productRequest) => Ok(await _homepageService.GetProductByCategory(productRequest));
         [HttpPost(nameof(RandomProduct))]
