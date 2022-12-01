@@ -1,11 +1,15 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
 using AutoMapper;
+using Dapper;
+using Entities.Enums;
 using Entities.Models;
+using FluentMigrator.Infrastructure;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -15,10 +19,12 @@ using Newtonsoft.Json.Linq;
 using Service.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
@@ -38,7 +44,7 @@ namespace WebApp.Controllers
         public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
-            _ImageSize=imageSize.Value;
+            _ImageSize = imageSize.Value;
             _httpInfo = httpInfo;
         }
 
@@ -128,21 +134,28 @@ namespace WebApp.Controllers
             var model = new ViewVariantCombinationModel
             {
                 CombinationId = combinationId,
-                Attributes  = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
+                Attributes = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
             };
             return PartialView("Partials/_AddAttributes", model);
         }
         [HttpPost]
         [ValidateAjax]
-        public async Task<IActionResult> SaveVariants(List<PictureInformationReq> req, string jsonObj)
+        public async Task<IActionResult> SaveVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)
         {
+            
             var model = new VariantCombination();
-
+            model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+            ModelState.Clear();
+            TryValidateModel(model);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var response = new Response();
             try
             {
                 List<PictureInformation> ImageInfo = new List<PictureInformation>();
-                if (req!=null && req.Any())
+                if (req != null && req.Any())
                 {
                     foreach (var item in req)
                     {
@@ -178,7 +191,7 @@ namespace WebApp.Controllers
                                     var formFile = new FormFile(stream, 0, stream.Length, "req[0].file", fileName)
                                     {
                                         Headers = new HeaderDictionary(),
-                                        ContentDisposition="form-data;FileName="+fileName,
+                                        ContentDisposition = "form-data;FileName=" + fileName,
                                         ContentType = "image/jpeg"
                                     };
                                     Utility.O.UploadFile(new FileUploadModel
@@ -203,8 +216,15 @@ namespace WebApp.Controllers
                         }
                     }
                 }
-                model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj);
-                model.PictureInfo=ImageInfo;
+                //model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+                
+                if (!TryValidateModel(model) || model.GroupInfo.Count <= 0 || model.AttributeInfo.Count <= 0)
+                {
+                    response.StatusCode = ResponseStatus.Failed;
+                    response.ResponseText = "Invalid Details";
+                    return Json(response);
+                }
+                model.PictureInfo = ImageInfo;
                 string _token = User.GetLoggedInUserToken();
                 var jsonData = JsonConvert.SerializeObject(model);
                 var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
@@ -218,7 +238,7 @@ namespace WebApp.Controllers
             {
 
             }
-            return Json(model);
+            return Json(response);
         }
         #endregion
 
