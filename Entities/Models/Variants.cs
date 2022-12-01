@@ -42,6 +42,7 @@ namespace Entities.Models
     }
     public class VariantCombination
     {
+        [Required(ErrorMessage = "Product Id is mendetory")]
         public int ProductId { get; set; }
         [Required, MinLength(1, ErrorMessage = "Please add atleaste one Attribute")]
         public List<AttributeInfo> AttributeInfo { get; set; }

@@ -1,12 +1,15 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
 using AutoMapper;
+using Dapper;
 using Entities.Enums;
 using Entities.Models;
+using FluentMigrator.Infrastructure;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -16,10 +19,12 @@ using Newtonsoft.Json.Linq;
 using Service.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
@@ -135,9 +140,17 @@ namespace WebApp.Controllers
         }
         [HttpPost]
         [ValidateAjax]
-        public async Task<IActionResult> SaveVariants(List<PictureInformationReq> req, string jsonObj)
+        public async Task<IActionResult> SaveVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)
         {
+            
             var model = new VariantCombination();
+            model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+            ModelState.Clear();
+            TryValidateModel(model);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var response = new Response();
             try
             {
@@ -203,7 +216,8 @@ namespace WebApp.Controllers
                         }
                     }
                 }
-                model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+                //model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+                
                 if (!TryValidateModel(model) || model.GroupInfo.Count <= 0 || model.AttributeInfo.Count <= 0)
                 {
                     response.StatusCode = ResponseStatus.Failed;
