@@ -151,17 +151,21 @@ namespace WebApp.Controllers
                                 Role = applicationUser.Role,
                                 Token = applicationUser.Token
                             };
+                            if (applicationUser.Role.Equals("3"))// Vendor
+                            {
+                                user.Role = "0";
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Vendor/Index" : ReturnUrl;
+                            }
+                            else if (applicationUser.Role.Equals("1")) // Admin
+                            {
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
+                            }
                             var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));
                             identity.AddClaim(new Claim("Token", user.Token.ToString()));
                             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
                             identity.AddClaim(new Claim(ClaimTypes.Role, user.Role ?? string.Empty));
-                            await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
-                                new ClaimsPrincipal(identity));
-                            if (applicationUser.Role.Equals("3")) // Vendor
-                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Vendor/Index" : ReturnUrl;
-                            else if (applicationUser.Role.Equals("1")) // Admin
-                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
+                            await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
                             return LocalRedirect(ReturnUrl);
                         }
                     }

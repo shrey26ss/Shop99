@@ -14,6 +14,10 @@ namespace Entities.Models
         [Required(ErrorMessage = "Quantity is required.")]
         public int Quantity { get; set; }
         public string GTIN { get; set; }
+        public bool IsShowOnHome { get; set; }
+        public string Title { get; set; }
+        public decimal SellingCost { get; set; }
+        public bool IsFeatured { get; set; }
     }
     public class AttributeInfo
     {
@@ -31,6 +35,7 @@ namespace Entities.Models
         public string Title { get; set; }    
         public string Alt { get; set; }    
         public string ImagePath { get; set; }
+        public string ImgVariant { get; set; }
     }
     public class VariantCombination
     {
