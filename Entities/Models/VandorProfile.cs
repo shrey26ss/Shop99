@@ -9,13 +9,18 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage ="Please Enter Shop Name")]
+        [Display(Name ="Shop Name")]
         public string ShopName { get; set; }
         [Required(ErrorMessage = "Please Enter GST Number")]
+        [Display(Name ="GST Number")]
         public string GSTNumber { get; set; }
         [Required(ErrorMessage = "Please Enter Your TIN")]
         public string TIN { get; set; }
         public int UserId { get; set; }
         public string Address { get; set; }
+        [Display(Name ="Mobile Number")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
         public string ContactNo { get; set; }
     }
 }

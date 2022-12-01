@@ -147,7 +147,10 @@
                     MRP: currentGroup.find('[name="MRP"]').val(),
                     Quantity: currentGroup.find('[name="Quantity"]').val(),
                     GTIN: currentGroup.find('[name="GTIN"]').val(),
-                    // attributes : attrInfo
+                    Title: currentGroup.find('[name="Title"]').val(),
+                    SellingCost: currentGroup.find('[name="SellingCost"]').val(),
+                    IsFeatured: currentGroup.find('[name="IsFeatured"]').is(':checked'),
+                    IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
                 };
                 groupInfo.push(groupDetail);
             });

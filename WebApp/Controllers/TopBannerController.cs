@@ -89,7 +89,6 @@ namespace WebApp.Controllers
 
             }
             return Json(response);
-            return Ok();
         }
         private async Task<List<TopBanner>> GetList(int Id = 0)
         {

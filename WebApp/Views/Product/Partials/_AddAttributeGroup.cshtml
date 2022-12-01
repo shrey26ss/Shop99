@@ -2,22 +2,18 @@
     <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
-                <label class="col-form-label" for="HSN">HSN</label>
-                <div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help">
-                    <i class="fas fa-question-circle"></i>
-                </div>
+                <label class="col-form-label" for="Title">Title</label>
             </div>
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" id="HSN_1" name="HSN">
+                <input class="form-control text-box single-line" type="text" name="Title">
             </div>
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-md-3">
-            <label class="col-form-label" for="Price">Price</label>
-            <span title="Enter Value for Price" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>
+        <div class="col-md-3 label-wrapper">
+            <label class="col-form-label" for="Price">Price</label>            
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
@@ -25,10 +21,37 @@
             </div>
         </div>
     </div>
+     <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="SellingCost">Selling Cost</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" name="SellingCost">
+            </div>
+        </div>
+    </div>    
     <div class="form-group row">
         <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="HSN">HSN</label>
+                @*<div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help">
+                    <i class="fas fa-question-circle"></i>
+                </div>*@
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="HSN_1" name="HSN">
+            </div>
+        </div>
+    </div>    
+    <div class="form-group row">
+        <div class="col-md-3 label-wrapper">
             <label class="col-form-label" for="GTIN">Quantity</label>
-            <span title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>
+           @* <span title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>*@
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
@@ -37,13 +60,37 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-md-3">
+        <div class="col-md-3 label-wrapper">
             <label class="col-form-label" for="GTIN">GTIN</label>
-            <span title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>
+           @* <span title="Enter Value for GTIN" data-toggle="tooltip" class="ico-help"><i class="fas fa-question-circle"></i></span>*@
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
                 <input class="form-control text-box single-line" type="text" id="GTIN_1" name="GTIN">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="IsFeatured">IsFeatured</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="mt-3 ml-2" type="checkbox" name="IsFeatured">
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="IsShowOnHome">Is Show On Home</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group input-group-required">
+                <input class="mt-3 ml-2" type="radio" name="IsShowOnHome">
             </div>
         </div>
     </div>

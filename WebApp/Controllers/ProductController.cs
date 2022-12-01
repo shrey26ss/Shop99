@@ -161,6 +161,7 @@ namespace WebApp.Controllers
                             Color = item.Color,
                             DisplayOrder = item.DisplayOrder,
                             GroupId = item.GroupId,
+                            ImgVariant = "default",
                             ImagePath = string.Concat(_httpInfo.AbsoluteURL(), FileDirectories.ProductSuffix.Replace("{0}", string.Empty), fileName)
                         });
                         foreach (var iSize in _ImageSize)
@@ -194,6 +195,7 @@ namespace WebApp.Controllers
                                         Color = item.Color,
                                         DisplayOrder = item.DisplayOrder,
                                         GroupId = item.GroupId,
+                                        ImgVariant = sValue,
                                         ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
                                     });
                                 }
