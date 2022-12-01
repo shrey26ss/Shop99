@@ -122,7 +122,7 @@ namespace WebApp
                 app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
                 app.UseHsts();
             }
-            //app.UseStatusCodePagesWithRedirects();
+            app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             //app.ConfigureExceptionHandler(logger);
             app.UseStaticFiles();
             app.UseRouting();
