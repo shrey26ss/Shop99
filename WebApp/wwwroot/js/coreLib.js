@@ -1210,14 +1210,48 @@ class ShowJsTimer {
     };
 }($));
 
+//(function (e) {
+//    e.fn.numeric = function (t) {
+//        let i = e.extend({ numericType: "number", maxLength: 0 }, t);
+//        e(this).keypress((t) => {
+//            if (0 !== i.maxLength && e(t.currentTarget).val().length > i.maxLength) return !1;
+//            let a = t.keyCode ? t.keyCode : t.which;
+//            return "number" === i.numericType ? a >= 48 && a <= 57 : "decimal" === i.numericType ? (a >= 48 && a <= 57) || (46 === a && -1 === e(t.currentTarget).val().indexOf(".")) : void 0;
+//        });
+//    };
+//})($);
+
 (function (e) {
     e.fn.numeric = function (t) {
+        let element = e(this);
         let i = e.extend({ numericType: "number", maxLength: 0 }, t);
-        e(this).keypress((t) => {
-            if (0 !== i.maxLength && e(t.currentTarget).val().length > i.maxLength) return !1;
-            let a = t.keyCode ? t.keyCode : t.which;
-            return "number" === i.numericType ? a >= 48 && a <= 57 : "decimal" === i.numericType ? (a >= 48 && a <= 57) || (46 === a && -1 === e(t.currentTarget).val().indexOf(".")) : void 0;
+        element.on('input', function (t) {
+            let currentEle = $(this);
+            let eleValue = currentEle.val();
+            if (eleValue.length <= i.maxLength) {
+                let _lastChar = eleValue?.slice(-1);
+                let keycode = (_lastChar.charCodeAt(0));
+                if (keycode >= 48 && keycode <= 57) {
+
+                }
+                else {
+                    currentEle.val(eleValue.slice(0, (eleValue.length - 1)));
+                }
+            }
+            else {
+                currentEle.val(eleValue.slice(0, (eleValue.length - 1)));
+            }
         });
+
+        element.on('paste', function (e) {
+            let pastedData = e.originalEvent.clipboardData.getData('text');
+            pastedData = pastedData?.trim() ?? '';
+            if (isNaN(pastedData) || pastedData.length > i.maxLength) {
+                pastedData = pastedData.substring(0, i.maxLength);
+                element.val(pastedData)
+                return false;
+            }
+        })
     };
 })($);
 
