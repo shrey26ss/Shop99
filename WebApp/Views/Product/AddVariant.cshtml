@@ -161,14 +161,18 @@
                 groupInfo.push(groupDetail);
 
             });
+            let count = 0;
             $('.pictureGrid tbody tr').each(function (i) {
                 let pictureGroup = $(this).data();
+                count++;
                 let pic = {
                     Alt: pictureGroup.altValue,
                     Title: pictureGroup.titleValue,
                     DisplayOrder: pictureGroup.displayValue,
-                    AttrColor: pictureGroup.colorValue
+                    AttrColor: pictureGroup.colorValue,
+                    GroupId: count
                 }
+                console.log('pic', pic);
                 pictureInfo.push(pic);
             });
             let param = {
@@ -177,6 +181,7 @@
                 GroupInfo: groupInfo,
                 PictureInfo: pictureInfo
             };
+            console.log(param.PictureInfo);
             formData = new FormData();
             for (let i = 0; i < variantImages.length; i++) {
                 formData.append(`req[${i}].file`, variantImages[i].File);
