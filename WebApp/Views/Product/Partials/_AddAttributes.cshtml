@@ -49,7 +49,6 @@
             AllowFiltering: $('#AllowFiltering').is(':checked') ? "checked" : "",
             ShowOnProductPage: $('#ShowOnProductPage').is(':checked') ? "checked" : ""
         };
-        console.log(param);
         if(param.AttributeId == '0'){
             Q.notify(-1, 'Select a Attribute');
             return false;
