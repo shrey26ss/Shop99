@@ -1,55 +1,8 @@
 ﻿$(document).ready(function () {
-    loadMainCategory().then((res) => {
-        setTimeout(function () {
-            console.log('tab', $('#tab1').length)
-            $('#tab1').css({ 'display': 'block' });
-            $(".product-slide-6").slick({
-                arrows: true,
-                dots: false,
-                infinite: false,
-                speed: 300,
-                slidesToShow: 6,
-                slidesToScroll: 6,
-                responsive: [
-                    {
-                        breakpoint: 1700,
-                        settings: {
-                            slidesToShow: 5,
-                            slidesToScroll: 5,
-                            infinite: true
-                        }
-                    },
-                    {
-                        breakpoint: 1200,
-                        settings: {
-                            slidesToShow: 4,
-                            slidesToScroll: 4,
-                            infinite: true
-                        }
-                    },
-                    {
-                        breakpoint: 991,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 3,
-                            infinite: true
-                        }
-                    },
-                    {
-                        breakpoint: 576,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 2
-                        }
-                    }
-                ]
-            });
-        }, 800);
-    });
+    loadMainCategory();
 });
 
 const loadMainCategory = async function () {
-    //"/LoadTopCategory"
      await $.post(baseURL + "/Category/TopCategory").done(res => {
         console.log(res);
         if (res.statusCode === 1) {
@@ -57,8 +10,8 @@ const loadMainCategory = async function () {
             TopCategory.html('');
             $.each(res.result, async function (i, v) {
                 let current = i == 0 ? "class='current'" : "";
-                TopCategory.append(`<li ${current}><a href="tab${v.categoryId}">${v.categoryName}</a></li >`);
-                loadTopCategoryProduct(v.categoryId,i);
+                TopCategory.append(`<li ${current}><a href="tab${i+1}">${v.categoryName}</a></li >`);
+                loadTopCategoryProduct(v.categoryId, i + 1);
             })
          }
     }).fail(xhr => {
@@ -68,14 +21,12 @@ const loadMainCategory = async function () {
     }).always(() => "");
     return true;
 }
-const loadTopCategoryProduct = async function (cId,i) {
-    //"/LoadTopCategory"
+const loadTopCategoryProduct = async function (cId, i) {
     let item = {
         OrderBy: "",
         Top: 10,
         MoreFilters: cId
     };
-    console.log("item : ", item);
     $.ajax({
         type: 'POST',
         url: baseURL + "/Home/ByCategoryProduct",
@@ -83,10 +34,11 @@ const loadTopCategoryProduct = async function (cId,i) {
         dataType: 'json',
         data: JSON.stringify(item),
         success: result => {
-            let current = i == 0 ? "active default" : "";
-            let htmlbody = `<div id="tab${cId}" class="tab-content ${current}">
-              <div class="product-slide-6 product-m no-arrow">`;
+            let current = i == 1 ? "active default" : "";
+            let htmlbody = `<div id="tab${i}" class="tab-content ${current}">
+              <div class="product-slide-${i} product-m no-arrow">`;
             $.each(result.result, async function (i, v) {
+                v.imagePath = '/assets/images/layout-2/product/1.jpg';
                 htmlbody = htmlbody + `<div>
                   <div class="product-box">
                     <div class="product-imgbox">
@@ -156,7 +108,52 @@ const loadTopCategoryProduct = async function (cId,i) {
             htmlbody = htmlbody + ` </div>
             </div>`;
             $('#secDvPRodByCat').append(htmlbody);
-            console.log(result)
+            $(`#tab${i}`).css({ 'display': 'block' });
+            $(`.product-slide-${i}`).slick({
+                arrows: true,
+                dots: false,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 6,
+                slidesToScroll: 6,
+                responsive: [
+                    {
+                        breakpoint: 1700,
+                        settings: {
+                            slidesToShow: 5,
+                            slidesToScroll: 5,
+                            infinite: true
+                        }
+                    },
+                    {
+                        breakpoint: 1200,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 4,
+                            infinite: true
+                        }
+                    },
+                    {
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: true
+                        }
+                    },
+                    {
+                        breakpoint: 576,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    }
+                ]
+            });
+            $(`#tab${i}`).css({ 'display': 'none' });
+            if (i == 1) {
+                $(`#tab${i}`).css({ 'display': 'block' });
+            }
         },
         error: result => {
             console.log(result);
