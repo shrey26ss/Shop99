@@ -73495,6 +73495,10 @@ div.dataTables_wrapper div.dataTables_paginate {
     box-shadow: none !important;
     border: 1px solid #eaeaea
 }
+.required:after {
+    content: " *";
+    color: red;
+}
 
 @media(max-width:1500px) {
     .configuration-step-icon {
