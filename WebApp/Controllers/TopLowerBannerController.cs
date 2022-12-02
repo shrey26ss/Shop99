@@ -55,30 +55,30 @@ namespace WebApp.Controllers
         }
         [HttpPost]
         [ValidateAjax]
-        public async Task<IActionResult> Edit(TopLowerBannerViewModel model)
+        public async Task<IActionResult> Edit(TopLowerBannerViewModel model) //TopLowerBanner
         {
             Response response = new Response();
             try
             {
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.jpg";
-                var _ = Utility.O.UploadFile(new FileUploadModel
+                if(model.File != null)
                 {
-                    file = model.File,
-                    FileName = fileName,
-                    FilePath = FileDirectories.TopLowerBanner,
-                });
-                if (_.StatusCode == ResponseStatus.Success)
-                {
-                    string _token = User.GetLoggedInUserToken();
-                    string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
-                    model.BannerPath = $"{absoluteURL}/{FileDirectories.TopLowerBannerSuffix}/{fileName}";
-                    var jsonData = JsonConvert.SerializeObject(model);
-                    var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopLowerBanner/AddUpdate", jsonData, _token);
-                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                    var _ = Utility.O.UploadFile(new FileUploadModel
                     {
-                        var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
-                        response = deserializeObject;
+                        file = model.File,
+                        FileName = fileName,
+                        FilePath = FileDirectories.TopLowerBanner,
+                    });
+                    if (_.StatusCode == ResponseStatus.Success){
+                        string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
+                        model.BannerPath = $"{absoluteURL}/{FileDirectories.TopLowerBannerSuffix}/{fileName}";
                     }
+                }
+                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopLowerBanner/AddUpdate", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
+                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                    response = deserializeObject;
                 }
             }
             catch (Exception ex)

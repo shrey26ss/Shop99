@@ -9,6 +9,6 @@ namespace Infrastructure.Interface
     public interface ITopLowerBanner
     {
         Task<IResponse> AddUpdate(RequestBase<TopLowerBanner> request);
-        Task<IResponse<IEnumerable<TopLowerBanner>>> GetDetails();
+        Task<IResponse<IEnumerable<TopLowerBanner>>> GetDetails(RequestBase<SearchItem> req);
     }
 }

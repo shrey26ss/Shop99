@@ -20,9 +20,9 @@ namespace WebAPI.Controllers
             _homepageService = homepageService;            
         }
         [HttpGet(nameof(TopBanners))]
-        public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails());
+        public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
         [HttpGet(nameof(TopLowerBanners))]
-        public async Task<IActionResult> TopLowerBanners() => Ok(await _topLowerBanner.GetDetails());
+        public async Task<IActionResult> TopLowerBanners() => Ok(await _topLowerBanner.GetDetails(new RequestBase<SearchItem>()));
         [HttpPost(nameof(ByCategoryProduct))]
         public async Task<ActionResult> ByCategoryProduct(ProductRequest<int> productRequest) => Ok(await _homepageService.GetProductByCategory(productRequest));
         [HttpPost(nameof(RandomProduct))]

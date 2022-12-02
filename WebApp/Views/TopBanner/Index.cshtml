@@ -43,7 +43,6 @@
             $.post('/TopBanner/TopBannerList').done(function (result) {
                 $('#Grid tbody').html(result);
             }).fail(function (xhr) {
-                console.log(xhr.responseText);
             })
         };
 
