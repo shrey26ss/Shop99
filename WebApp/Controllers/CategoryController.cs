@@ -18,6 +18,7 @@ using Entities.Enums;
 using AppUtility.Helper;
 using WebApp.Models.ViewModels;
 using Service.Models;
+using WebApp.AppCode.Attributes;
 
 namespace WebApp.Controllers
 {
@@ -80,31 +81,29 @@ namespace WebApp.Controllers
 
         // POST: CategoryController/Create
         [HttpPost]
-
+        [ValidateAjax]
         public async Task<ActionResult> Create(Category category, IFormFile Icon)
         {
             Response response = new Response();
             try
             {
+                string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.svg";
-                var _ = Utility.O.UploadFile(new FileUploadModel
+                if(Icon != null)
                 {
-                    file = Icon,
-                    FileName = fileName,
-                    FilePath = FileDirectories.Category,
-                });
-                if(_.StatusCode== ResponseStatus.Success)
-                {
-                    string _token = User.GetLoggedInUserToken();
-                    string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
-                    category.Icon = $"{absoluteURL}/{FileDirectories.CategorySuffix}/{fileName}";
-                    var jsonData = JsonConvert.SerializeObject(category);
-                    var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/AddUpdate", jsonData, _token);
-                    if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                    var _ = Utility.O.UploadFile(new FileUploadModel
                     {
-                        var deserializeObject = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
-                        response = deserializeObject;
-                    }
+                        file = Icon,
+                        FileName = fileName,
+                        FilePath = FileDirectories.Category,
+                    });
+                    if (_.StatusCode == ResponseStatus.Success)
+                        category.Icon = $"{absoluteURL}/{FileDirectories.CategorySuffix}{fileName}";
+                }
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/AddUpdate", JsonConvert.SerializeObject(category), User.GetLoggedInUserToken());
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    response = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
                 }
             }
             catch(Exception ex)

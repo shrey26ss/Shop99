@@ -84,5 +84,31 @@ namespace Service.TopLowerBanners
             }
             return res;
         }
+        public async Task<IResponse> Delete(RequestBase<SearchItem> req)
+        {
+            var res = new Response();
+            try
+            {
+                if (req.Data == null)
+                    return res;
+                string sqlQuery = @"Delete from TopLowerBanner where Id = @Id";
+                int i = -5;
+                i = await _dapper.ExecuteAsync(sqlQuery, new { req.Data.Id }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return res;
+        }
     }
 }

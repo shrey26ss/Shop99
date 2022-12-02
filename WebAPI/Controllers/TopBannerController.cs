@@ -29,5 +29,12 @@ namespace WebAPI.Controllers
         {
             Data = req
         }));
+        [Route("TopBanner/Delete")]
+        [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Delete(SearchItem req) => Ok(await _banner.Delete(new RequestBase<SearchItem>
+        {
+            Data = req,
+            LoginId = User.GetLoggedInUserId<int>()
+        }));
     }
 }
