@@ -41,11 +41,11 @@ namespace Service.TopBanners
                 {
                     request.LoginId,
                     request.Data.Id,
-                    request.Data.Title,
                     request.Data.BannerPath,
-                    request.Data.Subtitle,
-                    request.Data.BackLinkText,
-                    request.Data.BackLinkURL
+                    Title = request.Data.Title ?? string.Empty,
+                    Subtitle = request.Data.Subtitle?? string.Empty,
+                    BackLinkText = request.Data.BackLinkText ?? string.Empty,
+                    BackLinkURL = request.Data.BackLinkURL ?? string.Empty
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)
@@ -66,7 +66,7 @@ namespace Service.TopBanners
         public async Task<IResponse<IEnumerable<TopBanner>>> GetDetails(RequestBase<SearchItem> req)
         {
             string sp = string.Empty;
-            if(req.Data == null)
+            if (req.Data == null)
                 req.Data = new SearchItem();
             var res = new Response<IEnumerable<TopBanner>>();
             try
@@ -87,11 +87,11 @@ namespace Service.TopBanners
             var res = new Response();
             try
             {
-                if(req.Data == null)
+                if (req.Data == null)
                     return res;
                 string sqlQuery = @"Delete from TopBanner where Id = @Id";
                 int i = -5;
-                i = await _dapper.ExecuteAsync(sqlQuery, new{req.Data.Id}, CommandType.Text);
+                i = await _dapper.ExecuteAsync(sqlQuery, new { req.Data.Id }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)
                 {

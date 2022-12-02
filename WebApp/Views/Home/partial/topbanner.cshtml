@@ -15,8 +15,8 @@
                                 <div class="slider-banner p-center slide-banner-1">
                                     <div class="slider-img">
                                         <ul class="layout1-slide-2">
-                                            <li id="img-3" class="slide-center"><img src="/assets/images/layout-2/slider/2.1.png" class="img-fluid" alt="slider"></li>
-                                            <li id="img-4" class="slide-center"><img src="/assets/images/layout-2/slider/2.2.png" class="img-fluid" alt="slider"></li>
+                                            <li id="img-3" class="slide-center"><img src="@item.BannerPath" class="img-fluid" alt="slider"></li>
+                                            @*<li id="img-4" class="slide-center"><img src="/assets/images/layout-2/slider/2.2.png" class="img-fluid" alt="slider"></li>*@
                                         </ul>
                                     </div>
                                     <div class="slider-banner-contain">
@@ -25,7 +25,7 @@
                                             <h4>@item.Subtitle</h4>
                                           @*  <h2>Pixel Perfect Deal Camera</h2>*@
                                             <a href="@item.BackLinkURL" class="btn btn-normal">
-                                                Shop Now
+                                              @item.BackLinkText
                                             </a>
                                         </div>
                                     </div>
