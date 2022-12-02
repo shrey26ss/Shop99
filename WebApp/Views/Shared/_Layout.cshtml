@@ -576,7 +576,7 @@
     @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 
-    @RenderSection("Scripts", required: false)
+    
 
 
     <!-- latest jquery-->
@@ -609,6 +609,6 @@
     <!-- Theme js-->
     <script src="~/assets/js/modal.js"></script>
     <script src="~/assets/js/script.js"></script>
-    <script src="~/clientapp/js/index.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

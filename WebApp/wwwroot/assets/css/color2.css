@@ -10244,6 +10244,7 @@ ul.sosiyal {
             position: absolute;
             bottom: -30px;
             left: -50px;
+            display: block;
         }
 
             .theme-slider .slider-banner.slide-banner-1 .layout1-slide-1 li:nth-child(2) {
@@ -28783,11 +28784,11 @@ body.rtl {
         }
 
     .theme-slider .slider-banner.slide-banner-1 div li img {
-        width: 60%;
+        width: 100%;
     }
 
     .theme-slider .slider-banner.slide-banner-5 .layout6-slide-1 li {
-        width: 400px;
+       width: 100%;
     }
 
     .theme-slider .slider-banner.slide-banner-3 .layout4-slide-1 li {
