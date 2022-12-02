@@ -175,7 +175,7 @@ namespace WebApp.Controllers
                             DisplayOrder = item.DisplayOrder,
                             GroupId = item.GroupId,
                             ImgVariant = "default",
-                            ImagePath = string.Concat(_httpInfo.AbsoluteURL(), FileDirectories.ProductSuffix.Replace("{0}", string.Empty), fileName)
+                            ImagePath = string.Concat(_httpInfo.AbsoluteURL(),"/", FileDirectories.ProductSuffixDefault, fileName)
                         });
                         foreach (var iSize in _ImageSize)
                         {
@@ -194,6 +194,7 @@ namespace WebApp.Controllers
                                         ContentDisposition = "form-data;FileName=" + fileName,
                                         ContentType = "image/jpeg"
                                     };
+                                    string Paths = FileDirectories.ProductVariant.Replace("{0}", sValue);
                                     Utility.O.UploadFile(new FileUploadModel
                                     {
                                         file = formFile,
@@ -218,12 +219,7 @@ namespace WebApp.Controllers
                 }
                 //model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
                 
-                if (!TryValidateModel(model) || model.GroupInfo.Count <= 0 || model.AttributeInfo.Count <= 0)
-                {
-                    response.StatusCode = ResponseStatus.Failed;
-                    response.ResponseText = "Invalid Details";
-                    return Json(response);
-                }
+                
                 model.PictureInfo = ImageInfo;
                 string _token = User.GetLoggedInUserToken();
                 var jsonData = JsonConvert.SerializeObject(model);
