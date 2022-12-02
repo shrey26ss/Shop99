@@ -162,26 +162,8 @@ const loadTopCategoryProduct = async function (cId, i) {
     });
 }
 const loadTopBannerSec = async function () {
-    await $.get(baseURL + "/Home/TopBanners").done(res => {
-        console.log('--Top Banner--');
-        console.log(res);
-        if (res.statusCode === 1) {
-            let topbanner = $('#secDvBanner');
-            topbanner.html('');
-            $.each(res.result, async function (i, v) {
-                topbanner.append(`<div>
-                                    <div class="slider-banner p-center slide-banner-1">
-                                      <div class="slider-img">
-                                        <ul class="layout1-slide-2">
-                                          <li id="img-3" class="slide-center"><img src="/assets/images/layout-2/slider/2.1.png" class="img-fluid" alt="slider"></li>
-                                          <li id="img-4" class="slide-center"><img src="/assets/images/layout-2/slider/2.2.png" class="img-fluid" alt="slider"></li>
-                                        </ul>
-                                     </div>
-                                   </div>
-                                </div>`);
-
-            })
-        }
+    await $.post("/LoadTopBanner").done(res => {
+        $('#secDvBanner').html(res);
     }).fail(xhr => {
         an.title = "Oops! Error";
         an.content = xhr.responseText;

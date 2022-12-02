@@ -13,8 +13,52 @@ namespace AppUtility.APIRequest
         public static AppWebRequest O { get { return Instance.Value; } }
         private static Lazy<AppWebRequest> Instance = new Lazy<AppWebRequest>(() => new AppWebRequest());
         private AppWebRequest() { }
+        #region HttpGet
+        public async Task<string> CallUsingHttpWebRequest_GET(string URL)
+        {
+            HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
+            http.Timeout = 2 * 60 * 1000;
+            WebResponse response = http.GetResponse();
+            string result = string.Empty;
+            try
+            {
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                {
+                    result = sr.ReadToEnd();
+                }
+            }
+            catch (UriFormatException ufx)
+            {
+                throw new Exception(ufx.Message);
+            }
+            catch (WebException wx)
+            {
+                if (wx.Response != null)
+                {
+                    using (var ErrorResponse = wx.Response)
+                    {
+                        using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
+                        {
+                            result = sr.ReadToEnd();
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception(wx.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
-        public async Task<HttpResponse> PostAsync(string URL, string PostData, string AccessToken = "", string ContentType = "application/json",int timeout=0)
+            return result;
+        }
+        #endregion
+
+        #region HttpPost
+        public async Task<HttpResponse> PostAsync(string URL, string PostData, string AccessToken = "", string ContentType = "application/json", int timeout = 0)
         {
             HttpResponse httpResponse = new HttpResponse();
             HttpWebRequest http = (HttpWebRequest)WebRequest.Create(URL);
@@ -50,7 +94,7 @@ namespace AppUtility.APIRequest
                     {
                         using (StreamReader sr = new StreamReader(ErrorResponse.GetResponseStream()))
                         {
-                            
+
                             httpResponse.Result = await sr.ReadToEndAsync().ConfigureAwait(false);
                             httpResponse.HttpMessage = wx.Message;
                             httpResponse.HttpStatusCode = ((HttpWebResponse)wx.Response).StatusCode;
@@ -68,5 +112,7 @@ namespace AppUtility.APIRequest
             }
             return httpResponse;
         }
+        #endregion
+
     }
 }

@@ -17,6 +17,8 @@ namespace WebApp.Servcie
     {
         Task<IResponse<List<MenuItem>>> GetMenu();
         Task<IResponse<IEnumerable<Category>>> GetTopCategory();
+        Task<IResponse<IEnumerable<TopBanner>>> GetTopBanner();
+        Task<IResponse<IEnumerable<TopLowerBanner>>> GetTopLowerBanners();
     }
     public class CategoryAPI : ICategoryAPI
     {
@@ -58,6 +60,50 @@ namespace WebApp.Servcie
                 try
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<Category>>>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
+        public async Task<IResponse<IEnumerable<TopBanner>>> GetTopBanner()
+        {
+            var res = new Response<IEnumerable<TopBanner>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.CallUsingHttpWebRequest_GET($"{_apiBaseURL}/api/Home/TopBanners");
+            if (!string.IsNullOrEmpty(Response))
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<TopBanner>>>(Response);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
+        public async Task<IResponse<IEnumerable<TopLowerBanner>>> GetTopLowerBanners()
+        {
+            var res = new Response<IEnumerable<TopLowerBanner>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.CallUsingHttpWebRequest_GET($"{_apiBaseURL}/api/Home/TopLowerBanners");
+            if (!string.IsNullOrEmpty(Response))
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<TopLowerBanner>>>(Response);
                     return deserializeObject;
                 }
                 catch (Exception e)
