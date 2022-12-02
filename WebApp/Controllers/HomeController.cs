@@ -7,11 +7,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models;
+using WebApp.Models.ViewModels;
 using WebApp.Servcie;
 
 namespace WebApp.Controllers
 {
-  
+
     public class HomeController : Controller
     {
         private readonly ILogger<UserHomeController> _logger;
@@ -29,12 +30,22 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> GetTopCategory()
         {
-             var res = _category.GetTopCategory().Result;
-             return Json(res);
+            var res = _category.GetTopCategory().Result;
+            return Json(res);
         }
-
-        
-      
+        [Route("LoadTopBanner")]
+        [HttpPost]
+        public async Task<IActionResult> GetTopBanner()
+        {
+            var topb = _category.GetTopBanner().Result;
+            var topl = _category.GetTopLowerBanners().Result;
+            var res = new TopBannerDashBoard()
+            {
+                topBanner= topb.Result.ToList(),
+                topLowBanner=topl.Result.ToList(),
+            };
+            return PartialView("partial/topbanner", res);
+        }
         public async Task<IActionResult> Error(int statusCode)
         {
             switch (statusCode)
