@@ -1,19 +1,20 @@
 ﻿$(document).ready(function () {
     loadMainCategory();
+    loadTopBannerSec();
 });
 
 const loadMainCategory = async function () {
-     await $.post(baseURL + "/Category/TopCategory").done(res => {
-        console.log(res);
+    await $.post(baseURL + "/Category/TopCategory").done(res => {
+
         if (res.statusCode === 1) {
             let TopCategory = $('#secTopCategory');
             TopCategory.html('');
             $.each(res.result, async function (i, v) {
                 let current = i == 0 ? "class='current'" : "";
-                TopCategory.append(`<li ${current}><a href="tab${i+1}">${v.categoryName}</a></li >`);
+                TopCategory.append(`<li ${current}><a href="tab${i + 1}">${v.categoryName}</a></li >`);
                 loadTopCategoryProduct(v.categoryId, i + 1);
             })
-         }
+        }
     }).fail(xhr => {
         an.title = "Oops! Error";
         an.content = xhr.responseText;
@@ -156,7 +157,35 @@ const loadTopCategoryProduct = async function (cId, i) {
             }
         },
         error: result => {
-            console.log(result);
+
         }
     });
+}
+const loadTopBannerSec = async function () {
+    await $.get(baseURL + "/Home/TopBanners").done(res => {
+        console.log('--Top Banner--');
+        console.log(res);
+        if (res.statusCode === 1) {
+            let topbanner = $('#secDvBanner');
+            topbanner.html('');
+            $.each(res.result, async function (i, v) {
+                topbanner.append(`<div>
+                                    <div class="slider-banner p-center slide-banner-1">
+                                      <div class="slider-img">
+                                        <ul class="layout1-slide-2">
+                                          <li id="img-3" class="slide-center"><img src="/assets/images/layout-2/slider/2.1.png" class="img-fluid" alt="slider"></li>
+                                          <li id="img-4" class="slide-center"><img src="/assets/images/layout-2/slider/2.2.png" class="img-fluid" alt="slider"></li>
+                                        </ul>
+                                     </div>
+                                   </div>
+                                </div>`);
+
+            })
+        }
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
 }
