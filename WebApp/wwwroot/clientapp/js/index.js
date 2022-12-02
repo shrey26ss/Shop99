@@ -5,7 +5,6 @@
 
 const loadMainCategory = async function () {
     await $.post(baseURL + "/Category/TopCategory").done(res => {
-
         if (res.statusCode === 1) {
             let TopCategory = $('#secTopCategory');
             TopCategory.html('');
@@ -36,8 +35,7 @@ const loadTopCategoryProduct = async function (cId, i) {
         data: JSON.stringify(item),
         success: result => {
             let current = i == 1 ? "active default" : "";
-            let htmlbody = `<div id="tab${i}" class="tab-content ${current}">
-              <div class="product-slide-${i} product-m no-arrow">`;
+            let htmlbody = `<div id="tab${i}" class="tab-content ${current}"><div class="product-slide-${i} product-m no-arrow">`;
             $.each(result.result, async function (i, v) {
                 v.imagePath = '/assets/images/layout-2/product/1.jpg';
                 htmlbody = htmlbody + `<div>
@@ -104,7 +102,6 @@ const loadTopCategoryProduct = async function (cId, i) {
                     </div>
                   </div>
                 </div>`;
-
             });
             htmlbody = htmlbody + ` </div>
             </div>`;
@@ -151,9 +148,8 @@ const loadTopCategoryProduct = async function (cId, i) {
                     }
                 ]
             });
-            $(`#tab${i}`).css({ 'display': 'none' });
-            if (i == 1) {
-                $(`#tab${i}`).css({ 'display': 'block' });
+            if (i !== 1) {
+                $(`#tab${i}`).css({ 'display': 'none' });
             }
         },
         error: result => {
