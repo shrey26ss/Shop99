@@ -161,18 +161,16 @@
                 groupInfo.push(groupDetail);
 
             });
-            let count = 0;
+
             $('.pictureGrid tbody tr').each(function (i) {
                 let pictureGroup = $(this).data();
-                count++;
                 let pic = {
                     Alt: pictureGroup.altValue,
                     Title: pictureGroup.titleValue,
                     DisplayOrder: pictureGroup.displayValue,
                     AttrColor: pictureGroup.colorValue,
-                    GroupId: count
-                }
-                console.log('pic', pic);
+                    GroupId: pictureGroup.groupId
+                };
                 pictureInfo.push(pic);
             });
             let param = {
@@ -218,7 +216,22 @@
         });
 
         $(document).on('click', '.rmComb', e => $(e.currentTarget).parents('div.row').remove());
-        $(document).on('click', '.rmRow', e => $(e.currentTarget).closest('tr').remove());
+        $(document).on('click', '.rmRow', (e) => {
+            let _this = $(e.currentTarget).closest('tr');
+            let param = {
+                AttributeId: _this.data().attrId,
+                AttributeText: _this.data().attrValue
+            }
+            if (param.AttributeId == "1") {
+                $(`tr[data-color-value="${param.AttributeText}"]`).remove();
+            }
+            $(`#attrColor option[value="${param.AttributeText}"]`).remove();
+            if ($('#attrColor option').length <= 0) {
+                let _option = `<option value="default" data-group-Id="${1}">default</option>`;
+                $('#attrColor').append(_option);
+            }
+            $(e.currentTarget).closest('tr').remove();
+        });
         $(document).on('click', '.btnCloneAttrGroup', e => {
             let __html = $(e.currentTarget).parents('.row').find('.attrCombination').html();
             let _count = $('.attrCombination').length;
@@ -235,18 +248,22 @@
                 AttrColor: $("#attrColor option:selected").text(),
                 GroupId: $("#attrColor option:selected").data()?.groupId
             };
+            if (!param.File || !param.Alt || !param.Title || !param.DisplayOrder || !param.AttrColor) {
+                Q.notify(-1, 'All Image fileds are required');
+                return false;
+            }
             let pictureGrid = $(`.pictureGrid`);
             let count = pictureGrid.find('tr').length;
             variantImages.push(param);
             let _src = URL.createObjectURL(param.File);
-            let _html = `<tr data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
-                                                           <td>${count}</td>
-                                                           <td><img src="${_src}" alt="image" style="width:100px"/></td>
-                                                           <td>${param.DisplayOrder}</td>
-                                                           <td>${param.Alt}</td>
-                                                           <td>${param.Title}</td>
-                                                           <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
-                                                        </tr>`;
+            let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
+                                                    <td>${count}</td>
+                                                    <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                                    <td>${param.DisplayOrder}</td>
+                                                    <td>${param.Alt}</td>
+                                                    <td>${param.Title}</td>
+                                                    <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                                                 </tr>`;
             pictureGrid.append(_html);
             $('.rmImage').unbind().click(e => {
                 let _ele = $(e.currentTarget).closest('tr');
