@@ -31,6 +31,9 @@ namespace WebAPI.Controllers
             }));
         }
         [Route("TopLowerBanner/GetDetails")]
-        public async Task<IActionResult> GetDetails() => Ok(await _banner.GetDetails());
+        public async Task<IActionResult> GetDetails(SearchItem req) => Ok(await _banner.GetDetails(new RequestBase<SearchItem>
+        {
+            Data = req
+        }));
     }
 }

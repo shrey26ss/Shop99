@@ -25,6 +25,9 @@ namespace WebAPI.Controllers
             LoginId = User.GetLoggedInUserId<int>()
         }));
         [Route("TopBanner/GetDetails")]
-        public async Task<IActionResult> GetDetails() => Ok(await _banner.GetDetails());
+        public async Task<IActionResult> GetDetails(SearchItem req) => Ok(await _banner.GetDetails(new RequestBase<SearchItem>
+        {
+            Data = req
+        }));
     }
 }

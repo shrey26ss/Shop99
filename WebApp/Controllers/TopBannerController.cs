@@ -41,17 +41,17 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Edit(int Id = 0)
         {
             var res = new TopBannerViewModel();
-            if(Id > 0)
+            if (Id > 0)
             {
                 var resList = await GetList(Id);
                 res = new TopBannerViewModel
                 {
-                    Id= Id,
+                    Id = Id,
                     BackLinkText = resList.FirstOrDefault()?.BackLinkText,
                     BackLinkURL = resList.FirstOrDefault()?.BackLinkURL,
-                    BannerPath= resList.FirstOrDefault()?.BannerPath,
-                    Subtitle= resList.FirstOrDefault()?.Subtitle,
-                    Title= resList.FirstOrDefault()?.Title
+                    BannerPath = resList.FirstOrDefault()?.BannerPath,
+                    Subtitle = resList.FirstOrDefault()?.Subtitle,
+                    Title = resList.FirstOrDefault()?.Title
                 };
             }
             return PartialView("PartialView/_AddTopBanner", res);
@@ -63,25 +63,24 @@ namespace WebApp.Controllers
             Response response = new Response();
             try
             {
+                string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.jpg";
-                var _ = Utility.O.UploadFile(new FileUploadModel
+                if (model.File != null)
                 {
-                    file = model.File,
-                    FileName = fileName,
-                    FilePath = FileDirectories.TopBanner,
-                });
-                if (_.StatusCode == ResponseStatus.Success)
-                {
-                    string _token = User.GetLoggedInUserToken();
-                    string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
-                    model.BannerPath = $"{absoluteURL}/{FileDirectories.TopBannerSuffix}/{fileName}";
-                    var jsonData = JsonConvert.SerializeObject(model);
-                    var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopBanner/AddUpdate", jsonData, _token);
-                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                    var _ = Utility.O.UploadFile(new FileUploadModel
                     {
-                        var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
-                        response = deserializeObject;
-                    }
+                        file = model.File,
+                        FileName = fileName,
+                        FilePath = FileDirectories.TopBanner,
+                    });
+                    if (_.StatusCode == ResponseStatus.Success)
+                        model.BannerPath = $"{absoluteURL}/{FileDirectories.TopBannerSuffix}/{fileName}";
+                }
+                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopBanner/AddUpdate", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
+                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                    response = deserializeObject;
                 }
             }
             catch (Exception ex)
