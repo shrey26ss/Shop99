@@ -154,73 +154,7 @@ namespace WebApp.Controllers
             var response = new Response();
             try
             {
-                List<PictureInformation> ImageInfo = new List<PictureInformation>();
-                if (req != null && req.Any())
-                {
-                    foreach (var item in req)
-                    {
-                        string fileName = $"{DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
-                        Utility.O.UploadFile(new FileUploadModel
-                        {
-                            file = item.file,
-                            FileName = fileName,
-                            FilePath = FileDirectories.ProductVariant.Replace("{0}", string.Empty),
-                            IsThumbnailRequired = true,
-                        });
-                        ImageInfo.Add(new PictureInformation
-                        {
-                            Title = item.Title,
-                            Alt = item.Alt,
-                            Color = item.Color,
-                            DisplayOrder = item.DisplayOrder,
-                            GroupId = item.GroupId,
-                            ImgVariant = "default",
-                            ImagePath = string.Concat(_httpInfo.AbsoluteURL(),"/", FileDirectories.ProductSuffixDefault, fileName)
-                        });
-                        foreach (var iSize in _ImageSize)
-                        {
-                            bool isExists = _ImageSize.TryGetValue(iSize.Key, out string sValue);
-                            if (isExists)
-                            {
-                                var dimension = sValue.Split("_");
-                                ImageResizer resizer = new ImageResizer();
-                                var resizedImg = resizer.ResizeImage(item.file, Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-                                using (var stream = new MemoryStream())
-                                {
-                                    resizedImg.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                    var formFile = new FormFile(stream, 0, stream.Length, "req[0].file", fileName)
-                                    {
-                                        Headers = new HeaderDictionary(),
-                                        ContentDisposition = "form-data;FileName=" + fileName,
-                                        ContentType = "image/jpeg"
-                                    };
-                                    string Paths = FileDirectories.ProductVariant.Replace("{0}", sValue);
-                                    Utility.O.UploadFile(new FileUploadModel
-                                    {
-                                        file = formFile,
-                                        FileName = fileName,
-                                        FilePath = FileDirectories.ProductVariant.Replace("{0}", sValue),
-                                        IsThumbnailRequired = true,
-                                    });
-                                    ImageInfo.Add(new PictureInformation
-                                    {
-                                        Title = item.Title,
-                                        Alt = item.Alt,
-                                        Color = item.Color,
-                                        DisplayOrder = item.DisplayOrder,
-                                        GroupId = item.GroupId,
-                                        ImgVariant = sValue,
-                                        ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-                //model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
-                
-                
-                model.PictureInfo = ImageInfo;
+                model.PictureInfo = UploadProductImage(req);
                 string _token = User.GetLoggedInUserToken();
                 var jsonData = JsonConvert.SerializeObject(model);
                 var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
@@ -240,6 +174,74 @@ namespace WebApp.Controllers
 
 
         #region Private Method
+
+        private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)
+        {
+            List<PictureInformation> ImageInfo = new List<PictureInformation>();
+            if (req != null && req.Any())
+            {
+                foreach (var item in req)
+                {
+                    string fileName = $"{DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+                    Utility.O.UploadFile(new FileUploadModel
+                    {
+                        file = item.file,
+                        FileName = fileName,
+                        FilePath = FileDirectories.ProductVariant.Replace("/{0}", string.Empty),
+                        IsThumbnailRequired = true,
+                    });
+                    ImageInfo.Add(new PictureInformation
+                    {
+                        Title = item.Title,
+                        Alt = item.Alt,
+                        Color = item.Color,
+                        DisplayOrder = item.DisplayOrder,
+                        GroupId = item.GroupId,
+                        ImgVariant = "default",
+                        ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffixDefault, fileName)
+                    });
+                    foreach (var iSize in _ImageSize)
+                    {
+                        bool isExists = _ImageSize.TryGetValue(iSize.Key, out string sValue);
+                        if (isExists)
+                        {
+                            var dimension = sValue.Split("_");
+                            ImageResizer resizer = new ImageResizer();
+                            var resizedImg = resizer.ResizeImage(item.file, Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                            using (var stream = new MemoryStream())
+                            {
+                                resizedImg.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                var formFile = new FormFile(stream, 0, stream.Length, "req[0].file", fileName)
+                                {
+                                    Headers = new HeaderDictionary(),
+                                    ContentDisposition = "form-data;FileName=" + fileName,
+                                    ContentType = "image/jpeg"
+                                };
+                                string Paths = FileDirectories.ProductVariant.Replace("{0}", sValue);
+                                Utility.O.UploadFile(new FileUploadModel
+                                {
+                                    file = formFile,
+                                    FileName = fileName,
+                                    FilePath = FileDirectories.ProductVariant.Replace("{0}", sValue),
+                                    IsThumbnailRequired = true,
+                                });
+                                ImageInfo.Add(new PictureInformation
+                                {
+                                    Title = item.Title,
+                                    Alt = item.Alt,
+                                    Color = item.Color,
+                                    DisplayOrder = item.DisplayOrder,
+                                    GroupId = item.GroupId,
+                                    ImgVariant = sValue,
+                                    ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            return ImageInfo;
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
