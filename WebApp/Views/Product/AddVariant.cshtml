@@ -109,7 +109,7 @@
 
 
 @section Scripts{
-
+    
     <script>
 
         variantImages = [];
@@ -179,7 +179,6 @@
                 GroupInfo: groupInfo,
                 PictureInfo: pictureInfo
             };
-            console.log(param.PictureInfo);
             formData = new FormData();
             for (let i = 0; i < variantImages.length; i++) {
                 formData.append(`req[${i}].file`, variantImages[i].File);
@@ -272,5 +271,7 @@
                 _ele.remove();
             });
         });
+        $('[name="SellingCost"], [name="MRP"]').numeric({numericType:'decimal',maxLength:'7'});
+        $('[name="Quantity"], [name="DisplayOrder"]').numeric({numericType:'number',maxLength:'7'});
     </script>
  }
