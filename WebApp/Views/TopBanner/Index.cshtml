@@ -54,6 +54,16 @@
                     width: 800
                 });
             })
-        };
+        }; 
+
+    var Delete = (Id) => Q.confirm("Are You Sure. You Want To Delete This Banner", () => DeleteItem(Id));
+    var DeleteItem = function (Id = 0) {
+        $.post('/TopBanner/Delete',  { Id}).done((result) => {
+            console.log('result :', result);
+            Q.notify(result.statusCode,result.responseText);
+            if(result.statusCode)
+                loadData();
+        })
+    };
     </script>
 }

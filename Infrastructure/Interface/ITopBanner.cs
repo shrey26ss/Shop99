@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     {
         Task<IResponse> AddUpdate(RequestBase<TopBanner> request);
         Task<IResponse<IEnumerable<TopBanner>>> GetDetails(RequestBase<SearchItem> req);
+        Task<IResponse> Delete(RequestBase<SearchItem> req);
     }
 }

@@ -100,5 +100,16 @@ namespace WebApp.Controllers
             }
             return list;
         }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var response = new Response();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopLowerBanner/Delete", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            return Json(response);
+        }
     }
 }

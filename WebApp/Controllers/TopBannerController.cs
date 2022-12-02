@@ -92,14 +92,24 @@ namespace WebApp.Controllers
         private async Task<List<TopBanner>> GetList(int Id = 0)
         {
             List<TopBanner> list = new List<TopBanner>();
-            string _token = User.GetLoggedInUserToken();
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopBanner/GetDetails", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopBanner/GetDetails", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<TopBanner>>>(apiResponse.Result);
                 list = deserializeObject.Result;
             }
             return list;
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var response = new Response();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/TopBanner/Delete", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            return Json(response);
         }
     }
 }
