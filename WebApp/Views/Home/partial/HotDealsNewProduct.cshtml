@@ -8,53 +8,21 @@
     var Products = Model.ProductsData.Result.ToArray();
     int ProductLength = Products.Count();
 }
-@if (Model != null && Model.ProductsData != null && Model.ProductsData.StatusCode == ResponseStatus.Success && Model.ProductsData.Result.Any())
-{
-    @for (int j = 0; j < ProductLength; j = j + 3)
+<div class="hotdeal-slide-1-section no-arrow">
+    @if (Model != null && Model.ProductsData != null && Model.ProductsData.StatusCode == ResponseStatus.Success && Model.ProductsData.Result.Any())
     {
-        <div>
-            <div class="media-banner border-0">
-                <div class="media-banner-box">
-                    <div class="media-heading">
-                        <h5>New Products</h5>
-                    </div>
-                </div>
-                <div class="media-banner-box">
-                    <div class="media">
-                        <a href="product-page(left-sidebar).html">
-                            <img src="~/assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-                        </a>
-                        <div class="media-body">
-                            <div class="media-contant">
-                                <div>
-                                    <div class="product-detail">
-                                        <ul class="rating">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                        <a href="product-page(left-sidebar).html"><p>@Products[j].Title</p></a>
-                                        <h6>@Products[j].SellingCost <span>@Products[j].MRP</span></h6>
-                                    </div>
-                                    <div class="cart-info">
-                                        <button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-                                        <a href="javascript:void(0)" class="add-to-wish tooltip-top" data-tippy-content="Add to Wishlist"><i data-feather="heart"></i></a>
-                                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-                                        <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"><i data-feather="refresh-cw"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+        @for (int j = 0; j < ProductLength; j = j + 3)
+        {
+            <div class="media-banner">
+                    <div class="media-banner-box">
+                        <div class="media-heading">
+                            <h5>New Products</h5>
                         </div>
                     </div>
-                </div>
-                @if (j > ProductLength)
-                {
                     <div class="media-banner-box">
                         <div class="media">
                             <a href="product-page(left-sidebar).html">
-                                <img src="~/assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
+                                <img src="~/assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
                             </a>
                             <div class="media-body">
                                 <div class="media-contant">
@@ -67,8 +35,8 @@
                                                 <li><i class="fa fa-star"></i></li>
                                                 <li><i class="fa fa-star-o"></i></li>
                                             </ul>
-                                            <a href="product-page(left-sidebar).html"><p>@Products[j+1].Title</p></a>
-                                            <h6>@Products[j+1].SellingCost <span>@Products[j+1].MRP</span></h6>
+                                            <a href="product-page(left-sidebar).html"><p>@Products[j].Title</p></a>
+                                            <h6>@Products[j].SellingCost <span>@Products[j].MRP</span></h6>
                                         </div>
                                         <div class="cart-info">
                                             <button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
@@ -81,47 +49,123 @@
                             </div>
                         </div>
                     </div>
-                }
-                @if ((j + 1) > ProductLength)
-                {
+                    @if (j > ProductLength)
+                    {
+                        <div class="media-banner-box">
+                            <div class="media">
+                                <a href="product-page(left-sidebar).html">
+                                    <img src="~/assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
+                                </a>
+                                <div class="media-body">
+                                    <div class="media-contant">
+                                        <div>
+                                            <div class="product-detail">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                </ul>
+                                                <a href="product-page(left-sidebar).html"><p>@Products[j+1].Title</p></a>
+                                                <h6>@Products[j+1].SellingCost <span>@Products[j+1].MRP</span></h6>
+                                            </div>
+                                            <div class="cart-info">
+                                                <button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
+                                                <a href="javascript:void(0)" class="add-to-wish tooltip-top" data-tippy-content="Add to Wishlist"><i data-feather="heart"></i></a>
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
+                                                <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"><i data-feather="refresh-cw"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if ((j + 1) > ProductLength)
+                    {
+                        <div class="media-banner-box">
+                            <div class="media">
+                                <a href="product-page(left-sidebar).html">
+                                    <img src="~/assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
+                                </a>
+                                <div class="media-body">
+                                    <div class="media-contant">
+                                        <div>
+                                            <div class="product-detail">
+                                                <ul class="rating">
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                </ul>
+                                                <a href="product-page(left-sidebar).html"><p>@Products[j+2].Title</p></a>
+                                                <h6>@Products[j+2].SellingCost <span>@Products[j+2].MRP</span></h6>
+                                            </div>
+                                            <div class="cart-info">
+                                                <button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
+                                                <a href="javascript:void(0)" class="add-to-wish tooltip-top" data-tippy-content="Add to Wishlist"><i data-feather="heart"></i></a>
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
+                                                <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"><i data-feather="refresh-cw"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div class="media-banner-box">
-                        <div class="media">
-                            <a href="product-page(left-sidebar).html">
-                                <img src="~/assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-                            </a>
-                            <div class="media-body">
-                                <div class="media-contant">
-                                    <div>
-                                        <div class="product-detail">
-                                            <ul class="rating">
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                            </ul>
-                                            <a href="product-page(left-sidebar).html"><p>@Products[j+2].Title</p></a>
-                                            <h6>@Products[j+2].SellingCost <span>@Products[j+2].MRP</span></h6>
-                                        </div>
-                                        <div class="cart-info">
-                                            <button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-                                            <a href="javascript:void(0)" class="add-to-wish tooltip-top" data-tippy-content="Add to Wishlist"><i data-feather="heart"></i></a>
-                                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-                                            <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"><i data-feather="refresh-cw"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="media-view">
+                            <h5>View More</h5>
                         </div>
-                    </div>
-                }
-                <div class="media-banner-box">
-                    <div class="media-view">
-                        <h5>View More</h5>
                     </div>
                 </div>
-            </div>
-        </div>
+            
+        }
     }
-}
+</div>
 
+
+<script>
+    //if($('.hotdeal-slide-1-section').hasClass('slick-initialized')){
+    //    $('.hotdeal-slide-1-section').slick('unslick');
+    //}
+    $('.hotdeal-slide-1-section').slick({
+                  dots: false,
+                  infinite: false,
+                  speed: 300,
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  responsive: [{
+                      breakpoint: 1200,
+                      settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                          infinite: true
+                      }
+                  },
+                  {
+                      breakpoint: 992,
+                      settings: {
+                          slidesToShow: 3,
+                          slidesToScroll: 3,
+                          infinite: true
+                      }
+                  },
+                  {
+                      breakpoint: 767,
+                      settings: {
+                          slidesToShow: 2,
+                          slidesToScroll: 2
+                      }
+                  },
+                  {
+                      breakpoint: 490,
+                      settings: {
+                          slidesToShow: 1,
+                          slidesToScroll: 1
+                      }
+                  }]
+     });
+</script>
