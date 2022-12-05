@@ -12,7 +12,7 @@
                 <a href="product-page(left-sidebar).html">
                     <div class="img-wrraper">
                         <div>
-                            <img src="~/assets/images/layout-2/hot-deal/8.jpg" alt="hot-deal" class="img-fluid  bg-img">
+                            <img src="@item.ImagePath"  onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="hot-deal" class="img-fluid  bg-img">
                         </div>
                     </div>
                 </a>
@@ -56,7 +56,7 @@
         <div class="hotdeal-right-nav">
             @foreach (var item in Model)
             {
-                <div><img src="~/assets/images/layout-2/hot-deal/8.jpg" alt="hot-dea" class="img-fluid"></div>
+                <div><img src="@item.ImagePath"  onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="hot-dea" class="img-fluid"></div>
             }
         </div>
     </div>

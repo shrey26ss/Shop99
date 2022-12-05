@@ -15,7 +15,7 @@
                                 <div class="slider-banner p-center slide-banner-1">
                                     <div class="slider-img">
                                         <ul class="layout1-slide-2">
-                                            <li id="img-3" class="slide-center"><img src="@item.BannerPath" class="img-fluid" alt="slider"></li>
+                                            <li id="img-3" class="slide-center"><img src="@item.BannerPath"  onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="slider"></li>
                                             @*<li id="img-4" class="slide-center"><img src="/assets/images/layout-2/slider/2.2.png" class="img-fluid" alt="slider"></li>*@
                                         </ul>
                                     </div>
@@ -49,7 +49,7 @@
                     <div class="col-md-4">
                         <div class="collection-banner-main banner-1  p-right">
                             <div class="collection-img">
-                                <img src="~/assets/images/layout-2/collection-banner/1.jpg" class="img-fluid bg-img" alt="banner">
+                                <img src="@item.BannerPath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid bg-img" alt="banner">
                             </div>
                             <div class="collection-banner-contain">
                                 <div>
