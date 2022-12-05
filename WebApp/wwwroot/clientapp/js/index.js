@@ -1,6 +1,11 @@
 ﻿$(document).ready(function () {
     loadMainCategory();
     loadTopBannerSec();
+
+    loadNewProducts();
+    loadFeatureProducts();
+    loadBestSeller();
+    loadOnSale();
 });
 
 const loadMainCategory = async function () {
@@ -160,6 +165,50 @@ const loadTopCategoryProduct = async function (cId, i) {
 const loadTopBannerSec = async function () {
     await $.post("/LoadTopBanner").done(res => {
         $('#secDvBanner').html(res);
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
+}
+const loadNewProducts = async function () {
+    await $.post("/ProductSection", { id: 1 }).done(res => {
+        console.log('New PRoducs');
+        $('#secDvProduct').html(res);
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
+}
+const loadFeatureProducts = async function () {
+    await $.post("/ProductSection", { id: 2 }).done(res => {
+        console.log('Feature PRoduct');
+        $('#secDvProduct').append(res);
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
+}
+const loadBestSeller = async function () {
+    await $.post("/ProductSection", { id: 3 }).done(res => {
+        console.log('Best Seller');
+        $('#secDvProduct').append(res);
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
+}
+const loadOnSale = async function () {
+    await $.post("/ProductSection", { id: 4 }).done(res => {
+        console.log('OnSale');
+        $('#secDvProduct').append(res);
     }).fail(xhr => {
         an.title = "Oops! Error";
         an.content = xhr.responseText;
