@@ -1,0 +1,63 @@
+﻿@using WebApp.Models.ViewModels;
+@model CatAttrMappingViewModel
+<tr>
+    <td>1</td>
+    <td>Mapped</td>
+    <td>
+        @if (Model.MappedList.Any())
+        {
+            <div class="row">
+                @foreach (var item in Model.MappedList)
+                {
+                    <div class="col-md-3 text-nowrap chkBndgCls mb-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" checked="checked" onclick="MapItems('@item.AttributeId')" style="cursor:pointer">
+                                </div>
+                            </div>
+                            <small class="form-control">@item.AttributeName</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <small>Mapped Attributes Will Be Displayed Here</small>
+            </div>
+        }
+    </td>
+</tr>
+<tr>
+    <td>2</td>
+    <td>UnMapped</td>
+    <td>
+        @if (Model.UnMappedList.Any())
+        {
+            <div class="row">
+                @foreach (var item in Model.UnMappedList)
+                {
+                    <div class="col-md-3 text-nowrap chkBndgCls mb-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" onclick="MapItems('@item.AttributeId')" style="cursor:pointer">
+                                </div>
+                            </div>
+                            <small class="form-control">@item.AttributeName</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <small>UnMapped Attributes Will Be Displayed Here</small>
+            </div>
+        }
+    </td>
+</tr>
+
