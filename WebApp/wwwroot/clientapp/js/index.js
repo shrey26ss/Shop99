@@ -90,7 +90,7 @@ const loadTopCategoryProduct = async function (cId, i) {
                           </div>
                           <a href="product-page(left-sidebar).html">
                             <h6 class="price-title">
-                              sony xperia m5
+                              ${v.title}
                             </h6>
                           </a>
                         </div>
