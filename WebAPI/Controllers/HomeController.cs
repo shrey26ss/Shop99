@@ -27,13 +27,24 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> ByCategoryProduct(ProductRequest<int> productRequest) => Ok(await _homepageService.GetProductByCategory(productRequest));
         [HttpPost(nameof(RandomProduct))]
         public async Task<ActionResult> RandomProduct(ProductRequest productRequest) => Ok(await _homepageService.GetRandomProduct(productRequest));
+
+
+
+
         [HttpPost(nameof(NewArrivals))]
         public async Task<ActionResult> NewArrivals(ProductRequest<int> productRequest) => Ok(await _homepageService.GetNewArrivals(productRequest));
+
+        [HttpPost(nameof(FeatureProducts))]
+        public async Task<ActionResult> FeatureProducts(ProductRequest productRequest) => Ok(await _homepageService.GetFeatureProducts(productRequest));
         [HttpPost(nameof(BestSellerProduct))]
         public async Task<ActionResult> BestSellerProduct(ProductRequest productRequest) => Ok(await _homepageService.GetBestSellerProduct(productRequest));
         [HttpPost(nameof(OnSaleProducts))]
         public async Task<ActionResult> OnSaleProducts(ProductRequest productRequest) => Ok(await _homepageService.GetOnSaleProducts(productRequest));
+
+
+
         [HttpPost(nameof(HotDeals))]
         public async Task<ActionResult> HotDeals(ProductRequest productRequest) => Ok(await _homepageService.GetHotDeals(productRequest));
+
     }
 }

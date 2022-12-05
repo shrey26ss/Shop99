@@ -50,7 +50,7 @@ namespace WebApp.Controllers
 
         [Route("ProductSection")]
         [HttpPost]
-        public async Task<IActionResult> ProductSection(int id=0)
+        public async Task<IActionResult> ProductSection(int id = 0)
         {
             var res = new ProductSection()
             {
@@ -64,29 +64,63 @@ namespace WebApp.Controllers
             if (id == 1)
             {
                 res.ProductsData = _category.GetNewProducts(req).Result;
-              
+
                 return PartialView("partial/ProductSection", res);
             }
             else if (id == 2)
             {
-                res.ProductsData = _category.GetOnSaleProducts(req).Result;
+                res.ProductsData = _category.GetFeatureProducts(req).Result;
                 return PartialView("partial/ProductSection", res);
             }
             else if (id == 3)
             {
-                res.ProductsData = _category.GetBestSeller(req).Result;
+                res.ProductsData = _category.GetOnSaleProducts(req).Result;
                 return PartialView("partial/ProductSection", res);
             }
             else if (id == 4)
             {
-                res.ProductsData = _category.GetHotDeals(req).Result;
+                res.ProductsData = _category.GetBestSeller(req).Result;
                 return PartialView("partial/ProductSection", res);
             }
+
             else
             {
                 res.ProductsData = _category.GetNewProducts(req).Result;
                 return PartialView("partial/ProductSection", res);
             }
+        }
+
+
+        [Route("HotDeals")]
+        [HttpPost]
+        public async Task<IActionResult> HotDeals()
+        {
+            var req = new ProductRequest()
+            {
+                Top = 24,
+                OrderBy = ""
+            };
+
+            var res = _category.GetHotDeals(req).Result;
+
+            return PartialView("partial/HotDeals", res.Result);
+        }
+
+        [Route("HotDealsNewProduct")]
+        [HttpPost]
+        public async Task<IActionResult> HotDealsNewProduct()
+        {
+            var res = new ProductSection()
+            {
+                TabID = 0
+            };
+            var req = new ProductRequest()
+            {
+                Top = 24,
+                OrderBy = ""
+            };
+             res.ProductsData = _category.GetNewProducts(req).Result;
+            return PartialView("partial/HotDealsNewProduct", res);
         }
         public async Task<IActionResult> Error(int statusCode)
         {
@@ -97,5 +131,7 @@ namespace WebApp.Controllers
             }
             return View("Error");
         }
+
+
     }
 }
