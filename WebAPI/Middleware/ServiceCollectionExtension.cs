@@ -24,6 +24,7 @@ using Service.Vendor;
 using Service.TopBanners;
 using Service.TopLowerBanners;
 using Service.Homepage;
+using Service.CatAttrMappings;
 
 namespace WebAPI.Middleware
 {
@@ -58,6 +59,7 @@ namespace WebAPI.Middleware
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
             services.AddScoped<IHomepageService, HomepageService>();
+            services.AddScoped<ICategoryAttributeMapping, CategoryAttributeMappingService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
