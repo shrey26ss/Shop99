@@ -18,10 +18,12 @@ namespace WebApp.Controllers
     {
         private readonly ILogger<UserHomeController> _logger;
         private readonly ICategoryAPI _category;
-        public HomeController(ILogger<UserHomeController> logger, ICategoryAPI category)
+        private readonly IProductsAPI _product;
+        public HomeController(ILogger<UserHomeController> logger, ICategoryAPI category, IProductsAPI product)
         {
             _logger = logger;
             _category = category;
+            _product = product;
         }
         public async Task<IActionResult> Index()
         {
@@ -121,6 +123,21 @@ namespace WebApp.Controllers
             };
              res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
+        }
+        public async Task<IActionResult> ProductDetail(int Id)
+        {
+            var res = await _product.GetProductDetails(Id);
+            return View(res.Result ?? new ProductDetails());
+        }
+        public async Task<IActionResult> ProductAttrDetail(int Id)
+        {
+            var res = await _product.GetProductAttrDetails(Id);
+            return Ok(res.Result);
+        }
+        public async Task<IActionResult> GetProductPicDetails(int Id)
+        {
+            var res = await _product.GetProductPicDetails(Id);
+            return Ok(res.Result);
         }
         public async Task<IActionResult> Error(int statusCode)
         {

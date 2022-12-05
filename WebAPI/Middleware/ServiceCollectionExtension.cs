@@ -60,6 +60,7 @@ namespace WebAPI.Middleware
             services.AddScoped<Data.Migrations.Database>();
             services.AddScoped<IHomepageService, HomepageService>();
             services.AddScoped<ICategoryAttributeMapping, CategoryAttributeMappingService>();
+            services.AddScoped<IProductHomeService, ProductHomeService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
