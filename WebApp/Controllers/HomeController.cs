@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -41,10 +42,51 @@ namespace WebApp.Controllers
             var topl = _category.GetTopLowerBanners().Result;
             var res = new TopBannerDashBoard()
             {
-                topBanner= topb.Result.ToList(),
-                topLowBanner=topl.Result.ToList(),
+                topBanner = topb.Result.ToList(),
+                topLowBanner = topl.Result.ToList(),
             };
             return PartialView("partial/topbanner", res);
+        }
+
+        [Route("ProductSection")]
+        [HttpPost]
+        public async Task<IActionResult> ProductSection(int id=0)
+        {
+            var res = new ProductSection()
+            {
+                TabID = id
+            };
+            var req = new ProductRequest()
+            {
+                Top = 24,
+                OrderBy = ""
+            };
+            if (id == 1)
+            {
+                res.ProductsData = _category.GetNewProducts(req).Result;
+              
+                return PartialView("partial/ProductSection", res);
+            }
+            else if (id == 2)
+            {
+                res.ProductsData = _category.GetOnSaleProducts(req).Result;
+                return PartialView("partial/ProductSection", res);
+            }
+            else if (id == 3)
+            {
+                res.ProductsData = _category.GetBestSeller(req).Result;
+                return PartialView("partial/ProductSection", res);
+            }
+            else if (id == 4)
+            {
+                res.ProductsData = _category.GetHotDeals(req).Result;
+                return PartialView("partial/ProductSection", res);
+            }
+            else
+            {
+                res.ProductsData = _category.GetNewProducts(req).Result;
+                return PartialView("partial/ProductSection", res);
+            }
         }
         public async Task<IActionResult> Error(int statusCode)
         {

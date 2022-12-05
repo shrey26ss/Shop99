@@ -1450,8 +1450,8 @@ $('.feature-slide').slick({
     $(".default").css("display", "Block");
     $(document).on('click', ".tabs li a", function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
-    $('.product-4').slick('unslick');
+    //$('.tab_product_slider').slick('unslick');
+    //$('.product-4').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
         $(this).parent().addClass("current");
         $(".tab-content").css("display", "none");
@@ -1496,8 +1496,8 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
-    $('.product-slide').slick('unslick');
+    //$('.tab_product_slider').slick('unslick');
+    //$('.product-slide').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
     var currunt_href = $(this).attr("href");
@@ -1534,7 +1534,7 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
+   /* $('.tab_product_slider').slick('unslick');*/
     /*$('.product-slide-6').slick('unslick');*/
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
@@ -1548,7 +1548,7 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
+/*    $('.tab_product_slider').slick('unslick');*/
    /* $('.product-slide-4').slick('unslick');*/
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
@@ -1563,8 +1563,8 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
-    $('.slide-5').slick('unslick');
+    //$('.tab_product_slider').slick('unslick');
+    //$('.slide-5').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
     var currunt_href = $(this).attr("href");
@@ -1618,7 +1618,7 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
+    /*$('.tab_product_slider').slick('unslick');*/
    /* $('.product-slide-5').slick('unslick');*/
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
@@ -1635,7 +1635,7 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
+    /*$('.tab_product_slider').slick('unslick');*/
    /* $('.product-slide-3').slick('unslick');*/
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
@@ -1650,8 +1650,8 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
-    $('.gallery-slide').slick('unslick');
+    //$('.tab_product_slider').slick('unslick');
+    //$('.gallery-slide').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
     var currunt_href = $(this).attr("href");
@@ -1689,8 +1689,8 @@ $('.feature-slide').slick({
   $(".default").css("display", "Block");
   $(".tabs li a").on('click', function () {
     event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
-    $('.media-slide-5').slick('unslick');
+    //$('.tab_product_slider').slick('unslick');
+    //$('.media-slide-5').slick('unslick');
     $(this).parent().parent().find("li").removeClass("current");
     $(this).parent().addClass("current");
     var currunt_href = $(this).attr("href");
