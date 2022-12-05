@@ -119,7 +119,7 @@ namespace WebApp
             else
             {
                 app.UseExceptionHandler("/Error/Status404");
-                app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
+                //app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
                 app.UseHsts();
             }
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");

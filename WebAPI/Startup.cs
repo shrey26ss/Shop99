@@ -151,7 +151,7 @@ namespace WebAPI
                     });
                 });
                 app.UseDeveloperExceptionPage();
-                app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
+                //app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
                 app.UseHsts();
             }
             //app.UseStatusCodePagesWithRedirects("/Error/Status404");
