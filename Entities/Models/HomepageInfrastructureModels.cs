@@ -27,7 +27,7 @@
     {
         public T MoreFilters { get; set; }
     }
-    public class HotDealsResponse
+    public class HotDealsResponse: ProductResponse
     {
         public string Description { get; set; }
         public string DealEndsOn { get; set; }

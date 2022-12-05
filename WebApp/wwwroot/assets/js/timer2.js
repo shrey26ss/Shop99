@@ -29,11 +29,11 @@ var x = setInterval(function() {
 // Output the result in an element with id="demo"
     document.getElementById("demo").innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
         + "<span>" + minutes + "<span class='timer-cal'>Min</span></span>" + "<span>" + seconds + "<span class='timer-cal'>Sec</span></span> ";
-    document.getElementById("demo1").innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
+    document.getElementById("demo1")?.innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
         + "<span>" + minutes + "<span class='timer-cal'>Min</span></span>" + "<span>" + seconds + "<span class='timer-cal'>Sec</span></span> ";
-    document.getElementById("demo2").innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
+    document.getElementById("demo2")?.innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
         + "<span>" + minutes + "<span class='timer-cal'>Min</span></span>" + "<span>" + seconds + "<span class='timer-cal'>Sec</span></span> ";
-        document.getElementById("demo3").innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
+        document.getElementById("demo3")?.innerHTML = "<span>" + days + "<span class='timer-cal'>Days</span></span>" + "<span>" + hours + "<span class='timer-cal'>Hrs</span></span>"
         + "<span>" + minutes + "<span class='timer-cal'>Min</span></span>" + "<span>" + seconds + "<span class='timer-cal'>Sec</span></span> ";
 
 

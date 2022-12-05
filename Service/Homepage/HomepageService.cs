@@ -142,12 +142,32 @@ namespace Service.Homepage
             return res;
         }
 
+        public async Task<IResponse<IEnumerable<ProductResponse<ProductResponse>>>> GetFeatureProducts(ProductRequest productRequest)
+        {
+            var res = new Response<IEnumerable<ProductResponse<ProductResponse>>>();
+            try
+            {
+                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+            inner join VariantGroup vg on vg.ProductId = p.Id
+            where vg.IsShowOnHome = 1 order by NEWID() desc ";
+                res.Result = await _dapper.GetAllAsync<ProductResponse<ProductResponse>>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
+
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = ex.Message;
+            }
+            return res;
+        }
+
         public async Task<IResponse<IEnumerable<ProductResponse<HotDealsResponse>>>> GetHotDeals(ProductRequest productRequest)
         {
             var res = new Response<IEnumerable<ProductResponse<HotDealsResponse>>>();
             try
             {
-                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,p.Description,'Hot Deal' [Label],vg.SellingCost,4 Stars from Products p 
             inner join VariantGroup vg on vg.ProductId = p.Id
             where vg.IsShowOnHome = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse<HotDealsResponse>>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);

@@ -6,6 +6,8 @@
     loadFeatureProducts();
     loadBestSeller();
     loadOnSale();
+    loadHotDeals();
+    loadHotDealsNewProduct();
 });
 
 const loadMainCategory = async function () {
@@ -209,6 +211,26 @@ const loadOnSale = async function () {
     await $.post("/ProductSection", { id: 4 }).done(res => {
         console.log('OnSale');
         $('#secDvProduct').append(res);
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
+}
+const loadHotDeals = async function () {
+    await $.post("/HotDeals").done(res => {
+        $('#dvHotDeals').append(res);
+    }).fail(xhr => {
+        an.title = "Oops! Error";
+        an.content = xhr.responseText;
+        an.alert(an.type.failed);
+    }).always(() => "");
+    return true;
+}
+const loadHotDealsNewProduct = async function () {
+    await $.post("/HotDealsNewProduct").done(res => {
+        $('#dvHotDealNewProduct').append(res);
     }).fail(xhr => {
         an.title = "Oops! Error";
         an.content = xhr.responseText;

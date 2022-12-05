@@ -1,0 +1,147 @@
+﻿@using Entities.Enums
+@using Entities.Models
+@using Infrastructure.Interface
+@using Service.Models
+@model List<HotDealsResponse>
+@if (Model.Any())
+{
+    <div class="col-lg-4 col-md-4  ">
+        <div class="hotdeal-right-slick border-0">
+            @foreach (var item in Model)
+            {
+                <a href="product-page(left-sidebar).html">
+                    <div class="img-wrraper">
+                        <div>
+                            <img src="~/assets/images/layout-2/hot-deal/8.jpg" alt="hot-deal" class="img-fluid  bg-img">
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 deal-order-3">
+        <div class="hotdeal-right-slick border-0">
+            @foreach (var item in Model)
+            {
+                <div>
+                    <div>
+                        <a href="product-page(left-sidebar).html">
+                            <h5>@item.Title</h5>
+                        </a>
+                        <ul class="rating">
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star-o"></i></li>
+                        </ul>
+                        <p>
+                            @{
+                                string dec = string.IsNullOrEmpty(@item.Description) ? "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lore" : @item.Description;
+                            }
+                           @dec
+                        </p>
+                        <h6>@item.SellingCost <span>@item.MRP</span></h6>
+                        <div class="timer">
+                            <p id="demo">
+                            </p>
+                        </div>
+                        <a href="product-page(left-sidebar).html" class="btn btn-normal btn-md ">shop now</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-2 ">
+        <div class="hotdeal-right-nav">
+            @foreach (var item in Model)
+            {
+                <div><img src="~/assets/images/layout-2/hot-deal/8.jpg" alt="hot-dea" class="img-fluid"></div>
+            }
+        </div>
+    </div>
+}
+
+
+<script>
+        $('.hotdeal-right-slick').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            fade: true,
+            asNavFor: '.hotdeal-right-nav'
+        });
+
+        if ($(window).width() > 768) {
+            $('.hotdeal-right-nav').slick({
+                vertical: true,
+                verticalSwiping: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '.hotdeal-right-slick',
+                arrows: false,
+                infinite: true,
+                dots: false,
+                centerMode: false,
+                focusOnSelect: true
+            });
+        }else{
+            $('.hotdeal-right-nav').slick({
+                vertical: false,
+                verticalSwiping: false,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '.hotdeal-right-slick',
+                arrows: false,
+                infinite: true,
+                centerMode: false,
+                dots: false,
+                focusOnSelect: true,
+                responsive: [{
+                    breakpoint: 576,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1
+                    }
+                }]
+             });
+         }
+
+           $('.hotdeal-slide-1-section').slick({
+               dots: false,
+               infinite: false,
+               speed: 300,
+               slidesToShow: 1,
+               slidesToScroll: 1,
+               responsive: [{
+                   breakpoint: 1200,
+                   settings: {
+                       slidesToShow: 1,
+                       slidesToScroll: 1,
+                       infinite: true
+                   }
+               },
+               {
+                   breakpoint: 992,
+                   settings: {
+                       slidesToShow: 3,
+                       slidesToScroll: 3,
+                       infinite: true
+                   }
+               },
+               {
+                   breakpoint: 767,
+                   settings: {
+                       slidesToShow: 2,
+                       slidesToScroll: 2
+                   }
+               },
+               {
+                   breakpoint: 490,
+                   settings: {
+                       slidesToShow: 1,
+                       slidesToScroll: 1
+                   }
+               }]
+  });
+</script>
