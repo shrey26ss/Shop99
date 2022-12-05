@@ -1,22 +1,18 @@
-﻿using Dapper;
-using Entities.Models;
-using FluentMigrator.Infrastructure;
-//using FluentMigrator.Infrastructure;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.Models.ViewModels
 {
     public class TopBannerViewModel : TopBanner
     {
-        [NotMapped]
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Please select file.")]
+        [Required(ErrorMessage = "Please select file.")]
         public IFormFile File { get; set; }
     }
     public class TopLowerBannerViewModel : TopLowerBanner
     {
-        [NotMapped]
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Please select file.")]
+        [Required(ErrorMessage = "Please select file.")]
         public IFormFile File { get; set; }
     }
     public class TopBannerDashBoard

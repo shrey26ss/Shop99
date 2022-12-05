@@ -8,7 +8,6 @@ namespace Entities.Models
     public class TopBanner
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Banner is required")]
         public string BannerPath { get; set; }        
         public string Title { get; set; }        
         public string Subtitle { get; set; }

@@ -67,7 +67,6 @@
         if (file){
           let reader = new FileReader();
           reader.onload = function(event){
-            console.log(event.target.result);
             $('#blah').attr('src', event.target.result);
           }
           reader.readAsDataURL(file);
