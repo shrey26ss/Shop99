@@ -1170,31 +1170,31 @@
    08. Product page
    ==========================*/
 
-  $('.product-slick').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    fade: true,
-    asNavFor: '.slider-nav'
-  });
+  //$('.product-slick').slick({
+  //  slidesToShow: 1,
+  //  slidesToScroll: 1,
+  //  arrows: true,
+  //  fade: true,
+  //  asNavFor: '.slider-nav'
+  //});
 
-  $('.slider-nav').slick({
-    vertical: false,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    asNavFor: '.product-slick',
-    arrows: false,
-    dots: false,
-    focusOnSelect: true
-  });
+  //$('.slider-nav').slick({
+  //  vertical: false,
+  //  slidesToShow: 3,
+  //  slidesToScroll: 1,
+  //  asNavFor: '.product-slick',
+  //  arrows: false,
+  //  dots: false,
+  //  focusOnSelect: true
+  //});
 
-  $('.product-right-slick').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    fade: true,
-    asNavFor: '.slider-right-nav'
-  });
+  //$('.product-right-slick').slick({
+  //  slidesToShow: 1,
+  //  slidesToScroll: 1,
+  //  arrows: true,
+  //  fade: true,
+  //  asNavFor: '.slider-right-nav'
+  //});
   if ($(window).width() > 575) {
     $('.slider-right-nav').slick({
       vertical: true,
