@@ -88,6 +88,11 @@ namespace WebApp.Controllers
                 return PartialView("partial/ProductSection", res);
             }
         }
+        public async Task<IActionResult> ProductDetail(int id = 0)
+        {
+            var model = new ProductDetails();
+            return View();
+        }
         public async Task<IActionResult> Error(int statusCode)
         {
             switch (statusCode)
