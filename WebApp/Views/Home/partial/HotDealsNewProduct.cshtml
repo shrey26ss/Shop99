@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    @if (j > ProductLength)
+                    @if (j < ProductLength)
                     {
                         <div class="media-banner-box">
                             <div class="media">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     }
-                    @if ((j + 1) > ProductLength)
+                    @if ((j + 1) < ProductLength)
                     {
                         <div class="media-banner-box">
                             <div class="media">
@@ -128,9 +128,6 @@
 
 
 <script>
-    //if($('.hotdeal-slide-1-section').hasClass('slick-initialized')){
-    //    $('.hotdeal-slide-1-section').slick('unslick');
-    //}
     $('.hotdeal-slide-1-section').slick({
                   dots: false,
                   infinite: false,
