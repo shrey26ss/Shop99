@@ -1,4 +1,4 @@
-/// <binding BeforeBuild='minify-js, minify-plugin' Clean='clean, clean:css, clean:js, min, min:css, min:js' />
+/// <binding />
 //"use strict";
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
