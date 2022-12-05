@@ -44,18 +44,17 @@ const loadTopCategoryProduct = async function (cId, i) {
             let current = i == 1 ? "active default" : "";
             let htmlbody = `<div id="tab${i}" class="tab-content ${current}"><div class="product-slide-${i} product-m no-arrow">`;
             $.each(result.result, async function (i, v) {
-                v.imagePath = '/assets/images/layout-2/product/1.jpg';
                 htmlbody = htmlbody + `<div>
                   <div class="product-box">
                     <div class="product-imgbox">
                       <div class="product-front">
                         <a href="product-page(left-sidebar).html">
-                          <img src="${v.imagePath}" class="img-fluid  " alt="product">
+                          <img src="${v.imagePath}"   onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
                         </a>
                       </div>
                       <div class="product-back">
                         <a href="product-page(left-sidebar).html">
-                          <img src="${v.imagePath}" class="img-fluid  " alt="product">
+                          <img src="${v.imagePath}" class="img-fluid  " onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="product">
                         </a>
                       </div>
                       <div class="product-icon icon-inline">
