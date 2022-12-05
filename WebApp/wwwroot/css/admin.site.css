@@ -1,0 +1,6 @@
+﻿body:has(.ui-dialog){
+    
+}
+.ui-dialog {
+    z-index: 1099 !important;
+}
