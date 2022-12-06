@@ -107,19 +107,23 @@
     </div>
 </section>
 
-
 @section Scripts{
-    
     <script>
-
         variantImages = [];
+        $(document).on('change', 'input', e => {
+            let ele=$(e.currentTarget);
+            ele.attr('value', ele.val())
+        });
+
         $(document).on('click', '.btnAddNewAttribute', e => {
             let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
+            let __top = $(e.currentTarget).offset().top - 100;
             $.post('/Product/AddAttributes', { combinationId }).done((result) => {
                 Q.alert({
                     title: 'Add Attribute',
                     body: result,
-                    width: 900
+                    width: 900,
+                    top: __top
                 });
             })
         })
@@ -256,13 +260,13 @@
             variantImages.push(param);
             let _src = URL.createObjectURL(param.File);
             let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
-                                                    <td>${count}</td>
-                                                    <td><img src="${_src}" alt="image" style="width:100px"/></td>
-                                                    <td>${param.DisplayOrder}</td>
-                                                    <td>${param.Alt}</td>
-                                                    <td>${param.Title}</td>
-                                                    <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
-                                                 </tr>`;
+                                                            <td>${count}</td>
+                                                            <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                                            <td>${param.DisplayOrder}</td>
+                                                            <td>${param.Alt}</td>
+                                                            <td>${param.Title}</td>
+                                                            <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                                                         </tr>`;
             pictureGrid.append(_html);
             $('.rmImage').unbind().click(e => {
                 let _ele = $(e.currentTarget).closest('tr');
@@ -271,7 +275,7 @@
                 _ele.remove();
             });
         });
-        $('[name="SellingCost"], [name="MRP"]').numeric({numericType:'decimal',maxLength:'7'});
-        $('[name="Quantity"], [name="DisplayOrder"]').numeric({numericType:'number',maxLength:'7'});
+        $('[name="SellingCost"], [name="MRP"]').numeric({ numericType: 'decimal', maxLength: '7' });
+        $('[name="Quantity"], [name="DisplayOrder"]').numeric({ numericType: 'number', maxLength: '7' });
     </script>
  }
