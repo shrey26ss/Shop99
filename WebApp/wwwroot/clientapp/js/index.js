@@ -9,8 +9,8 @@
     loadHotDealsNewProduct();
 });
 
-const loadMainCategory = async function () {
-    await $.post(baseURL + "/Category/TopCategory").done(res => {
+const loadMainCategory = function () {
+    $.post(baseURL + "/Category/TopCategory").done(res => {
         if (res.statusCode === 1) {
             let TopCategory = $('#secTopCategory');
             TopCategory.html('');
@@ -22,7 +22,8 @@ const loadMainCategory = async function () {
         }
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }
-const loadTopCategoryProduct = async function (cId, i) {
+
+const loadTopCategoryProduct = function (cId, i) {
     let item = {
         OrderBy: "",
         Top: 10,
