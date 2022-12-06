@@ -69,6 +69,34 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_ProductList", response);
         }
+        [HttpGet]
+        public async Task<IActionResult> Attributes(int Id)
+        {
+            var response = new List<ProductVariantAttributeDetails>();
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductVarAttrDetails", jsonData, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductVariantAttributeDetails>>>(apiResponse.Result);
+                response = deserializeObject.Result;
+            }
+            return View(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> VariantAttributeList(int Id)
+        {
+            var response = new List<ProductAttributes>();
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductAttrDetails", jsonData, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductAttributes>>>(apiResponse.Result);
+                response = deserializeObject.Result;
+            }
+            return PartialView("Partials/_VariantAttributeList", response);
+        }
 
         [HttpPost]
         public async Task<IActionResult> GetProductSectionView(int Id = 0)
