@@ -215,7 +215,7 @@ namespace Service.Homepage
                 //        hotdealsResponse.HotDealsResponses = fotDealsResponses;
                 //        return hotdealsResponse;
                 //    }, splitOn: "ProductId,VariantID");
-               res.Result = ress;
+               //res.Result = ress;
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
