@@ -45,7 +45,7 @@ namespace Service.Brand
                 if (i > -1 && i < 100)
                 {
                     res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
+                    res.ResponseText = "Brand add successfully";
                 }
             }
             catch (Exception ex)

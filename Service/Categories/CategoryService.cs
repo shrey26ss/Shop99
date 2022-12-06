@@ -52,7 +52,7 @@ namespace Service.Categories
                 if (i > 0 && i < 10)
                 {
                     res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
+                    res.ResponseText = "Category add successfully";
                 }
                 else
                 {
@@ -86,7 +86,8 @@ namespace Service.Categories
                 }
                 else
                 {
-                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
+                    //sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p on p.CategoryId = c.ParentId Order by c.Ind";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
