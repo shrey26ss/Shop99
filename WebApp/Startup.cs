@@ -49,7 +49,9 @@ namespace WebApp
             }).AddCookie("Cookies", options =>
             {
                 options.LoginPath = "/Account/login";
+                options.AccessDeniedPath = "/Account/login";
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                options.SlidingExpiration = true;
             }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
@@ -93,12 +95,18 @@ namespace WebApp
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
             });
             //#endregion
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(45);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.Configure<JWTConfig>(Configuration.GetSection("JWT"));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDataProtection().SetApplicationName($"{WebHostEnvironment.EnvironmentName}")
@@ -124,6 +132,7 @@ namespace WebApp
             }
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             //app.ConfigureExceptionHandler(logger);
+            app.UseSession();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(x => x
