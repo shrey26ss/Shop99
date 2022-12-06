@@ -45,8 +45,7 @@ namespace WebAPI.Controllers
 
         [HttpPost(nameof(HotDeals))]
         public async Task<ActionResult> HotDeals(ProductRequest productRequest) => Ok(await _homepageService.GetHotDeals(productRequest));
-        [HttpPost(nameof(HotDealsMulti))]
-        public async Task<ActionResult> HotDealsMulti(ProductRequest productRequest) => Ok(await _homepageService.GetHotDealsMulti(productRequest));
+
 
 
     }
