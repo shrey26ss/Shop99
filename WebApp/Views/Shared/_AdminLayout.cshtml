@@ -7,6 +7,8 @@
     <link href="~/css/productedit.head.styles.css" rel="stylesheet" />
     <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
     <link href="~/css/admin.site.css" rel="stylesheet" />
+    <link href="~/select2/css/select2.min.css" />
+
 </head>
 <body class="sidebar-mini layout-fixed control-sidebar-slide-open basic-settings-mode" style="height: auto;">
     <div class="throbber">
@@ -824,10 +826,13 @@
         </div>
         <div id="sidebar-overlay"></div>
     </div>
-
+  @*      <script src="~/select2/js/select2.min.js"></script>
+      <script src="~/js/common.js"></script>*@
     <script src="~/build/bundlejs.js"></script>
+
     <script>
         $(document).ready(function () {
+              //$('.select2').select2();
             $('.has-treeview').click(e => {
                 let tree = $(e.currentTarget);
                 tree.toggleClass('.menu-open');
