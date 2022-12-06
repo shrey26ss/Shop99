@@ -10,7 +10,6 @@ namespace Entities.Models
         public int ParentId { get; set; }
         public string ParentName { get; set; }
         public bool IsPublish { get; set; }
-        [Required(ErrorMessage = "Please Select Icon")]
         public string Icon { get; set; }
     }
     public class CategoryDDL
