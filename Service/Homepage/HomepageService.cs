@@ -172,9 +172,7 @@ namespace Service.Homepage
                 string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,p.Description,'' DealEndsOn,'Hot Deal' [Label],vg.SellingCost,4 Stars from Products p 
             inner join VariantGroup vg on vg.ProductId = p.Id
             where vg.IsShowOnHome = 1 order by NEWID() desc ";
-
-                res.Result = await _dapper.GetAllAsync<ProductResponse<HotDealsResponse>>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
-
+                res.Result = await _dapper.GetAllAsync<HotDealsResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
