@@ -1,5 +1,5 @@
 ﻿using Entities.Models;
-using Hangfire.Logging;
+using Infrastructure.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;

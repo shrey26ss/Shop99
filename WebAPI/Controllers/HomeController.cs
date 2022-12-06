@@ -28,9 +28,6 @@ namespace WebAPI.Controllers
         [HttpPost(nameof(RandomProduct))]
         public async Task<ActionResult> RandomProduct(ProductRequest productRequest) => Ok(await _homepageService.GetRandomProduct(productRequest));
 
-
-
-
         [HttpPost(nameof(NewArrivals))]
         public async Task<ActionResult> NewArrivals(ProductRequest<int> productRequest) => Ok(await _homepageService.GetNewArrivals(productRequest));
 
@@ -41,12 +38,7 @@ namespace WebAPI.Controllers
         [HttpPost(nameof(OnSaleProducts))]
         public async Task<ActionResult> OnSaleProducts(ProductRequest productRequest) => Ok(await _homepageService.GetOnSaleProducts(productRequest));
 
-
-
         [HttpPost(nameof(HotDeals))]
         public async Task<ActionResult> HotDeals(ProductRequest productRequest) => Ok(await _homepageService.GetHotDeals(productRequest));
-
-
-
     }
 }
