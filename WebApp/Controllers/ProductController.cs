@@ -89,7 +89,7 @@ namespace WebApp.Controllers
             var response = new List<ProductAttributes>();
             string _token = User.GetLoggedInUserToken();
             var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id });
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductPicDetails", jsonData, _token);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductAttrDetails", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductAttributes>>>(apiResponse.Result);
