@@ -36,7 +36,7 @@ namespace Service.Categories
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Category (CategoryName, ParentId,IsPublish,Icon,EntryOn,ModifyOn,Ind)values(@CategoryName,@ParentId,@IsPublish,@Icon,GETDATE(),GETDATE(),0);";
+                    sqlQuery = @"Insert into Category (CategoryName, ParentId,IsPublish,Icon,EntryOn,ModifyOn,Ind,IsVendorGrouped)values(@CategoryName,@ParentId,@IsPublish,@Icon,GETDATE(),GETDATE(),0,@IsVendorGrouped);";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
@@ -45,7 +45,8 @@ namespace Service.Categories
                     category.Data.ParentId,
                     category.Data.IsPublish,
                     category.Data.Icon,
-                    category.Ind
+                    category.Ind,
+                    IsVendorGrouped = category.Data.IsVendorGrouped is null ? true : category.Data.IsVendorGrouped
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)
@@ -201,7 +202,7 @@ namespace Service.Categories
             return res;
         }
 
-        
+
         #endregion
 
 

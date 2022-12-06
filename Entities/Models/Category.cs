@@ -12,6 +12,7 @@ namespace Entities.Models
         public bool IsPublish { get; set; }
         [Required(ErrorMessage = "Please Select Icon")]
         public string Icon { get; set; }
+        public bool? IsVendorGrouped { get; set; }
     }
     public class CategoryDDL
     {
