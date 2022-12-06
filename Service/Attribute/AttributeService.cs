@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using AppUtility.Helper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -48,6 +49,11 @@ namespace Service.Attribute
                 {
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = "Attribute add successfully";
+                }
+                else
+                {
+                    var description = Utility.O.GetErrorDescription(i);
+                    res.ResponseText = description;
                 }
             }
             catch (Exception ex)
