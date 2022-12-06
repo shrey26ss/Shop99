@@ -9,14 +9,17 @@ namespace Entities.Models
     public class VariantGroup
     {
         public int Id { get; set; }
+        [MaxLength(12, ErrorMessage = "Allowed Only 12 Character")]
         public string HSN { get; set; }
         [Required(ErrorMessage = "Price is required.")]
         public decimal? MRP { get; set; }
         [Required(ErrorMessage = "Quantity is required.")]
         public int? Quantity { get; set; }
+        [MaxLength(30, ErrorMessage = "Allowed Only 30 Character")]
         public string GTIN { get; set; }
         public bool? IsShowOnHome { get; set; }
         [Required(ErrorMessage ="Please Enter Title")]
+        [MaxLength(320, ErrorMessage = "Allowed Only 320 Character")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Please Enter Selling Cost")]
         public decimal? SellingCost { get; set; }
@@ -25,6 +28,7 @@ namespace Entities.Models
     public class AttributeInfo
     {
         public int? AttributeId { get; set; }
+        [MaxLength(120, ErrorMessage = "Allowed Only 120 Character")]
         public string AttributeValue { get; set; }
         public bool? AllowFiltering { get; set; }
         public int? GroupId { get; set; }    
