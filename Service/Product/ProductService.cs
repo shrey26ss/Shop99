@@ -57,7 +57,7 @@ namespace Service.Product
                 if (i > -1 && i < 100)
                 {
                     res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
+                    res.ResponseText = "Product add successfully";
                 }
             }
             catch (Exception ex)

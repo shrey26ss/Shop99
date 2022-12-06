@@ -52,7 +52,7 @@ namespace Service.Categories
                 if (i > 0 && i < 10)
                 {
                     res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
+                    res.ResponseText = "Category add successfully";
                 }
                 else
                 {
