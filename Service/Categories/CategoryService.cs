@@ -32,7 +32,7 @@ namespace Service.Categories
                 int i = -5;
                 if (category.Data.CategoryId != 0 && category.Data.CategoryId > 0)
                 {
-                    sqlQuery = @"Update Category Set CategoryName=@CategoryName, ParentId=@ParentId,IsPublish=@ParentId,Icon=@Icon,ModifyOn=GETDATE(),Ind=@Ind where CategoryId = @CategoryId";
+                    sqlQuery = @"Update Category Set CategoryName=@CategoryName, ParentId=@ParentId,IsPublish=@IsPublish,Icon=@Icon,ModifyOn=GETDATE(),Ind=@Ind where CategoryId = @CategoryId";
                 }
                 else
                 {

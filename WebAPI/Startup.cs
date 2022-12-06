@@ -1,5 +1,5 @@
 using Services.Identity;
-using Hangfire;
+//using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -19,6 +19,7 @@ using Entities.Models;
 using WebAPI.Middleware;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
+using Infrastructure.Interface;
 
 namespace WebAPI
 {
@@ -36,7 +37,7 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
+            //GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
             services.RegisterService(Configuration);
             services.AddAuthentication(option =>
             {
@@ -125,7 +126,7 @@ namespace WebAPI
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Infrastructure.Interface.ILog logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILog logger)
         {
             if (env.IsDevelopment())
             {
@@ -155,7 +156,7 @@ namespace WebAPI
                 app.UseHsts();
             }
             //app.UseStatusCodePagesWithRedirects("/Error/Status404");
-            //app.ConfigureExceptionHandler(logger);
+            app.ConfigureExceptionHandler(logger);
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(x => x
@@ -174,10 +175,10 @@ namespace WebAPI
             app.UseAuthentication();
             app.UseAuthorization();
             //app.UseMiddleware<JwtMiddleware>();
-            app.UseHangfireDashboard("/mydashboard", new DashboardOptions
-            {
-                Authorization = new[] { new HangfireAuthorizationFilter() }
-            });
+            //app.UseHangfireDashboard("/mydashboard", new DashboardOptions
+            //{
+            //    Authorization = new[] { new HangfireAuthorizationFilter() }
+            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

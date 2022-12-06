@@ -55,7 +55,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IVendor, VendorService>();
             services.AddScoped<ITopBanner, TopBannerService>();
             services.AddScoped<ITopLowerBanner, TopLowerBannerService>();
-            services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
+            services.AddScoped<ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
             services.AddScoped<IHomepageService, HomepageService>();
