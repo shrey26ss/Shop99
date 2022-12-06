@@ -61,8 +61,8 @@ namespace Service.Categories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
             }
-
             return res;
         }
 
@@ -81,7 +81,7 @@ namespace Service.Categories
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId where c.CategoryId = @Id";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p on p.CategoryId = c.ParentId where c.CategoryId = @Id";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
@@ -95,7 +95,7 @@ namespace Service.Categories
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }

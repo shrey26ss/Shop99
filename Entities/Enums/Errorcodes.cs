@@ -25,6 +25,8 @@ namespace Entities.Enums
         [Description("Mobile number is already exists.")]
         CredentialAlreadyExists = 3903,
         [Description("Cannot insert duplicate Value")]
-        RowAlreadyExists = 2627
+        RowAlreadyExists = 2627,
+        [Description("There are more columns in the INSERT statement than values specified in the VALUES clause.")]
+        MoreColumnsInTheStatementThanValuesSpecified = 109
     }
 }

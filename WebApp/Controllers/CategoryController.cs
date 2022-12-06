@@ -48,7 +48,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("Category/List")]
-        public async  Task<ActionResult> List(int Id)
+        public async Task<ActionResult> List(int Id)
         {
             List<Category> categories = new List<Category>();
             string _token = User.GetLoggedInUserToken();
@@ -85,11 +85,16 @@ namespace WebApp.Controllers
         public async Task<ActionResult> Create(Category category, IFormFile Icon)
         {
             Response response = new Response();
+            if (Icon is null && category.CategoryId==0)
+            {
+                response.ResponseText = "Icon is must to upload";
+                return Json(response);
+            }
             try
             {
                 string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.svg";
-                if(Icon != null)
+                if (Icon != null)
                 {
                     var _ = Utility.O.UploadFile(new FileUploadModel
                     {
@@ -106,9 +111,9 @@ namespace WebApp.Controllers
                     response = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-              
+
             }
             return Json(response);
         }
