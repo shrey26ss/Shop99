@@ -50,5 +50,10 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/GetProductVarAttrDetails")]
+        public async Task<IActionResult> GetProductVarAttrDetails(SearchItem req)
+        {
+            return Ok(await _products.GetProductVarAttrDetails(req));
+        }
     }
 }

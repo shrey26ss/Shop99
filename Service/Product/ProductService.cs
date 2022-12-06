@@ -122,5 +122,21 @@ namespace Service.Product
 
             return res;
         }
+        public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req)
+        {
+            string sp = @"Select * from VariantGroup where ProductId = @Id";
+            var res = new Response<IEnumerable<ProductVariantAttributeDetails>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
     }
 }
