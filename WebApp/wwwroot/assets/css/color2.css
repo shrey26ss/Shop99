@@ -2994,6 +2994,7 @@ button {
 
         .collection-banner .collection-banner-main .collection-img img {
             width: 100%;
+            height: 200px;
         }
 
     .collection-banner .collection-banner-main.p-left .collection-banner-contain {
@@ -4937,8 +4938,10 @@ button {
 }
 
 .hot-deal.hotdeal-first .hot-deal-contain .hotdeal-right-slick .img-wrraper > div {
-    width: 100%;
     height: 455px;
+    width: 100%;
+    background: #fff;
+    min-height: 455px;
 }
 
 .hot-deal.hotdeal-first .hot-deal-contain h5, .hot-deal.hotdeal-third .hot-deal-contain h5 {
@@ -5182,9 +5185,10 @@ button {
 
     .hot-deal .hot-deal-contain .hotdeal-right-nav img {
         height: 130px;
-        width: auto;
+        width: 101px;
         margin-left: auto;
         border: 1px solid #dddddd;
+        background: #fff;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
     }
@@ -9487,153 +9491,165 @@ header {
         }
 
             .media-banner .media-banner-box .media img {
+                background: #fff;
                 border: 1px solid #dddddd;
+                width: 140px;
+                height: 99px;
+                overflow: auto;
+                margin: auto;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
             }
 
-            .media-banner .media-banner-box .media .media-body .media-contant {
-                margin-left: 15px;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-align: center;
-                -ms-flex-align: center;
-                align-items: center;
-                height: 100px;
-                position: relative;
-            }
+}
 
-                .media-banner .media-banner-box .media .media-body .media-contant .product-detail {
-                    -webkit-transition: all 0.5s ease;
-                    transition: all 0.5s ease;
-                }
+.media-banner .media-banner-box .media .media-body .media-contant {
+    margin-left: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100px;
+    position: relative;
+}
 
-                    .media-banner .media-banner-box .media .media-body .media-contant .product-detail .rating i {
-                        color: #ffa800;
-                    }
-
-                    .media-banner .media-banner-box .media .media-body .media-contant .product-detail p {
-                        font-size: 14px;
-                        margin-bottom: 0;
-                        color: #444444;
-                        text-transform: capitalize;
-                    }
-
-                    .media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 {
-                        color: #00baf2;
-                        font-weight: 700;
-                        margin-top: 3px;
-                    }
-
-                        .media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 span {
-                            color: #444444;
-                            text-decoration: line-through;
-                            font-weight: 500;
-                        }
-
-                .media-banner .media-banner-box .media .media-body .media-contant .cart-info {
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    top: 0;
-                    margin-top: auto;
-                    margin-bottom: auto;
-                    height: -webkit-fit-content;
-                    height: -moz-fit-content;
-                    height: fit-content;
-                    -webkit-transition: all 0.5s ease;
-                    transition: all 0.5s ease;
-                    visibility: hidden;
-                    opacity: 0;
-                }
-
-                    .media-banner .media-banner-box .media .media-body .media-contant .cart-info button {
-                        padding: 0;
-                        background-color: transparent;
-                        line-height: 1;
-                        border: none;
-                    }
-
-                        .media-banner .media-banner-box .media .media-body .media-contant .cart-info button svg {
-                            width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
-                            color: #444444;
-                        }
-
-                        .media-banner .media-banner-box .media .media-body .media-contant .cart-info button i {
-                            color: #444444;
-                            font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
-                        }
-
-                    .media-banner .media-banner-box .media .media-body .media-contant .cart-info a {
-                        color: #444444;
-                    }
-
-                        .media-banner .media-banner-box .media .media-body .media-contant .cart-info a svg {
-                            width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
-                            color: #444444;
-                        }
-
-                        .media-banner .media-banner-box .media .media-body .media-contant .cart-info a i {
-                            font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
-                        }
-
-                        .media-banner .media-banner-box .media .media-body .media-contant .cart-info a:nth-child(n+2) {
-                            margin-left: 5px;
-                        }
-
-            .media-banner .media-banner-box .media:hover .media-body .media-contant .product-detail {
-                opacity: 0;
-                visibility: hidden;
-            }
-
-            .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info {
-                opacity: 1;
-                visibility: visible;
-                -webkit-transform: translateY(0);
-                transform: translateY(0);
-            }
-
-                .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info button {
-                    -webkit-animation: fadeInUp 300ms ease-in-out;
-                    animation: fadeInUp 300ms ease-in-out;
-                }
-
-                .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info a:nth-child(2) {
-                    -webkit-animation: fadeInUp 600ms ease-in-out;
-                    animation: fadeInUp 600ms ease-in-out;
-                }
-
-                .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info a:nth-child(3) {
-                    -webkit-animation: fadeInUp 700ms ease-in-out;
-                    animation: fadeInUp 700ms ease-in-out;
-                }
-
-                .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info a:nth-child(4) {
-                    -webkit-animation: fadeInUp 900ms ease-in-out;
-                    animation: fadeInUp 900ms ease-in-out;
-                }
-
-    .media-banner.media-banner-1 {
-        background-color: #eef3f4;
-        margin: 0 8px;
+    .media-banner .media-banner-box .media .media-body .media-contant .product-detail {
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
     }
 
-    .media-banner.media-banner-2 .media-banner-box {
-        margin-bottom: 10px;
-    }
-
-        .media-banner.media-banner-2 .media-banner-box:last-child {
-            margin-bottom: 0;
+        .media-banner .media-banner-box .media .media-body .media-contant .product-detail .rating i {
+            color: #ffa800;
         }
 
-    .media-banner.banner-inverse .media-banner-box .media .media-body .media-contant h6 {
-        color: #1c3481;
+        .media-banner .media-banner-box .media .media-body .media-contant .product-detail p {
+            font-size: 14px;
+            margin-bottom: 0;
+            color: #444444;
+            text-transform: capitalize;
+        }
+
+        .media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 {
+            color: #00baf2;
+            font-weight: 700;
+            margin-top: 3px;
+        }
+
+            .media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 span {
+                color: #444444;
+                text-decoration: line-through;
+                font-weight: 500;
+            }
+
+    .media-banner .media-banner-box .media .media-body .media-contant .cart-info {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+        height: -webkit-fit-content;
+        height: -moz-fit-content;
+        height: fit-content;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+        visibility: hidden;
+        opacity: 0;
     }
 
-    .media-banner.plrb-0 {
-        padding-left: 0;
-        padding-right: 0;
-        padding-bottom: 0;
+        .media-banner .media-banner-box .media .media-body .media-contant .cart-info button {
+            padding: 0;
+            background-color: transparent;
+            line-height: 1;
+            border: none;
+        }
+
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info button svg {
+                width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
+                color: #444444;
+            }
+
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info button i {
+                color: #444444;
+                font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
+            }
+
+        .media-banner .media-banner-box .media .media-body .media-contant .cart-info a {
+            color: #444444;
+        }
+
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a svg {
+                width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
+                color: #444444;
+            }
+
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a i {
+                font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
+            }
+
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a:nth-child(n+2) {
+                margin-left: 5px;
+            }
+
+.media-banner .media-banner-box .media:hover .media-body .media-contant .product-detail {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+    .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info button {
+        -webkit-animation: fadeInUp 300ms ease-in-out;
+        animation: fadeInUp 300ms ease-in-out;
     }
+
+    .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info a:nth-child(2) {
+        -webkit-animation: fadeInUp 600ms ease-in-out;
+        animation: fadeInUp 600ms ease-in-out;
+    }
+
+    .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info a:nth-child(3) {
+        -webkit-animation: fadeInUp 700ms ease-in-out;
+        animation: fadeInUp 700ms ease-in-out;
+    }
+
+    .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info a:nth-child(4) {
+        -webkit-animation: fadeInUp 900ms ease-in-out;
+        animation: fadeInUp 900ms ease-in-out;
+    }
+
+.media-banner.media-banner-1 {
+    background-color: #eef3f4;
+    margin: 0 8px;
+}
+
+.media-banner.media-banner-2 .media-banner-box {
+    margin-bottom: 10px;
+}
+
+    .media-banner.media-banner-2 .media-banner-box:last-child {
+        margin-bottom: 0;
+    }
+
+.media-banner.banner-inverse .media-banner-box .media .media-body .media-contant h6 {
+    color: #1c3481;
+}
+
+.media-banner.plrb-0 {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
 
 /*============================
    18. Footer start
@@ -10253,8 +10269,6 @@ ul.sosiyal {
             }
 
         .theme-slider .slider-banner.slide-banner-1 .layout1-slide-2 li {
-            position: absolute;
-            left: 50px;
         }
 
             .theme-slider .slider-banner.slide-banner-1 .layout1-slide-2 li:nth-child(2) {
@@ -28788,7 +28802,7 @@ body.rtl {
     }
 
     .theme-slider .slider-banner.slide-banner-5 .layout6-slide-1 li {
-       width: 100%;
+        width: 100%;
     }
 
     .theme-slider .slider-banner.slide-banner-3 .layout4-slide-1 li {
@@ -40115,4 +40129,73 @@ body.dark {
     .dark .collection-product-wrapper .product-top-filter .popup-filter .product-page-filter {
         border-color: #3c3c3c;
     }
+}
+
+.collection-banner .collection-banner-main.p-right .collection-banner-contain div {
+    width: 35%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.collection-banner .collection-banner-main.p-right .collection-banner-contain h3 {
+    width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.collection-banner .collection-banner-main.p-right .collection-banner-contain h4 {
+    width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sticky .pixelstrap a {
+    padding-right: 36px;
+    font-size: 12px;
+}
+
+.media-banner .media-banner-box .media a {
+    position: relative;
+    width: 38%;
+}
+
+.media-banner .media-banner-box .media .media-body .media-contant {
+    margin-left: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100px;
+    position: relative;
+}
+
+.media-contant .product-detail p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 30%;
+}
+
+.media-banner .media-banner-box .media .media-body {
+    width: 61%;
+}
+
+.slick-initialized .slick-slide a .img-wrraper div img {
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    margin: auto;
 }
