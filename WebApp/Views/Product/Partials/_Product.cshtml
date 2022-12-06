@@ -13,7 +13,7 @@
                         <div class="label-wrapper"><label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
                     </div>
                     <div class="col-md-9">
-                        <select asp-for="CategoryId" class="form-control" asp-items="@catDDl">
+                        <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
                             <option value="0">Select Category</option>
                         </select>
                     </div>
@@ -74,3 +74,6 @@
     </div>
 </form>
 
+<script>
+ //$('.select2').select2();
+ </script>
