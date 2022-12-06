@@ -86,7 +86,8 @@ namespace Service.Categories
                 }
                 else
                 {
-                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
+                    //sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p on p.CategoryId = c.ParentId Order by c.Ind";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
