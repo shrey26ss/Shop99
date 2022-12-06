@@ -50,6 +50,7 @@ namespace Service.Brand
             }
             catch (Exception ex)
             {
+               
             }
 
             return res;

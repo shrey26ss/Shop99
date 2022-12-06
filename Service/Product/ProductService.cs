@@ -62,8 +62,8 @@ namespace Service.Product
             }
             catch (Exception ex)
             {
-            }
 
+            }
             return res;
         }
         public async Task<IResponse<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request)
