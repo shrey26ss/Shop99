@@ -29,11 +29,8 @@
     }
     public class HotDealsResponse: ProductResponse
     {
-      public HotDealsResponses HotDealsResponses { get; set; }
-    }
-    public class HotDealsResponses
-    {
         public string Description { get; set; }
         public string DealEndsOn { get; set; }
     }
+   
 }
