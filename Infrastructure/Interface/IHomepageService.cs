@@ -14,5 +14,6 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<ProductResponse>>> GetOnSaleProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse<ProductResponse>>>> GetFeatureProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse<HotDealsResponse>>>> GetHotDeals(ProductRequest productRequest);
+        Task<IResponse<IEnumerable<ProductResponse<HotDealsResponse>>>> GetHotDealsMulti(ProductRequest productRequest);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Dapper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -7,6 +8,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -181,5 +183,48 @@ namespace Service.Homepage
             }
             return res;
         }
+
+
+
+
+        public async Task<IResponse<IEnumerable<ProductResponse<HotDealsResponse>>>> GetHotDealsMulti(ProductRequest productRequest)
+        {
+            var res = new Response<IEnumerable<ProductResponse<HotDealsResponse>>>();
+            try
+            {
+                //res.Result = await _dapper.GetAllAsync<ProductResponse<HotDealsResponse>>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
+                var JSONAOData = new JSONAOData();
+                JSONAOData.length = productRequest.Top;
+
+
+                var dbparams = new DynamicParameters();
+                dbparams.Add("Top", productRequest.Top);
+              
+                string sqlQuery = @"proc_SelectHotDeals";
+                var ress = await _dapper.GetAllAsyncProc<HotDealsResponse, HotDealsResponses, HotDealsResponse>(new HotDealsResponse(), sqlQuery,
+                    dbparams, (hotdealsResponse, fotDealsResponses) =>
+                    {
+                        hotdealsResponse.HotDealsResponses = fotDealsResponses;
+                              return hotdealsResponse;
+                    }, splitOn: "ProductId,VariantID");
+
+
+                //var v = await _dapper.GetMultipleAsync<HotDealsResponse, HotDealsResponses, HotDealsResponse>("proc_SelectHotDeals", JSONAOData,
+                //    (hotdealsResponse, fotDealsResponses) => 
+                //    {
+                //        hotdealsResponse.HotDealsResponses = fotDealsResponses;
+                //        return hotdealsResponse;
+                //    }, splitOn: "ProductId,VariantID");
+               res.Result = ress;
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = ex.Message;
+            }
+            return res;
+        }
+       
     }
 }
