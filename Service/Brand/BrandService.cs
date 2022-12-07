@@ -159,5 +159,22 @@ namespace Service.Brand
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<Brands>>> GetTopBrands(int Top)
+        {
+            string sp = string.Empty;
+            var res = new Response<IEnumerable<Brands>>();
+            try
+            {
+                sp = @"Select Top(@Top) from Brands(nolock) order by Ind";
+                res.Result = await _dapper.GetAllAsync<Brands>(sp, new { Top }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = ResponseStatus.Success.ToString();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
     }
 }
