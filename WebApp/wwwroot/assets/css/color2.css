@@ -40218,3 +40218,8 @@ body.dark {
 .ratio_square {
     margin-top: 1.5rem !important;
 }
+.layout-header2 .container {
+    max-width: 100%;
+    padding-left: 35px;
+    padding-right: 35px;
+}
