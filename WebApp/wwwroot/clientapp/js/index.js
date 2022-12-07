@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    loadTopBrands();
     loadMainCategory();
     loadTopBannerSec();
     loadNewProducts();
@@ -8,6 +9,30 @@
     loadHotDeals();
     loadHotDealsNewProduct();
 });
+const loadTopBrands = function () {
+    let item = {
+        OrderBy: "",
+        Top: 10
+    };
+    $.ajax({
+        type: 'POST',
+        url: baseURL + "/Home/TopBrands",
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(item),
+        success: result => {
+            console.log(result);
+            let htmlbody = ``;
+            $.each(result.result, async function (i, v) {
+                htmlbody = htmlbody + `<li><a href="/topbrands/${v.id}">${v.name}</a></li>`;
+            });
+            $('#litopbrand').append(htmlbody);
+        },
+        error: result => {
+
+        }
+    });
+}
 
 const loadMainCategory = function () {
     $.post(baseURL + "/Category/TopCategory").done(res => {
@@ -158,6 +183,7 @@ const loadTopCategoryProduct = function (cId, i) {
         }
     });
 }
+
 const loadTopBannerSec = async function () {
     await $.post("/LoadTopBanner").done(res => {
         $('#secDvBanner').html(res);
