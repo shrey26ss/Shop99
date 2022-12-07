@@ -34,7 +34,6 @@ const loadTopBrands = function () {
         }
     });
 }
-
 const loadMainCategory = function () {
     $.post(baseURL + "/Category/TopCategory").done(res => {
         if (res.statusCode === 1) {
@@ -48,7 +47,6 @@ const loadMainCategory = function () {
         }
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }
-
 const loadTopCategoryProduct = function (cId, i) {
     let item = {
         OrderBy: "",
@@ -184,7 +182,6 @@ const loadTopCategoryProduct = function (cId, i) {
         }
     });
 }
-
 const loadTopBannerSec = async function () {
     await $.post("/LoadTopBanner").done(res => {
         $('#secDvBanner').html(res);
@@ -204,7 +201,7 @@ const loadofferBanner = async function () {
               <h3>${v.title}</h3>
               <h4>${v.subtitle}</h4>
               <div class="shop">
-                <a class="btn btn-normal" href="${v.backLinkURL}">
+                <a class="btn btn-normal" target="_blank" href="${v.backLinkURL}">
                   ${v.backLinkText}
                 </a>
               </div>
