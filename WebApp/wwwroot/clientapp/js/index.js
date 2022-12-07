@@ -2,6 +2,7 @@
     loadTopBrands();
     loadMainCategory();
     loadTopBannerSec();
+    loadofferBanner();
     loadNewProducts();
     loadFeatureProducts();
     loadBestSeller();
@@ -21,7 +22,7 @@ const loadTopBrands = function () {
         dataType: 'json',
         data: JSON.stringify(item),
         success: result => {
-            console.log(result);
+            
             let htmlbody = ``;
             $.each(result.result, async function (i, v) {
                 htmlbody = htmlbody + `<li><a href="/topbrands/${v.id}">${v.name}</a></li>`;
@@ -190,28 +191,52 @@ const loadTopBannerSec = async function () {
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
    
 }
+const loadofferBanner = async function () {
+    await $.get(baseURL + "/Home/OfferBanner").done(res => {
+        console.log('Offer Banner');
+        let htmlbody = ``;
+        $.each(res.result, async function (i, v) {
+            htmlbody = htmlbody + `<div class="collection-img">
+            <img src="${v.bannerPath}" class="bg-img  " alt="banner">
+          </div>
+          <div class="collection-banner-contain ">
+            <div class="sub-contain">
+              <h3>${v.title}</h3>
+              <h4>${v.subtitle}</h4>
+              <div class="shop">
+                <a class="btn btn-normal" href="${v.backLinkURL}">
+                  ${v.backLinkText}
+                </a>
+              </div>
+            </div>
+          </div>`;
+        });
+        $('#dvofferbanner').append(htmlbody);
+       
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+}
 const loadNewProducts = async function () {
     await $.post("/ProductSection", { id: 1 }).done(res => {
-        console.log('New PRoducs');
+        
         $('#secDvProduct').html(res);
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
     
 }
 const loadFeatureProducts = async function () {
     await $.post("/ProductSection", { id: 2 }).done(res => {
-        console.log('Feature PRoduct');
+       
         $('#secDvProduct').append(res);
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }
 const loadBestSeller = async function () {
     await $.post("/ProductSection", { id: 3 }).done(res => {
-        console.log('Best Seller');
+      
         $('#secDvProduct').append(res);
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }
 const loadOnSale = async function () {
     await $.post("/ProductSection", { id: 4 }).done(res => {
-        console.log('OnSale');
+      
         $('#secDvProduct').append(res);
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }

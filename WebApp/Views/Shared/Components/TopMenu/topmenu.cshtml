@@ -19,9 +19,6 @@
                             <div class="row">
                                 @foreach (var child in @item.ChildNode)
                                 {
-
-
-
                                     <div class="col mega-box">
                                         <div class="link-section">
                                             <div class="menu-title">
@@ -31,9 +28,9 @@
                                                 <ul>
                                                     @foreach (var child2 in child.ChildNode)
                                                     {
-                                                        <li><a href="grid-2-col.html">@child2.CategoryName</a></li>
+                                                        <li><a href="/category/@child2.CategoryId">@child2.CategoryName</a></li>
                                                         <ul>
-                                                            <li><a href="category-page(left-sidebar).html"></a></li>
+                                                            <li><a href="category/@child2.CategoryId"></a></li>
                                                         </ul>
                                                     }
                                                 </ul>
