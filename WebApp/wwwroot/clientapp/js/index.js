@@ -91,11 +91,11 @@ const loadTopCategoryProduct = function (cId, i) {
                         </div>
                         <div class="detail-right">
                           <div class="check-price">
-                            ₹ ${v.mrp}
+                           &#8377; ${v.mrp}
                           </div>
                           <div class="price">
                             <div class="price">
-                              ₹ ${v.sellingCost}
+                              &#8377; ${v.sellingCost}
                             </div>
                           </div>
                         </div>
