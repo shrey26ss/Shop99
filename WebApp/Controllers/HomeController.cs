@@ -139,6 +139,27 @@ namespace WebApp.Controllers
             var res = await _product.GetProductPicDetails(Id);
             return Ok(res.Result);
         }
+        [Route("terms")]
+        [HttpGet]
+        public async Task<IActionResult> TermsAndCondition()
+        {
+            
+            return View();
+        }
+        [Route("privacypolicy")]
+        [HttpGet]
+        public async Task<IActionResult> PrivacyPolicy()
+        {
+
+            return View();
+        }
+        [Route("refund")]
+        [HttpGet]
+        public async Task<IActionResult> Refund()
+        {
+
+            return View();
+        }
         public async Task<IActionResult> Error(int statusCode)
         {
             switch (statusCode)
