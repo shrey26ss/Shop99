@@ -23,6 +23,8 @@ namespace WebAPI.Controllers
         }
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
+        [HttpGet(nameof(OfferBanner))]
+        public async Task<ActionResult> OfferBanner() => Ok(await _topBanner.GetOfferBanner(new RequestBase<SearchItem>()));
         [HttpGet(nameof(TopLowerBanners))]
         public async Task<IActionResult> TopLowerBanners() => Ok(await _topLowerBanner.GetDetails(new RequestBase<SearchItem>()));
         [HttpPost(nameof(ByCategoryProduct))]

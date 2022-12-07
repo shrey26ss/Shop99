@@ -82,6 +82,25 @@ namespace Service.TopBanners
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<TopBanner>>> GetOfferBanner(RequestBase<SearchItem> req)
+        {
+            string sp = string.Empty;
+            if (req.Data == null)
+                req.Data = new SearchItem();
+            var res = new Response<IEnumerable<TopBanner>>();
+            try
+            {
+                sp = @"Select * from OfferBanner(nolock) where Id = @Id or Isnull(@Id,0)=0 Order by Id Desc";
+                res.Result = await _dapper.GetAllAsync<TopBanner>(sp, new { req.Data.Id }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
         public async Task<IResponse> Delete(RequestBase<SearchItem> req)
         {
             var res = new Response();
