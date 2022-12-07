@@ -502,12 +502,18 @@ progress {
     max-width: 960px; } }
 
 @media (min-width: 1200px) {
-  .container, .container-sm, .container-md, .container-lg, .container-xl {
-    max-width: 1140px; } }
+    .container, .container-sm, .container-md, .container-lg, .container-xl {
+        max-width: 100%;
+        padding-left: 35px;
+        padding-right: 35px;
+    } }
 
 @media (min-width: 1400px) {
-  .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    max-width: 1320px; } }
+    .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+        max-width: 100%;
+        padding-left: 35px;
+        padding-right: 35px;
+    } }
 
 .row {
   --bs-gutter-x: 1.5rem;

@@ -31,6 +31,9 @@ namespace WebApp.Controllers
         }
         [Route("LoadTopCategory")]
         [HttpPost]
+
+        
+
         public async Task<IActionResult> GetTopCategory()
         {
             var res = _category.GetTopCategory().Result;
