@@ -107,5 +107,22 @@ namespace Service.Attribute
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<AttributesDDL>>> GetCategoryMappedAttributeDDL(SearchItem req)
+        {
+            string sp = @"Select a.[Name] , a.Id  from CategoryAttributeMapping c inner join Attributes a on a.Id = c.AttributeId where c.CategoryId = @Id and IsActive = 1";
+            var res = new Response<IEnumerable<AttributesDDL>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<AttributesDDL>(sp, new { req.Id }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
+
     }
 }

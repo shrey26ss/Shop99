@@ -48,6 +48,7 @@ namespace Entities.Models
     {
         [Required(ErrorMessage = "Product Id is mendetory")]
         public int ProductId { get; set; }
+        public int CategoryId { get; set; }
         [Required, MinLength(1, ErrorMessage = "Please add atleaste one Attribute")]
         public List<AttributeInfo> AttributeInfo { get; set; }
         [Required, MinLength(1, ErrorMessage = "Please add atleaste one variant")]

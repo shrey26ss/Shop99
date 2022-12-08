@@ -46,5 +46,10 @@ namespace WebAPI.Controllers
         {
             return Ok(await _attr.GetAttributeDDL());
         }
+        [Route("Attribute/GetCategoryMappedAttributeDDL")]
+        public async Task<IActionResult> GetCategoryMappedAttributeDDL(SearchItem req)
+        {
+            return Ok(await _attr.GetCategoryMappedAttributeDDL(req));
+        }
     }
 }

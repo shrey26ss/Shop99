@@ -45,6 +45,17 @@ namespace AppUtility.Helper
             }
             return list;
         }
+        public async Task<List<AttributesDDL>> GetCategoryMappedAttributeDDL(string _token, string _apiBaseURL, int CatId)
+        {
+            var list = new List<AttributesDDL>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/GetCategoryMappedAttributeDDL", JsonConvert.SerializeObject(new SearchItem { Id = CatId }), _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var _ = JsonConvert.DeserializeObject<Response<IEnumerable<AttributesDDL>>>(apiResponse.Result);
+                list = _.Result.ToList();
+            }
+            return list;
+        }
         public async Task<List<BrandsDDL>> GetBrandsDDL(string _token, string _apiBaseURL)
         {
             var list = new List<BrandsDDL>();

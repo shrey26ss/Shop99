@@ -27,9 +27,11 @@ namespace WebApp.Controllers
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
-        public async Task<IActionResult> Index()
+        [Route("CategoryAttributeMapping/Index")]
+        [Route("Index")]
+        public async Task<IActionResult> Index(int Id = 0)
         {
-            var model = new CatAttrMappingViewModel();
+            var model = new CatAttrMappingViewModel { CategoryId = Id };
             model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
             return View(model);
         }
