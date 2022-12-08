@@ -352,34 +352,40 @@
         var GetPictures = () => {
             $.post(`/Home/GetProductPicDetails/`, { Id: '@Model.VariantId' }).done((result) => {
                 console.log('Pictures :', result);
-                let __thumbnail = result.map(x => `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`);
+                let __thumbnail = result.map(x => {
+                    let __t = '';
+                    if (x.imgVariant === '400_400') {
+                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                    }
+                    return __t;
+                });
                 let __originalImages = result.map(x => {
                     let __h = '';
                     if (x.imgVariant === 'default') {
-                        __h+=`<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
                     }
                     return __h;
-            });
-            $('.product-slick').html(__originalImages);
-            $('.slider-nav').html(__thumbnail);
-            $('.product-slick').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: true,
-                fade: true,
-                asNavFor: '.slider-nav'
-            });
-            $('.slider-nav').slick({
-                vertical: false,
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                asNavFor: '.product-slick',
-                arrows: false,
-                dots: false,
-                focusOnSelect: true
-            });
-        })
-                }
+                });
+                $('.product-slick').html(__originalImages);
+                $('.slider-nav').html(__thumbnail);
+                $('.product-slick').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    fade: true,
+                    asNavFor: '.slider-nav'
+                });
+                $('.slider-nav').slick({
+                    vertical: false,
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    asNavFor: '.product-slick',
+                    arrows: false,
+                    dots: false,
+                    focusOnSelect: true
+                });
+            })
+        }
         var GetAttributes = () => {
             $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.ProductId' }).done((result) => {
                 console.log('Attributes :', result);
