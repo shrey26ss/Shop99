@@ -1,9 +1,5 @@
 ﻿@using WebApp.Models.ViewModels;
 @model VariantViewModel
-@{
-    var attrDDl = new SelectList(Model.AttributesDDLs, "Id", "Name");
-    string s = string.Empty;
-}
 <style>
     .custOne {
         height: 0px;
@@ -118,7 +114,7 @@
         $(document).on('click', '.btnAddNewAttribute', e => {
             let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
             let __top = $(e.currentTarget).offset().top - 100;
-            $.post('/Product/AddAttributes', { combinationId }).done((result) => {
+            $.post('/Product/AddAttributes', { combinationId, CategoryId : '@Model.CategoryId' }).done((result) => {
                 Q.alert({
                     title: 'Add Attribute',
                     body: result,

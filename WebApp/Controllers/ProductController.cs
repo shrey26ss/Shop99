@@ -134,13 +134,12 @@ namespace WebApp.Controllers
         #region Add Variants
 
         // GET: ProductController/Create
-        public async Task<IActionResult> AddVariant(int Id = 0)
+        public async Task<IActionResult> AddVariant(int Id = 0, int cId = 0)
         {
             VariantViewModel model = new VariantViewModel()
             {
-
                 ProductId = Id,
-                AttributesDDLs = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
+                CategoryId = cId
             };
             return View(model);
         }
@@ -157,12 +156,13 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAttributes(string combinationId)
+        public async Task<IActionResult> AddAttributes(string combinationId, int CategoryId)
         {
             var model = new ViewVariantCombinationModel
             {
                 CombinationId = combinationId,
-                Attributes = await DDLHelper.O.GetAttributeDDL(GetToken(), _apiBaseURL)
+                CategoryId = CategoryId,
+                Attributes = await DDLHelper.O.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
             };
             return PartialView("Partials/_AddAttributes", model);
         }

@@ -1,7 +1,7 @@
 ﻿@using WebApp.Models.ViewModels;
 @model CatAttrMappingViewModel
 @{
-    var DDL = new SelectList(Model.Categories, "CategoryId", "CategoryName");
+    var DDL = new SelectList(Model.Categories, "CategoryId", "CategoryName", Model.CategoryId.ToString());
 }
 <div class="content-header clearfix">
     <h1 class="float-left">Category Attribute Mapping</h1>
@@ -11,7 +11,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-sm-3 col-sm-3">
-                    <select class="form-control CatDDL" asp-items="@DDL"></select>
+                    <select class="form-control CatDDL" asp-items="@DDL" ></select>
                 </div>
             </div>
         </div>
