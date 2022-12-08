@@ -208,9 +208,11 @@ namespace WebApp.Controllers
             List<PictureInformation> ImageInfo = new List<PictureInformation>();
             if (req != null && req.Any())
             {
+                int counter = 0;
                 foreach (var item in req)
                 {
-                    string fileName = $"{DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+                    counter++;
+                    string fileName = $"{counter.ToString()+DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
                     Utility.O.UploadFile(new FileUploadModel
                     {
                         file = item.file,
