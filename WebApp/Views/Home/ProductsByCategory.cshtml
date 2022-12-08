@@ -1,0 +1,150 @@
+﻿@using Entities.Models
+@using Service.Models
+@using Entities.Enums;
+@model Response<IEnumerable<ProductResponse>>
+@{
+    Layout = "_layout";
+    var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<ProductResponse>();
+}
+
+<!-- section start -->
+<section class="section-big-py-space ratio_asos b-g-light">
+    <div class="collection-wrapper">
+        <div class="custom-container">
+            <div class="row">
+                <div class="col-sm-3 collection-filter category-side category-page-side">
+                    <!-- side-bar colleps block stat -->
+                    <div class="collection-filter-block creative-card creative-inner category-side">
+                        <!-- brand filter start -->
+                        <div class="collection-mobile-back">
+                            <span class="filter-back"><i class="fa fa-angle-left" aria-hidden="true"></i> back</span>
+                        </div>
+                        <div id="dvfilters">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="collection-content col">
+                    <div class="page-main-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="collection-product-wrapper">
+                                    <div class="product-top-filter">
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="filter-main-btn"><span class="filter-btn btn btn-theme"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="product-filter-content">
+                                                    <div class="search-count">
+                                                        <h5>Showing Products 1-24 of 10 Result</h5>
+                                                    </div>
+                                                    <div class="collection-view">
+                                                        <ul>
+                                                            <li><i class="fa fa-th grid-layout-view"></i></li>
+                                                            <li><i class="fa fa-list-ul list-layout-view"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="collection-grid-view">
+                                                        <ul>
+                                                            <li><img src="~/assets/images/category/icon/2.png" alt="" class="product-2-layout-view"></li>
+                                                            <li><img src="~/assets/images/category/icon/3.png" alt="" class="product-3-layout-view"></li>
+                                                            <li><img src="~/assets/images/category/icon/4.png" alt="" class="product-4-layout-view"></li>
+                                                            <li><img src="~/assets/images/category/icon/6.png" alt="" class="product-6-layout-view"></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product-page-per-view">
+                                                        <select>
+                                                            <option value="High to low">24 Products Par Page</option>
+                                                            <option value="Low to High">50 Products Par Page</option>
+                                                            <option value="Low to High">100 Products Par Page</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="product-page-filter">
+                                                        <select>
+                                                            <option value="High to low">Sorting items</option>
+                                                            <option value="Low to High">50 Products</option>
+                                                            <option value="Low to High">100 Products</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-wrapper-grid product-load-more product">
+                                        <div class="row">
+
+                                            @if (result.Any())
+                                            {
+                                                @foreach (var item in result)
+                                                {
+                                                    <div class="col-xl-3 col-md-4 col-6 col-grid-box">
+                                                        <div class="product-box">
+                                                            <div class="product-imgbox">
+                                                                <div class="product-front">
+                                                                    <a href="/productdetail/@item.ProductID"> <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product"> </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-detail detail-center detail-inverse">
+                                                                <div class="detail-title">
+                                                                    <div class="detail-left">
+                                                                        <div class="rating-star"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
+                                                                        @*<p>@item.Title</p>*@
+                                                                        <a href="/productdetail/@item.ProductID">
+                                                                            <h6 class="price-title">
+                                                                                @item.Title
+                                                                            </h6>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="detail-right">
+                                                                        <div class="check-price">&#8377; @item.MRP </div>
+                                                                        <div class="price">
+                                                                            <div class="price">&#8377; @item.SellingCost</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="icon-detail">
+                                                                    <button class="tooltip-top add-cartnoty" data-tippy-content="Add to cart"> <i data-feather="shopping-cart"></i> </button>
+                                                                    <a href="javascript:void(0)" class="add-to-wish tooltip-top" data-tippy-content="Add to Wishlist"> <i data-feather="heart"></i> </a>
+                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"> <i data-feather="eye"></i> </a>
+                                                                    <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"> <i data-feather="refresh-cw"></i> </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+
+
+
+                                            <div class="load-more-sec"><a href="javascript:void(0)" class="loadMore">load more</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+<script>
+        $(document).ready(function(){
+            var url= window.location.href;
+             var id = url.substring(url.lastIndexOf('/') + 1);
+         loadFilters(id);
+        });
+        const loadFilters = function (cid) {
+        $.post("/categoryfilters",{cid:cid}).done(res => {
+            $('#dvfilters').html(res);
+        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    }
+</script>
+}

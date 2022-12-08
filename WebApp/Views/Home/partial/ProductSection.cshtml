@@ -17,8 +17,8 @@
                     <div class='media-banner media-banner-1 border-0'>
                         <div class="media-banner-box">
                             <div class="media">
-                                <a href="#">
-                                    <img class="img-fluid " src="@Products[j].ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="banner">
+                                <a href="/productdetail/@Products[j].ProductID">
+                                    <img class="img-fluid" src="@Products[j].ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="banner">
                                 </a>
                                 <div class="media-body">
                                     <div class="media-contant">
@@ -31,7 +31,7 @@
                                                     <li><i class="fa fa-star"></i></li>
                                                     <li><i class="fa fa-star-o"></i></li>
                                                 </ul>
-                                                <a href="product-page(left-sidebar).html"><p>@Products[j].Title</p></a>
+                                                <a href="/productdetail/@Products[j].ProductID"><p>@Products[j].Title</p></a>
                                                 <h6>@Products[j].SellingCost <span>@Products[j].MRP</span></h6>
                                             </div>
                                             <div class="cart-info">
@@ -49,7 +49,7 @@
                         {
                             <div class="media-banner-box">
                                 <div class="media">
-                                    <a href="product-page(left-sidebar).html">
+                                    <a href="/productdetail/@Products[j+1].ProductID">
 
                                         <img src="@Products[j+1].ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid " alt="banner">
                                     </a>
@@ -64,7 +64,7 @@
                                                         <li><i class="fa fa-star"></i></li>
                                                         <li><i class="fa fa-star-o"></i></li>
                                                     </ul>
-                                                    <a href="product-page(left-sidebar).html"><p>@Products[j+1].Title</p></a>
+                                                    <a href="/productdetail/@Products[j+1].ProductID"><p>@Products[j+1].Title</p></a>
                                                     <h6>@Products[j+1].SellingCost <span>@Products[j+1].MRP</span></h6>
                                                 </div>
                                                 <div class="cart-info">
@@ -84,7 +84,7 @@
                         {
                             <div class="media-banner-box">
                                 <div class="media">
-                                    <a href="product-page(left-sidebar).html">
+                                    <a href="/productdetail/@Products[j+2].ProductID">
                                         <img src="@Products[j+2].ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid " alt="banner">
                                     </a>
                                     <div class="media-body">
@@ -98,7 +98,7 @@
                                                         <li><i class="fa fa-star"></i></li>
                                                         <li><i class="fa fa-star-o"></i></li>
                                                     </ul>
-                                                    <a href="product-page(left-sidebar).html"><p>@Products[j+2].Title</p></a>
+                                                    <a href="/productdetail/@Products[j+2].ProductID"><p>@Products[j+2].Title</p></a>
                                                     <h6>@Products[j+2].SellingCost <span>@Products[j+2].MRP</span></h6>
                                                 </div>
                                                 <div class="cart-info">

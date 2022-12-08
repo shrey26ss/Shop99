@@ -1,0 +1,45 @@
+﻿@using Entities.Models
+@using Service.Models
+@using Entities.Enums;
+@model Response<IEnumerable<Filters>>
+@{
+    var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<Filters>();
+    int i = 1;
+}
+
+@foreach (var item in result)
+{
+    <div class="collection-collapse-block open">
+        <h3 class="collapse-block-title mt-0">@item.Name</h3>
+        <div class="collection-collapse-block-content">
+            <div class="collection-brand-filter">
+
+                @foreach (var attr in @item.attributes)
+                {
+                    <div class="custom-control custom-checkbox  form-check collection-filter-checkbox">
+                        <input type="checkbox" class="custom-control-input form-check-input" id="@i">
+                        <label class="custom-control-label form-check-label" for="@attr.AttributeValue">@attr.AttributeValue</label>
+                    </div>
+                    i = i + 1;
+                }
+            </div>
+        </div>
+    </div>
+
+}
+<script>
+ $('.collapse-block-title').on('click', function(e) {
+    e.preventDefault;
+    var speed = 300;
+    var thisItem = $(this).parent(),
+      nextLevel = $(this).next('.collection-collapse-block-content');
+    if (thisItem.hasClass('open')){
+      thisItem.removeClass('open');
+      nextLevel.slideUp(speed);
+    }
+    else {
+      thisItem.addClass('open');
+      nextLevel.slideDown(speed);
+    }
+  });
+</script>

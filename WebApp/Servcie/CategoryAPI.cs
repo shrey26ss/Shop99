@@ -24,6 +24,8 @@ namespace WebApp.Servcie
         Task<IResponse<IEnumerable<ProductResponse>>> GetOnSaleProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetFeatureProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<HotDealsResponse>>> GetHotDeals(ProductRequest productRequest);
+        Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest);
+        Task<IResponse<IEnumerable<Filters>>> GetCategoryFilters(ProductRequest productRequest);
     }
     public class CategoryAPI : ICategoryAPI
     {
@@ -74,6 +76,34 @@ namespace WebApp.Servcie
             }
             return res;
         }
+
+
+        public async Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest)
+        {
+            var res = new Response<IEnumerable<ProductResponse>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/ByCategoryProduct", JsonConvert.SerializeObject(productRequest));
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<ProductResponse>>>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
+
+      
+
+
         public async Task<IResponse<IEnumerable<TopBanner>>> GetTopBanner()
         {
             var res = new Response<IEnumerable<TopBanner>>
@@ -223,6 +253,29 @@ namespace WebApp.Servcie
                 try
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<HotDealsResponse>>>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
+
+        public async Task<IResponse<IEnumerable<Filters>>> GetCategoryFilters(ProductRequest productRequest)
+        {
+            var res = new Response<IEnumerable<Filters>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/FiltersData", JsonConvert.SerializeObject(productRequest));
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<Filters>>>(Response.Result);
                     return deserializeObject;
                 }
                 catch (Exception e)

@@ -9,7 +9,7 @@
         <div class="hotdeal-right-slick border-0">
             @foreach (var item in Model)
             {
-                <a href="product-page(left-sidebar).html">
+                <a href="/productdetail/@item.ProductID">
                     <div class="img-wrraper">
                         <div>
                             <img src="@item.ImagePath"  onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="hot-deal" class="img-fluid  bg-img">
@@ -25,7 +25,7 @@
             {
                 <div>
                     <div>
-                        <a href="product-page(left-sidebar).html">
+                        <a href="/productdetail/@item.ProductID">
                             <h5>@item.Title</h5>
                         </a>
                         <ul class="rating">
@@ -36,10 +36,10 @@
                             <li><i class="fa fa-star-o"></i></li>
                         </ul>
                         <p>
-                            @*@{
-                            //    string dec = string.IsNullOrEmpty(@item.Description) ? "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lore" : @item.Description;
-                            //}
-                           @dec*@
+                            @{
+                                string dec = string.IsNullOrEmpty(@item.Description) ? "N/A" : @item.Description;
+                            }
+                           @dec
                         </p>
                         <h6>@item.SellingCost <span>@item.MRP</span></h6>
                         <div class="timer">
