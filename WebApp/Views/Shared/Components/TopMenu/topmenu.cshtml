@@ -9,8 +9,11 @@
     @foreach (var item in menus)
     {
         <li class="mega">
-
-            <a class="dark-menu-item" href="javascript:void(0)">@item.CategoryName</a>
+            @{
+                string href = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "/category/"+@item.CategoryId;
+                string target = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "target='_blank'";
+            }
+            <a class="dark-menu-item" @target  href="@href">@item.CategoryName</a>
             @if (@item.ChildNode != null && @item.ChildNode.Any())
             {
                 <ul class="mega-menu full-mega-menu ratio_landscape">
@@ -28,9 +31,9 @@
                                                 <ul>
                                                     @foreach (var child2 in child.ChildNode)
                                                     {
-                                                        <li><a href="/category/@child2.CategoryId">@child2.CategoryName</a></li>
+                                                        <li><a target="_blank" href="/category/@child2.CategoryId">@child2.CategoryName</a></li>
                                                         <ul>
-                                                            <li><a href="category/@child2.CategoryId"></a></li>
+                                                            <li><a target="_blank" href="category/@child2.CategoryId"></a></li>
                                                         </ul>
                                                     }
                                                 </ul>

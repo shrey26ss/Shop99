@@ -59,6 +59,7 @@ namespace WebAPI.Middleware
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
             services.AddScoped<IHomepageService, HomepageService>();
+            services.AddScoped<IFiltersService, FiltersService>();
             services.AddScoped<ICategoryAttributeMapping, CategoryAttributeMappingService>();
             services.AddScoped<IProductHomeService, ProductHomeService>();
             //services.AddProgressiveWebApp();
