@@ -13,13 +13,15 @@ namespace WebAPI.Controllers
         private readonly ITopLowerBanner _topLowerBanner;
         private readonly ITopBanner _topBanner;
         private readonly IBrands _brands;
+        private readonly IFiltersService _filters;
         public HomeController(
-            IHomepageService homepageService, ITopLowerBanner topLowerBanner, ITopBanner topBanner, IBrands brands)
+            IHomepageService homepageService, ITopLowerBanner topLowerBanner, ITopBanner topBanner, IBrands brands,IFiltersService filters)
         {
             _topBanner = topBanner;
             _topLowerBanner = topLowerBanner;
             _homepageService = homepageService;
             _brands = brands;
+            _filters = filters;
         }
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
@@ -46,5 +48,7 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> HotDeals(ProductRequest productRequest) => Ok(await _homepageService.GetHotDeals(productRequest));
         [HttpPost(nameof(TopBrands))]
         public async Task<ActionResult> TopBrands(ProductRequest productRequest) => Ok(await _brands.GetTopBrands(productRequest.Top));
+        [HttpPost(nameof(FiltersData))]
+        public async Task<ActionResult> FiltersData(ProductRequest<int> productRequest) => Ok(await _filters.GetFiltersByCategory(productRequest.MoreFilters));
     }
 }

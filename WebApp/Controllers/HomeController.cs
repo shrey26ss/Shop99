@@ -25,15 +25,39 @@ namespace WebApp.Controllers
             _category = category;
             _product = product;
         }
+        #region Wesbite terms and privacy and refund pages
+        [Route("terms")]
+        [HttpGet]
+        public async Task<IActionResult> TermsAndCondition()
+        {
+
+            return View();
+        }
+        [Route("privacypolicy")]
+        [HttpGet]
+        public async Task<IActionResult> PrivacyPolicy()
+        {
+
+            return View();
+        }
+        [Route("refund")]
+        [HttpGet]
+        public async Task<IActionResult> Refund()
+        {
+
+            return View();
+        }
+        #endregion
+
+        #region Index Dashboard
+
+
         public async Task<IActionResult> Index()
         {
             return View();
         }
         [Route("LoadTopCategory")]
         [HttpPost]
-
-        
-
         public async Task<IActionResult> GetTopCategory()
         {
             var res = _category.GetTopCategory().Result;
@@ -127,6 +151,8 @@ namespace WebApp.Controllers
              res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
         }
+        #endregion
+        #region Product Details
         [Route("Home/ProductDetail/{Id}")]
         [Route("ProductDetail/{Id}")]
         public async Task<IActionResult> ProductDetail(int Id)
@@ -144,27 +170,38 @@ namespace WebApp.Controllers
             var res = await _product.GetProductPicDetails(Id);
             return Ok(res.Result);
         }
-        [Route("terms")]
-        [HttpGet]
-        public async Task<IActionResult> TermsAndCondition()
-        {
-            
-            return View();
-        }
-        [Route("privacypolicy")]
-        [HttpGet]
-        public async Task<IActionResult> PrivacyPolicy()
-        {
 
-            return View();
-        }
-        [Route("refund")]
-        [HttpGet]
-        public async Task<IActionResult> Refund()
-        {
+        #endregion
 
-            return View();
+        #region Products by Category
+
+        [Route("category/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> ProductsByCategory(int id)
+        {
+            var req = new ProductRequest<int>()
+            {
+                Top = 24,
+                OrderBy = "",
+                MoreFilters=id
+            };
+            var res= _category.ByCategoryProduct(req).Result;
+            return View(res);
         }
+        [Route("categoryfilters")]
+        [HttpPost]
+        public async Task<IActionResult> GetCategoryFilters(int cid)
+        {
+            var req = new ProductRequest<int>()
+            {
+                Top = 24,
+                OrderBy = "",
+                MoreFilters = cid
+            };
+            var res = _category.GetCategoryFilters(req).Result;
+            return PartialView("Partial/_categoryfilters", res);
+        }
+        #endregion
         public async Task<IActionResult> Error(int statusCode)
         {
             switch (statusCode)
