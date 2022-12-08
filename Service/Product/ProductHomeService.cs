@@ -41,7 +41,7 @@ namespace Service.Product
 
         public async Task<IResponse<IEnumerable<ProductAttributes>>> GetProductAttrDetails(SearchItem req)
         {
-            string sp = @"Select ai.AttributeId AttributeId, a.[Name] AttributeName, ai.AttributeValue from AttributeInfo ai inner join Attributes a on a.Id = ai.AttributeId where GroupId = @Id";
+            string sp = @"Select a.Id AttributeId ,a.[Name] AttributeName,ai.AttributeValue,v.ProductId from AttributeInfo ai inner join Attributes a on ai.AttributeId=a.Id Inner join VariantGroup v on v.Id=ai.GroupId Where v.ProductId = @Id";
             var res = new Response<IEnumerable<ProductAttributes>> ();
             try
             {
