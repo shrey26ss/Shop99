@@ -7,15 +7,15 @@ namespace WebApp.Models.ViewModels
 
     }
 
-    public class Filters
-    {
-        public int FilterId { get; set; }
-        public string FilterName { get; set; }
-        public IEnumerable<FilterValues> Values { get; set; }
-    }
+    //public class FiltersVM
+    //{
+    //    public int FilterId { get; set; }
+    //    public string Name { get; set; }
+    //    public IEnumerable<FiltersAttributes> attributes { get; set; }
+    //}
 
-    public class FilterValues
-    {
-        public string Value { get; set; }
-    }
+    //public class FiltersAttributes
+    //{
+    //    public string AttributeValue { get; set; }
+    //}
 }
