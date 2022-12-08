@@ -351,7 +351,6 @@
         })
         var GetPictures = () => {
             $.post(`/Home/GetProductPicDetails/`, { Id: '@Model.VariantId' }).done((result) => {
-                console.log('Pictures :', result);
                 let __thumbnail = result.map(x => {
                     let __t = '';
                     if (x.imgVariant === '400_400') {
@@ -388,13 +387,16 @@
         }
         var GetAttributes = () => {
             $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.ProductId' }).done((result) => {
-                console.log('Attributes :', result);
                 let _html = ``;
                 $.each(result, (k, v) => {
                     _html = _html + `<div class="size-box">`;
                     _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
+                    let unique = [];
                     $.each(v.attributes, (i, j) => {
-                        _html = _html + `<li><a href="javascript:void(0)">${j.attributeValue}</a></li>`;
+                        if (!unique.includes(j.attributeValue)) {
+                            _html = _html + `<li><a href="javascript:void(0)">${j.attributeValue}</a></li>`;
+                            unique.push(j.attributeValue);
+                        }
                     })
                     _html = _html + `</ul></div>`;
                 });
