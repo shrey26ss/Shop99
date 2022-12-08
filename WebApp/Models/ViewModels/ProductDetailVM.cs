@@ -10,7 +10,7 @@ namespace WebApp.Models.ViewModels
     public class Filters
     {
         public int FilterId { get; set; }
-        public int FilterName { get; set; }
+        public string FilterName { get; set; }
         public IEnumerable<FilterValues> Values { get; set; }
     }
 

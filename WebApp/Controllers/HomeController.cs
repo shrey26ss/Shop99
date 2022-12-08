@@ -127,6 +127,8 @@ namespace WebApp.Controllers
              res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
         }
+        [Route("Home/ProductDetail/{Id}")]
+        [Route("ProductDetail/{Id}")]
         public async Task<IActionResult> ProductDetail(int Id)
         {
             var res = await _product.GetProductDetails(Id);

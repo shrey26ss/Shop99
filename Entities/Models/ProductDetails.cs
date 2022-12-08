@@ -7,6 +7,7 @@ namespace Entities.Models
     public class ProductDetails
     {
         public int VariantId { get; set; }
+        public int ProductId { get; set; }
         public decimal MRP { get; set; }
         public decimal SellingCost { get; set; }
         public int Quantity { get; set; }
@@ -24,6 +25,7 @@ namespace Entities.Models
     public class ProductAttributes
     {
         public int AttributeId { get; set; }
+        public int ProductId { get; set; }
         public string AttributeName { get; set; }
         public string AttributeValue { get; set; }
     }

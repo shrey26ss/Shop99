@@ -5,16 +5,18 @@ using Infrastructure.Interface;
 using Newtonsoft.Json;
 using Service.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.Models;
+using WebApp.Models.ViewModels;
 
 namespace WebApp.Servcie
 {
     public interface IProductsAPI
     {
         Task<IResponse<ProductDetails>> GetProductDetails(int Id);
-        Task<IResponse<List<ProductAttributes>>> GetProductAttrDetails(int Id);
+        Task<IResponse<List<Filters>>> GetProductAttrDetails(int Id);
         Task<IResponse<List<ProductPictureInfo>>> GetProductPicDetails(int Id);
     }
     public class ProductsAPI : IProductsAPI
@@ -42,17 +44,36 @@ namespace WebApp.Servcie
                 return res;
             }
         }
-        public async Task<IResponse<List<ProductAttributes>>> GetProductAttrDetails(int Id)
+        public async Task<IResponse<List<Filters>>> GetProductAttrDetails(int Id)
         {
             var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductAttrDetails", JsonConvert.SerializeObject(new SearchItem { Id = Id }));
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductAttributes>>>(Response.Result);
-                return deserializeObject;
+                var distinctList = deserializeObject.Result.GroupBy(x => x.AttributeName).ToList();
+                var filters = new Response<List<Filters>>
+                {
+                    ResponseText = deserializeObject.ResponseText,
+                    StatusCode= deserializeObject.StatusCode,
+                    Result = new List<Filters>()
+                };
+                foreach (var item in distinctList)
+                {
+                    var filter = new Filters { FilterName = item.Key};
+                    var filterValues = new List<FilterValues>();
+                    foreach (var val in item)
+                    {
+                        filter.FilterId = val.AttributeId;
+                        filterValues.Add(new FilterValues { Value = val.AttributeValue});
+                    }
+                    filter.Values= filterValues;
+                    filters.Result.Add(filter ?? new Filters());
+                }
+                return filters;
             }
             else
             {
-                var res = new Response<List<ProductAttributes>>
+                var res = new Response<List<Filters>>
                 {
                     StatusCode = ResponseStatus.Failed,
                     ResponseText = "Somthing Went Wrong",
