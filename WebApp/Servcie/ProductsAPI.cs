@@ -59,14 +59,14 @@ namespace WebApp.Servcie
                 };
                 foreach (var item in distinctList)
                 {
-                    var filter = new Filters { FilterName = item.Key};
-                    var filterValues = new List<FilterValues>();
+                    var filter = new Filters { Name = item.Key};
+                    var filterValues = new List<FiltersAttributes>();
                     foreach (var val in item)
                     {
-                        filter.FilterId = val.AttributeId;
-                        filterValues.Add(new FilterValues { Value = val.AttributeValue});
+                        filter.AttributeId = val.AttributeId;
+                        filterValues.Add(new FiltersAttributes { AttributeValue = val.AttributeValue});
                     }
-                    filter.Values= filterValues;
+                    filter.attributes = filterValues;
                     filters.Result.Add(filter ?? new Filters());
                 }
                 return filters;
