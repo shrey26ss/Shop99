@@ -93,18 +93,16 @@
                         <div class="row ">
                             <div class="col-lg-5" id="productImages">
                                 <div class="product-slick">
-                                    <div><img src="/assets/images/product-sidebar/001.jpg" alt="" class="img-fluid"></div>
-                                    <div><img src="/assets/images/product-sidebar/002.jpg" alt="" class="img-fluid"></div>
-                                    <div><img src="/assets/images/product-sidebar/003.jpg" alt="" class="img-fluid"></div>
-                                    <div><img src="/assets/images/product-sidebar/004.jpg" alt="" class="img-fluid"></div>
+                                    <div><img src="/assets/images/noimage.jpg" alt="" class="img-fluid"></div>
+                                    <div><img src="/assets/images/noimage.jpg" alt="" class="img-fluid"></div>
+                                    <div><img src="/assets/images/noimage.jpg" alt="" class="img-fluid"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 p-0">
                                         <div class="slider-nav">
-                                            <div><img src="/assets/images/product-sidebar/001.jpg" alt="" class="img-fluid"></div>
-                                            <div><img src="/assets/images/product-sidebar/002.jpg" alt="" class="img-fluid"></div>
-                                            <div><img src="/assets/images/product-sidebar/003.jpg" alt="" class="img-fluid"></div>
-                                            <div><img src="/assets/images/product-sidebar/004.jpg" alt="" class="img-fluid"></div>
+                                            <div><img src="/assets/images/noimage.jpg" alt="" class="img-fluid"></div>
+                                            <div><img src="/assets/images/noimage.jpg" alt="" class="img-fluid"></div>
+                                            <div><img src="/assets/images/noimage.jpg" alt="" class="img-fluid"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -351,22 +349,24 @@
         })
         var GetPictures = () => {
             $.post(`/Home/GetProductPicDetails/`, { Id: '@Model.VariantId' }).done((result) => {
-                let __thumbnail = result.map(x => {
-                    let __t = '';
-                    if (x.imgVariant === '400_400') {
-                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
-                    }
-                    return __t;
-                });
-                let __originalImages = result.map(x => {
-                    let __h = '';
-                    if (x.imgVariant === 'default') {
-                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
-                    }
-                    return __h;
-                });
-                $('.product-slick').html(__originalImages);
-                $('.slider-nav').html(__thumbnail);
+                if (result != null && result.length > 0) {
+                    let __thumbnail = result.map(x => {
+                        let __t = '';
+                        if (x.imgVariant === '400_400') {
+                            __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                        }
+                        return __t;
+                    });
+                    let __originalImages = result.map(x => {
+                        let __h = '';
+                        if (x.imgVariant === 'default') {
+                            __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                        }
+                        return __h;
+                    });
+                    $('.product-slick').html(__originalImages);
+                    $('.slider-nav').html(__thumbnail);
+                }
                 $('.product-slick').slick({
                     slidesToShow: 1,
                     slidesToScroll: 1,
@@ -387,7 +387,6 @@
         }
         var GetAttributes = () => {
             $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.VariantId' }).done((result) => {
-                console.log('Attr :', result);   
                 let _html = ``;
                 $.each(result, (k, v) => {
                     _html = _html + `<div class="size-box">`;
