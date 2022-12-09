@@ -386,17 +386,16 @@
             })
         }
         var GetAttributes = () => {
-            $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.ProductId' }).done((result) => {
+            $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.VariantId' }).done((result) => {
+                console.log('Attr :', result);   
                 let _html = ``;
                 $.each(result, (k, v) => {
                     _html = _html + `<div class="size-box">`;
                     _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
-                    let unique = [];
                     $.each(v.attributes, (i, j) => {
-                        if (!unique.includes(j.attributeValue)) {
-                            _html = _html + `<li><a href="javascript:void(0)">${j.attributeValue}</a></li>`;
-                            unique.push(j.attributeValue);
-                        }
+                        let active = j.variantId == '@Model.VariantId' ? 'active' : '';
+                        let url = j.variantId == '@Model.VariantId' ? `javascript:void(0)` : `/Home/ProductDetail/${j.variantId}`;
+                        _html = _html + `<li class="${active}"><a href="${url}">${j.attributeValue}</a></li>`;
                     })
                     _html = _html + `</ul></div>`;
                 });

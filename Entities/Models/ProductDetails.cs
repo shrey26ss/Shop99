@@ -26,6 +26,7 @@ namespace Entities.Models
     {
         public int AttributeId { get; set; }
         public int ProductId { get; set; }
+        public int VariantId { get; set; }
         public string AttributeName { get; set; }
         public string AttributeValue { get; set; }
     }

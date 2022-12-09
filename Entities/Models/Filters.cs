@@ -17,5 +17,6 @@ namespace Entities.Models
     public class FiltersAttributes
     {
         public string AttributeValue { get; set; }
+        public int VariantId { get; set; }
     }
 }

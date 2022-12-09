@@ -64,7 +64,7 @@ namespace WebApp.Servcie
                     foreach (var val in item)
                     {
                         filter.AttributeId = val.AttributeId;
-                        filterValues.Add(new FiltersAttributes { AttributeValue = val.AttributeValue});
+                        filterValues.Add(new FiltersAttributes { AttributeValue = val.AttributeValue, VariantId = val.VariantId});
                     }
                     filter.attributes = filterValues;
                     filters.Result.Add(filter ?? new Filters());
