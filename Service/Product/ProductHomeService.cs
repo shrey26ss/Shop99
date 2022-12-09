@@ -41,11 +41,11 @@ namespace Service.Product
 
         public async Task<IResponse<IEnumerable<ProductAttributes>>> GetProductAttrDetails(SearchItem req)
         {
-            string sp = @"Select a.Id AttributeId ,a.[Name] AttributeName,ai.AttributeValue,v.ProductId from AttributeInfo ai inner join Attributes a on ai.AttributeId=a.Id Inner join VariantGroup v on v.Id=ai.GroupId Where v.ProductId = @Id";
+            string sp = "Proc_ProductAttrDetails";
             var res = new Response<IEnumerable<ProductAttributes>> ();
             try
             {
-                res.Result = await _dapper.GetAllAsync<ProductAttributes>(sp, new { req.Id }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<ProductAttributes>(sp, new { VariantId = req.Id }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
