@@ -70,12 +70,12 @@ const loadTopCategoryProduct = function (cId, i) {
                   <div class="product-box">
                     <div class="product-imgbox">
                       <div class="product-front">
-                        <a href="/productdetail/${v.productID}">
+                        <a href="/productdetail/${v.variantID}">
                           <img src="${v.imagePath}"   onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
                         </a>
                       </div>
                       <div class="product-back">
-                        <a href="/productdetail/${v.productID}">
+                        <a href="/productdetail/${v.variantID}">
                           <img src="${v.imagePath}" class="img-fluid  " onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="product">
                         </a>
                       </div>
@@ -110,7 +110,7 @@ const loadTopCategoryProduct = function (cId, i) {
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                           </div>
-                          <a href="/productdetail/${v.productID}">
+                          <a href="/productdetail/${v.variantID}">
                             <h6 class="price-title">
                               ${v.title}
                             </h6>
