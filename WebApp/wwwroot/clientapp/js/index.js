@@ -51,8 +51,11 @@ const loadTopCategoryProduct = function (cId, i) {
     let item = {
         OrderBy: "",
         Top: 10,
-        MoreFilters: cId
+        MoreFilters: {
+            CategoryId: cId
+        }
     };
+    console.log(item);
     $.ajax({
         type: 'POST',
         url: baseURL + "/Home/ByCategoryProduct",

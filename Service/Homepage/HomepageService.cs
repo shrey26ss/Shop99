@@ -24,15 +24,33 @@ namespace Service.Homepage
             _logger = logger;
         }
 
-        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProductByCategory(ProductRequest<int> productRequest)
-        {
+        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest)
+            {
             var res = new Response<IEnumerable<ProductResponse>>();
             try
             {
-                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+                //    string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+                //inner join VariantGroup vg on vg.ProductId = p.Id 
+                //where p.CategoryId = @CategoryId and vg.IsShowOnHome=1 ";
+                string sqlQuery = @"CREATE TABLE #temp (attributes varchar(max)) 
+insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
+  if((select count(*) from #temp)>0)
+  begin
+   with cte as ( Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
             inner join VariantGroup vg on vg.ProductId = p.Id 
-            where p.CategoryId = @MoreFilters and vg.IsShowOnHome=1 ";
-                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
+			 inner join CategoryAttributeMapping cam on cam.CategoryId=p.CategoryId
+			  inner join AttributeInfo ai on ai.AttributeId=cam.AttributeId
+			 inner join #temp t on t.attributes = ai.AttributeValue and vg.id=ai.GroupId
+            where p.CategoryId = @CategoryId and vg.IsShowOnHome=1
+)select * from cte group by 	ProductID,VariantID,PublishedOn,Title,MRP,GroupID,ImagePath,Label,SellingCost,Stars
+  end
+  else
+  begin
+   Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
+            inner join VariantGroup vg on vg.ProductId = p.Id 
+            where p.CategoryId =@CategoryId and vg.IsShowOnHome=1
+  end";
+                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters.CategoryId, productRequest.MoreFilters.Attributes, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);

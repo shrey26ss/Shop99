@@ -1,13 +1,10 @@
-﻿@using Entities.Models
-@using Service.Models
-@using Entities.Enums;
-@model Response<IEnumerable<ProductResponse>>
-@{
+﻿@{
     Layout = "_layout";
-    var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<ProductResponse>();
 }
-
 <!-- section start -->
+@*<section class="section-big-py-space ratio_asos b-g-light" id="dvCategoryProducts">
+
+</section>*@
 <section class="section-big-py-space ratio_asos b-g-light">
     <div class="collection-wrapper">
         <div class="custom-container">
@@ -76,52 +73,8 @@
                                         </div>
                                     </div>
                                     <div class="product-wrapper-grid product-load-more product">
-                                        <div class="row">
-
-                                            @if (result.Any())
-                                            {
-                                                @foreach (var item in result)
-                                                {
-                                                    <div class="col-xl-3 col-md-4 col-6 col-grid-box">
-                                                        <div class="product-box">
-                                                            <div class="product-imgbox">
-                                                                <div class="product-front">
-                                                                    <a href="/productdetail/@item.ProductID"> <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product"> </a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="product-detail detail-center detail-inverse">
-                                                                <div class="detail-title">
-                                                                    <div class="detail-left">
-                                                                        <div class="rating-star"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
-                                                                        @*<p>@item.Title</p>*@
-                                                                        <a href="/productdetail/@item.ProductID">
-                                                                            <h6 class="price-title">
-                                                                                @item.Title
-                                                                            </h6>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="detail-right">
-                                                                        <div class="check-price">&#8377; @item.MRP </div>
-                                                                        <div class="price">
-                                                                            <div class="price">&#8377; @item.SellingCost</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="icon-detail">
-                                                                    <button class="tooltip-top add-cartnoty" data-tippy-content="Add to cart"> <i data-feather="shopping-cart"></i> </button>
-                                                                    <a href="javascript:void(0)" class="add-to-wish tooltip-top" data-tippy-content="Add to Wishlist"> <i data-feather="heart"></i> </a>
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"> <i data-feather="eye"></i> </a>
-                                                                    <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"> <i data-feather="refresh-cw"></i> </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            }
-
-
-
-                                            <div class="load-more-sec"><a href="javascript:void(0)" class="loadMore">load more</a></div>
+                                        <div class="row" id="dvCategoryProducts">
+                                              
                                         </div>
                                     </div>
                                 </div>
@@ -136,15 +89,24 @@
 
 @section scripts{
 <script>
+
         $(document).ready(function(){
-            var url= window.location.href;
+             var url= window.location.href;
              var id = url.substring(url.lastIndexOf('/') + 1);
-         loadFilters(id);
-        });
+             loadFilters(id);
+             loadCategoryProducts(id);
+            });
+          
+
+            const loadCategoryProducts = function (cid) {
+            $.post("/ProductsByCategoryFilter",{cid:cid}).done(res => {
+                $('#dvCategoryProducts').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        }
         const loadFilters = function (cid) {
-        $.post("/categoryfilters",{cid:cid}).done(res => {
-            $('#dvfilters').html(res);
-        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-    }
+            $.post("/categoryfilters",{cid:cid}).done(res => {
+                $('#dvfilters').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        }
 </script>
 }

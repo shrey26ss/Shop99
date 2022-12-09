@@ -174,20 +174,30 @@ namespace WebApp.Controllers
         #endregion
 
         #region Products by Category
-
         [Route("category/{id}")]
         [HttpGet]
-        public async Task<IActionResult> ProductsByCategory(int id)
+        public async Task<IActionResult> ProductsByCategory()
         {
-            var req = new ProductRequest<int>()
+            return View();
+        }
+        [Route("ProductsByCategoryFilter")]
+        [HttpPost]
+        public async Task<IActionResult> ProductsByCategoryFilter(int cid, string filters)
+        {
+            var req = new ProductRequest<CategorFilter>()
             {
                 Top = 24,
                 OrderBy = "",
-                MoreFilters=id
+                MoreFilters = new CategorFilter
+                {
+                    Attributes = filters,
+                    CategoryId = cid,
+                }
             };
-            var res= _category.ByCategoryProduct(req).Result;
-            return View(res);
+            var res = _category.ByCategoryProduct(req).Result;
+            return PartialView("Partial/_ProductsByCategory", res);
         }
+
         [Route("categoryfilters")]
         [HttpPost]
         public async Task<IActionResult> GetCategoryFilters(int cid)
@@ -201,6 +211,8 @@ namespace WebApp.Controllers
             var res = _category.GetCategoryFilters(req).Result;
             return PartialView("Partial/_categoryfilters", res);
         }
+
+
         #endregion
         public async Task<IActionResult> Error(int statusCode)
         {
