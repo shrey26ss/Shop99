@@ -27,6 +27,12 @@
     {
         public T MoreFilters { get; set; }
     }
+
+    public class CategorFilter
+    {
+        public int CategoryId { get; set; }
+        public string Attributes { get; set; }
+    }
     public class HotDealsResponse: ProductResponse
     {
         public string Description { get; set; }
