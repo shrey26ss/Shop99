@@ -394,7 +394,8 @@
                     _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
                     $.each(v.attributes, (i, j) => {
                         let active = j.variantId == '@Model.VariantId' ? 'active' : '';
-                        _html = _html + `<li class="${active}"><a href="/Home/ProductDetail/${j.variantId}">${j.attributeValue}</a></li>`;
+                        let url = j.variantId == '@Model.VariantId' ? `javascript:void(0)` : `/Home/ProductDetail/${j.variantId}`;
+                        _html = _html + `<li class="${active}"><a href="${url}">${j.attributeValue}</a></li>`;
                     })
                     _html = _html + `</ul></div>`;
                 });
