@@ -18,8 +18,8 @@ namespace Service.Models
         [RegularExpression(@"[a-zA-Z ]*$", ErrorMessage = "Only Alphabets are Allowed")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter Mobile")]
-        [StringLength(10)]
+        //[Required(ErrorMessage = "Please enter Mobile")]
+        //[StringLength(10)]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"(0|91)?[6-9][0-9]{9}", ErrorMessage = "Not a valid phone number")]
         public string PhoneNumber { get; set; }

@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Http;
 using WebApp.Middleware;
 using Service.Models;
+using WebApp.AppCode.Attributes;
+using Newtonsoft.Json.Linq;
 
 namespace WebApp.Controllers
 {
@@ -69,51 +71,18 @@ namespace WebApp.Controllers
             return View(new RegisterViewModel());
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    Response response = new Response()
-        //    {
-        //        StatusCode = ResponseStatus.warning,
-        //        ResponseText = "Registration Failed"
-        //    };
-        //    if (ModelState.IsValid)
-        //    {
-        //        var EmailId = model.Email;
-        //        var user = new ApplicationUser
-        //        {
-
-        //            UserId = Guid.NewGuid().ToString(),
-        //            UserName = model.Email.Trim(),
-        //            Email = model.Email.Trim(),
-        //            Role = Role.APIUser.ToString(),
-        //            Name = model.Name,
-        //            PhoneNumber = model.PhoneNumber,
-        //            RefreshTokenExpiryTime = DateTime.Now.AddDays(7),
-        //        };
-        //        var res = await _userManager.CreateAsync(user, model.Password);
-        //        if (res.Succeeded)
-        //        {
-        //            user = _userManager.FindByEmailAsync(user.Email).Result;
-        //            await _userManager.AddToRoleAsync(user, Role.APIUser.ToString());
-        //            model.Password = string.Empty;
-        //            model.Email = string.Empty;
-        //            response.StatusCode = ResponseStatus.Success;
-        //            response.ResponseText = "User Register Successfully";
-        //            ModelState.Clear();
-        //            //model = null;
-        //            model = new RegisterViewModel();
-        //        }
-        //        model.ResponseText = response.ResponseText;
-        //        model.StatusCode = response.StatusCode;
-        //        if (res.Errors?.Count() > 0)
-        //        {
-        //            model.ResponseText = res.Errors.FirstOrDefault().Description;
-        //        }
-        //        return View(model);
-        //    }
-        //    return View(model);
-        //}
+        [HttpPost]
+        [ValidateAjax]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            var response = new Response();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/register", JsonConvert.SerializeObject(model), null);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            return Ok(response);
+        }
         #endregion
 
         #region Login

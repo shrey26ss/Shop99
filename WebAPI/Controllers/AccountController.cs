@@ -25,6 +25,7 @@ using Service.Models;
 
 namespace WebAPI.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -139,7 +140,7 @@ namespace WebAPI.Controllers
                 UserId = Guid.NewGuid().ToString(),
                 UserName = model.Email.Trim(),
                 Email = model.Email.Trim(),
-                Role = Role.APIUser.ToString(),
+                Role = model.Role.ToString(),
                 Name = model.Name,
                 PhoneNumber = model.PhoneNumber,
                 RefreshToken = Guid.NewGuid().ToString().Replace("-", ""),
