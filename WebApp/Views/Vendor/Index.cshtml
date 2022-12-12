@@ -6,7 +6,6 @@ else{
     @section scripts{
             <script>
             $(() => {
-            alert(1);
                 AddNewItem();
             })
             var AddNewItem = function () {
@@ -15,7 +14,11 @@ else{
                         title: 'Vendor Details',
                         body: result,
                         width: 800
-                    });
+                    });  
+                    $('.ui-dialog-titlebar-close').addClass('d-none');
+                    $('.ui-dialog-titlebar-close').unbind().click(()=>{                        
+                        return false;
+                    })
                 })
             };
         </script>
