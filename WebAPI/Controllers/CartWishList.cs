@@ -41,6 +41,12 @@ namespace WebAPI.Controllers
                 Data = req
             }));
         }
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost(nameof(GetCartList))]
+        public async Task<IActionResult> GetCartList()
+        {
+            return Ok(await _cartwishlist.GetCartList(new Request { LoginId = User.GetLoggedInUserId<int>() }));
+        }
 
     }
 }
