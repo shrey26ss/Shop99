@@ -129,6 +129,10 @@ namespace WebApp.Controllers
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
                             }
+                            else if (applicationUser.Role.Equals("2")) // Customer
+                            {
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Customer/Profile" : ReturnUrl;
+                            }
                             var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));
                             identity.AddClaim(new Claim("Token", user.Token.ToString()));
