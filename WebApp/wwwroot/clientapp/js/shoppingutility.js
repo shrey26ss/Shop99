@@ -12,9 +12,16 @@ $(document).on('click', '.addtocart', (e) => {
 });
 $(document).on('click', '.openWishList', (e) => {
       $.post("/WishListSlide").done(res => {
-          $('#wishlist_side').append(res);
-          console.log(res);
+          $('#wishlist_side').html(res);
         document.getElementById("wishlist_side").classList.add('open-side');
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+});
+$(document).on('click', '.openCartSlide', (e) => {
+    $.post("/CartSlide").done(res => {
+        $('#cart_side').html(res);
+      
+        //document.getElementById("cart_side").classList.add('open-side');
+        $('#cart_side')?.addClass('open-side');
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 });
 

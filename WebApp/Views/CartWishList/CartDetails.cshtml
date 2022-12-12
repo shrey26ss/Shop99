@@ -1,0 +1,19 @@
+﻿@using Entities.Enums
+@{
+    Layout = "_Layout";
+}
+<section class="cart-section section-big-py-space b-g-light" id="dvCartDetails">
+</section>
+
+@section scripts{
+<script>
+  $(document).ready(function () {
+    loadCartDetails();
+});
+const loadCartDetails = async function () {
+    await $.post("/_CartDetails").done(res => {
+        $('#dvCartDetails').html(res);
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+}
+</script>
+}

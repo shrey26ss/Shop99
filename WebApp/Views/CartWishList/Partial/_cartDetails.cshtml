@@ -1,0 +1,102 @@
+﻿@using Entities.Models
+@using Service.Models
+@using Entities.Enums;
+@model Response<IEnumerable<CartItemSlide>>
+@{
+    decimal TotalPrice = 0;
+}
+
+<div class="custom-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table cart-table table-responsive-xs">
+                <thead>
+                    <tr class="table-head">
+                        <th scope="col">image</th>
+                        <th scope="col">product name</th>
+                        <th scope="col">price</th>
+                        <th scope="col">quantity</th>
+                        <th scope="col">action</th>
+                        <th scope="col">total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+                    {
+
+                        @foreach (var item in Model.Result)
+                        {
+
+                            <tr>
+                                <td>
+                                    <a href="/productdetail/@item.VariantID">
+                                        <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="cart">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/productdetail/@item.VariantID">@item.Title</a>
+                                    <div class="mobile-cart-content">
+                                        <div class="col-xs-3">
+                                            <div class="qty-box">
+                                                <div class="input-group">
+                                                    <input type="text" name="quantity" class="form-control input-number" value="@item.Qty">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color">@item.SellingCost</h2>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color"><a href="javascript:void(0)" class="icon"><i class="ti-close"></i></a></h2>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h2>@item.SellingCost</h2>
+                                </td>
+                                <td>
+                                    <div class="qty-box">
+                                        <div class="input-group">
+                                            <input type="number" name="quantity" class="form-control input-number" value="@item.Qty">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><a href="javascript:void(0)" class="icon"><i class="ti-close"></i></a></td>
+                                <td>
+                                    <h2>@(item.SellingCost*item.Qty)</h2>
+                                </td>
+                            </tr>
+                            TotalPrice=TotalPrice + (item.SellingCost * item.Qty);
+                        }
+
+                    }
+                    else
+                    {
+
+
+                        <tr>
+                            <td>
+                                <img src="~/Image/emptyEishList.png">
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+            <table class="table cart-table table-responsive-md">
+                <tfoot>
+                    <tr>
+                        <td>total price :</td>
+                        <td>
+                            <h2>₹ @TotalPrice</h2>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="row cart-buttons">
+        <div class="col-12"><a href="/" class="btn btn-normal">continue shopping</a> 
+            <a href="javascript:void(0)" class="btn btn-normal ms-3">check out</a></div>
+    </div>
+</div>
