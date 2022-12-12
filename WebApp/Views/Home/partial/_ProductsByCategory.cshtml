@@ -36,9 +36,9 @@
                         </div>
                     </div>
                     <div class="icon-detail">
-                        <button class="tooltip-top add-cartnoty" data-tippy-content="Add to cart"> <i data-feather="shopping-cart"></i> </button>
+                        <button class="tooltip-top add-cartnoty addtocart" data-variant-id="@item.VariantID" data-tippy-content="Add to cart"> <i data-feather="shopping-cart"></i> </button>
                         <a href="javascript:void(0)" class="add-to-wish tooltip-top addtowishlist" data-variant-id="@item.VariantID" data-tippy-content="Add to Wishlist"> <i data-feather="heart"></i> </a>
-                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"> <i data-feather="eye"></i> </a>
+                        <a href="/productdetail/@item.VariantID"  class="tooltip-top" data-tippy-content="Quick View"> <i data-feather="eye"></i> </a>
                         <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"> <i data-feather="refresh-cw"></i> </a>
                     </div>
                 </div>
