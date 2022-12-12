@@ -25,6 +25,7 @@ using Service.Models;
 
 namespace WebAPI.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     public class AccountController : ControllerBase
     {

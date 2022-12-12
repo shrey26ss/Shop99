@@ -17,9 +17,9 @@
                 </div>
                 <div class="row g-3">
                     <div class="col-md-12 form-group">
-                        <label class="control-label">Phone Number</label><span class="text-danger">*</span>
-                        <input asp-for="PhoneNumber" id="txtMobile" maxlength="10" autocomplete="off" class="form-control" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <label class="control-label">Email</label><span class="text-danger">*</span>
+                        <input asp-for="Email" type="email" id="txtEmail" autocomplete="off" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     @if (Model.Id == 0)
                     {
@@ -49,24 +49,22 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
-        function getUserss() {
-            Q.preloader.load();
-            $.ajax({
-                type: 'post',
-                url: '/User/UsersList',
-                success: function (data) {
-                    $('tbody').html(data);
-                },
-                error: function (data) {
-                    console.log('An error occurred.');
-                    console.log(data);
-                    Q.notify(-1, 'An error occurred.');
-                },
-            });
-            Q.preloader.remove();
-        }
+<script>
+    function getUserss() {
+        Q.preloader.load();
+        $.ajax({
+            type: 'post',
+            url: '/User/UsersList',
+            success: function (data) {
+                $('tbody').html(data);
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log(data);
+                Q.notify(-1, 'An error occurred.');
+            },
+        });
+        Q.preloader.remove();
+    }
 
-    </script>
-}
+</script>
