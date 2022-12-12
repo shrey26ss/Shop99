@@ -20,5 +20,13 @@ namespace Entities.Models
         public int VariantID { get; set; }
         public int Qty { get; set; }
     }
+    public class CartItems : CartItem
+    {
+        public int CartId { get; set; }
+        public decimal MRP { get; set; }
+        public decimal SellingCost { get; set; }
+        public string Title { get; set; }
+        public string ImagePath { get; set; }
+    }
 
 }
