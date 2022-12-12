@@ -85,3 +85,18 @@
 2022-12-12 17:18:11.1100 Error Error parsing layout trace will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'trace'
    at NLog.Config.Factory`2.CreateInstance(String itemName)
    at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)
+2022-12-12 17:57:40.0441 Error Error parsing layout trace will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'trace'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)
+2022-12-12 18:06:00.7680 Error Error parsing layout trace will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'trace'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)
+2022-12-12 18:30:19.7428 Error Error parsing layout trace will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'trace'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)
+2022-12-12 18:33:12.8648 Error Error parsing layout trace will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'trace'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)
+2022-12-12 18:40:04.7737 Error Error parsing layout trace will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'trace'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)

@@ -59,6 +59,26 @@ namespace WebApp.Controllers
             var res = _cartwishlist.GetWishListSlide(GetToken()).Result;
             return View("Partial/_wishListSlide", res);
         }
+        [Route("CartSlide")]    
+        [HttpPost]
+        public async Task<IActionResult> CartSlide()
+        {
+            var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
+            return View("Partial/_cartSlide", res);
+        }
+        [Route("CartDetails")]
+        [HttpGet]
+        public async Task<IActionResult> CartDetails()
+        {
+            return View();
+        }
+        [Route("_CartDetails")]
+        [HttpPost]
+        public async Task<IActionResult> _CartDetails()
+        {
+            var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
+            return PartialView("Partial/_cartDetails", res);
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
