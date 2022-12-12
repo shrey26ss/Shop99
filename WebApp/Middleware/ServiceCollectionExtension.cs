@@ -42,6 +42,7 @@ namespace WebApp.Middleware
             services.AddScoped<IRoleStore<ApplicationRole>, RoleStore>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryAPI, WebApp.Servcie.CategoryAPI>();
+            services.AddScoped<ICartWishListAPI,CartWishListAPI>();
             services.AddScoped<IProductsAPI, WebApp.Servcie.ProductsAPI>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
