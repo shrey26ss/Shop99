@@ -71,7 +71,14 @@ namespace Service.CartWishList
                 string sqlQuery = "";
                 int i = -5;
 
-                sqlQuery = @"insert into CartItem(UserID,VariantID,Qty,EntryOn)values(@UserID,@VariantID,@Qty,GETDATE())";
+                sqlQuery = @"if not exists(select 1 from CartItem where UserID=@UserID and VariantID=@VariantID)
+                            begin
+                            insert into CartItem(UserID,VariantID,Qty,EntryOn)values(@UserID,@VariantID,@Qty,GETDATE())
+                            end
+                            else
+                            begin
+                            update CartItem set Qty=Qty+1 where UserID=@UserID and VariantID=@VariantID
+                            end";
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     cartitem.Data.UserID,
