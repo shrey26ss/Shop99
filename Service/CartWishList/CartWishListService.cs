@@ -103,13 +103,13 @@ namespace Service.CartWishList
             }
             return res;
         }
-        public async Task<IResponse<IEnumerable<CartItems>>> GetCartList(Request req)
+        public async Task<IResponse<IEnumerable<WishListSlide>>> GetWishlist(Request req)
         {
-            string sp = @"Select w.Id CartId, v.Id VariantID, v.MRP, v.SellingCost, v.Title, v.Thumbnail ImagePath  from Wishlist w inner join VariantGroup v on v.Id = w.VariantID where w.EntryBy = @LoginId";
-            var res = new Response<IEnumerable<CartItems>>();
+            string sp = @"Select w.Id WishListId, v.Id VariantID, v.MRP, v.SellingCost, v.Title, v.Thumbnail ImagePath  from Wishlist w inner join VariantGroup v on v.Id = w.VariantID where w.EntryBy = @LoginId";
+            var res = new Response<IEnumerable<WishListSlide>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<CartItems>(sp, new { req.LoginId }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<WishListSlide>(sp, new { req.LoginId }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }

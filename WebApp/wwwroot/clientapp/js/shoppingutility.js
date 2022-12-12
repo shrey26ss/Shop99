@@ -10,3 +10,17 @@ $(document).on('click', '.addtocart', (e) => {
         Q.notify(res.statusCode, res.responseText)
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
 });
+$(document).on('click', '.openWishList', (e) => {
+      $.post("/WishListSlide").done(res => {
+          $('#wishlist_side').append(res);
+          console.log(res);
+        document.getElementById("wishlist_side").classList.add('open-side');
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+});
+
+//const openWishlist = async function () {
+//    await $.post("/WishListSlide").done(res => {
+//        $('#dvHotDealNewProduct').append(res);
+//        document.getElementById("wishlist_side").classList.add('open-side');
+//    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+//}

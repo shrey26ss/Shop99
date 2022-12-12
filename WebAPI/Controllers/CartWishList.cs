@@ -14,7 +14,7 @@ using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
-   // [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/{controller}")]
     public class CartWishList : ControllerBase
@@ -25,27 +25,33 @@ namespace WebAPI.Controllers
         {
             _cartwishlist = cartwishlist;
         }
+     
+    
         [HttpPost(nameof(AddWishList))]
         public async Task<IActionResult> AddWishList(WishList req)
         {
+            req.EntryBy = User.GetLoggedInUserId<int>();
             return Ok(await _cartwishlist.AddWishList(new RequestBase<WishList>
             {
                 Data = req
             }));
         }
+        [Authorize(AuthenticationSchemes = "Bearer")]
+     
         [HttpPost(nameof(AddCartItem))]
         public async Task<IActionResult> AddCartItem(CartItem req)
         {
+            req.UserID = User.GetLoggedInUserId<int>();
             return Ok(await _cartwishlist.AddToCart(new RequestBase<CartItem>
             {
                 Data = req
             }));
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPost(nameof(GetCartList))]
-        public async Task<IActionResult> GetCartList()
+        [HttpPost(nameof(GetWishlist))]
+        public async Task<IActionResult> GetWishlist()
         {
-            return Ok(await _cartwishlist.GetCartList(new Request { LoginId = User.GetLoggedInUserId<int>() }));
+            return Ok(await _cartwishlist.GetWishlist(new Request { LoginId = User.GetLoggedInUserId<int>() }));
         }
 
     }

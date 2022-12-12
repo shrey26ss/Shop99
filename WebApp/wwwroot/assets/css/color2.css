@@ -19627,7 +19627,7 @@ ul.sosiyal {
         }
 
     .add_to_cart.left .cart-inner .cart_media ul.cart_product, .add_to_cart.right .cart-inner .cart_media ul.cart_product {
-        height: calc(100vh - 335px);
+        height: calc(100vh - 200px);
         overflow-y: auto;
     }
 
