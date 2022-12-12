@@ -28,5 +28,13 @@ namespace Entities.Models
         public string Title { get; set; }
         public string ImagePath { get; set; }
     }
+    public class CartItemSlide : CartItem
+    {
+        public int CartItemId { get; set; }
+        public decimal MRP { get; set; }
+        public decimal SellingCost { get; set; }
+        public string Title { get; set; }
+        public string ImagePath { get; set; }
+    }
 
 }

@@ -12,5 +12,6 @@ namespace Infrastructure.Interface
         Task<IResponse> AddWishList(RequestBase<WishList> wishlist);
         Task<IResponse> AddToCart(RequestBase<CartItem> cartitem);
         Task<IResponse<IEnumerable<WishListSlide>>> GetWishlist(Request req);
+        Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req);
     }
 }

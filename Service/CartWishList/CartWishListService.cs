@@ -118,5 +118,20 @@ namespace Service.CartWishList
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req)
+        {
+            string sp = @"Select c.Id CartItemId,c.Qty,c.UserID, v.Id VariantID, v.MRP, v.SellingCost, v.Title, v.Thumbnail ImagePath  from CartItem c inner join VariantGroup v on v.Id = c.VariantID where c.UserID = @LoginId";
+            var res = new Response<IEnumerable<CartItemSlide>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<CartItemSlide>(sp, new { req.LoginId }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+            }
+            return res;
+        }
     }
 }
