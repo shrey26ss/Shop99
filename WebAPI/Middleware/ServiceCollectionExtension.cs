@@ -25,6 +25,7 @@ using Service.TopBanners;
 using Service.TopLowerBanners;
 using Service.Homepage;
 using Service.CatAttrMappings;
+using Service.CartWishList;
 
 namespace WebAPI.Middleware
 {
@@ -48,6 +49,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAPILogger, APILogger>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICartWishListService, CartWishListService>();
             services.AddScoped<IBrands, BrandService>();
             services.AddScoped<IAttributes, AttributeService>();
             services.AddScoped<IProducts, ProductService>();
