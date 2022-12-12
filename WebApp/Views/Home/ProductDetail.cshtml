@@ -351,6 +351,7 @@
             $.post(`/Home/GetProductPicDetails/`, { Id: '@Model.VariantId' }).done((result) => {
                 if (result != null && result.length > 0) {
                     let uniquethumb = [];
+                    let uniqueOriginal = [];
                     let __thumbnail = result.map(x => {
                         let __t = ``;
                         if (!uniquethumb.includes(x.imagePath)){
@@ -366,10 +367,16 @@
                     });
                     let __originalImages = result.map(x => {
                         let __h = '';
-                        if (x.imgVariant === 'default') {
-                            __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                        if (!uniqueOriginal.includes(x.imagePath)){
+                            uniqueOriginal.push(x.imagePath);
+                            if (x.imgVariant === 'default') {
+                                __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                            }
                         }
                         return __h;
+                    });
+                    __originalImages = __originalImages.filter((x) => {
+                        return x != '';
                     });
                     $('.product-slick').html(__originalImages);
                     $('.slider-nav').html(__thumbnail);
