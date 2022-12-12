@@ -19,7 +19,6 @@
     </div>
     <div class="cart_media">
         <ul class="cart_product">
-
             @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
             {
                 @foreach (var item in Model.Result)
@@ -33,9 +32,7 @@
                                 <a href="/productdetail/@item.VariantID" target="_blank">
                                     <h4>@item.Title</h4>
                                 </a>
-                                <h6>
                                     <h6>@item.SellingCost <span>@item.MRP</span></h6>
-                                </h6>
                                 <div class="addit-box">
                                     <div class="qty-box">
                                         <div class="input-group">
@@ -44,7 +41,7 @@
                                             <button class="qty-plus"></button>
                                         </div>
                                     </div>
-                                    <   div class="pro-add">
+                                    <div class="pro-add">
                                         <a href="javascript:void(0)">
                                             <i data-feather="edit"></i>
                                         </a>
