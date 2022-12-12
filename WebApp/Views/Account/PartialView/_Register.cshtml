@@ -1,4 +1,5 @@
-﻿@using Service.Identity;
+﻿@using Entities.Enums;
+@using Service.Identity;
 
 @model RegisterViewModel
 
@@ -33,8 +34,13 @@
                             <input asp-for="ConfirmPassword" id="txtConfirmPassword" autocomplete="off" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
+                        <div class="col-md-12 form-group">
+                            <label class="control-label">Signup As</label><span class="text-danger">*</span><br />
+                            <input asp-for="Role" type="radio" value="@Role.APIUser" /> Customer Signup
+                            <input asp-for="Role" type="radio" value="@Role.Vendor" /> Vendor Signup
+                            <span asp-validation-for="Role" class="text-danger"></span>
+                        </div>
                     }
-
                     <div class="col-md-12 form-group">
                         <button type="submit" id="btnSubmit" class="btn btn-normal">@Html.Raw(Model.Id==0? "Create Account" : "Update") </button>
                     </div>
