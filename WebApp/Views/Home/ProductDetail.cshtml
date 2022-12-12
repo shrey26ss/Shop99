@@ -350,12 +350,19 @@
         var GetPictures = () => {
             $.post(`/Home/GetProductPicDetails/`, { Id: '@Model.VariantId' }).done((result) => {
                 if (result != null && result.length > 0) {
+                    let uniquethumb = [];
                     let __thumbnail = result.map(x => {
-                        let __t = '';
-                        if (x.imgVariant === '400_400') {
-                            __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                        let __t = ``;
+                        if (!uniquethumb.includes(x.imagePath)){
+                            uniquethumb.push(x.imagePath);
+                            if (x.imgVariant === '400_400') {
+                                __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                            }
                         }
                         return __t;
+                    });
+                    __thumbnail = __thumbnail.filter((x) => {
+                        return x != '';
                     });
                     let __originalImages = result.map(x => {
                         let __h = '';
