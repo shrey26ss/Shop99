@@ -250,3 +250,5 @@ const loadHotDealsNewProduct = async function () {
         $('#dvHotDealNewProduct').append(res);
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }
+
+

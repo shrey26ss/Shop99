@@ -23,35 +23,42 @@ using WebApp.Servcie;
 
 namespace WebApp.Controllers
 {
-  
+    [Authorize]
     public class CartWishListController : Controller
     {
         private readonly ILogger<UserHomeController> _logger;
         private string _apiBaseURL;
         private readonly ICartWishListAPI _cartwishlist;
+       
+
         public CartWishListController(ILogger<UserHomeController> logger, ICartWishListAPI cartwishlist)
         {
             _logger = logger;
             _cartwishlist = cartwishlist;
+           
         }
         [Route("AddWishList")]
         [HttpPost]
         public async Task<IActionResult> AddWishList(WishList req)
         {
-            req.EntryBy = 10;
-            var res = _cartwishlist.AddWishList(req).Result;
+            var res = _cartwishlist.AddWishList(req, GetToken()).Result;
             return Json(res);
         }
         [Route("AddToCart")]
         [HttpPost]
         public async Task<IActionResult> AddToCart(CartItem req)
         {
-            req.UserID = 10;
             req.Qty = 1;
-            var res = _cartwishlist.AddToCart(req).Result;
+            var res = _cartwishlist.AddToCart(req, GetToken()).Result;
             return Json(res);
         }
-
+        [Route("WishListSlide")]
+        [HttpPost]
+        public async Task<IActionResult> WishListSlide()
+        {
+            var res = _cartwishlist.GetWishListSlide(GetToken()).Result;
+            return View("Partial/_wishListSlide", res);
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();

@@ -16,8 +16,9 @@ namespace WebApp.Servcie
 
     public interface ICartWishListAPI
     {
-        Task<IResponse> AddWishList(WishList req);
-        Task<IResponse> AddToCart(CartItem req);
+        Task<IResponse> AddWishList(WishList req, string _token);
+        Task<IResponse> AddToCart(CartItem req, string _token);
+        Task<IResponse<IEnumerable<WishListSlide>>> GetWishListSlide(string _token);
     }
     public class CartWishListAPI : ICartWishListAPI
     {
@@ -26,14 +27,15 @@ namespace WebApp.Servcie
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
-        public async Task<IResponse> AddWishList(WishList req)
+        public async Task<IResponse> AddWishList(WishList req, string _token)
         {
             var res = new Response
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddWishList", JsonConvert.SerializeObject(req));
+
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddWishList", JsonConvert.SerializeObject(req), _token);
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try
@@ -46,21 +48,46 @@ namespace WebApp.Servcie
                 }
             }
             return res;
-           
+
         }
-        public async Task<IResponse> AddToCart(CartItem req)
+        public async Task<IResponse> AddToCart(CartItem req, string _token)
         {
             var res = new Response
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddCartItem", JsonConvert.SerializeObject(req));
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddCartItem", JsonConvert.SerializeObject(req), _token);
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try
                 {
                     res = JsonConvert.DeserializeObject<Response>(Response.Result);
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+
+        }
+
+        public async Task<IResponse<IEnumerable<WishListSlide>>> GetWishListSlide(string _token)
+        {
+            var res = new Response<IEnumerable<WishListSlide>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/GetWishlist", null, _token);
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<WishListSlide>>>(Response.Result);
+                    return deserializeObject;
                 }
                 catch (Exception e)
                 {
