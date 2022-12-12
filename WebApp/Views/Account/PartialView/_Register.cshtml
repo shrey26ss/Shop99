@@ -2,80 +2,71 @@
 
 @model RegisterViewModel
 
-<form id="RegisterForm" action="@Html.Raw(Model.Id==0?"/Account/Register":"/User/Update")" method="post">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
+<div class="row mt-2 mb-2">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="theme-card">
+            <h3 class="text-center">Create account</h3>
+            <form class="theme-form" id="RegisterForm" action="@Html.Raw(Model.Id==0?"/Account/Register":"/User/Update")" method="post">
                 <input type="hidden" value="@Model.Id" name="@nameof(Model.Id)" />
-            </div>
+                <div class="row g-3">
+                    <div class="col-md-12 form-group">
+                        <label asp-for="Name" class="control-label"></label><span class="text-danger">*</span>
+                        <input asp-for="Name" maxlength="32" id="txtName" autocomplete="off" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-12 form-group">
+                        <label class="control-label">Phone Number</label><span class="text-danger">*</span>
+                        <input asp-for="PhoneNumber" id="txtMobile" maxlength="10" autocomplete="off" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    @if (Model.Id == 0)
+                    {
+                        <div class="col-md-12 form-group">
+                            <label asp-for="Password" class="control-label"></label><span class="text-danger">*</span>
+                            <input asp-for="Password" id="txtPassword" autocomplete="new-password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label class="control-label">Confirm Password</label><span class="text-danger">*</span>
+                            <input asp-for="ConfirmPassword" id="txtConfirmPassword" autocomplete="off" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <div class="col-md-12 form-group">
+                        <button type="submit" id="btnSubmit" class="btn btn-normal">@Html.Raw(Model.Id==0? "Create Account" : "Update") </button>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-12 ">
+                        <p>Have you already account? <a href="login.html" class="txt-default">click</a> here to &nbsp;<a href="login.html" class="txt-default">Login</a></p>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="Name"   maxlength="32" id="txtName" autocomplete="off" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-                <label class="control-label">Phone Number</label><span class="text-danger">*</span>
-                <input asp-for="PhoneNumber" id="txtMobile" maxlength="10" autocomplete="off" class="form-control"/>
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label><span class="text-danger">*</span>
-                <input  @Html.Raw(Model.Id == 0 ? "" : "disabled") id="txtEmailID" placeholder="Example:abc@gmail.com" name="Email" autocomplete="off" class="form-control"  value="@Model.Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-        @if (Model.Id == 0)
-        {
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label><span class="text-danger">*</span>
-                        <input asp-for="Password" id="txtPassword" autocomplete="new-password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label  class="control-label">Confirm Password</label><span class="text-danger">*</span>
-                        <input asp-for="ConfirmPassword" id="txtConfirmPassword" autocomplete="off" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-                </div>
+</div>
+@section Scripts{
+    <script>
+        function getUserss() {
+            Q.preloader.load();
+            $.ajax({
+                type: 'post',
+                url: '/User/UsersList',
+                success: function (data) {
+                    $('tbody').html(data);
+                },
+                error: function (data) {
+                    console.log('An error occurred.');
+                    console.log(data);
+                    Q.notify(-1, 'An error occurred.');
+                },
+            });
+            Q.preloader.remove();
         }
 
-        <div class="col-sm-12 text-right">
-            <div class="form-group">
-                <button type="submit" id="btnSubmit" class="btn btn-block login-btn mb-4">@Html.Raw(Model.Id==0? "Create" : "Update") </button>
-            </div>
-        </div>
-    </div>
-</form>
-@section Scripts{
-        <script>
-            function getUserss() {
-                Q.preloader.load();
-                $.ajax({
-                    type: 'post',
-                    url: '/User/UsersList',
-                    success: function (data) {
-                        $('tbody').html(data);
-                    },
-                    error: function (data) {
-                        console.log('An error occurred.');
-                        console.log(data);
-                        Q.notify(-1, 'An error occurred.');
-                    },
-                });
-                Q.preloader.remove();
-            }
-
-        </script>
+    </script>
 }

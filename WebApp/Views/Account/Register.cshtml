@@ -5,11 +5,6 @@
     ViewData["Title"] = "Register";
     Layout = "_Layout";
 }
-<style>
-    .login-card .card-body {
-        padding: 29px 60px 40px;
-    }
-</style>
 @if (Model.StatusCode == ResponseStatus.Success)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -29,10 +24,10 @@
     </div>
 }
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<h5>Create your  Account.</h5>
+@*<h5>Create your  Account.</h5>*@
 @Html.Partial("PartialView/_Register")
-<hr>
+@*<hr>
 <div class="actions align-left">
     <span class="additional-link">Have an account? </span>
     <a href="~/Account/Login" class="btn btn-dark">Login</a>
-</div>
+</div>*@
