@@ -48,8 +48,15 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(CartItem req)
         {
-            req.Qty = 1;
+            req.Qty = req.Qty==0?1:req.Qty;
             var res = _cartwishlist.AddToCart(req, GetToken()).Result;
+            return Json(res);
+        }
+        [Route("DeleteCart")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteCart(CartItem req)
+        {
+            var res = _cartwishlist.DeleteCart(req, GetToken()).Result;
             return Json(res);
         }
         [Route("WishListSlide")]

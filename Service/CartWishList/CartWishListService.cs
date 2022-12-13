@@ -77,7 +77,15 @@ namespace Service.CartWishList
                             end
                             else
                             begin
-                            update CartItem set Qty=Qty+1 where UserID=@UserID and VariantID=@VariantID
+                            declare @ExistQty int=(select top(1) Qty from CartItem (nolock) where UserID=@UserID and VariantID=@VariantID)
+                            if(@ExistQty=1 and @Qty<1)
+                            begin
+                            delete from CartItem where UserID=@UserID and VariantID=@VariantID
+                            end
+                            else
+                            begin
+                            update CartItem set Qty=Qty+@Qty where UserID=@UserID and VariantID=@VariantID
+                            end
                             end";
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
@@ -91,6 +99,40 @@ namespace Service.CartWishList
                 {
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = "Cart added successfully";
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
+        public async Task<IResponse> DeleteCart(RequestBase<CartItem> cartitem)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+
+                sqlQuery = @"delete from CartItem where UserID=@UserID and VariantID=@VariantID";
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    cartitem.Data.UserID,
+                    cartitem.Data.VariantID,
+                    cartitem.Data.Qty,
+
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i >= 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Cart Removed successfully";
                 }
                 else
                 {

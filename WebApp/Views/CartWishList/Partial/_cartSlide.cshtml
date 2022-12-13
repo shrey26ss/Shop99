@@ -22,7 +22,9 @@
             {
                 @foreach (var item in Model.Result)
                 {
+                  
                     <li>
+                         <a href="javascript:void(0)" class="icon delete-cart-slide" data-variant-id="@item.VariantID"><i class="ti-close"></i></a>
                         <div class="media">
                             <a href="/productdetail/@item.VariantID" target="_blank">
                                 <img alt="megastore1" class="me-3" src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'">
@@ -32,14 +34,14 @@
                                     <h4>@item.Title</h4>
                                 </a>
                                 <h6>@item.SellingCost <span>@item.MRP</span></h6>
-                            <hr>
-                                   <h6>@(item.SellingCost*item.Qty)
+                                <hr>
+                                <h6>@(item.SellingCost*item.Qty)</h6>
                                 <div class="addit-box">
                                     <div class="qty-box">
                                         <div class="input-group">
-                                            <button class="qty-minus"></button>
-                                            <input class="qty-adj form-control" type="number" value="@item.Qty" />
-                                            <button class="qty-plus"></button>
+                                            <button class="qty-minus" data-variant-id="@item.VariantID"></button>
+                                            <input class="qty-adj form-control"  disabled type="number" value="@item.Qty" />
+                                            <button class="qty-plus addtocart" data-variant-id="@item.VariantID"></button>
                                         </div>
                                     </div>
                                     <div class="pro-add">
@@ -54,7 +56,7 @@
                             </div>
                         </div>
                     </li>
-                     TotalPrice=TotalPrice + (item.SellingCost * item.Qty);
+                    TotalPrice = TotalPrice + (item.SellingCost * item.Qty);
                 }
             }
             else
@@ -64,30 +66,30 @@
                 </li>
             }
         </ul>
-        <ul class="cart_total">
-            <li>
-                subtotal : <span>@TotalPrice</span>
-            </li>
-            <li>
-                shpping <span>free</span>
-            </li>
-            <li>
-                taxes <span>$0.00</span>
-            </li>
-            <li>
-                <div class="total">
-                    total<span>@TotalPrice</span>
-                </div>
-            </li>
-            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
-            {
+        @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+        {
+            <ul class="cart_total">
+                <li>
+                    subtotal : <span>@TotalPrice</span>
+                </li>
+                <li>
+                    shpping <span>free</span>
+                </li>
+                <li>
+                    taxes <span>$0.00</span>
+                </li>
+                <li>
+                    <div class="total">
+                        total<span>@TotalPrice</span>
+                    </div>
+                </li>
                 <li>
                     <div class="buttons">
                         <a href="/CartDetails" class="btn btn-solid btn-sm">view cart</a>
                         <a href="checkout.html" class="btn btn-solid btn-sm ">checkout</a>
                     </div>
                 </li>
-            }
-        </ul>
+            </ul>
+        }
     </div>
 </div>
