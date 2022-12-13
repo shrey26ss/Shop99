@@ -1159,6 +1159,16 @@ function printDiv(divName) {
             }
         });
     };
+    Q.xhrError = (xhr) => {
+        if (xhr.status === 401) {
+            let _cURL = new URL(window.location.href)
+            let currentHref = _cURL.pathname;
+            xhr.responseText = "Unauthorized! Please login first.";
+            if (currentHref !== '/account/login')
+                window.location.href = "/account/login";
+        }
+        Q.notify(-1, xhr.responseText);
+    }
 })(Q || (Q = {}));
 
 class ShowJsTimer {
