@@ -6,7 +6,7 @@ $(document).on('click', '.addtowishlist', (e) => {
     $.post("/AddWishList", { VariantID: vId }).done(res => {
         Q.notify(res.statusCode, res.responseText)
         cartWishListCount();
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 });
 $(document).on('click', '.addtocart', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
@@ -16,7 +16,7 @@ $(document).on('click', '.addtocart', (e) => {
             loadCartDetails();
             loadCartSlide();
         }
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 
 });
 $(document).on('click', '.move-to-cart', (e) => {
@@ -27,7 +27,7 @@ $(document).on('click', '.move-to-cart', (e) => {
             cartWishListCount();
             loadWishListSlide();
         }
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 });
 $(document).on('click', '.qty-minus', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
@@ -38,7 +38,7 @@ $(document).on('click', '.qty-minus', (e) => {
             loadCartSlide();
             loadCartDetails();
         }
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 });
 
 $(document).on('click', '.delete-cart', (e) => {
@@ -50,7 +50,7 @@ $(document).on('click', '.delete-cart', (e) => {
                 loadCartDetails();
                 loadCartSlide();
             }
-        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "")
     })
 
 });
@@ -62,7 +62,7 @@ $(document).on('click', '.delete-cart-slide', (e) => {
             loadCartDetails();
             loadCartSlide();
         }
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 });
 
 $(document).on('click', '.openWishList', (e) => {
@@ -77,7 +77,7 @@ const loadCartSlide = function () {
         $('#cart_side').html(res);
         //document.getElementById("cart_side").classList.add('open-side');
         cartWishListCount();
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
 };
 
 
@@ -85,7 +85,7 @@ const loadCartDetails = async function () {
     await $.post("/_CartDetails").done(res => {
         $('#dvCartDetails').html(res);
         cartWishListCount();
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
 }
 
 const cartWishListCount = function () {
@@ -104,8 +104,8 @@ const cartWishListCount = function () {
             $('.cart-count').html(0);
             $('.wishlist-count').html(0);
         }
-       
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+
+    }).fail(xhr => Q.xhrError(xhr, false)).always(() => "");
 };
 const loadWishListSlide = function () {
     $.post("/WishListSlide").done(res => {
