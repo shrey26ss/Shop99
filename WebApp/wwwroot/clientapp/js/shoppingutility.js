@@ -2,6 +2,7 @@
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
     $.post("/AddWishList", { VariantID: vId }).done(res => {
         Q.notify(res.statusCode, res.responseText)
+        cartWishListCount();
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
 });
 $(document).on('click', '.addtocart', (e) => {
@@ -65,10 +66,32 @@ const loadCartSlide = function () {
     $.post("/CartSlide").done(res => {
         $('#cart_side').html(res);
         //document.getElementById("cart_side").classList.add('open-side');
+        cartWishListCount();
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 };
 const loadCartDetails = async function () {
     await $.post("/_CartDetails").done(res => {
         $('#dvCartDetails').html(res);
+        cartWishListCount();
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 }
+
+const cartWishListCount = function () {
+    $.post("/CartWishListCount").done(res => {
+        if (res.statusCode == 1) {
+            $.each(res.result, async function (i, v) {
+                if (v.type == 'C') {
+                    $('.cart-count').html(v.items);
+                }
+                if (v.type == 'W') {
+                    $('.wishlist-count').html(v.items);
+                }
+            });
+        }
+        else {
+            $('.cart-count').html(0);
+            $('.wishlist-count').html(0);
+        }
+        console.log(res);
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+};

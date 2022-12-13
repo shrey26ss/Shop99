@@ -73,6 +73,13 @@ namespace WebApp.Controllers
             var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
             return View("Partial/_cartSlide", res);
         }
+        [Route("CartWishListCount")]
+        [HttpPost]
+        public async Task<IActionResult> CartWishListCount()
+        {
+            var res = _cartwishlist.GetCartwishListCount(GetToken()).Result;
+            return Json(res);
+        }
         [Route("CartDetails")]
         [HttpGet]
         public async Task<IActionResult> CartDetails()

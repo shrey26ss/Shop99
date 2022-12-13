@@ -9,6 +9,7 @@
     loadOnSale();
     loadHotDeals();
     loadHotDealsNewProduct();
+    cartWishListCount();
 });
 const loadTopBrands = function () {
     let item = {
