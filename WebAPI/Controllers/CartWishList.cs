@@ -48,6 +48,17 @@ namespace WebAPI.Controllers
             }));
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
+
+        [HttpPost(nameof(DeleteCart))]
+        public async Task<IActionResult> DeleteCart(CartItem req)
+        {
+            req.UserID = User.GetLoggedInUserId<int>();
+            return Ok(await _cartwishlist.DeleteCart(new RequestBase<CartItem>
+            {
+                Data = req
+            }));
+        }
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(GetWishlist))]
         public async Task<IActionResult> GetWishlist()
         {

@@ -20,6 +20,7 @@ namespace WebApp.Servcie
         Task<IResponse> AddToCart(CartItem req, string _token);
         Task<IResponse<IEnumerable<WishListSlide>>> GetWishListSlide(string _token);
         Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token);
+        Task<IResponse> DeleteCart(CartItem req, string _token);
     }
     public class CartWishListAPI : ICartWishListAPI
     {
@@ -74,6 +75,29 @@ namespace WebApp.Servcie
 
         }
 
+
+        public async Task<IResponse> DeleteCart(CartItem req, string _token)
+        {
+            var res = new Response
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/DeleteCart", JsonConvert.SerializeObject(req), _token);
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    res = JsonConvert.DeserializeObject<Response>(Response.Result);
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+
+        }
         public async Task<IResponse<IEnumerable<WishListSlide>>> GetWishListSlide(string _token)
         {
             var res = new Response<IEnumerable<WishListSlide>>

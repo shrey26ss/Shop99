@@ -33,6 +33,7 @@
     <link href="~/select2/css/select2.min.css" rel="stylesheet" />
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/color2.css" media="screen" id="color" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/jquery-ui.min.css" />
 </head>
 <body class="bg-light">
     <!-- loader start -->
@@ -175,8 +176,8 @@
                                         </svg>
                                         </a>
                                         </li>*@
-                                    <li class="mobile-user " onclick="openAccount()">
-                                        <a href="javascript:void(0)">
+                                    <li class="mobile-user " >
+                                        <a href="/account/login">
                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                  viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                             <g>
@@ -219,9 +220,7 @@
                                             3
                                         </div>
                                     </li>
-                                    <li>
-                                        <a href="/account/login" class="btn btn-primary">Login</a>
-                                    </li>
+                                    
                                 </ul>
                             </div>
                             <div class="menu-nav">
@@ -555,7 +554,7 @@
     <!-- father icon -->
     <script src="~/assets/js/feather.min.js"></script>
     <script src="~/assets/js/feather-icon.js"></script>
-
+    <script src="~/lib/jquery-ui/dist/jquery-ui.min.js"></script>
     <!-- Theme js-->
     <script src="~/assets/js/modal.js"></script>
     <script src="~/assets/js/script.js"></script>
@@ -563,6 +562,7 @@
     <script src="~/js/corelib.js"></script>
     <script src="~/select2/js/select2.min.js"></script>
     <script src="~/clientapp/js/shoppingutility.js"></script>
+     
     @RenderSection("Scripts", required: false)
 </body>
 </html>
