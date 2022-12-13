@@ -36,5 +36,9 @@ namespace Entities.Models
         public string Title { get; set; }
         public string ImagePath { get; set; }
     }
-
+    public class CartWishlistCount
+    {
+        public int Items { get; set; }
+        public string Type { get; set; }
+    }
 }
