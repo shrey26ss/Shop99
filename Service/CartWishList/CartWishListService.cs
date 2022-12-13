@@ -175,5 +175,26 @@ namespace Service.CartWishList
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<CartWishlistCount>>> CartWishListCount(Request request)
+        {
+            var res = new Response<IEnumerable<CartWishlistCount>>();
+            try
+            {
+                string sqlQuery = "";
+
+                sqlQuery = @"select count(1) Items,'C' Type from CartItem where UserID = @LoginId
+union
+select count(1) Items,'W' Type from WishList where EntryBy = @LoginId";
+                res.Result = await _dapper.GetAllAsync<CartWishlistCount>(sqlQuery, new { request.LoginId }, CommandType.Text);
+                if (res.Result != null)
+                    res.StatusCode = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
     }
 }

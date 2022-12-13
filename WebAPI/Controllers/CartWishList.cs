@@ -70,6 +70,8 @@ namespace WebAPI.Controllers
         {
             return Ok(await _cartwishlist.GetCartItemlist(new Request { LoginId = User.GetLoggedInUserId<int>() }));
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost(nameof(CartWishListCount))]
+        public async Task<IActionResult> CartWishListCount() => Ok(await _cartwishlist.CartWishListCount(new Request { LoginId = User.GetLoggedInUserId<int>() }));
     }
 }
