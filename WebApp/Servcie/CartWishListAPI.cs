@@ -180,7 +180,8 @@ namespace WebApp.Servcie
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddWishListToCart", JsonConvert.SerializeObject(Id), _token);
+
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddWishListToCart", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try

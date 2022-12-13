@@ -9,7 +9,6 @@
     loadOnSale();
     loadHotDeals();
     loadHotDealsNewProduct();
-    cartWishListCount();
 });
 const loadTopBrands = function () {
     let item = {
@@ -56,7 +55,7 @@ const loadTopCategoryProduct = function (cId, i) {
             CategoryId: cId
         }
     };
-    console.log(item);
+  
     $.ajax({
         type: 'POST',
         url: baseURL + "/Home/ByCategoryProduct",
@@ -194,7 +193,7 @@ const loadTopBannerSec = async function () {
 }
 const loadofferBanner = async function () {
     await $.get(baseURL + "/Home/OfferBanner").done(res => {
-        console.log('Offer Banner');
+     
         let htmlbody = ``;
         $.each(res.result, async function (i, v) {
             htmlbody = htmlbody + `<div class="collection-img">

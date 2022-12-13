@@ -205,8 +205,8 @@ select count(1) Items,'W' Type from WishList where EntryBy = @LoginId";
                 sqlQuery = "proc_MoveItemWishListToCart";
                 res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
-                    WishListId  = req.Id
-                }, CommandType.Text);
+                    WishListId= req.Id
+                }, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
