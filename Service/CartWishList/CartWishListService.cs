@@ -196,5 +196,24 @@ select count(1) Items,'W' Type from WishList where EntryBy = @LoginId";
             return res;
         }
 
+        public async Task<IResponse> AddWishListToCart(SearchItem req)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                sqlQuery = "proc_MoveItemWishListToCart";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
+                {
+                    WishListId  = req.Id
+                }, CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
     }
 }
