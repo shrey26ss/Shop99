@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
         {
             return Ok(await _category.TopCategories());
         }
-        [Route("Category/GetCategoriesDDL")]
+        [Route("Category/GetList")]
         public async Task<IActionResult> GetCategoriesDDL()
         {
             return Ok(await _category.GetCategoriesDDL());

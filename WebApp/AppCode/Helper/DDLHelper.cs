@@ -26,7 +26,7 @@ namespace AppUtility.Helper
         public async Task<List<CategoryDDL>> GetCategoryDDL(string _token, string _apiBaseURL)
         {
             var list = new List<CategoryDDL>();
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategoriesDDL", null, _token);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetList", null, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var _ = JsonConvert.DeserializeObject<Response<IEnumerable<CategoryDDL>>>(apiResponse.Result);
