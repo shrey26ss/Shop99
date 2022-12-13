@@ -100,6 +100,13 @@ namespace WebApp.Controllers
             var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
             return PartialView("Partial/_cartDetails", res);
         }
+        [Route("WishListToCart")]
+        [HttpPost]
+        public async Task<IActionResult> WishListToCart(int id)
+        {
+            var res = _cartwishlist.MoveItemWishListToCart(id,GetToken()).Result;
+            return Json(res);
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();

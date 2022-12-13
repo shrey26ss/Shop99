@@ -1,4 +1,7 @@
-﻿$(document).on('click', '.addtowishlist', (e) => {
+﻿$(document).ready(function () {
+    cartWishListCount();
+});
+$(document).on('click', '.addtowishlist', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
     $.post("/AddWishList", { VariantID: vId }).done(res => {
         Q.notify(res.statusCode, res.responseText)
@@ -15,6 +18,16 @@ $(document).on('click', '.addtocart', (e) => {
         }
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
 
+});
+$(document).on('click', '.move-to-cart', (e) => {
+    let wId = $(e.currentTarget).data()?.wishlistId ?? 0;
+    $.post("/WishListToCart", { id: wId }).done(res => {
+        Q.notify(res.statusCode, res.responseText)
+        if (res.statusCode == 1) {
+            cartWishListCount();
+            loadWishListSlide();
+        }
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
 });
 $(document).on('click', '.qty-minus', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
@@ -53,10 +66,7 @@ $(document).on('click', '.delete-cart-slide', (e) => {
 });
 
 $(document).on('click', '.openWishList', (e) => {
-    $.post("/WishListSlide").done(res => {
-        $('#wishlist_side').html(res);
-        document.getElementById("wishlist_side").classList.add('open-side');
-    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+    loadWishListSlide();
 });
 $(document).on('click', '.openCartSlide', (e) => {
     loadCartSlide();
@@ -69,6 +79,8 @@ const loadCartSlide = function () {
         cartWishListCount();
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 };
+
+
 const loadCartDetails = async function () {
     await $.post("/_CartDetails").done(res => {
         $('#dvCartDetails').html(res);
@@ -92,6 +104,12 @@ const cartWishListCount = function () {
             $('.cart-count').html(0);
             $('.wishlist-count').html(0);
         }
-        console.log(res);
+       
     }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+};
+const loadWishListSlide = function () {
+    $.post("/WishListSlide").done(res => {
+        $('#wishlist_side').html(res);
+        document.getElementById("wishlist_side").classList.add('open-side');
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
 };
