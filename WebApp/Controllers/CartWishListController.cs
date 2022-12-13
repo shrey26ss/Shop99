@@ -44,6 +44,13 @@ namespace WebApp.Controllers
             var res = _cartwishlist.AddWishList(req, GetToken()).Result;
             return Json(res);
         }
+        [Route("MoveItemWishListToCart")]
+        [HttpPost]
+        public async Task<IActionResult> MoveItemWishListToCart(int Id)
+        {
+            var res = _cartwishlist.MoveItemWishListToCart(Id, GetToken()).Result;
+            return Json(res);
+        }
         [Route("AddToCart")]
         [HttpPost]
         public async Task<IActionResult> AddToCart(CartItem req)

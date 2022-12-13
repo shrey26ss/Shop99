@@ -22,6 +22,7 @@ namespace WebApp.Servcie
         Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token);
         Task<IResponse> DeleteCart(CartItem req, string _token);
         Task<IResponse<IEnumerable<CartWishlistCount>>> GetCartwishListCount(string _token);
+        Task<IResponse> MoveItemWishListToCart(int Id, string _token);
     }
     public class CartWishListAPI : ICartWishListAPI
     {
@@ -162,6 +163,29 @@ namespace WebApp.Servcie
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<CartWishlistCount>>>(Response.Result);
                     return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+
+        }
+
+        public async Task<IResponse> MoveItemWishListToCart(int Id, string _token)
+        {
+            var res = new Response
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/AddWishListToCart", JsonConvert.SerializeObject(Id), _token);
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    res = JsonConvert.DeserializeObject<Response>(Response.Result);
                 }
                 catch (Exception e)
                 {
