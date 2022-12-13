@@ -39,24 +39,24 @@ $(document).on('click', '.delete-cart', (e) => {
             }
         }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
     })
-   
+
 });
 $(document).on('click', '.delete-cart-slide', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
-        $.post("/DeleteCart", { VariantID: vId, Qty: -1 }).done(res => {
-            Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Item Removed" : res.responseText)
-            if (res.statusCode == 1) {
-                loadCartDetails();
-                loadCartSlide();
-            }
-        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
+    $.post("/DeleteCart", { VariantID: vId, Qty: -1 }).done(res => {
+        Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Item Removed" : res.responseText)
+        if (res.statusCode == 1) {
+            loadCartDetails();
+            loadCartSlide();
+        }
+    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "")
 });
 
 $(document).on('click', '.openWishList', (e) => {
     $.post("/WishListSlide").done(res => {
         $('#wishlist_side').html(res);
         document.getElementById("wishlist_side").classList.add('open-side');
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
 });
 $(document).on('click', '.openCartSlide', (e) => {
     loadCartSlide();
