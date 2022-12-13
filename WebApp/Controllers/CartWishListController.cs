@@ -104,5 +104,6 @@ namespace WebApp.Controllers
         {
             return User.GetLoggedInUserToken();
         }
+
     }
 }
