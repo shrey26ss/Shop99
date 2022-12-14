@@ -26,6 +26,9 @@ using Service.TopLowerBanners;
 using Service.Homepage;
 using Service.CatAttrMappings;
 using Service.CartWishList;
+using Service.Countries;
+using Service.State;
+using Service.City;
 
 namespace WebAPI.Middleware
 {
@@ -64,6 +67,9 @@ namespace WebAPI.Middleware
             services.AddScoped<IFiltersService, FiltersService>();
             services.AddScoped<ICategoryAttributeMapping, CategoryAttributeMappingService>();
             services.AddScoped<IProductHomeService, ProductHomeService>();
+            services.AddScoped<ICountry, CountryService>();
+            services.AddScoped<IStates, StateService>();
+            services.AddScoped<ICity, CityService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
