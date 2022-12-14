@@ -223,12 +223,10 @@ namespace WebApp.Controllers
             }
             return View("Error");
         }
-        [Route("Checkout")]
-        [HttpGet]
-        public async Task<IActionResult> Checkout()
-        {
-            return View();
-        }
+
+
+
+       
 
     }
 }

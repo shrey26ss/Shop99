@@ -194,7 +194,7 @@
             <div class="checkout-form">
                 <form>
                     <div class="row">
-                        <div class="col-lg-6 col-sm-12 col-xs-12" id="dbAddress">
+                        <div class="col-lg-6 col-sm-12 col-xs-12" id="dbAddress" >
                             
                         </div>
                         <div class="col-lg-6 col-sm-12 col-xs-12" id="dvPlaceOrderDetails">
@@ -287,4 +287,17 @@
         </div>
     </div>
 </section>
+@section scripts{
+<script>
+  $(document).ready(function () {
+    loadAddressDetails();
+});
+const loadAddressDetails = async function () {
+    await $.post("/GetUserAddress").done(res => {
+        $('#dbAddress').html(res);
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+}
+</script>
+}
+
 <!-- section end -->

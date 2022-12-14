@@ -34,5 +34,7 @@ namespace Entities.Models
         public bool IsActive { get; set; }
         public int UserID { get; set; }
         public bool IsDefault { get; set; }
+        public string StateName { get; set; }
+        public string AddressType { get; set; }
     }
 }
