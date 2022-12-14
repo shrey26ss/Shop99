@@ -47,64 +47,111 @@
 
 <div class="theme-form d-none" id="dvAddAddress">
     <div class="row check-out ">
-
-        <div class="form-group col-md-12 col-sm-12 col-xs-12">
-            <label> Name</label>
-            <input type="text" id="txtName" value="" maxlength="150" placeholder="">
-        </div>
-
-        <div class="form-group col-md-12 col-sm-12 col-xs-12">
-            <label> Mobile No</label>
-            <input type="number" id="txtMobile" value="" maxlength="10" placeholder="">
-        </div>
-        <div class="form-group col-md-12 col-sm-12 col-xs-12">
-            <label class="field-label">Address</label>
-            <input type="text" name="field-name" value="" maxlength="250">
-        </div>
-        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-            <label class="field-label">Town/City</label>
-            <input type="text" name="field-name" value="" maxlength="100" placeholder="">
-        </div>
-        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-            <label class="field-label">State / County</label>
-            <input type="text" name="field-name" value="" placeholder="">
-        </div>
-        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-            <label class="field-label">Country</label>
-            <select>
-                <option>India</option>
-                <option>South Africa</option>
-                <option>United State</option>
-                <option>Australia</option>
-            </select>
-        </div>
-        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-            <label class="field-label">Postal Code</label>
-            <input type="text" name="field-name" maxlength="6" placeholder="">
-        </div>
-        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <a href="javascript:void(0)" class="btn-normal btn" id="btnSubmit">Submit</a>
-            <a href="javascript:void(0)" class="btn-normal btn" id="btnCancle">Cancle</a>
-        </div>
+        <form id="AddressForm">
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label>Name</label>
+                <input type="text" name="FullName" value="" maxlength="150" placeholder="">
+                <span class="FullName text-danger clr"></span>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label> Mobile No</label>
+                <input type="number" name="MobileNo" value="" maxlength="10" placeholder="">
+                <span class="MobileNo text-danger clr"></span>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label class="field-label">House Number/Flat Number</label>
+                <input type="text" name="HouseNo" value="" maxlength="250">
+                <span class="HouseNo text-danger clr"></span>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="field-label">Area</label>
+                    <input type="text" name="Area" value="" maxlength="250" placeholder="">
+                    <span class="Area text-danger clr"></span>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="field-label">Landmark</label>
+                    <input type="text" name="Landmark" value="" maxlength="100" placeholder="">
+                    <span class="Landmark text-danger clr"></span>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="field-label">Town/City</label>
+                    <input type="text" name="TownCity" value="" maxlength="100" placeholder="">
+                    <span class="TownCity text-danger clr"></span>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="field-label">State</label>
+                    <select name="StateID" id="StateID">
+                        <option value="">Select State</option>
+                        <option value="27">Uttar Pradesh</option>
+                    </select>
+                    <span class="StateID text-danger clr"></span>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="field-label">Address Type</label>
+                    <select name="AddressTypeID" id="AddressTypeID">
+                        <option value="">Select Address Type</option>
+                        <option value="1">Office Address</option>
+                        <option value="2">Home Address</option>
+                    </select>
+                    <span class="AddressTypeID text-danger clr"></span>
+                </div>
+                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <label class="field-label">Postal Code</label>
+                    <input type="text" name="Pincode" value="" placeholder="">
+                    <span class="Pincode text-danger clr"></span>
+                </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <a href="javascript:void(0)" class="btn-normal btn" id="btnSubmit">Submit</a>
+                <a href="javascript:void(0)" class="btn-normal btn" id="btnCancle">Cancle</a>
+            </div>
+        </form>
     </div>
 </div>
 <script>
-         $(document).ready(function () {
-            if('@isAddressExist'=='True')
-            {
-                  $("#dvshowaddress").removeClass("d-none");
-            }
-            else
-            {
-                 $("#dvAddAddress").removeClass("d-none");
-            }
+    $(document).ready(function () {
+        if ('@isAddressExist' == 'True') {
+            $("#dvshowaddress").removeClass("d-none");
+        }
+        else {
+            $("#dvAddAddress").removeClass("d-none");
+        }
     });
-    $('#btnaddress').click(function(){
-           $("#dvshowaddress").addClass("d-none");
-           $("#dvAddAddress").removeClass("d-none");
+    $('#btnaddress').click(function () {
+        $("#dvshowaddress").addClass("d-none");
+        $("#dvAddAddress").removeClass("d-none");
     })
-      $('#btnCancle').click(function(){
-          $("#dvshowaddress").removeClass("d-none");
-           $("#dvAddAddress").addClass("d-none");
+    $('#btnCancle').click(function () {
+        $("#dvshowaddress").removeClass("d-none");
+        $("#dvAddAddress").addClass("d-none");
+    })
+    $(document).on('click', '#btnSubmit', () => {
+        let param = {
+            FullName: $('input[name="FullName"]').val(),
+            MobileNo: $('input[name="MobileNo"]').val(),
+            HouseNo: $('input[name="HouseNo"]').val(),
+            Area: $('input[name="Area"]').val(),
+            Landmark: $('input[name="Landmark"]').val(),
+            TownCity: $('input[name="TownCity"]').val(),
+            Pincode: $('input[name="Pincode"]').val(),
+            StateID: $('#StateID').val(),
+            AddressTypeID: $('#AddressTypeID').val()
+        };
+        $('.clr').text('');
+        $.post('/SaveAddress', param).done((result) => {
+            Q.notify(result.statusCode, result.responseText);
+            if (result.statusCode == '1') {
+                $('#AddressForm').each(function () {
+                    this.reset();
+                });
+            }
+            $.each(result,(k,v)=>{
+                if (v.validationState == '1'){
+                    $(`.${k}`).text(`${v.errors[0].errorMessage}`);
+                    console.log(v.errors[0].errorMessage);
+                }
+            })
+        })
     })
 </script>
