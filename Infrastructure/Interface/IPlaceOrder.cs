@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     public interface IPlaceOrder
     {
         Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode();
+        Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request);
     }
 }

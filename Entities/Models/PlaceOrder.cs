@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Entities.Models
         public string Area { get; set; }
         public string Landmark { get; set; }
         public string TownCity { get; set; }
+        public ResponseStatus StatusCode { get; set; }
+        public string ResponseText { get; set; }
     }
 
 }
