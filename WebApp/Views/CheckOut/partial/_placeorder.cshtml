@@ -66,11 +66,12 @@
    $.post("/GetPaymentMode").done(res => {
        console.log(res.result);
         $.each(res.result, async function (i, v) {
-            let current = i == 0 ? "active" : "";
-           $('#dvPaymentModes').append(`<div class='button ${current}'>
+            let current = i == 0 ? "checked" : "";
+           $('#dvPaymentModes').append(`<div class='button '>
+           <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
                            ${v.name}
-                            <br />
-                            <img src="${v.icon}" height="55px" />
+                           
+                            <img src="${v.icon}" />
                         </div>`);
         });
     }).fail(xhr => Q.xhrError(xhr)).always(() => "");

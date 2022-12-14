@@ -58,14 +58,12 @@
         color: #094bde;
         font-size: 20px;
         font-weight: 700;
-        letter-spacing: -1px;
-        line-height: 1.5;
-        bottom: 43px;
+        top: 0;
     }
 
     /*
-                        * SVG Icons
-                        **********************************************************/
+                            * SVG Icons
+                            **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -76,47 +74,60 @@
     }
 
     /*
-                        * Buttons
-                        **********************************************************/
+                            * Buttons
+                            **********************************************************/
     .button {
         position: relative;
         height: 50px;
-        padding: 0 0 0 50px;
+        padding: 10px 20px;
         font-size: 14px;
         line-height: 48px;
         border-bottom: 1px solid #bbb;
         background: #fafafa;
         cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
-        .button:hover {
-            background: #f5f5f5;
-        }
+    .contact-page .theme-form input {
+        padding: 8px 20px;
+        margin-bottom: 0px;
+    }
 
-        .button:after {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 18px;
-            display: block;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            box-shadow: inset 0 0 0 1px #bbb, inset 0 0 0 7px #fff;
-            background: #fff;
-        }
+    .button:hover {
+        background: #f5f5f5;
+    }
 
-        .button:hover:after {
-            background: #bbb;
-        }
 
-        .button.active:after {
-            background: #555;
-        }
+    .button img {
+        width: 30px;
+        height: 30px;
+    }
+    /* .button:after {
+                content: '';
+                position: absolute;
+                top: 15px;
+                left: 18px;
+                display: block;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                box-shadow: inset 0 0 0 1px #bbb, inset 0 0 0 7px #fff;
+                background: #fff;
+            }
+
+            .button:hover:after {
+                background: #bbb;
+            }
+
+            .button.active:after {
+                background: #555;
+            }*/
 
     /*
-                        * Breakpoint
-                        **********************************************************/
+                            * Breakpoint
+                            **********************************************************/
     @@media all and (min-width: 500px) {
         .svg {
             right: 25px;
@@ -124,23 +135,25 @@
             height: 55px;
         }
 
-
-
         .button {
             height: 60px;
-            padding: 0 0 0 60px;
-            font-size: 18px;
+            padding: 10px 20px;
+            font-size: 16px;
             line-height: 58px;
         }
 
-            .button:after {
-                top: 20px;
-                left: 23px;
+            .button img {
+                width: 40px;
+                height: 40px;
             }
+        /*.button:after {
+                    top: 20px;
+                    left: 23px;
+                }*/
     }
     /*
-                        * Breakpoint
-                        **********************************************************/
+                            * Breakpoint
+                            **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -166,23 +179,81 @@
             width: 150px;
             height: 150px;
             margin-right: 10px;
-            padding: 50px 0 0;
+            padding: 20px 0;
             font-size: 18px;
             line-height: 1;
             text-align: center;
             border: 0;
             border-radius: 3px;
             box-shadow: inset 0 0 0 1px #bbb;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
+
+            .button img {
+                width: 60px;
+                height: 60px;
+            }
 
             .button:last-child {
                 margin-right: 0;
             }
+        /*.button:after {
+                    top: 15px;
+                    left: 55px;
+                }*/
+    }
 
-            .button:after {
-                top: 15px;
-                left: 55px;
-            }
+    .order-box .sub-total li .count {
+        position: relative;
+        font-size: 16px;
+        line-height: 20px;
+        color: #00baf2;
+        font-weight: 600;
+        width: 25%;
+        float: right;
+        text-align: right;
+    }
+
+    .order-box .qty li span {
+        float: right;
+        font-size: 16px;
+        line-height: 20px;
+        color: #333333;
+        font-weight: 600;
+        width: 25%;
+        text-align: right;
+    }
+
+    .order-box .total li .count {
+        position: relative;
+        font-size: 16px;
+        line-height: 20px;
+        color: #00baf2;
+        font-weight: 600;
+        text-align: right;
+        width: 25%;
+    }
+
+    .order-box .title-box span {
+        position: relative;
+        width: 25%;
+        float: right;
+        line-height: 1.2em;
+        text-align: right;
+    }
+
+    .order-box .sub-total .shipping {
+        width: 100%;
+        float: none;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkout-page .checkout-form .check-out .form-group:last-child label {
+        margin-bottom: 10px;
     }
 
 </style>
@@ -226,7 +297,8 @@
                             Remark:""
                 };
                  $.post("/PlaceOrder",item).done(res => {
-          console.log(res);
+             Q.notify(res.statusCode, res.responseText)
+         }
         }).fail(xhr => Q.xhrError(xhr)).always(() => "");
     });
 
