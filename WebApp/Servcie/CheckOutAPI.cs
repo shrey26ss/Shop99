@@ -17,6 +17,7 @@ namespace WebApp.Servcie
     public interface ICheckOutAPI
     {
         Task<IResponse<IEnumerable<UserAddress>>> GetUserGetAddress(string _token);
+        Task<Response> AddAddress(UserAddress model, string _token);
     }
     public class CheckOutAPI : ICheckOutAPI
     {
@@ -72,7 +73,29 @@ namespace WebApp.Servcie
             return res;
 
         }
-   
+        
+        public async Task<Response> AddAddress(UserAddress model, string _token)
+        {
+            var res = new Response
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/UserAddress/AddUpdate", JsonConvert.SerializeObject(model), _token);
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
 
     }
 }

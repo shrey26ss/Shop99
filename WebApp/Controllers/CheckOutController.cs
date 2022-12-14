@@ -50,7 +50,20 @@ namespace WebApp.Controllers
             var res = _checkout.GetUserGetAddress(GetToken()).Result;
             return PartialView("Partial/_address", res);
         }
-
+        [Route("SaveAddress")]
+        [HttpPost]
+        public async Task<IActionResult> SaveAddress(UserAddress model)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = _checkout.AddAddress(model, GetToken()).Result;
+                return Json(res);
+            }
+            else
+            {
+                return Json(ModelState);
+            }
+        }
 
         private string GetToken()
         {
