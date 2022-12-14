@@ -1,0 +1,319 @@
+﻿@{
+    Layout = "_layout";
+}
+<style>
+    .contact-page .theme-form {
+        padding: 20px;
+        background-color: #f1f4f7;
+        border: 0px solid #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .box {
+        background-color: #fff;
+        border-radius: 8px;
+        border: 2px solid #e9ebef;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .box-title {
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 700;
+        color: #094bde;
+        letter-spacing: 2px;
+    }
+
+    .plan-selection {
+        border-bottom: 2px solid #e9ebef;
+        padding-bottom: 25px;
+        margin-bottom: 35px;
+    }
+
+        .plan-selection:last-child {
+            border-bottom: 0px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+
+    .plan-data {
+        position: relative;
+    }
+
+        .plan-data label {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+    .plan-text {
+        padding-left: 15px;
+    }
+
+    .plan-price {
+        position: absolute;
+        right: 0px;
+        color: #094bde;
+        font-size: 20px;
+        font-weight: 700;
+        top: 0;
+    }
+
+    /*
+                            * SVG Icons
+                            **********************************************************/
+    .svg {
+        display: block;
+        position: absolute;
+        top: 2px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+
+    /*
+                            * Buttons
+                            **********************************************************/
+    .button {
+        position: relative;
+        height: 50px;
+        padding: 10px 20px;
+        font-size: 14px;
+        line-height: 48px;
+        border-bottom: 1px solid #bbb;
+        background: #fafafa;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .contact-page .theme-form input {
+        padding: 8px 20px;
+        margin-bottom: 0px;
+    }
+
+    .button:hover {
+        background: #f5f5f5;
+    }
+
+
+    .button img {
+        width: 30px;
+        height: 30px;
+    }
+    /* .button:after {
+                content: '';
+                position: absolute;
+                top: 15px;
+                left: 18px;
+                display: block;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                box-shadow: inset 0 0 0 1px #bbb, inset 0 0 0 7px #fff;
+                background: #fff;
+            }
+
+            .button:hover:after {
+                background: #bbb;
+            }
+
+            .button.active:after {
+                background: #555;
+            }*/
+
+    /*
+                            * Breakpoint
+                            **********************************************************/
+    @@media all and (min-width: 500px) {
+        .svg {
+            right: 25px;
+            width: 55px;
+            height: 55px;
+        }
+
+        .button {
+            height: 60px;
+            padding: 10px 20px;
+            font-size: 16px;
+            line-height: 58px;
+        }
+
+            .button img {
+                width: 40px;
+                height: 40px;
+            }
+        /*.button:after {
+                    top: 20px;
+                    left: 23px;
+                }*/
+    }
+    /*
+                            * Breakpoint
+                            **********************************************************/
+    @@media all and (min-width: 700px) {
+        .svg {
+            top: auto !important;
+            right: 0 !important;
+            left: 0;
+            margin: auto;
+            bottom: 10px;
+            width: 60px;
+            height: 60px;
+        }
+
+
+
+        .payments {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .button {
+            width: 150px;
+            height: 150px;
+            margin-right: 10px;
+            padding: 20px 0;
+            font-size: 18px;
+            line-height: 1;
+            text-align: center;
+            border: 0;
+            border-radius: 3px;
+            box-shadow: inset 0 0 0 1px #bbb;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .button img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .button:last-child {
+                margin-right: 0;
+            }
+        /*.button:after {
+                    top: 15px;
+                    left: 55px;
+                }*/
+    }
+
+    .order-box .sub-total li .count {
+        position: relative;
+        font-size: 16px;
+        line-height: 20px;
+        color: #00baf2;
+        font-weight: 600;
+        width: 25%;
+        float: right;
+        text-align: right;
+    }
+
+    .order-box .qty li span {
+        float: right;
+        font-size: 16px;
+        line-height: 20px;
+        color: #333333;
+        font-weight: 600;
+        width: 25%;
+        text-align: right;
+    }
+
+    .order-box .total li .count {
+        position: relative;
+        font-size: 16px;
+        line-height: 20px;
+        color: #00baf2;
+        font-weight: 600;
+        text-align: right;
+        width: 25%;
+    }
+
+    .order-box .title-box span {
+        position: relative;
+        width: 25%;
+        float: right;
+        line-height: 1.2em;
+        text-align: right;
+    }
+
+    .order-box .sub-total .shipping {
+        width: 100%;
+        float: none;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkout-page .checkout-form .check-out .form-group:last-child label {
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<!-- section start -->
+<section class="section-big-py-space b-g-light pt-4">
+    <div class="custom-container">
+        <div class="checkout-page contact-page">
+            <div class="checkout-form" id="checkoutSection">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 col-xs-12" id="dbAddress">
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-xs-12" id="dvPlaceOrderDetails">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+<script>
+      $(document).ready(function () {
+        loadAddressDetails();
+        loadPlaceOrderCart();
+    });
+    const loadAddressDetails = async function () {
+        await $.post("/GetUserAddress").done(res => {
+            $('#dbAddress').html(res);
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+    }
+    const loadPlaceOrderCart = async function () {
+        await $.post("/_CartPlaceOrder").done(res => {
+            $('#dvPlaceOrderDetails').html(res);
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+    }
+        $(document).on('click', '#btnPlaceOrder', (e) => {
+            let _parent = $(e.currentTarget).parents('#checkoutSection');
+                let item = {
+                            AddressID: _parent.find('[name="address"]:checked').data().addressId,
+                            PaymentMode: _parent.find('[name="paymentMode"]:checked').data().paymentMode,
+                            Remark:""
+                };
+                 $.post("/PlaceOrder",item).done(res => {
+                     if(res.statusCode!=1){
+                         Q.notify(res.statusCode, res.responseText)
+                     }
+                     else
+                     {
+                         Q.notify(res.statusCode, res.responseText)
+                         setTimeout(
+                              function() 
+                              {
+                                window.location.href=baseURLHome;
+                              }, 2000);
+                        
+                     }
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+    });
+
+</script>
+}
+
+<!-- section end -->
