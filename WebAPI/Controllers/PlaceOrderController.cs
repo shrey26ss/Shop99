@@ -30,5 +30,11 @@ namespace WebAPI.Controllers
         {
             return Ok(await _placeorder.GetPaymentMode());
         }
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost(nameof(PlaceOrder))]
+        public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
+        {
+            return Ok(await _placeorder.GetPaymentMode());
+        }
     }
 }
