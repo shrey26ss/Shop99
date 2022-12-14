@@ -125,6 +125,7 @@
     $('#btnCancle').click(function () {
         $("#dvshowaddress").removeClass("d-none");
         $("#dvAddAddress").addClass("d-none");
+         loadAddressDetails();
     })
     $(document).on('click', '#btnSubmit', () => {
         let param = {
