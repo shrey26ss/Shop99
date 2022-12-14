@@ -223,7 +223,10 @@ namespace WebApp.Controllers
             }
             return View("Error");
         }
-
+        public async Task<IActionResult> Checkout()
+        {
+            return View();
+        }
 
     }
 }
