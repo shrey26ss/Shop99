@@ -25,8 +25,8 @@
                                     string checkedd = @item.IsDefault ? "checked" : "";
                                     string AddressType = @item.AddressType != "" ? "(" + @item.AddressType + ")" : "";
                                 }
-                                <input id="question1" name="question" type="radio" class="with-font" @checkedd>
-                                <label for="question1">@item.FullName @item.AddressType</label>
+                                <input  name="address" type="radio" class="with-font" data-address-id="@item.Id" @checkedd>
+                                <label for="address1">@item.FullName @item.AddressType</label>
                                 <p class="plan-text">
                                     @address
                                 </p>

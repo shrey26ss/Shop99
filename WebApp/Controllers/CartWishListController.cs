@@ -100,6 +100,13 @@ namespace WebApp.Controllers
             var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
             return PartialView("Partial/_cartDetails", res);
         }
+        [Route("_CartPlaceOrder")]
+        [HttpPost]
+        public async Task<IActionResult> _CartPlaceOrder()
+        {
+            var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
+            return PartialView("~/Views/CheckOut/partial/_placeorder.cshtml", res);
+        }
         [Route("WishListToCart")]
         [HttpPost]
         public async Task<IActionResult> WishListToCart(int id)

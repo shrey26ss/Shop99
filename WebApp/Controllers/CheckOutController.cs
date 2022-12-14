@@ -50,7 +50,20 @@ namespace WebApp.Controllers
             var res = _checkout.GetUserGetAddress(GetToken()).Result;
             return PartialView("Partial/_address", res);
         }
-
+        [Route("GetPaymentMode")]
+        [HttpPost]
+        public async Task<IActionResult> GetPaymentMode()
+        {
+            var res = _checkout.GetPaymentMode(GetToken()).Result;
+            return Json(res);
+        }
+        [Route("PlaceOrder")]
+        [HttpPost]
+        public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
+        {
+          //  var res = _checkout.PlaceOrder(req, GetToken()).Result;
+            return Json(req);
+        }
 
         private string GetToken()
         {
