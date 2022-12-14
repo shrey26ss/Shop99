@@ -67,5 +67,16 @@ namespace AppUtility.Helper
             }
             return list;
         }
+        public async Task<List<StateDDL>> GetStateDDL(string _apiBaseURL)
+        {
+            var list = new List<StateDDL>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/State/GetStateDDL",null);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var _ = JsonConvert.DeserializeObject<Response<IEnumerable<StateDDL>>>(apiResponse.Result);
+                list = _.Result.ToList();
+            }
+            return list;
+        }
     }
 }
