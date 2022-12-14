@@ -70,11 +70,11 @@ namespace Service.Address
         }
         public async Task<IResponse<IEnumerable<UserAddress>>> GetList(Request request)
         {
-            string sp = @"Select * from UserAddress(nolock)";
+            string sp = @"Select ua.*,s.StateName StateName ,a.AddressName AddressType  from UserAddress(nolock) ua inner join States s on s.Id = ua.StateID inner join AddressType a on a.Id = ua.AddressTypeID where ua.UserID = @LoginID";
             var res = new Response<IEnumerable<UserAddress>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<UserAddress>(sp, new { }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<UserAddress>(sp, new { request.LoginId }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
             }
