@@ -17,8 +17,8 @@ namespace Service.CartWishList
     public class PlaceOrderService : IPlaceOrder
     {
         private IDapperRepository _dapper;
-        private readonly ILogger<DapperRepository> _logger;
-        public PlaceOrderService(IDapperRepository dapper, ILogger<DapperRepository> logger)
+        private readonly ILogger<PlaceOrderService> _logger;
+        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger)
         {
             _dapper = dapper;
             _logger = logger;
@@ -36,6 +36,27 @@ namespace Service.CartWishList
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
+        {
+            string sp = "proc_Order";
+            var res = new PlaceOrderResponse();
+            try
+            {
+                res = await _dapper.GetAsync<PlaceOrderResponse>(sp, new
+                {
+                    UserID = request.LoginId,
+                    request.Data.AddressID,
+                    request.Data.PaymentMode,
+                    request.Data.Remark
+                }, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }

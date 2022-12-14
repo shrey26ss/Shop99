@@ -34,7 +34,10 @@ namespace WebAPI.Controllers
         [HttpPost(nameof(PlaceOrder))]
         public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
         {
-            return Ok(await _placeorder.GetPaymentMode());
+            return Ok(await _placeorder.PlaceOrder(new RequestBase<PlaceOrderReq>
+            {
+                Data = req, LoginId = User.GetLoggedInUserId<int>()
+            }));
         }
     }
 }
