@@ -30,6 +30,7 @@ using Service.Countries;
 using Service.State;
 using Service.City;
 using Service.Address;
+using Service.CatBrandMapping;
 
 namespace WebAPI.Middleware
 {
@@ -67,6 +68,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IHomepageService, HomepageService>();
             services.AddScoped<IFiltersService, FiltersService>();
             services.AddScoped<ICategoryAttributeMapping, CategoryAttributeMappingService>();
+            services.AddScoped<ICategoryBrandMapping, CategoryBrandMappingService>();
             services.AddScoped<IProductHomeService, ProductHomeService>();
             services.AddScoped<ICountry, CountryService>();
             services.AddScoped<IStates, StateService>();
