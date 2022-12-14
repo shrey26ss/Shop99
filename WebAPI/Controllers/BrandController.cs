@@ -41,27 +41,6 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-
-        [Route("Brand/AddBrandCatMap")]
-        [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> AddBrandCategoryMapping(BrandCategoryMapping req)
-        {
-            return Ok(await _brand.AddUpdateBrandCategoryMapping(new RequestBase<BrandCategoryMapping>
-            {
-                Data = req,
-                LoginId = User.GetLoggedInUserId<int>()
-            }));
-        }
-
-        [Route("Brand/GetBrandCatMap")]
-        public async Task<IActionResult> GetBrandCategoryMapping(SearchItem req)
-        {
-            return Ok(await _brand.GetBrandCategoryMapping(new RequestBase<SearchItem>
-            {
-                Data = req,
-                LoginId = User.GetLoggedInUserId<int>()
-            }));
-        }
         [Route("Brand/GetBrandDDL")]
         public async Task<IActionResult> GetBrandDDL()
         {

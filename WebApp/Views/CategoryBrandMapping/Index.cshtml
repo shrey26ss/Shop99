@@ -1,0 +1,65 @@
+﻿@using WebApp.Models.ViewModels;
+@model CatBrandMappingViewModel
+@{
+    var DDL = new SelectList(Model.Categories, "CategoryId", "CategoryName", Model.CategoryId.ToString());
+}
+<div class="content-header clearfix">
+    <h1 class="float-left">Category Attribute Mapping</h1>
+</div>
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-3 col-sm-3">
+                    <select class="form-control CatDDL" asp-items="@DDL"></select>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered" id="Grid">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Action</th>
+                                <th>Attributes</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(() => {
+            loadData();
+        })
+        var loadData = () => {
+            let Id = $('.CatDDL').val();
+            $.post('/CategoryBrandMapping/GetMappedItemList', { CategoryId: Id }).done(function (result) {
+                $('#Grid tbody').html(result);
+            }).fail(function (xhr) {
+            })
+        };
+        $('.CatDDL').change(() => loadData());
+
+        var MapItems = (Id) => {
+            let param = {
+                CategoryId: $('.CatDDL').val(),
+                BrandId: Id
+            }
+            $.post('/CategoryBrandMapping/MapItems', param).done((result) => {
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode)
+                    loadData();
+            }).fail((xhr) => { console.log(xhr) });
+        }
+
+
+    </script>
+}
