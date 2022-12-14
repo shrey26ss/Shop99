@@ -6,6 +6,17 @@ const regx = {
     OnlyName: /^[a-zA-Z]*$/
 };
 
+const defaultOptions = {
+    toastr: {
+        closeButton: true,
+        timeOut: 3000,
+        showDuration: 250,
+        hideDuration: 500,
+        extendedTimeOut: 500,
+        positionClass: 'toast-top-right'
+    }
+};
+
 var Q;
 (Q => {
     Q.geoLocationDetail = {
@@ -148,35 +159,11 @@ var Q;
     };
 
     Q.alert = alert;
-    Q.defaultNotifyOptions = {
-        closeButton: true,
-        timeOut: 3000,
-        showDuration: 250,
-        hideDuration: 500,
-        extendedTimeOut: 500,
-        positionClass: 'toast-top-right'
-    };
     function getToastrOptions(options) {
-        options = $.extend({}, Q.defaultNotifyOptions, options);
+        options = $.extend({}, defaultOptions.toastr, options);
         positionToastContainer(false);
         return options;
     }
-    function notifyWarning(message, title, options) {
-        toastr.warning(message, title, getToastrOptions(options));
-    }
-    Q.notifyWarning = notifyWarning;
-    function notifySuccess(message, title, options) {
-        toastr.success(message, title, getToastrOptions(options));
-    }
-    Q.notifySuccess = notifySuccess;
-    function notifyInfo(message, title, options) {
-        toastr.info(message, title, getToastrOptions(options));
-    }
-    Q.notifyInfo = notifyInfo;
-    function notifyError(message, title, options) {
-        toastr.error(message, title, getToastrOptions(options));
-    }
-    Q.notifyError = notifyError;
     function positionToastContainer(create) {
         if (typeof toastr === 'undefined') {
             return;
@@ -199,14 +186,16 @@ var Q;
             }
         }
     }
-    Q.positionToastContainer = positionToastContainer;
+    /*Q.positionToastContainer = positionToastContainer;*/
     Q.notify = (statusCode, message, title, options) => {
         switch (statusCode) {
-            case -1: Q.notifyError(message, title, options);
+            case -1: toastr.error(message, title, getToastrOptions(options));
                 break;
-            case 1: Q.notifySuccess(message, title, options);
+            case 1: toastr.success(message, title, getToastrOptions(options));
                 break;
-            case 2: Q.notifyWarning(message, title, options);
+            case 2: toastr.warning(message, title, getToastrOptions(options));
+                break;
+            case 3: toastr.info(message, title, getToastrOptions(options));
                 break;
         }
     };
@@ -571,76 +560,6 @@ function printDiv(divName) {
         $('button.ui-dialog-titlebar-close').unbind().click(() => f());
     };
 
-    Q.IsFormValid = (option) => new Promise((resolve, reject) => {
-        if (!option) {
-            option = {
-                Selector: '',
-                callBack: function () {
-                }
-            }
-        }
-        let IsValid = true;
-        let element = option.Selector === '' ? '[required="required"]' : option.Selector + ' [required="required"]';
-        let totalRequiredTag = $(element).length;
-        $('.validation-error').text('').removeClass('text-danger text-monospace error');
-        $(element).removeClass('invalid');
-        $(element).each(function (i) {
-            let _tag = $(this).prop('tagName'), _ele = $(this);
-            if (_ele.parent('div').html().indexOf('text-invalid') > -1) {
-                _ele.parent('div').find('span.text-invalid').remove();
-            }
-            if (((_tag === 'SELECT' || _tag === 'INPUT' || _tag === 'TEXTAREA') && (_ele.val() === undefined || _ele.val() === '')) || (_tag === 'SELECT' && (_ele.val() === "0" || _ele.find('option:selected').attr('value') === undefined))) {
-                let errorMsg = _ele.attr('data-error');
-                let areaDescribe = _ele.attr('aria-describedby');
-                if (errorMsg === undefined || errorMsg === '') {
-                    errorMsg = 'This is mendetory field';
-                }
-                if (areaDescribe === undefined) {
-                    _ele.addClass('invalid').after('<span class="p-absolute text-danger text-monospace text-invalid"><small>' + errorMsg + '</small></span>');
-                } else {
-                    _ele.addClass('invalid');
-                    $('#' + areaDescribe).text(errorMsg).addClass('text-danger text-monospace validation-error');
-                }
-                _ele.focus();
-                IsValid = false;
-            }
-            if ((i + 1) === totalRequiredTag) {
-                if (IsValid) {
-                    resolve(IsValid);
-                }
-                else {
-                    reject('Form is not valid');
-                }
-            }
-        });
-    });
-
-    Q.validationError = (r) => {
-        if (r.hasOwnProperty('IsModalInvalid')) {
-            if (r.IsModalInvalid && r.hasOwnProperty('ValidationError')) {
-                for (let i = 0; i < r.ValidationError.length; i++) {
-                    let element = $('[name="' + r.ValidationError[i].Key + '"]');
-                    console.log(r.ValidationError[i].Key, element.parent('div').html());
-                    if (element.parent('div').html().indexOf('text-invalid') > -1) {
-                        element.parent('div').find('span.text-invalid').remove();
-                    }
-                    let errorMsg = r.ValidationError[i].Message;
-                    let areaDescribe = element.attr('aria-describedby');
-                    if (errorMsg === undefined || errorMsg === '') {
-                        errorMsg = 'This is mendetory field';
-                    }
-                    if (areaDescribe === undefined) {
-                        element.addClass('invalid').after('<span class="p-absolute text-danger text-monospace text-invalid"><small>' + errorMsg + '</small></span>');
-                    } else {
-                        element.addClass('invalid');
-                        $('#' + areaDescribe).text(errorMsg).addClass('text-danger text-monospace validation-error');
-                    }
-                    element.focus();
-                }
-            }
-        }
-    };
-
     Q.htmlToword = (id) => {
         //-------------------=======================================
         let table = $('#' + id).find('table');
@@ -930,95 +849,6 @@ function printDiv(divName) {
         return str.trim() + ".";
     };
 
-    var modalAlert = {
-        title: '',
-        content: '',
-        confirmContent: '<h5>Are you sure?</h5>',
-        parent: $('body'),
-        id: 'mymodal',
-        size: { small: 'modal-sm', large: 'modal-lg', xlarge: 'modal-xl', xxlarge: 'modal-xxl', xxlargeM: 'modal-xxl-m', auto: 'modal-auto', default: '' },
-        bodyCls: '',
-        div: `<div class="modal fade" id={id} tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class= "modal-dialog modal-dialog-centered" role="document"><div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-                </div>
-            </div>
-          </div>`,
-        isHeaderBorder: true,
-        headerClass: 'h5',
-        callBack: '',
-        show: function (size, callBack) {
-            var _html = `<div class="modal fade" id="${this.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class= "modal-dialog modal-dialog-centered ${size}" role="document">
-                <div class="modal-content">
-                    <div class="${this.isHeaderBorder ? 'modal-header' : 'pl-3 pr-3 mt-2'} custome">
-                        <h3 class="${this.headerClass} modal-title">${this.title === "" ? 'Alert' : this.title}</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">${this.content}</div>
-                </div>
-            </div>
-          </div>`
-            this.parent.append(_html);
-            $(`#${this.id}`).modal(this.options);
-            $(`#${this.id}`).find('button.close').unbind().click(() => {
-                this.dispose();
-                if (callBack !== undefined) {
-                    callBack();
-                }
-            });
-        },
-        reset: function () {
-            this.isHeaderBorder = true;
-            this.title = "";
-            this.headerClass = "h5";
-            this.bodyCls = '';
-        },
-        options: { backdrop: 'static', keyboard: true, focus: true, show: true },
-        dispose: function (f) {
-            this.reset();
-            //this.bodyCls = '';
-            var mdlId = this.id;
-            $('#' + mdlId + ',.modal-backdrop:last').fadeOut('slow', function () {
-                $(this).remove();
-            });
-            $('#' + mdlId + ' .modal-content:last').animate({ opacity: 0 }, 500, function (i) {
-                $('body').removeClass('modal-open').removeAttr('style');
-                if (f !== undefined)
-                    f();
-            });
-        },
-        anim: function (ms) {
-            $('#' + this.id + ' .modal-content').animate({ opacity: 0 }, ms);
-            $('#' + this.id + ' .modal-content').animate({ opacity: 1 }, ms);
-        },
-        confirm: function () {
-            return `<div class="col-md-12" id="dvpopup">
-                    <button type = "button" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    ${this.confirmContent}
-                    <div class="form-group">
-                        <button class="btn btn-outline-success mr-2" id="btnOK">Yes</button>
-                        <button class="btn btn-outline-danger" id="mdlCancel">No</button>
-                    </div>
-                </div>`;
-        },
-        preloader: () =>` <div class="preloaderGif"><img src="/Img/Preloader.gif"/></div>`
-    };
-
-    Q.modal = modalAlert;
-
     Q.getXmlAsString = function (xmlDom) {
         return (typeof XMLSerializer !== "undefined") ?
             (new window.XMLSerializer()).serializeToString(xmlDom) :
@@ -1164,7 +994,7 @@ function printDiv(divName) {
             if (xhr.status === 401) {
                 let _cURL = new URL(window.location.href)
                 let currentHref = _cURL.pathname;
-                xhr.responseText = "Unauthorized! Please login first.";
+                xhr.responseText = "Please login first.";
                 if (currentHref !== '/account/login')
                     window.location.href = "/account/login";
             }
@@ -1221,17 +1051,6 @@ class ShowJsTimer {
         $(this).closest('div').addClass('calcHeight');
     };
 }($));
-
-//(function (e) {
-//    e.fn.numeric = function (t) {
-//        let i = e.extend({ numericType: "number", maxLength: 0 }, t);
-//        e(this).keypress((t) => {
-//            if (0 !== i.maxLength && e(t.currentTarget).val().length > i.maxLength) return !1;
-//            let a = t.keyCode ? t.keyCode : t.which;
-//            return "number" === i.numericType ? a >= 48 && a <= 57 : "decimal" === i.numericType ? (a >= 48 && a <= 57) || (46 === a && -1 === e(t.currentTarget).val().indexOf(".")) : void 0;
-//        });
-//    };
-//})($);
 
 (function (e) {
     e.fn.numeric = function (t) {
