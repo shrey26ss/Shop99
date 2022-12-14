@@ -61,8 +61,8 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
         {
-            var res = _checkout.PlaceOrder(req, GetToken()).Result;
-            return Json(req);
+              var res = _checkout.PlaceOrder(req, GetToken()).Result;
+            return Json(res);
         }
         [Route("SaveAddress")]
         [HttpPost]

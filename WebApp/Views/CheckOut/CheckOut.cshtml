@@ -297,8 +297,19 @@
                             Remark:""
                 };
                  $.post("/PlaceOrder",item).done(res => {
-             Q.notify(res.statusCode, res.responseText)
-         }
+                     if(res.statusCode!=1){
+                         Q.notify(res.statusCode, res.responseText)
+                     }
+                     else
+                     {
+                         Q.notify(res.statusCode, res.responseText)
+                         setTimeout(
+                              function() 
+                              {
+                                window.location.href=baseURLHome;
+                              }, 2000);
+                        
+                     }
         }).fail(xhr => Q.xhrError(xhr)).always(() => "");
     });
 
