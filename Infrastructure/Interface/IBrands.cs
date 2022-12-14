@@ -10,8 +10,6 @@ namespace Infrastructure.Interface
     {
         Task<IResponse> AddUpdate(RequestBase<Brands> request);
         Task<IResponse<IEnumerable<Brands>>> GetBrands(RequestBase<SearchItem> request);
-        Task<IResponse> AddUpdateBrandCategoryMapping(RequestBase<BrandCategoryMapping> request);
-        Task<IResponse<IEnumerable<BrandCategoryMapping>>> GetBrandCategoryMapping(RequestBase<SearchItem> request);
         Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDL();
         Task<IResponse<IEnumerable<Brands>>> GetTopBrands(int Top);
     }
