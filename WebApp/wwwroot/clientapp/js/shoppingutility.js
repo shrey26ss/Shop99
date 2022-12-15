@@ -93,16 +93,20 @@ const cartWishListCount = function () {
         if (res.statusCode == 1) {
             $.each(res.result, async function (i, v) {
                 if (v.type == 'C') {
-                    $('.cart-count').html(v.items);
+                    $('.cart-count').html(v.items == 0 ? "" : v.items);
+                    $('.cart-count').addClass(v.items == 0 ? "" : 'item-count-contain');
+                    
                 }
                 if (v.type == 'W') {
-                    $('.wishlist-count').html(v.items);
+                    
+                    $('.wishlist-count').html(v.items == 0 ? "" : v.items);
+                    $('.wishlist-count').addClass(v.items == 0 ? "" : 'item-count-contain');
                 }
             });
         }
         else {
-            $('.cart-count').html(0);
-            $('.wishlist-count').html(0);
+            $('.cart-count').removeClass('item-count-contain');
+            $('.wishlist-count').removeClass('item-count-contain');
         }
 
     }).fail(xhr => Q.xhrError(xhr, false)).always(() => "");
