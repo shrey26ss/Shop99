@@ -5,8 +5,8 @@
     var modelss = Model;
 }
 <style>
-    .attributeValue{
-        margin-right:5px;
+    .attributeValue {
+        margin-right: 5px;
     }
 </style>
 <section class="section-big-pt-space b-g-light">
@@ -301,64 +301,53 @@
 @section scripts{
     <script>
         const variantId = @Model.VariantId;
+        const productDetail = {
+            images: []
+        };
+
+        const slickOnProduct = () => {
+            if ($('.product-slick').hasClass('slick-initialized')) {
+                $('.product-slick').slick('unslick')
+            }
+            if ($('.slider-nav').hasClass('slick-initialized')) {
+                $('.slider-nav').slick('unslick')
+            }
+            $('.product-slick').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: true,
+                fade: true,
+                asNavFor: '.slider-nav'
+            });
+            $('.slider-nav').slick({
+                vertical: false,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '.product-slick',
+                arrows: false,
+                dots: false,
+                focusOnSelect: true
+            });
+        }
+
+        slickOnProduct();
+
         $(() => {
-            GetAttributes();
             GetPictures();
+            setTimeout(() => GetAttributes(), 100);
             loadHotDealsNewProduct();
-        })
-        var GetPictures = () => {
-            $.post(`/Home/GetProductPicDetails/`, { Id: '@Model.VariantId' }).done((result) => {
+            GetAttributesInfo();
+        });
+
+        const GetPictures = () => {
+            $.post(`/Home/GetProductPicDetails/`, { Id: variantId }).done((result) => {
                 if (result != null && result.length > 0) {
-                    let uniquethumb = [];
-                    let uniqueOriginal = [];
-                    let __thumbnail = result.map(x => {
-                        let __t = ``;
-                        if (!uniquethumb.includes(x.imagePath)) {
-                            uniquethumb.push(x.imagePath);
-                            if (x.imgVariant === '400_400') {
-                                __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
-                            }
-                        }
-                        return __t;
-                    });
-                    __thumbnail = __thumbnail.filter((x) => {
-                        return x != '';
-                    });
-                    let __originalImages = result.map(x => {
-                        let __h = '';
-                        if (!uniqueOriginal.includes(x.imagePath)) {
-                            uniqueOriginal.push(x.imagePath);
-                            if (x.imgVariant === 'default') {
-                                __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
-                            }
-                        }
-                        return __h;
-                    });
-                    __originalImages = __originalImages.filter((x) => {
-                        return x != '';
-                    });
-                    $('.product-slick').html(__originalImages);
-                    $('.slider-nav').html(__thumbnail);
+                    productDetail.images = result;
                 }
-                $('.product-slick').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows: true,
-                    fade: true,
-                    asNavFor: '.slider-nav'
-                });
-                $('.slider-nav').slick({
-                    vertical: false,
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    asNavFor: '.product-slick',
-                    arrows: false,
-                    dots: false,
-                    focusOnSelect: true
-                });
             })
         }
-        var GetAttributes = () => {
+
+        const GetAttributes = () => {
             $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.VariantId' }).done((result) => {
                 let _html = ``;
                 $.each(result, (k, v) => {
@@ -370,42 +359,44 @@
                             uniqueAttr.push(j.attributeValue.toUpperCase());
                             let active = j.variantId == variantId ? 'active' : '';
                             _html += `<li class="${active} attributeValue btn btn-sm btn-outline-dark" data-attr-val='${j.attributeValue}'>${j.attributeValue}</li>`;
+                            if (v.name.toLowerCase() === 'color' && active === 'active') {
+                                bindImages(`${j.attributeValue}`);
+                            }
                         }
-                    })
+                    });
                     _html = _html + `</ul></div>`;
                 });
                 $('#attributeList').html(_html);
             })
         }
 
+        const GetAttributesInfo = () => {
+            $.post(`/Home/ProductAttributeInfo/`, { Id: '@Model.VariantId' }).done((result) => {
+                console.log(result);
+            })
+        }
+
         $(document).on('click', '.attributeValue', (e) => {
             let ele = $(e.currentTarget);
-            let attributeName = ele.parents('.attibute').data()?.attributeName;
-            if (attributeName && attributeName.toLowerCase() === 'color') {
-                console.log('changeImg'); 
-            }
             ele.parents('ul').find('.attributeValue').removeClass('active');
             ele.addClass('active');
-            let _attr=[];
+            let _attr = [];
             $('#attributeList').find('.attibute').each(function () {
-                let _attData=$(this).find('li.active').data();
-                if(_attData){
+                let _attData = $(this).find('li.active').data();
+                if (_attData) {
                     _attr.push(_attData.attrVal);
                 }
             })
-           let req={
+            let req = {
                 variantId,
                 attributes: _attr.join(',')
-           };
-           console.log('req : ',req);
+            };
+            let attributeName = ele.parents('.attibute').data()?.attributeName;
+            if (attributeName && attributeName.toLowerCase() === 'color') {
+                bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
+            }
         });
 
-        if ($('.product-slick').hasClass('slick-initialized')) {
-            $('.product-slick').slick('unslick')
-        }
-        if ($('.slider-nav').hasClass('slick-initialized')) {
-            $('.slider-nav').slick('unslick')
-        }
         $('.slide-1').slick({
             dots: false,
             infinite: false,
@@ -443,10 +434,43 @@
                 }
             }]
         });
+
         const loadHotDealsNewProduct = async function () {
             await $.post("/HotDealsNewProduct").done(res => {
                 $('#dvHotDealNewProduct').append(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         }
+
+        const bindImages = (color) => {
+            if ($('.product-slick').hasClass('slick-initialized')) {
+                $('.product-slick').slick('unslick')
+            }
+            if ($('.slider-nav').hasClass('slick-initialized')) {
+                $('.slider-nav').slick('unslick')
+            }
+            let __t = '', __h = '';
+            let uniquethumb = [], uniqueOriginal = [];
+            let __images = productDetail.images.filter(x => x.color === color);
+            if (__images.length === 0) {
+                __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
+            }
+            __images.forEach(x => {
+                if (!uniquethumb.includes(x)) {
+                    if (x.imgVariant === '400_400') {
+                        uniquethumb.push(x);
+                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                    }
+                }
+                if (!uniqueOriginal.includes(x)) {
+                    if (x.imgVariant === 'default') {
+                        uniqueOriginal.push(x);
+                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                    }
+                }
+            });
+            $('.product-slick').html(__h);
+            $('.slider-nav').html(__t);
+            slickOnProduct();
+        }
     </script>
-}
+}   
