@@ -12470,7 +12470,7 @@ ul.sosiyal {
     border-bottom: 1px solid #eaeaea;
 }
 
-    .collection-filter-block .product-service .media svg {
+    .collection-filter-block .product-service .media svg, .collection-filter-block .product-service .media img {
         height: 40px;
         width: 40px;
     }
