@@ -35,7 +35,9 @@ namespace Service.Address
                 }
                 else
                 {
-                    sqlQuery = @"Insert into UserAddress (FullName,MobileNo,Pincode,HouseNo,Area,Landmark,TownCity,StateID,AddressTypeID,IsActive,UserID,IsDefault)values (@FullName,@MobileNo,@Pincode,@HouseNo,@Area,@Landmark,@TownCity,@StateID,@AddressTypeID,1,@LoginId,0)";
+                    sqlQuery = @"
+update UserAddress set IsDefault=0 where UserID=@LoginId
+Insert into UserAddress (FullName,MobileNo,Pincode,HouseNo,Area,Landmark,TownCity,StateID,AddressTypeID,IsActive,UserID,IsDefault)values (@FullName,@MobileNo,@Pincode,@HouseNo,@Area,@Landmark,@TownCity,@StateID,@AddressTypeID,1,@LoginId,1)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {

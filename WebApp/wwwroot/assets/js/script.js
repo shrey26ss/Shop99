@@ -2444,6 +2444,9 @@ function openWishlist() {
 function closeWishlist() {
     document.getElementById("wishlist_side").classList.remove('open-side');
 }
+function closeMenu() {
+    document.getElementById("Menu_side").classList.remove('open-side');
+}
 function openSetting() {
     document.getElementById("mySetting").classList.add('open-side');
 }
