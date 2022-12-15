@@ -401,16 +401,17 @@
         var GetAttributes = () => {
             $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.VariantId' }).done((result) => {
                 let _html = ``;
+              
                 $.each(result, (k, v) => {
-                    _html = _html + `<div class="size-box">`;
+                    _html = _html + `<div class="size-box" id='${v.attributeId}' data-attribute-id='${v.attributeId}'>`;
                     _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
                     let uniqueAttr = [];
                     $.each(v.attributes, (i, j) => {
                         if (!uniqueAttr.includes(j.attributeValue.toUpperCase())) {
                             uniqueAttr.push(j.attributeValue.toUpperCase());
                             let active = j.variantId == '@Model.VariantId' ? 'active' : '';
-                            let url = j.variantId == '@Model.VariantId' ? `javascript:void(0)` : `/Home/ProductDetail/${j.variantId}`;
-                            _html = _html + `<li class="${active}"><a href="${url}">${j.attributeValue}</a></li>`;
+                            //let url = j.variantId == '@Model.VariantId' ? `javascript:void(0)` : `/Home/ProductDetail/${j.variantId}`;
+                            _html = _html + `<li class="${active}"><span class='attribute' data-variant-id='${j.variantId}'>${j.attributeValue}</span></li>`;
                         }
                     })
                     _html = _html + `</ul></div>`;
@@ -418,6 +419,13 @@
                 $('#AttrItems').html(_html);
             })
         }
+      
+        $(document).on('click', '.attribute', (e) => {
+             let vId = $(e.currentTarget).data()?.variantId ?? 0;
+             let aID = $(e.currentTarget).parent().closest('div').data()?.attributeId ?? 0;
+                  
+            });
+
         if ($('.product-slick').hasClass('slick-initialized')) {
             $('.product-slick').slick('unslick')
         }
