@@ -1001,6 +1001,7 @@ function printDiv(divName) {
             Q.notify(-1, xhr.responseText);
         }
     }
+    Q.rewriteURL = (url, _html = '', _title = '') => window.history.pushState(_html, _title, url);
 })(Q || (Q = {}));
 
 class ShowJsTimer {
