@@ -353,7 +353,7 @@
                     let uniqueOriginal = [];
                     let __thumbnail = result.map(x => {
                         let __t = ``;
-                        if (!uniquethumb.includes(x.imagePath)){
+                        if (!uniquethumb.includes(x.imagePath)) {
                             uniquethumb.push(x.imagePath);
                             if (x.imgVariant === '400_400') {
                                 __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
@@ -366,7 +366,7 @@
                     });
                     let __originalImages = result.map(x => {
                         let __h = '';
-                        if (!uniqueOriginal.includes(x.imagePath)){
+                        if (!uniqueOriginal.includes(x.imagePath)) {
                             uniqueOriginal.push(x.imagePath);
                             if (x.imgVariant === 'default') {
                                 __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
@@ -404,10 +404,14 @@
                 $.each(result, (k, v) => {
                     _html = _html + `<div class="size-box">`;
                     _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
+                    let uniqueAttr = [];
                     $.each(v.attributes, (i, j) => {
-                        let active = j.variantId == '@Model.VariantId' ? 'active' : '';
-                        let url = j.variantId == '@Model.VariantId' ? `javascript:void(0)` : `/Home/ProductDetail/${j.variantId}`;
-                        _html = _html + `<li class="${active}"><a href="${url}">${j.attributeValue}</a></li>`;
+                        if (!uniqueAttr.includes(j.attributeValue.toUpperCase())) {
+                            uniqueAttr.push(j.attributeValue.toUpperCase());
+                            let active = j.variantId == '@Model.VariantId' ? 'active' : '';
+                            let url = j.variantId == '@Model.VariantId' ? `javascript:void(0)` : `/Home/ProductDetail/${j.variantId}`;
+                            _html = _html + `<li class="${active}"><a href="${url}">${j.attributeValue}</a></li>`;
+                        }
                     })
                     _html = _html + `</ul></div>`;
                 });
