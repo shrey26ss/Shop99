@@ -8,6 +8,7 @@ namespace Entities.Models
     public class OrderDetailsRow
     {
         public int ID { get; set; }
+        public int VarriantID { get; set; }
         public Guid OrderID { get; set; }
         public string Product { get; set; }
         public string Title { get; set; }

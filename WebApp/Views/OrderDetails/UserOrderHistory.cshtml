@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = "_layout";
+}
+<!--section start-->
+<section class="cart-section order-history section-big-py-space">
+    <div class="custom-container">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table cart-table table-responsive-xs">
+                    <thead>
+                        <tr class="table-head">
+                            <th scope="col">product</th>
+                            <th scope="col">description</th>
+                            <th scope="col">price</th>
+                            <th scope="col">detail</th>
+                            <th scope="col">status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="UserOrderHistory">
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+        <script>
+            $(() => {
+                loadData();
+            })
+            var loadData = () => {
+                $.post('/_UserOrderHistory').done(function (result) {
+                    console.log(result);
+                    $('#UserOrderHistory').html(result);
+                }).fail(function (xhr) {
+                })
+            };
+        var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
+        var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
+        var ChangeStatusItem = function (ID, StatusID) {
+            $.post('/OrderDetails/ChangeStatus',  { ID, StatusID}).done((result) => {
+                console.log('result :', result);
+                Q.notify(result.statusCode,result.responseText);
+                if(result.statusCode)
+                    loadData();
+            })
+        };
+        </script>
+}
