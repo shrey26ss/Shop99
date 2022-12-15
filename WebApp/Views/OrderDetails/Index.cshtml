@@ -1,0 +1,61 @@
+﻿<div class="content-header clearfix">
+    <h1 class="float-left">
+        Order Details
+    </h1>
+</div>
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered" id="Grid">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Action</th>
+                                <th>Product</th>
+                                <th>Product Name</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Qty</th>
+                                <th>Attributes</th>
+                                <th>Rate</th>
+                                <th>MRP</th>
+                                <th>Order Date</th>
+                                <th>ShopName</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+        <script>
+            $(() => {
+                loadData();
+            })
+            var loadData = () => {
+                $.post('/OrderDetails/OrderList').done(function (result) {
+                    $('#Grid tbody').html(result);
+                }).fail(function (xhr) {
+                })
+            };
+
+
+
+        var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
+        var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
+        var ChangeStatusItem = function (ID, StatusID) {
+            $.post('/OrderDetails/ChangeStatus',  { ID, StatusID}).done((result) => {
+                console.log('result :', result);
+                Q.notify(result.statusCode,result.responseText);
+                if(result.statusCode)
+                    loadData();
+            })
+        };
+        </script>
+}
