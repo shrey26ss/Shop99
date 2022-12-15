@@ -302,7 +302,8 @@
     <script>
         const variantId = @Model.VariantId;
         const productDetail = {
-            images: []
+            images: [],
+            attributeInfo:[]
         };
 
         const slickOnProduct = () => {
@@ -372,7 +373,7 @@
 
         const GetAttributesInfo = () => {
             $.post(`/Home/ProductAttributeInfo/`, { Id: '@Model.VariantId' }).done((result) => {
-                console.log(result);
+                productDetail.attributeInfo = result;
             })
         }
 
