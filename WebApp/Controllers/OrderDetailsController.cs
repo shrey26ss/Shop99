@@ -31,6 +31,21 @@ namespace WebApp.Controllers
         {
             return PartialView("PartialView/_OrderList", await GetList().ConfigureAwait(false));
         }
+        [Route("UserOrderHistory")]
+        [HttpGet]
+        public IActionResult UserOrderHistory()
+        {
+            return View();
+
+        }
+        [Route("_UserOrderHistory")]
+        [HttpPost]
+        public async Task<IActionResult> _UserOrderHistory()
+        {
+            var res = await GetList().ConfigureAwait(false);
+            return PartialView("PartialView/_UserOrderHistory", res);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(OrderDetailsVM model)
@@ -56,6 +71,9 @@ namespace WebApp.Controllers
             }
             return list;
         }
+
         #endregion
+      
+       
     }
 }

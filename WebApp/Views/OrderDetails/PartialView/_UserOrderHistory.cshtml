@@ -1,0 +1,89 @@
+﻿@using Entities.Enums;
+@using Entities.Models;
+@model IEnumerable<OrderDetailsColumn>
+
+@if (Model.Any())
+{
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        string badge = "";
+        badge = item.StatusID == StausType.OrderPlaced ? "badge-warning" : item.StatusID == StausType.Cancel ? "badge-danger" : item.StatusID == StausType.Confirmed ? "badge-success" : item.StatusID == StausType.Delivered ? "badge-info" : "badge-dark";
+        counter++;
+        <tr>
+            <td>
+                <a href="/productdetail/@item.VarriantID">
+                    <img src="@item.Thumbnail" alt="product" class="img-fluid" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
+                </a>
+            </td>
+            <td>
+                <a href="/productdetail/@item.VarriantID">order no: <span class="dark-data">@item.OrderID.ToString().ToUpper()</span> <br>@item.Title</a>
+                <div class="mobile-cart-content row">
+                    <div class="col-xs-3">
+                        <div class="qty-box">
+                            <div class="input-group">
+                                <input type="text" name="quantity" class="form-control input-number" value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <h4 class="td-color">@item.Rate</h4>
+                    </div>
+                    <div class="col-xs-3">
+                        <h2 class="td-color"><a href="javascript:void(0)" class="icon"><i class="ti-close"></i></a></h2>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <h4>@item.Rate</h4>
+            </td>
+            <td>
+                <span>@item.Attributes</span>
+                <br>
+                <span>Quntity:@item.Qty</span>
+            </td>
+            <td>
+                <div class="responsive-data">
+                    <h4 class="price">@item.Rate</h4>
+                    <span>@item.Attributes</span>|<span>Quntity:@item.Qty</span>
+                </div>
+                <span class="dark-data">@item.StatusID.ToString()</span>
+            </td>
+        </tr>
+
+
+        @* <tr>
+            <td>@counter</td>
+            <td class="align-middle">
+            <div class="btn-group dropup">
+            <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expaned="false"></a>
+            <div class="dropdown-menu" aria-labelledby="act">
+            <h6 class="dropdown-header">Action Menu</h6>
+            @if (item.StatusID == StausType.OrderPlaced)
+            {
+            <a href="#" onclick="Cancel('@item.ID','@StausType.Cancel')" class="dropdown-item Edit">Cancel</a>
+            <a href="#" onclick="Confirm('@item.ID','@StausType.Confirmed')" class="dropdown-item Edit">Confirm</a>
+            }
+            </div>
+            </div>
+            </td>
+            <td>
+            <div class="card">
+            <div class="valign-wrapper pr12ImgNameDiv">
+            <img src="@item.Thumbnail" class="img-fluid rounded-circle" style="width:50px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
+            </div>
+            </div>
+            </td>
+            <td>@item.Product</td>
+            <td>@item.Title</td>
+            <td><span class="badge @badge">@item.StatusID.ToString()</span></td>
+            <td>@item.Qty</td>
+            <td>@item.Attributes</td>
+            <td>@item.Rate</td>
+            <td>@item.MRP</td>
+            <td>@item.EntryOn</td>
+            <td>@item.ShopName</td>
+            </tr>*@
+    }
+}
