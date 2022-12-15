@@ -55,6 +55,22 @@ namespace Service.Product
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<AttributeInfo>>> GetProductAttributeInfo(SearchItem req)
+        {
+            string sp = "Proc_ProductAttrInfo";
+            var res = new Response<IEnumerable<AttributeInfo>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<AttributeInfo>(sp, new { VariantId = req.Id }, CommandType.StoredProcedure);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
         public async Task<IResponse<IEnumerable<ProductPictureInfo>>> GetProductPicDetails(SearchItem req)
         {
             string sp = @"Select Color, Title, Alt,ImagePath,ImgVariant from PictureInformation where GroupId = @Id";
