@@ -31,6 +31,7 @@ using Service.State;
 using Service.City;
 using Service.Address;
 using Service.CatBrandMapping;
+using Service.OrderDetails;
 
 namespace WebAPI.Middleware
 {
@@ -75,6 +76,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IStates, StateService>();
             services.AddScoped<ICity, CityService>();
             services.AddScoped<IUserAddress, UserAddressService>();
+            services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
