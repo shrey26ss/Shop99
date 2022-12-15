@@ -40223,3 +40223,29 @@ body.dark {
     padding-left: 35px;
     padding-right: 35px;
 }
+
+.nav-pills .nav-link label {
+    display:block;
+    margin-bottom:3px;
+}
+.order-history .nav-pills {
+    border-right: 1px solid #ccc;
+    padding-right:15px;
+}
+    .order-history .nav-pills .nav-link {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        color: #585858;
+    }
+    .order-history .nav-pills .nav-item {
+       border-bottom: 1px solid #ccc;
+    }
+        .order-history .nav-pills .nav-item:last-child {
+            border-bottom:0;
+        }
+        .order-history .nav-pills .nav-link.active {
+            background: transparent;
+            color: #00baf2;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
