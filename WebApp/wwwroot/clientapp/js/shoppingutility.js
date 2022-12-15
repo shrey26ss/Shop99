@@ -118,3 +118,4 @@ const loadWishListSlide = function () {
         document.getElementById("wishlist_side").classList.add('open-side');
     }).fail(xhr => Q.xhrError(xhr)).always(() => "");
 };
+
