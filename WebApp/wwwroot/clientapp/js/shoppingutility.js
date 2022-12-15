@@ -111,6 +111,7 @@ const cartWishListCount = function () {
 
     }).fail(xhr => Q.xhrError(xhr, false)).always(() => "");
 };
+
 const loadWishListSlide = function () {
     $.post("/WishListSlide").done(res => {
         $('#wishlist_side').html(res);
