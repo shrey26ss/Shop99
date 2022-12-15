@@ -143,17 +143,17 @@
                                         <h6 class="product-title">quantity</h6>
                                         <div class="qty-box">
                                             <div class="input-group">
-                                                <button class="qty-minus"></button>
+                                                <button class="qty-minus" data-variant-id="@Model.VariantId"></button>
                                                 <input class="qty-adj form-control" type="number" value="1" />
-                                                <button class="qty-plus"></button>
+                                                <button class="qty-plus addtocart" data-variant-id="@Model.VariantId"></button>
                                             </div>
                                         </div>
                                         <div class="product-buttons">
-                                            <a href="javascript:void(0)" id="cartEffect" class="btn cart-btn btn-normal tooltip-top" data-tippy-content="Add to cart">
+                                            <a href="javascript:void(0)" id="cartEffect" class="btn cart-btn btn-normal tooltip-top addtocart" data-variant-id="@Model.VariantId" data-tippy-content="Add to cart">
                                                 <i class="fa fa-shopping-cart"></i>
                                                 add to cart
                                             </a>
-                                            <a href="javascript:void(0)" class="btn btn-normal add-to-wish tooltip-top" data-tippy-content="Add to wishlist">
+                                            <a href="javascript:void(0)" class="btn btn-normal tooltip-top addtowishlist" data-variant-id="@Model.VariantId" data-tippy-content="Add to wishlist">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                             </a>
                                         </div>
