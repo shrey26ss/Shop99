@@ -11,5 +11,6 @@ namespace Infrastructure.Interface
         Task<IResponse<ProductDetails>> GetProductDetails(SearchItem req);
         Task<IResponse<IEnumerable<ProductAttributes>>> GetProductAttrDetails(SearchItem req);
         Task<IResponse<IEnumerable<ProductPictureInfo>>> GetProductPicDetails(SearchItem req);
+        Task<IResponse<IEnumerable<AttributeInfo>>> GetProductAttributeInfo(SearchItem req);
     }
 }

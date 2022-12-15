@@ -165,6 +165,11 @@ namespace WebApp.Controllers
             var res = await _product.GetProductAttrDetails(Id);
             return Ok(res.Result);
         }
+        public async Task<IActionResult> ProductAttributeInfo(int Id)
+        {
+            var res = await _product.GetProductAttributeInfo(Id);
+            return Ok(res.Result);
+        }
         public async Task<IActionResult> GetProductPicDetails(int Id)
         {
             var res = await _product.GetProductPicDetails(Id);

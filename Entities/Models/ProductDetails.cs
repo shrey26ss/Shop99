@@ -21,6 +21,7 @@ namespace Entities.Models
         public string CategoryName { get; set; }
         public List<ProductAttributes> ProductAttributes { get; set; }
         public List<ProductPictureInfo> ProductPictureInfos { get; set; }
+        public List<AttributeInfo> AttributeInfo { get; set; }
     }
     public class ProductAttributes
     {
