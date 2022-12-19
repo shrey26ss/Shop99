@@ -22,6 +22,7 @@ namespace WebApp.Controllers
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _logger = logger;
         }
+        [Route("/Profile")]
         public async Task<IActionResult> Profile()
         {
             //var users = await _userManager.GetUserAsync(User);

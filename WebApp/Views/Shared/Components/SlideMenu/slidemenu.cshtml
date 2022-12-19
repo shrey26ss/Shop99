@@ -1,0 +1,37 @@
+﻿@using Entities.Enums
+@using Entities.Models
+@model UserInfo;
+@{
+
+}
+<!-- Menu bar -->
+<div id="Menu_side" class="add_to_cart right ">
+    <a href="javascript:void(0)" class="overlay" onclick="closeMenu()"></a>
+    <div class="cart-inner">
+        <div class="cart_top">
+            @if (Model != null && Model.Id > 0)
+            {
+                <h3>Welcome @Model.name</h3>
+                <br />
+                @Model.role.ToString()
+            }
+            else
+            {
+                <a href="/Account/Login" class="form-control btn btn-info btn-sm " >Login </a>
+            }
+            <div class="close-cart">
+                <a href="javascript:void(0)" onclick="closeMenu()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div> @if (Model != null && Model.Id > 0)
+        {
+            <div class="side_menu list-group list-group-flush">
+                <a href="/Profile" class="list-group-item list-group-item-action py-2 ripple active">Dashboard</a>
+                <a href="/UserOrderHistory" class="list-group-item list-group-item-action py-2 ripple">View Orders</a>
+                <a href="/Account/Logout" class="list-group-item list-group-item-action py-2 ripple">Logout</a>
+            </div>
+        }
+    </div>
+</div>
+<!--Menulistbar bar end-->
