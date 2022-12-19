@@ -228,7 +228,7 @@
                                         <a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-selected="false"><i class="icofont icofont-man-in-glasses"></i>Details</a>
                                         <div class="material-border"></div>
                                     </li>
-                                   
+
                                     <li class="nav-item">
                                         <a class="nav-link" id="review-top-tab" data-bs-toggle="tab" href="#top-review" role="tab" aria-selected="false"><i class="icofont icofont-contacts"></i>Write Review</a>
                                         <div class="material-border"></div>
@@ -247,7 +247,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
                                         <form class="theme-form">
                                             <div class="row">
@@ -296,8 +296,11 @@
         const variantId = @Model.VariantId;
         const productDetail = {
             images: [],
-            attributeInfo:[]
+            attributeInfo: []
         };
+        const activeAttribute = {
+            info: []
+        }
 
         const slickOnProduct = () => {
             if ($('.product-slick').hasClass('slick-initialized')) {
@@ -328,9 +331,9 @@
 
         $(() => {
             GetPictures();
+            GetAttributesInfo();
             setTimeout(() => GetAttributes(), 100);
             loadHotDealsNewProduct();
-            GetAttributesInfo();
         });
 
         const GetPictures = () => {
@@ -351,7 +354,7 @@
                     $.each(v.attributes, (i, j) => {
                         if (!uniqueAttr.includes(j.attributeValue.toUpperCase())) {
                             uniqueAttr.push(j.attributeValue.toUpperCase());
-                            let active = j.variantId == variantId ? 'active' : '';
+                            let active = activeAttribute.info.includes(j.attributeValue.toUpperCase()) ? 'active' : '';
                             _html += `<li class="${active} attributeValue btn btn-sm btn-outline-dark" data-attr-val='${j.attributeValue}'>${j.attributeValue}</li>`;
                             if (v.name.toLowerCase() === 'color' && active === 'active') {
                                 bindImages(`${j.attributeValue}`);
@@ -366,6 +369,9 @@
 
         const GetAttributesInfo = () => {
             $.post(`/Home/ProductAttributeInfo/`, { Id: '@Model.VariantId' }).done((result) => {
+                activeAttribute.info = result.map(a => {
+                    return a.groupId == '@Model.VariantId' ? a.attributeValue.toUpperCase() : '';
+                });
                 productDetail.attributeInfo = result;
             })
         }
