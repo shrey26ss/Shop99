@@ -35,6 +35,7 @@ namespace Entities.Models
         public decimal SellingCost { get; set; }
         public string Title { get; set; }
         public string ImagePath { get; set; }
+        public string Attributes { get; set; }
     }
     public class CartWishlistCount
     {
