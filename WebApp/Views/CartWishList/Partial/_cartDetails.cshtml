@@ -34,7 +34,11 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="/productdetail/@item.VariantID">@item.Title</a>
+                                    <a href="/productdetail/@item.VariantID">
+                                        @item.Title
+                                        <br>
+                                        (@item.Attributes)
+                                    </a>
                                     <div class="mobile-cart-content">
                                         <div class="col-xs-3">
                                             <div class="qty-box">
@@ -47,7 +51,7 @@
                                             <h2 class="td-color">@item.SellingCost</h2>
                                         </div>
                                         <div class="col-xs-3">
-                                              <button class="qty-minus" data-variant-id="@item.VariantID"></button>
+                                            <button class="qty-minus" data-variant-id="@item.VariantID"></button>
                                             <input class="qty-adj form-control" disabled type="number" value="@item.Qty" />
                                             <button class="qty-plus addtocart" data-variant-id="@item.VariantID"></button>
                                         </div>
@@ -59,17 +63,17 @@
                                 <td>
                                     <div class="qty-box">
                                         <div class="input-group">
-                                         
+
                                             <button class="qty-minus" data-variant-id="@item.VariantID"></button>
                                             <input class="qty-adj form-control" disabled type="number" value="@item.Qty" />
                                             <button class="qty-plus addtocart" data-variant-id="@item.VariantID"></button>
-                                        
+
                                         </div>
                                     </div>
                                 </td>
                                 <td><a href="javascript:void(0)" class="icon delete-cart" data-variant-id="@item.VariantID"><i class="ti-close" title="Remove Cart"></i></a></td>
                                 <td>
-                                    <h2>@(item.SellingCost*item.Qty)</h2>
+                                    <h2>@(item.SellingCost * item.Qty)</h2>
                                 </td>
                             </tr>
                             TotalPrice = TotalPrice + (item.SellingCost * item.Qty);
@@ -107,7 +111,7 @@
     <div class="row cart-buttons">
         <div class="col-12">
             <a href="/" class="btn btn-normal">continue shopping</a>
-             @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
             {
                 <a href="/CheckOut" class="btn btn-normal ms-3">check out</a>
             }

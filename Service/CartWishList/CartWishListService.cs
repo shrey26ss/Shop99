@@ -162,7 +162,7 @@ namespace Service.CartWishList
         }
         public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req)
         {
-            string sp = @"Select c.Id CartItemId,c.Qty,c.UserID, v.Id VariantID, v.MRP, v.SellingCost, v.Title, v.Thumbnail ImagePath  from CartItem c inner join VariantGroup v on v.Id = c.VariantID where c.UserID = @LoginId";
+            string sp = @"Select * from vw_CartItems where CustomerUserId = @LoginId";
             var res = new Response<IEnumerable<CartItemSlide>>();
             try
             {
