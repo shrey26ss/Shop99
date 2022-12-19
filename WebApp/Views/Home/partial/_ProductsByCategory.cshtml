@@ -14,14 +14,21 @@
             <div class="product-box">
                 <div class="product-imgbox">
                     <div class="product-front">
-                        <a href="/productdetail/@item.VariantID"> <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product"> </a>
+                        <a href="/productdetail/@item.VariantID">
+                            <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
+                        </a>
                     </div>
                 </div>
                 <div class="product-detail detail-center detail-inverse">
                     <div class="detail-title">
                         <div class="detail-left">
-                            <div class="rating-star"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
-                            @*<p>@item.Title</p>*@
+                            <div class="rating-star">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
                             <a href="/productdetail/@item.VariantID">
                                 <h6 class="price-title">
                                     @item.Title
@@ -36,10 +43,18 @@
                         </div>
                     </div>
                     <div class="icon-detail">
-                        <button class="tooltip-top add-cartnoty addtocart" data-variant-id="@item.VariantID" data-tippy-content="Add to cart"> <i data-feather="shopping-cart"></i> </button>
-                        <a href="javascript:void(0)" class="add-to-wish tooltip-top addtowishlist" data-variant-id="@item.VariantID" data-tippy-content="Add to Wishlist"> <i data-feather="heart"></i> </a>
-                        <a href="/productdetail/@item.VariantID"  class="tooltip-top" data-tippy-content="Quick View"> <i data-feather="eye"></i> </a>
-                        <a href="compare.html" class="tooltip-top" data-tippy-content="Compare"> <i data-feather="refresh-cw"></i> </a>
+                        <button class="tooltip-top add-cartnoty addtocart" data-variant-id="@item.VariantID" data-tippy-content="Add to cart">
+                            <img src="~/Image/icons/cart-mini.svg">
+                        </button>
+                        <button class="add-to-wish tooltip-top addtowishlist" data-variant-id="@item.VariantID" data-tippy-content="Add to Wishlist">
+                            <img src="~/Image/icons/wishlist.svg">
+                        </button>
+                        <a href="/productdetail/@item.VariantID" class="tooltip-top" data-tippy-content="Quick View">
+                            <i data-feather="eye"></i>
+                        </a>
+                        <a href="compare.html" class="tooltip-top" data-tippy-content="Compare">
+                            <img src="~/Image/icons/compare.svg">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -54,7 +69,7 @@
 
 <script>
 
-         $(function () {
+    $(function () {
         $(".col-grid-box").slice(0, 8).show();
         $(".loadMore").on('click', function (e) {
             e.preventDefault();

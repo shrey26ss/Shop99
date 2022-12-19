@@ -3874,7 +3874,7 @@ button {
             height: auto;
             width: auto;
             display: block;
-           /* position: absolute;*/
+            /* position: absolute;*/
             top: 0;
             bottom: 0;
             left: 0;
@@ -9474,36 +9474,30 @@ header {
     background-color: #f2f8f9;
     border-right: 1px solid #dddddd;
 }
-
-    .media-banner .media-banner-box {
+.media-banner .media-banner-box {
         margin-bottom: 20px;
     }
-
-        .media-banner .media-banner-box:last-child {
+.media-banner .media-banner-box:last-child {
             margin-bottom: 0;
         }
-
-        .media-banner .media-banner-box .media-heading h5 {
+.media-banner .media-banner-box .media-heading h5 {
             font-size: 18px;
             color: #444444;
             text-transform: uppercase;
             line-height: 1;
             letter-spacing: 0.5px;
         }
-
-        .media-banner .media-banner-box .media-view h5 {
+.media-banner .media-banner-box .media-view h5 {
             text-transform: capitalize;
             color: #00baf2;
             line-height: 18px;
         }
-
-        .media-banner .media-banner-box .media {
+.media-banner .media-banner-box .media {
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
         }
-
-            .media-banner .media-banner-box .media img {
+.media-banner .media-banner-box .media img {
                 background: #fff;
                 border: 1px solid #dddddd;
                 width: 140px;
@@ -9516,9 +9510,6 @@ header {
                 bottom: 0;
                 right: 0;
             }
-
-}
-
 .media-banner .media-banner-box .media .media-body .media-contant {
     margin-left: 15px;
     display: -webkit-box;
@@ -9530,57 +9521,50 @@ header {
     height: 100px;
     position: relative;
 }
-
-    .media-banner .media-banner-box .media .media-body .media-contant .product-detail {
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-    }
-
-        .media-banner .media-banner-box .media .media-body .media-contant .product-detail .rating i {
-            color: #ffa800;
-        }
-
-        .media-banner .media-banner-box .media .media-body .media-contant .product-detail p {
-            font-size: 14px;
-            margin-bottom: 0;
-            color: #444444;
-            text-transform: capitalize;
-        }
-
-        .media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 {
-            color: #00baf2;
-            font-weight: 700;
-            margin-top: 3px;
-        }
-
-            .media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 span {
-                color: #444444;
-                text-decoration: line-through;
-                font-weight: 500;
-            }
-
-    .media-banner .media-banner-box .media .media-body .media-contant .cart-info {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        top: 0;
-        margin-top: auto;
-        margin-bottom: auto;
-        height: -webkit-fit-content;
-        height: -moz-fit-content;
-        height: fit-content;
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-        visibility: hidden;
-        opacity: 0;
-    }
-
-        .media-banner .media-banner-box .media .media-body .media-contant .cart-info button {
-            padding: 0;
-            background-color: transparent;
-            line-height: 1;
-            border: none;
-        }
+.media-banner .media-banner-box .media .media-body .media-contant .product-detail {
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.media-banner .media-banner-box .media .media-body .media-contant .product-detail .rating i {
+    color: #ffa800;
+}
+.media-banner .media-banner-box .media .media-body .media-contant .product-detail p {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: #444444;
+    text-transform: capitalize;
+}
+.media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 {
+    color: #00baf2;
+    font-weight: 700;
+    margin-top: 3px;
+}
+.media-banner .media-banner-box .media .media-body .media-contant .product-detail h6 span {
+    color: #444444;
+    text-decoration: line-through;
+    font-weight: 500;
+}
+.media-banner .media-banner-box .media .media-body .media-contant .cart-info {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    visibility: hidden;
+    opacity: 0;
+}
+.media-banner .media-banner-box .media .media-body .media-contant .cart-info button {
+    padding: 0;
+    background-color: transparent;
+    line-height: 1;
+    border: none;
+}
 
             .media-banner .media-banner-box .media .media-body .media-contant .cart-info button svg {
                 width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
@@ -9596,8 +9580,10 @@ header {
             color: #444444;
         }
 
-            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a svg {
-                width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a svg,
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a .svg
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info button .svg {
+                width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)))!important;
                 color: #444444;
             }
 
@@ -10282,13 +10268,13 @@ ul.sosiyal {
             }
 
         .theme-slider .slider-banner.slide-banner-1 .layout1-slide-2 li img {
-            width:100%;
+            width: 100%;
         }
 
-            .theme-slider .slider-banner.slide-banner-1 .layout1-slide-2 li:nth-child(2) {
-                right: 20px;
-                left: unset;
-            }
+        .theme-slider .slider-banner.slide-banner-1 .layout1-slide-2 li:nth-child(2) {
+            right: 20px;
+            left: unset;
+        }
 
         .theme-slider .slider-banner.slide-banner-1 .layout1-slide-3 li {
             position: absolute;
@@ -10336,7 +10322,7 @@ ul.sosiyal {
         .theme-slider .slider-banner.slide-banner-1 .slider-img {
             height: 427px;
             background-color: #ffffff;
-          /*  background-color: #d3ecf3;*/
+            /*  background-color: #d3ecf3;*/
             overflow: hidden;
         }
 
@@ -16188,7 +16174,7 @@ ul.sosiyal {
                 margin-left: 10px;
             }
 
-            .product-right .pro-group ul.delivery-services li svg {
+            .product-right .pro-group ul.delivery-services li svg, .product-right .pro-group ul.delivery-services li .svg {
                 width: calc(30px + (35 - 30) * ((100vw - 320px) / (1920 - 320)));
                 fill: #00baf2;
                 margin-right: 10px;
@@ -40215,9 +40201,11 @@ body.dark {
     box-sizing: border-box;
     margin: auto;
 }
+
 .ratio_square {
     margin-top: 1.5rem !important;
 }
+
 .layout-header2 .container {
     max-width: 100%;
     padding-left: 35px;
@@ -40225,27 +40213,32 @@ body.dark {
 }
 
 .nav-pills .nav-link label {
-    display:block;
-    margin-bottom:3px;
+    display: block;
+    margin-bottom: 3px;
 }
+
 .order-history .nav-pills {
     border-right: 1px solid #ccc;
-    padding-right:15px;
+    padding-right: 15px;
 }
+
     .order-history .nav-pills .nav-link {
         padding-top: 15px;
         padding-bottom: 15px;
         color: #585858;
     }
+
     .order-history .nav-pills .nav-item {
-       border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
     }
+
         .order-history .nav-pills .nav-item:last-child {
-            border-bottom:0;
+            border-bottom: 0;
         }
-        .order-history .nav-pills .nav-link.active {
-            background: transparent;
-            color: #00baf2;
-            font-weight: 600;
-            letter-spacing: .2px;
-        }
+
+    .order-history .nav-pills .nav-link.active {
+        background: transparent;
+        color: #00baf2;
+        font-weight: 600;
+        letter-spacing: .2px;
+    }
