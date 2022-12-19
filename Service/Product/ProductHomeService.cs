@@ -73,11 +73,11 @@ namespace Service.Product
         }
         public async Task<IResponse<IEnumerable<ProductPictureInfo>>> GetProductPicDetails(SearchItem req)
         {
-            string sp = @"Select Color, Title, Alt,ImagePath,ImgVariant from PictureInformation where GroupId = @Id";
+            string sp = "Proc_GetProductPicDetails";
             var res = new Response<IEnumerable<ProductPictureInfo>> ();
             try
             {
-                res.Result = await _dapper.GetAllAsync<ProductPictureInfo>(sp, new { req.Id }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<ProductPictureInfo>(sp, new { variantId = req.Id }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
