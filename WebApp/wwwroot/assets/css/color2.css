@@ -40243,3 +40243,8 @@ body.dark {
         font-weight: 600;
         letter-spacing: .2px;
     }
+
+.icon-detail img.svg {
+    width: 31px;
+    height: 31px;
+}
