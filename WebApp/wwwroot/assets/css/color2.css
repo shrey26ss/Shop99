@@ -9281,6 +9281,7 @@ header {
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
+            padding-right: 26px;
         }
 
         .sticky .category-header-2 .navbar-menu .nav-block {
@@ -9497,19 +9498,19 @@ header {
             -ms-flex-align: center;
             align-items: center;
         }
-.media-banner .media-banner-box .media img {
-                background: #fff;
-                border: 1px solid #dddddd;
-                width: 140px;
-                height: 99px;
-                overflow: auto;
-                margin: auto;
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                right: 0;
-            }
+.slick-slide .media-banner .media-banner-box .media a img {
+    background: #fff;
+    border: 1px solid #dddddd;
+    width: 140px;
+    height: 99px;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 .media-banner .media-banner-box .media .media-body .media-contant {
     margin-left: 15px;
     display: -webkit-box;
@@ -9581,7 +9582,7 @@ header {
         }
 
             .media-banner .media-banner-box .media .media-body .media-contant .cart-info a svg,
-            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a .svg
+            .media-banner .media-banner-box .media .media-body .media-contant .cart-info a .svg,
             .media-banner .media-banner-box .media .media-body .media-contant .cart-info button .svg {
                 width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)))!important;
                 color: #444444;
@@ -19476,9 +19477,9 @@ ul.sosiyal {
             display: flex;
             padding: 20px;
             margin-bottom: 20px;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            align-items: center;
+            -webkit-box-align: start;
+            -ms-flex-align: start;
+            align-items: start;
             background-color: rgba(0, 186, 242, 0.05);
         }
 
@@ -40161,7 +40162,7 @@ body.dark {
 
 .media-banner .media-banner-box .media a {
     position: relative;
-    width: 38%;
+    width: 30%;
 }
 
 .media-banner .media-banner-box .media .media-body .media-contant {
