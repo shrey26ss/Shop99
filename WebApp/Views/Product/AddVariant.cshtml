@@ -106,15 +106,22 @@
 @section Scripts{
     <script>
         variantImages = [];
+        const isPartOfArray = (a, b) => a.join().includes(b.join());
         $(document).on('change', 'input', e => {
-            let ele=$(e.currentTarget);
+            let ele = $(e.currentTarget);
             ele.attr('value', ele.val())
         });
-
+        const selectedColors = () => {
+            let colorList = [];
+            $('.attributeGrid').each(function () {
+                colorList.push($(this).find('[data-attr-name="color"]').data()?.attrValue)
+            })
+            return colorList;
+        }
         $(document).on('click', '.btnAddNewAttribute', e => {
             let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
             let __top = $(e.currentTarget).offset().top - 100;
-            $.post('/Product/AddAttributes', { combinationId, CategoryId : '@Model.CategoryId' }).done((result) => {
+            $.post('/Product/AddAttributes', { combinationId, CategoryId: '@Model.CategoryId' }).done((result) => {
                 Q.alert({
                     title: 'Add Attribute',
                     body: result,
@@ -159,7 +166,6 @@
                     IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
                 };
                 groupInfo.push(groupDetail);
-
             });
 
             $('.pictureGrid tbody tr').each(function (i) {
@@ -173,6 +179,12 @@
                 };
                 pictureInfo.push(pic);
             });
+
+            if (!isPartOfArray(pictureInfo, selectedColors())) {
+                Q.notify(-1, 'Some Images of selected colores are missing.');
+                return false;
+            }
+
             let param = {
                 ProductId: parseInt($('#ProductId').val()),
                 AttributeInfo: attrInfo,
@@ -216,20 +228,25 @@
 
         $(document).on('click', '.rmComb', e => $(e.currentTarget).parents('div.row').remove());
         $(document).on('click', '.rmRow', (e) => {
-            let _this = $(e.currentTarget).closest('tr');
-            let param = {
-                AttributeId: _this.data().attrId,
-                AttributeText: _this.data().attrValue
+            let data = $(e.currentTarget).closest('tr').data();
+            if (data) {
+                let param = {
+                    AttributeId: data.attrId,
+                    AttributeText: data.attrValue,
+                    AttributeName: data.attrName
+                };
+                $(e.currentTarget).closest('tr').remove();
+                if (param.AttributeName == "color") {
+                    let _colors = selectedColors();
+                    if (!_colors.includes(param.AttributeText)) {
+                        $(`#attrColor option[value="${param.AttributeText}"]`).remove();
+                    }
+                }
+                if ($('#attrColor option').length <= 0) {
+                    let _option = `<option value="Default" data-group-id="1">Default</option>`;
+                    $('#attrColor').append(_option);
+                }
             }
-            if (param.AttributeId == "1") {
-                $(`tr[data-color-value="${param.AttributeText}"]`).remove();
-            }
-            $(`#attrColor option[value="${param.AttributeText}"]`).remove();
-            if ($('#attrColor option').length <= 0) {
-                let _option = `<option value="default" data-group-Id="${1}">default</option>`;
-                $('#attrColor').append(_option);
-            }
-            $(e.currentTarget).closest('tr').remove();
         });
         $(document).on('click', '.btnCloneAttrGroup', e => {
             let __html = $(e.currentTarget).parents('.row').find('.attrCombination').html();
@@ -256,13 +273,13 @@
             variantImages.push(param);
             let _src = URL.createObjectURL(param.File);
             let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
-                                                            <td>${count}</td>
-                                                            <td><img src="${_src}" alt="image" style="width:100px"/></td>
-                                                            <td>${param.DisplayOrder}</td>
-                                                            <td>${param.Alt}</td>
-                                                            <td>${param.Title}</td>
-                                                            <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
-                                                         </tr>`;
+                                                                    <td>${count}</td>
+                                                                    <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                                                    <td>${param.DisplayOrder}</td>
+                                                                    <td>${param.Alt}</td>
+                                                                    <td>${param.Title}</td>
+                                                                    <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                                                                 </tr>`;
             pictureGrid.append(_html);
             $('.rmImage').unbind().click(e => {
                 let _ele = $(e.currentTarget).closest('tr');
@@ -272,6 +289,15 @@
             });
         });
         $('[name="SellingCost"], [name="MRP"]').numeric({ numericType: 'decimal', maxLength: '7' });
+        $('[name="SellingCost"]').change(e => {
+            let __this = $(e.currentTarget);
+            let mrp = $('[name="MRP"]').val() === '' ? 0: $('[name="MRP"]').val();
+
+            if (parseFloat(__this.val()) > parseFloat(mrp)){
+                __this.val(mrp);
+                Q.notify('Selling Price cannot be greater than MRP');
+            }
+        });
         $('[name="Quantity"], [name="DisplayOrder"]').numeric({ numericType: 'number', maxLength: '7' });
     </script>
  }
