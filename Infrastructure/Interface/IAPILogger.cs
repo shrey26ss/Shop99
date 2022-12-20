@@ -7,6 +7,7 @@ namespace Infrastructure.Interface
 {
     public interface IAPILogger
     {
-        Task<bool> SaveLog(string request, string response, string method, bool IsIncmOut = false, string CallingFrom = "");
+        // Task<bool> SaveLog(string request, string response, string method, bool IsIncmOut = false, string CallingFrom = "");
+        Task<bool> SaveLog(string request, string response, string method, string tid = "", bool IsIncmOut = false, string CallingFrom = "");
     }
 }

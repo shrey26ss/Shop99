@@ -14,14 +14,15 @@ namespace Service.Repos
         {
             _dapper = dapper;
         }
-        public async Task<bool> SaveLog(string request, string response, string method,bool IsIncmOut = false, string CallingFrom = "")
+        public async Task<bool> SaveLog(string request, string response, string method, string tid = "", bool IsIncmOut = false, string CallingFrom = "")
         {
             bool res = false;
-            int i = await _dapper.ExecuteAsync("insert into APILog(Request,Response,Method,EntryOn,IsIncomingOutgoing,CallingFrom) Values (@request,@response,@method,getDate(),@IsIncmOut,@CallingFrom)", new
+            int i = await _dapper.ExecuteAsync("insert into APILog(Request,Response,Method,EntryOn,TID,IsIncomingOutgoing,CallingFrom) Values (@request,@response,@method,getDate(),@tid,@IsIncmOut,@CallingFrom)", new
             {
                 request,
                 response,
                 method,
+                tid,
                 IsIncmOut,
                 CallingFrom
             }, System.Data.CommandType.Text);
@@ -31,5 +32,23 @@ namespace Service.Repos
             }
             return res;
         }
+
+        //public async Task<bool> SaveLog(string request, string response, string method,bool IsIncmOut = false, string CallingFrom = "")
+        //{
+        //    bool res = false;
+        //    int i = await _dapper.ExecuteAsync("insert into APILog(Request,Response,Method,EntryOn,IsIncomingOutgoing,CallingFrom) Values (@request,@response,@method,getDate(),@IsIncmOut,@CallingFrom)", new
+        //    {
+        //        request,
+        //        response,
+        //        method,
+        //        IsIncmOut,
+        //        CallingFrom
+        //    }, System.Data.CommandType.Text);
+        //    if (i > 0)
+        //    {
+        //        res = true;
+        //    }
+        //    return res;
+        //}
     }
 }

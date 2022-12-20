@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{69C4C2AC-0A27-4750-BF30-982AA74E81FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUtility", "AppUtility\AppUtility.csproj", "{57A0FE25-710C-45FB-B102-356A55BEF0C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppUtility", "AppUtility\AppUtility.csproj", "{57A0FE25-710C-45FB-B102-356A55BEF0C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{CF351C7E-0678-4EC0-9ABD-3048381989E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{CF351C7E-0678-4EC0-9ABD-3048381989E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateWay", "PaymentGateWay\PaymentGateWay.csproj", "{352B52F1-8496-4693-B15E-A23116E3BFA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{CF351C7E-0678-4EC0-9ABD-3048381989E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF351C7E-0678-4EC0-9ABD-3048381989E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF351C7E-0678-4EC0-9ABD-3048381989E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{352B52F1-8496-4693-B15E-A23116E3BFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352B52F1-8496-4693-B15E-A23116E3BFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352B52F1-8496-4693-B15E-A23116E3BFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352B52F1-8496-4693-B15E-A23116E3BFA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
