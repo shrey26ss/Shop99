@@ -9,6 +9,8 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +36,7 @@ namespace Service.OrderDetails
             throw new NotImplementedException();
         }
 
-        public async Task<IResponse<IEnumerable<OrderDetailsColumn>>> GetAsync(OrderDetailsRow entity = null, int loginId = 0)
+        public async Task<IResponse<IEnumerable<OrderDetailsColumn>>> GetAsync(int loginId = 0)
         {
             string sp = "Proc_OrderdDetails";
             var res = new Response<IEnumerable<OrderDetailsColumn>>();
@@ -77,6 +79,27 @@ namespace Service.OrderDetails
                 {
                     res.ResponseText = description;
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
+        public async Task<IResponse<IEnumerable<OrderDetailsColumn>>> GetAsync<OrderDetailsColumn>(int loginId = 0, Expression<Func<OrderDetailsColumn, bool>> predicate = null)
+        {
+            var translator = new MyQueryTranslator();
+            StringBuilder whereClasue = translator.Translate(predicate);
+            whereClasue.Replace("(", "").Replace(")", "");
+            var param = whereClasue.ToString().Split(" AND ");
+            string sp = $"Select * from Order Where {translator.Translate(predicate)}";
+            var res = new Response<IEnumerable<OrderDetailsColumn>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<OrderDetailsColumn>(sp, null, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
             }
             catch (Exception ex)
             {
