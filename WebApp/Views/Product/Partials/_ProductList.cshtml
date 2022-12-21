@@ -1,23 +1,31 @@
 ﻿@using Entities.Models;
 @model IEnumerable<Products>
 
-@if(Model.Any()){
+@if (Model.Any())
+{
     int counter = 0;
     foreach (var item in Model)
     {
         counter++;
         <tr>
             <td>@counter</td>
+            <td class="align-middle">
+                <div class="btn-group dropup">
+                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expaned="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="act">
+                        <h6 class="dropdown-header">Action Menu</h6>
+                        <a class="dropdown-item Edit" href="/Product/AddVariant?Id=@item.Id&cId=@item.CategoryId">Add Attribute </a>
+                        <a class="dropdown-item Edit" href="/Product/Attributes?Id=@item.Id">View Variant </a>
+                    </div>
+                </div>
+            </td>
             <td>@item.Name</td>
             <td>@item.Title</td>
             <td>@item.CategoryName</td>
             <td>@item.BrandName</td>
             <td>@item.Description</td>
             <td>@item.SKU</td>
-            <td>
-                <a class="btn btn-sm btn-primary" href="/Product/AddVariant?Id=@item.Id&cId=@item.CategoryId">Add Attribute </a>
-                <a class="btn btn-sm btn-primary" href="/Product/Attributes?Id=@item.Id">View Variant </a>
-            </td>
         </tr>
     }
 }
