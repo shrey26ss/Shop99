@@ -10,6 +10,7 @@
     }
 </style>
 <section class="section-big-pt-space b-g-light">
+    <input type="hidden" id="hdVid" value="@Model.VariantId" />
     <div class="collection-wrapper">
         <div class="custom-container">
             <div class="row">
@@ -102,17 +103,17 @@
                                         <h6 class="product-title">quantity</h6>
                                         <div class="qty-box">
                                             <div class="input-group">
-                                                <button class="qty-minus" data-variant-id="@Model.VariantId"></button>
+                                                <button class="qty-minus"></button>
                                                 <input class="qty-adj form-control" type="number" value="1" />
-                                                <button class="qty-plus addtocart" data-variant-id="@Model.VariantId"></button>
+                                                <button class="qty-plus"></button>
                                             </div>
                                         </div>
                                         <div class="product-buttons">
-                                            <a href="javascript:void(0)" id="cartEffect" class="btn cart-btn btn-normal tooltip-top addtocart" data-variant-id="@Model.VariantId" data-tippy-content="Add to cart">
+                                            <a href="javascript:void(0)" class="btn cart-btn btn-normal tooltip-top btnAddtocart">
                                                 <i class="fa fa-shopping-cart"></i>
-                                                add to cart
+                                                Add to cart
                                             </a>
-                                            <a href="javascript:void(0)" class="btn btn-normal tooltip-top addtowishlist" data-variant-id="@Model.VariantId" data-tippy-content="Add to wishlist">
+                                            <a href="javascript:void(0)" class="btn btn-normal tooltip-top addtowishlist" data-tippy-content="Add to wishlist">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                             </a>
                                         </div>
@@ -128,7 +129,7 @@
                                                 <a href="javascript:void(0)" class="btn btn-solid btn-md ">check</a>
                                             </div>
                                             <div class="delivery-lable">
-                                                <svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><g><path d="m412.65 107.667h-80.65v148.333l180-21.056v-.108z" fill="#cce6ff" /><path d="m332 234.944h180v158.722h-180z" fill="#cc295f" /></g><g><path d="m356.333 65h-170.065l-15.601 159 15.601 169.667h170.065z" fill="#fdae02" /><path d="m0 393.667h186.268v-148.334l-186.267 20.334z" fill="#fdcb02" /><path d="m0 65 .001 96 186.267 20.333v-116.333z" fill="#fdcb02" /><path d="m235.314 265.667 29.905-104.667h-78.951l-15.601 52.333 15.601 52.334z" fill="#cc295f" /><path d="m.001 161h186.267v104.666h-186.267z" fill="#ff4d4d" /></g><g><circle cx="122.667" cy="384" fill="#f9f9f9" r="48" /><path d="m122.667 447c-34.738 0-63-28.262-63-63s28.262-63 63-63 63 28.262 63 63-28.262 63-63 63zm0-96c-18.196 0-33 14.804-33 33s14.804 33 33 33 33-14.804 33-33-14.804-33-33-33z" fill="#29376d" /></g><g><circle cx="389.333" cy="384" fill="#eaf1ff" r="48" /><path d="m389.333 447c-34.738 0-63-28.262-63-63s28.262-63 63-63 63 28.262 63 63-28.261 63-63 63zm0-96c-18.196 0-33 14.804-33 33s14.804 33 33 33 33-14.804 33-33-14.803-33-33-33z" fill="#23305b" /></g></g></svg>
+                                                <img src="~/Image/icons/oreder_in_12_hours.svg" class="svg" />
                                                 Order within 12 hrs
                                             </div>
                                         </div>
@@ -188,15 +189,15 @@
                                         <h6 class="product-title">Delivery option</h6>
                                         <ul class="delivery-services">
                                             <li>
-                                                <img src="~/Image/icons/shipping.svg" class="svg"/>
+                                                <img src="~/Image/icons/shipping.svg" class="svg" />
                                                 free shipping
                                             </li>
                                             <li>
-                                                <img src="~/Image/icons/Return.svg" class="svg"/>
+                                                <img src="~/Image/icons/Return.svg" class="svg" />
                                                 10 Days Returnable
                                             </li>
                                             <li>
-                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-38 0 512 512.00142"><g id="surface1"><path d="M 435.488281 138.917969 L 435.472656 138.519531 C 435.25 133.601562 435.101562 128.398438 435.011719 122.609375 C 434.59375 94.378906 412.152344 71.027344 383.917969 69.449219 C 325.050781 66.164062 279.511719 46.96875 240.601562 9.042969 L 240.269531 8.726562 C 227.578125 -2.910156 208.433594 -2.910156 195.738281 8.726562 L 195.40625 9.042969 C 156.496094 46.96875 110.957031 66.164062 52.089844 69.453125 C 23.859375 71.027344 1.414062 94.378906 0.996094 122.613281 C 0.910156 128.363281 0.757812 133.566406 0.535156 138.519531 L 0.511719 139.445312 C -0.632812 199.472656 -2.054688 274.179688 22.9375 341.988281 C 36.679688 379.277344 57.492188 411.691406 84.792969 438.335938 C 115.886719 468.679688 156.613281 492.769531 205.839844 509.933594 C 207.441406 510.492188 209.105469 510.945312 210.800781 511.285156 C 213.191406 511.761719 215.597656 512 218.003906 512 C 220.410156 512 222.820312 511.761719 225.207031 511.285156 C 226.902344 510.945312 228.578125 510.488281 230.1875 509.925781 C 279.355469 492.730469 320.039062 468.628906 351.105469 438.289062 C 378.394531 411.636719 399.207031 379.214844 412.960938 341.917969 C 438.046875 273.90625 436.628906 199.058594 435.488281 138.917969 Z M 384.773438 331.523438 C 358.414062 402.992188 304.605469 452.074219 220.273438 481.566406 C 219.972656 481.667969 219.652344 481.757812 219.320312 481.824219 C 218.449219 481.996094 217.5625 481.996094 216.679688 481.820312 C 216.351562 481.753906 216.03125 481.667969 215.734375 481.566406 C 131.3125 452.128906 77.46875 403.074219 51.128906 331.601562 C 28.09375 269.097656 29.398438 200.519531 30.550781 140.019531 L 30.558594 139.683594 C 30.792969 134.484375 30.949219 129.039062 31.035156 123.054688 C 31.222656 110.519531 41.207031 100.148438 53.765625 99.449219 C 87.078125 97.589844 116.34375 91.152344 143.234375 79.769531 C 170.089844 68.402344 193.941406 52.378906 216.144531 30.785156 C 217.273438 29.832031 218.738281 29.828125 219.863281 30.785156 C 242.070312 52.378906 265.921875 68.402344 292.773438 79.769531 C 319.664062 91.152344 348.929688 97.589844 382.246094 99.449219 C 394.804688 100.148438 404.789062 110.519531 404.972656 123.058594 C 405.0625 129.074219 405.21875 134.519531 405.453125 139.683594 C 406.601562 200.253906 407.875 268.886719 384.773438 331.523438 Z M 384.773438 331.523438 " /><path d="M 217.996094 128.410156 C 147.636719 128.410156 90.398438 185.652344 90.398438 256.007812 C 90.398438 326.367188 147.636719 383.609375 217.996094 383.609375 C 288.351562 383.609375 345.59375 326.367188 345.59375 256.007812 C 345.59375 185.652344 288.351562 128.410156 217.996094 128.410156 Z M 217.996094 353.5625 C 164.203125 353.5625 120.441406 309.800781 120.441406 256.007812 C 120.441406 202.214844 164.203125 158.453125 217.996094 158.453125 C 271.785156 158.453125 315.546875 202.214844 315.546875 256.007812 C 315.546875 309.800781 271.785156 353.5625 217.996094 353.5625 Z M 217.996094 353.5625 " /><path d="M 254.667969 216.394531 L 195.402344 275.660156 L 179.316406 259.574219 C 173.449219 253.707031 163.9375 253.707031 158.070312 259.574219 C 152.207031 265.441406 152.207031 274.953125 158.070312 280.816406 L 184.78125 307.527344 C 187.714844 310.460938 191.558594 311.925781 195.402344 311.925781 C 199.246094 311.925781 203.089844 310.460938 206.023438 307.527344 L 275.914062 237.636719 C 281.777344 231.769531 281.777344 222.257812 275.914062 216.394531 C 270.046875 210.523438 260.535156 210.523438 254.667969 216.394531 Z M 254.667969 216.394531 " /></g></svg>
+                                                <img src="~/Image/icons/warrenty.svg" class="svg" />
                                                 1 Year Warranty
                                             </li>
                                         </ul>
@@ -276,7 +277,7 @@
                                                     <textarea class="form-control" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <button class="btn btn-normal" type="submit">Submit YOur Review</button>
+                                                    <button class="btn btn-normal" type="submit">Submit Your Review</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -293,11 +294,14 @@
 
 @section scripts{
     <script>
-        const variantId = @Model.VariantId;
+        var variantId = @Model.VariantId;
+
         const productDetail = {
             images: [],
-            attributeInfo: []
+            attributeInfo: [],
+            variantInfo: [],
         };
+
         const activeAttribute = {
             info: []
         }
@@ -327,15 +331,6 @@
             });
         }
 
-        slickOnProduct();
-
-        $(() => {
-            GetPictures();
-            GetAttributesInfo();
-            setTimeout(() => GetAttributes(), 100);
-            loadHotDealsNewProduct();
-        });
-
         const GetPictures = () => {
             $.post(`/Home/GetProductPicDetails/`, { Id: variantId }).done((result) => {
                 if (result != null && result.length > 0) {
@@ -345,7 +340,7 @@
         }
 
         const GetAttributes = () => {
-            $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.VariantId' }).done((result) => {
+            $.post(`/Home/ProductAttrDetail/`, { Id: variantId }).done((result) => {
                 let _html = ``;
                 $.each(result, (k, v) => {
                     _html += `<div class="attibute mb-2" data-attribute-id='${v.attributeId}' data-attribute-name='${v.name}'>`;
@@ -368,13 +363,100 @@
         }
 
         const GetAttributesInfo = () => {
-            $.post(`/Home/ProductAttributeInfo/`, { Id: '@Model.VariantId' }).done((result) => {
+            $.post(`/Home/ProductAttributeInfo/`, { Id: variantId }).done((result) => {
                 activeAttribute.info = result.map(a => {
-                    return a.groupId == '@Model.VariantId' ? a.attributeValue.toUpperCase() : '';
+                    return a.groupId == variantId ? a.attributeValue.toUpperCase() : '';
                 });
                 productDetail.attributeInfo = result;
             })
         }
+
+        const loadHotDealsNewProduct = async function () {
+            await $.post("/HotDealsNewProduct").done(res => {
+                $('#dvHotDealNewProduct').append(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        }
+
+        const bindImages = (color) => {
+            if ($('.product-slick').hasClass('slick-initialized')) {
+                $('.product-slick').slick('unslick')
+            }
+            if ($('.slider-nav').hasClass('slick-initialized')) {
+                $('.slider-nav').slick('unslick')
+            }
+            let __t = '', __h = '';
+            let uniquethumb = [], uniqueOriginal = [];
+            let __images = productDetail.images.filter(x => x.color === color);
+            if (__images.length === 0) {
+                __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
+            }
+            __images.forEach(x => {
+                if (!uniquethumb.includes(x)) {
+                    if (x.imgVariant === '400_400') {
+                        uniquethumb.push(x);
+                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                    }
+                }
+                if (!uniqueOriginal.includes(x)) {
+                    if (x.imgVariant === 'default') {
+                        uniqueOriginal.push(x);
+                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                    }
+                }
+            });
+            $('.product-slick').html(__h);
+            $('.slider-nav').html(__t);
+            slickOnProduct();
+        };
+
+        const readAttributes = () => {
+            let attributes = []
+            $('#attributeList .attibute').each(function (i, t) {
+                attributes.push($(t).find('li.attributeValue.active').text());
+            });
+            return attributes.join(',');
+        };
+
+        const getVariantId = async () => {
+            let _u = new URL(window.location);
+            let qs = _u.pathname.split('/');
+            let vId = 0;
+            if (qs.length === 3) {
+                vId = qs[2]
+            }
+            let param = {
+                VariantId: vId,
+                Attributes: readAttributes()
+            };
+            let vDetail = productDetail.variantInfo.filter(x => x.attributes === param.Attributes)[0]?.d;
+            if ($('.btnAddtocart').attr('disabled') === 'disabled') {
+                $('.btnAddtocart').removeAttr('disabled').html('<i class="fa fa-shopping-cart"></i>add to cart').click(() => addToCart(variantId));
+                $('.qty-plus,.qty-minus').removeAttr('disabled');
+            }
+            if (vDetail === undefined) {
+                await $.post('/GetVariantIdByAttributes', param).done(result => {
+                    if (result.statusCode === 1) {
+                        vDetail = result.result;
+                        productDetail.variantInfo.push({ attributes: param.Attributes, d: vDetail });
+                    }
+                    else {
+                        $('.btnAddtocart').attr('disabled', 'disabled').text('Out Of Stock').unbind();
+                        $('.qty-plus,.qty-minus').attr('disabled', 'disabled');
+                    }
+                }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+            }
+            Q.rewriteURL('/productdetail/' + vDetail.variantId);
+            variantId = vDetail.variantId;
+        };
+
+        slickOnProduct();
+
+        $(() => {
+            GetPictures();
+            GetAttributesInfo();
+            setTimeout(() => GetAttributes(), 100);
+            loadHotDealsNewProduct();
+        });
 
         $(document).on('click', '.attributeValue', (e) => {
             let ele = $(e.currentTarget);
@@ -395,6 +477,7 @@
             if (attributeName && attributeName.toLowerCase() === 'color') {
                 bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
             }
+            getVariantId();
         });
 
         $('.slide-1').slick({
@@ -435,42 +518,6 @@
             }]
         });
 
-        const loadHotDealsNewProduct = async function () {
-            await $.post("/HotDealsNewProduct").done(res => {
-                $('#dvHotDealNewProduct').append(res);
-            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        }
-
-        const bindImages = (color) => {
-            if ($('.product-slick').hasClass('slick-initialized')) {
-                $('.product-slick').slick('unslick')
-            }
-            if ($('.slider-nav').hasClass('slick-initialized')) {
-                $('.slider-nav').slick('unslick')
-            }
-            let __t = '', __h = '';
-            let uniquethumb = [], uniqueOriginal = [];
-            let __images = productDetail.images.filter(x => x.color === color);
-            if (__images.length === 0) {
-                __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
-            }
-            __images.forEach(x => {
-                if (!uniquethumb.includes(x)) {
-                    if (x.imgVariant === '400_400') {
-                        uniquethumb.push(x);
-                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
-                    }
-                }
-                if (!uniqueOriginal.includes(x)) {
-                    if (x.imgVariant === 'default') {
-                        uniqueOriginal.push(x);
-                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
-                    }
-                }
-            });
-            $('.product-slick').html(__h);
-            $('.slider-nav').html(__t);
-            slickOnProduct();
-        }
+        $('.btnAddtocart,.qty-plus').click(() => addToCart(variantId));
     </script>
 }   

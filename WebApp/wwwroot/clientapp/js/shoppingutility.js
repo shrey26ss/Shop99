@@ -10,15 +10,23 @@ $(document).on('click', '.addtowishlist', (e) => {
 });
 $(document).on('click', '.addtocart', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
-    $.post("/AddToCart", { VariantID: vId }).done(res => {
+    addToCart(vId);
+});
+
+const addToCart = (vId, Qty) => {
+    let param = { VariantID: vId };
+    if (Qty) {
+        param["Qty"] = Qty
+    };
+    $.post("/AddToCart", param).done(res => {
         Q.notify(res.statusCode, res.responseText)
         if (res.statusCode == 1) {
             loadCartDetails();
             loadCartSlide();
         }
     }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+}
 
-});
 $(document).on('click', '.move-to-cart', (e) => {
     let wId = $(e.currentTarget).data()?.wishlistId ?? 0;
     $.post("/WishListToCart", { id: wId }).done(res => {
@@ -29,16 +37,13 @@ $(document).on('click', '.move-to-cart', (e) => {
         }
     }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 });
+
 $(document).on('click', '.qty-minus', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
-    $.post("/AddToCart", { VariantID: vId, Qty: -1 }).done(res => {
-
-        Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Item Removed" : res.responseText)
-        if (res.statusCode == 1) {
-            loadCartSlide();
-            loadCartDetails();
-        }
-    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+    if (vId === 0) {
+        vId = $('#hdVid').val();
+    }
+    addToCart(vId, -1);
 });
 
 $(document).on('click', '.delete-cart', (e) => {

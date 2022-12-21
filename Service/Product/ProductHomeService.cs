@@ -87,5 +87,28 @@ namespace Service.Product
             }
             return res;
         }
+
+        public async Task<IResponse<VariantIdByAttributesResponse>> GetVariantIdByAttributes(RequestBase<VariantIdByAttributesRequest> request)
+        {
+            var res = new Response<VariantIdByAttributesResponse>();
+            if (request.Data!=null)
+            {
+                try
+                {
+                    string sp = @"proc_GetMoreProduct";
+                    res.Result = await _dapper.GetAsync<VariantIdByAttributesResponse>(sp, new { request.Data.VariantId, request.Data.Attributes }, CommandType.StoredProcedure);
+                    if (res.Result!=null && res.Result.VariantId > 0)
+                    {
+                        res.StatusCode = ResponseStatus.Success;
+                        res.ResponseText = ResponseStatus.Success.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return res;
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace WebApp.Servcie
         Task<IResponse<List<Filters>>> GetProductAttrDetails(int Id);
         Task<IResponse<List<ProductPictureInfo>>> GetProductPicDetails(int Id);
         Task<IResponse<List<AttributeInfo>>> GetProductAttributeInfo(int Id);
+        Task<IResponse<VariantIdByAttributesResponse>> GetVariantIdByAttributes(VariantIdByAttributesRequest request);
     }
     public class ProductsAPI : IProductsAPI
     {
@@ -111,6 +112,25 @@ namespace WebApp.Servcie
             else
             {
                 var res = new Response<List<ProductPictureInfo>>
+                {
+                    StatusCode = ResponseStatus.Failed,
+                    ResponseText = "Somthing Went Wrong",
+                };
+                return res;
+            }
+        }
+
+        public async Task<IResponse<VariantIdByAttributesResponse>> GetVariantIdByAttributes(VariantIdByAttributesRequest request)
+        {
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetVariantIdByAttributes", JsonConvert.SerializeObject(request));
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<VariantIdByAttributesResponse>>(Response.Result);
+                return deserializeObject;
+            }
+            else
+            {
+                var res = new Response<VariantIdByAttributesResponse>
                 {
                     StatusCode = ResponseStatus.Failed,
                     ResponseText = "Somthing Went Wrong",

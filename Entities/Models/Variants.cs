@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace Entities.Models
 {
@@ -59,5 +56,18 @@ namespace Entities.Models
     {
         public string CombinationId { get; set; }
         public List<AttributesDDL> Attributes { get; set; }
+    }
+
+    public class VariantIdByAttributesRequest
+    {
+        public int VariantId { get; set; }
+        public string Attributes { get; set; }
+    }
+
+    public class VariantIdByAttributesResponse
+    {
+        public int VariantId { get; set; }
+        public decimal MRP { get; set; }
+        public decimal SellingPrice { get; set; }
     }
 }

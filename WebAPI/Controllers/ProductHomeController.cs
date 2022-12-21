@@ -22,5 +22,8 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetProductAttributeInfo(SearchItem req) => Ok(await _product.GetProductAttributeInfo(req));
         [Route("ProductHome/GetProductPicDetails")]
         public async Task<IActionResult> GetProductPicDetails(SearchItem req) => Ok(await _product.GetProductPicDetails(req));
+
+        [Route("ProductHome/GetVariantIdByAttributes")]
+        public async Task<IActionResult> GetVariantIdByAttributes(VariantIdByAttributesRequest req) => Ok(await _product.GetVariantIdByAttributes(new RequestBase<VariantIdByAttributesRequest> { Data=req }));
     }
 }

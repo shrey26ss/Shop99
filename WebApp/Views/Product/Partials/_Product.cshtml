@@ -10,7 +10,7 @@
             <div>
                 <div class="form-group row">
                     <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
+                        <label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label>
                     </div>
                     <div class="col-md-9">
                         <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label">Brand</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
+                        <label class="col-form-label">Brand</label>
                     </div>
                     <div class="col-md-9">
                         <select asp-for="BrandId" class="form-control" asp-items="@brandDDL">
@@ -30,27 +30,25 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="Name">Name</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The name of the product."><i class="fas fa-question-circle"></i></div></div>
+                        <label class="col-form-label" for="Name">Name <span class="required"></span></label>
                     </div>
                     <div class="col-md-9">
-                        <div class="input-group input-group-required"><input class="form-control text-box single-line" asp-for="Name" type="text"><div class="input-group-btn"><span class="required">*</span></div></div>
+                        <input class="form-control text-box single-line" asp-for="Name" type="text">
                         <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="Name">Title</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The title of the product."><i class="fas fa-question-circle"></i></div></div>
+                        <label class="col-form-label" for="Name">Title <span class="required"></span></label>
                     </div>
                     <div class="col-md-9">
-                        <div class="input-group input-group-required"><input class="form-control text-box single-line" asp-for="Title" type="text"><div class="input-group-btn"><span class="required">*</span></div></div>
+                        <input class="form-control text-box single-line" asp-for="Title" type="text">
                         <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-
-
                 <div class="form-group row">
                     <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="FullDescription">Description</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Full description is the text that is displayed in product page."><i class="fas fa-question-circle"></i></div></div>
+                        <label class="col-form-label" for="FullDescription">Description</label>
                     </div>
                     <div class="col-md-9">
                         <textarea asp-for="Description" class="form-control"></textarea>
@@ -59,11 +57,11 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-3">
-                    <div class="label-wrapper"><label class="col-form-label" for="Sku">SKU</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Product stock keeping unit (SKU). Your internal unique identifier that can be used to track this product."><i class="fas fa-question-circle"></i></div></div>
+                    <label class="col-form-label" for="Sku">SKU</label>
                 </div>
                 <div class="col-md-9">
                     <input class="form-control text-box single-line" asp-for="SKU" type="text">
-                    <span class="field-validation-valid" data-valmsg-for="Sku" data-valmsg-replace="true"></span><span class="field-validation-custom"></span>
+                    <span class="field-validation-valid" data-valmsg-for="Sku" data-valmsg-replace="true"></span>
                 </div>
             </div>
         </div>
@@ -75,5 +73,5 @@
 </form>
 
 <script>
- //$('.select2').select2();
- </script>
+    //$('.select2').select2();
+</script>
