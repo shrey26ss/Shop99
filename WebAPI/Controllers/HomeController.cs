@@ -1,6 +1,9 @@
 ﻿using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -14,14 +17,16 @@ namespace WebAPI.Controllers
         private readonly ITopBanner _topBanner;
         private readonly IBrands _brands;
         private readonly IFiltersService _filters;
+        private readonly IOrderDetailsService _orderRepo;
         public HomeController(
-            IHomepageService homepageService, ITopLowerBanner topLowerBanner, ITopBanner topBanner, IBrands brands,IFiltersService filters)
+            IHomepageService homepageService, ITopLowerBanner topLowerBanner, ITopBanner topBanner, IBrands brands, IFiltersService filters, IOrderDetailsService orderRepo)
         {
             _topBanner = topBanner;
             _topLowerBanner = topLowerBanner;
             _homepageService = homepageService;
             _brands = brands;
             _filters = filters;
+            _orderRepo=orderRepo;
         }
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
@@ -50,5 +55,12 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> TopBrands(ProductRequest productRequest) => Ok(await _brands.GetTopBrands(productRequest.Top));
         [HttpPost(nameof(FiltersData))]
         public async Task<ActionResult> FiltersData(ProductRequest<int> productRequest) => Ok(await _filters.GetFiltersByCategory(productRequest.MoreFilters));
+
+        [HttpGet(nameof(Test))]
+        public async Task<ActionResult> Test()
+        {
+            var res = await _orderRepo.GetAsync<OrderDetailsRow>(0, x => x.Product=="demo" && x.Qty==1);
+            return Ok(res);
+        }
     }
 }

@@ -8,6 +8,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -75,7 +76,7 @@ namespace Service.Address
             throw new NotImplementedException();
         }
 
-        public async Task<IResponse<IEnumerable<AddressColumn>>> GetAsync(AddressRow entity = null, int loginId = 0)
+        public async Task<IResponse<IEnumerable<AddressColumn>>> GetAsync(int loginId = 0)
         {
             string sp = @"Select * from UserAddress(nolock)";
             var res = new Response<IEnumerable<AddressColumn>>();
@@ -90,6 +91,11 @@ namespace Service.Address
                 _logger.LogError(ex, ex.Message);
             }
             return res;
+        }
+
+        public Task<IResponse<IEnumerable<TColumn>>> GetAsync<TColumn>(int loginId = 0, Expression<Func<TColumn, bool>> predicate = null)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<IResponse<AddressRow>> GetByIdAsync(int id)

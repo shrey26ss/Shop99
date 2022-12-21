@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
 
         public OrderDetailsController(IOrderDetailsService orderRepo) => _orderRepo = orderRepo;
         [Route("OrderDetails/GetDetails")]
-        public async Task<IActionResult> GetDetails(OrderDetailsRow req) => Ok(await _orderRepo.GetAsync(req,User.GetLoggedInUserId<int>()));
+        public async Task<IActionResult> GetDetails(OrderDetailsRow req) => Ok(await _orderRepo.GetAsync(User.GetLoggedInUserId<int>()));
         [Route("OrderDetails/ChangeStatus")]
         public async Task<IActionResult> ChangeStatus(OrderDetailsRow req) => Ok(await _orderRepo.ChengeStatusAsync(req));
     }
