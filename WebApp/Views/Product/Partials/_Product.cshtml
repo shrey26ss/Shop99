@@ -4,76 +4,117 @@
     var catDDl = new SelectList(Model.Categories, "CategoryId", "CategoryName");
     var brandDDL = new SelectList(Model.Brands, "Id", "Name");
 }
-<form method="post" asp-action="AddProduct">
-    <div class="card-body">
-        <div id="product-details-area">
-            <div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="SelectedCategoryIds" id="SelectedCategoryIds_label">Categories</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
-                    </div>
-                    <div class="col-md-9">
-                        <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
-                            <option value="0">Select Category</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label">Brand</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Choose categories. You can manage product categories by selecting Catalog > Categories."><i class="fas fa-question-circle"></i></div></div>
-                    </div>
-                    <div class="col-md-9">
-                        <select asp-for="BrandId" class="form-control" asp-items="@brandDDL">
-                            <option value="0">Select Brand</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="Name">Name</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The name of the product."><i class="fas fa-question-circle"></i></div></div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="input-group input-group-required"><input class="form-control text-box single-line" asp-for="Name" type="text"><div class="input-group-btn"><span class="required">*</span></div></div>
-                        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="Name">Title</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="The title of the product."><i class="fas fa-question-circle"></i></div></div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="input-group input-group-required"><input class="form-control text-box single-line" asp-for="Title" type="text"><div class="input-group-btn"><span class="required">*</span></div></div>
-                        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
-                    </div>
-                </div>
+<style>
+    .error{
+        color: crimson;
+    }
+</style>
 
-
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <div class="label-wrapper"><label class="col-form-label" for="FullDescription">Description</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Full description is the text that is displayed in product page."><i class="fas fa-question-circle"></i></div></div>
-                    </div>
-                    <div class="col-md-9">
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <div class="label-wrapper"><label class="col-form-label" for="Sku">SKU</label><div title="" data-toggle="tooltip" class="ico-help" data-original-title="Product stock keeping unit (SKU). Your internal unique identifier that can be used to track this product."><i class="fas fa-question-circle"></i></div></div>
-                </div>
-                <div class="col-md-9">
-                    <input class="form-control text-box single-line" asp-for="SKU" type="text">
-                    <span class="field-validation-valid" data-valmsg-for="Sku" data-valmsg-replace="true"></span><span class="field-validation-custom"></span>
-                </div>
-            </div>
-        </div>
-        <hr />
-        <div class="row text-center">
-            <input type="submit" value="Save" class="btn btn-success" />
+<form method="post" asp-action="AddProduct" asp-controller="Product">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            Product & Shipping Details
+        </h1>
+        <div class="float-right">
+            <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </div>
+    <section class="content mt-2">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div id="AttributeView">
+                    <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
+                        <div class="card-header with-border clearfix">
+                            <div class="card-title">
+                                <i class="fas fa-info"></i>Product Details
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
+                                            <option value="0">Select Category</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Brand</label>
+                                        <select asp-for="BrandId" class="form-control" asp-items="@brandDDL">
+                                            <option value="0">Select Brand</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group"></div>
+                                    <label>Name</label>
+                                    <input class="form-control text-box single-line" asp-for="Name" type="text">
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>SKU</label>
+                                    <input class="form-control text-box single-line" asp-for="SKU" type="text">
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input class="form-control text-box single-line" asp-for="Title" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea asp-for="Description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content mt-2">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div id="AttributeView">
+                    <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
+                        <div class="card-header with-border clearfix">
+                            <div class="card-title">
+                                <i class="fas fa-info"></i>Shipping Address
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <label>Charges</label>
+                                    <input class="form-control text-box single-line" asp-for="Charges" value="">
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <label>Free On Amount</label>
+                                    <input class="form-control text-box single-line" asp-for="FreeOnAmount" value="">
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <input class="" asp-for="IsFlat" type="checkbox">
+                                        <label class="ml-2">IsFlat</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </form>
 
-<script>
- //$('.select2').select2();
- </script>
+@section scripts{
+    <script>
+        $('#Charges, #FreeOnAmount').numeric({
+            numericType: "numeric",
+            maxLength: 9
+        });
+    </script>
+}
