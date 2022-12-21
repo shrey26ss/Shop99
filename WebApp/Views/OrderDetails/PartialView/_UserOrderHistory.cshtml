@@ -8,7 +8,7 @@
     foreach (var item in Model)
     {
         string badge = "";
-        badge = item.StatusID == StausType.OrderPlaced ? "badge-warning" : item.StatusID == StausType.Cancel ? "badge-danger" : item.StatusID == StausType.Confirmed ? "badge-success" : item.StatusID == StausType.Delivered ? "badge-info" : "badge-dark";
+        badge = item.StatusID == StatusType.OrderPlaced ? "badge-warning" : item.StatusID == StatusType.Cancel ? "badge-danger" : item.StatusID == StatusType.Confirmed ? "badge-success" : item.StatusID == StatusType.Delivered ? "badge-info" : "badge-dark";
         counter++;
         <tr>
             <td>

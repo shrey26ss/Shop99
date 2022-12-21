@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entities.Enums
 {
-    public enum StausType
+    public enum StatusType
     {
         [Description("Order Placed")]
         OrderPlaced = 1,

@@ -2,6 +2,7 @@
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using WebAPI.Middleware;
 
@@ -16,8 +17,13 @@ namespace WebAPI.Controllers
 
         public OrderDetailsController(IOrderDetailsService orderRepo) => _orderRepo = orderRepo;
         [Route("OrderDetails/GetDetails")]
-        public async Task<IActionResult> GetDetails(OrderDetailsRow req) => Ok(await _orderRepo.GetAsync(User.GetLoggedInUserId<int>()));
+        public async Task<IActionResult> GetDetails(OrderDetailsRequest req)
+        {
+            return Ok(await _orderRepo.GetAsync(User.GetLoggedInUserId<int>(), req));
+        }
         [Route("OrderDetails/ChangeStatus")]
         public async Task<IActionResult> ChangeStatus(OrderDetailsRow req) => Ok(await _orderRepo.ChengeStatusAsync(req));
+        [Route("OrderDetails/UpdateShippingNInvoice")]
+        public async Task<IActionResult> UpdateShippingNInvoice(OrderShippedStatus req) => Ok(await _orderRepo.UpdateShippingNInvoice(req));
     }
 }

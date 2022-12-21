@@ -10,6 +10,7 @@ namespace Infrastructure.Interface
     public interface IOrderDetailsService : IRepository<OrderDetailsRow, OrderDetailsColumn>
     {
         Task<IResponse> ChengeStatusAsync(OrderDetailsRow req);
+        Task<IResponse> UpdateShippingNInvoice(OrderShippedStatus req);
         //Task<IResponse<IEnumerable<TColumn>>> GetAsync<TColumn>(Expression<Func<TColumn, bool>> predicate);
         //string GetAsync<OrderDetailsRow>(Expression<Func<OrderDetailsRow, bool>> predicate);
     }

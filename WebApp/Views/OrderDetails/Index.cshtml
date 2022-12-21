@@ -1,4 +1,9 @@
 ﻿@using Entities.Enums;
+<style>
+    .error{
+        color:crimson;
+    }
+</style>
 <div class="content">
     <div class="card">
         <div class="card-body">
@@ -11,11 +16,11 @@
                 <div class="col-md-3 col-sm-6">
                     <select class="form-control" id="status" onchange="loadData();">
                         <option value="0">Select Status</option>
-                        <option value="@StausType.OrderPlaced">@StausType.OrderPlaced.ToString()</option>
-                        <option value="@StausType.Cancel">@StausType.Cancel.ToString()</option>
-                        <option value="@StausType.Confirmed">@StausType.Confirmed.ToString()</option>
-                        <option value="@StausType.Delivered">@StausType.Delivered.ToString()</option>
-                        <option value="@StausType.Shipped">@StausType.Shipped.ToString()</option>
+                        <option value="@StatusType.OrderPlaced">@StatusType.OrderPlaced.ToString()</option>
+                        <option value="@StatusType.Cancel">@StatusType.Cancel.ToString()</option>
+                        <option value="@StatusType.Confirmed">@StatusType.Confirmed.ToString()</option>
+                        <option value="@StatusType.Delivered">@StatusType.Delivered.ToString()</option>
+                        <option value="@StatusType.Shipped">@StatusType.Shipped.ToString()</option>
 
                     </select>
                 </div>

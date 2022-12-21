@@ -1,6 +1,7 @@
 ﻿using Entities.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Entities.Models
@@ -23,13 +24,29 @@ namespace Entities.Models
         public decimal Total { get; set; }
         public int UserID { get; set; }
         public string EntryOn { get; set; }
-        public StausType StatusID { get; set; }
+        public StatusType StatusID { get; set; }
         public string Thumbnail { get; set; }
         public string ShopName { get; set; }
         public string Attributes { get; set; }
+        public int PaymentModeId { get; set; }
         public string PaymentMode { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {
+    }
+    public class OrderDetailsRequest
+    {
+        public int Id { get; set; }
+        public StatusType StatusID { get; set; }
+    }
+    public class OrderShippedStatus
+    {
+        public int Id { get; set; }
+        [Required(ErrorMessage ="Please Enter Invoice Number")]
+        [Display(Name ="Invoice Number")]
+        public string InvoiceNumber { get; set; }
+        [Required(ErrorMessage = "Please Enter TrackingId")]
+        [Display(Name = "Tracking Id")]
+        public string TrackingId { get; set; }
     }
 }

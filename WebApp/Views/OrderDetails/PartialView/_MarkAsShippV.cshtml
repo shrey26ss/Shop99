@@ -1,0 +1,31 @@
+﻿@using Entities.Models;
+@model OrderShippedStatus
+
+<form method="post" asp-action="UpdateShippingNInvoice">
+    <div class="row">
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="InvoiceNumber"></label>
+                    <input asp-for="InvoiceNumber" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="TrackingId"></label>
+                    <input asp-for="TrackingId" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row text-center">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </div>
+    </div>
+</form>
