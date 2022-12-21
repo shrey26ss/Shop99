@@ -1,13 +1,25 @@
-﻿<div class="content-header clearfix">
-    <h1 class="float-left">
-        Order Details
-    </h1>
-</div>
+﻿@using Entities.Enums;
 <div class="content">
     <div class="card">
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
+            <div class="row justify-content-end">
+                <div class="col-md-9 col-sm-6">
+                    <h2 class="float-left">
+                        Order Details
+                    </h2>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <select class="form-control" id="status" onchange="loadData();">
+                        <option value="0">Select Status</option>
+                        <option value="@StausType.OrderPlaced">@StausType.OrderPlaced.ToString()</option>
+                        <option value="@StausType.Cancel">@StausType.Cancel.ToString()</option>
+                        <option value="@StausType.Confirmed">@StausType.Confirmed.ToString()</option>
+                        <option value="@StausType.Delivered">@StausType.Delivered.ToString()</option>
+                        <option value="@StausType.Shipped">@StausType.Shipped.ToString()</option>
+
+                    </select>
+                </div>
+                <div class="col-md-12 mt-2">
                     <table class="table table-bordered" id="Grid">
                         <thead>
                             <tr role="row">
@@ -21,6 +33,7 @@
                                 <th>Attributes</th>
                                 <th>Rate</th>
                                 <th>MRP</th>
+                                <th>Mode</th>
                                 <th class="text-nowrap">Order Date</th>
                                 <th>ShopName</th>
                             </tr>
@@ -34,28 +47,31 @@
 </div>
 
 @section scripts{
-        <script>
-            $(() => {
-                loadData();
+    <script>
+        $(() => {
+            loadData();
+        })
+        var loadData = () => {
+            let param = {
+                StatusID: $('#status').val()
+            }
+            $.post('/OrderDetails/OrderList', param).done(function (result) {
+                $('#Grid tbody').html(result);
+            }).fail(function (xhr) {
             })
-            var loadData = () => {
-                $.post('/OrderDetails/OrderList').done(function (result) {
-                    $('#Grid tbody').html(result);
-                }).fail(function (xhr) {
-                })
-            };
+        };
 
 
 
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
         var ChangeStatusItem = function (ID, StatusID) {
-            $.post('/OrderDetails/ChangeStatus',  { ID, StatusID}).done((result) => {
+            $.post('/OrderDetails/ChangeStatus', { ID, StatusID }).done((result) => {
                 console.log('result :', result);
-                Q.notify(result.statusCode,result.responseText);
-                if(result.statusCode)
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode)
                     loadData();
             })
         };
-        </script>
+    </script>
 }

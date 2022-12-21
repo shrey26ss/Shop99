@@ -27,6 +27,7 @@ namespace Entities.Models
         public string Thumbnail { get; set; }
         public string ShopName { get; set; }
         public string Attributes { get; set; }
+        public string PaymentMode { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {

@@ -27,9 +27,9 @@ namespace WebApp.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> OrderList()
+        public async Task<IActionResult> OrderList(OrderDetailsRow request)
         {
-            return PartialView("PartialView/_OrderList", await GetList().ConfigureAwait(false));
+            return PartialView("PartialView/_OrderList", await GetList(request).ConfigureAwait(false));
         }
         [Route("UserOrderHistory")]
         [HttpGet]
@@ -42,7 +42,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> _UserOrderHistory()
         {
-            var res = await GetList().ConfigureAwait(false);
+            var res = await GetList(new OrderDetailsRow()).ConfigureAwait(false);
             return PartialView("PartialView/_UserOrderHistory", res);
         }
 
@@ -60,10 +60,10 @@ namespace WebApp.Controllers
         }
 
         #region Private Mathod
-        private async Task<List<OrderDetailsColumn>> GetList(int Id = 0)
+        private async Task<List<OrderDetailsColumn>> GetList(OrderDetailsRow request)
         {
             List<OrderDetailsColumn> list = new List<OrderDetailsColumn>();
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetDetails", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetDetails", JsonConvert.SerializeObject(request), User.GetLoggedInUserToken());
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<OrderDetailsColumn>>>(apiResponse.Result);

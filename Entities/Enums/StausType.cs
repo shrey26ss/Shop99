@@ -14,6 +14,8 @@ namespace Entities.Enums
         [Description("Order Confirmed")]
         Confirmed = 3,
         [Description("Order Delivered")]
-        Delivered = 4
+        Delivered = 4,
+        [Description("Product Shipped")]
+        Shipped = 5
     }
 }
