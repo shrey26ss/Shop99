@@ -49,7 +49,7 @@ namespace Entities.Models
         public string MobileNo { get; set; }
         public string EmailID { get; set; }
         public string Name { get; set; }
-        public string OPID { get; set; }
+        public string PaymentModeShortName { get; set; }
         public string Domain { get; set; }
         public string VPA { get; set; }
         public bool IsLoggingTrue { get; set; }

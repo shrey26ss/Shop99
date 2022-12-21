@@ -48,9 +48,9 @@ namespace PaymentGateWay.PaymentGateway.CashFree
                 }
             };
             string paymentMode = string.Empty;
-            if (paymentModes.ContainsKey(request.OPID ?? string.Empty))
+            if (paymentModes.ContainsKey(request.PaymentModeShortName ?? string.Empty))
             {
-                paymentMode = paymentModes[request.OPID];
+                paymentMode = paymentModes[request.PaymentModeShortName];
             }
             var cashfreeRequest = new CashfreeOrderRequest
             {

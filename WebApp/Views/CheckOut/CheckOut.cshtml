@@ -62,8 +62,8 @@
     }
 
     /*
-                            * SVG Icons
-                            **********************************************************/
+                                    * SVG Icons
+                                    **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -74,8 +74,8 @@
     }
 
     /*
-                            * Buttons
-                            **********************************************************/
+                                    * Buttons
+                                    **********************************************************/
     .button {
         position: relative;
         height: 50px;
@@ -105,29 +105,29 @@
         height: 30px;
     }
     /* .button:after {
-                content: '';
-                position: absolute;
-                top: 15px;
-                left: 18px;
-                display: block;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                box-shadow: inset 0 0 0 1px #bbb, inset 0 0 0 7px #fff;
-                background: #fff;
-            }
+                        content: '';
+                        position: absolute;
+                        top: 15px;
+                        left: 18px;
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        box-shadow: inset 0 0 0 1px #bbb, inset 0 0 0 7px #fff;
+                        background: #fff;
+                    }
 
-            .button:hover:after {
-                background: #bbb;
-            }
+                    .button:hover:after {
+                        background: #bbb;
+                    }
 
-            .button.active:after {
-                background: #555;
-            }*/
+                    .button.active:after {
+                        background: #555;
+                    }*/
 
     /*
-                            * Breakpoint
-                            **********************************************************/
+                                    * Breakpoint
+                                    **********************************************************/
     @@media all and (min-width: 500px) {
         .svg {
             right: 25px;
@@ -147,13 +147,13 @@
                 height: 40px;
             }
         /*.button:after {
-                    top: 20px;
-                    left: 23px;
-                }*/
+                            top: 20px;
+                            left: 23px;
+                        }*/
     }
     /*
-                            * Breakpoint
-                            **********************************************************/
+                                    * Breakpoint
+                                    **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -201,9 +201,9 @@
                 margin-right: 0;
             }
         /*.button:after {
-                    top: 15px;
-                    left: 55px;
-                }*/
+                            top: 15px;
+                            left: 55px;
+                        }*/
     }
 
     .order-box .sub-total li .count {
@@ -275,6 +275,92 @@
 </section>
 @section scripts{
 <script>
+      window.addEventListener("storage", e => {
+      
+        var result = $.parseJSON(event.newValue);
+        
+        if (result.hasOwnProperty("origin")) {
+            if (result.origin === 'addMoney') {
+                /* note : In Case of CashFree status :  1 - Pending , 2 - Success , 3- Failed  */
+                let cashFreePendings = ['', '0', '1', 'pending'];
+                let isPending = cashFreePendings.includes(result.status?.toString().toLowerCase());
+                let iconSrc = `/Image/iconMsg/${isPending ? '10' : (result.status == 2 ? '1' : '11')}.png`;
+                let h3Class = `${isPending ? 'text-info' : (result.status == 2 ? 'text-success' : 'text-danger')}`;
+                let statusText = `${isPending ? 'Transaction Pending' : (result.status == 2 ? 'Transaction Successful' : 'Transaction Failed')}`;
+                if (result.gateway === 'CashFree' && isPending) {
+                    let _html = `<div id="divStatusResult"><div class="text-center"><span class="h4">Waiting....</span></div>
+                                                 <div class="text-center mt-5 mb-4">
+                                                 <div class="mt-5 mb-5"><span class="text-success h1" id="JsTimer">02:00</span> mins</div>
+                                                 <div>Do not press the back button untill the payment is complete</div>
+                                                 <button class="btn btn-outline-primary w-75 mt-4" id="mdlCancel">Close</button>
+                                             </div></div>`;
+                    mdlA.id = "callBackAlert";
+                    mdlA.title = "Status";
+                    mdlA.content = _html;
+                    mdlA.modal(mdlA.size.large);
+                    $('#mdlCancel').click(() => mdlA.dispose());
+                    /* Cashfree Status check*/
+                    function CheckCashFreeStatus(TID, t, showJsTimer, onStopTimer) {
+                        $.post("/PGCallback/CashFreeStatusCheck", { TID }, function (result) {
+                            isPending = cashFreePendings.includes(result.status?.toString().toLowerCase());
+                            iconSrc = `${$$host}/Image/iconMsg/${isPending ? '10' : (result.status == 2 ? '1' : '11')}.png`;
+                            h3Class = `${isPending ? 'text-info' : (result.status == 2 ? 'text-success' : 'text-danger')}`;
+                            statusText = `${isPending ? 'Transaction Pending' : (result.status == 2 ? 'Transaction Successful' : 'Transaction Failed')}`;
+                            if (isPending && t < 7) {
+                                setTimeout(function () {
+                                    t = t + 1;
+                                    CheckCashFreeStatus(TID, t, showJsTimer, onStopTimer);
+                                }, 10 * 1000);
+                            } else {
+                                let _result = `<div class="row">
+                                                             <div class="col-sm-12 text-center">
+                                                                 <img src="${iconSrc}" />
+                                                                 <h3 class="${h3Class}">${statusText}</h3></div>
+                                                             <div class="col-sm-3"></div><div class="col-sm-3">Amount</div><div class="col-sm-6">${result.amount}</div>
+                                                             <div class="col-sm-3"></div><div class="col-sm-3">Transaction Id</div><div class="col-sm-6">${result.transactionID}</div>
+                                                             <div class="col-sm-3"></div><div class="col-sm-3">TID</div><div class="col-sm-6">${result.tid}</div>
+                                                           </div>`;
+                                $('#divStatusResult').html(_result);
+                                if (showJsTimer != undefined)
+                                    showJsTimer.stopTimer();
+                            }
+                        }).catch(function (er) {
+                            console.log(er);
+                        }).fail(function (xhr) {
+                            an.title = 'Oops';
+                            an.content = xhr.status == 0 ? 'Internet Connection was broken' : 'Server error';
+                            an.alert(an.type.failed);
+                        });
+                    }
+                    /* End Cashfree Status check*/
+
+                    let showJsTimer = new ShowJsTimer(JsTimer, 2);
+                    showJsTimer.startTimer();
+                    setTimeout(function () {
+                        CheckCashFreeStatus(result.TID, 0, showJsTimer, function () {
+                            mdlA.dispose();
+                        });
+                    }, 6000);
+                }
+                else {
+                    let _html = `<div class="row">
+                                               <div class="col-sm-12 text-center">
+                                                 <img src="${iconSrc}" />
+                                                 <h3 class="${h3Class}">${statusText}<br/>
+                                                    <small>${result.statuscode == -1 ? result.reason : ''}</small>
+                                                  </h3>
+                                               </div>
+                                             </div>`;
+         
+              Q.alert({
+                    title: 'Transaction Status',
+                    body: _html,
+                    width: 600
+                });
+                }
+            }
+        }
+    }, true);
       $(document).ready(function () {
         loadAddressDetails();
         loadPlaceOrderCart();
@@ -297,23 +383,27 @@
                             Remark:""
                 };
                  $.post("/PlaceOrder",item).done(res => {
-                       console.log(res);
-                     var myWindow = window.open("", "", "width=800px,height=500px");
+                         if (typeof res === 'object') {
+                              if(res.statusCode!=1){
+                                   Q.notify(res.statusCode, res.responseText)
+                                }
+                             else
+                             {
+                                 Q.notify(res.statusCode, res.responseText)
+                                 setTimeout(
+                                      function()
+                                      {
+                                        window.location.href=baseURLHome;
+                                      }, 2000);
+
+                             }
+                         }
+                         else
+                         {
+                                var myWindow = window.open("","_blank", "toolbar=0 width=650px,height=650px");
                         myWindow.document.write(res);
-                   
-                     //if(res.statusCode!=1){
-                     //    Q.notify(res.statusCode, res.responseText)
-                     //}
-                     //else
-                     //{
-                     //    Q.notify(res.statusCode, res.responseText)
-                     //    setTimeout(
-                     //         function() 
-                     //         {
-                     //           window.location.href=baseURLHome;
-                     //         }, 2000);
-                        
-                     //}
+
+                         }
         }).fail(xhr => Q.xhrError(xhr)).always(() => "");
     });
 
