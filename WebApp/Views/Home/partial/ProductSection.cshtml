@@ -10,7 +10,6 @@
     <div class="media-slide-5 product-m no-arrow">
         @if (Model != null && Model.ProductsData != null && Model.ProductsData.StatusCode == ResponseStatus.Success && Model.ProductsData.Result.Any())
         {
-
             @for (int j = 0; j < @ProductLength; j = j + 3)
             {
                 <div>
