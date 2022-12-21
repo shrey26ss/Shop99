@@ -86,8 +86,8 @@ const loadTopCategoryProduct = function (cId, i) {
                         <a href="javascript:void(0)"  class="add-to-wish tooltip-top addtowishlist" data-variant-id="${v.variantID}"   data-tippy-content="Add to Wishlist" >
                             <img src="/Image/icons/wishlist.svg" class="svg"/>
                         </a>
-                        <a href="/productdetail/${v.variantID}"  class="tooltip-top"  data-tippy-content="Quick View">
-                          <img src="/Image/icons/wishlist.svg" class="svg"/>
+                        <a href="/productdetail/${v.variantID}" class="tooltip-top" data-tippy-content="Quick View">
+                            <img src="/Image/icons/info.svg" class="svg">
                         </a>
                         <a href="compare.html" class="tooltip-top" data-tippy-content="Compare">
                            <img src="/Image/icons/compare.svg" class="svg"/>
