@@ -65,12 +65,19 @@ namespace Service.Product
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId where c.Id = @Id";
+                    sp = @"Select p.*, c.CategoryName,b.[Name] BrandName, s.Charges,s.FreeOnAmount,s.IsFlat,s.Id ShippingDetailId from Products p 
+inner join Category c on c.CategoryId = p.CategoryId 
+inner join Brands b on b.Id = p.BrandId 
+inner join ProductShippingDetail s on s.ProductId = p.Id
+where p.Id = @Id";
                     res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id, request.LoginId }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId Order By p.Id desc";
+                    sp = @"Select p.*, c.CategoryName,b.[Name] BrandName, s.Charges,s.FreeOnAmount,s.IsFlat,s.Id ShippingDetailId from Products p 
+inner join Category c on c.CategoryId = p.CategoryId 
+inner join Brands b on b.Id = p.BrandId 
+inner join ProductShippingDetail s on s.ProductId = p.Id Order By p.Id desc";
                     res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.LoginId }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
