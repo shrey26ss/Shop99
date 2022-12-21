@@ -1111,7 +1111,7 @@ function ajaxFormSubmit(form) {
                     $('.error').text('');
                     /*$(form).trigger("reset");*/
                     $('.ui-dialog-titlebar-close').click();
-                  /*  Q.reset();*/
+                    Q.reset();
                     if (typeof loadData !== 'undefined' && $.isFunction(loadData))
                         loadData();
                 }
@@ -1133,7 +1133,7 @@ function ajaxFormSubmit(form) {
                 $('.error').text('');
                 /*$(form).trigger("reset");*/
                 $('.ui-dialog-titlebar-close').click();
-              /*  Q.reset();*/
+                Q.reset();
                 if (typeof loadData !== 'undefined' && $.isFunction(loadData))
                     loadData();
             }

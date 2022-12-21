@@ -85,13 +85,38 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetProductSectionView()
+        [Route("Product/GetProductSectionView/{Id}")]
+        [Route("GetProductSectionView/{Id}")]
+        public async Task<IActionResult> GetProductSectionView(int Id = 0)
         {
             var model = new ProductViewModel();
             model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
             model.Brands = await DDLHelper.O.GetBrandsDDL(GetToken(), _apiBaseURL);
+            var response = new List<Products>();
+            if(Id > 0)
+            {
+                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
+                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<List<Products>>>(apiResponse.Result);
+                    response = deserializeObject.Result;
+                    var product = deserializeObject.Result.FirstOrDefault();
+                    model.SKU = product.SKU;
+                    model.Name = product.Name;
+                    model.Id = product.Id;
+                    model.Title = product.Title;
+                    model.Description = product.Description;
+                    model.BrandId = product.BrandId;
+                    model.BrandName = product.BrandName;
+                    model.CategoryId = product.CategoryId;
+                    model.CategoryName = product.CategoryName;
+                    model.ShippingDetailId = product.ShippingDetailId;
+                    model.ProductId = product.Id;
+                    model.Charges = product.Charges;
+                    model.FreeOnAmount = product.FreeOnAmount;
+                    model.IsFlat = product.IsFlat;
+                }
+            }
             return View("Partials/_Product", model);
         }
 

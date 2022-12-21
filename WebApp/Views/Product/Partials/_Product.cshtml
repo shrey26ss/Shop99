@@ -22,7 +22,9 @@
     <section class="content mt-2">
         <div class="container-fluid">
             <div class="form-horizontal">
-                <div id="AttributeView">
+                <div id="">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ShippingDetailId" />
                     <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
                         <div class="card-header with-border clearfix">
                             <div class="card-title">
@@ -89,11 +91,11 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
                                     <label>Charges</label>
-                                    <input class="form-control text-box single-line" asp-for="Charges" value="">
+                                    <input class="form-control text-box single-line" asp-for="Charges" >
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <label>Free On Amount</label>
-                                    <input class="form-control text-box single-line" asp-for="FreeOnAmount" value="">
+                                    <input class="form-control text-box single-line" asp-for="FreeOnAmount">
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
