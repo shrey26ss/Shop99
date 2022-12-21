@@ -1,0 +1,61 @@
+﻿@using Entities.Enums
+@using Entities.Models
+
+@model PaymentGatewayResponse
+
+@if (Model != null)
+{
+
+    Layout = null;
+    <html>
+    <head>
+        <title>Merchant Checkout Page</title>
+
+    </head>
+    <body>
+        <center><h1>Please do not refresh this page...</h1></center>
+
+        @if (Model.PGType == PaymentGatewayType.CASHFREE)
+        {
+            <script>
+                (() => window.location.href = "@(Model.URL??string.Empty)")();
+            </script>
+        }
+        else if (Model.PGType == PaymentGatewayType.UPIGATEWAYNEW)
+        {
+            <input type="hidden" value="@Model.URL" id="hdfUrl" />
+            <script>
+                (()=>{ window.location.href = document.getElementById("hdfUrl").value})();
+            </script>
+
+        }
+        else if (Model.PGType == PaymentGatewayType.MITRAGATEWAY)
+        {
+            <input type="hidden" value="@Model.URL" id="hdfUrl" />
+            <script>
+                (()=>{ window.location.href = document.getElementById("hdfUrl").value})();
+            </script>
+        }
+        else
+        {
+            <form method="post" action="@(Model.URL??string.Empty)" name="paytm_form">
+                @if (Model.KeyVals != null)
+                {
+                    foreach (var item in Model.KeyVals)
+                    {
+                        <input type="hidden" name="@item.Key" value="@item.Value" />
+                    }
+                }
+            </form>
+            <script type="text/javascript">
+                if(document.paytm_form){
+                    document.paytm_form.submit();
+                }
+            </script>
+        }
+    </body>
+    </html>
+
+
+}
+

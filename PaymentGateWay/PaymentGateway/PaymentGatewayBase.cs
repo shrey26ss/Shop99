@@ -2,6 +2,7 @@
 using Data;
 using Entities;
 using Entities.Enums;
+using Entities.Models;
 using Microsoft.Extensions.Logging;
 using Service.Models;
 using System;
@@ -21,17 +22,17 @@ namespace PaymentGateWay.PaymentGateway
             _dapper = dapper;
         }
 
-        public virtual async Task<Response<CashFree.Models.CashFreeResponseForApp>> GeneratePGRequestForAppAsync(PaymentGatewayRequest request)
+        public virtual async Task<ResponsePG<CashFree.Models.CashFreeResponseForApp>> GeneratePGRequestForAppAsync(PaymentGatewayRequest request)
         {
             throw new System.NotImplementedException();
         }
 
-        public virtual async Task<Response<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request)
+        public virtual async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request)
         {
             throw new System.NotImplementedException();
         }
 
-        public virtual async Task<Response<StatusCheckResponse>> StatusCheck(StatusCheckRequest request)
+        public virtual async Task<ResponsePG<StatusCheckResponse>> StatusCheck(StatusCheckRequest request)
         {
             throw new System.NotImplementedException();
         }
@@ -47,14 +48,14 @@ namespace PaymentGateWay.PaymentGateway
             GC.SuppressFinalize(this);
         }
 
-        public Task<Response<int>> SaveInitiatePayment(PaymentGatewayRequest request, int packageId)
+        public Task<ResponsePG<int>> SaveInitiatePayment(PaymentGatewayRequest request, int packageId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Response<PaymentGatewayRequest>> GetInitiatedPaymentDetail(int TID)
+        public async Task<ResponsePG<PaymentGatewayRequest>> GetInitiatedPaymentDetail(int TID)
         {
-            var response = new Response<PaymentGatewayRequest>
+            var response = new ResponsePG<PaymentGatewayRequest>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString(),
@@ -71,9 +72,9 @@ namespace PaymentGateWay.PaymentGateway
         }
 
 
-        public async Task<Response> updateInitiatedPayment(int TID, string status)
+        public async Task<ResponsePG> updateInitiatedPayment(int TID, string status)
         {
-            var response = new Response
+            var response = new ResponsePG
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString()

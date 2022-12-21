@@ -1,10 +1,12 @@
 ﻿using AppUtility.Helper;
+using AutoMapper;
 using Data;
 using Data.Models;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using PaymentGateWay.PaymentGateway.PayU;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -18,8 +20,12 @@ namespace Service.CartWishList
     {
         private IDapperRepository _dapper;
         private readonly ILogger<PlaceOrderService> _logger;
-        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger)
+        private readonly IMapper _mapper;
+        private readonly IAPILogger _apiLogin;
+        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger, IMapper mapper, IAPILogger apiLogin)
         {
+            _apiLogin = apiLogin;
+            _mapper = mapper;
             _dapper = dapper;
             _logger = logger;
         }
@@ -46,13 +52,35 @@ namespace Service.CartWishList
             var res = new PlaceOrderResponse();
             try
             {
-                res = await _dapper.GetAsync<PlaceOrderResponse>(sp, new
+                //PlaceOrder 
+                var plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
                 {
                     UserID = request.LoginId,
                     request.Data.AddressID,
                     request.Data.PaymentMode,
                     request.Data.Remark
                 }, CommandType.StoredProcedure);
+                if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
+                {
+                    PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
+                    //initiate PaymentGateWay
+                    var pgInitiate = await p.GeneratePGRequestForWeb(plaeorderRes);
+
+                    //return pramCreate
+                    res.pgResponse = new PaymentGatewayResponse()
+                    {
+                        TID = "TID" + plaeorderRes.TID,
+                        KeyVals = pgInitiate.KeyVals,
+                        URL = plaeorderRes.URL
+                    };
+                    res.StatusCode = pgInitiate.StatusCode;
+                    res.ResponseText = pgInitiate.ResponseText;
+                }
+                else
+                {
+                    res.StatusCode = plaeorderRes.StatusCode;
+                    res.ResponseText = plaeorderRes.ResponseText;
+                }
             }
             catch (Exception ex)
             {

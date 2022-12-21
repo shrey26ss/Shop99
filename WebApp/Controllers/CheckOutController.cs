@@ -29,13 +29,13 @@ namespace WebApp.Controllers
         private readonly ILogger<UserHomeController> _logger;
         private string _apiBaseURL;
         private readonly ICheckOutAPI _checkout;
-       
+
 
         public CheckOutController(ILogger<UserHomeController> logger, ICheckOutAPI checkout)
         {
             _logger = logger;
             _checkout = checkout;
-           
+
         }
         [Route("CheckOut")]
         [HttpGet]
@@ -61,8 +61,16 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
         {
-              var res = _checkout.PlaceOrder(req, GetToken()).Result;
-            return Json(res);
+
+            var res = await _checkout.PlaceOrder(req, GetToken());
+            if (res != null && res.Result!=null && res.Result.pgResponse != null && !string.IsNullOrEmpty(res.Result.pgResponse.TID))
+            {
+                return PartialView("PGRedirect", res.Result.pgResponse);
+            }
+            else
+            {
+                return Json(res);
+            }
         }
         [Route("SaveAddress")]
         [HttpPost]
