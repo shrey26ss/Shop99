@@ -16312,7 +16312,7 @@ ul.sosiyal {
         font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
     }
 
-        .product-right .pro-group .delivery-detail .delivery-lable svg {
+        .product-right .pro-group .delivery-detail .delivery-lable .svg {
             width: calc(20px + (24 - 20) * ((100vw - 320px) / (1920 - 320)));
             margin-right: 10px;
         }
