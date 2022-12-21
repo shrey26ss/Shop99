@@ -10,6 +10,10 @@ $(document).on('click', '.addtowishlist', (e) => {
 });
 $(document).on('click', '.addtocart', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
+    addToCart(vId);
+});
+
+const addToCart = (vId) => {
     $.post("/AddToCart", { VariantID: vId }).done(res => {
         Q.notify(res.statusCode, res.responseText)
         if (res.statusCode == 1) {
@@ -17,8 +21,8 @@ $(document).on('click', '.addtocart', (e) => {
             loadCartSlide();
         }
     }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+}
 
-});
 $(document).on('click', '.move-to-cart', (e) => {
     let wId = $(e.currentTarget).data()?.wishlistId ?? 0;
     $.post("/WishListToCart", { id: wId }).done(res => {

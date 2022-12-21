@@ -10,6 +10,7 @@
     }
 </style>
 <section class="section-big-pt-space b-g-light">
+    <input type="hidden" id="hdVid" value="@Model.VariantId" />
     <div class="collection-wrapper">
         <div class="custom-container">
             <div class="row">
@@ -108,7 +109,7 @@
                                             </div>
                                         </div>
                                         <div class="product-buttons">
-                                            <a href="javascript:void(0)" id="cartEffect" class="btn cart-btn btn-normal tooltip-top addtocart" data-variant-id="@Model.VariantId" data-tippy-content="Add to cart">
+                                            <a href="javascript:void(0)" id="btnAddtocart" class="btn cart-btn btn-normal tooltip-top" data-variant-id="@Model.VariantId" data-tippy-content="Add to cart">
                                                 <i class="fa fa-shopping-cart"></i>
                                                 add to cart
                                             </a>
@@ -188,11 +189,11 @@
                                         <h6 class="product-title">Delivery option</h6>
                                         <ul class="delivery-services">
                                             <li>
-                                                <img src="~/Image/icons/shipping.svg" class="svg"/>
+                                                <img src="~/Image/icons/shipping.svg" class="svg" />
                                                 free shipping
                                             </li>
                                             <li>
-                                                <img src="~/Image/icons/Return.svg" class="svg"/>
+                                                <img src="~/Image/icons/Return.svg" class="svg" />
                                                 10 Days Returnable
                                             </li>
                                             <li>
@@ -293,10 +294,11 @@
 
 @section scripts{
     <script>
-        const variantId = @Model.VariantId;
+        var variantId = @Model.VariantId;
         const productDetail = {
             images: [],
-            attributeInfo: []
+            attributeInfo: [],
+            variantInfo: [],
         };
         const activeAttribute = {
             info: []
@@ -345,7 +347,7 @@
         }
 
         const GetAttributes = () => {
-            $.post(`/Home/ProductAttrDetail/`, { Id: '@Model.VariantId' }).done((result) => {
+            $.post(`/Home/ProductAttrDetail/`, { Id: variantId }).done((result) => {
                 let _html = ``;
                 $.each(result, (k, v) => {
                     _html += `<div class="attibute mb-2" data-attribute-id='${v.attributeId}' data-attribute-name='${v.name}'>`;
@@ -368,9 +370,9 @@
         }
 
         const GetAttributesInfo = () => {
-            $.post(`/Home/ProductAttributeInfo/`, { Id: '@Model.VariantId' }).done((result) => {
+            $.post(`/Home/ProductAttributeInfo/`, { Id: variantId }).done((result) => {
                 activeAttribute.info = result.map(a => {
-                    return a.groupId == '@Model.VariantId' ? a.attributeValue.toUpperCase() : '';
+                    return a.groupId == variantId ? a.attributeValue.toUpperCase() : '';
                 });
                 productDetail.attributeInfo = result;
             })
@@ -395,6 +397,7 @@
             if (attributeName && attributeName.toLowerCase() === 'color') {
                 bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
             }
+            getVariantId();
         });
 
         $('.slide-1').slick({
@@ -471,6 +474,45 @@
             $('.product-slick').html(__h);
             $('.slider-nav').html(__t);
             slickOnProduct();
-        }
+        };
+
+        const readAttributes = () => {
+            let attributes = []
+            $('#attributeList .attibute').each(function (i, t) {
+                attributes.push($(t).find('li.attributeValue.active').text());
+            });
+            return attributes.join(',');
+        };
+
+        const getVariantId = async () => {
+            let _u = new URL(window.location);
+            let qs = _u.pathname.split('/');
+            let vId = 0;
+            if (qs.length === 3) {
+                vId = qs[2]
+            }
+            let param = {
+                VariantId: vId,
+                Attributes: readAttributes()
+            };
+            let vDetail = productDetail.variantInfo.filter(x => x.attributes === param.Attributes)[0]?.d;
+            if ($('#btnAddtocart').attr('disabled')==='disabled'){
+                $('#btnAddtocart').removeAttr('disabled').html('<i class="fa fa-shopping-cart"></i>add to cart').click(() => addToCart(variantId));
+            }
+            if (vDetail === undefined) {
+               await $.post('/GetVariantIdByAttributes', param).done(result => {
+                    if (result.statusCode === 1) {
+                        vDetail = result.result;
+                        productDetail.variantInfo.push({ attributes: param.Attributes, d: vDetail });
+                    }
+                    else{
+                        $('#btnAddtocart').attr('disabled', 'disabled').text('Out Of Stock').unbind();
+                    }
+                }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+            }
+            Q.rewriteURL('/productdetail/' + vDetail.variantId);
+            variantId = vDetail.variantId;
+        };
+        $('#btnAddtocart').click(() => addToCart(variantId));
     </script>
 }   

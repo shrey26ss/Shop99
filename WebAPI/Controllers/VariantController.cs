@@ -45,6 +45,5 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-
     }
 }

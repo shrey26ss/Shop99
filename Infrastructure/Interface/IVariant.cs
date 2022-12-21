@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     {
         Task<IResponse> AddUpdate(RequestBase<AttributeInfo> request);
         Task<IResponse<IEnumerable<AttributeInfo>>> GetVariants(RequestBase<SearchItem> request);
+        
     }
 }

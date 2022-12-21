@@ -231,7 +231,10 @@ namespace WebApp.Controllers
 
 
 
-       
-
+        [HttpPost("GetVariantIdByAttributes")]
+        public async Task<IActionResult> GetVariantIdByAttributes(VariantIdByAttributesRequest request)
+        {
+            return Json(await _product.GetVariantIdByAttributes(request));
+        }
     }
 }

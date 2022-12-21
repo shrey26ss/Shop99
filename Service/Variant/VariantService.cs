@@ -82,5 +82,7 @@ namespace Service.Variant
             }
             return res;
         }
+
+        
     }
 }
