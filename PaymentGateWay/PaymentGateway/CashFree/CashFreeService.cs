@@ -13,6 +13,7 @@ using Service.Models;
 using AppUtility.APIRequest;
 using Entities;
 using AppUtility.Extensions;
+using Entities.Models;
 
 namespace PaymentGateWay.PaymentGateway.CashFree
 {
@@ -35,9 +36,9 @@ namespace PaymentGateWay.PaymentGateway.CashFree
             _mapper = mapper;
             _apiLogin = aPILogin;
         }
-        public override async Task<Response<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request)
+        public override async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request)
         {
-            Response<PaymentGatewayResponse> res = new Response<PaymentGatewayResponse>
+            ResponsePG<PaymentGatewayResponse> res = new ResponsePG<PaymentGatewayResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString(),
@@ -112,9 +113,9 @@ namespace PaymentGateWay.PaymentGateway.CashFree
             return res;
         }
 
-        public override async Task<Response<StatusCheckResponse>> StatusCheck(StatusCheckRequest request)
+        public override async Task<ResponsePG<StatusCheckResponse>> StatusCheck(StatusCheckRequest request)
         {
-            Response<StatusCheckResponse> res = new Response<StatusCheckResponse>
+            ResponsePG<StatusCheckResponse> res = new ResponsePG<StatusCheckResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString(),

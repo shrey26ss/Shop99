@@ -18,7 +18,7 @@ namespace WebApp.Servcie
     {
         Task<IResponse<IEnumerable<UserAddress>>> GetUserGetAddress(string _token);
         Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(string _token);
-        Task<IResponse<IEnumerable<PlaceOrderResponse>>> PlaceOrder(PlaceOrderReq req, string _token);
+        Task<IResponse<PlaceOrderResponse>> PlaceOrder(PlaceOrderReq req, string _token);
         Task<Response> AddAddress(UserAddress model, string _token);
     }
     public class CheckOutAPI : ICheckOutAPI
@@ -78,9 +78,9 @@ namespace WebApp.Servcie
             return res;
 
         }
-        public async Task<IResponse<IEnumerable<PlaceOrderResponse>>> PlaceOrder(PlaceOrderReq req, string _token)
+        public async Task<IResponse<PlaceOrderResponse>> PlaceOrder(PlaceOrderReq req, string _token)
         {
-            var res = new Response<IEnumerable<PlaceOrderResponse>>
+            var res = new Response<PlaceOrderResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
@@ -90,8 +90,8 @@ namespace WebApp.Servcie
             {
                 try
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<PlaceOrderResponse>>>(Response.Result);
-                    return deserializeObject;
+                    res.Result = JsonConvert.DeserializeObject<PlaceOrderResponse>(Response.Result);
+                    return res;
                 }
                 catch (Exception e)
                 {

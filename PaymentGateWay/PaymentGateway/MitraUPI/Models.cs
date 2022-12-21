@@ -48,7 +48,7 @@ namespace PaymentGateWay.PaymentGateway.MitraUPI
         public bool IsLive { get; set; }
         public bool IsIntentAllowed { get; set; }
     }
-    public class AllUPIStatusResponse : Response
+    public class AllUPIStatusResponse : ResponsePG
     {
         public string status { get; set; }
         public string requestedId { get; set; }

@@ -4,6 +4,7 @@ using AutoMapper;
 using Data;
 using Entities;
 using Entities.Enums;
+using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -39,9 +40,9 @@ namespace PaymentGateWay.PaymentGateway.PayU
             _apiLogin = aPILogin;
         }
 
-        public  async Task<Response<PaymentGatewayResponse>> GeneratePGRequestForWeb(PaymentGatewayRequest request)
+        public  async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWeb(PaymentGatewayRequest request)
         {
-            Response<PaymentGatewayResponse> res = new Response<PaymentGatewayResponse>
+            ResponsePG<PaymentGatewayResponse> res = new ResponsePG<PaymentGatewayResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString()
@@ -143,11 +144,11 @@ namespace PaymentGateWay.PaymentGateway.PayU
             string str = sb.ToString();
             return HashEncryption.O.SHA512Hash(str);
         }
-        public async Task<Response<StatusCheckResponse>> StatusCheckPG(StatusCheckRequest request)
+        public async Task<ResponsePG<StatusCheckResponse>> StatusCheckPG(StatusCheckRequest request)
         {
             var payuResponse = new PayuStatusRes();
             var Payures = new Payures();
-            Response<StatusCheckResponse> res = new Response<StatusCheckResponse>
+            ResponsePG<StatusCheckResponse> res = new ResponsePG<StatusCheckResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString(),
@@ -163,7 +164,6 @@ namespace PaymentGateWay.PaymentGateway.PayU
             sb.Replace("{hash}", GenerateHashPayU(pgConfig.MerchantID, new List<string> { pgConfig.MerchantKey, "verify_payment", "TID" + request.TID.ToString() }));
             try
             {
-                
                 //sb.Replace("{hash}", GenerateCheckSum(this.salt, new List<string> { request.MerchantKEY, "verify_payment", request.TID.ToString() }));
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "Statuscheck";
@@ -185,10 +185,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
                         payuResponse.LiveID = Payures.Payuresdata.bank_ref_num;
                         payuResponse.Amount = Payures.Payuresdata.amt;
                         payuResponse.PaymentMode = Payures.Payuresdata.mode;
-
                     }
-
-
                 }
             }
             catch (Exception ex)
@@ -199,7 +196,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
             }
             if (pgConfig.IsLoggingTrue)
             {
-                _apiLogin.SaveLog(string.Concat(pgConfig.StatusCheckURL, "|", sb.ToString()), JsonConvert.SerializeObject(payuRes), "Cashfree-->Statuscheck", payuResponse.LiveID);
+                _apiLogin.SaveLog(string.Concat(pgConfig.StatusCheckURL, "|", sb.ToString()), JsonConvert.SerializeObject(payuRes), "PayU-->Statuscheck", payuResponse.LiveID);
             }
 
             return res;

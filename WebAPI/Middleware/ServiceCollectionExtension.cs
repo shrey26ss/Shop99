@@ -60,6 +60,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IAttributes, AttributeService>();
             services.AddScoped<IProducts, ProductService>();
             services.AddScoped<IPlaceOrder, PlaceOrderService>();
+            services.AddScoped<IPGCallback, PGCallbackService>();
             services.AddScoped<IVariant, VariantService>();
             services.AddScoped<IVendor, VendorService>();
             services.AddScoped<ITopBanner, TopBannerService>();

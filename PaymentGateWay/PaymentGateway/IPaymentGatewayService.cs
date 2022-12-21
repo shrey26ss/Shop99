@@ -1,4 +1,5 @@
-﻿using Service.Models;
+﻿using Entities.Models;
+using Service.Models;
 using System.Threading.Tasks;
 using static PaymentGateWay.PaymentGateway.CashFree.Models;
 
@@ -6,11 +7,11 @@ namespace PaymentGateWay.PaymentGateway
 {
     public interface IPaymentGatewayService
     {
-        Task<Response<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request);
-        Task<Response<CashFreeResponseForApp>> GeneratePGRequestForAppAsync(PaymentGatewayRequest request);
-        Task<Response<int>> SaveInitiatePayment(PaymentGatewayRequest request, int packageId);
-        Task<Response<StatusCheckResponse>> StatusCheck(StatusCheckRequest request);
-        Task<Response<PaymentGatewayRequest>> GetInitiatedPaymentDetail(int TID);
-        Task<Response> updateInitiatedPayment(int TID, string status);
+        Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request);
+        Task<ResponsePG<CashFreeResponseForApp>> GeneratePGRequestForAppAsync(PaymentGatewayRequest request);
+        Task<ResponsePG<int>> SaveInitiatePayment(PaymentGatewayRequest request, int packageId);
+        Task<ResponsePG<StatusCheckResponse>> StatusCheck(StatusCheckRequest request);
+        Task<ResponsePG<PaymentGatewayRequest>> GetInitiatedPaymentDetail(int TID);
+        Task<ResponsePG> updateInitiatedPayment(int TID, string status);
     }
 }

@@ -12,6 +12,7 @@ using Service.Models;
 using Entities.Enums;
 using AppUtility.APIRequest;
 using Entities;
+using Entities.Models;
 
 namespace PaymentGateWay.PaymentGateway.MitraUPI
 {
@@ -38,10 +39,10 @@ namespace PaymentGateWay.PaymentGateway.MitraUPI
             _mapper = mapper;
             _apiLogin = aPILogin;
         }
-        public override async Task<Response<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request)
+        public override async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWebAsync(PaymentGatewayRequest request)
         {
             string authURL = $"{request.URL}/api/login";
-            Response<PaymentGatewayResponse> res = new Response<PaymentGatewayResponse>
+            ResponsePG<PaymentGatewayResponse> res = new ResponsePG<PaymentGatewayResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString(),
@@ -121,10 +122,10 @@ namespace PaymentGateWay.PaymentGateway.MitraUPI
             }
             return res;
         }
-        public override async Task<Response<StatusCheckResponse>> StatusCheck(StatusCheckRequest transactionPGLog)
+        public override async Task<ResponsePG<StatusCheckResponse>> StatusCheck(StatusCheckRequest transactionPGLog)
         {
             string TID = $"TID{transactionPGLog.TID.ToString().PadLeft(5, '0')}";
-            Response<StatusCheckResponse> payresp = new Response<StatusCheckResponse>
+            ResponsePG<StatusCheckResponse> payresp = new ResponsePG<StatusCheckResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString(),
