@@ -5,6 +5,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using NLog;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,8 @@ namespace Service.Product
     public class ProductService : IProducts
     {
         private IDapperRepository _dapper;
-        private readonly ILogger<DapperRepository> _logger;
-        public ProductService(IDapperRepository dapper, ILogger<DapperRepository> logger)
+        private readonly ILogger<ProductService> _logger;
+        public ProductService(IDapperRepository dapper, ILogger<ProductService> logger)
         {
             _dapper = dapper;
             _logger = logger;
@@ -31,20 +32,10 @@ namespace Service.Product
             var res = new Response();
             try
             {
-                string sqlQuery = "";
-                int i = -5;
-                if (request.Data.Id != 0 && request.Data.Id > 0)
-                {
-                    sqlQuery = @"Update Products Set Name=@Name, Title=@Title,Description=@Description,SKU=@SKU,BrandId=@BrandId,CategoryId=@CategoryId,VendorId=@LoginId,ModifyBy=@LoginId,ModifyOn=GETDATE() where Id = @Id";
-                }
-                else
-                {
-                    sqlQuery = @"insert into Products (Name,Title,Description,SKU,BrandId,CategoryId,VendorId,EntryBy,ModifyBy,EntryOn,ModifyOn,ShortDescription) values(@Name,@Title,@Description,@SKU,@BrandId,@CategoryId,@LoginId,@LoginId,@LoginId,GETDATE(),GETDATE(),'ShortDescription')";
-                }
-                i = await _dapper.ExecuteAsync(sqlQuery, new
+                string sqlQuery = "Proc_AddUpdateProductAndShippingDetails";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     request.LoginId,
-                    request.RoleId,
                     request.Data.Id,
                     request.Data.Name,
                     request.Data.Title,
@@ -52,17 +43,15 @@ namespace Service.Product
                     request.Data.SKU,
                     request.Data.BrandId,
                     request.Data.CategoryId,
-                    request.Data.VendorId
-                }, CommandType.Text);
-                if (i > -1 && i < 100)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Product add successfully";
-                }
+                    request.Data.IsFlat,
+                    request.Data.Charges,
+                    request.Data.FreeOnAmount,
+                    request.Data.ShippingDetailId
+                }, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
@@ -76,12 +65,12 @@ namespace Service.Product
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId where c.Id = @Id ";
+                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId where c.Id = @Id";
                     res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.Id, request.LoginId }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId order by [Name]";
+                    sp = @"Select p.*, c.CategoryName,b.Name as BrandName from Products p inner join Category c on c.CategoryId = p.CategoryId inner join Brands b on b.Id = p.BrandId Order By p.Id desc";
                     res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.LoginId }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
@@ -89,7 +78,7 @@ namespace Service.Product
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
@@ -118,6 +107,7 @@ namespace Service.Product
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
             }
 
             return res;
@@ -134,7 +124,7 @@ namespace Service.Product
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }

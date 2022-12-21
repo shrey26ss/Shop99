@@ -1,21 +1,11 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
-using AutoMapper;
-using Dapper;
-using Entities.Enums;
 using Entities.Models;
-using FluentMigrator.Infrastructure;
-using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Validations;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -23,8 +13,6 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Mime;
-using System.Reflection;
 using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
@@ -98,16 +86,17 @@ namespace WebApp.Controllers
             return PartialView("Partials/_VariantAttributeList", response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetProductSectionView(int Id = 0)
+        [HttpGet]
+        public async Task<IActionResult> GetProductSectionView()
         {
             var model = new ProductViewModel();
             model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
             model.Brands = await DDLHelper.O.GetBrandsDDL(GetToken(), _apiBaseURL);
-            return PartialView("Partials/_Product", model);
+            return View("Partials/_Product", model);
         }
 
         [HttpPost]
+        [ValidateAjax]
         public async Task<IActionResult> AddProduct(Products model)
         {
             var response = new Response();
