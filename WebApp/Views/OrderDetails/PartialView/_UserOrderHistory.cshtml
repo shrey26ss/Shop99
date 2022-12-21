@@ -47,7 +47,14 @@
                     <h4 class="price">@item.Rate</h4>
                     <span>@item.Attributes</span>|<span>Quntity:@item.Qty</span>
                 </div>
-                <span class="dark-data">@item.StatusID.ToString()</span>
+                <span class="dark-data">
+                    @item.StatusID.ToString()
+                    @if (item.StatusID == StatusType.Shipped)
+                    {
+                        <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info">Track</a>
+                        <span class="btn btn-sm btn-rounded" title="@item.DocketNo"> <i class="fa fa-solid fa-info"></i> </span>
+                    }
+                </span>
             </td>
         </tr>
 

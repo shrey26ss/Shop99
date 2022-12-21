@@ -33,6 +33,8 @@ namespace Entities.Models
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {
+        public string InvoiceNumber { get; set; }
+        public string DocketNo { get; set; }
     }
     public class OrderDetailsRequest
     {
