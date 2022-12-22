@@ -8,7 +8,7 @@
     foreach (var item in Model)
     {
         string badge = "";
-        badge = item.StatusID == StausType.OrderPlaced ? "badge-warning" : item.StatusID == StausType.Cancel ? "badge-danger" : item.StatusID == StausType.Confirmed ? "badge-success" : item.StatusID == StausType.Delivered ? "badge-info" : "badge-dark";
+        badge = item.StatusID == StatusType.OrderPlaced ? "badge-warning" : item.StatusID == StatusType.Cancel ? "badge-danger" : item.StatusID == StatusType.Confirmed ? "badge-success" : item.StatusID == StatusType.Delivered ? "badge-info" : "badge-dark";
         counter++;
         <tr>
             <td>@counter</td>
@@ -18,10 +18,14 @@
                aria-haspopup="true" aria-expaned="false"></a>
                     <div class="dropdown-menu" aria-labelledby="act">
                         <h6 class="dropdown-header">Action Menu</h6>
-                        @if (item.StatusID == StausType.OrderPlaced)
+                        @if (item.StatusID == StatusType.OrderPlaced)
                         {
-                            <a href="#" onclick="Cancel('@item.ID','@StausType.Cancel')" class="dropdown-item Edit">Cancel</a>
-                            <a href="#" onclick="Confirm('@item.ID','@StausType.Confirmed')" class="dropdown-item Edit">Confirm</a>
+                            <a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>
+                            <a href="#" onclick="Confirm('@item.ID','@StatusType.Confirmed')" class="dropdown-item Edit">Confirm</a>
+                        }
+                        @if (item.StatusID == StatusType.Confirmed)
+                        {
+                            <a href="#" onclick="MarkasShipped('@item.ID')" class="dropdown-item Edit">Mark as Shipped</a>
                         }
                     </div>
                 </div>
@@ -40,8 +44,20 @@
             <td>@item.Attributes</td>
             <td>@item.Rate</td>
             <td>@item.MRP</td>
+            <td>@item.PaymentMode</td>
             <td>@item.EntryOn</td>
             <td>@item.ShopName</td>
         </tr>
     }
 }
+<script>
+    var MarkasShipped = (Id) =>{
+        $.get('/OrderDetails/MarkAsShippV', {Id}).done((result) =>{
+            Q.alert({
+                title: 'Shipping Details',
+                body: result,
+                width: 600
+            });
+        })
+    }
+</script>

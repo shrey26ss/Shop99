@@ -100,5 +100,10 @@ namespace Service.Identity
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<ApplicationUser>> GetAllAsync(int loginId = 0, ApplicationUser entity = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
