@@ -37,10 +37,10 @@ namespace Service.Product
                 {
                     request.LoginId,
                     request.Data.Id,
-                    request.Data.Name,
+                    request.Data.Name.Trim(),
                     request.Data.Title,
-                    request.Data.Description,
-                    request.Data.SKU,
+                    Description=request.Data.Description??String.Empty,
+                    SKU = request.Data.SKU ?? string.Empty,
                     request.Data.BrandId,
                     request.Data.CategoryId,
                     request.Data.IsFlat,
