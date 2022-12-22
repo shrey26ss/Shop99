@@ -78,6 +78,7 @@ namespace WebAPI.Middleware
             services.AddScoped<ICity, CityService>();
             services.AddScoped<IUserAddress, UserAddressService>();
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+            services.AddScoped<IRequestInfo, RequestInfoServcie>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));

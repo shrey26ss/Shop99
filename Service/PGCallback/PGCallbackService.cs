@@ -46,7 +46,13 @@ namespace Service.CartWishList
                     TID = Convert.ToInt32(request.Data.txnid.Replace("TID", ""))
                 };
                 var statusCheck = await p.StatusCheckPG(req);
-                res = await _dapper.GetAsync<ResponsePG>(sp, statusCheck,CommandType.StoredProcedure);
+                res = await _dapper.GetAsync<ResponsePG>(sp, new
+                {
+                    OrderId= statusCheck.Result.OrderId,
+                    OrderStatus=statusCheck.Result.OrderStatus,
+                    OrderAmount=statusCheck.Result.OrderAmount,
+                    ReferenceId=statusCheck.Result.ReferenceId,
+                },CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
@@ -54,6 +60,6 @@ namespace Service.CartWishList
             }
             return res;
         }
-
+       
     }
 }

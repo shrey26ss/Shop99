@@ -61,11 +61,10 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
         {
-
             var res = await _checkout.PlaceOrder(req, GetToken());
-            if (res != null && res.Result!=null && res.Result.pgResponse != null && !string.IsNullOrEmpty(res.Result.pgResponse.TID))
+            if (res != null && res.pgResponse != null && !string.IsNullOrEmpty(res.pgResponse.TID))
             {
-                return PartialView("PGRedirect", res.Result.pgResponse);
+                return PartialView("PGRedirect", res.pgResponse);
             }
             else
             {

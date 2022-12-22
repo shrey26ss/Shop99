@@ -48,9 +48,9 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 ResponseText = ResponseStatus.Failed.ToString()
             };
             string paymentMode = string.Empty;
-            if (paymentModes.ContainsKey(request.OPID))
+            if (paymentModes.ContainsKey(request.PaymentModeShortName))
             {
-                paymentMode = paymentModes[request.OPID];
+                paymentMode = paymentModes[request.PaymentModeShortName];
             }
             var payURequest = new PayURequest
             {

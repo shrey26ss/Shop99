@@ -5,6 +5,7 @@ using Data.Models;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using PaymentGateWay.PaymentGateway.PayU;
 using Service.Models;
@@ -22,12 +23,14 @@ namespace Service.CartWishList
         private readonly ILogger<PlaceOrderService> _logger;
         private readonly IMapper _mapper;
         private readonly IAPILogger _apiLogin;
-        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger, IMapper mapper, IAPILogger apiLogin)
+        private readonly IRequestInfo _irinfo;
+        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger, IMapper mapper, IAPILogger apiLogin, IRequestInfo irinfo)
         {
             _apiLogin = apiLogin;
             _mapper = mapper;
             _dapper = dapper;
             _logger = logger;
+            _irinfo = irinfo;
         }
 
         public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode()
@@ -49,7 +52,11 @@ namespace Service.CartWishList
         public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
         {
             string sp = "proc_Order";
-            var res = new PlaceOrderResponse();
+            var res = new PlaceOrderResponse()
+            { 
+            StatusCode=ResponseStatus.Failed,
+            ResponseText=nameof(ResponseStatus.Failed),
+            };
             try
             {
                 //PlaceOrder 
@@ -62,6 +69,8 @@ namespace Service.CartWishList
                 }, CommandType.StoredProcedure);
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
+                  //  plaeorderRes.Domain = _irinfo.GetDomain();
+                    plaeorderRes.Domain = "http://localhost:52923";
                     PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
                     //initiate PaymentGateWay
                     var pgInitiate = await p.GeneratePGRequestForWeb(plaeorderRes);
@@ -88,6 +97,6 @@ namespace Service.CartWishList
             }
             return res;
         }
-
+       
     }
 }
