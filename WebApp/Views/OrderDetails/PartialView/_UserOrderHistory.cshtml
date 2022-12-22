@@ -54,43 +54,9 @@
                         <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info">Track</a>
                         <span class="btn btn-sm btn-rounded" title="@item.DocketNo"> <i class="fa fa-solid fa-info"></i> </span>
                     }
+                    <button class="btn btn-sm btn-rounded" onclick="ShareTrackingDetails('@item.ID','https://shiprocket.co/tracking/@item.DocketNo')">Share</button>
                 </span>
             </td>
-        </tr>
-
-
-        @* <tr>
-            <td>@counter</td>
-            <td class="align-middle">
-            <div class="btn-group dropup">
-            <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expaned="false"></a>
-            <div class="dropdown-menu" aria-labelledby="act">
-            <h6 class="dropdown-header">Action Menu</h6>
-            @if (item.StatusID == StausType.OrderPlaced)
-            {
-            <a href="#" onclick="Cancel('@item.ID','@StausType.Cancel')" class="dropdown-item Edit">Cancel</a>
-            <a href="#" onclick="Confirm('@item.ID','@StausType.Confirmed')" class="dropdown-item Edit">Confirm</a>
-            }
-            </div>
-            </div>
-            </td>
-            <td>
-            <div class="card">
-            <div class="valign-wrapper pr12ImgNameDiv">
-            <img src="@item.Thumbnail" class="img-fluid rounded-circle" style="width:50px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
-            </div>
-            </div>
-            </td>
-            <td>@item.Product</td>
-            <td>@item.Title</td>
-            <td><span class="badge @badge">@item.StatusID.ToString()</span></td>
-            <td>@item.Qty</td>
-            <td>@item.Attributes</td>
-            <td>@item.Rate</td>
-            <td>@item.MRP</td>
-            <td>@item.EntryOn</td>
-            <td>@item.ShopName</td>
-            </tr>*@
+        </tr>        
     }
 }

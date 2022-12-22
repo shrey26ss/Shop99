@@ -53,6 +53,10 @@ namespace WebApp.Controllers
         {
             return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id});
         }
+        public IActionResult ShareTrackingDetails(TrackingModel model)
+        {
+            return PartialView("PartialView/_ShareTrackingDetails", model);
+        }
         [HttpPost]
         [ValidateAjax]
         public async Task<IActionResult> UpdateShippingNInvoice(OrderShippedStatus model)
