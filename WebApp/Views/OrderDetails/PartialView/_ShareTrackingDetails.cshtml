@@ -1,20 +1,22 @@
 ﻿@model WebApp.Models.ViewModels.TrackingModel
 
+@{
+    string WhatsappURL = "https://api.whatsapp.com/send?text="+@Model.URL;
+    string GmailLink = "mailto:?subject=OrderTrack&body="+@Model.URL;
+}
 
 <div class="card">
     <div class="card-body">
         <div class="row justify-content-center">
             <div class="col-sm-12 text-center">
                 <div class="form-group">
-                    <input type="text" class="form-control" asp-for="URL" />
+                    <input type="text" class="form-control" readonly asp-for="TrackID" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-sm btn-outline-success"><i class="fa fa-whatsapp" aria-hidden="true"></i></button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="fa fa-envelope" aria-hidden="true"></i></i></button>
-                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-phone-square" aria-hidden="true"></i></button>
-                    
-                    
-                    
+                     <a class="btn btn-sm btn-outline-primary" onclick="Q.copyToClipboard('@Model.URL')" ><i class="fa fa-copy" aria-hidden="true"></i></a>
+                    <a class="btn btn-sm btn-outline-success" target="_blank" href="@WhatsappURL" ><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+                    <a class="btn btn-sm btn-outline-danger" href="@GmailLink" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                  @*  <button class="btn btn-sm btn-outline-info"><i class="fa fa-phone-square" aria-hidden="true"></i></button>*@
                 </div>
             </div>
         </div>

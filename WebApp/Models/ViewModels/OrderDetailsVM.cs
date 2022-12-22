@@ -9,7 +9,7 @@ namespace WebApp.Models.ViewModels
     }
     public class TrackingModel
     {
-        public int Id { get; set; }
+        public string TrackID { get; set; }
         public string URL { get; set; }
     }
 }

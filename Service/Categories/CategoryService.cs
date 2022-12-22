@@ -32,17 +32,18 @@ namespace Service.Categories
                 int i = -5;
                 if (category.Data.CategoryId != 0 && category.Data.CategoryId > 0)
                 {
-                    sqlQuery = @"Update Category Set CategoryName=@CategoryName, ParentId=@ParentId,IsPublish=@IsPublish,Icon=@Icon,ModifyOn=GETDATE(),Ind=@Ind where CategoryId = @CategoryId";
+                    sqlQuery = @"Update Category Set CategoryName=@CategoryName,TAXRate=@TAXRate, ParentId=@ParentId,IsPublish=@IsPublish,Icon=@Icon,ModifyOn=GETDATE(),Ind=@Ind where CategoryId = @CategoryId";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Category (CategoryName, ParentId,IsPublish,Icon,EntryOn,ModifyOn,Ind,IsVendorGrouped)values(@CategoryName,@ParentId,@IsPublish,@Icon,GETDATE(),GETDATE(),0,@IsVendorGrouped);";
+                    sqlQuery = @"Insert into Category (CategoryName, ParentId,IsPublish,Icon,EntryOn,ModifyOn,Ind,IsVendorGrouped,TAXRate)values(@CategoryName,@ParentId,@IsPublish,@Icon,GETDATE(),GETDATE(),0,@IsVendorGrouped,@TAXRate);";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     category.Data.CategoryId,
                     category.Data.CategoryName,
                     category.Data.ParentId,
+                    category.Data.TAXRate,
                     category.Data.IsPublish,
                     category.Data.Icon,
                     category.Ind,

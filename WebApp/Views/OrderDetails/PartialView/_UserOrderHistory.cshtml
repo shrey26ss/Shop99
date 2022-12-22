@@ -53,8 +53,9 @@
                     {
                         <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info">Track</a>
                         <span class="btn btn-sm btn-rounded" title="@item.DocketNo"> <i class="fa fa-solid fa-info"></i> </span>
+                        <button class="btn btn-sm btn-rounded" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')">Share</button>
                     }
-                    <button class="btn btn-sm btn-rounded" onclick="ShareTrackingDetails('@item.ID','https://shiprocket.co/tracking/@item.DocketNo')">Share</button>
+                  
                 </span>
             </td>
         </tr>        

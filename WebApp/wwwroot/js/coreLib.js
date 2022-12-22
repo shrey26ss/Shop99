@@ -438,13 +438,12 @@ var Q;
         txtarea.scrollTop = scrollPos;
     }
 
-    Q.copyToClipboard = (str, areaId = '') => {
+    Q.copyToClipboard = (_text) => {
         var $temp = $("<input>");
         $("body").append($temp);
-        $temp.val(str).select();
+        $temp.val(_text).select();
         document.execCommand("copy");
         $temp.remove();
-        Q.insertAtCaret(areaId, str);
         Q.notify(1, 'Text copied to clipboard')
     };
 
