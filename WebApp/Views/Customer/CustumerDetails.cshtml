@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        Customer Details
+    </h1>
+</div>
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered" id="Grid">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>User Name</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+        <script>
+            $(() => {
+                UserData();
+            })
+            var UserData = () => {
+                $.post('/Customer/CustomerList').done(function (result) {
+                   // debugger;
+                    $('#Grid tbody').html(result);
+                }).fail(function (xhr) {
+                })
+            };
+            </script>
+            }

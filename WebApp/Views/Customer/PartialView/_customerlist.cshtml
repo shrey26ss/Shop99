@@ -1,0 +1,26 @@
+﻿@using Entities.Models;
+@model IEnumerable<UserDetails>
+
+@if (Model.Any())
+{
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        counter++;
+        <tr>
+            <td>@counter</td>
+@*            <td class="align-middle">
+                <div class="btn-group dropup">
+                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expaned="false"></a>
+
+                </div>
+            </td>*@
+            <td>@item.name</td>
+            <td>@item.UserName</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Email</td>
+
+        </tr>
+    }
+}
