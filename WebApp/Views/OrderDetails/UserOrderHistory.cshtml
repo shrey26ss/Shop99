@@ -46,8 +46,8 @@
                     loadData();
             })
         };
-        var ShareTrackingDetails = (OrderId,URL) =>{
-            $.post('/OrderDetails/ShareTrackingDetails', { OrderId, URL }).done((result)=>{
+        var ShareTrackingDetails = (TrackID,URL) =>{
+            $.post('/OrderDetails/ShareTrackingDetails', { TrackID, URL }).done((result)=>{
                 Q.alert({
                     title: 'Share Tracking Details',
                     body: result,

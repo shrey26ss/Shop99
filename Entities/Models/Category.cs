@@ -9,6 +9,7 @@ namespace Entities.Models
     {
         public int ParentId { get; set; }
         public string ParentName { get; set; }
+        public decimal TAXRate { get; set; }
         public bool IsPublish { get; set; }
         public string Icon { get; set; }
         public bool? IsVendorGrouped { get; set; }
