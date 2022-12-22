@@ -45,7 +45,7 @@ const loadMainCategory = function () {
                 loadTopCategoryProduct(v.categoryId, i + 1);
             })
         }
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
 }
 const loadTopCategoryProduct = function (cId, i) {
     let item = {
@@ -188,7 +188,7 @@ const loadTopCategoryProduct = function (cId, i) {
 const loadTopBannerSec = async function () {
     await $.post("/LoadTopBanner").done(res => {
         $('#secDvBanner').html(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
    
 }
 const loadofferBanner = async function () {
@@ -212,43 +212,41 @@ const loadofferBanner = async function () {
           </div>`;
         });
         $('#dvofferbanner').append(htmlbody);
-       
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    })
 }
 const loadNewProducts = async function () {
     await $.post("/ProductSection", { id: 1 }).done(res => {
-        
         $('#secDvProduct').html(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
     
 }
 const loadFeatureProducts = async function () {
     await $.post("/ProductSection", { id: 2 }).done(res => {
-       
+
         $('#secDvProduct').append(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
 }
 const loadBestSeller = async function () {
     await $.post("/ProductSection", { id: 3 }).done(res => {
-      
+
         $('#secDvProduct').append(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
 }
 const loadOnSale = async function () {
     await $.post("/ProductSection", { id: 4 }).done(res => {
-      
+
         $('#secDvProduct').append(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
 }
 const loadHotDeals = async function () {
     await $.post("/HotDeals").done(res => {
         $('#dvHotDeals').append(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
 }
 const loadHotDealsNewProduct = async function () {
     await $.post("/HotDealsNewProduct").done(res => {
         $('#dvHotDealNewProduct').append(res);
-    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    });
 }
 
 
