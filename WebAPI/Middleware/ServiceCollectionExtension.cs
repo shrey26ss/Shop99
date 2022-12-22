@@ -52,7 +52,7 @@ namespace WebAPI.Middleware
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IUserStore<ApplicationUser>, UserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, RoleStore>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserService, Service.Identity.UserService>();
             services.AddScoped<IAPILogger, APILogger>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICartWishListService, CartWishListService>();
@@ -77,6 +77,8 @@ namespace WebAPI.Middleware
             services.AddScoped<IStates, StateService>();
             services.AddScoped<ICity, CityService>();
             services.AddScoped<IUserAddress, UserAddressService>();
+            services.AddScoped<IUserRepo, UserRepo>();
+          
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IRequestInfo, RequestInfoServcie>();
             //services.AddProgressiveWebApp();

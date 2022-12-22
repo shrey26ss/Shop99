@@ -8,10 +8,17 @@ using System.Threading.Tasks;
 using System;
 using WebApp.Models;
 using Service.Identity;
+using AppUtility.APIRequest;
+using Entities.Models;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Net;
+using Service.Models;
+using WebApp.Middleware;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1,2")]
     public class CustomerController : Controller
     {
 
@@ -31,6 +38,26 @@ namespace WebApp.Controllers
             //    throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             //}
             return View();
+        }
+        [Route("/CustumerDetails")]
+        public async Task<IActionResult> CustumerDetails()
+        {
+            return View();
+        }
+        public async Task<IActionResult> CustomerList()
+        {
+            List<UserDetails> list = new List<UserDetails>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/User/CustomerList",null, GetToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<UserDetails>>>(apiResponse.Result);
+                list = deserializeObject.Result;
+            }
+            return PartialView("PartialView/_customerlist", list);
+        }
+        private string GetToken()
+        {
+            return User.GetLoggedInUserToken();
         }
     }
 }
