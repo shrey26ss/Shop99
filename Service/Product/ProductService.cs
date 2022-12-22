@@ -37,7 +37,7 @@ namespace Service.Product
                 {
                     request.LoginId,
                     request.Data.Id,
-                    request.Data.Name.Trim(),
+                    request.Data.Name,
                     request.Data.Title,
                     Description=request.Data.Description??String.Empty,
                     SKU = request.Data.SKU ?? string.Empty,
