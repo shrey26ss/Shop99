@@ -35,8 +35,6 @@ namespace WebApp.Controllers
         [Authorize(Roles = "0,3")]
         public async Task<IActionResult> Index()
         {
-            var rolesss = User.GetLoggedInUserRoles();
-            bool isValidvendor = false;
             string _token = User.GetLoggedInUserToken();
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Vendor/ValidateVendor", "", _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
@@ -44,49 +42,53 @@ namespace WebApp.Controllers
                 var deserializeObject = JsonConvert.DeserializeObject<Response<bool>>(apiResponse.Result);
                 if (deserializeObject.Result == true)
                 {
-                    isValidvendor = true;
                     var Identity = HttpContext.User.Identity as ClaimsIdentity;
                     Identity.RemoveClaim(Identity.FindFirst(ClaimTypes.Role));
                     Identity.AddClaim(new Claim(ClaimTypes.Role, "3"));
                     await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,new ClaimsPrincipal(Identity));
+                    return View();
                 }
             }
-            return View(isValidvendor);
+            return RedirectToAction("VendorDetails");
         }
         [Authorize(Roles ="0")]
         public IActionResult VendorDetails()
         {
-            return PartialView("PartialView/_VendorDetails");
+            return View();
         }
         [Authorize(Roles ="0")]
-        [ValidateAjax]
         [HttpPost]
-        public async Task<IActionResult> SaveVendorInformation(VendorProfile model)
+        public async Task<IActionResult> VendorDetails(VendorProfile model)
         {
-            var response = new Response();
-            try
+            if (ModelState.IsValid)
             {
-                string _token = User.GetLoggedInUserToken();
-                var body = JsonConvert.SerializeObject(model);
-                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Vendor/AddUpdate", body, _token);
-                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                var response = new Response();
+                try
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
-                    response = deserializeObject;
-                    if(response.StatusCode == ResponseStatus.Success)
+                    string _token = User.GetLoggedInUserToken();
+                    var body = JsonConvert.SerializeObject(model);
+                    var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Vendor/AddUpdate", body, _token);
+                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
                     {
-                        var Identity = HttpContext.User.Identity as ClaimsIdentity;
-                        Identity.RemoveClaim(Identity.FindFirst(ClaimTypes.Role));
-                        Identity.AddClaim(new Claim(ClaimTypes.Role, "3"));
-                        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(Identity));
+                        var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                        response = deserializeObject;
+                        if (response.StatusCode == ResponseStatus.Success)
+                        {
+                            var Identity = HttpContext.User.Identity as ClaimsIdentity;
+                            Identity.RemoveClaim(Identity.FindFirst(ClaimTypes.Role));
+                            Identity.AddClaim(new Claim(ClaimTypes.Role, "3"));
+                            await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(Identity));
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    response.ResponseText = ex.Message;
+                }
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                response.ResponseText = ex.Message;
-            }
-            return Ok(response);
+            return View(model);
+            
         }
         // GET: VendorController/Create
         [Authorize(Roles = "3")]
