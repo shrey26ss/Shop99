@@ -106,7 +106,11 @@
 @section Scripts{
     <script>
         variantImages = [];
-        const isPartOfArray = (a, b) => a.join().includes(b.join());
+        const isPartOfArray = (a, b) => {
+            a=a.sort();
+            b = b.sort();
+            return a.join().includes(b.join())
+        };
         $(document).on('change', 'input', e => {
             let ele = $(e.currentTarget);
             ele.attr('value', ele.val())
@@ -180,7 +184,7 @@
                 pictureInfo.push(pic);
             });
 
-            if (!isPartOfArray(pictureInfo, selectedColors())) {
+            if (!isPartOfArray(pictureInfo.map(x=>x.AttrColor), selectedColors())) {
                 Q.notify(-1, 'Some Images of selected colores are missing.');
                 return false;
             }
