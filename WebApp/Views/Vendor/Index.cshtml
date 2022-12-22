@@ -1,27 +1,2 @@
-﻿@model bool
-@if(Model == true){
-
-}
-else{
-    @section scripts{
-            <script>
-            $(() => {
-                AddNewItem();
-            })
-            var AddNewItem = function () {
-                $.get('/Vendor/VendorDetails').done((result) => {
-                    Q.alert({
-                        title: 'Vendor Details',
-                        body: result,
-                        width: 800
-                    });  
-                    $('.ui-dialog-titlebar-close').addClass('d-none');
-                    $('.ui-dialog-titlebar-close').unbind().click(()=>{                        
-                        return false;
-                    })
-                })
-            };
-        </script>
-    }
-    
-}
+﻿
+<h3>Vendor Dashboard</h3>

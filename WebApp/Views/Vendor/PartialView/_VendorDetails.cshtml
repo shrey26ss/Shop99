@@ -1,67 +1,73 @@
 ﻿@using Entities.Models;
 @model VendorProfile
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<link href="~/css/productedit.head.styles.css" rel="stylesheet" />
+<link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
+<link href="~/css/admin.site.css" rel="stylesheet" />
+<link href="~/select2/css/select2.min.css" />
 <style>
-    .error{
-        display:none;
+    .error {
+        display: none;
     }
 </style>
-<form method="post" asp-action="SaveVendorInformation">
-    <div class="row">
-        <div class="col-sm-6 col-ms-6">
-            <div class="form-group">
-                <label asp-for="ShopName"></label>
-                <input asp-for="ShopName" class="form-control" />
-                <span asp-validation-for="ShopName" class="text-danger"></span>
-            </div>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="">Please Fill Below Details To Continue</h3>
         </div>
-        <div class="col-sm-6 col-ms-6">
-            <div class="form-group">
-                <label asp-for="GSTNumber"></label>
-                <input asp-for="GSTNumber" class="form-control" />
-                <span asp-validation-for="GSTNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-ms-6">
-            <div class="form-group">
-                <label asp-for="TIN"></label>
-                <input asp-for="TIN" class="form-control" />
-                <span asp-validation-for="TIN" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-ms-6">
-            <div class="form-group">
-                <label asp-for="Address"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-ms-6">
-            <div class="form-group">
-                <label asp-for="ContactNo"></label>
-                <input asp-for="ContactNo" class="form-control" />
-                <span asp-validation-for="ContactNo" class="text-danger"></span>
-            </div>
+        <div class="card-body">
+            <form method="post" id="vendor" asp-action="VendorDetails">
+                <div class="row">
+                    <div class="col-sm-6 col-ms-6">
+                        <div class="form-group">
+                            <label asp-for="ShopName"></label>
+                            <input asp-for="ShopName" class="form-control" />
+                            <span asp-validation-for="ShopName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-ms-6">
+                        <div class="form-group">
+                            <label asp-for="GSTNumber"></label>
+                            <input asp-for="GSTNumber" class="form-control" />
+                            <span asp-validation-for="GSTNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-ms-6">
+                        <div class="form-group">
+                            <label asp-for="TIN"></label>
+                            <input asp-for="TIN" class="form-control" />
+                            <span asp-validation-for="TIN" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-ms-6">
+                        <div class="form-group">
+                            <label asp-for="Address"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-ms-6">
+                        <div class="form-group">
+                            <label asp-for="ContactNo"></label>
+                            <input asp-for="ContactNo" class="form-control" />
+                            <span asp-validation-for="ContactNo" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row text-center">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <input type="submit"  class="btn btn-success" value="Save" />
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <hr />
-    <div class="row text-center">
-        <div class="col-sm-12 col-md-12">
-            <div class="form-group">
-                <input type="submit" class="btn btn-success" value="Save" />
-            </div>
-        </div>
-    </div>
-</form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+@*<script src="~/build/bundlejs.js"></script>*@
 <script>
-    $('#File').change(function () {
-        const file = this.files[0];
-        if (file) {
-            let reader = new FileReader();
-            reader.onload = function (event) {
-                console.log(event.target.result);
-                $('#blah').attr('src', event.target.result);
-            }
-            reader.readAsDataURL(file);
-        }
-    });
+    
 </script>
