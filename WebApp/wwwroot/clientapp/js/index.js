@@ -22,7 +22,7 @@ const loadTopBrands = function () {
         dataType: 'json',
         data: JSON.stringify(item),
         success: result => {
-            
+
             let htmlbody = ``;
             $.each(result.result, async function (i, v) {
                 htmlbody = htmlbody + `<li><a href="/topbrands/${v.id}">${v.name}</a></li>`;
@@ -55,7 +55,7 @@ const loadTopCategoryProduct = function (cId, i) {
             CategoryId: cId
         }
     };
-  
+
     $.ajax({
         type: 'POST',
         url: baseURL + "/Home/ByCategoryProduct",
@@ -189,14 +189,14 @@ const loadTopBannerSec = async function () {
     await $.post("/LoadTopBanner").done(res => {
         $('#secDvBanner').html(res);
     });
-   
+
 }
-const loadofferBanner = async function () {
-    await $.get(baseURL + "/Home/OfferBanner").done(res => {
-     
+const loadofferBanner = function () {
+    $.get(baseURL + "/Home/OfferBanner").done(res => {
         let htmlbody = ``;
-        $.each(res.result, async function (i, v) {
-            htmlbody = htmlbody + `<div class="collection-img">
+        if (res != null && res.result!=null) {
+            $.each(res.result, function (i, v) {
+                htmlbody = htmlbody + `<div class="collection-img">
             <img src="${v.bannerPath}" class="bg-img  " alt="banner">
           </div>
           <div class="collection-banner-contain ">
@@ -210,15 +210,16 @@ const loadofferBanner = async function () {
               </div>
             </div>
           </div>`;
-        });
-        $('#dvofferbanner').append(htmlbody);
+            });
+            $('#dvofferbanner').append(htmlbody);
+        }
     })
 }
 const loadNewProducts = async function () {
     await $.post("/ProductSection", { id: 1 }).done(res => {
         $('#secDvProduct').html(res);
     });
-    
+
 }
 const loadFeatureProducts = async function () {
     await $.post("/ProductSection", { id: 2 }).done(res => {
