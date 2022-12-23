@@ -1,4 +1,9 @@
-﻿<div class="col-md-12 attrCombination" id="@DateTime.Now.ToString("ddMMyyyyhhmmssmmm")">
+﻿<style>
+    .input-group-text {
+        height: 38px;
+    }
+</style>
+<div class="col-md-12 attrCombination" id="@DateTime.Now.ToString("ddMMyyyyhhmmssmmm")">
     <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
@@ -21,7 +26,7 @@
             </div>
         </div>
     </div>
-     <div class="form-group row">
+    <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
                 <label class="col-form-label required" for="SellingCost">Selling Cost</label>
@@ -32,22 +37,7 @@
                 <input class="form-control text-box single-line" type="text" id="SellingCost" name="SellingCost" value="0">
             </div>
         </div>
-    </div>    
-    <div class="form-group row">
-        <div class="col-md-3">
-            <div class="label-wrapper">
-                <label class="col-form-label" for="HSN">HSN</label>
-                @*<div title="Enter Value for HSN" data-toggle="tooltip" class="ico-help">
-                    <i class="fas fa-question-circle"></i>
-                </div>*@
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" id="HSN_1" name="HSN">
-            </div>
-        </div>
-    </div>    
+    </div>
     <div class="form-group row">
         <div class="col-md-3 label-wrapper">
             <label class="col-form-label required" for="Quantity">Quantity</label>
@@ -59,40 +49,52 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-md-3 label-wrapper">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label" for="HSN">HSN</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group input-group-required">
+                <input class="form-control text-box single-line" type="text" id="HSN_1" name="HSN">
+            </div>
+        </div>
+        <div class="col-md-1 label-wrapper">
             <label class="col-form-label" for="GTIN">GTIN</label>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-4">
             <div class="input-group input-group-required">
                 <input class="form-control text-box single-line" type="text" id="GTIN_1" name="GTIN">
             </div>
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-md-3">
-            <div class="label-wrapper">
-                <label class="col-form-label" for="IsFeatured">IsFeatured</label>
+        <div class="col-md-3"></div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" name="IsFeatured" id="IsFeatured" class="mt-0">
+                    </div>
+                </div>
+                <label class="form-control" for="IsFeatured">IsFeatured</label>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="input-group input-group-required">
-                <input class="mt-3 ml-2" type="checkbox" name="IsFeatured">
+        <div class="col-sm-1"></div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="radio" name="IsShowOnHome" id="IsShowOnHome">
+                    </div>
+                </div>
+                <label class="form-control" for="IsShowOnHome">Is Show On Home</label>
             </div>
         </div>
     </div>
-    <div class="form-group row">
-        <div class="col-md-3">
-            <div class="label-wrapper">
-                <label class="col-form-label" for="IsShowOnHome">Is Show On Home</label>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="input-group input-group-required">
-                <input class="mt-3 ml-2" type="radio" name="IsShowOnHome">
-            </div>
-        </div>
-    </div>
+    
     <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right">Add Attribute</button>
+
     <table class="table table-bordered table-hover table-striped attributeGrid">
         <thead>
             <tr>
