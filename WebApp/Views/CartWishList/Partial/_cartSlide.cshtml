@@ -39,8 +39,8 @@
                                 <div class="addit-box">
                                     <div class="qty-box">
                                         <div class="input-group">
-                                            <button class="qty-minus" data-variant-id="@item.VariantID"></button>
-                                            <input class="qty-adj form-control"  disabled type="number" value="@item.Qty" />
+                                            <button class="qty-minus qty-minus-cart"  data-variant-id="@item.VariantID"></button>
+                                            <input class="qty-adj form-control" min="0"  disabled type="number" value="@item.Qty" />
                                             <button class="qty-plus addtocart" data-variant-id="@item.VariantID"></button>
                                         </div>
                                     </div>

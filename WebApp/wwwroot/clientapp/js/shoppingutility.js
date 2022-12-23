@@ -19,7 +19,7 @@ const addToCart = (vId, Qty) => {
         param["Qty"] = Qty
     };
     $.post("/AddToCart", param).done(res => {
-        Q.notify(res.statusCode, res.responseText)
+        Q.notify(res.statusCode, Qty < 0 ? "Item removed from cart." :"item added in cart.")
         if (res.statusCode == 1) {
             loadCartDetails();
             loadCartSlide();
@@ -38,7 +38,7 @@ $(document).on('click', '.move-to-cart', (e) => {
     }).fail(xhr => Q.xhrError(xhr)).always(() => "")
 });
 
-$(document).on('click', '.qty-minus', (e) => {
+$(document).on('click', '.qty-minus-cart', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
     if (vId === 0) {
         vId = $('#hdVid').val();
@@ -50,7 +50,7 @@ $(document).on('click', '.delete-cart', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
     Q.confirm("Are Your Sure Delete Cart Items", () => {
         $.post("/DeleteCart", { VariantID: vId, Qty: -1 }).done(res => {
-            Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Item Removed" : res.responseText)
+            Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Items Removed" : res.responseText)
             if (res.statusCode == 1) {
                 loadCartDetails();
                 loadCartSlide();
@@ -62,7 +62,7 @@ $(document).on('click', '.delete-cart', (e) => {
 $(document).on('click', '.delete-cart-slide', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
     $.post("/DeleteCart", { VariantID: vId, Qty: -1 }).done(res => {
-        Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Item Removed" : res.responseText)
+        Q.notify(res.statusCode, res.responseText = res.statusCode == 1 ? "Cart Items Removed" : res.responseText)
         if (res.statusCode == 1) {
             loadCartDetails();
             loadCartSlide();
