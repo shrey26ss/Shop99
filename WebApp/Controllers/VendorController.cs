@@ -1,4 +1,5 @@
 ﻿using AppUtility.APIRequest;
+using AppUtility.Helper;
 using AutoMapper;
 using Entities.Enums;
 using Entities.Models;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 using WebApp.AppCode.Attributes;
 using WebApp.Middleware;
 using WebApp.Models;
+using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
@@ -52,9 +54,13 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Onboard));
         }
         [Authorize(Roles ="0")]
-        public IActionResult Onboard()
+        public async Task<IActionResult> Onboard()
         {
-            return View();
+            var model = new VendorVM
+            {
+                States = await DDLHelper.O.GetStateDDL(_apiBaseURL)
+            };
+            return View(model);
         }
         [Authorize(Roles ="0")]
         [HttpPost]
