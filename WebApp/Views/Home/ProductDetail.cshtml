@@ -100,11 +100,11 @@
                                     </div>
                                     <div id="selectSize" class="pro-group addeffect-section product-description border-product">
                                         <div id="attributeList"></div>
-                                        <h6 class="product-title">quantity</h6>
-                                        <div class="qty-box">
+                                        <h6 class="product-title d-none">quantity</h6>
+                                        <div class="qty-box d-none" >
                                             <div class="input-group">
                                                 <button class="qty-minus"></button>
-                                                <input class="qty-adj form-control" type="number" value="1" />
+                                                <input class="qty-adj form-control" id="txtQuantity" min="1" type="number" value="1" />
                                                 <button class="qty-plus"></button>
                                             </div>
                                         </div>
@@ -518,6 +518,6 @@
             }]
         });
 
-        $('.btnAddtocart,.qty-plus').click(() => addToCart(variantId));
+        $('.btnAddtocart').click(() => addToCart(variantId));
     </script>
 }   

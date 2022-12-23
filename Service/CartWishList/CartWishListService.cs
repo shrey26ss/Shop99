@@ -73,18 +73,18 @@ namespace Service.CartWishList
 
                 sqlQuery = @"if not exists(select 1 from CartItem where UserID=@UserID and VariantID=@VariantID)
                             begin
-                            insert into CartItem(UserID,VariantID,Qty,EntryOn)values(@UserID,@VariantID,@Qty,GETDATE())
+                            insert into CartItem(UserID,VariantID,Qty,EntryOn,UpdateOn)values(@UserID,@VariantID,@Qty,GETDATE(),GETDATE())
                             end
                             else
                             begin
                             declare @ExistQty int=(select top(1) Qty from CartItem (nolock) where UserID=@UserID and VariantID=@VariantID)
-                            if(@ExistQty=1 and @Qty<1)
+                            if(@ExistQty<=1 and @Qty<1)
                             begin
                             delete from CartItem where UserID=@UserID and VariantID=@VariantID
                             end
                             else
                             begin
-                            update CartItem set Qty=Qty+@Qty where UserID=@UserID and VariantID=@VariantID
+                            update CartItem set Qty=iif(isnull(@Qty,1)=1,Qty+@Qty,@Qty),UpdateOn=GETDATE() where UserID=@UserID and VariantID=@VariantID and isnull(@Qty,1)>0
                             end
                             end";
                 i = await _dapper.ExecuteAsync(sqlQuery, new

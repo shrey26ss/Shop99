@@ -1346,7 +1346,7 @@
     var qtyIncs = document.querySelectorAll(".qty-plus");
     qtyDecs.forEach((qtyDec) => {
         qtyDec.addEventListener("click", function (e) {
-            if (e.target.nextElementSibling.value > 0) {
+            if (e.target.nextElementSibling.value > 1) {
                 e.target.nextElementSibling.value--;
             } else {
                 // delete the item, etc
@@ -2386,7 +2386,7 @@
      23. Tooltip js
     ===============*/
     tippy('.tooltip-top', {
-        content: 'My tooltip!',
+        content: 'Click to add product in  cart',
         placement: 'top',
     });
 
