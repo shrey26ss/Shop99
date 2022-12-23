@@ -19,7 +19,7 @@ const addToCart = (vId, Qty) => {
         param["Qty"] = Qty
     };
     $.post("/AddToCart", param).done(res => {
-        Q.notify(res.statusCode, Qty < 0 ? "Item removed from cart." :"item added in cart.")
+        Q.notify(res.statusCode, res.statusCode == -1 ? res.responseText : Qty < 0? "Item removed from cart." :"Item Added in cart")
         if (res.statusCode == 1) {
             loadCartDetails();
             loadCartSlide();

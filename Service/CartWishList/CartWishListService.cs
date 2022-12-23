@@ -84,7 +84,7 @@ namespace Service.CartWishList
                             end
                             else
                             begin
-                            update CartItem set Qty=iif(isnull(@Qty,1)=1,Qty+@Qty,@Qty),UpdateOn=GETDATE() where UserID=@UserID and VariantID=@VariantID and isnull(@Qty,1)>0
+                            update CartItem set Qty=iif(isnull(@Qty,1) in (1,-1),Qty+@Qty,@Qty),UpdateOn=GETDATE() where UserID=@UserID and VariantID=@VariantID 
                             end
                             end";
                 i = await _dapper.ExecuteAsync(sqlQuery, new
