@@ -6237,18 +6237,30 @@ button {
     position: relative;
 }
 
-    .category-header-2 .navbar-menu {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-        position: relative;
-        z-index: 9;
-        align-items: center;
-        justify-content: center;
-    }
+.sticky .category-header-2 .navbar-menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    position: relative;
+    z-index: 9;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-header-2 .navbar-menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    position: relative;
+    z-index: 9;
+    align-items: center;
+    justify-content: center;
+}
 
         .category-header-2 .navbar-menu .logo-block {
             display: none;
