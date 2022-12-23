@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Service.Models;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,8 +26,8 @@ namespace WebApp.Controllers
     {
 
         private string _apiBaseURL;
-        private readonly SignInManager<Service.Identity.ApplicationUser> _signInManager;
-        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<Service.Identity.ApplicationUser> signInManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _signInManager = signInManager;
@@ -134,6 +135,32 @@ namespace WebApp.Controllers
             {
                 return View();
             }
+        }
+        [Authorize(Roles ="1")]
+        [HttpGet]
+        [Route("/VendorList")]
+        public async Task<IActionResult> Vendors()
+        {
+            return View();
+        }
+        [Authorize(Roles = "1")]
+        [HttpPost]
+        public async Task<IActionResult>VendorList(VendorProfileRequest model)
+        {
+            model = model ?? new VendorProfileRequest();
+            var list = new List<VendorProfileList>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/User/VendorList", JsonConvert.SerializeObject
+                (model), GetToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<VendorProfileList>>>(apiResponse.Result);
+                list = deserializeObject.Result;
+            }
+            return PartialView("PartialView/_vendorList", list);
+        }
+        private string GetToken()
+        {
+            return User.GetLoggedInUserToken();
         }
     }
 }

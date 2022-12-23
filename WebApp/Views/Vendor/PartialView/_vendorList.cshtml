@@ -1,0 +1,23 @@
+﻿@using Entities.Models;
+@model IEnumerable<VendorProfileList>
+
+@if (Model.Any())
+{
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        counter++;
+        <tr data-user-id="@item.UserId">
+            <td>@counter</td>
+            <td>@item.Name</td>
+            <td>@item.ContactNo</td>
+            <td>@item.ShopName</td>
+            <td>@item.GSTNumber</td>
+            <td>@item.TIN</td>
+            <td>@item.Email</td>
+            <td>@item.State</td>
+            <td>@item.Address</td>
+            <td>@item.IsActive</td>
+        </tr>
+    }
+}

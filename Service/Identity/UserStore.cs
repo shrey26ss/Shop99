@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Service.Identity;
 using AppUtility.Helper;
+using Entities.Models;
 
 namespace Services.Identity
 {

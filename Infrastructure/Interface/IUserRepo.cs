@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     public interface IUserRepo 
     {
         Task<IResponse<IEnumerable<UserDetails>>> GetUserListByRole(Role id);
+        Task<IResponse<IEnumerable<VendorProfileList>>> GetVendorList(VendorProfileRequest request = null);
     }
 }
