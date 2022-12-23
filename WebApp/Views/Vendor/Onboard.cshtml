@@ -1,8 +1,9 @@
-﻿@using Entities.Models;
+﻿@using WebApp.Models.ViewModels;
+@model VendorVM
 @{
     Layout = null;
+    var DDL = new SelectList(Model.States.ToList(), "Id", "StateName");
 }
-@model VendorProfile
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 <link href="~/css/productedit.head.styles.css" rel="stylesheet" />
 <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
@@ -39,7 +40,7 @@
                     <div class="col-sm-6 col-ms-6">
                         <div class="form-group">
                             <label>State</label>
-                           <select class="form-control">
+                            <select class="form-control" asp-for="StateId" asp-items="@DDL">
                                <option>:: Select State ::</option>
                            </select>
                             <span asp-validation-for="ContactNo" class="text-danger"></span>

@@ -73,8 +73,8 @@ namespace AppUtility.Helper
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/State/GetStateDDL",null);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
-                var _ = JsonConvert.DeserializeObject<Response<IEnumerable<StateDDL>>>(apiResponse.Result);
-                list = _.Result.ToList();
+                var _ = JsonConvert.DeserializeObject<IEnumerable<StateDDL>>(apiResponse.Result);
+                list = _.ToList();
             }
             return list;
         }

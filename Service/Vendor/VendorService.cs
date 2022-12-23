@@ -47,17 +47,17 @@ namespace Service.Vendor
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update VendorProfile Set UserId=@LoginId,ShopName=@ShopName,GSTNumber=@GSTNumber,TIN=@TIN,Address=@Address,ContactNo=@ContactNo,ModifyBy=@LoginId,ModifyOn=Getdate() where Id = @Id";
+                    sqlQuery = @"Update VendorProfile Set UserId=@LoginId,StateId = @StateId,ShopName=@ShopName,GSTNumber=@GSTNumber,TIN=@TIN,Address=@Address,ContactNo=@ContactNo,ModifyBy=@LoginId,ModifyOn=Getdate() where Id = @Id";
                 }
                 else
                 {
-                    sqlQuery = @"insert into VendorProfile (UserId,ShopName,GSTNumber,TIN,Address,ContactNo,EntryBy,ModifyBy,EntryOn,ModifyOn)values(@LoginId,@ShopName,@GSTNumber,@TIN,@Address,@ContactNo,@LoginId,@LoginId,Getdate(),Getdate())";
+                    sqlQuery = @"insert into VendorProfile (UserId,ShopName,GSTNumber,TIN,Address,ContactNo,EntryBy,ModifyBy,EntryOn,ModifyOn,StateId)values(@LoginId,@ShopName,@GSTNumber,@TIN,@Address,@ContactNo,@LoginId,@LoginId,Getdate(),Getdate(),@StateId)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     request.LoginId, request.Data.Id,request.Data.ShopName,
                     request.Data.GSTNumber,
-                    request.Data.TIN,request.Data.Address,request.Data.ContactNo
+                    request.Data.TIN,request.Data.Address,request.Data.ContactNo,request.Data.StateId
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)
