@@ -10,7 +10,7 @@
     <link href="~/select2/css/select2.min.css" />
 
 </head>
-<body class="sidebar-mini layout-fixed control-sidebar-slide-open basic-settings-mode" style="height: auto;">
+<body class="sidebar-mini layout-fixed control-sidebar-slide-open basic-settings-mode">
     <div class="throbber">
         <div class="curtain">
         </div>
@@ -76,7 +76,7 @@
 
             <a href="/dashboard" class="brand-link navbar-dark logo-switch">
                 <img src="/Image/Admin/logo.png" alt="logo.png" class="brand-image-xl logo-xl">
-                <img src="/css/admin/images/logo-mini.png" alt="logo.png" class="brand-image-xs logo-xs">
+                <img src="/Image/Admin/logo.png" alt="logo.png" class="brand-image-xs logo-xs">
             </a>
             <div class="sidebar os-host os-theme-light os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition os-host-overflow os-host-overflow-y">
                 <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 197px;"></div><div class="os-padding">
@@ -834,12 +834,16 @@
         </div>
         <div id="sidebar-overlay"></div>
     </div>
-  @*      <script src="~/select2/js/select2.min.js"></script>
-      <script src="~/js/common.js"></script>*@
     <script src="~/build/bundlejs.js"></script>
 
     <script>
         $(document).ready(function () {
+           $('#nopSideBarPusher').click(() =>  $('body').toggleClass("sidebar-collapse sidebar-open"));
+            $(document).on('click','[data-card-widget="collapse"]',e => {
+                let ele = $(e.currentTarget);
+                ele.parents('.card').toggleClass('collapsed-card');
+                ele.find('i.fa').toggleClass('fa-minus fa-plus')
+            })
               //$('.select2').select2();
             $('.has-treeview').click(e => {
                 let tree = $(e.currentTarget);

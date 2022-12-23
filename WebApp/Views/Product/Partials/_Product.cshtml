@@ -25,11 +25,13 @@
                 <div id="">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="ShippingDetailId" />
-                    <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
+                    <div class="card card-secondary card-outline  collapsed-card" data-card-name="product-info" id="product-info">
                         <div class="card-header with-border clearfix">
                             <div class="card-title">
                                 <i class="fas fa-info"></i>Product Details
                             </div>
+                            <div class="card-tools float-right"><button class="btn btn-tool" data-card-widget="collapse" type="button"><i class="fa toggle-icon fa-minus"></i></button></div>
+
                         </div>
                         <div class="card-body">
                             <div id="row">

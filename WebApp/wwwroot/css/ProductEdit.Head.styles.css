@@ -896,20 +896,22 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
     position: absolute;
     top: 0;
     left: 0;
-    padding: .2em;
+    padding: 0em;
     outline: 0
 }
 
     .ui-dialog .ui-dialog-titlebar {
-        padding: .4em 1em;
-        position: relative
+        color: #fff;
+        padding: 0.4em 1em;
+        position: relative;
+        background: #343a40;
     }
 
     .ui-dialog .ui-dialog-title {
         float: left;
         margin: .1em 0;
         white-space: nowrap;
-        width: 90%;
+        width: 95.5%;
         overflow: hidden;
         text-overflow: ellipsis
     }
@@ -917,7 +919,7 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
     .ui-dialog .ui-dialog-titlebar-close {
         position: absolute;
         right: .3em;
-        top: 50%;
+        top: 46%;
         width: 20px;
         margin: -10px 0 0;
         padding: 1px;
@@ -1362,8 +1364,20 @@ body .ui-tooltip {
     }
 
     .ui-widget.ui-widget-content {
-        border: 1px solid #c5c5c5
+        /* border: 1px solid #c5c5c5*/
     }
+
+@media (min-width:200px) and (max-width:900px) {
+    .ui-dialog {
+        width: 100% !important;
+        top:35%!important;
+    }
+
+        .ui-dialog .ui-dialog-title {
+            width: 89.5%;
+        }
+
+}
 
 .ui-widget-content {
     border: 1px solid #ddd;
@@ -1375,8 +1389,14 @@ body .ui-tooltip {
         color: #333
     }
 
+
+.ui-dialog-titlebar-max, .ui-dialog-titlebar-close {
+    background: transparent;
+    color: #fff;
+    border: none;
+}
 .ui-widget-header {
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
     background: #e9e9e9;
     color: #333;
     font-weight: 700
@@ -2230,9 +2250,7 @@ body .ui-tooltip {
 }
 
 .ui-widget-overlay {
-    background: #aaa;
-    opacity: .003;
-    filter: Alpha(Opacity=.3)
+    background: rgba(0,0,0,0.6);
 }
 
 .ui-widget-shadow {
@@ -51970,7 +51988,7 @@ html.scroll-smooth {
 }
 
     .wrapper .content-wrapper {
-        min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px))
+        min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px))!important;
     }
 
 .layout-boxed .wrapper {
@@ -73704,3 +73722,10 @@ div.dataTables_wrapper div.dataTables_paginate {
         float: none
     }
 }
+
+
+thead tr {
+    background: #343a40;
+    color: #fff;
+}
+
