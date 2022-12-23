@@ -14,9 +14,10 @@
     }
 </style>
 <div class="container">
-    <div class="card">
+    <h3>Welcome To Onboard</h3>
+    <div class="card mt-4 card-primary">
         <div class="card-header">
-            <h3 class="">Please Fill Below Details To Continue</h3>
+            <h4 class="text-monospace">Please fill below details to continue</h4>
         </div>
         <div class="card-body">
             <form method="post" id="vendor" asp-action="VendorDetails">
@@ -30,32 +31,42 @@
                     </div>
                     <div class="col-sm-6 col-ms-6">
                         <div class="form-group">
+                            <label asp-for="ContactNo"></label>
+                            <input asp-for="ContactNo" class="form-control" />
+                            <span asp-validation-for="ContactNo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-ms-6">
+                        <div class="form-group">
+                            <label>State</label>
+                           <select class="form-control">
+                               <option>:: Select State ::</option>
+                           </select>
+                            <span asp-validation-for="ContactNo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
                             <label asp-for="GSTNumber"></label>
                             <input asp-for="GSTNumber" class="form-control" />
                             <span asp-validation-for="GSTNumber" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-ms-6">
+                    <div class="col-sm-2">
                         <div class="form-group">
                             <label asp-for="TIN"></label>
                             <input asp-for="TIN" class="form-control" />
                             <span asp-validation-for="TIN" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-ms-6">
+                    <div class="col-sm-12">
                         <div class="form-group">
-                            <label asp-for="Address"></label>
-                            <input asp-for="Address" class="form-control" />
+                            <label>Full Address</label>
+                            <textarea asp-for="Address" class="form-control" rows="6"></textarea>
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-ms-6">
-                        <div class="form-group">
-                            <label asp-for="ContactNo"></label>
-                            <input asp-for="ContactNo" class="form-control" />
-                            <span asp-validation-for="ContactNo" class="text-danger"></span>
-                        </div>
-                    </div>
+               
                 </div>
                 <hr />
                 <div class="row text-center">
