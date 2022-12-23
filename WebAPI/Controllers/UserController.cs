@@ -18,6 +18,6 @@ namespace WebAPI.Controllers
         [Route("User/CustomerList")]
         public async Task<IActionResult> CustomerList() => Ok(await _userservice.GetUserListByRole(Entities.Enums.Role.Customer));
         [Route("User/VendorList")]
-        public async Task<IActionResult> VendorList() => Ok(await _userservice.GetUserListByRole(Entities.Enums.Role.Vendor));
+        public async Task<IActionResult> VendorList(VendorProfileRequest req = null) => Ok(await _userservice.GetVendorList(req));
     }
 }
