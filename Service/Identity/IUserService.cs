@@ -1,4 +1,5 @@
-﻿using Infrastructure.Interface;
+﻿using Entities.Models;
+using Infrastructure.Interface;
 using System.Threading.Tasks;
 
 namespace Service.Identity

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Identity
+namespace Entities.Models
 {
     public class ApplicationUser : ApplicationUserProcModel
     {
@@ -37,5 +37,26 @@ namespace Service.Identity
         public bool TwoFactorEnabled { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+    }
+    public class AuthenticateResponse
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Role { get; set; }
+        public string Token { get; set; }
+        public string RefreshToken { get; set; }
+        public string Name { get; set; }
+
+
+        public AuthenticateResponse(ApplicationUser user, string token)
+        {
+            user = user ?? new ApplicationUser();
+            Id = user.Id;
+            Username = user.UserName;
+            Role = user.Role;
+            Name = user.Name;
+            RefreshToken = user.RefreshToken;
+            Token = token;
+        }
     }
 }

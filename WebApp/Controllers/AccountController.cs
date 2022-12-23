@@ -44,7 +44,7 @@ namespace WebApp.Controllers
         //private readonly SignInManager<ApplicationUser> _signInManager;
         //private IUserService _users;
         private readonly ILogger<AccountController> _logger;
-        private readonly SignInManager<Service.Identity.ApplicationUser> _signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         //private readonly IRepository<EmailConfig> _emailConfig;
         //private readonly ITokenService _tokenService;
@@ -52,7 +52,7 @@ namespace WebApp.Controllers
         private string _apiBaseURL;
         #endregion
 
-        public AccountController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<Service.Identity.ApplicationUser> signInManager) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
+        public AccountController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
         {
             _logger = logger;
             _mapper = mapper;
