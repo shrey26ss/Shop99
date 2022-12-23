@@ -13,6 +13,7 @@ namespace Entities.Models
         [Required(ErrorMessage ="Please Enter Title")]
         public string Title { get; set; }
         public string Description { get; set; }
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string SKU { get; set; }
 
         [Required]
