@@ -49,10 +49,10 @@ namespace WebApp.Controllers
                     return View();
                 }
             }
-            return RedirectToAction("VendorDetails");
+            return RedirectToAction(nameof(Onboard));
         }
         [Authorize(Roles ="0")]
-        public IActionResult VendorDetails()
+        public IActionResult Onboard()
         {
             return View();
         }
