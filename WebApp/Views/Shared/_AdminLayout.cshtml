@@ -838,7 +838,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#nopSideBarPusher').click(() =>  $('body').toggleClass("sidebar-collapse") );
+           $('#nopSideBarPusher').click(() =>  $('body').toggleClass("sidebar-collapse sidebar-open"));
             $(document).on('click','[data-card-widget="collapse"]',e => {
                 let ele = $(e.currentTarget);
                 ele.parents('.card').toggleClass('collapsed-card');
