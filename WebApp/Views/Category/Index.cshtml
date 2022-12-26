@@ -39,7 +39,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('#btnNew').click(() => AddCategory());
+            $('#btnNew').click(() => dialog.category());//AddCategory());
             loadData();
         })
         var loadData = function () {

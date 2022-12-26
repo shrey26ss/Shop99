@@ -5,8 +5,11 @@
     var brandDDL = new SelectList(Model.Brands, "Id", "Name");
 }
 <style>
-    .error{
+    .error {
         color: crimson;
+    }
+    .input-group-text{
+        height: 38px;
     }
 </style>
 
@@ -25,7 +28,7 @@
                 <div id="">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="ShippingDetailId" />
-                    <div class="card card-secondary card-outline  collapsed-card" data-card-name="product-info" id="product-info">
+                    <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
                         <div class="card-header with-border clearfix">
                             <div class="card-title">
                                 <i class="fas fa-info"></i>Product Details
@@ -38,38 +41,52 @@
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label>Category</label>
-                                        <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
-                                            <option value="0">Select Category</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
+                                                <option value="0">Select Category</option>
+                                            </select>
+                                            <div class="input-group-append" onclick="dialog.category()">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-magic" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label>Brand</label>
-                                        <select asp-for="BrandId" class="form-control" asp-items="@brandDDL">
-                                            <option value="0">Select Brand</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <select asp-for="BrandId" class="form-control" asp-items="@brandDDL">
+                                                <option value="0">Select Brand</option>
+                                            </select>
+                                            <div class="input-group-append" onclick="dialog.brand()">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-magic" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group"></div>
-                                    <label>Name</label>
-                                    <input class="form-control text-box single-line" asp-for="Name" type="text">
-                                </div>
-                                <div class="form-group col-md-12 col-sm-12">
-                                    <label>SKU</label>
-                                    <input class="form-control text-box single-line" asp-for="SKU" type="text">
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Title</label>
-                                        <input class="form-control text-box single-line" asp-for="Title" type="text">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group"></div>
+                                        <label>Name</label>
+                                        <input class="form-control text-box single-line" asp-for="Name" type="text">
                                     </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea asp-for="Description" class="form-control"></textarea>
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <label>SKU</label>
+                                        <input class="form-control text-box single-line" asp-for="SKU" type="text">
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <input class="form-control text-box single-line" asp-for="Title" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea asp-for="Description" class="form-control"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +94,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <section class="content mt-2">
         <div class="container-fluid">
@@ -93,7 +109,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
                                     <label>Charges</label>
-                                    <input class="form-control text-box single-line" asp-for="Charges" >
+                                    <input class="form-control text-box single-line" asp-for="Charges">
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <label>Free On Amount</label>
