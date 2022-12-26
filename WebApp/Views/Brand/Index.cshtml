@@ -33,7 +33,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('#btnNew').click(() => AddBrand());
+            $('#btnNew').click(() => dialog.brand());//AddBrand());
             loadData();
         })
         var loadData = function () {
@@ -50,14 +50,14 @@
         };
 
 
-          var AddBrand = function (Id) {
-            $.get('/Brand/Create', { Id: Id })
-                .done(result => {
-                    Q.alert({
-                        title: 'Brand',
-                        body: result
-                    });
-                }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
-        };
+        //  var AddBrand = function (Id) {
+        //    $.get('/Brand/Create', { Id: Id })
+        //        .done(result => {
+        //            Q.alert({
+        //                title: 'Brand',
+        //                body: result
+        //            });
+        //        }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+        //};
     </script>
         }
