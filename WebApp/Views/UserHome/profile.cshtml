@@ -28,7 +28,7 @@
 
         .profile-img img {
             /*width: 70%;
-                    height: 100%;*/
+                                height: 100%;*/
         }
 
         .profile-img .file {
@@ -267,7 +267,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#Addresses" role="tab" aria-controls="profile" aria-selected="false">Manage Addresses</a>
+                                    <a class="nav-link Addressess" id="profile-tab" data-toggle="tab" href="#Addresses" role="tab" aria-controls="profile" aria-selected="false">Manage Addresses</a>
                                 </li>
                             </ul>
                         </div>
@@ -277,24 +277,11 @@
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="Personal" role="tabpanel" aria-labelledby="Personal-tab">
                             </div>
-                            
+
                             <div class="tab-pane fade" id="Payments" role="tabpanel" aria-labelledby="Payments-tab">
-                                
                             </div>
 
                             <div class="tab-pane fade" id="Addresses" role="tabpanel" aria-labelledby="Addresses-tab">
-                                <div class="box">
-                                    <div class="plan-selection">
-                                        <div class="plan-data">
-                                            <input id="question1" name="question" type="radio" class="with-font" value="sel" />
-                                            <label for="question1">Address 1</label>
-                                            <p class="plan-text">
-                                                Gomti Nagar
-                                            </p>
-                                            <span class="plan-price"><i class="fa fa-edit"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -323,6 +310,46 @@
                 $('#Payments').html(result);
             })
         });
+        $(document).on('click', '.Addressess', () => {
+            loadAddress();
+        });
+        var loadAddress = () => {
+            $.post('/User/UserAddress').done((result) => {
+                $('#Addresses').html(result);
+            })
+        }
+        var EditAddress = (Id) => {
+            $.post('/User/EditAddress', { Id }).done((result) => {
+                $('#Addresses').html(result);
+            })
+        }
+        $(document).on('click', '#btnSubmitAdd', () => {
+            let param = {
+                Id: $('input[name="Id"]').val(),
+                FullName: $('input[name="FullName"]').val(),
+                MobileNo: $('input[name="MobileNo"]').val(),
+                HouseNo: $('input[name="HouseNo"]').val(),
+                Area: $('input[name="Area"]').val(),
+                Landmark: $('input[name="Landmark"]').val(),
+                TownCity: $('input[name="TownCity"]').val(),
+                Pincode: $('input[name="Pincode"]').val(),
+                StateID: $('#StateID').val(),
+                AddressTypeID: $('#AddressTypeID').val()
+            };
+            $('.clr').text('');
+            $.post('/SaveAddress', param).done((result) => {
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode) {
+                    loadAddress();
+                }
+                $.each(result, (k, v) => {
+                    if (v.validationState == '1') {
+                        $(`.${k}`).text(`${v.errors[0].errorMessage}`);
+                        console.log(v.errors[0].errorMessage);
+                    }
+                })
+            })
+        })
     </script>
 
 }

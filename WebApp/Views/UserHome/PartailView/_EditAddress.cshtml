@@ -1,0 +1,85 @@
+﻿@using Entities.Models;
+@model UserAddress
+<div class="row justify-content-end">
+    <div class="col-1 pl-2">
+        <i class="fa fa-arrow-circle-left fa-2x text-primary" id="" style="cursor:pointer" onclick="loadAddress()"></i>
+    </div>
+</div>
+<form id="AddressForm">
+    <div class="row">
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="hidden" asp-for="Id" />
+                <input type="text" class="form-control" asp-for="FullName" maxlength="150" placeholder="">
+                <span class="FullName text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label> Mobile No</label>
+                <input type="number" class="form-control" asp-for="MobileNo" maxlength="10" placeholder="">
+                <span class="MobileNo text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">House Number/Flat Number</label>
+                <input class="form-control" type="text"  asp-for="HouseNo" maxlength="250">
+                <span class="HouseNo text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">Area</label>
+                <input class="form-control" type="text" asp-for="Area" maxlength="250" placeholder="">
+                <span class="Area text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">Landmark</label>
+                <input class="form-control" type="text"  asp-for="Landmark" maxlength="100" placeholder="">
+                <span class="Landmark text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">Town/City</label>
+                <input class="form-control" type="text"  asp-for="TownCity" maxlength="100" placeholder="">
+                <span class="TownCity text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">State</label>
+                <select class="form-control" id="StateID" asp-for="StateID">
+                    <option v alue="">Select State</option>
+                    <option value="27">Uttar Pradesh</option>
+                </select>
+                <span class="StateID text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">Address Type</label>
+                <select class ="form-control"  asp-for="AddressTypeID">
+                    <option value="">Select Address Type</option>
+                    <option value="1">Office Address</option>
+                    <option value="2">Home Address</option>
+                </select>
+                <span class="AddressTypeID text-danger clr"></span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-ms-6">
+            <div class="form-group">
+                <label class="field-label">Postal Code</label>
+                <input type="text" class="form-control"  asp-for="Pincode"  placeholder="">
+                <span class="Pincode text-danger clr"></span>
+            </div>
+        </div>
+        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <a href="javascript:void(0)" class="btn-normal btn" id="btnSubmitAdd">Submit</a>
+        </div>        
+    </div>   
+</form>

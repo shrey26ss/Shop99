@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
+using WebApp.Servcie;
 
 namespace WebApp.Controllers
 {
@@ -25,12 +26,14 @@ namespace WebApp.Controllers
         private string _apiBaseURL;
         private readonly ILogger<UserHomeController> _logger;
         private IGenericMethods _convert;
+        private readonly ICheckOutAPI _checkout;
 
-        public UserHomeController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert)
+        public UserHomeController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert, ICheckOutAPI checkOutAPI)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _logger = logger;
             _convert = convert;
+            _checkout = checkOutAPI;
         }
 
         [Route("/dashboard")]
@@ -87,6 +90,19 @@ namespace WebApp.Controllers
         {
             var res = await _convert.GetList<OrderDetailsColumn>("OrderDetails/GetDetails", GetToken(), new OrderDetailsRequest());
             return PartialView("PartailView/_OrderList", res);
+        }
+        [HttpPost("User/UserAddress")]
+        public async Task<IActionResult> UserAddress()
+        {
+            var res = _checkout.GetUserGetAddress(GetToken()).Result;
+            return PartialView("PartailView/_UserAddress", res.Result ?? new List<UserAddress>());
+        }
+        [HttpPost("User/EditAddress")]
+        public async Task<IActionResult> EditAddress(int Id = 0)
+        {
+            var _ = _checkout.GetUserGetAddress(GetToken()).Result;
+            var res = _.Result.ToList().Where(a => a.Id.Equals(Id)).FirstOrDefault();
+            return PartialView("PartailView/_EditAddress", res ?? new UserAddress());
         }
         [HttpPost]
         public async Task<IActionResult> SaveProfile(UserDetails model)
