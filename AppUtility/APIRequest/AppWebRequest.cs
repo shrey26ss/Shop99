@@ -61,7 +61,7 @@ namespace AppUtility.APIRequest
         #endregion
 
         #region HttpPost
-        public async Task<HttpResponse> PostAsync(string URL, string PostData, string AccessToken = "", string ContentType = "application/json", int timeout = 0)
+        public async Task<HttpResponse> PostAsync(string URL, string PostData = "", string AccessToken = "", string ContentType = "application/json", int timeout = 0)
         {
             HttpResponse httpResponse = new HttpResponse();
             HttpWebRequest http = (HttpWebRequest)WebRequest.Create(URL);

@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using AppUtility.Helper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -22,7 +23,7 @@ namespace Service.Variant
         }
         public async Task<IResponse<IEnumerable<UserDetails>>> GetUserListByRole(Role id)
         {
-            string sp = @"select Name,UserName,PhoneNumber,Email,* from users u inner join UserRoles ur on  u.ID=ur.UserId where ur.RoleId =@ID order by u.Id desc";
+            string sp = @"select Name,UserName,PhoneNumber,Email,* from users u inner join UserRoles ur on  u.ID=ur.UserId where ur.RoleId = @ID order by u.Id desc";
             var res = new Response<IEnumerable<UserDetails>>();
             try
             {
@@ -58,7 +59,51 @@ where ur.RoleId = 3";
             }
             return res;
         }
-
-
+        public async Task<IResponse<UserDetails>> GetUserById(int Id)
+        {
+            string sp = @"Select u.*,r.RoleId,ar.[Name] [Role] from Users u(nolock) inner join UserRoles r(nolock) on r.UserId = u.Id inner join ApplicationRole ar(nolock) on ar.Id = r.RoleId where u.Id = @Id";
+            var res = new Response<UserDetails>();
+            try
+            {
+                res.Result = await _dapper.GetAsync<UserDetails>(sp, new { Id }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse> SaveProfileInfo(RequestBase<UserDetails> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = @"Update Users Set [Name] = @Name, PhoneNumber=@PhoneNumber where Id = @LoginId";
+                int i = -5;
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    request.LoginId,
+                    request.Data.Name,
+                    request.Data.PhoneNumber
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }

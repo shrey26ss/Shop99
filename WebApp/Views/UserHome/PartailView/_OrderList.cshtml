@@ -1,0 +1,30 @@
+﻿@using Entities.Models;
+@model IEnumerable<OrderDetailsColumn>
+
+@if (Model.Any())
+{
+    <div class="widget">
+        @foreach (var item in Model)
+        {
+            <a href="/productdetail/@item.VarriantID">
+                <div class="summary-block">
+                    <div class="summary-content">
+                        <img loading="lazy" class="_396cs4" alt="" src="@item.Thumbnail" />
+                        <div class="summary-head">
+                            <h5 class="summary-title">
+                                @item.Product
+                            </h5>
+                            <h6>
+                                @item.Title
+                            </h6>
+                            <p>@item.Attributes</p>
+                        </div>
+                        <div class="summary-price">
+                            <p class="summary-text">₹@item.Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+}
