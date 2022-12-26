@@ -6,8 +6,8 @@
 <div class="content-header clearfix">
     <h1 class="float-left">Category Attribute Mapping</h1>
 </div>
-<div class="content">
-    <div class="card">
+<div class="content" id="catAttrMap">
+   @* <div class="card">
         <div class="card-header">
             <div class="row">
                 <div class="col-sm-3 col-sm-3">
@@ -31,34 +31,41 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 
 @section scripts{
     <script>
-        $(() => {
-            loadData();
-        })
-        var loadData = () => {
-            let Id = $('.CatDDL').val();
-            $.post('/CategoryAttributeMapping/GetMappedItemList', { CategoryId: Id }).done(function (result) {
-                $('#Grid tbody').html(result);
-            }).fail(function (xhr) {
-            })
-        };
-        $('.CatDDL').change(() => loadData());
+        (()=>{
+            $.get('/CategoryAttributeMapping/_CategoryAttribute')
+                .done(result => {
+                    $('#catAttrMap').html(result);
+                }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+        })();
+      
+        //$(() => {
+        //    loadData();
+        //})
+        //var loadData = () => {
+        //    let Id = $('.CatDDL').val();
+        //    $.post('/CategoryAttributeMapping/GetMappedItemList', { CategoryId: Id }).done(function (result) {
+        //        $('#Grid tbody').html(result);
+        //    }).fail(function (xhr) {
+        //    })
+        //};
+        //$('.CatDDL').change(() => loadData());
 
-        var MapItems = (Id) => {
-            let param = {
-                CategoryId: $('.CatDDL').val(),
-                AttributeId: Id
-            }
-            $.post('/CategoryAttributeMapping/MapItems', param).done((result)=>{
-                Q.notify(result.statusCode, result.responseText);
-                if(result.statusCode)
-                    loadData();
-            }).fail((xhr) =>{console.log(xhr)});
-        }
+        //var MapItems = (Id) => {
+        //    let param = {
+        //        CategoryId: $('.CatDDL').val(),
+        //        AttributeId: Id
+        //    }
+        //    $.post('/CategoryAttributeMapping/MapItems', param).done((result)=>{
+        //        Q.notify(result.statusCode, result.responseText);
+        //        if(result.statusCode)
+        //            loadData();
+        //    }).fail((xhr) =>{console.log(xhr)});
+        //}
 
 
     </script>
