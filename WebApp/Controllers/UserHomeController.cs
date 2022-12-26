@@ -51,6 +51,7 @@ namespace WebApp.Controllers
             return View();
         }
 
+        [HttpGet("user/profile")]
         public IActionResult profile()
         {
             return View();

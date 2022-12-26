@@ -46,9 +46,7 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link disabled">Admin</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account/Logout">Logout</a>
-                    </li>
+                   
                     <li class="nav-item">
                     </li>
                     <li class="nav-item dropdown">
@@ -57,22 +55,19 @@
                         </a>
                         <ul class="maintenance-menu dropdown-menu dropdown-menu-right" role="menu">
                             <li class="dropdown-item">
-                                <form action="/Admin/Common/ClearCache" method="post">
-                                    <input name="returnurl" type="hidden" value="/Admin/Product/Edit/1">
-                                    <div class="input-group-append">
-                                        <button type="submit" style="width:210px;background-color: Transparent;">
-                                            <span>Clear cache</span>
-                                        </button>
-                                    </div>
-                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8GnQ9SaGxUBLjkzOWW-aur1RSSbPcO25zMgoLrwUY-Jz33nywrsQ4utzan2DkvFK1-Oezbw-R2-DNIbW4lADJ6WGCaqm8K_xr3O0wnvSv6PPcj1k2CNq-44TeGs7BEN6x61T-2_U4_G_egS3kpsMQ94">
-                                </form>
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-eraser"></i>  Clear cache
+                                </a>
                             </li>
 
                             <li class="dropdown-item">
-                                <a href="/UserHome/profile">
-                                    Profile
+                                <a href="/user/profile">
+                                    <i class="fa fa-user" aria-hidden="true"></i>  Profile
                                 </a>
 
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="/Account/Logout"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                             </li>
                         </ul>
                     </li>
