@@ -97,7 +97,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="pictureSection">
                         <div class="row">
                             @Html.Partial("Partials/_AddPictures")
                         </div>
@@ -313,6 +313,12 @@
                 __parent.find('[name="SellingCost"]').val(mrp).change();
                 Q.notify('Selling Price cannot be greater than MRP');
             }
+        });
+        
+        $(document).on('change', '[name="Title"]', e=> {
+            let _title = $(e.currentTarget).val();
+            $('[name="Alt"]').val(_title);
+            $('#pictureSection').find('[name="Title"]').val(_title);
         });
         $('[name="Quantity"], [name="DisplayOrder"]').numeric({ numericType: 'number', maxLength: '7' });
     </script>

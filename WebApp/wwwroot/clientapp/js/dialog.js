@@ -18,4 +18,14 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
+    dialog.categoryAttributeMap = function (Id) {
+        $.get('/CategoryAttributeMapping/_CategoryAttribute')
+            .done(result => {
+                Q.alert({
+                    title: 'Brand',
+                    body: result
+                });
+                $('.ui-dialog-titlebar-max:last').click();
+            }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+    };
 })(dialog || (dialog = {}));

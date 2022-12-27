@@ -35,6 +35,15 @@ namespace WebApp.Controllers
             model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
             return View(model);
         }
+
+        
+        //[Route("_CategoryAttribute")]
+        public async Task<IActionResult> _CategoryAttribute(int Id = 0)
+        {
+            var model = new CatAttrMappingViewModel { CategoryId = Id };
+            model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
+            return PartialView("PartialView/_CategoryAttribute", model);
+        }
         [HttpPost]
         public async Task<IActionResult> GetMappedItemList(int CategoryId)
         {
