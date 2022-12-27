@@ -13,16 +13,16 @@ using Service.Models;
 
 namespace AppUtility.Helper
 {
-    public class DDLHelper
+    public interface IDDLHelper
     {
-        public static DDLHelper O => instance.Value;
-        private static Lazy<DDLHelper> instance = new Lazy<DDLHelper>(() => new DDLHelper());
-        private DDLHelper() { }
-        public string GetErrorDescription(int errorCode)
-        {
-            string error = ((Errorcodes)errorCode).DescriptionAttribute();
-            return error;
-        }
+        Task<List<CategoryDDL>> GetCategoryDDL(string _token, string _apiBaseURL);
+        Task<List<AttributesDDL>> GetAttributeDDL(string _token, string _apiBaseURL);
+        Task<List<AttributesDDL>> GetCategoryMappedAttributeDDL(string _token, string _apiBaseURL, int CatId);
+        Task<List<BrandsDDL>> GetBrandsDDL(string _token, string _apiBaseURL);
+        Task<List<StateDDL>> GetStateDDL(string _apiBaseURL);
+    }
+    public class DDLHelper : IDDLHelper
+    {
         public async Task<List<CategoryDDL>> GetCategoryDDL(string _token, string _apiBaseURL)
         {
             var list = new List<CategoryDDL>();

@@ -29,11 +29,13 @@ namespace WebApp.Controllers
         private string _apiBaseURL;
         private readonly Dictionary<string, string> _ImageSize;
         private readonly IHttpRequestInfo _httpInfo;
-        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo)
+        private readonly IDDLHelper _ddl;
+        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo,IDDLHelper ddl)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _ImageSize = imageSize.Value;
             _httpInfo = httpInfo;
+            _ddl = ddl;
         }
 
         #region Add Product
@@ -85,13 +87,25 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
+        [Route("Product/GetCategories")]
+        [Route("GetCategories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            return Json(await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL));
+        }
+        [Route("Product/GetBrands")]
+        [Route("GetBrands")]
+        public async Task<IActionResult> GetBrands()
+        {
+            return Json(await _ddl.GetBrandsDDL(GetToken(), _apiBaseURL));
+        }
         [Route("Product/GetProductSectionView/{Id}")]
         [Route("GetProductSectionView/{Id}")]
         public async Task<IActionResult> GetProductSectionView(int Id = 0)
         {
             var model = new ProductViewModel();
-            model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
-            model.Brands = await DDLHelper.O.GetBrandsDDL(GetToken(), _apiBaseURL);
+            model.Categories = await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL);
+            model.Brands = await _ddl.GetBrandsDDL(GetToken(), _apiBaseURL);
             var response = new List<Products>();
             if(Id > 0)
             {
@@ -176,7 +190,7 @@ namespace WebApp.Controllers
             {
                 CombinationId = combinationId,
                 CategoryId = CategoryId,
-                Attributes = await DDLHelper.O.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
+                Attributes = await _ddl.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
             };
             return PartialView("Partials/_AddAttributes", model);
         }
@@ -216,7 +230,6 @@ namespace WebApp.Controllers
 
 
         #region Private Method
-
         private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)
         {
             List<PictureInformation> ImageInfo = new List<PictureInformation>();

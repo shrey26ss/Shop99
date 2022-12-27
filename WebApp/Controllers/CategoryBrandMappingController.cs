@@ -21,16 +21,18 @@ namespace WebApp.Controllers
     public class CategoryBrandMappingController : Controller
     {
         private string _apiBaseURL;
-        public CategoryBrandMappingController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings)
+        private IDDLHelper _ddl;
+        public CategoryBrandMappingController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, IDDLHelper ddl)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
+            _ddl = ddl;
         }
         [Route("CategoryBrandMapping/Index")]
         [Route("Index")]
         public async Task<IActionResult> Index(int Id = 0)
         {
             var model = new CatBrandMappingViewModel { CategoryId = Id };
-            model.Categories = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
+            model.Categories = await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL);
             return View(model);
         }
         [HttpPost]

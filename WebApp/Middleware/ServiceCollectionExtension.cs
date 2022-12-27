@@ -20,6 +20,7 @@ using WebApp.AppCode.Extension;
 using WebApp.AppCode;
 using WebApp.Servcie;
 using WebApp.AppCode.Helper;
+using AppUtility.Helper;
 
 namespace WebApp.Middleware
 {
@@ -48,6 +49,7 @@ namespace WebApp.Middleware
             services.AddScoped<IProductsAPI, WebApp.Servcie.ProductsAPI>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
+            services.AddSingleton<IDDLHelper, DDLHelper>();
             services.AddSingleton<IGenericMethods, GenericMethods>();
             services.AddScoped<Data.Migrations.Database>();
             //services.AddProgressiveWebApp();
