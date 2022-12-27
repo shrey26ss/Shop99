@@ -31,17 +31,17 @@
                 }
             });
         });
-    },
-        dialog.bindBrands = function () {
+    };
+    dialog.bindBrands = function () {
         $.post('/Product/GetBrands').done((result) => {
             var unique = $.map($('#BrandId option'), function (option) {
                 return parseInt(option.value);
             });
-            $.each(result, function (i,j) {
+            $.each(result, function (i, j) {
                 if (!unique.includes(parseInt(j.id))) {
                     $('#BrandId').append(`<option value="${j.id}">${j.name}</option>`);
                 }
             });
         });
-    }
+    };
 })(dialog || (dialog = {}));
