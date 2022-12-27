@@ -17,7 +17,7 @@
 
     <div class="form-group row">
         <div class="col-md-3">
-            <label class="col-form-label required" for="AttrValue">Attribute Vaue</label>
+            <label class="col-form-label required" for="AttrValue">Attribute Value</label>
         </div>
         <div class="col-md-9">
             <input class="form-control" id="AttrValue" name="AttrValue" type="text">
@@ -91,4 +91,9 @@ else
             @*<a href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId" class="btn btn-sm btn-info mt-2">Map Attribute</a>*@
         </div>
     </div>
+    <script>
+        $(document).on('click', '.clsDialog', ()=>{
+            $('.ui-dialog-titlebar-close').click();
+        })
+    </script>
 }

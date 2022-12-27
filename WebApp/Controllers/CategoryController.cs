@@ -27,10 +27,12 @@ namespace WebApp.Controllers
 
     {
         private string _apiBaseURL;
+        private IDDLHelper _ddl;
 
-        public CategoryController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
+        public CategoryController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings,IDDLHelper ddl) //IRepository<EmailConfig> emailConfig, 
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
+            _ddl = ddl;
         }
 
 
@@ -75,7 +77,7 @@ namespace WebApp.Controllers
                     category = deserializeObject.Result.FirstOrDefault();
                 }
             }
-            category.categoryDDLs = await DDLHelper.O.GetCategoryDDL(GetToken(), _apiBaseURL);
+            category.categoryDDLs = await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL);
             return PartialView(category);
         }
 
