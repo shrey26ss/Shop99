@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities.Enums;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,9 +9,7 @@ namespace Entities.Models
     public class ApplicationUser : ApplicationUserProcModel
     {
         public decimal Balance { get; set; }
-        public decimal RemainTarget { get; set; }
-        public bool OnlyDebtCustomer { get; set; }
-        public string FOS { get; set; }
+        public Role RoleId { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public bool IsActive { get; set; }

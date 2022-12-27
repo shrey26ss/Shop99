@@ -1,0 +1,38 @@
+﻿@using Entities.Models;
+@model UserDetails
+
+<div class="row justify-content-end">
+    <div class="col-1 pl-2">
+        <i class="fa fa-arrow-circle-left fa-2x text-primary" style="cursor:pointer" onclick="loadData()"></i>
+    </div>
+</div>
+<form method="post" asp-action="SaveProfile">
+    <div class="row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-sm-12 col-ms-12">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="col-sm-12 col-ms-12">
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+            </div>
+        </div>
+        @*<div class="col-sm-12 col-ms-12">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+        </div>*@
+    </div>  
+    <div class="row text-center">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </div>
+    </div>
+</form>

@@ -19,6 +19,7 @@ using WebApp.Models;
 using WebApp.AppCode.Extension;
 using WebApp.AppCode;
 using WebApp.Servcie;
+using WebApp.AppCode.Helper;
 
 namespace WebApp.Middleware
 {
@@ -47,6 +48,7 @@ namespace WebApp.Middleware
             services.AddScoped<IProductsAPI, WebApp.Servcie.ProductsAPI>();
             services.AddScoped<Infrastructure.Interface.ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
+            services.AddSingleton<IGenericMethods, GenericMethods>();
             services.AddScoped<Data.Migrations.Database>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));

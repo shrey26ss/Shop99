@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Enums;
+using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,17 @@ namespace WebAPI.Controllers
 
         public UserController(IUserRepo userservice) => _userservice = userservice;
         [Route("User/CustomerList")]
-        public async Task<IActionResult> CustomerList() => Ok(await _userservice.GetUserListByRole(Entities.Enums.Role.Customer));
+        public async Task<IActionResult> CustomerList() => Ok(await _userservice.GetUserListByRole(Role.Customer));
         [Route("User/VendorList")]
         public async Task<IActionResult> VendorList(VendorProfileRequest req = null) => Ok(await _userservice.GetVendorList(req));
+        [Route("User/GetUserById")]
+        public async Task<IActionResult> GetUserById() => Ok(await _userservice.GetUserById(User.GetLoggedInUserId<int>()));
+        [Route("User/SaveProfileInfo")]
+        public async Task<IActionResult> SaveProfileInfo(UserDetails req) => Ok(await _userservice.SaveProfileInfo(new RequestBase<UserDetails>
+        {
+            Data = req,
+            LoginId = User.GetLoggedInUserId<int>()
+        }));
+
     }
 }
