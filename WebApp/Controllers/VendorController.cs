@@ -29,10 +29,12 @@ namespace WebApp.Controllers
 
         private string _apiBaseURL;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager)
+        private IDDLHelper _ddl;
+        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager,IDDLHelper ddl)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _signInManager = signInManager;
+            _ddl = ddl;
         }
         // GET: VendorController
         [Authorize(Roles = "0,3")]
@@ -59,7 +61,7 @@ namespace WebApp.Controllers
         {
             var model = new VendorVM
             {
-                States = await DDLHelper.O.GetStateDDL(_apiBaseURL)
+                States = await _ddl.GetStateDDL(_apiBaseURL)
             };
             return View(model);
         }

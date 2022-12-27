@@ -17,7 +17,7 @@
 
     <div class="form-group row">
         <div class="col-md-3">
-            <label class="col-form-label required" for="AttrValue">Attribute Vaue</label>
+            <label class="col-form-label required" for="AttrValue">Attribute Value</label>
         </div>
         <div class="col-md-9">
             <input class="form-control" id="AttrValue" name="AttrValue" type="text">
@@ -85,8 +85,13 @@ else
     <div class="card">
         <div class="card-body">
             <h4>No Attribute Available for this category of product.</h4>
-            <span> Please click <a class="text-pink" href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId">here</a> to map attributes or Click below</span>
-            <br /><a href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId" class="btn btn-sm btn-info mt-2">Map Attribute</a>
+            <span> Please click <a class="text-pink clsDialog" href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId">here</a> to map attributes or Click below</span>
+            <br /><a href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId" class="btn btn-sm btn-info mt-2 clsDialog">Map Attribute</a>
         </div>
     </div>
+    <script>
+        $(document).on('click', '.clsDialog', ()=>{
+            $('.ui-dialog-titlebar-close').click();
+        })
+    </script>
 }

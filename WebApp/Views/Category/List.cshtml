@@ -13,12 +13,7 @@
             <td>@item.TAXRate</td>
             <td>@item.IsPublish</td>
             <td>
-                <div class="card">
-                    <div class="valign-wrapper pr12ImgNameDiv">
-                    <img src="@item.Icon" class="img-fluid rounded-circle"  style="width:100px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
-                    <div class="pr12AuthName fw500 fs18"></div>
-                </div>
-                </div>  
+               <img src="@item.Icon" class="img-fluid rounded-circle"  style="width:50px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">  
             </td>
             <td><input type="button" value="Edit" onclick="dialog.category('@item.CategoryId')" class="btn btn-sm btn-success"></td>
         </tr>
