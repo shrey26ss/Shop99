@@ -45,7 +45,7 @@ namespace Service.Categories
                     category.Data.ParentId,
                     category.Data.TAXRate,
                     category.Data.IsPublish,
-                    category.Data.Icon,
+                    Icon = category.Data.Icon ?? "",
                     category.Ind,
                     IsVendorGrouped = category.Data.IsVendorGrouped is null ? true : category.Data.IsVendorGrouped
                 }, CommandType.Text);
