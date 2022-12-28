@@ -54,7 +54,7 @@
                 <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
                     <div class="card-header with-border clearfix">
                         <div class="card-title">
-                            <i class="fas fa-info"></i>Attribute Combination
+                            <i class="fas fa-info"></i>Variant Combination
                         </div>
                         <div class="card-tools float-right">
                             <button class="btn btn-tool" data-card-widget="collapse" type="button">
@@ -156,7 +156,6 @@
                             Id: j,
                             AttributeId: cAttr.attrId,
                             AttributeValue: cAttr.attrValue,
-                            AllowFiltering: cAttr.filterAllowed == "checked" ? true : false,
                             GroupId: groupId
                         };
                         attrInfo.push(attributes);
@@ -270,38 +269,44 @@
         });
 
         $(document).on('click', '#AddProductImg', () => {
-            let param = {
-                File: $('#PictureFile')[0].files[0],
-                Alt: $('#Alt').val(),
-                Title: $('#Title').val(),
-                DisplayOrder: $('#DisplayOrder').val(),
-                AttrColor: $("#attrColor option:selected").text(),
-                GroupId: $("#attrColor option:selected").data()?.groupId
-            };
-            if (!param.File || !param.Alt || !param.Title || !param.DisplayOrder || !param.AttrColor) {
-                Q.notify(-1, 'All Image fileds are required');
-                return false;
+
+            let __files = $('#PictureFile')[0].files;
+            let totalFiles = __files.length;
+            for (let i = 0; i < totalFiles;i++){
+                let param = {
+                    File: __files[i],
+                    //File: $('#PictureFile')[0].files[0],
+                    Alt: $('#Alt').val(),
+                    Title: $('#Title').val(),
+                    DisplayOrder: $('#DisplayOrder').val(),
+                    AttrColor: $("#attrColor option:selected").text(),
+                    GroupId: $("#attrColor option:selected").data()?.groupId
+                };
+                if (!param.File || !param.Alt || !param.Title || !param.DisplayOrder || !param.AttrColor) {
+                    Q.notify(-1, 'All Image fileds are required');
+                    return false;
+                }
+                let pictureGrid = $(`.pictureGrid`);
+                let count = pictureGrid.find('tr').length;
+                variantImages.push(param);
+                let _src = URL.createObjectURL(param.File);
+                let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
+                                      <td>${count}</td>
+                                      <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                      <td>${param.DisplayOrder}</td>
+                                      <td>${param.Alt}</td>
+                                      <td>${param.Title}</td>
+                                      <td>${param.AttrColor}</td>
+                                      <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                                 </tr>`;
+                pictureGrid.append(_html);
+                $('.rmImage').unbind().click(e => {
+                    let _ele = $(e.currentTarget).closest('tr');
+                    let __index = _ele.index();
+                    variantImages.splice(__index, 1);
+                    _ele.remove();
+                });
             }
-            let pictureGrid = $(`.pictureGrid`);
-            let count = pictureGrid.find('tr').length;
-            variantImages.push(param);
-            let _src = URL.createObjectURL(param.File);
-            let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
-                                                                            <td>${count}</td>
-                                                                            <td><img src="${_src}" alt="image" style="width:100px"/></td>
-                                                                            <td>${param.DisplayOrder}</td>
-                                                                            <td>${param.Alt}</td>
-                                                                            <td>${param.Title}</td>
-                                                                            <td>${param.AttrColor}</td>
-                                                                            <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
-                                                                         </tr>`;
-            pictureGrid.append(_html);
-            $('.rmImage').unbind().click(e => {
-                let _ele = $(e.currentTarget).closest('tr');
-                let __index = _ele.index();
-                variantImages.splice(__index, 1);
-                _ele.remove();
-            });
         });
         $('[name="SellingCost"], [name="MRP"]').numeric({ numericType: 'decimal', maxLength: '7' });
         $(document).on('change', '[name="SellingCost"],[name="MRP"]',e=>{

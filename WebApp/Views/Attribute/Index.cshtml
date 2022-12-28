@@ -35,7 +35,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('#btnNew').click(() => AddAttribute());
+            $('#btnNew').click(() => dialog.AddAttribute());
             loadData();
         })
         var loadData = function () {
@@ -48,15 +48,6 @@
                 console.log(xhr.responseText);
                 alert('something went wrong');
             })
-        };
-        var AddAttribute = function (Id) {
-            $.get('/Attribute/Create', { Id: Id })
-                .done(result => {
-                    Q.alert({
-                        title: 'Attribute',
-                        body: result
-                    });
-                }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
         };
     </script>
 }
