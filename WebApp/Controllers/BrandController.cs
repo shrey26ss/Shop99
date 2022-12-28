@@ -13,9 +13,9 @@ using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
 using WebApp.Models;
-using AppUtility.APIRequest;
 using Service.Models;
 using System;
+using AppUtility.Helper;
 
 namespace WebApp.Controllers
 {
@@ -26,9 +26,11 @@ namespace WebApp.Controllers
     {
 
         private string _apiBaseURL;
-        public BrandController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings) //IRepository<EmailConfig> emailConfig, 
+        private readonly IDDLHelper _ddl;
+        public BrandController(ILogger<BrandController> logger, AppSettings appSettings, IDDLHelper ddl) //IRepository<EmailConfig> emailConfig, 
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
+            _ddl = ddl;
         }
 
         // GET: BrandController
@@ -99,25 +101,11 @@ namespace WebApp.Controllers
 
         }
 
-        // GET: BrandController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPost("Brand/BrandJSON")]
+        public async Task<ActionResult> BrandJSON(int Id)
         {
-            return View();
-        }
-
-        // POST: BrandController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var brands = await _ddl.GetBrandsDDL(User.GetLoggedInUserToken(), _apiBaseURL);
+            return Json(brands);
         }
 
         // GET: BrandController/Delete/5

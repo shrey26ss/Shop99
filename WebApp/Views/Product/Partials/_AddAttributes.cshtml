@@ -8,10 +8,17 @@
         <div class="col-md-3">
             <label class="col-form-labelabel-block required" for="AttributeTypeName">Attribute</label>
         </div>
-        <div class="col-md-9">
-            <select class="form-control" id="AttributeId" name="AttributeId" asp-items="@attrDDl">
-                <option value="0">Select Attribute</option>
-            </select>
+        <div class="col-md-9">            
+            <div class="input-group">
+                <select class="form-control" id="AttributeId" name="AttributeId" asp-items="@attrDDl">
+                    <option value="0">Select Attribute</option>
+                </select>
+                <div class="input-group-append" onclick="dialog.categoryAttributeMap('@Model.CategoryId')">
+                    <div class="input-group-text">
+                        <i class="fa fa-magic" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -85,10 +92,9 @@ else
     <div class="card">
         <div class="card-body">
             <h4>No Attribute Available for this category of product.</h4>
-            <span> Please click <a class="text-pink" href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId">here</a> to map attributes or Click below</span>
+            <span> Please click <a class="text-pink" href="javascript:dialog.categoryAttributeMap(@Model.CategoryId)">here</a> to map attributes or Click below</span>
             <br />
             <a href="javascript:dialog.categoryAttributeMap(@Model.CategoryId)" class="btn btn-sm btn-info mt-2">Map Attribute</a>
-            @*<a href="/CategoryAttributeMapping/Index?Id=@Model.CategoryId" class="btn btn-sm btn-info mt-2">Map Attribute</a>*@
         </div>
     </div>
     <script>
