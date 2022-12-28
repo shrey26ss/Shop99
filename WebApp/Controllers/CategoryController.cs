@@ -61,6 +61,19 @@ namespace WebApp.Controllers
             return PartialView(categories);
         }
 
+
+        private async Task<List<Category>> GetCategories(int Id)
+        {
+            List<Category> categories = new List<Category>();
+            string _token = User.GetLoggedInUserToken();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Category>>>(apiResponse.Result);
+                categories = deserializeObject.Result;
+            }
+            return categories;
+        }
         // GET: CategoryController/Create
         public async Task<IActionResult> Create(int Id = 0)
         {

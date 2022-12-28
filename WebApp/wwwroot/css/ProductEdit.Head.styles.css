@@ -73729,3 +73729,7 @@ thead tr {
     color: #fff;
 }
 
+.ui-dialog-titlebar-max {
+    position: absolute;
+    right: 1.2em;
+}
