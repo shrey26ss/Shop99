@@ -1,5 +1,8 @@
 ﻿@using WebApp.Models.ViewModels;
 @model CatAttrMappingViewModel
+@{
+    int count = 0;
+}
 <tr>
     <td>1</td>
     <td>Mapped</td>
@@ -9,14 +12,15 @@
             <div class="row">
                 @foreach (var item in Model.MappedList)
                 {
+                    count++;
                     <div class="col-md-3 text-nowrap chkBndgCls mb-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
-                                    <input type="checkbox" checked="checked" onclick="MapItems('@item.AttributeId')" style="cursor:pointer">
+                                    <input type="checkbox" id="Name_@count" checked="checked" onclick="MapItems('@item.AttributeId')" style="cursor:pointer">
                                 </div>
                             </div>
-                            <small class="form-control">@item.AttributeName</small>
+                            <label for="Name_@count" class="form-control">@item.AttributeName</label>
                         </div>
                     </div>
                 }
@@ -39,14 +43,15 @@
             <div class="row">
                 @foreach (var item in Model.UnMappedList)
                 {
+                    count++;
                     <div class="col-md-3 text-nowrap chkBndgCls mb-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
-                                    <input type="checkbox" onclick="MapItems('@item.AttributeId')" style="cursor:pointer">
+                                    <input type="checkbox" id="Name_@count" onclick="MapItems('@item.AttributeId')" style="cursor:pointer">
                                 </div>
                             </div>
-                            <small class="form-control">@item.AttributeName</small>
+                            <label for="Name_@count" class="form-control">@item.AttributeName</label>
                         </div>
                     </div>
                 }
