@@ -46,7 +46,6 @@
             let request = {
                 Id:0
             };
-
             $.post('/Category/List', request).done(function (result) {
                 $('#Grid tbody').html(result);
             }).fail(function (xhr) {

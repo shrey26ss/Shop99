@@ -29,7 +29,7 @@ namespace WebApp.Controllers
         private string _apiBaseURL;
         private IDDLHelper _ddl;
 
-        public CategoryController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings,IDDLHelper ddl) //IRepository<EmailConfig> emailConfig, 
+        public CategoryController(AppSettings appSettings,IDDLHelper ddl) //IRepository<EmailConfig> emailConfig, 
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _ddl = ddl;
@@ -52,17 +52,16 @@ namespace WebApp.Controllers
         [HttpPost("Category/List")]
         public async Task<ActionResult> List(int Id)
         {
-            List<Category> categories = new List<Category>();
-            string _token = User.GetLoggedInUserToken();
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/GetCategory", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
-            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
-            {
-                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Category>>>(apiResponse.Result);
-                categories = deserializeObject.Result;
-            }
+            List<Category> categories = await GetCategories(Id);
             return PartialView(categories);
         }
 
+        [HttpPost("Category/CategoryJSON")]
+        public async Task<ActionResult> CategoryJSON(int Id)
+        {
+            List<Category> categories = await GetCategories(Id);
+            return Json(categories);
+        }
 
         private async Task<List<Category>> GetCategories(int Id)
         {
@@ -76,6 +75,8 @@ namespace WebApp.Controllers
             }
             return categories;
         }
+
+
         // GET: CategoryController/Create
         public async Task<IActionResult> Create(int Id = 0)
         {

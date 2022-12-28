@@ -87,12 +87,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
-        [Route("Product/GetCategories")]
-        [Route("GetCategories")]
-        public async Task<IActionResult> GetCategories()
-        {
-            return Json(await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL));
-        }
+
         [Route("Product/GetBrands")]
         [Route("GetBrands")]
         public async Task<IActionResult> GetBrands()
