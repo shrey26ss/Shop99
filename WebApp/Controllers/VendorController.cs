@@ -67,7 +67,7 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles ="0")]
         [HttpPost]
-        public async Task<IActionResult> VendorDetails(VendorProfile model)
+        public async Task<IActionResult> Onboard(VendorVM model)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +96,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            model.States = await _ddl.GetStateDDL(_apiBaseURL);
             return View(model);
             
         }

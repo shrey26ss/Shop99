@@ -21,7 +21,7 @@
             <h4 class="text-monospace">Please fill below details to continue</h4>
         </div>
         <div class="card-body">
-            <form method="post" id="vendor" asp-action="VendorDetails">
+            <form method="post" id="vendor" asp-action="Onboard">
                 <div class="row">
                     <div class="col-sm-6 col-ms-6">
                         <div class="form-group">
@@ -41,9 +41,9 @@
                         <div class="form-group">
                             <label>State</label>
                             <select class="form-control" asp-for="StateId" asp-items="@DDL">
-                               <option>:: Select State ::</option>
+                               <option value="">:: Select State ::</option>
                            </select>
-                            <span asp-validation-for="ContactNo" class="text-danger"></span>
+                            <span asp-validation-for="StateId" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm-4">

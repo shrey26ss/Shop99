@@ -17,7 +17,9 @@ namespace Entities.Models
         [Required(ErrorMessage = "Please Enter Your TIN")]
         public string TIN { get; set; }
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Please Select State")]
         public int StateId { get; set; }
+        [Required(ErrorMessage = "Please Enter Your Address")]
         public string Address { get; set; }
         [Display(Name ="Mobile Number")]
         [DataType(DataType.PhoneNumber)]
