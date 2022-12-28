@@ -31,6 +31,15 @@
                 $('.ui-dialog-titlebar-max:last').click();
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
+    dialog.AddAttribute = function (Id) {
+        $.get('/Attribute/Create', { Id: Id })
+            .done(result => {
+                Q.alert({
+                    title: 'Attribute',
+                    body: result
+                });
+            }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+    };
 })(dialog || (dialog = {}));
 
 var __bind;
