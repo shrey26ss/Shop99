@@ -1109,7 +1109,7 @@ function ajaxFormSubmit(form) {
                 if (response.statusCode == 1) {
                     $('.error').text('');
                     /*$(form).trigger("reset");*/
-                    $('.ui-dialog-titlebar-close').click();
+                    $('.ui-dialog-titlebar-close:last').click();
                     Q.reset();
                     if (typeof loadData !== 'undefined' && $.isFunction(loadData))
                         loadData();
@@ -1131,7 +1131,7 @@ function ajaxFormSubmit(form) {
             if (response.statusCode == 1) {
                 $('.error').text('');
                 /*$(form).trigger("reset");*/
-                $('.ui-dialog-titlebar-close').click();
+                $('.ui-dialog-titlebar-close:last').click();
                 Q.reset();
                 if (typeof loadData !== 'undefined' && $.isFunction(loadData))
                     loadData();
@@ -1140,7 +1140,7 @@ function ajaxFormSubmit(form) {
     }
 }
 
-$('body').on('click', '[data-dismiss="modal"]', () => $('button.ui-dialog-titlebar-close').click());
+$('body').on('click', '[data-dismiss="modal"]', () => $('button.ui-dialog-titlebar-close:last').click());
 $('body').on('submit', 'form', function () {
     let ajaxCall = $(this).attr('data-ajax');
     if(!ajaxCall){

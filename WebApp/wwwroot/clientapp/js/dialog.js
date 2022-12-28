@@ -36,7 +36,8 @@
             .done(result => {
                 Q.alert({
                     title: 'Attribute',
-                    body: result
+                    body: result,
+                    onClose: () => { }
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
