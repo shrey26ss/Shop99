@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     loadTopBrands();
-    loadMainCategory();
     loadTopBannerSec();
     loadofferBanner();
     loadNewProducts();
@@ -9,6 +8,7 @@
     loadOnSale();
     loadHotDeals();
     loadHotDealsNewProduct();
+    loadMainCategory();
 });
 const loadTopBrands = function () {
     let item = {
@@ -39,10 +39,16 @@ const loadMainCategory = function () {
         if (res.statusCode === 1) {
             let TopCategory = $('#secTopCategory');
             TopCategory.html('');
+            let _categoryCount = res.result.length;
             $.each(res.result, async function (i, v) {
                 let current = i == 0 ? "class='current'" : "";
                 TopCategory.append(`<li ${current}><a href="tab${i + 1}">${v.categoryName}</a></li >`);
                 loadTopCategoryProduct(v.categoryId, i + 1);
+                if (_categoryCount === (i + 1)) {
+                    setTimeout(() => {
+                        $('.tab-content').css({ 'display': 'none' });
+                    }, 1100);
+                }
             })
         }
     });
@@ -135,6 +141,9 @@ const loadTopCategoryProduct = function (cId, i) {
             </div>`;
             $('#secDvPRodByCat').append(htmlbody);
             $(`#tab${i}`).css({ 'display': 'block' });
+            if ($(`.product-slide-${i}`).hasClass('slick-initialized')) {
+                $(`.product-slide-${i}`).slick('unslick')
+            }
             $(`.product-slide-${i}`).slick({
                 arrows: true,
                 dots: false,
@@ -176,9 +185,10 @@ const loadTopCategoryProduct = function (cId, i) {
                     }
                 ]
             });
-            if (i !== 1) {
-                $(`#tab${i}`).css({ 'display': 'none' });
-            }
+            
+            //if (i !== 1) {
+            //    $(`#tab${i}`).css({ 'display': 'none' });
+            //}
         },
         error: result => {
 

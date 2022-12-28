@@ -1621,6 +1621,7 @@
         event.preventDefault();
         /*$('.tab_product_slider').slick('unslick');*/
         /* $('.product-slide-3').slick('unslick');*/
+        
         $(this).parent().parent().find("li").removeClass("current");
         $(this).parent().addClass("current");
         var currunt_href = $(this).attr("href");
@@ -1680,6 +1681,9 @@
         var currunt_href = $(this).attr("href");
         $('#' + currunt_href).show();
         $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+        if ($('.media-slide-5').hasClass('slick-initialized')) {
+            $('.media-slide-5').slick('unslick')
+        }
         $('.media-slide-5').slick({
             dots: false,
             infinite: true,
@@ -1773,304 +1777,162 @@
 
 
 
-    // new tab
-    //$(".product-slide-3").slick({
-    //  arrows: true,
-    //  dots: false,
-    //  infinite: false,
-    //  speed: 300,
-    //  slidesToShow: 3,
-    //  slidesToScroll: 1,
-    //  responsive: [
-    //    {
-    //      breakpoint: 1420,
-    //      settings: {
-    //        slidesToShow:2,
-    //        slidesToScroll:2,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 420,
-    //      settings: {
-    //        slidesToShow:1,
-    //        slidesToScroll: 1,
-    //        infinite: true
-    //      }
-    //    },
+
+    //$('.product-4').slick({
+    //    infinite: true,
+    //    speed: 300,
+    //    slidesToShow: 4,
+    //    slidesToScroll: 4,
+    //    autoplay: true,
+    //    autoplaySpeed: 3000,
+    //    responsive: [
+    //        {
+    //            breakpoint: 1200,
+    //            settings: {
+    //                slidesToShow: 3,
+    //                slidesToScroll: 3
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 991,
+    //            settings: {
+    //                slidesToShow: 2,
+    //                slidesToScroll: 2
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 420,
+    //            settings: {
+    //                slidesToShow: 1,
+    //                slidesToScroll: 1
+    //            }
+    //        }
     //    ]
     //});
-    //$(".product-slide-4").slick({
-    //  arrows: true,
-    //  dots: false,
-    //  infinite: false,
-    //  speed: 300,
-    //  slidesToShow: 4,
-    //  slidesToScroll: 4,
-    //  responsive: [
-    //    {
-    //      breakpoint: 1200,
-    //      settings: {
-    //        slidesToShow: 3,
-    //        slidesToScroll: 3,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 900,
-    //      settings: {
-    //        slidesToShow: 2,
-    //        slidesToScroll: 2,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 576,
-    //      settings: {
-    //        slidesToShow: 1,
-    //        slidesToScroll: 1,
-    //        infinite: true
-    //      }
-    //    },
-    //  ]
-    //});
-    //$(".product-slide-5").slick({
-    //  arrows: true,
-    //  dots: false,
-    //  infinite: false,
-    //  speed: 300,
-    //  slidesToShow: 5,
-    //  slidesToScroll: 1,
-    //  responsive: [
-    //    {
-    //      breakpoint: 1700,
-    //      settings: {
-    //        slidesToShow: 5,
-    //        slidesToScroll: 5,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 1200,
-    //      settings: {
-    //        slidesToShow: 4,
-    //        slidesToScroll: 4,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 991,
-    //      settings: {
-    //        slidesToShow: 3,
-    //        slidesToScroll: 3,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 576,
-    //      settings: {
-    //        slidesToShow: 2,
-    //        slidesToScroll: 2
-    //      }
-    //    }
-    //  ]
-    //});
-    //$(".product-slide-6").slick({
-    //  arrows: true,
-    //  dots: false,
-    //  infinite: false,
-    //  speed: 300,
-    //  slidesToShow: 6,
-    //  slidesToScroll: 1,
-    //  responsive: [
-    //    {
-    //      breakpoint: 1700,
-    //      settings: {
-    //        slidesToShow: 5,
-    //        slidesToScroll: 5,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 1200,
-    //      settings: {
-    //        slidesToShow: 4,
-    //        slidesToScroll: 4,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 991,
-    //      settings: {
-    //        slidesToShow: 3,
-    //        slidesToScroll: 3,
-    //        infinite: true
-    //      }
-    //    },
-    //    {
-    //      breakpoint: 576,
-    //      settings: {
-    //        slidesToShow: 2,
-    //        slidesToScroll: 2
-    //      }
-    //    }
-    //  ]
-    //});
-    $('.product-4').slick({
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 991,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 420,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
-    $('.product-slide').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 6,
-        slidesToScroll: 6,
-        responsive: [
-            {
-                breakpoint: 1700,
-                settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 5,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 1367,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 991,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 481,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
+    //$('.product-slide').slick({
+    //    dots: false,
+    //    infinite: true,
+    //    speed: 300,
+    //    slidesToShow: 6,
+    //    slidesToScroll: 6,
+    //    responsive: [
+    //        {
+    //            breakpoint: 1700,
+    //            settings: {
+    //                slidesToShow: 5,
+    //                slidesToScroll: 5,
+    //                infinite: true
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 1367,
+    //            settings: {
+    //                slidesToShow: 4,
+    //                slidesToScroll: 4,
+    //                infinite: true
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 991,
+    //            settings: {
+    //                slidesToShow: 3,
+    //                slidesToScroll: 3,
+    //                infinite: true
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 768,
+    //            settings: {
+    //                slidesToShow: 2,
+    //                slidesToScroll: 2
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 481,
+    //            settings: {
+    //                slidesToShow: 1,
+    //                slidesToScroll: 1
+    //            }
+    //        }
 
-        ]
-    });
-    $('.product_4').slick({
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        responsive: [
-            {
-                breakpoint: 1430,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 991,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 420,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
-    $('.product-6').slick({
-        infinite: true,
-        speed: 300,
-        slidesToShow: 6,
-        slidesToScroll: 6,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 991,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 420,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
+    //    ]
+    //});
+    //$('.product_4').slick({
+    //    infinite: true,
+    //    speed: 300,
+    //    slidesToShow: 4,
+    //    slidesToScroll: 4,
+    //    autoplay: true,
+    //    autoplaySpeed: 5000,
+    //    responsive: [
+    //        {
+    //            breakpoint: 1430,
+    //            settings: {
+    //                slidesToShow: 3,
+    //                slidesToScroll: 3
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 1200,
+    //            settings: {
+    //                slidesToShow: 2,
+    //                slidesToScroll: 2
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 991,
+    //            settings: {
+    //                slidesToShow: 3,
+    //                slidesToScroll: 3
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 768,
+    //            settings: {
+    //                slidesToShow: 2,
+    //                slidesToScroll: 2
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 420,
+    //            settings: {
+    //                slidesToShow: 1,
+    //                slidesToScroll: 1
+    //            }
+    //        }
+    //    ]
+    //});
+    //$('.product-6').slick({
+    //    infinite: true,
+    //    speed: 300,
+    //    slidesToShow: 6,
+    //    slidesToScroll: 6,
+    //    autoplay: true,
+    //    autoplaySpeed: 3000,
+    //    responsive: [
+    //        {
+    //            breakpoint: 1200,
+    //            settings: {
+    //                slidesToShow: 3,
+    //                slidesToScroll: 3
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 991,
+    //            settings: {
+    //                slidesToShow: 2,
+    //                slidesToScroll: 2
+    //            }
+    //        },
+    //        {
+    //            breakpoint: 420,
+    //            settings: {
+    //                slidesToShow: 1,
+    //                slidesToScroll: 1
+    //            }
+    //        }
+    //    ]
+    //});
 
 
     /*=====================
