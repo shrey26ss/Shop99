@@ -7,72 +7,72 @@
     string sd = string.Empty;
 }
 <form asp-action="Create" method="Post">
-    
-        <div class="card-body">
-            <input type="hidden" asp-for="CategoryId">
-            <input type="hidden" asp-for="Icon">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div id="product-details-area">
-                <div>
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <div class="label-wrapper">
-                                <label class="col-form-label required" for="Name">Name</label>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="input-group input-group-required">
-                                <input class="form-control text-box single-line" asp-for="CategoryName" type="text" required="Please fill category name">
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col-md-3">
-                            <div class="label-wrapper">
-                                <label class="col-form-label">Parent</label>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                        <select class="form-control" asp-for="ParentId" asp-items="@ddl">
-                                <option value="0">Parent</option>
-                            </select>
+    <div class="card-body">
+        <input type="hidden" asp-for="CategoryId">
+        <input type="hidden" asp-for="Icon">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div id="product-details-area">
+            <div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label required" for="Name">Name</label>
                         </div>
                     </div>
-                      <div class="form-group row">
-                        <div class="col-md-3">
-                            <div class="label-wrapper">
-                                <label class="col-form-label">Tax Rate</label>
-                            </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required">
+                            <input class="form-control text-box single-line" asp-for="CategoryName" type="text" required="Please fill category name">
                         </div>
-                        <div class="col-md-9">
-                   <input class="form-control text-box single-line" asp-for="TAXRate" type="text" required="Please fill TaxRate">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label">Parent</label>
                         </div>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" asp-for="ParentId" asp-items="@ddl">
+                            <option value="0">Parent</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label">IsPublish</label>
+                            <label class="col-form-label">Tax Rate</label>
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <input type="checkbox" asp-for="IsPublish" checked>
+                        <input class="form-control text-box single-line" asp-for="TAXRate" type="text" required="Please fill TaxRate">
                     </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-3">
                     <div class="label-wrapper">
-                        <label class="col-form-label">Icon</label>
+                        <label class="col-form-label">IsPublish</label>
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <input type="file" asp-for="Icon" accept=".svg">
+                    <input type="checkbox" asp-for="IsPublish" checked>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <input class="btn btn-primary float-right" type="submit">
+        <div class="form-group row">
+            <div class="col-md-3">
+                <div class="label-wrapper">
+                    <label class="col-form-label">Icon</label>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <input type="file" asp-for="Icon" accept=".svg">
+            </div>
         </div>
+    </div>
+    <div class="col-md-12">
+        <input class="btn btn-primary float-right" type="submit">
+    </div>
 </form>
