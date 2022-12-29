@@ -119,6 +119,35 @@ inner join ProductShippingDetail s on s.ProductId = p.Id Order By p.Id desc";
 
             return res;
         }
+
+        public async Task<IResponse> VariantQuantityUpdate(RequestBase<VariantQuantity> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = @"declare @OpeningQty int,@ClosingQty int
+                                    update VariantGroup set @ClosingQty=Quantity = @Quantity,@OpeningQty=Quantity where Id = @VarriantId
+                                    insert into[Inventory] (VarriantId, IsOut, OpeningQty, Qty, ClosingQty, Remark, EntryOn, RefferenceId)
+                                    Select @VarriantId,0,@OpeningQty,@Quantity,@ClosingQty,'Inventry Updated by Quantity - ' + cast(@Quantity as varchar(50)),getdate(),@VarriantId";
+                int i = -5;
+                DynamicParameters param = new DynamicParameters();
+                param.Add("VarriantId", request.Data.VariantId, DbType.Int32);
+                param.Add("Quantity", request.Data.Quantity, DbType.Int32);
+                i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.Text);
+                if (i > -1 && i < 100)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return res;
+        }
+
         public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req)
         {
             string sp = @"Select * from VariantGroup where ProductId = @Id";

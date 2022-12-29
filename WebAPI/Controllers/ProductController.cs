@@ -50,6 +50,17 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/VariantQuantityUpdate")]
+        [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> VariantQuantityUpdate(VariantQuantity req)
+        {
+            return Ok(await _products.VariantQuantityUpdate(new RequestBase<VariantQuantity>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
+
         [Route("Product/GetProductVarAttrDetails")]
         public async Task<IActionResult> GetProductVarAttrDetails(SearchItem req)
         {
