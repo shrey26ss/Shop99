@@ -38,5 +38,12 @@
         public string Description { get; set; }
         public string DealEndsOn { get; set; }
     }
+    public class AutoSuggest
+    {
+        public string Product { get; set; }
+        public int ProductId { get; set; }
+        public string Category { get; set; }
+        public int CategoryId { get; set; }
+    }
    
 }

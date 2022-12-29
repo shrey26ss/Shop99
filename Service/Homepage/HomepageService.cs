@@ -200,11 +200,27 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion()
+        {
+            var res = new Response<IEnumerable<AutoSuggest>>();
+            try
+            {
+                string sqlQuery = @"Select p.Name Product,c.CategoryName Category,p.Id ProductId,c.CategoryId from Products p(nolock) left join Category c(nolock) on c.CategoryId = p.CategoryId Order by p.Name";
+                res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, null, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = ex.Message;
+            }
+            return res;
+        }
 
 
 
 
-      
+
 
 
 
