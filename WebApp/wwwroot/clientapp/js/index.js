@@ -9,7 +9,9 @@
     loadHotDeals();
     loadHotDealsNewProduct();
     loadMainCategory();
+
 });
+var SearchItems = [];
 const loadTopBrands = function () {
     let item = {
         OrderBy: "",
@@ -185,7 +187,7 @@ const loadTopCategoryProduct = function (cId, i) {
                     }
                 ]
             });
-            
+
             //if (i !== 1) {
             //    $(`#tab${i}`).css({ 'display': 'none' });
             //}
@@ -204,7 +206,7 @@ const loadTopBannerSec = async function () {
 const loadofferBanner = function () {
     $.get(baseURL + "/Home/OfferBanner").done(res => {
         let htmlbody = ``;
-        if (res != null && res.result!=null) {
+        if (res != null && res.result != null) {
             $.each(res.result, function (i, v) {
                 htmlbody = htmlbody + `<div class="collection-img">
             <img src="${v.bannerPath}" class="bg-img  " alt="banner">
@@ -257,6 +259,38 @@ const loadHotDeals = async function () {
 const loadHotDealsNewProduct = async function () {
     await $.post("/HotDealsNewProduct").done(res => {
         $('#dvHotDealNewProduct').append(res);
+    });
+}
+const loadAutoSuggestion = async function (searchTerm = '') {
+    await $.post(baseURL + "/Home/GetAutoSuggetion").done(res => {
+        SearchItems = res.result.filter(x => !SearchItems.includes(x));
+        SearchItems = SearchItems.map(function (a) {
+            return this[a.product] || a;
+        }, SearchItems.reduce(function (r, a) {
+            r[a.product] = a;
+            return r;
+        }, Object.create(null)));
+
+
+        $("#SearchProduct").autocomplete({
+            autoFocus: true,
+            classes: {
+                "ui-autocomplete": "highlight"
+            },
+            source: function (request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");;
+                response(SearchItems.map(a => {
+                    return {
+                        label: matcher.test(a.product) ? a.product : matcher.test(a.category) ? a.category : null,
+                        url: matcher.test(a.product) ? `${baseURLHome}category/${a.categoryId}` : matcher.test(a.category) ? `${baseURLHome}category/${a.categoryId}` : null
+                    };
+                }));
+            },
+            select: function (event, ui) {
+                window.open(ui.item.url, '_blank');
+            },
+            minLength: 2
+        });
     });
 }
 

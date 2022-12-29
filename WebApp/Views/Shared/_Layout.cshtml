@@ -34,6 +34,7 @@
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/color2.css" media="screen" id="color" />
     <link rel="stylesheet" href="~/lib/jquery-ui/dist/css/jquery-ui.min.css" />
+    <link href="~/clientapp/css/custom.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
     <!-- loader start -->
@@ -90,7 +91,7 @@
                 <div class="col-md-12">
                     <div class="main-menu-block">
                         <div class="header-left">
-                          
+
                             <div class="brand-logo logo-sm-center">
                                 <a href="/">
                                     <img src="~/assets/images/layout-2/logo/logo.png" class="img-fluid  " alt="logo">
@@ -104,18 +105,19 @@
                                         <div class="input-group-text">
                                             <span class="search"><i class="fa fa-search"></i></span>
                                         </div>
-                                        <input type="search" class="form-control" placeholder="Search a Product">
+                                        <input type="search" class="form-control SearchProduct" id="SearchProduct" placeholder="Search a Product">
                                         <div class="input-group-text">
                                             <select>
                                                 <option>All Category</option>
-                                                <option>indurstrial</option>
-                                                <option>sports</option>
+                                                <option>Industrial</option>
+                                                <option>Sports</option>
                                             </select>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
+                        <div id="dvAutoSuggestion"></div>
                         <div class="header-right">
                             <div class="icon-block">
                                 <ul>
@@ -441,6 +443,23 @@
         $(document).on('click', '.openMenu', (e) => {
             $('#Menu_side')?.addClass('open-side');
         });
+        function delaySearch() {
+            var timer = null;
+            // Grab the datatables input box and alter how it is bound to events
+            $(".SearchProduct")
+                .unbind() // Unbind previous default bindings
+                .bind("input", function (e) { // Bind our desired behavior
+                    let searchTerm = $('#SearchProduct').val();//item.val();
+                    if (searchTerm) {
+                        clearTimeout(timer);
+                        timer = setTimeout(function () {
+                            loadAutoSuggestion(searchTerm);                            
+                        }, 600);
+                    }
+                    return;
+                });
+        }
+        delaySearch();
 
     </script>
 </body>

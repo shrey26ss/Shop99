@@ -62,5 +62,7 @@ namespace WebAPI.Controllers
             var res = await _orderRepo.GetAsync<OrderDetailsRow>(0, x => x.Product=="demo" && x.Qty==1);
             return Ok(res);
         }
+        [Route(nameof(GetAutoSuggetion))]
+        public async Task<ActionResult> GetAutoSuggetion() => Ok(await _homepageService.GetAutoSuggetion());
     }
 }
