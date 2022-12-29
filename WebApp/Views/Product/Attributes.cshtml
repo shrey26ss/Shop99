@@ -43,7 +43,7 @@
                                         <td>@item.MRP</td>
                                         <td>@item.SellingCost</td>
                                         <td>@item.HSN</td>
-                                        <td>@item.Quantity</td>
+                                        <td><input type="number" class="form-control item-quantity w-75" min="1" maxlength="10" data-variantid="@item.Id" value="@item.Quantity"> </td>
                                         <td>@item.GTIN</td>
                                         <td>@item.IsFeatured</td>
                                         <td>@item.IsShowOnHome</td>
@@ -63,16 +63,39 @@
 
 
 @section scripts{
-    <script>
-        
-        var loadPartial = function (Id = 0) {
-            $.post('/Product/VariantAttributeList', { Id }).done((result) => {
-                Q.alert({
-                    title: 'Attribute List',
-                    body: result,
-                    width: 600
-                });
+<script>
+
+    var loadPartial = function (Id = 0) {
+        $.post('/Product/VariantAttributeList', { Id }).done((result) => {
+            Q.alert({
+                title: 'Attribute List',
+                body: result,
+                width: 600
+            });
+        })
+    };
+    $('.item-quantity').on('focusin', function(){
+        console.log("Saving value " + $(this).val());
+        $(this).data('val', $(this).val());
+    });
+    $('.item-quantity').blur(function(){
+    var prevQty = $(this).data('val');
+    var vid = $(this).data('variantid');
+    var currentQty = $(this).val();
+    if(currentQty<=0)
+    {
+        Q.notify(-1,'Minimum 1 Quantity Required.');
+        return;
+    }
+    if(currentQty!=prevQty && currentQty>=1)
+    {
+          $.post('/Product/VariantQuantityUpdate', {v:vid,q:currentQty}).done(function (result) {
+                Q.notify(result.statusCode,result.responseText);
+            }).fail(function (xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
             })
-        };
-    </script>
+    }
+    });
+</script>
 }

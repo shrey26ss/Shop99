@@ -70,4 +70,10 @@ namespace Entities.Models
         public decimal MRP { get; set; }
         public decimal SellingPrice { get; set; }
     }
+    public class VariantQuantity
+    {
+        public int VariantId { get; set; }
+        public int Quantity { get; set; }
+       
+    }
 }

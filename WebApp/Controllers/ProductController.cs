@@ -30,7 +30,7 @@ namespace WebApp.Controllers
         private readonly Dictionary<string, string> _ImageSize;
         private readonly IHttpRequestInfo _httpInfo;
         private readonly IDDLHelper _ddl;
-        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo,IDDLHelper ddl)
+        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo, IDDLHelper ddl)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _ImageSize = imageSize.Value;
@@ -102,7 +102,7 @@ namespace WebApp.Controllers
             model.Categories = await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL);
             model.Brands = await _ddl.GetBrandsDDL(GetToken(), _apiBaseURL);
             var response = new List<Products>();
-            if(Id > 0)
+            if (Id > 0)
             {
                 var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
                 if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
@@ -193,7 +193,7 @@ namespace WebApp.Controllers
         [ValidateAjax]
         public async Task<IActionResult> SaveVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)
         {
-            
+
             var model = new VariantCombination();
             model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
             ModelState.Clear();
@@ -221,7 +221,25 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> VariantQuantityUpdate(int v, int q)
+        {
+            Response response = new Response();
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(new VariantQuantity { VariantId = v, Quantity = q });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/VariantQuantityUpdate", jsonData, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                response = deserializeObject;
+            }
+            return Ok(response);
+        }
+
         #endregion
+
+
 
 
         #region Private Method
@@ -234,7 +252,7 @@ namespace WebApp.Controllers
                 foreach (var item in req)
                 {
                     counter++;
-                    string fileName = $"{counter.ToString()+DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
                     Utility.O.UploadFile(new FileUploadModel
                     {
                         file = item.file,
