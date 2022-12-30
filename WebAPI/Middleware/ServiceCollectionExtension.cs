@@ -32,6 +32,7 @@ using Service.City;
 using Service.Address;
 using Service.CatBrandMapping;
 using Service.OrderDetails;
+using Service.Report;
 
 namespace WebAPI.Middleware
 {
@@ -78,7 +79,7 @@ namespace WebAPI.Middleware
             services.AddScoped<ICity, CityService>();
             services.AddScoped<IUserAddress, UserAddressService>();
             services.AddScoped<IUserRepo, UserRepo>();
-          
+            services.AddScoped<IReport, ReportService>();          
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IRequestInfo, RequestInfoServcie>();
             //services.AddProgressiveWebApp();

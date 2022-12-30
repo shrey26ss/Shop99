@@ -1,0 +1,31 @@
+﻿@using Entities.Models;
+@model IEnumerable<Inventory>
+
+@if (Model.Any())
+{
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        counter++;
+        <tr>
+            <td>@counter</td>
+            <td class="align-middle">
+                <div class="btn-group dropup">
+                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expaned="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="act">
+                        <h6 class="dropdown-header">Action Menu</h6>
+                            @*<a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>*@
+                    </div>
+                </div>
+            </td>
+            <td>@item.ProductName</td>
+            <td>@item.VariantTitle</td>
+            <td>@item.IsOut</td>
+            <td class="text-right">@item.OpeningQty</td>
+            <td class="text-right">@item.Qty</td>
+            <td class="text-right">@item.ClosingQty</td>
+            <td>@item.Remark</td>
+        </tr>
+    }
+}
