@@ -18,4 +18,11 @@ namespace Entities.Enums
         [Description("Product Shipped")]
         Shipped = 5
     }
+    public enum PurchaseType
+    {
+        [Description("Purchase Out")]
+        Out = 1,
+        [Description("Purchase In")]
+        In = 0
+    }
 }

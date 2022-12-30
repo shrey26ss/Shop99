@@ -3,6 +3,7 @@ using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Models;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using WebAPI.Middleware;
@@ -60,11 +61,11 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-
         [Route("Product/GetProductVarAttrDetails")]
         public async Task<IActionResult> GetProductVarAttrDetails(SearchItem req)
         {
             return Ok(await _products.GetProductVarAttrDetails(req));
         }
+        
     }
 }
