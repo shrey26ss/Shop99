@@ -441,68 +441,60 @@
     @RenderSection("Scripts", required: false)
     <script>
         var SearchItems = [];
-        var loadAutoSuggestion = async function (searchTerm = '', Top = 2) {
+        var loadAutoSuggestion = async function (searchTerm = '', Top = 0 , triggerSuggestion=false) {
             await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
                 if (SearchItems.length <= 0) {
                     SearchItems = res.result.filter(x => !SearchItems.includes(x));
                 } else {
-                    let newArr = [];
-                    for (let j = 0; j < SearchItems.length; j++) {
-                        for (let i = 0; i < res.result.length; i++) {
-                            if (SearchItems[j].name !== res.result[i].name && SearchItems[j].type !== res.result[i].type && SearchItems[j].id !== res.result[i].id) {
-                                newArr.push(res.result[i]);
-                            }
+                    let objArr = SearchItems.map(x => JSON.stringify(x));
+                    res.result.map(x => {
+                        if (!objArr.includes(JSON.stringify(x))) {
+                            SearchItems.push(x);
                         }
-                    }
-                    var arrrr = newArr.filter((value, index, self) =>
-                        index === self.findIndex((t) => (
-                            t.name !== value.name && t.id !== value.id && t.type !== value.type
-                        ))
-                    )
-                    SearchItems = SearchItems.concat(arrrr);
+                    });
                 }
             });
+            if(triggerSuggestion){
+                $("#SearchProduct").trigger("input");
+            }
         }
+
         $(document).on('click', '.openMenu', (e) => {
             $('#Menu_side')?.addClass('open-side');
         });
-        function delaySearch() {
-            var timer = null;
-            // Grab the datatables input box and alter how it is bound to events
-            $(".SearchProduct")
-                .unbind() // Unbind previous default bindings
-                .bind("input", function (e) { // Bind our desired behavior
-                    let searchTerm = $('#SearchProduct').val();//item.val();
-                    if (searchTerm) {
-                        clearTimeout(timer);
-                        timer = setTimeout(function () {
-                            loadAutoSuggestion(searchTerm, 0);
-                        }, 600);
-                    }
-                    return;
-                });
-        }
-        delaySearch();
-        loadAutoSuggestion();
-        $("#SearchProduct").autocomplete({
+
+        $("#SearchProduct").unbind().autocomplete({
             autoFocus: true,
             classes: {
                 "ui-autocomplete": "highlight"
             },
             source: function (request, response) {
-                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");;
-                response(SearchItems.map(a => {
-                    return {
-                        label: matcher.test(a.name) ? a.name : null,
-                        url: (a.type === 'C') ? `/category/${a.id}` : (a.type === 'P') ? `/Product/${a.id}` : null
-                    };
-                }));
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                searchResult = [];
+                let loopCount = SearchItems.length;
+                for (let i = 0; i < loopCount; i++) {
+                    let a = SearchItems[i];
+                    let _label = matcher.test(a.name) ? a.name : null;
+                    if (_label) {
+                        searchResult.push({
+                            label: _label,
+                            url: (a.type === 'C') ? `/category/${a.id}` : (a.type === 'P') ? `/Product/${a.id}` : null
+                        })
+                    }
+                }
+                loadAutoSuggestion(request.term, 0, true);
+                if (searchResult.length > 0) {
+                    response(searchResult);
+                }
             },
             select: function (event, ui) {
                 window.open(ui.item.url, '_blank');
             },
-            minLength: 2
+            minLength: 3
         });
+
+        loadAutoSuggestion('',2);
+
     </script>
 </body>
 
