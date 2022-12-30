@@ -26,6 +26,7 @@ namespace WebApp.Servcie
         Task<IResponse<IEnumerable<HotDealsResponse>>> GetHotDeals(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest);
         Task<IResponse<IEnumerable<Filters>>> GetCategoryFilters(ProductRequest productRequest);
+        Task<IResponse<IEnumerable<ProductResponse>>> ProductByProducId(ProductRequest productRequest);
     }
     public class CategoryAPI : ICategoryAPI
     {
@@ -276,6 +277,28 @@ namespace WebApp.Servcie
                 try
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<Filters>>>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
+        public async Task<IResponse<IEnumerable<ProductResponse>>> ProductByProducId(ProductRequest productRequest)
+        {
+            var res = new Response<IEnumerable<ProductResponse>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/ByProductId", JsonConvert.SerializeObject(productRequest));
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<ProductResponse>>>(Response.Result);
                     return deserializeObject;
                 }
                 catch (Exception e)

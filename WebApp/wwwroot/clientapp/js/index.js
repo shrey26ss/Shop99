@@ -11,7 +11,6 @@
     loadMainCategory();
 
 });
-var SearchItems = [];
 const loadTopBrands = function () {
     let item = {
         OrderBy: "",
@@ -261,37 +260,6 @@ const loadHotDealsNewProduct = async function () {
         $('#dvHotDealNewProduct').append(res);
     });
 }
-const loadAutoSuggestion = async function (searchTerm = '') {
-    await $.post(baseURL + "/Home/GetAutoSuggetion").done(res => {
-        SearchItems = res.result.filter(x => !SearchItems.includes(x));
-        SearchItems = SearchItems.map(function (a) {
-            return this[a.product] || a;
-        }, SearchItems.reduce(function (r, a) {
-            r[a.product] = a;
-            return r;
-        }, Object.create(null)));
 
-
-        $("#SearchProduct").autocomplete({
-            autoFocus: true,
-            classes: {
-                "ui-autocomplete": "highlight"
-            },
-            source: function (request, response) {
-                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");;
-                response(SearchItems.map(a => {
-                    return {
-                        label: matcher.test(a.product) ? a.product : matcher.test(a.category) ? a.category : null,
-                        url: matcher.test(a.product) ? `${baseURLHome}category/${a.categoryId}` : matcher.test(a.category) ? `${baseURLHome}category/${a.categoryId}` : null
-                    };
-                }));
-            },
-            select: function (event, ui) {
-                window.open(ui.item.url, '_blank');
-            },
-            minLength: 2
-        });
-    });
-}
 
 

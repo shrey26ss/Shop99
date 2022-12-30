@@ -229,12 +229,42 @@ namespace WebApp.Controllers
             return View("Error");
         }
 
-
-
         [HttpPost("GetVariantIdByAttributes")]
         public async Task<IActionResult> GetVariantIdByAttributes(VariantIdByAttributesRequest request)
         {
             return Json(await _product.GetVariantIdByAttributes(request));
         }
+
+
+
+
+
+
+        #region Products By ProductID
+        [Route("Product/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> ProductsByProductId()
+        {
+            return View();
+        }
+        [Route("ProductsByPID")]
+        [HttpPost]
+        public async Task<IActionResult> ProductsByPID(int cid, string filters)
+        {
+            var req = new ProductRequest<ProductFilter>()
+            {
+                Top = 24,
+                OrderBy = "",
+                MoreFilters = new ProductFilter
+                {
+                    Attributes = filters,
+                    ProductId = cid
+                }
+            };
+            var res = _category.ProductByProducId(req).Result;
+            return PartialView("Partial/_ProductsByPID", res);
+        }
+
+        #endregion
     }
 }
