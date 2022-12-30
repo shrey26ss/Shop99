@@ -440,6 +440,18 @@
 
     @RenderSection("Scripts", required: false)
     <script>
+        var SearchItems = [];
+        var loadAutoSuggestion = async function (searchTerm = '') {
+            await $.post(baseURL + "/Home/GetAutoSuggetion").done(res => {
+                SearchItems = res.result.filter(x => !SearchItems.includes(x));
+                //SearchItems = SearchItems.map(function (a) {
+                //    return this[a.product] || a;
+                //}, SearchItems.reduce(function (r, a) {
+                //    r[a.product] = a;
+                //    return r;
+                //}, Object.create(null)));
+            });
+        }
         $(document).on('click', '.openMenu', (e) => {
             $('#Menu_side')?.addClass('open-side');
         });
@@ -453,14 +465,34 @@
                     if (searchTerm) {
                         clearTimeout(timer);
                         timer = setTimeout(function () {
-                            loadAutoSuggestion(searchTerm);                            
+                            loadAutoSuggestion(searchTerm);
                         }, 600);
                     }
                     return;
                 });
         }
         delaySearch();
-
+        loadAutoSuggestion('');
+        $("#SearchProduct").autocomplete({
+            autoFocus: true,
+            classes: {
+                "ui-autocomplete": "highlight"
+            },
+            source: function (request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");;
+                response(SearchItems.map(a => {
+                    console.log(a);
+                    return {
+                        label: matcher.test(a.name) ? a.name : null,
+                        url: (a.type === 'C') ? `/category/${a.id}` : (a.type === 'P') ? `/Product/${a.id}` : null
+                    };
+                }));
+            },
+            select: function (event, ui) {
+                window.open(ui.item.url, '_blank');
+            },
+            minLength: 2
+        });
     </script>
 </body>
 

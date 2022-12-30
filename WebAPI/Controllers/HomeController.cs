@@ -64,5 +64,7 @@ namespace WebAPI.Controllers
         }
         [Route(nameof(GetAutoSuggetion))]
         public async Task<ActionResult> GetAutoSuggetion() => Ok(await _homepageService.GetAutoSuggetion());
+        [HttpPost(nameof(ByProductId))]
+        public async Task<ActionResult> ByProductId(ProductRequest<ProductFilter> productRequest) => Ok(await _homepageService.GetProductByPID(productRequest));
     }
 }

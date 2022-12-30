@@ -205,7 +205,9 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             var res = new Response<IEnumerable<AutoSuggest>>();
             try
             {
-                string sqlQuery = @"Select p.Name Product,c.CategoryName Category,p.Id ProductId,c.CategoryId from Products p(nolock) left join Category c(nolock) on c.CategoryId = p.CategoryId Order by p.Name";
+                string sqlQuery = @"Select c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  
+Union
+Select p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) ";
                 res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, null, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
@@ -217,6 +219,39 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             return res;
         }
 
+
+        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest)
+        {
+            var res = new Response<IEnumerable<ProductResponse>>();
+            try
+            {
+                string sqlQuery = @"CREATE TABLE #temp (attributes varchar(max)) 
+insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
+  if((select count(*) from #temp)>0)
+  begin
+   with cte as ( Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p(nolock) 
+            inner join VariantGroup vg(nolock) on vg.ProductId = p.Id 
+			 inner join CategoryAttributeMapping cam(nolock) on cam.CategoryId=p.CategoryId
+			  inner join AttributeInfo ai(nolock) on ai.AttributeId=cam.AttributeId
+			 inner join #temp t on t.attributes = ai.AttributeValue and vg.id=ai.GroupId
+            where p.Id = @ProductId
+)select * from cte group by 	ProductID,VariantID,PublishedOn,Title,MRP,GroupID,ImagePath,Label,SellingCost,Stars
+  end
+  else
+  begin
+   Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from VariantGroup vg(nolock) inner join Products p(nolock) on p.Id = vg.ProductId where vg.ProductId = @ProductId
+  end";
+                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters.ProductId, productRequest.MoreFilters.Attributes, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
+
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = ex.Message;
+            }
+            return res;
+        }
 
 
 
