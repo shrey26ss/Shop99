@@ -62,8 +62,8 @@ namespace WebAPI.Controllers
             var res = await _orderRepo.GetAsync<OrderDetailsRow>(0, x => x.Product=="demo" && x.Qty==1);
             return Ok(res);
         }
-        [Route(nameof(GetAutoSuggetion))]
-        public async Task<ActionResult> GetAutoSuggetion() => Ok(await _homepageService.GetAutoSuggetion());
+        [HttpPost(nameof(GetAutoSuggetion))]
+        public async Task<ActionResult> GetAutoSuggetion(string searchText= "",int Top = 0) => Ok(await _homepageService.GetAutoSuggetion(searchText,Top));
         [HttpPost(nameof(ByProductId))]
         public async Task<ActionResult> ByProductId(ProductRequest<ProductFilter> productRequest) => Ok(await _homepageService.GetProductByPID(productRequest));
     }

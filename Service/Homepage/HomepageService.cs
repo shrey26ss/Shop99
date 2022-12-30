@@ -200,15 +200,20 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             }
             return res;
         }
-        public async Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion()
+        public async Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion(string searchText = "", int Top = 0)
         {
             var res = new Response<IEnumerable<AutoSuggest>>();
             try
             {
-                string sqlQuery = @"Select c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  
+                string sqlQuery = @"if @Top = 0
+Select Distinct Top(50) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.[CategoryName] Like '%'+ @searchText +'%'
 Union
-Select p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) ";
-                res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, null, CommandType.Text);
+Select Distinct Top(50) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.Name Like '%'+ @searchText +'%'
+else
+Select Distinct Top(@Top) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.[CategoryName] Like '%'+ @searchText +'%'
+Union
+Select Distinct Top(@Top) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.Name Like '%'+ @searchText +'%'";
+                res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, new { searchText = searchText ?? "", Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
