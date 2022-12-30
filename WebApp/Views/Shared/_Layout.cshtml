@@ -441,15 +441,26 @@
     @RenderSection("Scripts", required: false)
     <script>
         var SearchItems = [];
-        var loadAutoSuggestion = async function (searchTerm = '') {
-            await $.post(baseURL + "/Home/GetAutoSuggetion").done(res => {
-                SearchItems = res.result.filter(x => !SearchItems.includes(x));
-                //SearchItems = SearchItems.map(function (a) {
-                //    return this[a.product] || a;
-                //}, SearchItems.reduce(function (r, a) {
-                //    r[a.product] = a;
-                //    return r;
-                //}, Object.create(null)));
+        var loadAutoSuggestion = async function (searchTerm = '', Top = 2) {
+            await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
+                if (SearchItems.length <= 0) {
+                    SearchItems = res.result.filter(x => !SearchItems.includes(x));
+                } else {
+                    let newArr = [];
+                    for (let j = 0; j < SearchItems.length; j++) {
+                        for (let i = 0; i < res.result.length; i++) {
+                            if (SearchItems[j].name !== res.result[i].name && SearchItems[j].type !== res.result[i].type && SearchItems[j].id !== res.result[i].id) {
+                                newArr.push(res.result[i]);
+                            }
+                        }
+                    }
+                    var arrrr = newArr.filter((value, index, self) =>
+                        index === self.findIndex((t) => (
+                            t.name !== value.name && t.id !== value.id && t.type !== value.type
+                        ))
+                    )
+                    SearchItems = SearchItems.concat(arrrr);
+                }
             });
         }
         $(document).on('click', '.openMenu', (e) => {
@@ -465,14 +476,14 @@
                     if (searchTerm) {
                         clearTimeout(timer);
                         timer = setTimeout(function () {
-                            loadAutoSuggestion(searchTerm);
+                            loadAutoSuggestion(searchTerm, 0);
                         }, 600);
                     }
                     return;
                 });
         }
         delaySearch();
-        loadAutoSuggestion('');
+        loadAutoSuggestion();
         $("#SearchProduct").autocomplete({
             autoFocus: true,
             classes: {
@@ -481,7 +492,6 @@
             source: function (request, response) {
                 var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");;
                 response(SearchItems.map(a => {
-                    console.log(a);
                     return {
                         label: matcher.test(a.name) ? a.name : null,
                         url: (a.type === 'C') ? `/category/${a.id}` : (a.type === 'P') ? `/Product/${a.id}` : null
