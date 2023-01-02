@@ -287,7 +287,7 @@ namespace WebApp.Controllers
                         file = item.file,
                         FileName = fileName,
                         FilePath = FileDirectories.ProductVariant.Replace("/{0}", string.Empty),
-                        IsThumbnailRequired = true,
+                        IsThumbnailRequired = false,
                     });
                     ImageInfo.Add(new PictureInformation
                     {
@@ -322,7 +322,7 @@ namespace WebApp.Controllers
                                     file = formFile,
                                     FileName = fileName,
                                     FilePath = FileDirectories.ProductVariant.Replace("{0}", sValue),
-                                    IsThumbnailRequired = true,
+                                    IsThumbnailRequired = false,
                                 });
                                 ImageInfo.Add(new PictureInformation
                                 {
