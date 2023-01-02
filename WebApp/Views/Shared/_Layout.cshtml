@@ -488,7 +488,14 @@
                 }
             },
             select: function (event, ui) {
-                window.open(ui.item.url, '_blank');
+                let homePath=['/','/home']
+                let u = new URL(window.location.href)
+                if(homePath.includes(u.pathname)){
+                    window.open(ui.item.url, '_blank');
+                }
+                else{
+                    window.location.href = ui.item.url
+                }
             },
             minLength: 3
         });
