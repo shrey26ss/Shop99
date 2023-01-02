@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using AppUtility.Helper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -112,6 +113,38 @@ namespace Service.Brand
             catch (Exception ex)
             {
 
+            }
+            return res;
+        }
+        public async Task<IResponse> UpdateIspublishBrands(RequestBase<UpdateIspublishBrands> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+
+                sqlQuery = @"Update Brands set IsPublished = @IsPublish where Id = @Id;";
+
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    request.Data.Id,
+                    request.Data.IsPublish
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Brand Updated successfully";
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }

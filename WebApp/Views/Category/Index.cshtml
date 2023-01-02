@@ -38,23 +38,23 @@
 
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#btnNew').click(() => dialog.category());//AddCategory());
             loadData();
         })
-        var loadData = function () {
+        var loadData = function() {
             let request = {
-                Id:0
+                Id: 0
             };
-            $.post('/Category/List', request).done(function (result) {
+            $.post('/Category/List', request).done(function(result) {
                 $('#Grid tbody').html(result);
-            }).fail(function (xhr) {
+            }).fail(function(xhr) {
                 console.log(xhr.responseText);
                 alert('something went wrong');
             })
         };
 
-        var AddCategory = function (Id) {
+        var AddCategory = function(Id) {
             $.get('/Category/Create', { Id: Id })
                 .done(result => {
                     Q.alert({
@@ -63,5 +63,26 @@
                     });
                 }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
         };
+        var UpdateIspublish = function(Id) {
+            let IsPublish = false;
+            if ($('#Ispublish_' + Id).is(":checked")) 
+            {
+                IsPublish = true;
+            }
+            let obj = {
+                ParentId:Id,
+                IsPublish:IsPublish
+            }
+            $.post('/Category/UpdateIsPublishCategory',obj).done(function(result) {
+                console.log(result);
+                Q.notify(result.statusCode,result.responseText);
+                if (result.statusCode==1) {
+                loadData();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
     </script>
         }

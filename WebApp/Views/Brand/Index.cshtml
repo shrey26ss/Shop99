@@ -19,6 +19,7 @@
                             <tr role="row" style="" class="">
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>IsPublish</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -32,32 +33,41 @@
 
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#btnNew').click(() => dialog.brand());//AddBrand());
             loadData();
         })
-        var loadData = function () {
+        var loadData = function() {
             let request = {
                 Id: 0
             };
 
-            $.post('/Brand/List', request).done(function (result) {
+            $.post('/Brand/List', request).done(function(result) {
                 $('#Grid tbody').html(result);
-            }).fail(function (xhr) {
+            }).fail(function(xhr) {
                 console.log(xhr.responseText);
                 alert('something went wrong');
             })
         };
-
-
-        //  var AddBrand = function (Id) {
-        //    $.get('/Brand/Create', { Id: Id })
-        //        .done(result => {
-        //            Q.alert({
-        //                title: 'Brand',
-        //                body: result
-        //            });
-        //        }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
-        //};
+        var UpdateIspublish = function(Id) {
+            let IsPublish = false;
+            if ($('#Ispublish_' + Id).is(":checked")) {
+                IsPublish = true;
+            }
+            let obj = {
+                Id: Id,
+                IsPublish: IsPublish
+            }
+            $.post('/Brand/UpdateIsPublishBrand', obj).done(function(result) {
+                console.log(result);
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode == 1) {
+                    loadData();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
     </script>
         }

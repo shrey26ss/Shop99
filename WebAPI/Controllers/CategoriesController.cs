@@ -37,6 +37,17 @@ namespace WebAPI.Controllers
             }));
         }
 
+        [Route("Category/UpdateIsPublishCategory")]
+        [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateIsPublishCategory(CategoryIsPublishUpdate req)
+        {
+            return Ok(await _category.UpdateIsPublishCategory(new RequestBase<CategoryIsPublishUpdate>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
+
         [Route("Category/GetCategory")]
         public async Task<IActionResult> GetCategory(SearchItem req)
         {

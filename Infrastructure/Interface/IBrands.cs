@@ -12,5 +12,6 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<Brands>>> GetBrands(RequestBase<SearchItem> request);
         Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDL();
         Task<IResponse<IEnumerable<Brands>>> GetTopBrands(int Top);
+        Task<IResponse> UpdateIspublishBrands(RequestBase<UpdateIspublishBrands> request);
     }
 }

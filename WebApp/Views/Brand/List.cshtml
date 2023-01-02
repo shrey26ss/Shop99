@@ -9,6 +9,11 @@
         <tr>    
             <td>@i</td>
             <td>@item.Name</td>
+            <td>
+                <span class="switch switch-sm">
+                <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
+                <label for="Ispublish_@item.Id"></label>
+            </td>
             <td><input type="button" value="Edit" class="btn btn-sm btn-success" onclick="dialog.brand('@item.Id')" /></td>
         </tr>
 

@@ -46,5 +46,14 @@ namespace WebAPI.Controllers
         {
             return Ok(await _brand.GetBrandDDL());
         }
+        [Route("Brand/UpdateIsPublishBrand")]
+        public async Task<IActionResult> UpdateIsPublishBrand(UpdateIspublishBrands req)
+        {
+            return Ok(await _brand.UpdateIspublishBrands(new RequestBase<UpdateIspublishBrands>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }

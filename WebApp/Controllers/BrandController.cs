@@ -59,6 +59,21 @@ namespace WebApp.Controllers
             }
             return PartialView(brands);
         }
+        [HttpPost("Brand/UpdateIsPublishBrand")]
+        public async Task<IActionResult> UpdateIsPublishBrand(UpdateIspublishBrands req)
+        {
+            var res = new Response();
+            if (req.Id >= 1)
+            {
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/UpdateIsPublishBrand", JsonConvert.SerializeObject(req), _token);
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                }
+            }
+            return Json(res);
+        }
 
         // GET: BrandController/Create
         public async Task<ActionResult> Create(int Id = 0)
