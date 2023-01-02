@@ -95,6 +95,23 @@ namespace WebApp.Controllers
             return PartialView(category);
         }
 
+
+        public async Task<IActionResult> UpdateIsPublishCategory(CategoryIsPublishUpdate req)
+        {
+            var res = new Response();
+            if (req.ParentId >=1)
+            {
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Category/UpdateIsPublishCategory", JsonConvert.SerializeObject(req), _token);
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                  res= JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                }
+            }
+            return Json(res);
+        }
+
+
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAjax]

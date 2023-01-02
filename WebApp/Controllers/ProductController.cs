@@ -74,6 +74,21 @@ namespace WebApp.Controllers
             return View(response);
         }
         [HttpPost]
+        public async Task<IActionResult> UpdateIsPublishVariant(UpdateIsPublishProduct req)
+        {
+            var res = new Response();
+            if (req.ID >= 1)
+            {
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/UpdateIsPublishVarAttr", JsonConvert.SerializeObject(req), _token);
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                }
+            }
+            return Json(res);
+        }
+        [HttpPost]
         public async Task<IActionResult> VariantAttributeList(int Id)
         {
             var response = new List<ProductAttributes>();
@@ -87,7 +102,21 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
+        {
+            var res = new Response();
+            if (req.ID >= 1)
+            {
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/UpdateIsPublishProduct", JsonConvert.SerializeObject(req), _token);
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                }
+            }
+            return Json(res);
+        }
         [Route("Product/GetBrands")]
         [Route("GetBrands")]
         public async Task<IActionResult> GetBrands()

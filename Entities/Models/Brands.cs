@@ -9,6 +9,7 @@ namespace Entities.Models
     {
         //public string Description { get; set; }
         //public string Icon { get; set; }
+        public bool IsPublished { get; set; }
     }
     public class BrandsDDL
     {
@@ -16,5 +17,10 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Please Enter Brand Name")]
         public string Name { get; set; }
+    }
+    public class UpdateIspublishBrands
+    {
+        public int Id { get; set; }
+        public bool IsPublish { get; set; }
     }
 }

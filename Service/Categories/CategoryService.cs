@@ -67,6 +67,42 @@ namespace Service.Categories
             return res;
         }
 
+
+
+        public async Task<IResponse> UpdateIsPublishCategory(RequestBase<CategoryIsPublishUpdate> category)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+               
+                    sqlQuery = @"update Category set IsPublish = @IsPublish where CategoryId = @ParentId;";
+              
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    category.Data.ParentId,
+                    category.Data.IsPublish
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Category Updated successfully";
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
+
         public async Task<IResponse> Delete(int id)
         {
             throw new NotImplementedException();

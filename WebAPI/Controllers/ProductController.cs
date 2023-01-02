@@ -41,6 +41,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/UpdateIsPublishProduct")]
+        public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
+        {
+            return Ok(await _products.UpdateIsPublishProduct(new RequestBase<UpdateIsPublishProduct>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
         [Route("Product/AddProductVariant")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddProductVariant(VariantCombination req)
@@ -66,6 +75,14 @@ namespace WebAPI.Controllers
         {
             return Ok(await _products.GetProductVarAttrDetails(req));
         }
-        
+        [Route("Product/UpdateIsPublishVarAttr")]
+        public async Task<IActionResult> UpdateIsPublishVarAttr(UpdateIsPublishProduct req)
+        {
+            return Ok(await _products.UpdateIsPublishVarAttr(new RequestBase<UpdateIsPublishProduct>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }

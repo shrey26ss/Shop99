@@ -29,6 +29,7 @@ namespace Entities.Models
         public int ModifyBy { get; set; }   
         public string EntryOn { get; set; }   
         public string ModifyOn { get; set; }   
+        public bool IsPublished { get; set; }   
     }
     public class ProductShippingDetail
     {
@@ -38,5 +39,10 @@ namespace Entities.Models
         public decimal Charges { get; set; }
         public decimal FreeOnAmount { get; set; }
         public bool IsFlat { get; set; }
+    }
+    public class UpdateIsPublishProduct
+    {
+        public int ID { get; set; }
+        public bool IsPublish { get; set; }
     }
 }

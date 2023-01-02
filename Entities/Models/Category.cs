@@ -20,4 +20,10 @@ namespace Entities.Models
         [Required(ErrorMessage = "Please Enter Category Name")]
         public string CategoryName { get; set; }
     }
+    public class CategoryIsPublishUpdate 
+    {
+        public int ParentId { get; set; }
+        public bool IsPublish { get; set; }
+    }
+
 }

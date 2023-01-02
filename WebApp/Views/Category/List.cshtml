@@ -6,12 +6,18 @@
     foreach (var item in Model)        
     {
         i++;
-        <tr>           
+        <tr data-item-id="@item.CategoryId">           
             <td>@i</td>
             <td>@item.CategoryName</td>
             <td>@item.ParentName</td>
             <td>@item.TAXRate</td>
-            <td>@item.IsPublish</td>
+            <td>
+                <span class="switch switch-sm">
+                <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.CategoryId')" id="Ispublish_@item.CategoryId" @Html.Raw(item.IsPublish ? "checked='checked'" : "")>
+                <label for="Ispublish_@item.CategoryId"></label>
+            </span>
+
+            </td>
             <td>
                <img src="@item.Icon" class="img-fluid rounded-circle"  style="width:50px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">  
             </td>

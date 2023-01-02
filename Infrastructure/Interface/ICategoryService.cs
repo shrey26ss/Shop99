@@ -16,5 +16,6 @@ namespace Infrastructure.Interface
         Task<IResponse<List<MenuItem>>> GetMenu(Request request); 
 
         Task<IResponse<IEnumerable<CategoryDDL>>> GetCategoriesDDL();
+        Task<IResponse> UpdateIsPublishCategory(RequestBase<CategoryIsPublishUpdate> category);
     }
 }
