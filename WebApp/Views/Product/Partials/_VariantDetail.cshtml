@@ -1,0 +1,35 @@
+﻿@model WebApp.Models.ViewModels.VariantDetailVM
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Title</label>
+            <input name="" class="form-control" value=""/>
+        </div>
+        <div class="form-group">
+            <table class="table table-bordered" id="Grid">
+                <thead>
+                    <tr role="row">
+                        <th>#</th>
+                        <th>Attribute Name</th>
+                        <th>Attribute Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Attributes.Any())
+                    {
+                        int counter = 0;
+                        foreach (var item in Model.Attributes)
+                        {
+                            counter++;
+                            <tr>
+                                <td>@counter</td>
+                                <td>@item.AttributeName</td>
+                                <td>@item.AttributeValue</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 ﻿@using Entities.Models;
 @model IEnumerable<ProductVariantAttributeDetails>
 <input type="hidden" id="ID" value="@Model" />
+
 <div class="content-header clearfix">
     <h1 class="float-left">
         Variants
@@ -73,7 +74,8 @@
 <script>
 
     var loadPartial = function (Id = 0) {
-        $.post('/Product/VariantAttributeList', { Id }).done((result) => {
+            ///Product/VariantAttributeList
+        $.post('/Product/VariantDetail', { Id }).done((result) => {
             Q.alert({
                 title: 'Attribute List',
                 body: result,

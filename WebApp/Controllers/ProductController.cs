@@ -102,6 +102,26 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> VariantDetail(int Id)
+        {
+            var response = new VariantDetailVM
+            {
+                Attributes = new List<ProductAttributes>()
+            };
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductAttrDetails", jsonData, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductAttributes>>>(apiResponse.Result);
+                response.Attributes = deserializeObject.Result;
+            }
+            return PartialView("Partials/_VariantDetail", response);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
         {
@@ -123,9 +143,9 @@ namespace WebApp.Controllers
         {
             return Json(await _ddl.GetBrandsDDL(GetToken(), _apiBaseURL));
         }
-        [Route("Product/GetProductSectionView/{Id}")]
-        [Route("GetProductSectionView/{Id}")]
-        public async Task<IActionResult> GetProductSectionView(int Id = 0)
+
+        [HttpGet("Product/Edit/{Id}")]
+        public async Task<IActionResult> Edit(int Id = 0)
         {
             var model = new ProductViewModel();
             model.Categories = await _ddl.GetCategoryDDL(GetToken(), _apiBaseURL);
@@ -155,7 +175,7 @@ namespace WebApp.Controllers
                     model.IsFlat = product.IsFlat;
                 }
             }
-            return View("Partials/_Product", model);
+            return View("Partials/_Edit", model);
         }
 
         [HttpPost]
