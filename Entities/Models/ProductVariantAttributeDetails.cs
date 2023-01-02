@@ -17,6 +17,7 @@ namespace Entities.Models
         public string Thumbnail { get; set; }
         public bool IsFeatured { get; set; }
         public bool IsShowOnHome { get; set; }
+        public bool IsPublished { get; set; }
     }
 
 }

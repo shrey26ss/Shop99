@@ -13,5 +13,7 @@ namespace Infrastructure.Interface
         Task<IResponse> AddProductVariant(RequestBase<VariantCombination> request);
         Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req);
         Task<IResponse> VariantQuantityUpdate(RequestBase<VariantQuantity> request);
+        Task<IResponse> UpdateIsPublishProduct(RequestBase<UpdateIsPublishProduct> request);
+        Task<IResponse> UpdateIsPublishVarAttr(RequestBase<UpdateIsPublishProduct> request);
     }
 }

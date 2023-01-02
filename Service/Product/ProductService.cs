@@ -89,6 +89,70 @@ inner join ProductShippingDetail s on s.ProductId = p.Id Order By p.Id desc";
             }
             return res;
         }
+        public async Task<IResponse> UpdateIsPublishProduct(RequestBase<UpdateIsPublishProduct> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+
+                sqlQuery = @"Update Products set IsPublished = @IsPublish where Id = @ID;";
+
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    request.Data.ID,
+                    request.Data.IsPublish
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Product Updated successfully";
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse> UpdateIsPublishVarAttr(RequestBase<UpdateIsPublishProduct> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+
+                sqlQuery = @"Update VariantGroup set IsPublished = @IsPublish where Id = @ID;";
+
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    request.Data.ID,
+                    request.Data.IsPublish
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Variant Updated successfully";
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
         public async Task<IResponse> AddProductVariant(RequestBase<VariantCombination> request)
         {
             var res = new Response();
