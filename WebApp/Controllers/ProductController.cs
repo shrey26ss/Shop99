@@ -43,14 +43,16 @@ namespace WebApp.Controllers
         [HttpGet("/Product")]
         public IActionResult Index()
         {
-            return View();
+            var model = new ProductViewModel();
+            model.Categories =  _ddl.GetCategoryDDL(GetToken(), _apiBaseURL).Result;
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> ProductList()
+        public async Task<IActionResult> ProductList(int CID,string SearchText)
         {
             var response = new List<Products>();
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = 0 });
+            var jsonData = JsonConvert.SerializeObject(new ProductSearchItem { CategoryID = CID,SearchText=SearchText });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {

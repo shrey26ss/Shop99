@@ -55,11 +55,11 @@ namespace Service.Product
             }
             return res;
         }
-        public async Task<IResponse<IEnumerable<Products>>> GetProducts(RequestBase<SearchItem> request)
+        public async Task<IResponse<IEnumerable<Products>>> GetProducts(RequestBase<ProductSearchItem> request)
         {
             string sp = string.Empty;
             if (request.Data == null)
-                request.Data = new SearchItem();
+                request.Data = new ProductSearchItem();
             var res = new Response<IEnumerable<Products>>();
             try
             {
@@ -77,8 +77,8 @@ where p.Id = @Id";
                     sp = @"Select p.*, c.CategoryName,b.[Name] BrandName, s.Charges,s.FreeOnAmount,s.IsFlat,s.Id ShippingDetailId from Products p 
 inner join Category c on c.CategoryId = p.CategoryId 
 inner join Brands b on b.Id = p.BrandId 
-inner join ProductShippingDetail s on s.ProductId = p.Id Order By p.Id desc";
-                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.LoginId }, CommandType.Text);
+inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or p.CategoryId=@CategoryID) and p.Name like '%'+@SearchText+'%' Order By p.Id desc";
+                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.CategoryID, SearchText=request.Data.SearchText??string.Empty }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
