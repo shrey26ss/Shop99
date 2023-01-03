@@ -8,7 +8,7 @@
         Products
     </h1>
     <div class="float-right">
-         <a class="btn btn-primary" href="/Product/Edit/0">
+        <a class="btn btn-primary" href="/Product/Edit/0">
             <i class="fas fa-plus-square"></i>
             Add Product
         </a>
@@ -26,15 +26,16 @@
                             </select>
                         </div>
                         <div class="col">
-                            <input type="text" id="textProductName" class="form-control" placeholder="Product Name">
+                            <div class="input-group" role="group" aria-label="Basic example">
+                                <input type="text" id="textProductName" class="form-control" placeholder="Product Name">
+                                <div class="input-group-append">
+                                   <div class="input-group-text btn btn-outline-primary" id="btnSearch">
+                                        <i class="fa fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                             <button type="submit" class=" btn btn-primary" id="btnSearch">Search</button>
-                        </div>
-                        
                     </div>
-
                     <table class="table table-bordered" id="Grid">
                         <thead>
                             <tr role="row">
@@ -61,7 +62,7 @@
 <script>
 
     $('#ddlCategory').select2({
-        selectOnClose: true     
+        selectOnClose: true
     });
 
     $(() => {
