@@ -110,5 +110,49 @@ namespace Service.Product
             }
             return res;
         }
+        public async Task<IResponse<VariantDetailsByAttributesResponse>> GetVariantdetailsByAttributes(RequestBase<VariantIdByAttributesRequest> request)
+        {
+            var res = new Response<VariantDetailsByAttributesResponse>();
+            if (request.Data != null)
+            {
+                try
+                {
+                    string sp = @"select * from VariantGroup where Id = @VariantId";
+                    res.Result = await _dapper.GetAsync<VariantDetailsByAttributesResponse>(sp, new { request.Data.VariantId}, CommandType.Text);
+                    if (res.Result != null && res.Result.Id > 0)
+                    {
+                        res.StatusCode = ResponseStatus.Success;
+                        res.ResponseText = ResponseStatus.Success.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return res;
+        }
+        public async Task<IResponse<IEnumerable<PictureInformation>>> PictureInformation(RequestBase<VariantIdByAttributesRequest> request)
+        {
+            var res = new Response<IEnumerable<PictureInformation>>();
+            if (request.Data != null)
+            {
+                try
+                {
+                    string sp = @"select * from PictureInformation  where GroupId = @VariantId and ImgVariant = 'default'";
+                    res.Result = await _dapper.GetAllAsync<PictureInformation>(sp, new { request.Data.VariantId, request .Data.Color}, CommandType.Text);
+                    if (res.Result != null)
+                    {
+                        res.StatusCode = ResponseStatus.Success;
+                        res.ResponseText = ResponseStatus.Success.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return res;
+        }
     }
 }

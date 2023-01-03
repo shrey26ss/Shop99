@@ -39,7 +39,7 @@ namespace Service.Product
                     request.Data.Id,
                     request.Data.Name,
                     request.Data.Title,
-                    Description=request.Data.Description??String.Empty,
+                    Description = request.Data.Description ?? String.Empty,
                     SKU = request.Data.SKU ?? string.Empty,
                     request.Data.BrandId,
                     request.Data.CategoryId,
@@ -221,6 +221,34 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse<List<string>>> DeletevariantImage(RequestBase<DeleteVariantReq> request)
+        {
+            var arr = request.Data.ImgPath.Split('/');
+            int count = arr.Length;
+            string imgName = arr[count - 1];
+            var res = new Response<List<string>>();
+            try
+            {
+                string sqlQuery = @"Select ImagePath from PictureInformation(nolock) Where GroupId = @VariantId and ImagePath like '%'+@imgName+'%';
+                                    delete from PictureInformation Where GroupId = @VariantId and ImagePath like '%'+@imgName+'%';";
+                var response = await _dapper.GetAllAsync<string>(sqlQuery, new
+                {
+                    request.Data.VariantId,
+                    request.Data.ImgId,
+                    imgName
+                }, CommandType.Text);
+                if (response != null && response.Count() > 0)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.Result = response.ToList();
+                }
             }
             catch (Exception ex)
             {

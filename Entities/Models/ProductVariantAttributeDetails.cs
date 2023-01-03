@@ -19,5 +19,4 @@ namespace Entities.Models
         public bool IsShowOnHome { get; set; }
         public bool IsPublished { get; set; }
     }
-
 }
