@@ -35,13 +35,14 @@ namespace Service.Brand
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Brands(Name,EntryOn,ModifyOn,Ind) values(@Name,GETDATE(),GETDATE(),@Ind)";
+                    sqlQuery = @"Insert into Brands(Name,EntryOn,ModifyOn,Ind,IsPublished) values(@Name,GETDATE(),GETDATE(),@Ind,1)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     request.Data.Name,
                     request.Data.Id,
-                    request.Ind
+                    request.Ind,
+                    request.Data.IsPublished
                 }, CommandType.Text);
                 if (i > -1 && i < 100)
                 {
@@ -105,7 +106,7 @@ namespace Service.Brand
             var res = new Response<IEnumerable<Brands>>();
             try
             {
-                sp = @"Select Top(@Top) * from Brands(nolock) order by Ind";
+                sp = @"Select Top(@Top) * from Brands(nolock) Where IsPublished = 1 order by Ind";
                 res.Result = await _dapper.GetAllAsync<Brands>(sp, new { Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = ResponseStatus.Success.ToString();
@@ -135,6 +136,7 @@ namespace Service.Brand
                 if (i > 0 && i < 10)
                 {
                     res.StatusCode = ResponseStatus.Success;
+
                     res.ResponseText = "Brand Updated successfully";
                 }
                 else
