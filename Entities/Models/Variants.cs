@@ -33,6 +33,7 @@ namespace Entities.Models
     }
     public class PictureInformation
     {
+        public int? Id { get; set; }
         public int? GroupId { get; set; }
         public string Color { get; set; }
         public int? DisplayOrder { get; set; }
@@ -56,12 +57,16 @@ namespace Entities.Models
     {
         public string CombinationId { get; set; }
         public List<AttributesDDL> Attributes { get; set; }
+        public int VariantId { get; set; }
+        public string VariantColor { get; set; }
+        public string ImgAlt { get; set; }
     }
 
     public class VariantIdByAttributesRequest
     {
         public int VariantId { get; set; }
         public string Attributes { get; set; }
+        public string Color { get; set; }
     }
 
     public class VariantIdByAttributesResponse
@@ -90,5 +95,12 @@ namespace Entities.Models
         public bool IsFeatured { get; set; }
         public bool IsShowOnHome { get; set; }
         public bool IsPublished { get; set; }
+    }
+    public class DeleteVariantReq
+    {
+        public int VariantId { get; set; }
+        public int ImgId { get; set; }
+        public string ImgPath { get; set; }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
+using Entities.Enums;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ using System.Net;
 using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
+using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
 using WebApp.Models.ViewModels;
@@ -104,7 +106,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> VariantDetail(int Id)
+        public async Task<IActionResult> VariantDetail(int Id, string Color = "")
         {
             var response = new VariantDetailVM
             {
@@ -124,6 +126,13 @@ namespace WebApp.Controllers
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<VariantDetailsByAttributesResponse>>(ResponseDetails.Result);
                 response.variantDetailsByAttributes = deserializeObject.Result;
+            }
+            var req = JsonConvert.SerializeObject(new VariantIdByAttributesRequest { VariantId = Id, Color = Color });
+            var Responseapi = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetVariantPicture", req, _token);
+            if (ResponseDetails.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<PictureInformation>>>(Responseapi.Result);
+                response.PictureInformation = deserializeObject.Result;
             }
             return PartialView("Partials/_VariantDetail", response);
         }
@@ -276,17 +285,17 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
-        [HttpPost]
-        public async Task<IActionResult> AttributesList()
-        {
-            var model = new ViewVariantCombinationModel
-            {
-                CombinationId = combinationId,
-                CategoryId = CategoryId,
-                Attributes = await _ddl.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
-            };
-            return PartialView("Partials/_AddAttributes", model);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AttributesList()
+        //{
+        //    var model = new ViewVariantCombinationModel
+        //    {
+        //        CombinationId = combinationId,
+        //        CategoryId = CategoryId,
+        //        Attributes = await _ddl.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
+        //    };
+        //    return PartialView("Partials/_AddAttributes", model);
+        //}
         [HttpPost]
         public async Task<ActionResult> VariantQuantityUpdate(int v, int q)
         {
@@ -301,11 +310,39 @@ namespace WebApp.Controllers
             }
             return Ok(response);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> DeleteVariantImage(int VariantId, int ImgId, string ImgPath)
+        {
+            Response response = new Response();
+            var jsonData = JsonConvert.SerializeObject(new DeleteVariantReq { VariantId = VariantId, ImgId = ImgId, ImgPath = ImgPath });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/DeleteVariantImage", jsonData, User.GetLoggedInUserToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<string>>>(apiResponse.Result);
+                response.StatusCode = deserializeObject.StatusCode;
+                response.ResponseText = deserializeObject.ResponseText;
+                if (response.StatusCode == ResponseStatus.Success)
+                {
+                    foreach (string str in deserializeObject.Result)
+                    {
+                        response = Helper.O.DeleteFile(str);
+                    }
+                }
+            }
+            return Json(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadVariantImage(int VariantId,string VariantColor,string ImgAlt)
+        {
+            var model = new ViewVariantCombinationModel
+            {
+                VariantId = VariantId,
+                VariantColor = VariantColor,
+                ImgAlt = ImgAlt
+            };
+            return PartialView("Partials/_UploadVariantImage", model);
+        }
         #endregion
-
-
-
 
         #region Private Method
         private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)

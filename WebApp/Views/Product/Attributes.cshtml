@@ -72,7 +72,6 @@
 
 @section scripts{
     <script>
-
         var loadPartial = function(Id = 0) {
             ///Product/VariantAttributeList
             $.post('/Product/VariantDetail', { Id }).done((result) => {
@@ -132,6 +131,32 @@
                     body: result,
                     width: 900
                 });
+            })
+        }
+        var DeleteImage = function(VarId, ImgId, Path) {
+            Q.confirm("Are You Sure. You Want To Delete This Image", () => deletevariantImg(VarId, ImgId, Path));
+        }
+        var deletevariantImg = function(VarId, ImgId, Path) {
+            $.post('/Product/DeleteVariantImage', { VariantId: VarId, ImgId: ImgId, ImgPath: Path }).done((result) => {
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode == 1) {
+                    window.location.reload();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
+        var AddNewimage = function(VarId, color, Alt) {
+            $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: color, ImgAlt: Alt }).done((result) => {
+                Q.alert({
+                    title: 'Upload Variant Image',
+                    body: result,
+                    width: 900
+                });
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
             })
         }
     </script>

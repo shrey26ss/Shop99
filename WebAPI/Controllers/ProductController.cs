@@ -84,5 +84,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/DeleteVariantImage")]
+        [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteVariantImage(DeleteVariantReq req)
+        {
+            return Ok(await _products.DeletevariantImage(new RequestBase<DeleteVariantReq>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }
