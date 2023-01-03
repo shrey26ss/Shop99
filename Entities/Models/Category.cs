@@ -17,6 +17,7 @@ namespace Entities.Models
     public class CategoryDDL
     {
         public int CategoryId { get; set; }
+        public int ParentId { get; set; }
         [Required(ErrorMessage = "Please Enter Category Name")]
         public string CategoryName { get; set; }
     }
