@@ -233,3 +233,8 @@ body {
 .select2-container .select2-selection--single .select2-selection__rendered {
     display: contents;
 }
+
+.input-group .select2-container {
+    width: 100% !important;
+    flex: 1 1 0%;
+}
