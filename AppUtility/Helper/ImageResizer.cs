@@ -71,23 +71,31 @@ namespace AppUtility.Helper
 
         public Bitmap ResizeImage(IFormFile file, int width,int height)
         {
-            using (var ms = new MemoryStream())
+            try
             {
-                file.CopyTo(ms);
-                Bitmap image = (Bitmap)Image.FromStream(ms);
-                Bitmap result = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-                result.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-                using (Graphics g = Graphics.FromImage(result))
+                using (var ms = new MemoryStream())
                 {
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    file.CopyTo(ms);
+                    var bytes = ms.ToArray();
+                    Bitmap image = (Bitmap)Image.FromStream(ms,true,false);
+                    Bitmap result = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                    result.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-                    g.DrawImage(image, 0, 0, result.Width, result.Height);
+                    using (Graphics g = Graphics.FromImage(result))
+                    {
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.CompositingQuality = CompositingQuality.HighQuality;
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                        g.DrawImage(image, 0, 0, result.Width, result.Height);
+                    }
+                    return result;
                 }
-                return result;
+            }
+            catch (Exception ex)
+            {
+
             }
             return null;
         }

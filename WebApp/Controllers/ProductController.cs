@@ -4,6 +4,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Service.Models;
@@ -30,12 +31,14 @@ namespace WebApp.Controllers
         private readonly Dictionary<string, string> _ImageSize;
         private readonly IHttpRequestInfo _httpInfo;
         private readonly IDDLHelper _ddl;
-        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo, IDDLHelper ddl)
+        private readonly ILogger<ProductController> _logger;
+        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo, IDDLHelper ddl, ILogger<ProductController> logger)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _ImageSize = imageSize.Value;
             _httpInfo = httpInfo;
             _ddl = ddl;
+            _logger = logger;
         }
 
         #region Add Product
@@ -257,18 +260,25 @@ namespace WebApp.Controllers
             try
             {
                 model.PictureInfo = UploadProductImage(req);
-                string _token = User.GetLoggedInUserToken();
-                var jsonData = JsonConvert.SerializeObject(model);
-                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
-                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                if (model.PictureInfo.Count()>0)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
-                    response = deserializeObject;
+                    string _token = User.GetLoggedInUserToken();
+                    var jsonData = JsonConvert.SerializeObject(model);
+                    var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
+                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                    {
+                        var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                        response = deserializeObject;
+                    }
+                }
+                else
+                {
+                    response.ResponseText = "Image is currupted.Please try another image.";
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return Json(response);
         }
@@ -329,6 +339,11 @@ namespace WebApp.Controllers
                             var dimension = sValue.Split("_");
                             ImageResizer resizer = new ImageResizer();
                             var resizedImg = resizer.ResizeImage(item.file, Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                            if (resizedImg==null)
+                            {
+                                ImageInfo = new List<PictureInformation>();
+                                goto Finish;
+                            }
                             using (var stream = new MemoryStream())
                             {
                                 resizedImg.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -361,6 +376,7 @@ namespace WebApp.Controllers
                     }
                 }
             }
+            Finish:
             return ImageInfo;
         }
         private string GetToken()
