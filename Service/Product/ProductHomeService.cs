@@ -110,5 +110,27 @@ namespace Service.Product
             }
             return res;
         }
+        public async Task<IResponse<VariantDetailsByAttributesResponse>> GetVariantdetailsByAttributes(RequestBase<VariantIdByAttributesRequest> request)
+        {
+            var res = new Response<VariantDetailsByAttributesResponse>();
+            if (request.Data != null)
+            {
+                try
+                {
+                    string sp = @"select * from VariantGroup where Id = @VariantId";
+                    res.Result = await _dapper.GetAsync<VariantDetailsByAttributesResponse>(sp, new { request.Data.VariantId}, CommandType.Text);
+                    if (res.Result != null && res.Result.Id > 0)
+                    {
+                        res.StatusCode = ResponseStatus.Success;
+                        res.ResponseText = ResponseStatus.Success.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            return res;
+        }
     }
 }

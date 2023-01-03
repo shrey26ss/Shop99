@@ -3,8 +3,59 @@
     <div class="col-md-12">
         <div class="form-group">
             <label>Title</label>
-            <input name="" class="form-control" value=""/>
+            <input name="" class="form-control" value="@Model.variantDetailsByAttributes.Title" />
         </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input name="" class="form-control" value="@Model.variantDetailsByAttributes.MRP" />
+        </div>
+        <div class="form-group">
+            <label>Selling Cost</label>
+            <input name="" class="form-control" value="@Model.variantDetailsByAttributes.SellingCost" />
+        </div>
+        <div class="form-group">
+            <label>HSN</label>
+            <input name="" class="form-control" value="@Model.variantDetailsByAttributes.HSN" />
+        </div>
+        <div class="form-group">
+            <label>Quantity</label>
+            <input name="" class="form-control" value="@Model.variantDetailsByAttributes.Quantity" />
+        </div>
+        <div class="form-group">
+            <label>GTIN</label>
+            <input name="" class="form-control" value="@Model.variantDetailsByAttributes.GTIN" />
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" name="IsFeatured" id="IsFeatured_@Model.variantDetailsByAttributes.Id" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsFeatured ? "checked='checked'" : "")>
+                        </div>
+                    </div>
+                    <label class="form-control" for="IsFeatured_@Model.variantDetailsByAttributes.Id">IsFeatured</label>
+                </div>
+
+                <div class="col-sm-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" name="IsFeatured" id="IsShowOnHome_@Model.variantDetailsByAttributes.Id" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsShowOnHome ? "checked='checked'" : "")>
+                        </div>
+                    </div>
+                    <label class="form-control" for="IsShowOnHome_@Model.variantDetailsByAttributes.Id">IsShowOnHome</label>
+                </div>
+
+                <div class="col-sm-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" name="IsFeatured" id="IsPublished_@Model.variantDetailsByAttributes.Id" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsPublished ? "checked='checked'" : "")>
+                        </div>
+                    </div>
+                    <label class="form-control" for="IsPublished_@Model.variantDetailsByAttributes.Id">IsPublished</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right" onclick="AddNewAttribute('@Model.variantDetailsByAttributes.Id')">Add Attribute</button>
         <div class="form-group">
             <table class="table table-bordered" id="Grid">
                 <thead>

@@ -118,9 +118,15 @@ namespace WebApp.Controllers
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductAttributes>>>(apiResponse.Result);
                 response.Attributes = deserializeObject.Result;
             }
+            var request = JsonConvert.SerializeObject(new VariantIdByAttributesRequest { VariantId = Id });
+            var ResponseDetails = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetVariantDetailsByAttributes", request, _token);
+            if (ResponseDetails.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<VariantDetailsByAttributesResponse>>(ResponseDetails.Result);
+                response.variantDetailsByAttributes = deserializeObject.Result;
+            }
             return PartialView("Partials/_VariantDetail", response);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
@@ -270,7 +276,17 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> AttributesList()
+        {
+            var model = new ViewVariantCombinationModel
+            {
+                CombinationId = combinationId,
+                CategoryId = CategoryId,
+                Attributes = await _ddl.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
+            };
+            return PartialView("Partials/_AddAttributes", model);
+        }
         [HttpPost]
         public async Task<ActionResult> VariantQuantityUpdate(int v, int q)
         {

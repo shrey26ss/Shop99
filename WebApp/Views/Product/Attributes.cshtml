@@ -22,12 +22,12 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Price</th>
-                                <th>Selling Cost</th>
+                                <th style="width: 10%;">Selling Cost</th>
                                 <th>HSN</th>
                                 <th>Quantity</th>
                                 <th>GTIN</th>
                                 <th>Featured</th>
-                                <th>Show on Home</th>
+                                <th style="width: 12%;">Show on Home</th>
                                 <th>IsPublish</th>
                                 <th>Action</th>
                             </tr>
@@ -51,12 +51,12 @@
                                         <td>@item.IsShowOnHome</td>
                                         <td>
                                             <span class="switch switch-sm">
-                <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
-                <label for="Ispublish_@item.Id"></label>
-                </span>
+                                                <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
+                                                <label for="Ispublish_@item.Id"></label>
+                                            </span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary" onclick="loadPartial('@item.Id')">View Attribute </a>
+                                            <a class="btn btn-sm btn-outline-primary" onclick="loadPartial('@item.Id')">Details</a>
                                         </td>
                                     </tr>
                                 }
@@ -71,42 +71,40 @@
 
 
 @section scripts{
-<script>
+    <script>
 
-    var loadPartial = function (Id = 0) {
+        var loadPartial = function(Id = 0) {
             ///Product/VariantAttributeList
-        $.post('/Product/VariantDetail', { Id }).done((result) => {
-            Q.alert({
-                title: 'Attribute List',
-                body: result,
-                width: 600
-            });
-        })
-    };
-    $('.item-quantity').on('focusin', function(){
-        console.log("Saving value " + $(this).val());
-        $(this).data('val', $(this).val());
-    });
-    $('.item-quantity').blur(function(){
-    var prevQty = $(this).data('val');
-    var vid = $(this).data('variantid');
-    var currentQty = $(this).val();
-    if(currentQty<=0)
-    {
-        Q.notify(-1,'Minimum 1 Quantity Required.');
-        return;
-    }
-    if(currentQty!=prevQty && currentQty>=1)
-    {
-          $.post('/Product/VariantQuantityUpdate', {v:vid,q:currentQty}).done(function (result) {
-                Q.notify(result.statusCode,result.responseText);
-            }).fail(function (xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
+            $.post('/Product/VariantDetail', { Id }).done((result) => {
+                Q.alert({
+                    title: 'Attribute List',
+                    body: result,
+                    width: 600
+                });
             })
-    }
-    });
-    var UpdateIspublish = function(Id) {
+        };
+        $('.item-quantity').on('focusin', function() {
+            console.log("Saving value " + $(this).val());
+            $(this).data('val', $(this).val());
+        });
+        $('.item-quantity').blur(function() {
+            var prevQty = $(this).data('val');
+            var vid = $(this).data('variantid');
+            var currentQty = $(this).val();
+            if (currentQty <= 0) {
+                Q.notify(-1, 'Minimum 1 Quantity Required.');
+                return;
+            }
+            if (currentQty != prevQty && currentQty >= 1) {
+                $.post('/Product/VariantQuantityUpdate', { v: vid, q: currentQty }).done(function(result) {
+                    Q.notify(result.statusCode, result.responseText);
+                }).fail(function(xhr) {
+                    console.log(xhr.responseText);
+                    alert('something went wrong');
+                })
+            }
+        });
+        var UpdateIspublish = function(Id) {
             let IsPublish = false;
             if ($('#Ispublish_' + Id).is(":checked")) {
                 IsPublish = true;
@@ -126,5 +124,15 @@
                 alert('something went wrong');
             })
         }
-</script>
+        var AddNewAttribute = function(Id) {
+            let combinationId = '';
+            $.post('/Product/AddAttributes', { combinationId, CategoryId: Id }).done((result) => {
+                Q.alert({
+                    title: 'Add Attribute',
+                    body: result,
+                    width: 900
+                });
+            })
+        }
+    </script>
 }

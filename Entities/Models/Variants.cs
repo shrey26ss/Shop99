@@ -15,7 +15,7 @@ namespace Entities.Models
         [MaxLength(30, ErrorMessage = "Allowed Only 30 Character")]
         public string GTIN { get; set; }
         public bool? IsShowOnHome { get; set; }
-        [Required(ErrorMessage ="Please Enter Title")]
+        [Required(ErrorMessage = "Please Enter Title")]
         [MaxLength(320, ErrorMessage = "Allowed Only 320 Character")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Please Enter Selling Cost")]
@@ -28,16 +28,16 @@ namespace Entities.Models
         [MaxLength(120, ErrorMessage = "Allowed Only 120 Character")]
         public string AttributeValue { get; set; }
         public bool? AllowFiltering { get; set; }
-        public int? GroupId { get; set; }    
+        public int? GroupId { get; set; }
 
     }
     public class PictureInformation
     {
         public int? GroupId { get; set; }
-        public string Color { get; set; }    
-        public int? DisplayOrder { get; set; }    
-        public string Title { get; set; }    
-        public string Alt { get; set; }    
+        public string Color { get; set; }
+        public int? DisplayOrder { get; set; }
+        public string Title { get; set; }
+        public string Alt { get; set; }
         public string ImagePath { get; set; }
         public string ImgVariant { get; set; }
     }
@@ -74,6 +74,21 @@ namespace Entities.Models
     {
         public int VariantId { get; set; }
         public int Quantity { get; set; }
-       
+
+    }
+    public class VariantDetailsByAttributesResponse
+    {
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public string HSN { get; set; }
+        public decimal MRP { get; set; }
+        public decimal SellingCost { get; set; }
+        public int Quantity { get; set; }
+        public string GTIN { get; set; }
+        public string Title { get; set; }
+        public string Thumbnail { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool IsShowOnHome { get; set; }
+        public bool IsPublished { get; set; }
     }
 }
