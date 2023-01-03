@@ -207,7 +207,6 @@ namespace WebApp.Controllers
         }
         #endregion
 
-
         #region Add Variants
 
         // GET: ProductController/Create
@@ -299,9 +298,6 @@ namespace WebApp.Controllers
         }
 
         #endregion
-
-
-
 
         #region Private Method
         private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)
