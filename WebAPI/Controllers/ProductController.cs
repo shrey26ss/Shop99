@@ -33,9 +33,9 @@ namespace WebAPI.Controllers
         }
 
         [Route("Product/GetProducts")]
-        public async Task<IActionResult> GetProducts(SearchItem req)
+        public async Task<IActionResult> GetProducts(ProductSearchItem req)
         {
-            return Ok(await _products.GetProducts(new RequestBase<SearchItem>
+            return Ok(await _products.GetProducts(new RequestBase<ProductSearchItem>
             {
                 Data = req,
                 LoginId = User.GetLoggedInUserId<int>()

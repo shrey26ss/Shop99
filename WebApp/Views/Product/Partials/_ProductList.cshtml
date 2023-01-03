@@ -7,7 +7,8 @@
     foreach (var item in Model)
     {
         counter++;
-        <tr>
+       
+                 <tr>
             <td>@counter</td>
             <td class="align-middle">
                 <div class="btn-group dropup">
@@ -30,7 +31,7 @@
                 <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
                 <label for="Ispublish_@item.Id"></label>
             </td>
-            <td>@item.Description</td>
+           
             <td>@item.SKU</td>
         </tr>
     }
