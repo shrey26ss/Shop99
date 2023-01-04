@@ -8,7 +8,6 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Attribute
@@ -36,7 +35,7 @@ namespace Service.Attribute
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Attributes (Name,EntryOn,ModifyOn,Ind) values(@Name,GETDATE(),GETDATE(),@Ind)";
+                    sqlQuery = @"Insert into Attributes (Name,EntryOn,ModifyOn,Ind,IsPublished) values(@Name,GETDATE(),GETDATE(),@Ind,1)";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
@@ -58,6 +57,7 @@ namespace Service.Attribute
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
             }
 
             return res;
@@ -86,7 +86,7 @@ namespace Service.Attribute
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
@@ -103,7 +103,7 @@ namespace Service.Attribute
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
@@ -119,15 +119,15 @@ namespace Service.Attribute
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
         public async Task<IResponse> UpdateIsPublishAttr(UpdateIspublishAttr req)
         {
             var res = new Response();
-            string sp = @"Update Attributes set IsPublished = @IsPublished where Id = @ID;
-update CategoryAttributeMapping set IsActive = @IsPublished where AttributeId = @ID;";
+            string sp = @"UPDATE Attributes set IsPublished = @IsPublished where Id = @ID;
+                          UPDATE CategoryAttributeMapping set IsActive = @IsPublished where AttributeId = @ID;";
             try
             {
                 await _dapper.GetAllAsync<AttributesDDL>(sp, new { req.ID,req.IsPublished }, CommandType.Text);
@@ -136,7 +136,7 @@ update CategoryAttributeMapping set IsActive = @IsPublished where AttributeId = 
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
