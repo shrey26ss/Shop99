@@ -17,6 +17,7 @@ namespace Entities.Models
         public string ProductTitle { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
+        public string Specification { get; set; }
         public string BrandName { get; set; }
         public string CategoryName { get; set; }
         public List<ProductAttributes> ProductAttributes { get; set; }
