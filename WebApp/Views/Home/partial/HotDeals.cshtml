@@ -37,7 +37,7 @@
                         </ul>
                         <p>
                             @{
-                                string dec = string.IsNullOrEmpty(@item.Description) ? "N/A" : @item.Description;
+                                string dec = string.IsNullOrEmpty(@item.ShortDescription) ? "N/A" : @item.ShortDescription;
                             }
                            @dec
                         </p>
@@ -46,7 +46,7 @@
                             <p id="demo">
                             </p>
                         </div>
-                        <a href="product-page(left-sidebar).html" class="btn btn-normal btn-md ">shop now</a>
+                        <a href="/productdetail/@item.VariantID" class="btn btn-normal btn-md ">shop now</a>
                     </div>
                 </div>
             }

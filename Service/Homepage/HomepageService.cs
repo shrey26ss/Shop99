@@ -196,7 +196,7 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             try
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
-                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,p.Description,'' DealEndsOn,'Hot Deal' [Label],
+                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,p.Description,p.ShortDescription,'' DealEndsOn,'Hot Deal' [Label],
                                             vg.SellingCost,4 Stars 
                                     from    Products p (nolock)
                                             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id
