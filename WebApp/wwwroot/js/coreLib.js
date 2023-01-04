@@ -344,9 +344,10 @@ var Q;
     }
 
     Q.initEditor = (selector = '') => {
-        import('/Content/lib/TinyMCE/tinymce.min.js')//http://cdn.tinymce.com/4/tinymce.min.js
-            .then(obj => initEditor(selector))
-            .catch(err => console.log('loading error, no such module exists'));
+        initEditor(selector);
+        //import('../lib/TinyMCE/tinymce.min.js')//http://cdn.tinymce.com/4/tinymce.min.js
+        //    .then(obj => initEditor(selector))
+        //    .catch(err => console.log('loading error, no such module exists'));
     };
 
     Q.getQueryString = () => {
