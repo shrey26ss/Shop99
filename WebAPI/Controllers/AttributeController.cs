@@ -51,5 +51,10 @@ namespace WebAPI.Controllers
         {
             return Ok(await _attr.GetCategoryMappedAttributeDDL(req));
         }
+        [Route("Attribute/UpdateIsPublishAttr")]
+        public async Task<IActionResult> UpdateIsPublishAttr(UpdateIspublishAttr req)
+        {
+            return Ok(await _attr.UpdateIsPublishAttr(req));
+        }
     }
 }

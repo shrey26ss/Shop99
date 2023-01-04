@@ -114,5 +114,20 @@ namespace WebApp.Controllers
                 return View();
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdateIsPublishAttribute(UpdateIspublishAttr req)
+        {
+            var res = new Response();
+            if (req.ID >= 1)
+            {
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Attribute/UpdateIsPublishAttr", JsonConvert.SerializeObject(req), _token);
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    res = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                }
+            }
+            return Json(res);
+        }
     }
 }

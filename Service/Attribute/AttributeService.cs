@@ -123,6 +123,22 @@ namespace Service.Attribute
             }
             return res;
         }
+        public async Task<IResponse> UpdateIsPublishAttr(UpdateIspublishAttr req)
+        {
+            var res = new Response();
+            string sp = @"Update Attributes set IsPublished = @IsPublished where Id = @ID;
+update CategoryAttributeMapping set IsActive = @IsPublished where AttributeId = @ID;";
+            try
+            {
+                await _dapper.GetAllAsync<AttributesDDL>(sp, new { req.ID,req.IsPublished }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "Attribute Updated Successfully!";
+            }
+            catch (Exception ex)
+            {
 
+            }
+            return res;
+        }
     }
 }

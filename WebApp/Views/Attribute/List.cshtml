@@ -9,13 +9,19 @@
         <tr>
             <td>@count</td>
             <td>@item.Name</td>
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
+                    <label for="Ispublish_@item.Id"></label>
+                </span>
+            </td>
             <td><input type="button" value="Edit" class="btn btn-sm btn-success" onclick="dialog.AddAttribute('@item.Id')" /></td>
         </tr>
     }
 }
 else
 {
-        <tr>
-            <td colspan="4">No Data Found</td>
-        </tr>
+    <tr>
+        <td colspan="4">No Data Found</td>
+    </tr>
 }

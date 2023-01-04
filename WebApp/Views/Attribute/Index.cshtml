@@ -19,6 +19,7 @@
                             <tr role="row" style="" class="">
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>IsPublished</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -49,5 +50,25 @@
                 alert('something went wrong');
             })
         };
+        var UpdateIspublish = function(Id) {
+        let IsPublish = false;
+        if ($('#Ispublish_' + Id).is(":checked")) {
+            IsPublish = true;
+        }
+        let obj = {
+            Id: Id,
+            IsPublished: IsPublish
+        }
+        $.post('/Attribute/UpdateIsPublishAttribute', obj).done(function(result) {
+            console.log(result);
+            Q.notify(result.statusCode, result.responseText);
+            if (result.statusCode == 1) {
+                loadData();
+            }
+        }).fail(function(xhr) {
+            console.log(xhr.responseText);
+            alert('something went wrong');
+        })
+    }
     </script>
 }
