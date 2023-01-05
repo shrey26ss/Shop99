@@ -86,7 +86,7 @@ namespace Service.Brand
         }
         public async Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDL()
         {
-            string sp = @"Select Id,[Name] from Brands order by [Name]";
+            string sp = @"Select Id,[Name] from Brands(nolock) order by [Name]";
             var res = new Response<IEnumerable<BrandsDDL>>();
             try
             {

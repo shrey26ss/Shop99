@@ -71,7 +71,7 @@ namespace Service.CartWishList
                 string sqlQuery = "";
                 int i = -5;
 
-                sqlQuery = @"if not exists(select 1 from CartItem where UserID=@UserID and VariantID=@VariantID)
+                sqlQuery = @"if not exists(select 1 from CartItem(nolock) where UserID=@UserID and VariantID=@VariantID)
                             begin
                             insert into CartItem(UserID,VariantID,Qty,EntryOn,UpdateOn)values(@UserID,@VariantID,@Qty,GETDATE(),GETDATE())
                             end
@@ -147,7 +147,7 @@ namespace Service.CartWishList
         }
         public async Task<IResponse<IEnumerable<WishListSlide>>> GetWishlist(Request req)
         {
-            string sp = @"Select w.Id WishListId, v.Id VariantID, v.MRP, v.SellingCost, v.Title, v.Thumbnail ImagePath  from Wishlist w inner join VariantGroup v on v.Id = w.VariantID where w.EntryBy = @LoginId";
+            string sp = @"Select w.Id WishListId, v.Id VariantID, v.MRP, v.SellingCost, v.Title, v.Thumbnail ImagePath  from Wishlist w(nolock) inner join VariantGroup v(nolock) on v.Id = w.VariantID where w.EntryBy = @LoginId";
             var res = new Response<IEnumerable<WishListSlide>>();
             try
             {
@@ -162,7 +162,7 @@ namespace Service.CartWishList
         }
         public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req)
         {
-            string sp = @"Select * from vw_CartItems where CustomerUserId = @LoginId";
+            string sp = @"Select * from vw_CartItems(nolock) where CustomerUserId = @LoginId";
             var res = new Response<IEnumerable<CartItemSlide>>();
             try
             {
@@ -182,9 +182,9 @@ namespace Service.CartWishList
             {
                 string sqlQuery = "";
 
-                sqlQuery = @"select count(1) Items,'C' Type from CartItem where UserID = @LoginId
+                sqlQuery = @"select count(1) Items,'C' Type from CartItem(nolock) where UserID = @LoginId
 union
-select count(1) Items,'W' Type from WishList where EntryBy = @LoginId";
+select count(1) Items,'W' Type from WishList(nolock) where EntryBy = @LoginId";
                 res.Result = await _dapper.GetAllAsync<CartWishlistCount>(sqlQuery, new { request.LoginId }, CommandType.Text);
                 if (res.Result != null)
                     res.StatusCode = ResponseStatus.Success;

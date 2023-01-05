@@ -35,7 +35,7 @@ namespace Service.CartWishList
 
         public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode()
         {
-            string sp = @"select * from PaymentMode where IsActive=1 order by ID ";
+            string sp = @"select * from PaymentMode(nolock) where IsActive=1 order by ID ";
             var res = new Response<IEnumerable<PaymentMode>>();
             try
             {

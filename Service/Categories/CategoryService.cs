@@ -118,13 +118,13 @@ namespace Service.Categories
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p on p.CategoryId = c.ParentId where c.CategoryId = @Id";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p(nolock) on p.CategoryId = c.ParentId where c.CategoryId = @Id";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
                     //sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
-                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p on p.CategoryId = c.ParentId Order by c.Ind";
+                    sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c Left join Category p(nolock) on p.CategoryId = c.ParentId Order by c.Ind";
                     res.Result = await _dapper.GetAllAsync<Category>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
@@ -138,7 +138,7 @@ namespace Service.Categories
         }
         public async Task<IResponse<IEnumerable<Category>>> TopCategories()
         {
-            string sp = @"Select *  from Category where ParentId=0 and IsPublish=1 Order by Ind";
+            string sp = @"Select *  from Category(nolock) where ParentId=0 and IsPublish=1 Order by Ind";
 
             var res = new Response<IEnumerable<Category>>();
             try
@@ -168,7 +168,7 @@ namespace Service.Categories
 
         public async Task<IResponse<IEnumerable<CategoryDDL>>> GetCategoriesDDL()
         {
-            string sp = @"Select CategoryId, CategoryName from Category where IsPublish = 1 order by CategoryName";
+            string sp = @"Select CategoryId, CategoryName from Category(nolock) where IsPublish = 1 order by CategoryName";
             var res = new Response<IEnumerable<CategoryDDL>>();
             try
             {

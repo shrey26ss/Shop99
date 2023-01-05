@@ -33,6 +33,7 @@ using Service.Address;
 using Service.CatBrandMapping;
 using Service.OrderDetails;
 using Service.Report;
+using Service.Dashboard;
 
 namespace WebAPI.Middleware
 {
@@ -82,6 +83,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IReport, ReportService>();          
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IRequestInfo, RequestInfoServcie>();
+            services.AddScoped<IDashboard, DashboardService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
