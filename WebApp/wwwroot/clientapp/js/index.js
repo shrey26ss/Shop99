@@ -96,7 +96,7 @@ const loadTopCategoryProduct = function (cId, i) {
                         <a href="/productdetail/${v.variantID}" class="tooltip-top" data-tippy-content="Quick View">
                             <img src="/Image/icons/info.svg" class="svg">
                         </a>
-                        <a href="compare.html" class="tooltip-top" data-tippy-content="Compare">
+                        <a href="#" class="tooltip-top" data-tippy-content="Compare">
                            <img src="/Image/icons/compare.svg" class="svg"/>
                         </a>
                       </div>

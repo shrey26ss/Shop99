@@ -36,6 +36,7 @@
     public class HotDealsResponse: ProductResponse
     {
         public string Description { get; set; }
+        public string ShortDescription { get; set; }
         public string DealEndsOn { get; set; }
     }
     public class AutoSuggest
