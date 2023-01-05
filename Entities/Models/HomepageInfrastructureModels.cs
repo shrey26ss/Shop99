@@ -50,4 +50,9 @@
         public int ProductId { get; set; }
         public string Attributes { get; set; }
     }
+    public class BrandFilter
+    {
+        public int BrandId { get; set; }
+        public string Attributes { get; set; }
+    }
 }

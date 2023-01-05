@@ -8,6 +8,7 @@ namespace Infrastructure.Interface
     {
         Task<IResponse<IEnumerable<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest);
+        Task<IResponse<IEnumerable<ProductResponse>>> GetProductByBrandID(ProductRequest<BrandFilter> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetRandomProduct(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetNewArrivals(ProductRequest<int> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetFeaturedProduct(ProductRequest productRequest);

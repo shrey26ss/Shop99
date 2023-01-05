@@ -24,9 +24,10 @@ namespace WebApp.Servcie
         Task<IResponse<IEnumerable<ProductResponse>>> GetOnSaleProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetFeatureProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<HotDealsResponse>>> GetHotDeals(ProductRequest productRequest);
-        Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest);
+        //Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest);
         Task<IResponse<IEnumerable<Filters>>> GetCategoryFilters(ProductRequest productRequest);
-        Task<IResponse<IEnumerable<ProductResponse>>> ProductByProducId(ProductRequest productRequest);
+        //Task<IResponse<IEnumerable<ProductResponse>>> ProductByProducId(ProductRequest productRequest);
+        Task<IResponse<IEnumerable<ProductResponse>>> GetProducts(ProductRequest productRequest, string URL);
     }
     public class CategoryAPI : ICategoryAPI
     {
@@ -79,28 +80,28 @@ namespace WebApp.Servcie
         }
 
 
-        public async Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest)
-        {
-            var res = new Response<IEnumerable<ProductResponse>>
-            {
-                StatusCode = ResponseStatus.Failed,
-                ResponseText = "Somthing Went Wrong",
-            };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/ByCategoryProduct", JsonConvert.SerializeObject(productRequest));
-            if (Response.HttpStatusCode == HttpStatusCode.OK)
-            {
-                try
-                {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<ProductResponse>>>(Response.Result);
-                    return deserializeObject;
-                }
-                catch (Exception e)
-                {
-                    res.ResponseText = e.Message;
-                }
-            }
-            return res;
-        }
+        //public async Task<IResponse<IEnumerable<ProductResponse>>> ByCategoryProduct(ProductRequest productRequest)
+        //{
+        //    var res = new Response<IEnumerable<ProductResponse>>
+        //    {
+        //        StatusCode = ResponseStatus.Failed,
+        //        ResponseText = "Somthing Went Wrong",
+        //    };
+        //    var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/ByCategoryProduct", JsonConvert.SerializeObject(productRequest));
+        //    if (Response.HttpStatusCode == HttpStatusCode.OK)
+        //    {
+        //        try
+        //        {
+        //            var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<ProductResponse>>>(Response.Result);
+        //            return deserializeObject;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            res.ResponseText = e.Message;
+        //        }
+        //    }
+        //    return res;
+        //}
 
       
 
@@ -286,14 +287,36 @@ namespace WebApp.Servcie
             }
             return res;
         }
-        public async Task<IResponse<IEnumerable<ProductResponse>>> ProductByProducId(ProductRequest productRequest)
+        //public async Task<IResponse<IEnumerable<ProductResponse>>> ProductByProducId(ProductRequest productRequest)
+        //{
+        //    var res = new Response<IEnumerable<ProductResponse>>
+        //    {
+        //        StatusCode = ResponseStatus.Failed,
+        //        ResponseText = "Somthing Went Wrong",
+        //    };
+        //    var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/ByProductId", JsonConvert.SerializeObject(productRequest));
+        //    if (Response.HttpStatusCode == HttpStatusCode.OK)
+        //    {
+        //        try
+        //        {
+        //            var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<ProductResponse>>>(Response.Result);
+        //            return deserializeObject;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            res.ResponseText = e.Message;
+        //        }
+        //    }
+        //    return res;
+        //}
+        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProducts(ProductRequest productRequest, string URL)
         {
             var res = new Response<IEnumerable<ProductResponse>>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/ByProductId", JsonConvert.SerializeObject(productRequest));
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}{URL}", JsonConvert.SerializeObject(productRequest));
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try

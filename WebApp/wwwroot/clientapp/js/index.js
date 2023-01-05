@@ -23,10 +23,9 @@ const loadTopBrands = function () {
         dataType: 'json',
         data: JSON.stringify(item),
         success: result => {
-
             let htmlbody = ``;
             $.each(result.result, async function (i, v) {
-                htmlbody = htmlbody + `<li><a href="/topbrands/${v.id}">${v.name}</a></li>`;
+                htmlbody = htmlbody + `<li><a href="/Brand/${v.id}">${v.name}</a></li>`;
             });
             $('#litopbrand').append(htmlbody);
         },
