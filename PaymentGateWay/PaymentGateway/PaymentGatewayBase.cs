@@ -61,7 +61,7 @@ namespace PaymentGateWay.PaymentGateway
                 ResponseText = ResponseStatus.Failed.ToString(),
                 Result = new PaymentGatewayRequest()
             };
-            string sqlQuery = @"select * from InitiatePayment where TID = @TID";
+            string sqlQuery = @"select * from InitiatePayment(nolock) where TID = @TID";
             response.Result = await _dapper.GetAsync<PaymentGatewayRequest>(sqlQuery, new { TID }, System.Data.CommandType.Text);
             if (response.Result.Amount > 0)
             {

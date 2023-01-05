@@ -127,6 +127,11 @@ namespace WebApp.Controllers
             }
             return Ok(response);
         }
+        [HttpPost("T-B-C")]
+        public async Task<IActionResult> TopBoxCounts()
+        {
+			return Ok(await _convert.GetItem<DashboardTopBoxCount>(@"Dashboard/GetDashboardTopBoxCount", GetToken()));
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();

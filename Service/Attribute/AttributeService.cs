@@ -93,7 +93,7 @@ namespace Service.Attribute
 
         public async Task<IResponse<IEnumerable<AttributesDDL>>> GetAttributeDDL()
         {
-            string sp = @"Select Id, [Name] from Attributes Order By [Name]";
+            string sp = @"Select Id, [Name] from Attributes(nolock) Order By [Name]";
             var res = new Response<IEnumerable<AttributesDDL>>();
             try
             {
@@ -109,7 +109,7 @@ namespace Service.Attribute
         }
         public async Task<IResponse<IEnumerable<AttributesDDL>>> GetCategoryMappedAttributeDDL(SearchItem req)
         {
-            string sp = @"Select a.[Name] , a.Id  from CategoryAttributeMapping c inner join Attributes a on a.Id = c.AttributeId where c.CategoryId = @Id and IsActive = 1";
+            string sp = @"Select a.[Name] , a.Id  from CategoryAttributeMapping c(nolock) inner join Attributes a(nolock) on a.Id = c.AttributeId where c.CategoryId = @Id and IsActive = 1";
             var res = new Response<IEnumerable<AttributesDDL>>();
             try
             {

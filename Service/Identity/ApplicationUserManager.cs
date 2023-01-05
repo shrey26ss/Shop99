@@ -32,7 +32,7 @@ namespace Service.Identity
 
         public async Task<ApplicationUser> GetUserByToken(LoginAPIRequest request)
         {
-            var user = await _dapperRepository.GetAsync<ApplicationUser>(@"Select u.Id,u.UserName,u.RefreshToken,u.[Name], ar.[Name] as [Role], u.Email from Users u left join UserRoles r on r.UserId = u.Id left join ApplicationRole ar on ar.Id = r.RoleId where u.UserId = @MerchantID and u.ConcurrencyStamp = @SecurityCode",
+            var user = await _dapperRepository.GetAsync<ApplicationUser>(@"Select u.Id,u.UserName,u.RefreshToken,u.[Name], ar.[Name] as [Role], u.Email from Users u(nolock) left join UserRoles r(nolock) on r.UserId = u.Id left join ApplicationRole ar(nolock) on ar.Id = r.RoleId where u.UserId = @MerchantID and u.ConcurrencyStamp = @SecurityCode",
                 new
                 {
                     request.MerchantID,

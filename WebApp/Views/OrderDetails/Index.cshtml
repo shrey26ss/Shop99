@@ -1,7 +1,8 @@
 ﻿@using Entities.Enums;
+@model StatusType
 <style>
-    .error{
-        color:crimson;
+    .error {
+        color: crimson;
     }
 </style>
 <div class="content">
@@ -21,7 +22,6 @@
                         <option value="@StatusType.Confirmed">@StatusType.Confirmed.ToString()</option>
                         <option value="@StatusType.Delivered">@StatusType.Delivered.ToString()</option>
                         <option value="@StatusType.Shipped">@StatusType.Shipped.ToString()</option>
-
                     </select>
                 </div>
                 <div class="col-md-12 mt-2">
@@ -54,6 +54,9 @@
 @section scripts{
     <script>
         $(() => {
+            let modelval = '@Model';
+            if (modelval)
+                $('#status').val(modelval);
             loadData();
         })
         var loadData = () => {
@@ -65,9 +68,6 @@
             }).fail(function (xhr) {
             })
         };
-
-
-
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
         var ChangeStatusItem = function (ID, StatusID) {

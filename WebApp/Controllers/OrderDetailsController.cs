@@ -27,9 +27,9 @@ namespace WebApp.Controllers
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
-        public IActionResult Index()
+        public IActionResult Index(StatusType type)
         {
-            return View();
+            return View(type);
         }
         public async Task<IActionResult> OrderList(OrderDetailsRequest request)
         {

@@ -28,7 +28,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return _dbConnection.Query<ApplicationRole>("select * from ApplicationRole", commandType: CommandType.Text).AsQueryable();
+                return _dbConnection.Query<ApplicationRole>("select * from ApplicationRole(nolock)", commandType: CommandType.Text).AsQueryable();
             }
         }
 
@@ -36,7 +36,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return _dbConnection.Query<ApplicationUser>("select * from Users where ID<>1", commandType: CommandType.Text).AsQueryable();
+                return _dbConnection.Query<ApplicationUser>("select * from Users(nolock) where ID<>1", commandType: CommandType.Text).AsQueryable();
             }
         }
 
@@ -67,7 +67,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                var role = _dbConnection.Query<ApplicationRole>("select * from ApplicationRole where Id='" + roleId + "'", null, commandType: CommandType.Text).FirstOrDefault();
+                var role = _dbConnection.Query<ApplicationRole>("select * from ApplicationRole(nolock) where Id='" + roleId + "'", null, commandType: CommandType.Text).FirstOrDefault();
                 return Task.FromResult(role);
             }
         }
@@ -76,7 +76,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                var role = _dbConnection.Query<ApplicationRole>("select * from ApplicationRole where NormalizedName='" + normalizedRoleName + "'", null, commandType: CommandType.Text).FirstOrDefault();
+                var role = _dbConnection.Query<ApplicationRole>("select * from ApplicationRole(nolock) where NormalizedName='" + normalizedRoleName + "'", null, commandType: CommandType.Text).FirstOrDefault();
                 return Task.FromResult(role);
             }
         }
@@ -111,7 +111,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return _dbConnection.Query<string>("select UserName from Users where UserName='" + user.UserName + "'", null, commandType: CommandType.Text).FirstOrDefault();
+                return _dbConnection.Query<string>("select UserName from Users(nolock) where UserName='" + user.UserName + "'", null, commandType: CommandType.Text).FirstOrDefault();
             }
         }
 
@@ -119,7 +119,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return Task.FromResult(_dbConnection.Query<ApplicationUser>("select * from Users where NormalizedEmail='" + normalizedEmail + "'", null, commandType: CommandType.Text).FirstOrDefault());
+                return Task.FromResult(_dbConnection.Query<ApplicationUser>("select * from Users(nolock) where NormalizedEmail='" + normalizedEmail + "'", null, commandType: CommandType.Text).FirstOrDefault());
             }
 
         }
@@ -128,7 +128,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return Task.FromResult(_dbConnection.Query<ApplicationUser>("select * from Users where Id='" + userId + "'", null, commandType: CommandType.Text).FirstOrDefault());
+                return Task.FromResult(_dbConnection.Query<ApplicationUser>("select * from Users(nolock) where Id='" + userId + "'", null, commandType: CommandType.Text).FirstOrDefault());
             }
 
         }
@@ -137,7 +137,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return Task.FromResult(_dbConnection.Query<ApplicationUser>("select * from Users where NormalizedUserName='" + normalizedUserName + "'", null, commandType: CommandType.Text).FirstOrDefault());
+                return Task.FromResult(_dbConnection.Query<ApplicationUser>("select * from Users(nolock) where NormalizedUserName='" + normalizedUserName + "'", null, commandType: CommandType.Text).FirstOrDefault());
             }
 
         }
@@ -158,7 +158,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return _dbConnection.Query<string>("select NormalizedUserName from Users where Email='" + user.Email + "'", null, commandType: CommandType.Text).FirstOrDefault();
+                return _dbConnection.Query<string>("select NormalizedUserName from Users(nolock) where Email='" + user.Email + "'", null, commandType: CommandType.Text).FirstOrDefault();
             }
 
         }
@@ -169,7 +169,7 @@ namespace Service.Identity
             {
 
 
-                return Task.FromResult(_dbConnection.Query<string>("select Email from Users where UserName='" + email + "'", null, commandType: CommandType.Text).FirstOrDefault());
+                return Task.FromResult(_dbConnection.Query<string>("select Email from Users(nolock) where UserName='" + email + "'", null, commandType: CommandType.Text).FirstOrDefault());
             }
         }
 
@@ -179,7 +179,7 @@ namespace Service.Identity
             {
 
 
-                return _dbConnection.Query<string>("select Id from Users where UserName='" + userName + "'", null, commandType: CommandType.Text).FirstOrDefault();
+                return _dbConnection.Query<string>("select Id from Users(nolock) where UserName='" + userName + "'", null, commandType: CommandType.Text).FirstOrDefault();
             }
         }
 
@@ -187,7 +187,7 @@ namespace Service.Identity
         {
             using (var _dbConnection = new SqlConnection(_configuration.GetConnectionString("SqlConnection")))
             {
-                return Task.FromResult(_dbConnection.Query("select UserId from UserRoles where RoleId='" + roleId + "' and UserId='" + user.Id + "'", null, commandType: CommandType.Text).Any());
+                return Task.FromResult(_dbConnection.Query("select UserId from UserRoles(nolock) where RoleId='" + roleId + "' and UserId='" + user.Id + "'", null, commandType: CommandType.Text).Any());
             }
         }
 
