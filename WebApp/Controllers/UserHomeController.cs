@@ -132,6 +132,17 @@ namespace WebApp.Controllers
         {
 			return Ok(await _convert.GetItem<DashboardTopBoxCount>(@"Dashboard/GetDashboardTopBoxCount", GetToken()));
         }
+        [HttpPost("G-O-L")]
+        public async Task<IActionResult> OrdersList()
+        {
+            var res = await _convert.GetList<OrderDetailsColumn>("OrderDetails/GetDetails", GetToken(), new OrderDetailsRequest
+            {
+                Id = 0,
+                StatusID = 0,
+                Top = 5
+            });
+            return Json(res);
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();

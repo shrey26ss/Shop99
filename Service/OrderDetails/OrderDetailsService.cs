@@ -44,7 +44,7 @@ namespace Service.OrderDetails
             try
             {
                 var req = (OrderDetailsRequest)T;
-                res.Result = await _dapper.GetAllAsync<OrderDetailsColumn>(sp, new { LoginId = loginId, req.StatusID }, CommandType.StoredProcedure);
+                res.Result = await _dapper.GetAllAsync<OrderDetailsColumn>(sp, new { LoginId = loginId, req.StatusID, req.Top }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
             }
