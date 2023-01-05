@@ -25,7 +25,7 @@
                                     string checkedd = @item.IsDefault ? "checked" : "";
                                     string AddressType = @item.AddressType != "" ? "(" + @item.AddressType + ")" : "";
                                 }
-                                <input  name="address" type="radio" class="with-font" data-address-id="@item.Id" @checkedd>
+                                <input name="address" type="radio" class="with-font" data-address-id="@item.Id" @checkedd>
                                 <label for="address1">@item.FullName @item.AddressType</label>
                                 <p class="plan-text">
                                     @address
@@ -125,7 +125,7 @@
     $('#btnCancle').click(function () {
         $("#dvshowaddress").removeClass("d-none");
         $("#dvAddAddress").addClass("d-none");
-         loadAddressDetails();
+        loadAddressDetails();
     })
     $(document).on('click', '#btnSubmit', () => {
         let param = {
@@ -143,12 +143,15 @@
         $.post('/SaveAddress', param).done((result) => {
             Q.notify(result.statusCode, result.responseText);
             if (result.statusCode == '1') {
-                $('#AddressForm').each(function () {
-                    this.reset();
-                });
+                $("#dvshowaddress").removeClass("d-none");
+                $("#dvAddAddress").addClass("d-none");
+                loadAddressDetails();
+                //$('#AddressForm').each(function () {
+                //    this.reset();
+                //});
             }
-            $.each(result,(k,v)=>{
-                if (v.validationState == '1'){
+            $.each(result, (k, v) => {
+                if (v.validationState == '1') {
                     $(`.${k}`).text(`${v.errors[0].errorMessage}`);
                     console.log(v.errors[0].errorMessage);
                 }
