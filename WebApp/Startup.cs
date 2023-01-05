@@ -95,7 +95,7 @@ namespace WebApp
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
@@ -103,7 +103,7 @@ namespace WebApp
             //#endregion
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(45);
+                options.IdleTimeout = TimeSpan.FromHours(2);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
