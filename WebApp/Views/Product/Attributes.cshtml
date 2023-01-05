@@ -45,7 +45,10 @@
                                         <td>@item.MRP</td>
                                         <td>@item.SellingCost</td>
                                         <td>@item.HSN</td>
-                                        <td><input type="number" class="form-control item-quantity w-75" min="1" maxlength="10" data-variantid="@item.Id" value="@item.Quantity"> </td>
+                                        <td>
+                                          <a href="#" class="item-quantity" data-variantid="@item.Id"  data-qauntity="@item.Quantity">  <span>@item.Quantity</span></a>
+                                           
+                                         </td>
                                         <td>@item.GTIN</td>
                                         <td>@item.IsFeatured</td>
                                         <td>@item.IsShowOnHome</td>
@@ -82,27 +85,53 @@
                 });
             })
         };
-        $('.item-quantity').on('focusin', function() {
-            console.log("Saving value " + $(this).val());
-            $(this).data('val', $(this).val());
+        $('.item-quantity').click(function() {
+            const vid = $(this).data('variantid');
+            const prevQty = $(this).data('qauntity');
+           const html=`<form method="post" asp-action="VariantQuantityUpdate"> <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">Qauntity</label>
+                              <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
+                            </div>
+                            <input type="hidden" name="VariantId" value="${vid}">
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">Add/Delete</label>
+                              <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
+                            </div>
+                         </div>
+                          <div class="form-group">
+                            <label for="inputAddress">Remark</label>
+                            <input type="text" class="form-control" id="txtRemark" placeholder="Remark">
+                          </div> 
+                       
+                          <button type="submit"  data-variantid="${vid}" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
+                          <button type="submit"  data-variantid="${vid}" class="btn btn-outline-danger" id="RemoveQauntity">Delete</button>
+                             <form>
+                          `;
+             Q.alert({
+                    title: 'Add/Delete Qauntity',
+                    body: html,
+                    width: 500
+                });
+
+
+            //var prevQty = $(this).data('val');
+            //var vid = $(this).data('variantid');
+            //var currentQty = $(this).val();
+            //if (currentQty <= 0) {
+            //    Q.notify(-1, 'Minimum 1 Quantity Required.');
+            //    return;
+            //}
+            //if (currentQty != prevQty && currentQty >= 1) {
+            //    $.post('/Product/VariantQuantityUpdate', { v: vid, q: currentQty }).done(function(result) {
+            //        Q.notify(result.statusCode, result.responseText);
+            //    }).fail(function(xhr) {
+            //        console.log(xhr.responseText);
+            //        alert('something went wrong');
+            //    })
+            //}
         });
-        $('.item-quantity').blur(function() {
-            var prevQty = $(this).data('val');
-            var vid = $(this).data('variantid');
-            var currentQty = $(this).val();
-            if (currentQty <= 0) {
-                Q.notify(-1, 'Minimum 1 Quantity Required.');
-                return;
-            }
-            if (currentQty != prevQty && currentQty >= 1) {
-                $.post('/Product/VariantQuantityUpdate', { v: vid, q: currentQty }).done(function(result) {
-                    Q.notify(result.statusCode, result.responseText);
-                }).fail(function(xhr) {
-                    console.log(xhr.responseText);
-                    alert('something went wrong');
-                })
-            }
-        });
+        
         var UpdateIspublish = function(Id) {
             let IsPublish = false;
             if ($('#Ispublish_' + Id).is(":checked")) {
