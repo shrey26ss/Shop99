@@ -5,15 +5,18 @@
 @{
     var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<Filters>();
     int i = 1;
+    int count = 0;
 }
 
 @foreach (var item in result)
 {
-    <div class="collection-collapse-block open">
+    string cls = count == 0 ? "open" : "mt-3";
+    string styl = count == 0 ? "" : count == 1 ? "" : "display: none;";
+    count++;
+    <div class="collection-collapse-block @cls">
         <h3 class="collapse-block-title mt-0">@item.Name</h3>
-        <div class="collection-collapse-block-content">
+        <div class="collection-collapse-block-content" style="@styl">
             <div class="collection-brand-filter">
-
                 @foreach (var attr in @item.attributes)
                 {
                     <div class="custom-control custom-checkbox  form-check collection-filter-checkbox">

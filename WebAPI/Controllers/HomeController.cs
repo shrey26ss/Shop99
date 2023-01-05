@@ -66,5 +66,7 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> GetAutoSuggetion(string searchText= "",int Top = 0) => Ok(await _homepageService.GetAutoSuggetion(searchText,Top));
         [HttpPost(nameof(ByProductId))]
         public async Task<ActionResult> ByProductId(ProductRequest<ProductFilter> productRequest) => Ok(await _homepageService.GetProductByPID(productRequest));
+        [HttpPost(nameof(ByBrandId))]
+        public async Task<ActionResult> ByBrandId(ProductRequest<BrandFilter> brandRequest) => Ok(await _homepageService.GetProductByBrandID(brandRequest));
     }
 }

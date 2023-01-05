@@ -199,7 +199,7 @@ namespace WebApp.Controllers
                     CategoryId = cid,
                 }
             };
-            var res = _category.ByCategoryProduct(req).Result;
+            var res = _category.GetProducts(req, @"/api/Home/ByCategoryProduct").Result;
             return PartialView("Partial/_ProductsByCategory", res);
         }
 
@@ -216,8 +216,6 @@ namespace WebApp.Controllers
             var res = _category.GetCategoryFilters(req).Result;
             return PartialView("Partial/_categoryfilters", res);
         }
-
-
         #endregion
         public async Task<IActionResult> Error(int statusCode)
         {
@@ -234,12 +232,6 @@ namespace WebApp.Controllers
         {
             return Json(await _product.GetVariantIdByAttributes(request));
         }
-
-
-
-
-
-
         #region Products By ProductID
         [Route("Product/{id}")]
         [HttpGet]
@@ -261,10 +253,37 @@ namespace WebApp.Controllers
                     ProductId = cid
                 }
             };
-            var res = _category.ProductByProducId(req).Result;
-            return PartialView("Partial/_ProductsByPID", res);
+            var res = _category.GetProducts(req, @"/api/Home/ByProductId").Result;
+            return PartialView("Partial/_ProductsByCategory", res);
         }
 
+        #endregion
+
+
+        #region Products By BrandID
+        [Route("/Brand/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> ProductsByBrandId()
+        {
+            return View();
+        }
+        [Route("ProductsByBID")]
+        [HttpPost]
+        public async Task<IActionResult> ProductsByBrandID(int cid, string filters)
+        {
+            var req = new ProductRequest<BrandFilter>()
+            {
+                Top = 24,
+                OrderBy = "",
+                MoreFilters = new BrandFilter
+                {
+                    Attributes = filters,
+                    BrandId = cid
+                }
+            };
+            var res = _category.GetProducts(req, @"/api/Home/ByBrandId").Result;
+            return PartialView("Partial/_ProductsByCategory", res);
+        }
         #endregion
     }
 }
