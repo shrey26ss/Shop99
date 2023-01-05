@@ -353,9 +353,10 @@
                             uniqueAttr.push(j.attributeValue.toUpperCase());
                             let active = activeAttribute.info.includes(j.attributeValue.toUpperCase()) ? 'active' : '';
                             _html += `<li class="${active} attributeValue btn btn-sm btn-outline-dark" data-attr-val='${j.attributeValue}'>${j.attributeValue}</li>`;
-                            if (v.name.toLowerCase() === 'color' && active === 'active') {
-                                bindImages(`${j.attributeValue}`);
-                            }
+                            bindImages(`${j.attributeValue}`);
+                            //if (v.name.toLowerCase() === 'color' && active === 'active') {
+                            //    bindImages(`${j.attributeValue}`);
+                            //}
                         }
                     });
                     _html = _html + `</ul></div>`;
@@ -390,19 +391,22 @@
             let uniquethumb = [], uniqueOriginal = [];
             let __images = productDetail.images.filter(x => x.color === color);
             if (__images.length === 0) {
-                __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
+                __images = productDetail.images.filter(x => x.color.toLowerCase() === 'default');
+                if (__images.length === 0) {
+                    __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
+                }
             }
             __images.forEach(x => {
-                if (!uniquethumb.includes(x)) {
+                if (!uniquethumb.includes(JSON.stringify(x))) {
                     if (x.imgVariant === '400_400') {
-                        uniquethumb.push(x);
-                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                        uniquethumb.push(JSON.stringify(x));
+                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"></div>`
                     }
                 }
-                if (!uniqueOriginal.includes(x)) {
-                    if (x.imgVariant === 'default') {
-                        uniqueOriginal.push(x);
-                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid"></div>`
+                if (!uniquethumb.includes(JSON.stringify(x))) {
+                    if (x.imgVariant.toLowerCase() === 'default') {
+                        uniqueOriginal.push(JSON.stringify(x));
+                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"></div>`
                     }
                 }
             });
@@ -476,9 +480,12 @@
                 attributes: _attr.join(',')
             };
             let attributeName = ele.parents('.attibute').data()?.attributeName;
-            if (attributeName && attributeName.toLowerCase() === 'color') {
-                bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
-            }
+            console.log('123');
+            bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
+            //if (attributeName && attributeName.toLowerCase() === 'color') {
+            //    bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
+
+            //}
             getVariantId();
         });
 
