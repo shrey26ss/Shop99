@@ -46,7 +46,8 @@ namespace Service.Product
                     request.Data.IsFlat,
                     request.Data.Charges,
                     request.Data.FreeOnAmount,
-                    request.Data.ShippingDetailId
+                    request.Data.ShippingDetailId,
+                    Specification = request.Data.Specification ?? String.Empty,
                 }, CommandType.StoredProcedure);
             }
             catch (Exception ex)

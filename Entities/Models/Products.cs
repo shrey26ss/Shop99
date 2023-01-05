@@ -29,7 +29,8 @@ namespace Entities.Models
         public int ModifyBy { get; set; }   
         public string EntryOn { get; set; }   
         public string ModifyOn { get; set; }   
-        public bool IsPublished { get; set; }   
+        public bool IsPublished { get; set; }
+        public string Specification { get; set; }
     }
     public class ProductShippingDetail
     {
