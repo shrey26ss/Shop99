@@ -59,28 +59,17 @@ namespace Service.OrderDetails
         {
             throw new NotImplementedException();
         }
-        public async Task<IResponse> ChengeStatusAsync(OrderDetailsRow req)
+        public async Task<IResponse> ChengeStatusAsync(int loginId, OrderDetailsRow req)
         {
-            var res = new Response();
+            var res = new Response()
+            {
+                StatusCode=ResponseStatus.Failed,
+                ResponseText=ResponseStatus.Failed.ToString()
+            };
+            string sp = "proc_OrderCancel";
             try
             {
-                string sqlQuery = @"Update Orders Set StatusID = @StatusID where ID = @ID";
-                int i = -5;
-                i = await _dapper.ExecuteAsync(sqlQuery, new
-                {
-                    req.ID,
-                    req.StatusID
-                }, CommandType.Text);
-                var description = Utility.O.GetErrorDescription(i);
-                if (i > 0 && i < 10)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
-                }
-                else
-                {
-                    res.ResponseText = description;
-                }
+                 res = await _dapper.GetAsync<Response>(sp, new { ID = req.ID, StatusID=req.StatusID, Remark=req.Remark??string.Empty,LoginID= loginId}, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {

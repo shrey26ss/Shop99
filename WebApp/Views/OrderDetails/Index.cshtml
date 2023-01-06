@@ -66,7 +66,10 @@
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
+      
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
+
+
         var ChangeStatusItem = function (ID, StatusID) {
             $.post('/OrderDetails/ChangeStatus', { ID, StatusID }).done((result) => {
                 console.log('result :', result);
@@ -75,5 +78,7 @@
                     loadData();
             })
         };
+       
+     
     </script>
 }
