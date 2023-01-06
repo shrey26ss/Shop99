@@ -310,7 +310,7 @@
                     </div>
                     <div class="card-body p-2">
 
-                        <table class="table table-bordered table-hover table-striped">
+                        <table class="table table-bordered table-hover table-striped" id="ordertbl">
                             <thead>
                                 <tr>
                                     <th>Order #</th>
@@ -372,6 +372,7 @@
     <script>
         $(() => {
             fetchCounts();
+            fetchOrders();
         });
         const fetchCounts = () => {
             $.post(`/T-B-C`).done((result) => {
@@ -379,6 +380,30 @@
                 $('#CCount').text(result.confirmedOrder);
                 $('#RCCount').text(result.totalCustomer);
                 $('#LSCount').text(result.lowStocks);
+            })
+        }
+        const fetchOrders = () => {
+            $.post(`/G-O-L`).done((result) => {
+                if (result.length > 0) {
+                    console.log('result OrderList :',result);
+                    let __html = ``;
+                    $.each(result,(i,v)=>{
+                        let count = i + 1;
+                        let statusTxt = v.statusID == 1 ? "Placed" : v.statusID == 2 ? "Canceled" : v.statusID == 3 ? "Confirmed" : v.statusID == 4 ? "Delivered" : v.statusID == 5 ? "Shipped" : "";
+                        let statuscls = v.statusID == 1 ? "yellow" : v.statusID == 2 ? "red" : v.statusID == 3 ? "blue" : v.statusID == 4 ? "green" : v.statusID == 5 ? "green" : "";
+                        
+                        __html = __html + `<tr>
+                            <td>${count}</td>
+                            <td><span class="grid-report-item ${statuscls} btn-sm">${statusTxt}</span></td>
+                            <td>${v.title}</td>
+                            <td>${v.entryOn}</td>
+                            <td class="button-column">
+                            <a class="btn btn-default btn-sm" href="/OrderDetails/Index"><i class="far fa-eye"></i>View</a>
+                            </td>
+                        </tr>`;
+                    })
+                    $('#ordertbl tbody').html(__html);
+                }
             })
         }
     </script>

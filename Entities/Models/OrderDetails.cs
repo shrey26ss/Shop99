@@ -40,6 +40,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public StatusType StatusID { get; set; }
+        public int Top { get; set; } = 50;
     }
     public class OrderShippedStatus
     {
