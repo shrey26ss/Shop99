@@ -14,28 +14,28 @@
         </a>
     </div>
 </div>
-<div class="content">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-row m-1 ">
-                        <div class="col">
-                            <select id="ddlCategory" class="form-control select2" asp-items="@catDDl">
-                                <option value="0">Select Category</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <div class="input-group" role="group" aria-label="Basic example">
-                                <input type="text" id="textProductName" class="form-control" placeholder="Product Name">
-                                <div class="input-group-append">
-                                   <div class="input-group-text btn btn-outline-primary" id="btnSearch">
-                                        <i class="fa fa-search"></i>
-                                    </div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-row m-1 ">
+                    <div class="col">
+                        <select id="ddlCategory" class="form-control select2" asp-items="@catDDl">
+                            <option value="0">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="input-group" role="group" aria-label="Basic example">
+                            <input type="text" id="textProductName" class="form-control" placeholder="Product Name">
+                            <div class="input-group-append">
+                                <div class="input-group-text btn btn-outline-primary" id="btnSearch">
+                                    <i class="fa fa-search"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="table-responsive">
                     <table class="table table-bordered" id="Grid">
                         <thead>
                             <tr role="row">
@@ -46,7 +46,6 @@
                                 <th>Category</th>
                                 <th>Brand</th>
                                 <th>IsPublish</th>
-
                                 <th>SKU</th>
                             </tr>
                         </thead>
@@ -60,7 +59,6 @@
 
 @section scripts{
 <script>
-
     $('#ddlCategory').select2({
         selectOnClose: true
     });
@@ -72,11 +70,12 @@
         $.post('/Product/ProductList',{CID:cid,SearchText:stext }).done(function (result) {
             $('#Grid tbody').html(result);
         }).fail(function (xhr) {
+            Q.notify(-1,xhrText[xhr.status])
             console.log(xhr.responseText);
         })
     };
     $('#btnSearch').click(function(){
-     loadData($('#ddlCategory').val(),$('#textProductName').val());
+        loadData($('#ddlCategory').val(),$('#textProductName').val());
     });
 
     var UpdateIspublish = function(Id) {
@@ -89,14 +88,13 @@
             IsPublish: IsPublish
         }
         $.post('/Product/UpdateIsPublishProduct', obj).done(function(result) {
-            console.log(result);
             Q.notify(result.statusCode, result.responseText);
             if (result.statusCode == 1) {
                 loadData();
             }
         }).fail(function(xhr) {
             console.log(xhr.responseText);
-            alert('something went wrong');
+            Q.notify(-1,xhrTest[xhr.status]);
         })
     }
 </script>
