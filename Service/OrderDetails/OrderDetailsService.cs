@@ -153,5 +153,37 @@ namespace Service.OrderDetails
             }
             return res;
         }
+        public async Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id)
+        {
+            string sp = @"Select ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
+vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email VendorEmail,
+stuff((    
+  select ',' + aiu.AttributeValue    
+  from AttributeInfo aiu    
+  where aiu.GroupId = vg.Id    
+  for xml path('')    
+ ),1,1,'') Attributes  
+from Orders o(nolock) 
+inner join UserAddress ua(nolock) on ua.Id = o.ShippingAddressID
+inner join VariantGroup vg(nolock) on vg.Id = o.VarriantID
+inner join Users u(nolock) on u.Id = o.UserID
+inner join States s(nolock) on s.Id = ua.StateId
+left join VendorProfile vp(nolock) on vp.Id = vg.EntryBy
+left join States vs(nolock) on vs.Id = vp.StateId
+inner join Users vu(nolock) on vu.Id = vg.EntryBy
+where o.ID = @Id";
+            var res = new Response<OrderInvoice>();
+            try
+            {
+                res.Result = await _dapper.GetAsync<OrderInvoice>(sp, new { Id }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }

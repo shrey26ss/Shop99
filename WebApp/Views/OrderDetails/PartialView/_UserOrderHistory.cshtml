@@ -55,6 +55,10 @@
                         <span class="btn btn-sm btn-rounded" title="@item.DocketNo"> <i class="fa fa-solid fa-info"></i> </span>
                         <button class="btn btn-sm btn-rounded" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')">Share</button>
                     }
+                    @if (item.StatusID == StatusType.Confirmed)
+                    {
+                        <a class="btn btn-sm btn-rounded" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank">Invoice</a>
+                    }
                   
                 </span>
             </td>

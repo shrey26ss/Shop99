@@ -52,4 +52,29 @@ namespace Entities.Models
         [Display(Name = "Tracking Id")]
         public string TrackingId { get; set; }
     }
+    public class OrderInvoiceRequest
+    {
+        public int OrderId { get; set; }
+    }
+    public class OrderInvoice
+    {
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string MobileNo { get; set; }
+        public string ShippingAddress { get; set; }
+        public string InvoiceNo { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string Title { get; set; }
+        public decimal Rate { get; set; }
+        public decimal MRP { get; set; }
+        public string DocketNo { get; set; }
+        public string Attributes { get; set; }
+        public string ContactNo { get; set; }
+        public string ShopName { get; set; }
+        public string VendorAddress { get; set; }
+        public string VendorState { get; set; }
+        public string VendorEmail { get; set; }
+        public int Qty { get; set; }
+    }
 }
