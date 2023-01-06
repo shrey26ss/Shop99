@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.AppCode.Attributes;
+using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
 using WebApp.Models.ViewModels;
@@ -23,9 +24,11 @@ namespace WebApp.Controllers
     public class OrderDetailsController : Controller
     {
         private string _apiBaseURL;
-        public OrderDetailsController(ILogger<OrderDetailsController> logger, IMapper mapper, AppSettings appSettings)
+        private readonly IGenericMethods _convert;
+        public OrderDetailsController(ILogger<OrderDetailsController> logger, IMapper mapper, AppSettings appSettings, IGenericMethods convert)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
+            _convert = convert;
         }
         public IActionResult Index(StatusType type)
         {
@@ -88,6 +91,11 @@ namespace WebApp.Controllers
                 res = JsonConvert.DeserializeObject<Response> (apiResponse.Result);
             }
             return Json(res);
+        }
+        public async Task<IActionResult> Invoice(int OrderId = 0)
+        {
+            var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId=OrderId});
+            return View(res);
         }
 
         #region Private Mathod

@@ -23,18 +23,25 @@ namespace Service.Report
             _dapper = dapper;
             _logger = logger;
         }
-        public async Task<IResponse<IEnumerable<Inventory>>> GetInventoryReport(Request req)
+        public async Task<IResponse<IEnumerable<Inventory>>> GetInventoryReport(RequestBase<InventoryRequest> req)
         {
             var res = new Response<IEnumerable<Inventory>>();
             try
             {
                 if (req.RoleId == Convert.ToInt32(Role.Admin))
                 {
-                    string sp = @"Select i.*,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
+                    string sp = @"if(@Status = 0)
+Select i.*,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
 inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
 inner join Products p(nolock) on p.Id = vg.ProductId
+Order by i.Id desc
+else
+Select i.*,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
+inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
+inner join Products p(nolock) on p.Id = vg.ProductId
+where Qty <=10
 Order by i.Id desc";
-                    res.Result = await _dapper.GetAllAsync<Inventory>(sp, null, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Inventory>(sp, new { req.Data.Status }, CommandType.Text);
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = nameof(ResponseStatus.Success);
                 }

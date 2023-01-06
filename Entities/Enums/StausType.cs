@@ -25,4 +25,11 @@ namespace Entities.Enums
         [Description("Purchase In")]
         In = 0
     }
+    public enum InventoryStatus
+    {
+        [Description("All Status")]
+        All = 0,
+        [Description("Low Stock")]
+        LowStock = 1
+    }
 }

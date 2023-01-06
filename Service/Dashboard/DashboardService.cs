@@ -29,7 +29,7 @@ namespace Service.Dashboard
             {
                 if (req.RoleId == Convert.ToInt32(Role.Admin))
                 {
-                    string sp = @"Select (SELECT Count(1) FROM Orders(nolock)) TotalOrders, (SELECT Count(1) FROM Orders(nolock) WHERE StatusID = 3) ConfirmedOrder,(SELECT Count(1) FROM Inventory(nolock) WHERE Qty <= 10) LowStocks, (SELECT Count(1) FROM Users u(nolock) INNER JOIN UserRoles ur(nolock) on ur.UserId = u.Id WHERE ur.RoleId = 2) TotalCustomer";
+                    string sp = @"Select (SELECT Count(1) FROM Orders(nolock) where StatusID = 1) TotalOrdersPlaced, (SELECT Count(1) FROM Orders(nolock) WHERE StatusID = 3) ConfirmedOrder,(SELECT Count(1) FROM Inventory(nolock) WHERE Qty <= 10) LowStocks, (SELECT Count(1) FROM Users u(nolock) INNER JOIN UserRoles ur(nolock) on ur.UserId = u.Id WHERE ur.RoleId = 2) TotalCustomer";
                     res.Result = await _dapper.GetAsync<DashboardTopBoxCount>(sp, null, CommandType.Text);
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = nameof(ResponseStatus.Success);

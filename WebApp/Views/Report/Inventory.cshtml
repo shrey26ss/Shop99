@@ -1,12 +1,25 @@
-﻿<div class="card">
+﻿
+@using Entities.Enums;
+@using Entities.Models;
+@model InventoryRequest
+<div class="content">
+<div class="card">
     <div class="card-body">
         <div class="row justify-content-end">
             <div class="col-md-12 col-sm-12">
+                <div class="col-md-9 col-sm-9">
                 <h2 class="float-left">
                     Inventory List
                 </h2>
             </div>
             <div class="col-md-12 mt-2">
+                <div class="col-md-3 col-sm-6">
+                    <select class="form-control" id="status" onchange="loadData();">
+                        <option value="@InventoryStatus.All">@InventoryStatus.All.ToString()</option>
+                        <option value="@InventoryStatus.LowStock">@InventoryStatus.LowStock.ToString()</option>
+                    </select>
+                </div>
+                <div class="col-md-12 mt-2">
                 <table class="table table-bordered" id="Grid">
                     <thead>
                         <tr role="row">
@@ -24,17 +37,20 @@
                     <tbody></tbody>
                 </table>
             </div>
-        </div>
+</div>
     </div>
 </div>
 
 @section scripts{
     <script>
         $(() => {
+            let modelval = '@Model.Status';
+            if (modelval)
+                $('#status').val(modelval);
             loadData();
         })
         var loadData = () => {
-            $.post('/Report/InventoryList').done(function (result) {
+            $.post('/Report/InventoryList', { Status: $('#status').val() }).done(function (result) {
                 $('#Grid tbody').html(result);
             }).fail(function (xhr) {
             })
