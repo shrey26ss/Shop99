@@ -66,9 +66,9 @@ namespace WebAPI.Controllers
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(GetCartItemlist))]
-        public async Task<IActionResult> GetCartItemlist()
+        public async Task<IActionResult> GetCartItemlist(bool IsBuyNow)
         {
-            return Ok(await _cartwishlist.GetCartItemlist(new Request { LoginId = User.GetLoggedInUserId<int>() }));
+            return Ok(await _cartwishlist.GetCartItemlist(new Request { LoginId = User.GetLoggedInUserId<int>() }, IsBuyNow));
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(CartWishListCount))]

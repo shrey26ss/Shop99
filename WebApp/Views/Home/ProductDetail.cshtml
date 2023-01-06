@@ -101,7 +101,7 @@
                                     <div id="selectSize" class="pro-group addeffect-section product-description border-product">
                                         <div id="attributeList"></div>
                                         <h6 class="product-title d-none">quantity</h6>
-                                        <div class="qty-box d-none" >
+                                        <div class="qty-box d-none">
                                             <div class="input-group">
                                                 <button class="qty-minus"></button>
                                                 <input class="qty-adj form-control" id="txtQuantity" min="1" type="number" value="1" />
@@ -113,7 +113,10 @@
                                                 <i class="fa fa-shopping-cart"></i>
                                                 Add to cart
                                             </a>
-                                            <a href="javascript:void(0)" class="btn btn-normal tooltip-top addtowishlist">
+                                            <a href="javascript:void(0)" class="btn cart-btn btn-normal btnBuyNow">
+                                                Buy Now
+                                            </a>
+                                            <a href="javascript:void(0)" class="btn btn-normal  addtowishlist">
                                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                             </a>
                                         </div>
@@ -295,238 +298,251 @@
 </section>
 
 @section scripts{
-    <script>
-        var variantId = @Model.VariantId;
+<script>
+    var variantId = @Model.VariantId;
 
-        const productDetail = {
-            images: [],
-            attributeInfo: [],
-            variantInfo: [],
-        };
+    const productDetail = {
+        images: [],
+        attributeInfo: [],
+        variantInfo: [],
+    };
 
-        const activeAttribute = {
-            info: []
+    const activeAttribute = {
+        info: []
+    }
+
+    const slickOnProduct = () => {
+        if ($('.product-slick').hasClass('slick-initialized')) {
+            $('.product-slick').slick('unslick')
         }
-
-        const slickOnProduct = () => {
-            if ($('.product-slick').hasClass('slick-initialized')) {
-                $('.product-slick').slick('unslick')
-            }
-            if ($('.slider-nav').hasClass('slick-initialized')) {
-                $('.slider-nav').slick('unslick')
-            }
-            $('.product-slick').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: true,
-                fade: true,
-                asNavFor: '.slider-nav'
-            });
-            $('.slider-nav').slick({
-                vertical: false,
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                asNavFor: '.product-slick',
-                arrows: false,
-                dots: false,
-                focusOnSelect: true
-            });
+        if ($('.slider-nav').hasClass('slick-initialized')) {
+            $('.slider-nav').slick('unslick')
         }
-
-        const GetPictures = () => {
-            $.post(`/Home/GetProductPicDetails/`, { Id: variantId }).done((result) => {
-                if (result != null && result.length > 0) {
-                    productDetail.images = result;
-                }
-            })
-        }
-
-        const GetAttributes = () => {
-            $.post(`/Home/ProductAttrDetail/`, { Id: variantId }).done((result) => {
-                let _html = ``;
-                $.each(result, (k, v) => {
-                    _html += `<div class="attibute mb-2" data-attribute-id='${v.attributeId}' data-attribute-name='${v.name}'>`;
-                    _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
-                    let uniqueAttr = [];
-                    $.each(v.attributes, (i, j) => {
-                        if (!uniqueAttr.includes(j.attributeValue.toUpperCase())) {
-                            uniqueAttr.push(j.attributeValue.toUpperCase());
-                            let active = activeAttribute.info.includes(j.attributeValue.toUpperCase()) ? 'active' : '';
-                            _html += `<li class="${active} attributeValue btn btn-sm btn-outline-dark" data-attr-val='${j.attributeValue}'>${j.attributeValue}</li>`;
-                            bindImages(`${j.attributeValue}`);
-                            //if (v.name.toLowerCase() === 'color' && active === 'active') {
-                            //    bindImages(`${j.attributeValue}`);
-                            //}
-                        }
-                    });
-                    _html = _html + `</ul></div>`;
-                });
-                $('#attributeList').html(_html);
-            })
-        }
-
-        const GetAttributesInfo = () => {
-            $.post(`/Home/ProductAttributeInfo/`, { Id: variantId }).done((result) => {
-                activeAttribute.info = result.map(a => {
-                    return a.groupId == variantId ? a.attributeValue.toUpperCase() : '';
-                });
-                productDetail.attributeInfo = result;
-            })
-        }
-
-        const loadHotDealsNewProduct = async function () {
-            await $.post("/HotDealsNewProduct").done(res => {
-                $('#dvHotDealNewProduct').append(res);
-            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        }
-
-        const bindImages = (color) => {
-            if ($('.product-slick').hasClass('slick-initialized')) {
-                $('.product-slick').slick('unslick')
-            }
-            if ($('.slider-nav').hasClass('slick-initialized')) {
-                $('.slider-nav').slick('unslick')
-            }
-            let __t = '', __h = '';
-            let uniquethumb = [], uniqueOriginal = [];
-            let __images = productDetail.images.filter(x => x.color === color);
-            if (__images.length === 0) {
-                __images = productDetail.images.filter(x => x.color.toLowerCase() === 'default');
-                if (__images.length === 0) {
-                    __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
-                }
-            }
-            __images.forEach(x => {
-                if (!uniquethumb.includes(JSON.stringify(x))) {
-                    if (x.imgVariant === '400_400') {
-                        uniquethumb.push(JSON.stringify(x));
-                        __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"></div>`
-                    }
-                }
-                if (!uniquethumb.includes(JSON.stringify(x))) {
-                    if (x.imgVariant.toLowerCase() === 'default') {
-                        uniqueOriginal.push(JSON.stringify(x));
-                        __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"></div>`
-                    }
-                }
-            });
-            $('.product-slick').html(__h);
-            $('.slider-nav').html(__t);
-            slickOnProduct();
-        };
-
-        const readAttributes = () => {
-            let attributes = []
-            $('#attributeList .attibute').each(function (i, t) {
-                attributes.push($(t).find('li.attributeValue.active').text());
-            });
-            return attributes.join(',');
-        };
-
-        const getVariantId = async () => {
-            let _u = new URL(window.location);
-            let qs = _u.pathname.split('/');
-            let vId = 0;
-            if (qs.length === 3) {
-                vId = qs[2]
-            }
-            let param = {
-                VariantId: vId,
-                Attributes: readAttributes()
-            };
-            let vDetail = productDetail.variantInfo.filter(x => x.attributes === param.Attributes)[0]?.d;
-            if ($('.btnAddtocart').attr('disabled') === 'disabled') {
-                $('.btnAddtocart').removeAttr('disabled').html('<i class="fa fa-shopping-cart"></i>add to cart').click(() => addToCart(variantId));
-                $('.qty-plus,.qty-minus').removeAttr('disabled');
-            }
-            if (vDetail === undefined) {
-                await $.post('/GetVariantIdByAttributes', param).done(result => {
-                    if (result.statusCode === 1) {
-                        vDetail = result.result;
-                        productDetail.variantInfo.push({ attributes: param.Attributes, d: vDetail });
-                    }
-                    else {
-                        $('.btnAddtocart').attr('disabled', 'disabled').text('Out Of Stock').unbind();
-                        $('.qty-plus,.qty-minus').attr('disabled', 'disabled');
-                    }
-                }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-            }
-            Q.rewriteURL('/productdetail/' + vDetail.variantId);
-            variantId = vDetail.variantId;
-        };
-
-        slickOnProduct();
-
-        $(() => {
-            GetPictures();
-            GetAttributesInfo();
-            setTimeout(() => GetAttributes(), 100);
-            loadHotDealsNewProduct();
-        });
-
-        $(document).on('click', '.attributeValue', (e) => {
-            let ele = $(e.currentTarget);
-            ele.parents('ul').find('.attributeValue').removeClass('active');
-            ele.addClass('active');
-            let _attr = [];
-            $('#attributeList').find('.attibute').each(function () {
-                let _attData = $(this).find('li.active').data();
-                if (_attData) {
-                    _attr.push(_attData.attrVal);
-                }
-            })
-            let req = {
-                variantId,
-                attributes: _attr.join(',')
-            };
-            let attributeName = ele.parents('.attibute').data()?.attributeName;
-            console.log('123');
-            bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
-            //if (attributeName && attributeName.toLowerCase() === 'color') {
-            //    bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
-
-            //}
-            getVariantId();
-        });
-
-        $('.slide-1').slick({
-            dots: false,
-            infinite: false,
-            speed: 300,
+        $('.product-slick').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
-            responsive: [{
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 767,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 490,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }]
+            arrows: true,
+            fade: true,
+            asNavFor: '.slider-nav'
         });
+        $('.slider-nav').slick({
+            vertical: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.product-slick',
+            arrows: false,
+            dots: false,
+            focusOnSelect: true
+        });
+    }
 
-        $('.btnAddtocart').click(() => addToCart(variantId));
-    </script>
+    const GetPictures = () => {
+        $.post(`/Home/GetProductPicDetails/`, { Id: variantId }).done((result) => {
+            if (result != null && result.length > 0) {
+                productDetail.images = result;
+            }
+        })
+    }
+
+    const GetAttributes = () => {
+        $.post(`/Home/ProductAttrDetail/`, { Id: variantId }).done((result) => {
+            let _html = ``;
+            $.each(result, (k, v) => {
+                _html += `<div class="attibute mb-2" data-attribute-id='${v.attributeId}' data-attribute-name='${v.name}'>`;
+                _html = _html + `<h6 class="product-title size-text">${v.name}</h6><ul>`;
+                let uniqueAttr = [];
+                $.each(v.attributes, (i, j) => {
+                    if (!uniqueAttr.includes(j.attributeValue.toUpperCase())) {
+                        uniqueAttr.push(j.attributeValue.toUpperCase());
+                        let active = activeAttribute.info.includes(j.attributeValue.toUpperCase()) ? 'active' : '';
+                        _html += `<li class="${active} attributeValue btn btn-sm btn-outline-dark" data-attr-val='${j.attributeValue}'>${j.attributeValue}</li>`;
+                        bindImages(`${j.attributeValue}`);
+                        //if (v.name.toLowerCase() === 'color' && active === 'active') {
+                        //    bindImages(`${j.attributeValue}`);
+                        //}
+                    }
+                });
+                _html = _html + `</ul></div>`;
+            });
+            $('#attributeList').html(_html);
+        })
+    }
+
+    const GetAttributesInfo = () => {
+        $.post(`/Home/ProductAttributeInfo/`, { Id: variantId }).done((result) => {
+            activeAttribute.info = result.map(a => {
+                return a.groupId == variantId ? a.attributeValue.toUpperCase() : '';
+            });
+            productDetail.attributeInfo = result;
+        })
+    }
+
+    const loadHotDealsNewProduct = async function () {
+        await $.post("/HotDealsNewProduct").done(res => {
+            $('#dvHotDealNewProduct').append(res);
+        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    }
+
+    const bindImages = (color) => {
+        if ($('.product-slick').hasClass('slick-initialized')) {
+            $('.product-slick').slick('unslick')
+        }
+        if ($('.slider-nav').hasClass('slick-initialized')) {
+            $('.slider-nav').slick('unslick')
+        }
+        let __t = '', __h = '';
+        let uniquethumb = [], uniqueOriginal = [];
+        let __images = productDetail.images.filter(x => x.color === color);
+        if (__images.length === 0) {
+            __images = productDetail.images.filter(x => x.color.toLowerCase() === 'default');
+            if (__images.length === 0) {
+                __images = [{ imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: '400_400' }, { imagePath: '/assets/images/noimage.jpg', alt: 'no-image', imgVariant: 'default' }];
+            }
+        }
+        __images.forEach(x => {
+            if (!uniquethumb.includes(JSON.stringify(x))) {
+                if (x.imgVariant === '400_400') {
+                    uniquethumb.push(JSON.stringify(x));
+                    __t += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"></div>`
+                }
+            }
+            if (!uniquethumb.includes(JSON.stringify(x))) {
+                if (x.imgVariant.toLowerCase() === 'default') {
+                    uniqueOriginal.push(JSON.stringify(x));
+                    __h += `<div><img src="${x.imagePath}" alt="${x.alt}" class="img-fluid" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"></div>`
+                }
+            }
+        });
+        $('.product-slick').html(__h);
+        $('.slider-nav').html(__t);
+        slickOnProduct();
+    };
+
+    const readAttributes = () => {
+        let attributes = []
+        $('#attributeList .attibute').each(function (i, t) {
+            attributes.push($(t).find('li.attributeValue.active').text());
+        });
+        return attributes.join(',');
+    };
+
+    const getVariantId = async () => {
+        let _u = new URL(window.location);
+        let qs = _u.pathname.split('/');
+        let vId = 0;
+        if (qs.length === 3) {
+            vId = qs[2]
+        }
+        let param = {
+            VariantId: vId,
+            Attributes: readAttributes()
+        };
+        let vDetail = productDetail.variantInfo.filter(x => x.attributes === param.Attributes)[0]?.d;
+        if ($('.btnAddtocart').attr('disabled') === 'disabled') {
+            $('.btnAddtocart').removeAttr('disabled').html('<i class="fa fa-shopping-cart"></i>add to cart').click(() => addToCart(variantId));
+            $('.qty-plus,.qty-minus').removeAttr('disabled');
+        }
+        if (vDetail === undefined) {
+            await $.post('/GetVariantIdByAttributes', param).done(result => {
+                if (result.statusCode === 1) {
+                    vDetail = result.result;
+                    productDetail.variantInfo.push({ attributes: param.Attributes, d: vDetail });
+                }
+                else {
+                    $('.btnAddtocart').attr('disabled', 'disabled').text('Out Of Stock').unbind();
+                    $('.qty-plus,.qty-minus').attr('disabled', 'disabled');
+                }
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        }
+        Q.rewriteURL('/productdetail/' + vDetail.variantId);
+        variantId = vDetail.variantId;
+    };
+
+    slickOnProduct();
+
+    $(() => {
+        GetPictures();
+        GetAttributesInfo();
+        setTimeout(() => GetAttributes(), 100);
+        loadHotDealsNewProduct();
+    });
+
+    $(document).on('click', '.attributeValue', (e) => {
+        let ele = $(e.currentTarget);
+        ele.parents('ul').find('.attributeValue').removeClass('active');
+        ele.addClass('active');
+        let _attr = [];
+        $('#attributeList').find('.attibute').each(function () {
+            let _attData = $(this).find('li.active').data();
+            if (_attData) {
+                _attr.push(_attData.attrVal);
+            }
+        })
+        let req = {
+            variantId,
+            attributes: _attr.join(',')
+        };
+        let attributeName = ele.parents('.attibute').data()?.attributeName;
+        console.log('123');
+        bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
+        //if (attributeName && attributeName.toLowerCase() === 'color') {
+        //    bindImages(ele.parents('[data-attribute-name="Color"]').find('li.active').text());
+
+        //}
+        getVariantId();
+    });
+
+    $('.slide-1').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        responsive: [{
+            breakpoint: 1200,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                infinite: true
+            }
+        },
+        {
+            breakpoint: 992,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true
+            }
+        },
+        {
+            breakpoint: 767,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+        },
+        {
+            breakpoint: 490,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }]
+    });
+
+    $('.btnAddtocart').click(() => addToCart(variantId));
+    $('.btnBuyNow').click(function(){
+        let param = { VariantID: variantId };
+     $.post("/AddToCart", param).done(res => {
+         if(res.statusCode == -1)
+             {
+                   Q.notify(res.statusCode,  res.responseText)
+             }
+         else{
+             window.location.href="/checkout/"+true;
+             }
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+     });
+
+</script>
 }   

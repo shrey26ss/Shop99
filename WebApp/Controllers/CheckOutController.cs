@@ -37,11 +37,11 @@ namespace WebApp.Controllers
             _checkout = checkout;
 
         }
-        [Route("CheckOut")]
+        [Route("CheckOut/{IsBuyNow}")]
         [HttpGet]
-        public async Task<IActionResult> CheckOut()
+        public async Task<IActionResult> CheckOut(bool IsBuyNow= false)
         {
-            return View();
+            return View(IsBuyNow);
         }
         [Route("GetUserAddress")]
         [HttpPost]

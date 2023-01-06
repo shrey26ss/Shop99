@@ -19,7 +19,7 @@ namespace WebApp.Servcie
         Task<IResponse> AddWishList(WishList req, string _token);
         Task<IResponse> AddToCart(CartItem req, string _token);
         Task<IResponse<IEnumerable<WishListSlide>>> GetWishListSlide(string _token);
-        Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token);
+        Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token, bool IsBuyNow = false);
         Task<IResponse> DeleteCart(CartItem req, string _token);
         Task<IResponse<IEnumerable<CartWishlistCount>>> GetCartwishListCount(string _token);
         Task<IResponse> MoveItemWishListToCart(int Id, string _token);
@@ -124,15 +124,15 @@ namespace WebApp.Servcie
             return res;
 
         }
-        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token)
+        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token,bool IsBuyNow = false)
         {
             var res = new Response<IEnumerable<CartItemSlide>>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/CartWishList/GetCartItemlist", null, _token);
+            string url = $"{_apiBaseURL}/api/CartWishList/GetCartItemlist?IsBuyNow={IsBuyNow}";
+            var Response = await AppWebRequest.O.PostAsync(url.ToLower(), null, _token);
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try
@@ -146,7 +146,6 @@ namespace WebApp.Servcie
                 }
             }
             return res;
-
         }
         public async Task<IResponse<IEnumerable<CartWishlistCount>>> GetCartwishListCount(string _token)
         {

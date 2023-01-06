@@ -11,6 +11,7 @@ namespace Entities.Models
         public int UserID { get; set; }
         public int AddressID { get; set; }
         public int PaymentMode { get; set; }
+        public bool IsBuyNow { get; set; }
         public string Remark { get; set; }
     }
     public class PlaceOrderResponse
