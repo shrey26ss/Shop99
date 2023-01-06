@@ -102,9 +102,9 @@ namespace WebApp.Controllers
         }
         [Route("_CartPlaceOrder")]
         [HttpPost]
-        public async Task<IActionResult> _CartPlaceOrder()
+        public async Task<IActionResult> _CartPlaceOrder(bool IsBuyNow = false)
         {
-            var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
+            var res = _cartwishlist.GetCartListSlide(GetToken(), IsBuyNow).Result;
             return PartialView("~/Views/CheckOut/partial/_placeorder.cshtml", res);
         }
         [Route("WishListToCart")]

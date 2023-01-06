@@ -65,6 +65,7 @@ namespace Service.CartWishList
                     UserID = request.LoginId,
                     request.Data.AddressID,
                     request.Data.PaymentMode,
+                    request.Data.IsBuyNow,
                     request.Data.Remark
                 }, CommandType.StoredProcedure);
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)

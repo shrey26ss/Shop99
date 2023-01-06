@@ -1,6 +1,9 @@
-﻿@{
+﻿@model bool
+@{
     Layout = "_layout";
+    
 }
+
 <style>
     .contact-page .theme-form {
         padding: 20px;
@@ -363,23 +366,28 @@
     }, true);
       $(document).ready(function () {
         loadAddressDetails();
-        loadPlaceOrderCart();
+        const buynow='@Model';
+        loadPlaceOrderCart(buynow.toLowerCase()==='true'?true:false);
     });
     const loadAddressDetails = async function () {
         await $.post("/GetUserAddress").done(res => {
             $('#dbAddress').html(res);
         }).fail(xhr => Q.xhrError(xhr)).always(() => "");
     }
-    const loadPlaceOrderCart = async function () {
-        await $.post("/_CartPlaceOrder").done(res => {
+    const loadPlaceOrderCart = async function (IsBuyNow=false) {
+        await $.post("/_CartPlaceOrder",{IsBuyNow:IsBuyNow}).done(res => {
             $('#dvPlaceOrderDetails').html(res);
         }).fail(xhr => Q.xhrError(xhr)).always(() => "");
     }
         $(document).on('click', '#btnPlaceOrder', (e) => {
+            const url=new URL(window.location);
+            const isbuynow=url.pathname.replace('/checkout/','');
+
             let _parent = $(e.currentTarget).parents('#checkoutSection');
                 let item = {
                             AddressID: _parent.find('[name="address"]:checked').data().addressId,
                             PaymentMode: _parent.find('[name="paymentMode"]:checked').data().paymentMode,
+                            IsBuyNow:isbuynow?.toLowerCase(),
                             Remark:""
                 };
                  $.post("/PlaceOrder",item).done(res => {

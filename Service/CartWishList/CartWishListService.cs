@@ -87,6 +87,8 @@ namespace Service.CartWishList
                             update CartItem set Qty=iif(isnull(@Qty,1) in (1,-1),Qty+@Qty,@Qty),UpdateOn=GETDATE() where UserID=@UserID and VariantID=@VariantID 
                             end
                             end";
+
+
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     cartitem.Data.UserID,
@@ -160,13 +162,18 @@ namespace Service.CartWishList
             }
             return res;
         }
-        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req)
+        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req, bool  IsBuyNow=false)
         {
             string sp = @"Select * from vw_CartItems(nolock) where CustomerUserId = @LoginId";
+            if(IsBuyNow)
+            {
+                sp = "Select top(1) * from vw_CartItems(nolock) where CustomerUserId = @LoginId order by CartItemId desc ";
+            }
+
             var res = new Response<IEnumerable<CartItemSlide>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<CartItemSlide>(sp, new { req.LoginId }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<CartItemSlide>(sp, new { req.LoginId,IsBuyNow }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }

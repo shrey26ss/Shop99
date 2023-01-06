@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class CartWishList 
+    public class CartWishList
     {
-       
+        
+
     }
     public class WishList
     {

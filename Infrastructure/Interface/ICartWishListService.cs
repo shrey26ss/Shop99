@@ -12,9 +12,10 @@ namespace Infrastructure.Interface
         Task<IResponse> AddWishList(RequestBase<WishList> wishlist);
         Task<IResponse> AddToCart(RequestBase<CartItem> cartitem);
         Task<IResponse<IEnumerable<WishListSlide>>> GetWishlist(Request req);
-        Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req);
+
         Task<IResponse> DeleteCart(RequestBase<CartItem> cartitem);
         Task<IResponse<IEnumerable<CartWishlistCount>>> CartWishListCount(Request request);
         Task<IResponse> AddWishListToCart(SearchItem req);
+        Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req, bool IsBuyNow = false);
     }
 }
