@@ -49,7 +49,7 @@
                 </div>
                 <span class="dark-data">
                     @item.StatusID.ToString()
-                   
+
                     @if (item.StatusID == StatusType.Shipped)
                     {
                         <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info">Track</a>
@@ -58,51 +58,51 @@
                     }
                     @if (item.StatusID == StatusType.Confirmed)
                     {
-                        <a class="btn btn-sm btn-rounded" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank">Invoice</a>
+                        <a class="badge badge-info" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
                     }
-                  
+
                 </span>
             </td>
-            <td> 
-                 @if (item.StatusID != StatusType.Delivered)
-                    {
-                <a href="#"  onclick="CancelUser('@item.ID','@StatusType.Cancel')"  class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
-                    }</td>
-        </tr>        
+            <td>
+                @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel)
+                {
+                    <a href="#" onclick="CancelUser('@item.ID','@StatusType.Cancel')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
+                }
+            </td>
+        </tr>
     }
 }
 <script>
-  var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
+    var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ChangeStatusItemWithRemark = function (ID, StatusID) {
-              const html=`<div class="form-group">
-                         <label for="inputAddress">Reason</label>
+        const html = `<div class="form-group">
+                             <label for="inputAddress">Reason</label>
 
-                         <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
-                       </div>
-                       <button type="submit"  data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Procced Your Cancellaton</button>
-                       `;
-          Q.alert({
-                 title: 'Add Reason',
-                 body: html,
-                 width: 500
-             });
-        };
-   $(document).on('click', '#btnSubmitRemark', (e) => {
-        const Remark=$('#txtRemark').val();
+                             <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
+                           </div>
+                           <button type="submit"  data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Procced Your Cancellaton</button>
+                           `;
+        Q.alert({
+            title: 'Add Reason',
+            body: html,
+            width: 500
+        });
+    };
+    $(document).on('click', '#btnSubmitRemark', (e) => {
+        const Remark = $('#txtRemark').val();
         const ID = $(e.currentTarget).data()?.id ?? 0;
         const StatusID = $(e.currentTarget).data()?.status ?? 0;
         const currentQty = $('#txtaddDelete').val();
-        if(Remark=='')
-        {
-           Q.notify(-1, 'Reason Required.!');
-           $('#txtRemark').focus();
-           return;
+        if (Remark == '') {
+            Q.notify(-1, 'Reason Required.!');
+            $('#txtRemark').focus();
+            return;
         }
-           $.post('/OrderDetails/ChangeStatus', { ID, StatusID,Remark }).done((result) => {
-                console.log('result :', result);
-                Q.notify(result.statusCode, result.responseText);
-                if (result.statusCode)
-                    loadData();
-           });
-     });
-  </script>
+        $.post('/OrderDetails/ChangeStatus', { ID, StatusID, Remark }).done((result) => {
+            console.log('result :', result);
+            Q.notify(result.statusCode, result.responseText);
+            if (result.statusCode)
+                loadData();
+        });
+    });
+</script>
