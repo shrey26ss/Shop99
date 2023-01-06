@@ -14,6 +14,7 @@ using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/{controller}")]

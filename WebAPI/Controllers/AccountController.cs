@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
             _signInManager = _httpContextAccessor.HttpContext.RequestServices.GetService<SignInManager<ApplicationUser>>();
         }
         [AllowAnonymous]
-        [Route("/api/Login")]
+        [HttpPost("/api/Login")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var res = new Response<AuthenticateResponse>

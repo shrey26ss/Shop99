@@ -112,7 +112,7 @@ namespace WebAPI.Middleware
                 });
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "ApiDoc.xml");
                 option.IncludeXmlComments(filePath);
-                option.OperationFilter<AddRequiredHeaderParameter>();
+                //option.OperationFilter<AddRequiredHeaderParameter>();
                 option.UseAllOfToExtendReferenceSchemas();
             });
         }

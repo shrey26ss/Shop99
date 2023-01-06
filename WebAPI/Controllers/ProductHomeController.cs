@@ -9,6 +9,7 @@ namespace WebAPI.Controllers
     [AllowAnonymous]
     [ApiController]
     [Route("/api/")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ProductHomeController : Controller
     {
         private readonly IProductHomeService _product;

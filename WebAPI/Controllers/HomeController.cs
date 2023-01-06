@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
-    [Route("/api/{controller}")]
+    [Route("/api/Home")]
+   
     public class HomeController : ControllerBase
     {
         private readonly IHomepageService _homepageService;
@@ -28,6 +31,10 @@ namespace WebAPI.Controllers
             _filters = filters;
             _orderRepo=orderRepo;
         }
+
+
+       
+
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
         [HttpGet(nameof(OfferBanner))]
