@@ -2,6 +2,26 @@
 @model IEnumerable<ProductVariantAttributeDetails>
 <input type="hidden" id="ID" value="@Model" />
 
+<style>
+
+.input-group-append label.form-control{
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0.35rem;
+}
+
+
+.input-group label.form-control{
+    padding: 0.375rem 0.35rem;
+    text-align: center;
+}
+
+.item-quantity i{
+        padding-right: 0px;
+}
+</style>
+
 <div class="content-header clearfix">
     <h1 class="float-left">
         Variants
@@ -23,7 +43,7 @@
                             <th>Price</th>
                             <th style="width: 10%;">Selling Cost</th>
                             <th>HSN</th>
-                            <th>Quantity</th>
+                            <th style="width: 10%;">Quantity</th>
                             <th>GTIN</th>
                             <th>Featured</th>
                             <th style="width: 12%;">Show on Home</th>
@@ -45,7 +65,21 @@
                                     <td>@item.SellingCost</td>
                                     <td>@item.HSN</td>
                                     <td>
-                                        <a href="#" class="item-quantity" data-variantid="@item.Id" data-qauntity="@item.Quantity">  <span>@item.Quantity</span></a>
+                                        <div class="input-group">
+                                            <label class="form-control">@item.Quantity</label>
+                                            <div class="input-group-append">
+                                                 <label class="form-control">
+                                                    <a href="#" class="item-quantity"  data-variantid="@item.Id" data-qauntity="@item.Quantity">
+                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    </a>
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+
+
+
 
                                     </td>
                                     <td>@item.GTIN</td>
@@ -72,119 +106,142 @@
 
 
 @section scripts{
-    <script>
-        var loadPartial = function(Id = 0) {
-            ///Product/VariantAttributeList
-            $.post('/Product/VariantDetail', { Id }).done((result) => {
-                Q.alert({
-                    title: 'Attribute List',
-                    body: result,
-                    width: 600
-                });
-            })
-        };
-        $('.item-quantity').click(function() {
-            const vid = $(this).data('variantid');
-            const prevQty = $(this).data('qauntity');
-           const html=`<form method="post" asp-action="VariantQuantityUpdate"> <div class="form-row">
-                            <div class="form-group col-md-6">
-                              <label for="inputEmail4">Qauntity</label>
-                              <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
-                            </div>
-                            <input type="hidden" name="VariantId" value="${vid}">
-                            <div class="form-group col-md-6">
-                              <label for="inputPassword4">Add/Delete</label>
-                              <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
-                            </div>
-                         </div>
-                          <div class="form-group">
-                            <label for="inputAddress">Remark</label>
-                            <input type="text" class="form-control" id="txtRemark" placeholder="Remark">
-                          </div> 
-                       
-                          <button type="submit"  data-variantid="${vid}" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
-                          <button type="submit"  data-variantid="${vid}" class="btn btn-outline-danger" id="RemoveQauntity">Delete</button>
-                             <form>
-                          `;
+<script>
+     var loadPartial = function(Id = 0) {
+         ///Product/VariantAttributeList
+         $.post('/Product/VariantDetail', { Id }).done((result) => {
              Q.alert({
-                    title: 'Add/Delete Qauntity',
-                    body: html,
-                    width: 500
-                });
+                 title: 'Attribute List',
+                 body: result,
+                 width: 600
+             });
+         })
+     };
+     $('.item-quantity').click(function() {
+         const vid = $(this).data('variantid');
+         const prevQty = $(this).data('qauntity');
+        const html=` <div class="form-row">
+                         <div class="form-group col-md-6">
+                           <label for="inputEmail4">Qauntity</label>
+                           <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
+                         </div>
+                         <input type="hidden" name="VariantId" value="${vid}">
+                         <div class="form-group col-md-6">
+                           <label for="inputPassword4">Add/Delete</label>
+                           <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
+                         </div>
+                      </div>
+                       <div class="form-group">
+                         <label for="inputAddress">Remark</label>
+
+                         <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
+                       </div>
+
+                       <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
+                       <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
+                       `;
+          Q.alert({
+                 title: 'Add/Delete Qauntity',
+                 body: html,
+                 width: 500
+             });
 
 
-            //var prevQty = $(this).data('val');
-            //var vid = $(this).data('variantid');
-            //var currentQty = $(this).val();
-            //if (currentQty <= 0) {
-            //    Q.notify(-1, 'Minimum 1 Quantity Required.');
-            //    return;
-            //}
-            //if (currentQty != prevQty && currentQty >= 1) {
-            //    $.post('/Product/VariantQuantityUpdate', { v: vid, q: currentQty }).done(function(result) {
-            //        Q.notify(result.statusCode, result.responseText);
-            //    }).fail(function(xhr) {
-            //        console.log(xhr.responseText);
-            //        alert('something went wrong');
-            //    })
-            //}
-        });
-        
-        var UpdateIspublish = function(Id) {
-            let IsPublish = false;
-            if ($('#Ispublish_' + Id).is(":checked")) {
-                IsPublish = true;
-            }
-            let obj = {
-                Id: Id,
-                IsPublish: IsPublish
-            }
-            $.post('/Product/UpdateIsPublishVariant', obj).done(function(result) {
-                console.log(result);
-                Q.notify(result.statusCode, result.responseText);
-                if (result.statusCode == 1) {
-                    loadData();
-                }
-            }).fail(function(xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
-            })
+         //var prevQty = $(this).data('val');
+         //var vid = $(this).data('variantid');
+         //var currentQty = $(this).val();
+         //if (currentQty <= 0) {
+         //    Q.notify(-1, 'Minimum 1 Quantity Required.');
+         //    return;
+         //}
+
+     });
+
+    $(document).on('click', '.addQuantity', (e) => {
+        const remark=$('#txtRemark').val();
+        const vId = $(e.currentTarget).data()?.variantid ?? 0;
+        const am = $(e.currentTarget).data()?.addminus ?? 0;
+        const currentQty = $('#txtaddDelete').val();
+        if(currentQty=='')
+        {
+           Q.notify(-1, 'Minimum 1 Quantity Required.!');
+           $('#txtaddDelete').focus();
+           return;
         }
-        var AddNewAttribute = function(Id) {
-            let combinationId = '';
-            $.post('/Product/AddAttributes', { combinationId, CategoryId: Id }).done((result) => {
-                Q.alert({
-                    title: 'Add Attribute',
-                    body: result,
-                    width: 900
-                });
-            })
+        if(am==1 && remark=='')
+        {
+           Q.notify(-1, 'Remark Required.!');
+           $('#txtRemark').focus();
+           return;
         }
-        var DeleteImage = function(VarId, ImgId, Path) {
-            Q.confirm("Are You Sure. You Want To Delete This Image", () => deletevariantImg(VarId, ImgId, Path));
-        }
-        var deletevariantImg = function(VarId, ImgId, Path) {
-            $.post('/Product/DeleteVariantImage', { VariantId: VarId, ImgId: ImgId, ImgPath: Path }).done((result) => {
-                Q.notify(result.statusCode, result.responseText);
-                if (result.statusCode == 1) {
-                    window.location.reload();
-                }
-            }).fail(function(xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
-            })
-        }
-        var AddNewimage = function(VarId, color, Alt) {
-            $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: color, ImgAlt: Alt }).done((result) => {
-                Q.alert({
-                    title: 'Upload Variant Image',
-                    body: result,
-                    width: 900
-                });
-            }).fail(function(xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
-            })
-        }
-    </script>
+             $.post('/Product/VariantQuantityUpdate', { v: vId, q: currentQty,IsReduce:am==0?false:true,Remark:remark}).done(function(result) {
+                 Q.notify(result.statusCode, result.responseText);
+                 (result.statusCode==1)
+                 {
+                    // loadData();
+                    location.reload();
+                 }
+             }).fail(function(xhr) {
+                 console.log(xhr.responseText);
+                  Q.notify(-1, 'something went wrong.');
+             })
+     });
+
+     var UpdateIspublish = function(Id) {
+         let IsPublish = false;
+         if ($('#Ispublish_' + Id).is(":checked")) {
+             IsPublish = true;
+         }
+         let obj = {
+             Id: Id,
+             IsPublish: IsPublish
+         }
+         $.post('/Product/UpdateIsPublishVariant', obj).done(function(result) {
+             console.log(result);
+             Q.notify(result.statusCode, result.responseText);
+             if (result.statusCode == 1) {
+                 loadData();
+             }
+         }).fail(function(xhr) {
+             console.log(xhr.responseText);
+             alert('something went wrong');
+         })
+     }
+     var AddNewAttribute = function(Id) {
+         let combinationId = '';
+         $.post('/Product/AddAttributes', { combinationId, CategoryId: Id }).done((result) => {
+             Q.alert({
+                 title: 'Add Attribute',
+                 body: result,
+                 width: 900
+             });
+         })
+     }
+     var DeleteImage = function(VarId, ImgId, Path) {
+         Q.confirm("Are You Sure. You Want To Delete This Image", () => deletevariantImg(VarId, ImgId, Path));
+     }
+     var deletevariantImg = function(VarId, ImgId, Path) {
+         $.post('/Product/DeleteVariantImage', { VariantId: VarId, ImgId: ImgId, ImgPath: Path }).done((result) => {
+             Q.notify(result.statusCode, result.responseText);
+             if (result.statusCode == 1) {
+                 window.location.reload();
+             }
+         }).fail(function(xhr) {
+             console.log(xhr.responseText);
+             alert('something went wrong');
+         })
+     }
+     var AddNewimage = function(VarId, color, Alt) {
+         $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: color, ImgAlt: Alt }).done((result) => {
+             Q.alert({
+                 title: 'Upload Variant Image',
+                 body: result,
+                 width: 900
+             });
+         }).fail(function(xhr) {
+             console.log(xhr.responseText);
+             alert('something went wrong');
+         })
+     }
+</script>
 }
