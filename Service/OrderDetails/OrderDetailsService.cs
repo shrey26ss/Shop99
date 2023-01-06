@@ -69,7 +69,14 @@ namespace Service.OrderDetails
             string sp = "proc_OrderCancel";
             try
             {
-                 res = await _dapper.GetAsync<Response>(sp, new { ID = req.ID, StatusID=req.StatusID, Remark=req.Remark??string.Empty,LoginID= loginId}, CommandType.StoredProcedure);
+                if(req.StatusID == StatusType.Cancel)
+                {
+                    res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
+                }
+                else
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
             }
             catch (Exception ex)
             {

@@ -16,7 +16,11 @@ namespace Entities.Enums
         [Description("Order Delivered")]
         Delivered = 4,
         [Description("Product Shipped")]
-        Shipped = 5
+        Shipped = 5,
+        [Description("Initiate Return")]
+        ReturnInitiated = 6,
+        [Description("Return Completed")]
+        ReturnCompleted = 7,
     }
     public enum PurchaseType
     {
