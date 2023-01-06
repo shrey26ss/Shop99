@@ -191,14 +191,29 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             var res = new Response();
             try
             {
-                string sqlQuery = @"declare @OpeningQty int,@ClosingQty int
-                                    update VariantGroup set @ClosingQty=Quantity = @Quantity,@OpeningQty=Quantity where Id = @VarriantId
-                                    insert into[Inventory] (VarriantId, IsOut, OpeningQty, Qty, ClosingQty, Remark, EntryOn, RefferenceId)
-                                    Select @VarriantId,0,@OpeningQty,@Quantity,@ClosingQty,'Inventry Updated by Quantity - ' + cast(@Quantity as varchar(50)),getdate(),@VarriantId";
+                string sqlQuery = @"	declare @OpeningQty int,@ClosingQty int,@VQuantity int
+                                         select  @VQuantity=Quantity from VariantGroup  where Id = @VarriantId
+	                                     if(@IsReduce=0)
+	                                     begin
+	                                      update VariantGroup set @ClosingQty=Quantity=Quantity+@Quantity,@OpeningQty=Quantity where Id = @VarriantId
+                                                                        insert into[Inventory] (VarriantId, IsOut, OpeningQty, Qty, ClosingQty, Remark, EntryOn, RefferenceId)
+                                                                        Select @VarriantId,0,@OpeningQty,@Quantity,@ClosingQty,@Remark,getdate(),@VarriantId	 
+	                                     end
+	                                     else
+	                                     begin
+	                                     if((@VQuantity-@Quantity)>=0)
+	                                     begin
+	                                       update VariantGroup set @ClosingQty=Quantity =Quantity-@Quantity,@OpeningQty=Quantity where Id = @VarriantId
+                                                                        insert into[Inventory] (VarriantId, IsOut, OpeningQty, Qty, ClosingQty, Remark, EntryOn, RefferenceId)
+                                                                        Select @VarriantId,1,@OpeningQty,@Quantity,@ClosingQty,@Remark,getdate(),@VarriantId
+	                                     end
+                                         end   ";
                 int i = -5;
                 DynamicParameters param = new DynamicParameters();
                 param.Add("VarriantId", request.Data.VariantId, DbType.Int32);
                 param.Add("Quantity", request.Data.Quantity, DbType.Int32);
+                param.Add("IsReduce", request.Data.IsReduce, DbType.Boolean);
+                param.Add("Remark", request.Data.Remark??string.Empty, DbType.String);
                 i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.Text);
                 if (i > -1 && i < 100)
                 {

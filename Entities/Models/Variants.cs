@@ -79,6 +79,8 @@ namespace Entities.Models
     {
         public int VariantId { get; set; }
         public int Quantity { get; set; }
+        public bool IsReduce { get; set; }
+        public string Remark { get; set; }
 
     }
     public class VariantDetailsByAttributesResponse

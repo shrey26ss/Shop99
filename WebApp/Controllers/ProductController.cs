@@ -310,11 +310,29 @@ namespace WebApp.Controllers
         //    return PartialView("Partials/_AddAttributes", model);
         //}
         [HttpPost]
-        public async Task<ActionResult> VariantQuantityUpdate(int v, int q)
+        public async Task<ActionResult> VariantQuantityUpdate(int v, int q,bool IsReduce, string Remark)
         {
-            Response response = new Response();
+            var response = new Response() { 
+            StatusCode=ResponseStatus.Failed,
+            ResponseText= ResponseStatus.Failed.ToString()
+            };
+            if(q<=0)
+            {
+                response.ResponseText = "Minimum 1 Quantity Required.";
+                return Ok(response);
+            }
+            if (v <= 0)
+            {
+                response.ResponseText = "Invalid Variant.";
+                return Ok(response);
+            }
+            if (IsReduce && string.IsNullOrEmpty(Remark))
+            {
+                response.ResponseText = "Remark Required.";
+                return Ok(response);
+            }
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new VariantQuantity { VariantId = v, Quantity = q });
+            var jsonData = JsonConvert.SerializeObject(new VariantQuantity { VariantId = v, Quantity = q,IsReduce= IsReduce,Remark=Remark });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/VariantQuantityUpdate", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
