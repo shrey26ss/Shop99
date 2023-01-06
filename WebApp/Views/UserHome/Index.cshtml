@@ -54,13 +54,13 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3 id="OCount">0</h3>
-                        <p>Orders</p>
+                        <h3 id="CCount">0</h3>
+                        <p>Pending Shipment</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a class="small-box-footer" href="/OrderDetails/Index">
+                    <a class="small-box-footer" href="/OrderDetails/Index?type=3">
                         More info
                         <i class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -69,13 +69,13 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3 id="CCount">0</h3>
-                        <p>Pending Shipment</p>
+                        <h3 id="OCount">0</h3>
+                        <p>Orders Placed</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-refresh"></i>
                     </div>
-                    <a class="small-box-footer" href="/OrderDetails/Index?type=3">
+                    <a class="small-box-footer" href="/OrderDetails/Index?type=1">
                         More info
                         <i class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -105,7 +105,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a class="small-box-footer" href="/Report/Inventory">
+                    <a class="small-box-footer" href="/Report/Inventory?status=1">
                         More info
                         <i class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -376,7 +376,7 @@
         });
         const fetchCounts = () => {
             $.post(`/T-B-C`).done((result) => {
-                $('#OCount').text(result.totalOrders);
+                $('#OCount').text(result.totalOrdersPlaced);
                 $('#CCount').text(result.confirmedOrder);
                 $('#RCCount').text(result.totalCustomer);
                 $('#LSCount').text(result.lowStocks);
@@ -398,7 +398,7 @@
                             <td>${v.title}</td>
                             <td>${v.entryOn}</td>
                             <td class="button-column">
-                            <a class="btn btn-default btn-sm" href="/OrderDetails/Index"><i class="far fa-eye"></i>View</a>
+                            <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}"><i class="far fa-eye"></i>View</a>
                             </td>
                         </tr>`;
                     })

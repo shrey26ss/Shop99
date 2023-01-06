@@ -7,6 +7,8 @@ using WebApp.AppCode.Helper;
 using WebApp.Models;
 using WebApp.Servcie;
 using WebApp.Middleware;
+using Service.Models;
+using Entities.Enums;
 
 namespace WebApp.Controllers
 {
@@ -20,14 +22,14 @@ namespace WebApp.Controllers
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
         }
-        public IActionResult Inventory()
+        public IActionResult Inventory(InventoryStatus status = InventoryStatus.All)
         {
-            return View();
+            return View(new InventoryRequest {  Status = status});
         }
         [HttpPost("Report/InventoryList")]
-        public async Task<IActionResult> InventoryList()
+        public async Task<IActionResult> InventoryList(InventoryRequest request)
         {
-            var res = await _convert.GetList<Inventory>("Report/GetInventoryReport", GetToken());
+            var res = await _convert.GetList<Inventory>("Report/GetInventoryReport", GetToken(), request);
             return PartialView("Partial/InventoryList", res);
         }
         private string GetToken()

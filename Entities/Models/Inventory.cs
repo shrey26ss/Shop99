@@ -26,4 +26,8 @@ namespace Entities.Models
         public string ProductName { get; set; }
         public string VariantTitle { get; set; }
     }
+    public class InventoryRequest
+    {
+        public InventoryStatus Status { get; set; } = 0;
+    }
 }
