@@ -36,6 +36,7 @@ namespace Entities.Models
     {
         public string InvoiceNumber { get; set; }
         public string DocketNo { get; set; }
+        public DateTime ReturnTillOn { get; set; }
     }
     public class OrderDetailsRequest
     {
