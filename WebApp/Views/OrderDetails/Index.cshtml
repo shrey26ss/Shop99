@@ -5,47 +5,45 @@
         color: crimson;
     }
 </style>
-<div class="content">
-    <div class="card">
-        <div class="card-body">
-            <div class="row justify-content-end">
-                <div class="col-md-9 col-sm-6">
-                    <h2 class="float-left">
-                        Order Details
-                    </h2>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <select class="form-control" id="status" onchange="loadData();">
-                        <option value="0">Select Status</option>
-                        <option value="@StatusType.OrderPlaced">@StatusType.OrderPlaced.ToString()</option>
-                        <option value="@StatusType.Cancel">@StatusType.Cancel.ToString()</option>
-                        <option value="@StatusType.Confirmed">@StatusType.Confirmed.ToString()</option>
-                        <option value="@StatusType.Delivered">@StatusType.Delivered.ToString()</option>
-                        <option value="@StatusType.Shipped">@StatusType.Shipped.ToString()</option>
-                    </select>
-                </div>
-                <div class="col-md-12 mt-2">
-                    <table class="table table-bordered" id="Grid">
-                        <thead>
-                            <tr role="row">
-                                <th>#</th>
-                                <th>Action</th>
-                                <th>Product</th>
-                                <th class="text-nowrap">Product Name</th>
-                                <th>Title</th>
-                                <th>Status</th>
-                                <th>Qty</th>
-                                <th>Attributes</th>
-                                <th>Rate</th>
-                                <th>MRP</th>
-                                <th>Mode</th>
-                                <th class="text-nowrap">Order Date</th>
-                                <th>ShopName</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+<div class="card">
+    <div class="card-body">
+        <div class="row justify-content-end">
+            <div class="col-md-9 col-sm-6">
+                <h2 class="float-left">
+                    Order Details
+                </h2>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <select class="form-control" id="status" onchange="loadData();">
+                    <option value="0">Select Status</option>
+                    <option value="@StatusType.OrderPlaced">@StatusType.OrderPlaced.ToString()</option>
+                    <option value="@StatusType.Cancel">@StatusType.Cancel.ToString()</option>
+                    <option value="@StatusType.Confirmed">@StatusType.Confirmed.ToString()</option>
+                    <option value="@StatusType.Delivered">@StatusType.Delivered.ToString()</option>
+                    <option value="@StatusType.Shipped">@StatusType.Shipped.ToString()</option>
+                </select>
+            </div>
+            <div class="col-md-12 mt-2 table-responsive">
+                <table class="table table-bordered" id="Grid">
+                    <thead>
+                        <tr role="row">
+                            <th>#</th>
+                            <th>Action</th>
+                            <th>Product</th>
+                            <th class="text-nowrap">Product Name</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Qty</th>
+                            <th>Attributes</th>
+                            <th>Rate</th>
+                            <th>MRP</th>
+                            <th>Mode</th>
+                            <th class="text-nowrap">Order Date</th>
+                            <th>ShopName</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -65,8 +63,7 @@
             }
             $.post('/OrderDetails/OrderList', param).done(function (result) {
                 $('#Grid tbody').html(result);
-            }).fail(function (xhr) {
-            })
+            }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));

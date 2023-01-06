@@ -6,7 +6,7 @@
 <section class="cart-section order-history section-big-py-space">
     <div class="custom-container">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 table-responsive">
                 <table class="table cart-table table-responsive-xs">
                     <thead>
                         <tr class="table-head">
@@ -34,8 +34,7 @@
             var loadData = () => {
                 $.post('/_UserOrderHistory').done(function (result) {
                     $('#UserOrderHistory').html(result);
-                }).fail(function (xhr) {
-                })
+                }).fail(xhr => Q.notify(-1, xhrText[xhr.status])
             };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
@@ -44,7 +43,7 @@
                 Q.notify(result.statusCode,result.responseText);
                 if(result.statusCode)
                     loadData();
-            })
+            }).fail(xhr => Q.notify(-1, xhrText[xhr.status])
         };
         var ShareTrackingDetails = (TrackID,URL) =>{
             $.post('/OrderDetails/ShareTrackingDetails', { TrackID, URL }).done((result)=>{
@@ -53,7 +52,7 @@
                     body: result,
                     width: 500
                 });
-            })
+            }).fail(xhr => Q.notify(-1, xhrText[xhr.status])
         }
         </script>
 }

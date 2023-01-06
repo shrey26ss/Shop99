@@ -1,7 +1,5 @@
 ﻿<div class="content-header clearfix">
-    <h1 class="float-left">
-        Brand
-    </h1>
+    <h1 class="float-left">Brand</h1>
     <div class="float-right">
         <a class="btn btn-primary" href="javascript:void(0)" id="btnNew">
             <i class="fas fa-plus-square"></i>
@@ -9,11 +7,11 @@
         </a>
     </div>
 </div>
-<div class="content">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
                     <table class="table table-bordered" id="Grid">
                         <thead>
                             <tr role="row" style="" class="">
@@ -33,23 +31,23 @@
 
 @section scripts{
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#btnNew').click(() => dialog.brand());//AddBrand());
             loadData();
         })
-        var loadData = function() {
+        var loadData = function () {
             let request = {
                 Id: 0
             };
 
-            $.post('/Brand/List', request).done(function(result) {
+            $.post('/Brand/List', request).done(function (result) {
                 $('#Grid tbody').html(result);
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 console.log(xhr.responseText);
                 alert('something went wrong');
             })
         };
-        var UpdateIspublish = function(Id) {
+        var UpdateIspublish = function (Id) {
             let IsPublish = false;
             if ($('#Ispublish_' + Id).is(":checked")) {
                 IsPublish = true;
@@ -58,15 +56,14 @@
                 Id: Id,
                 IsPublish: IsPublish
             }
-            $.post('/Brand/UpdateIsPublishBrand', obj).done(function(result) {
-                console.log(result);
+            $.post('/Brand/UpdateIsPublishBrand', obj).done(function (result) {
                 Q.notify(result.statusCode, result.responseText);
                 if (result.statusCode == 1) {
                     loadData();
                 }
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 console.log(xhr.responseText);
-                alert('something went wrong');
+                Q.notify('something went wrong');
             })
         }
     </script>
