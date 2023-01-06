@@ -30,7 +30,7 @@
                                 <p class="plan-text">
                                     @address
                                 </p>
-                                <span class="plan-price"><i class="fa fa-edit"></i></span>
+                                @*<span class="plan-price"><i class="fa fa-edit"></i></span>*@
                             </div>
                         </div>
 
@@ -82,8 +82,6 @@
                 <div class="form-group col-md-6 col-sm-6 col-xs-12">
                     <label class="field-label">State</label>
                     <select name="StateID" id="StateID">
-                        <option value="">Select State</option>
-                        <option value="27">Uttar Pradesh</option>
                     </select>
                     <span class="StateID text-danger clr"></span>
                 </div>
@@ -117,7 +115,9 @@
         else {
             $("#dvAddAddress").removeClass("d-none");
         }
+        loadStateDDL('#StateID');
     });
+
     $('#btnaddress').click(function () {
         $("#dvshowaddress").addClass("d-none");
         $("#dvAddAddress").removeClass("d-none");
@@ -158,4 +158,5 @@
             })
         })
     })
+
 </script>

@@ -1,4 +1,5 @@
 ﻿using AppUtility.APIRequest;
+using AppUtility.Helper;
 using Entities.Enums;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -27,13 +28,15 @@ namespace WebApp.Controllers
         private readonly ILogger<UserHomeController> _logger;
         private IGenericMethods _convert;
         private readonly ICheckOutAPI _checkout;
+        private readonly IDDLHelper _ddl;
 
-        public UserHomeController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert, ICheckOutAPI checkOutAPI)
+        public UserHomeController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert, ICheckOutAPI checkOutAPI, IDDLHelper ddl)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _logger = logger;
             _convert = convert;
             _checkout = checkOutAPI;
+            _ddl = ddl;
         }
 
         [Route("/dashboard")]
@@ -101,8 +104,9 @@ namespace WebApp.Controllers
         public async Task<IActionResult> EditAddress(int Id = 0)
         {
             var _ = _checkout.GetUserGetAddress(GetToken()).Result;
-            var res = _.Result.ToList().Where(a => a.Id.Equals(Id)).FirstOrDefault();
-            return PartialView("PartailView/_EditAddress", res ?? new UserAddress());
+            var res = _.Result.ToList().Where(a => a.Id.Equals(Id)).FirstOrDefault() ?? new UserAddress();
+            res.stateDDLs = await _ddl.GetStateDDL(_apiBaseURL);
+            return PartialView("PartailView/_EditAddress", res);
         }
         [HttpPost]
         public async Task<IActionResult> SaveProfile(UserDetails model)

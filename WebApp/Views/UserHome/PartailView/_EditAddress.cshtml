@@ -1,5 +1,8 @@
 ﻿@using Entities.Models;
 @model UserAddress
+@{
+    var StateDDl = new SelectList(Model.stateDDLs, "Id", "StateName");
+}
 <div class="row justify-content-end">
     <div class="col-1 pl-2">
         <i class="fa fa-arrow-circle-left fa-2x text-primary" id="" style="cursor:pointer" onclick="loadAddress()"></i>
@@ -53,9 +56,8 @@
         <div class="col-sm-6 col-ms-6">
             <div class="form-group">
                 <label class="field-label">State</label>
-                <select class="form-control" id="StateID" asp-for="StateID">
+                <select class="form-control" id="StateID" asp-for="StateID" asp-items="@StateDDl">
                     <option v alue="">Select State</option>
-                    <option value="27">Uttar Pradesh</option>
                 </select>
                 <span class="StateID text-danger clr"></span>
             </div>
