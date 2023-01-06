@@ -58,7 +58,7 @@
                     }
                     @if (item.StatusID == StatusType.Confirmed)
                     {
-                        <a class="btn btn-sm btn-rounded" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank">Invoice</a>
+                        <a class="badge badge-info" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
                     }
                   
                 </span>
