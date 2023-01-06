@@ -30,6 +30,7 @@ namespace Entities.Models
         public string Attributes { get; set; }
         public int PaymentModeId { get; set; }
         public string PaymentMode { get; set; }
+        public string Remark { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {

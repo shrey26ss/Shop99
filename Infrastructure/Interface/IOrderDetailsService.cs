@@ -9,7 +9,7 @@ namespace Infrastructure.Interface
 {
     public interface IOrderDetailsService : IRepository<OrderDetailsRow, OrderDetailsColumn>
     {
-        Task<IResponse> ChengeStatusAsync(OrderDetailsRow req);
+        Task<IResponse> ChengeStatusAsync(int loginId,OrderDetailsRow req);
         Task<IResponse> UpdateShippingNInvoice(OrderShippedStatus req);
         Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id);
         //Task<IResponse<IEnumerable<TColumn>>> GetAsync<TColumn>(Expression<Func<TColumn, bool>> predicate);

@@ -15,6 +15,7 @@
                             <th scope="col">price</th>
                             <th scope="col">detail</th>
                             <th scope="col">status</th>
+                            <th scope="col">action</th>
                         </tr>
                     </thead>
                     <tbody id="UserOrderHistory">
@@ -34,7 +35,7 @@
             var loadData = () => {
                 $.post('/_UserOrderHistory').done(function (result) {
                     $('#UserOrderHistory').html(result);
-                }).fail(xhr => Q.notify(-1, xhrText[xhr.status])
+                }).fail(xhr => Q.notify(-1, xhrText[xhr.status]))
             };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
@@ -43,7 +44,7 @@
                 Q.notify(result.statusCode,result.responseText);
                 if(result.statusCode)
                     loadData();
-            }).fail(xhr => Q.notify(-1, xhrText[xhr.status])
+            }).fail(xhr => Q.notify(-1, xhrText[xhr.status]))
         };
         var ShareTrackingDetails = (TrackID,URL) =>{
             $.post('/OrderDetails/ShareTrackingDetails', { TrackID, URL }).done((result)=>{
@@ -52,7 +53,7 @@
                     body: result,
                     width: 500
                 });
-            }).fail(xhr => Q.notify(-1, xhrText[xhr.status])
+            }).fail(xhr => Q.notify(-1, xhrText[xhr.status]))
         }
         </script>
 }

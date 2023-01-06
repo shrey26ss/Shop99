@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             return Ok(await _orderRepo.GetAsync(User.GetLoggedInUserId<int>(), req));
         }
         [Route("OrderDetails/ChangeStatus")]
-        public async Task<IActionResult> ChangeStatus(OrderDetailsRow req) => Ok(await _orderRepo.ChengeStatusAsync(req));
+        public async Task<IActionResult> ChangeStatus(OrderDetailsRow req) => Ok(await _orderRepo.ChengeStatusAsync(User.GetLoggedInUserId<int>(),req));
         [Route("OrderDetails/UpdateShippingNInvoice")]
         public async Task<IActionResult> UpdateShippingNInvoice(OrderShippedStatus req) => Ok(await _orderRepo.UpdateShippingNInvoice(req));
         [Route("OrderDetails/GetInvoiceDetails")]
