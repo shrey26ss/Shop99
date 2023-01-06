@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]

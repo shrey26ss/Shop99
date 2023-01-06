@@ -2,11 +2,13 @@
 
 namespace WebAPI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpGet]
+        public ActionResult Index()
         {
-            return Ok();
+            return Redirect("~/apidoc");
         }
     }
 }

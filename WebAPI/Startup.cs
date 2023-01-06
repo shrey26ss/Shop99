@@ -183,7 +183,7 @@ namespace WebAPI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=login}/{id?}");
+                    pattern: "{controller=Error}/{action=Index}/{id?}");
             });
         }
     }

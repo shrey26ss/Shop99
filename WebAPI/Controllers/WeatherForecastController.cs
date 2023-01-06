@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
