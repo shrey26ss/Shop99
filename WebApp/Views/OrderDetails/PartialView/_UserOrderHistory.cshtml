@@ -73,6 +73,10 @@
                 {
                     <a href="#" onclick="ReturnItem('@item.ID','@StatusType.ReturnInitiated')" class="btn btn-sm btn-info btnCancelOrder">Return</a>
                 }
+                @if (item.StatusID == StatusType.Delivered && deliveredDays <= 0)
+                {
+                    <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaced')" class="btn btn-sm btn-info btnCancelOrder">Replace</a>
+                }
             </td>
         </tr>
     }
@@ -80,6 +84,7 @@
 <script>
     var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ReturnItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Return This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
+     var ReplaceItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Replace This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ChangeStatusItemWithRemark = function (ID, StatusID) {
         let btntxt = StatusID == 'InitiateReturn' ? "Procced Your Return" : "Procced Your Cancellation";
         const html = `<div class="form-group">

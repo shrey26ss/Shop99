@@ -79,4 +79,9 @@ namespace Entities.Models
         public string VendorEmail { get; set; }
         public int Qty { get; set; }
     }
+    public class OrderReplacedConformReq
+    {
+        public int ID { get; set; }
+        public string Role { get; set; }
+    }
 }
