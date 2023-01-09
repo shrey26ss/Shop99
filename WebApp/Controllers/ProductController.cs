@@ -267,7 +267,9 @@ namespace WebApp.Controllers
             var model = new VariantCombination();
             model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
             ModelState.Clear();
-            TryValidateModel(model);
+           TryValidateModel(model);
+            
+           
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
