@@ -12,6 +12,8 @@ namespace Entities.Models
         public decimal? MRP { get; set; }
         [Required(ErrorMessage = "Quantity is required.")]
         public int? Quantity { get; set; }
+        public int? ReturnInDays { get; set; }
+
         [MaxLength(30, ErrorMessage = "Allowed Only 30 Character")]
         public string GTIN { get; set; }
         public bool? IsShowOnHome { get; set; }

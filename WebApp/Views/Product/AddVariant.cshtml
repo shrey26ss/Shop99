@@ -162,11 +162,13 @@
                     }
 
                 });
+                var returnindays=currentGroup.find('[name="ReturnInDays"]').val();
                 let groupDetail = {
                     Id: groupId,
                     HSN: currentGroup.find('[name="HSN"]').val(),
                     MRP: currentGroup.find('[name="MRP"]').val(),
                     Quantity: currentGroup.find('[name="Quantity"]').val(),
+                    ReturnInDays: returnindays==''?0:returnindays,
                     GTIN: currentGroup.find('[name="GTIN"]').val(),
                     Title: currentGroup.find('[name="Title"]').val(),
                     SellingCost: currentGroup.find('[name="SellingCost"]').val(),
