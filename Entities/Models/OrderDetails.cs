@@ -84,4 +84,17 @@ namespace Entities.Models
         public int ID { get; set; }
         public string Role { get; set; }
     }
+    public class ReturnRequestList
+    {
+        public int ID { get; set; }
+        public string Thumbnail { get; set; }
+        public string Name { get; set; }
+        public string Title { get; set; }
+        public string StatusType { get; set; }
+        public int Qty { get; set; }
+        public decimal Rate { get; set; }
+        public decimal MRP { get; set; }
+        public string PaymentMode { get; set; }
+        public string EntryOn { get; set; }
+    }
 }

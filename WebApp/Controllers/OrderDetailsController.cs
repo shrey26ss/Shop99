@@ -53,7 +53,7 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> MarkAsShippV(int Id)
         {
-            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id});
+            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id });
         }
         public IActionResult ShareTrackingDetails(TrackingModel model)
         {
@@ -87,13 +87,13 @@ namespace WebApp.Controllers
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/ChangeStatus", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
-                res = JsonConvert.DeserializeObject<Response> (apiResponse.Result);
+                res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             }
             return Json(res);
         }
         public async Task<IActionResult> Invoice(int OrderId = 0)
         {
-            var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId=OrderId});
+            var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId = OrderId });
             return View(res);
         }
         [HttpPost]
@@ -126,7 +126,16 @@ namespace WebApp.Controllers
         }
 
         #endregion
-      
-       
+        [HttpGet]
+        public IActionResult ReturnRequest()
+        {
+            return View();
+        }
+        public async Task<IActionResult> ReturnRequestList()
+        {
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest",null, User.GetLoggedInUserToken());
+            var response = JsonConvert.DeserializeObject<Response<List<ReturnRequestList>>>(apiResponse.Result);
+            return PartialView("PartialView/_ReturnRequestList", response.Result);
+        }
     }
 }

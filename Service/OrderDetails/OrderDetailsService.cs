@@ -39,7 +39,7 @@ namespace Service.OrderDetails
 
         public async Task<IResponse<IEnumerable<OrderDetailsColumn>>> GetAsync(int loginId = 0, dynamic T = null)
         {
-            string sp = "Proc_OrderdDetails";            
+            string sp = "Proc_OrderdDetails";
             var res = new Response<IEnumerable<OrderDetailsColumn>>();
             try
             {
@@ -63,19 +63,23 @@ namespace Service.OrderDetails
         {
             var res = new Response()
             {
-                StatusCode=ResponseStatus.Failed,
-                ResponseText=ResponseStatus.Failed.ToString()
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = ResponseStatus.Failed.ToString()
             };
             string sp = "proc_OrderCancel";
             try
             {
-                if(req.StatusID == StatusType.Cancel)
+                if (req.StatusID == StatusType.Cancel)
                 {
                     res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
                 }
                 else if (req.StatusID == StatusType.OrderReplaced)
                 {
-                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark='Replacement Inserted by - '+CAST(@ID as varchar) Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
+                else if (req.StatusID == StatusType.ReturnRecived)
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Recived Successfully',ReturnRemark=@Remark  Where ID=@ID; update ReturnAndReplaceProducts set StatusID = @StatusID,UpdatedOn = Getdate() where OrderID = @ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
                 else
                 {
@@ -115,10 +119,10 @@ namespace Service.OrderDetails
                     _logger.LogError(ex, ex.Message);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-            }            
+            }
             return res;
         }
 
@@ -196,6 +200,28 @@ where o.ID = @Id";
                     req.ID,
                     req.Role
                 }, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse<IEnumerable<ReturnRequestList>>> GetReturnRequest(dynamic T = null)
+        {
+            string sp = @"select os.ID,vg.Thumbnail,ps.Name,ps.Title,st.StatusType,os.Qty,os.Rate,os.MRP,os.EntryOn,pm.Name as PaymentMode from ReturnAndReplaceProducts rp
+                  inner join VariantGroup vg on rp.VarriantID = vg.Id
+                  inner join Products ps on vg.ProductId = ps.Id
+                  inner join Orders os on rp.OrderID = os.ID
+                  inner join PaymentMode pm on os.PaymentMode = pm.ID
+                  inner join StatusTypes st on rp.StatusID = st.Id";
+            var res = new Response<IEnumerable<ReturnRequestList>>();
+            try
+            {
+                var req = (ReturnRequestList)T;
+                res.Result = await _dapper.GetAllAsync<ReturnRequestList>(sp, null, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
             }
             catch (Exception ex)
             {

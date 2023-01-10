@@ -1,0 +1,37 @@
+﻿@using Entities.Enums
+@using Entities.Models
+@model IEnumerable<ReturnRequestList>
+@{
+    int counter = 0;
+    if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+
+            counter++;
+            <tr>
+                <td>@counter</td>
+                <td>
+                    <img src="@item.Thumbnail" alt="No Found" />
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Title</td>
+                <td>@item.StatusType</td>
+                <td>@item.Qty</td>
+                <td>@item.Rate</td>
+                <td>@item.MRP</td>
+                <td>@item.PaymentMode</td>
+                <td>@item.EntryOn</td>
+                <td>
+                    <button class="btn btn-success" id="btnstatus" onclick="ChangeStatusItem('@item.ID','@StatusType.ReturnRecived')">ReturnRecived</button>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td class="text-danger text-center" colspan="10">Record Not Found</td>
+        </tr>
+    }
+}
