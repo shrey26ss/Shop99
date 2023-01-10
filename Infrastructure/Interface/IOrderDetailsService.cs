@@ -12,6 +12,7 @@ namespace Infrastructure.Interface
         Task<IResponse> ChengeStatusAsync(int loginId,OrderDetailsRow req);
         Task<IResponse> UpdateShippingNInvoice(OrderShippedStatus req);
         Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id);
+        Task<IResponse> OrderReplacedConform(OrderReplacedConformReq req);
         //Task<IResponse<IEnumerable<TColumn>>> GetAsync<TColumn>(Expression<Func<TColumn, bool>> predicate);
         //string GetAsync<OrderDetailsRow>(Expression<Func<OrderDetailsRow, bool>> predicate);
     }

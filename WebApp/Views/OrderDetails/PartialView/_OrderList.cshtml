@@ -27,6 +27,10 @@
                         {
                             <a href="#" onclick="MarkasShipped('@item.ID')" class="dropdown-item Edit">Mark as Shipped</a>
                         }
+                        @if (item.StatusID == StatusType.OrderReplaced)
+                        {
+                            <a href="#" onclick="IsReplacedConform('@item.ID')" class="dropdown-item Edit">Replacement Conform</a>
+                        }
                     </div>
                 </div>
             </td>
@@ -51,13 +55,21 @@
     }
 }
 <script>
-    var MarkasShipped = (Id) =>{
-        $.get('/OrderDetails/MarkAsShippV', {Id}).done((result) =>{
+    var MarkasShipped = (Id) => {
+        $.get('/OrderDetails/MarkAsShippV', { Id }).done((result) => {
             Q.alert({
                 title: 'Shipping Details',
                 body: result,
                 width: 600
             });
         })
+    }
+    var IsReplacedConform = (Id) => {
+        $.post('/OrderDetails/OrderReplacedConform', {ID:Id}).done(function(result) {
+            Q.notify(result.statusCode, result.responseText);
+        }).fail(function(xhr) {
+            console.log(xhr.responseText);
+            Q.notify(-1, 'something went wrong.');
+        });
     }
 </script>

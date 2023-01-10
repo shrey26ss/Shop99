@@ -73,6 +73,10 @@ namespace Service.OrderDetails
                 {
                     res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
                 }
+                else if (req.StatusID == StatusType.OrderReplaced)
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark='Replacement Inserted by - '+CAST(@ID as varchar) Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
                 else
                 {
                     res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
@@ -174,6 +178,24 @@ where o.ID = @Id";
                 res.Result = await _dapper.GetAsync<OrderInvoice>(sp, new { Id }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse> OrderReplacedConform(OrderReplacedConformReq req)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = @"ProcOrderReplacedConform";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
+                {
+                    req.ID,
+                    req.Role
+                }, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {

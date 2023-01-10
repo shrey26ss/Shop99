@@ -43,7 +43,6 @@ namespace WebApp.Controllers
         public IActionResult UserOrderHistory()
         {
             return View();
-
         }
         [Route("_UserOrderHistory")]
         [HttpPost]
@@ -97,7 +96,22 @@ namespace WebApp.Controllers
             var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId=OrderId});
             return View(res);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> OrderReplacedConform(int ID)
+        {
+            var res = new Response();
+            var model = new
+            {
+                ID = ID,
+                Role = User.GetLoggedInUserRoles()
+            };
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/OrderReplacedConform", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            return Json(res);
+        }
         #region Private Mathod
         private async Task<List<OrderDetailsColumn>> GetList(OrderDetailsRequest request)
         {
