@@ -30,5 +30,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetInvoiceDetails(OrderInvoiceRequest req) => Ok(await _orderRepo.GetInvoiceDetails(req.OrderId));
         [Route("OrderDetails/OrderReplacedConform")]
         public async Task<IActionResult> OrderReplacedConform(OrderReplacedConformReq req) => Ok(await _orderRepo.OrderReplacedConform(req));
+        [Route("OrderDetails/GetReturnRequest")]
+        public async Task<IActionResult> GetReturnRequest() => Ok(await _orderRepo.GetReturnRequest());
     }
 }

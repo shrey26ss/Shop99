@@ -20,6 +20,8 @@ namespace AppUtility.APIRequest
         public async Task<string> CallUsingHttpWebRequest_GET(string URL)
         {
             HttpWebRequest http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
+            http.Method = "GET";
+            http.ContentType = "application/json";
             http.Timeout = 2 * 60 * 1000;
             WebResponse response = http.GetResponse();
             string result = string.Empty;

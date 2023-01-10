@@ -25,6 +25,8 @@ namespace Entities.Enums
         OrderReplaced = 8,
         [Description("Replacement Accepted")]
         ReplacementAccepted = 9,
+        [Description("Return Recived")]
+        ReturnRecived =10,
     }
     public enum PurchaseType
     {
