@@ -31,10 +31,6 @@ namespace WebAPI.Controllers
             _filters = filters;
             _orderRepo=orderRepo;
         }
-
-
-       
-
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
         [HttpGet(nameof(OfferBanner))]

@@ -14,7 +14,7 @@ using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+   
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         {
             _category= category;
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("Category/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddUpdateCategory(Category req)
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("Category/UpdateIsPublishCategory")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateIsPublishCategory(CategoryIsPublishUpdate req)
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("Category/GetCategory")]
         public async Task<IActionResult> GetCategory(SearchItem req)
         {
@@ -58,6 +58,7 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [HttpPost]
         [AllowAnonymous]
         [Route("Category/GetMenu")]
         public async Task<IActionResult> GetMenu()
@@ -68,12 +69,14 @@ namespace WebAPI.Controllers
             };
             return Ok(await _category.GetMenu(request));
         }
+        [HttpPost]
         [AllowAnonymous]
         [Route("Category/TopCategory")]
         public async Task<IActionResult> TopCategory()
         {
             return Ok(await _category.TopCategories());
         }
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("Category/GetList")]
         public async Task<IActionResult> GetCategoriesDDL()
         {
