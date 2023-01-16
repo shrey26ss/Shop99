@@ -100,7 +100,7 @@ namespace WebAPI
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.AllowedForNewUsers = false;
                 options.Lockout.MaxFailedAccessAttempts = 3;
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = false;
             }).AddUserStore<UserStore>()
             .AddRoleStore<RoleStore>()
             .AddUserManager<ApplicationUserManager>()

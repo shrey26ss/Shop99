@@ -127,36 +127,34 @@ namespace WebAPI.Controllers
         {
             var username = User.Identity.Name;
             return NoContent();
-        }        
+        }
         [AllowAnonymous]
         [HttpPost]
         [Route("/api/register")]
         public async Task<IActionResult> Register(RegisterViewModels model)
         {
-            var userExists = await _userManager.FindByEmailAsync(model.Email);
+            var userExists = await _userManager.FindByMobileNoAsync(model.PhoneNumber);
             if (userExists?.Id > 0 && userExists.ToString() != "{}")
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User already exists!" });
-
             ApplicationUser user = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserId = Guid.NewGuid().ToString(),
-                UserName = model.Email.Trim(),
-                Email = model.Email.Trim(),
+                UserName = model.PhoneNumber.Trim(),
+                Email = model.Email ?? "youremail@shop99.com",
                 Role = model.Role.ToString(),
                 Name = model.Name,
-                PhoneNumber = model.PhoneNumber,
+                PhoneNumber = model.PhoneNumber.Trim(),
                 RefreshToken = Guid.NewGuid().ToString().Replace("-", ""),
-                RefreshTokenExpiryTime = DateTime.Now.AddDays(30)
+                RefreshTokenExpiryTime = DateTime.Now.AddDays(30),
+                OTP = model.OTP,
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User creation failed! Please check user details and try again." });
-
             #region send Notification
-            await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification(){FormatID = MessageFormat.Registration,IsEmail = true}, User.GetLoggedInUserId<int>());
+            await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true }, User.GetLoggedInUserId<int>());
             #endregion
-
             return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "User created successfully!" });
         }
     }

@@ -13,6 +13,8 @@ namespace Entities.Models
         [Required(ErrorMessage = "Quantity is required.")]
         public int? Quantity { get; set; }
         public int? ReturnInDays { get; set; }
+        public int? Warranty { get; set; }
+        public string? WarrantyUnit { get; set; }
 
         [MaxLength(30, ErrorMessage = "Allowed Only 30 Character")]
         public string GTIN { get; set; }

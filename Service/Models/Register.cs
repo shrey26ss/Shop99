@@ -22,12 +22,12 @@ namespace Service.Models
         //[StringLength(10)]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"(0|91)?[6-9][0-9]{9}", ErrorMessage = "Not a valid phone number")]
+        [Required(ErrorMessage = "Please Enter Mobile No")]
         public string PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Invalid Email Address")]
-        //[EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         public string Address { get; set; }
         public string PinCode { get; set; }
+        public string OTP { get; set; }
     }
 }

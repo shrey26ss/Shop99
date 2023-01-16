@@ -1,0 +1,41 @@
+﻿@using Entities.Enums;
+@using Service.Identity;
+
+@model RegisterViewModel
+
+<div class="row mt-2 mb-2">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="theme-card">
+            <h3 class="text-center">Verify OTP</h3>
+            <div class="row g-3">
+                    <div class="col-md-12 form-group">
+                        <label asp-for="OTP" class="control-label"></label><span class="text-danger">*</span>
+                        <input asp-for="OTP" maxlength="32" id="txtName" autocomplete="off" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+              </div>
+              <div class="col-md-12 form-group">
+                  <button type="submit" id="btnSubmit" class="btn btn-normal">Verify</button>
+              </div>
+        </div>
+    </div>
+</div>
+<script>
+    function getUserss() {
+        Q.preloader.load();
+        $.ajax({
+            type: 'post',
+            url: '/User/UsersList',
+            success: function (data) {
+                $('tbody').html(data);
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log(data);
+                Q.notify(-1, 'An error occurred.');
+            },
+        });
+        Q.preloader.remove();
+    }
+
+</script>
