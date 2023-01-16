@@ -162,6 +162,20 @@ namespace WebApp.Controllers
             var res = await _product.GetProductDetails(Id);
             return View(res.Result ?? new ProductDetails());
         }
+        [Route("Home/ProductDetails/{Id}")]
+        [Route("ProductDetails/{Id}")]
+        public async Task<IActionResult> ProductDetails(int Id)
+        {
+            var res = await _product.GetProductDetails(Id);
+            return View(res.Result ?? new ProductDetails());
+        }
+        [HttpPost]
+        [Route("ProductAllDetails")]
+        public async Task<IActionResult> ProductAllDetails(int Id)
+        {
+            var res = await _product.GetProductDetails(Id);
+            return PartialView("partial/_ProductDetails", res.Result ?? new ProductDetails());
+        }
         public async Task<IActionResult> ProductAttrDetail(int Id)
         {
             var res = await _product.GetProductAttrDetails(Id);

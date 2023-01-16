@@ -77,8 +77,8 @@ namespace AppUtility.Helper
             }
             return null;
         }
-        public readonly IEnumerable<string> FileFormatsAllowed = new List<string> { ".WEBP", ".JPEG", ".JPG", ".PNG", ".DOCX", ".GIF", ".PDF", ".ZIP", ".RAR",".SVG" };
-        private IEnumerable<string> CheckFFSignature = new List<string> { "RIFF", "EXIF", "JPG", "JPEG", "JFIF", "PNG", "GIF", "%PDF", "PK", "GIF", "XML" };
+        public readonly IEnumerable<string> FileFormatsAllowed = new List<string> { ".WEBP", ".JPEG", ".JPG", ".PNG", ".DOCX", ".GIF", ".PDF", ".ZIP", ".RAR" };
+        private IEnumerable<string> CheckFFSignature = new List<string> { "RIFF", "EXIF", "JPG", "JPEG", "JFIF", "PNG", "GIF", "%PDF", "PK", "GIF"};
         public string MaskNumeric(string s, string replacewith) => Regex.Replace(s, "[0-9]", replacewith);
         public string Prefix(string s, int PLen = 2)
         {

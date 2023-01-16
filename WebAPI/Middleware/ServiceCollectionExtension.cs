@@ -34,6 +34,7 @@ using Service.CatBrandMapping;
 using Service.OrderDetails;
 using Service.Report;
 using Service.Dashboard;
+using Service.Notify;
 
 namespace WebAPI.Middleware
 {
@@ -81,6 +82,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IUserAddress, UserAddressService>();
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IReport, ReportService>();          
+            services.AddScoped<INotifyService, NotifyService>();          
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IRequestInfo, RequestInfoServcie>();
             services.AddScoped<IDashboard, DashboardService>();

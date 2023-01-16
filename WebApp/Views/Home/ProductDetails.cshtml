@@ -1,0 +1,165 @@
+﻿@using Entities.Models
+@model ProductDetails
+@{
+    Layout = "_layout";
+    var modelss = Model;
+}
+<style>
+    .attributeValue {
+        margin-right: 5px;
+    }
+</style>
+
+
+
+<section class="section-big-pt-space b-g-light">
+    <input type="hidden" id="hdVid" value="@Model.VariantId" />
+    <div class="collection-wrapper">
+        <div class="custom-container">
+            <div class="row">
+                <div class="col-sm-3 collection-filter">
+                    <div class="collection-filter-block creative-card creative-inner">
+                        <div class="product-service">
+                            <div class="media">
+                                <img src="~/Image/icons/shipping.svg" />
+                                <div class="media-body">
+                                    <h4>free shipping</h4>
+                                    <p>free shipping world wide</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <img src="/Image/icons/24x7.svg" />
+                                <div class="media-body">
+                                    <h4>24 X 7 service</h4>
+                                    <p>online service for new customer</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <img src="~/Image/icons/festive.svg" />
+                                <div class="media-body">
+                                    <h4>festival offer</h4>
+                                    <p>new online special festival offer</p>
+                                </div>
+                            </div>
+                            <div class="media border-0 m-0">
+                                <img src="~/Image/icons/payment.svg" />
+                                <div class="media-body">
+                                    <h4>online payment</h4>
+                                    <p>Contrary to popular belief.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- side-bar single product slider start -->
+                    <div id="dvHotDealNewProduct">
+                    </div>
+                    <!-- side-bar single product slider end -->
+                </div>
+                <div class="col-lg-9 col-sm-12 col-xs-12" id="productDetails">
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+      
+<script>
+    const variantId = @Model.VariantId;
+      $(() => {
+        getProductAllDetails();
+        loadHotDealsNewProduct();
+    });
+    const getProductAllDetails = async function () {
+    await $.post("/ProductAllDetails",{Id:variantId}).done(res => {
+        $('#productDetails').html(res);
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+}
+
+    const slickOnProduct = () => {
+        if ($('.product-slick').hasClass('slick-initialized')) {
+            $('.product-slick').slick('unslick')
+        }
+        if ($('.slider-nav').hasClass('slick-initialized')) {
+            $('.slider-nav').slick('unslick')
+        }
+        $('.product-slick').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+        $('.slider-nav').slick({
+            vertical: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.product-slick',
+            arrows: false,
+            dots: false,
+            focusOnSelect: true
+        });
+    }
+    const loadHotDealsNewProduct = async function () {
+        await $.post("/HotDealsNewProduct").done(res => {
+            $('#dvHotDealNewProduct').append(res);
+        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+    }
+    slickOnProduct();
+    $('.slide-1').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        responsive: [{
+            breakpoint: 1200,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                infinite: true
+            }
+        },
+        {
+            breakpoint: 992,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true
+            }
+        },
+        {
+            breakpoint: 767,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+        },
+        {
+            breakpoint: 490,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }]
+    });
+
+    $('.btnAddtocart').click(() => addToCart(variantId));
+    $('.btnBuyNow').click(function(){
+        let param = { VariantID: variantId };
+     $.post("/AddToCart", param).done(res => {
+         if(res.statusCode == -1)
+             {
+                   Q.notify(res.statusCode,  res.responseText)
+             }
+         else{
+             window.location.href="/checkout/"+true;
+             }
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+     });
+</script>
+
+
+
+}   

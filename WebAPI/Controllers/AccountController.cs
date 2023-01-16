@@ -22,6 +22,7 @@ using Services.Identity;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Models;
+using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
@@ -33,15 +34,17 @@ namespace WebAPI.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly ITokenService _tokenService;
+        private readonly INotifyService _notify;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         #endregion
 
-        public AccountController(ApplicationUserManager userManager, ITokenService tokenService, ILogger<AccountController> logger, IHttpContextAccessor httpContextAccessor)
+        public AccountController(ApplicationUserManager userManager, ITokenService tokenService, ILogger<AccountController> logger, IHttpContextAccessor httpContextAccessor, INotifyService notify)
         {
             _logger = logger;
             _userManager = userManager;
+            _notify = notify;
             _tokenService = tokenService;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
@@ -149,6 +152,11 @@ namespace WebAPI.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User creation failed! Please check user details and try again." });
+
+            #region send Notification
+            await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification(){FormatID = MessageFormat.Registration,IsEmail = true}, User.GetLoggedInUserId<int>());
+            #endregion
+
             return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "User created successfully!" });
         }
     }
