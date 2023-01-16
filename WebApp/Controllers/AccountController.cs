@@ -32,6 +32,7 @@ using WebApp.Middleware;
 using Service.Models;
 using WebApp.AppCode.Attributes;
 using Newtonsoft.Json.Linq;
+using AppUtility.Helper;
 
 namespace WebApp.Controllers
 {
@@ -75,11 +76,16 @@ namespace WebApp.Controllers
         [ValidateAjax]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            model.OTP = Utility.O.GenrateRandom(6, true);
             var response = new Response();
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/register", JsonConvert.SerializeObject(model), null);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            if(response.StatusCode==ResponseStatus.Success)
+            {
+                return PartialView();
             }
             return Ok(response);
         }
