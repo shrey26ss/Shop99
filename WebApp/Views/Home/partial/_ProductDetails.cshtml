@@ -1,0 +1,312 @@
+﻿@using Entities.Models
+@model ProductDetails
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="filter-main-btn mb-2">
+                <span class="filter-btn"><i class="fa fa-filter" aria-hidden="true"></i> filter</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="product-slick">
+                <div><img src="~/assets/images/product-sidebar/001.jpg" alt="" class="img-fluid  image_zoom_cls-0"></div>
+                <div><img src="~/assets/images/product-sidebar/002.jpg" alt="" class="img-fluid  image_zoom_cls-1"></div>
+                <div><img src="~/assets/images/product-sidebar/003.jpg" alt="" class="img-fluid  image_zoom_cls-2"></div>
+                <div><img src="~/assets/images/product-sidebar/004.jpg" alt="" class="img-fluid  image_zoom_cls-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="slider-nav">
+                        <div><img src="~/assets/images/product-sidebar/001.jpg" alt="" class="img-fluid"></div>
+                        <div><img src="~/assets/images/product-sidebar/002.jpg" alt="" class="img-fluid"></div>
+                        <div><img src="~/assets/images/product-sidebar/003.jpg" alt="" class="img-fluid"></div>
+                        <div><img src="~/assets/images/product-sidebar/004.jpg" alt="" class="img-fluid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 rtl-text">
+            <div class="product-right ">
+                <div class="pro-group">
+                    <h2>@Model.Title</h2>
+                    <ul class="pro-price">
+                        <li><i class="fa fa-inr"></i> @Model.SellingCost</li>
+                        <li><span>mrp <i class="fa fa-inr"></i> @Model.MRP</span></li>
+                        <li> @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100))  % off</li>
+                    </ul>
+                    <div class="revieu-box">
+                        <ul>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star-o"></i></li>
+                        </ul>
+                        <a href="review.html"><span>(6 reviews)</span></a>
+                    </div>
+                </div>
+                <div id="selectSize" class="pro-group addeffect-section product-description border-product">
+                    <div id="attributeList"></div>
+                    <h6 class="product-title d-none">quantity</h6>
+                    <div class="qty-box d-none">
+                        <div class="input-group">
+                            <button class="qty-minus"></button>
+                            <input class="qty-adj form-control" id="txtQuantity" min="1" type="number" value="1" />
+                            <button class="qty-plus"></button>
+                        </div>
+                    </div>
+                    <div class="product-buttons">
+                        <a href="javascript:void(0)" class="btn cart-btn btn-normal tooltip-top btnAddtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                            Add to cart
+                        </a>
+                        <a href="javascript:void(0)" class="btn cart-btn btn-normal btnBuyNow">
+                            Buy Now
+                        </a>
+                        <a href="javascript:void(0)" class="btn btn-normal  addtowishlist">
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="pro-group">
+                    <h6 class="product-title">delivery location</h6>
+                    <div class="delivery-detail">
+                        <div class="delivery-detail-contian">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="ti-location-pin"></i></span>
+                                <input type="text" class="form-control" placeholder="Enter Pincode for delivery">
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-solid btn-md ">check</a>
+                        </div>
+                        <div class="delivery-lable">
+                            <img src="~/Image/icons/oreder_in_12_hours.svg" class="svg" />
+                            Order within 12 hrs
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-group">
+                    <div class="product-offer">
+                        <h6 class="product-title"><i class="fa fa-tags"></i>5 offers Available </h6>
+                        <div class="offer-contain">
+                            <ul>
+                                <li>
+                                    <span class="code-lable">OFFER40</span>
+                                    <div>
+                                        <h5>Get extra $40 off on first Orders</h5>
+                                        <p>Use code "OFFER40" Min. Cart Value $99 | Max. Discount $40</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="offer-sider">
+                                <li>
+                                    <span class="code-lable">OFFER25</span>
+                                    <div>
+                                        <h5>Get extra $25 off on second Orders</h5>
+                                        <p>Use code "OFFER25" Min. Cart Value $99 | Max. Discount $25</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="code-lable">OFFER40</span>
+                                    <div>
+                                        <h5>Bank Offer40% Unlimited Cashback on bideal Axis Bank Credit Card</h5>
+                                        <p>Use code "OFFER40" Min. Cart Value $99 | Max. Discount $40</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="code-lable">OFFER10</span>
+                                    <div>
+                                        <h5>Bank Offer10% off* with Axis Bank Buzz Credit Card</h5>
+                                        <p>Use code "OFFER10" Min. Cart Value $99 | Max. Discount $10</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="code-lable">OFFER5</span>
+                                    <div>
+                                        <h5>Bank Offer5% Unlimited Cashback on bideal sbi banck Credit Card</h5>
+                                        <p>Use code "OFFER5" Min. Cart Value $99 | Max. Discount $5</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <h5 class="show-offer"><span class="more-offer">show more offer</span><span class="less-offer">less offer</span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="pro-group">
+                    <h6 class="product-title">product infomation</h6>
+                    <p>@Model.ShortDescription</p>
+                </div>
+                <div class="pro-group">
+                    <h6 class="product-title">Delivery option</h6>
+                    <ul class="delivery-services">
+                        <li>
+                            <img src="~/Image/icons/shipping.svg" class="svg" />
+                            free shipping
+                        </li>
+                        <li>
+                            <img src="~/Image/icons/Return.svg" class="svg" />
+                            10 Days Returnable
+                        </li>
+                        <li>
+                            <img src="~/Image/icons/warrenty.svg" class="svg" />
+                            1 Year Warranty
+                        </li>
+                    </ul>
+                </div>
+                <div class="pro-group pb-0">
+                    <h6 class="product-title">share</h6>
+                    <ul class="product-social">
+                        <li><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="javascript:void(0)"><i class="fa fa-rss"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="tab-product tab-exes creative-card creative-inner">
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-selected="true"><i class="icofont icofont-ui-home"></i>Description</a>
+                    <div class="material-border"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-selected="false"><i class="icofont icofont-man-in-glasses"></i>Specification</a>
+                    <div class="material-border"></div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="review-top-tab" data-bs-toggle="tab" href="#top-review" role="tab" aria-selected="false"><i class="icofont icofont-contacts"></i>Write Review</a>
+                    <div class="material-border"></div>
+                </li>
+            </ul>
+            <div class="tab-content nav-material" id="top-tabContent">
+                <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+                    <p>@Html.Raw(Model.Description)</p>
+                </div>
+                <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
+                    <p class="pl-0"> @Html.Raw(Model.Specification)</p>
+                    <div class="single-product-tables">
+                        <table>
+                            <tbody id="">
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
+                    <form class="theme-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="media">
+                                    <label>Rating</label>
+                                    <div class="media-body ms-3">
+                                        <div class="rating three-star"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter Your name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Email</label>
+                                <input type="text" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Review Title</label>
+                                <input type="text" class="form-control" placeholder="Enter your Review Subjects" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Review Title</label>
+                                <textarea class="form-control" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-normal" type="submit">Submit Your Review</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+     $('.product-slick').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      fade: true,
+      asNavFor: '.slider-nav'
+    });
+
+    $('.slider-nav').slick({
+      vertical: false,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.product-slick',
+      arrows: false,
+      dots: false,
+      focusOnSelect: true
+    });
+
+    $('.product-right-slick').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      fade: true,
+      asNavFor: '.slider-right-nav'
+    });
+
+    //const slickOnProduct = () => {
+    //    if ($('.product-slick').hasClass('slick-initialized')) {
+    //        $('.product-slick').slick('unslick')
+    //    }
+    //    if ($('.slider-nav').hasClass('slick-initialized')) {
+    //        $('.slider-nav').slick('unslick')
+    //    }
+    //    $('.product-slick').slick({
+    //        slidesToShow: 1,
+    //        slidesToScroll: 1,
+    //        arrows: true,
+    //        fade: true,
+    //        asNavFor: '.slider-nav'
+    //    });
+    //    $('.slider-nav').slick({
+    //        vertical: false,
+    //        slidesToShow: 3,
+    //        slidesToScroll: 1,
+    //        asNavFor: '.product-slick',
+    //        arrows: false,
+    //        dots: false,
+    //        focusOnSelect: true
+    //    });
+    //}
+
+    //slickOnProduct();
+    
+
+    $('.btnAddtocart').click(() => addToCart(variantId));
+    $('.btnBuyNow').click(function(){
+        let param = { VariantID: variantId };
+     $.post("/AddToCart", param).done(res => {
+         if(res.statusCode == -1)
+             {
+                   Q.notify(res.statusCode,  res.responseText)
+             }
+         else{
+             window.location.href="/checkout/"+true;
+             }
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+     });
+</script>
+

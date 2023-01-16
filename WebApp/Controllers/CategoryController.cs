@@ -123,7 +123,8 @@ namespace WebApp.Controllers
                 if (Icon != null)
                 {
                 string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
-                string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.svg";
+                    string extention=System.IO.Path.GetExtension(Icon.FileName);
+                string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}"+extention;
                     var _ = Utility.O.UploadFile(new FileUploadModel
                     {
                         file = Icon,

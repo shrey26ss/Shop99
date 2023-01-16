@@ -22,15 +22,17 @@ namespace Service.CartWishList
         private IDapperRepository _dapper;
         private readonly ILogger<PlaceOrderService> _logger;
         private readonly IMapper _mapper;
+        private readonly INotifyService _notify;
         private readonly IAPILogger _apiLogin;
         private readonly IRequestInfo _irinfo;
-        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger, IMapper mapper, IAPILogger apiLogin, IRequestInfo irinfo)
+        public PlaceOrderService(IDapperRepository dapper, ILogger<PlaceOrderService> logger, IMapper mapper, IAPILogger apiLogin, IRequestInfo irinfo, INotifyService notify)
         {
             _apiLogin = apiLogin;
             _mapper = mapper;
             _dapper = dapper;
             _logger = logger;
             _irinfo = irinfo;
+            _notify = notify;
         }
 
         public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode()
@@ -88,6 +90,9 @@ namespace Service.CartWishList
                 }
                 else
                 {
+                    #region send Notification
+                    await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OrderPlaced, IsEmail = true }, request.LoginId);
+                    #endregion
                     res.StatusCode = plaeorderRes.StatusCode;
                     res.ResponseText = plaeorderRes.ResponseText;
                 }

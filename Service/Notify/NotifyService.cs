@@ -33,6 +33,43 @@ namespace Service.Notify
             _logger = logger;
         }
 
+
+        public async Task<IResponse> SaveSMSEmailWhatsappNotification(SMSEmailWhatsappNotification req, int LoginID)
+        {
+            var _res = new Response
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = ResponseStatus.Failed.ToString()
+            };
+            var res = await GetUserDeatilForAlert(req.UserID);
+            if (res != null)
+            {
+                res.FormatID = req.FormatID;
+                if (req.IsSms)
+                {
+                    await NotifySMS(res);
+                }
+                if (req.IsEmail)
+                {
+                    await NotifyEmail(res);
+                }
+                if (req.IsWhatsapp)
+                {
+                    await NotifySocialALert(res);
+                }
+            }
+            return _res;
+        }
+
+
+        public async Task<AlertReplacementModel> GetUserDeatilForAlert(int UserID)
+        {
+            var dbparams = new DynamicParameters();
+            dbparams.Add("LoginID", UserID, DbType.Int32);
+            var res = await _dapper.GetAsync<AlertReplacementModel>("Proc_UserDetailForAlert", dbparams, CommandType.StoredProcedure);
+            return res;
+        }
+
         #region SendSMS
         public async Task<Response> NotifySMS(AlertReplacementModel model)
         {
@@ -47,12 +84,17 @@ namespace Service.Notify
                 var dbparams = new DynamicParameters();
                 dbparams.Add("LoginID", model.UserID, DbType.Int32);
                 dbparams.Add("FormatID", model.FormatID, DbType.Int32);
-                var result = _dapper.GetMultipleAsync<MessageTemplate, SmsApi>("[proc_GetSMSFormatSetting]", dbparams, commandType: CommandType.StoredProcedure).Result;
+
+                string selectTemplate = @" select * from MessageTemplate(nolock) where FormatID=@FormatID
+                          SELECT top(1) id, apitype,transactiontype,name, url, isactive, isdefault, isdeleted,  entryby, entrydate, modifyby,modifydate, apimethod,    
+      restype,ismultipleallowed,ApiCode     
+    FROM   smsapi(nolock)";
+                var result = _dapper.GetMultipleAsync<MessageTemplate, SmsApi>(selectTemplate, dbparams, commandType: CommandType.Text).Result;
                 var messageTemplate = (List<MessageTemplate>)result.GetType().GetProperty("Table1").GetValue(result, null);
                 var smsApi = (List<SmsApi>)result.GetType().GetProperty("Table2").GetValue(result, null);
                 //ISMSAPIML ML = new APIML(_accessor, _env,_rInfo);
                 var detail = smsApi.FirstOrDefault();
-                if (detail != null && messageTemplate != null && messageTemplate.Count > 0 && messageTemplate.FirstOrDefault().IsSMSEnable)
+                if (detail != null && messageTemplate != null && messageTemplate.Count > 0)
                 {
                     model.Message = messageTemplate.FirstOrDefault().SMSTemplate;
                     model.Message = GetFormatedMessage(model.Message, model);
@@ -101,7 +143,7 @@ namespace Service.Notify
                             SMSURL.Replace("{SENDERID}", smsSetting.SenderID ?? "");
                             SMSURL.Replace("{TO}", item);
                             SMSURL.Replace("{MESSAGE}", smsSetting.SMS);
-                          
+
                             var p = new NotifyModel
                             {
                                 Method = smsSetting.APIMethod,
@@ -113,7 +155,7 @@ namespace Service.Notify
                                 EncryptedData = "",
                                 EmailConfiguration = "",
                                 Subject = "",
-                                SendTo = model.UserMobileNo,
+                                SendTo = model.PhoneNumber,
                                 APIID = smsSetting.APIID
                             };
                             SaveNotify(p);
@@ -122,7 +164,7 @@ namespace Service.Notify
                     else
                     {
                         SMSURL.Replace("{SENDERID}", smsSetting.SenderID ?? "");
-                        SMSURL.Replace("{TO}", model.UserMobileNo);
+                        SMSURL.Replace("{TO}", model.PhoneNumber);
                         SMSURL.Replace("{MESSAGE}", smsSetting.SMS);
                         var p = new NotifyModel()
                         {
@@ -132,10 +174,10 @@ namespace Service.Notify
                             CommunicationMode = (int)CommunicationMode.SMS,
                             ApiType = 0,
                             UserID = model.UserID,
-                            EncryptedData = HashEncryption.O.Encrypt(model.OTP),
+                            EncryptedData = HashEncryption.O.Encrypt(model.OTP ?? "0"),
                             EmailConfiguration = "",
                             Subject = "",
-                            SendTo = model.UserMobileNo,
+                            SendTo = model.PhoneNumber,
                             APIID = smsSetting.APIID
                         };
                         SaveNotify(p);
@@ -144,7 +186,7 @@ namespace Service.Notify
             }
             catch (Exception ex)
             {
-               // _dapper.SaveDBError(ex.Message, this.GetType().Name, nameof(NotifySMS));
+                // _dapper.SaveDBError(ex.Message, this.GetType().Name, nameof(NotifySMS));
             }
             _res.StatusCode = ResponseStatus.Success;
             return _res;
@@ -168,13 +210,16 @@ namespace Service.Notify
                 var dbparams = new DynamicParameters();
                 dbparams.Add("LoginID", param.UserID, DbType.Int32);
                 dbparams.Add("FormatID", param.FormatID, DbType.Int32);
-               
-                var result = _dapper.GetMultipleAsync<MessageTemplate, EmailApi>("[proc_GetEmailFormatSetting]", dbparams, commandType: CommandType.StoredProcedure).Result;
+                string selectTemplate = @" select * from MessageTemplate(nolock) where FormatID=@FormatID
+                          select ID,FromEmail, Password,HostName,SmtpUserName,Port,WID,EntryByLT,EntryBy,EntryDate,ModifyByLT,ModifyBy,ModifyDate,  
+                                        IsActive, IsEmailVerified,IsSSL ,MailUserID,IsDefault,WID          
+                            from emailsetting where   isactive=1 order by ID   ";
+                var result = _dapper.GetMultipleAsync<MessageTemplate, EmailApi>(selectTemplate, dbparams, commandType: CommandType.Text).Result;
                 var emailTemplate = (List<MessageTemplate>)result.GetType().GetProperty("Table1").GetValue(result, null);
                 var emailApi = (List<EmailApi>)result.GetType().GetProperty("Table2").GetValue(result, null);
                 var mailSetting = emailTemplate.FirstOrDefault();
                 var email = emailApi.FirstOrDefault();
-                if (mailSetting != null && mailSetting.IsEmailEnable && mailSetting.IsEmailEnable)
+                if (mailSetting != null)
                 {
                     bool IsNoTemplate = true;
                     if (string.IsNullOrEmpty(mailSetting.EmailTemplate))
@@ -191,34 +236,34 @@ namespace Service.Notify
                         EmailBody = GetFormatedMessage(mailSetting.EmailTemplate, param);
                         //param.OTP = "******";
                         ForSaveEmailBody = GetFormatedMessageForSaving(mailSetting.EmailTemplate, param);
-                      
-                            if (!string.IsNullOrEmpty(email.FromEmail))
+
+                        if (!string.IsNullOrEmpty(email.FromEmail))
+                        {
+                            string emailconfiguration = JsonSerializer.Serialize(email);
+                            var p = new NotifyModel()
                             {
-                                string emailconfiguration = JsonSerializer.Serialize(email);
-                                var p = new NotifyModel()
-                                {
-                                    Method = "",
-                                    ApiUrl = "",
-                                    Message = EmailBody,
-                                    CommunicationMode = (int)CommunicationMode.Email,
-                                    ApiType = 0,
-                                    UserID = param.UserID,
-                                    EncryptedData = HashEncryption.O.Encrypt(param.OTP ?? "0"),
-                                    EmailConfiguration = emailconfiguration,
-                                    Subject = mailSetting.EmailSubject,
-                                    SendTo = param.UserEmailID,
-                                    APIID = 0,
-                                    ImageUrl = "https://lapurobotics.com/img/logo-dark.png"//DOCType.BannerImagePathSuffix + "Emailimage.png",
-                                };
-                                SaveNotify(p);
-                            }
-                        
+                                Method = "",
+                                ApiUrl = "",
+                                Message = EmailBody,
+                                CommunicationMode = (int)CommunicationMode.Email,
+                                ApiType = 0,
+                                UserID = param.UserID,
+                                EncryptedData = HashEncryption.O.Encrypt(param.OTP ?? "0"),
+                                EmailConfiguration = emailconfiguration,
+                                Subject = mailSetting.EmailSubject,
+                                SendTo = param.EmailID,
+                                APIID = 0,
+                                ImageUrl = "https://lapurobotics.com/img/logo-dark.png"//DOCType.BannerImagePathSuffix + "Emailimage.png",
+                            };
+                            SaveNotify(p);
+                        }
+
                     }
                 }
             }
             catch (Exception ex)
             {
-               
+
             }
             return _res;
         }
@@ -245,7 +290,7 @@ namespace Service.Notify
                     switch (int.Parse(ActivatedType[i]))// switch (i + 1)
                     {
                         case 1:
-                            sendTo = param.WhatsappNo;
+                            sendTo = param.WhatsappNo ?? param.PhoneNumber;
                             break;
                         case 2:
                             sendTo = param.TelegramNo;
@@ -260,7 +305,12 @@ namespace Service.Notify
                     dbparams.Add("FormatID", param.FormatID, DbType.Int32);
                     dbparams.Add("SocialAlertType", param.SocialAlertType, DbType.Int32);
 
-                    var result = _dapper.GetMultipleAsync<SocialAlertFormat, SmsApi>("[Proc_GetSocialAlertFormat]", dbparams, commandType: CommandType.StoredProcedure).Result;
+                    string selectTemplate = @" select * from MessageTemplate(nolock) where FormatID=@FormatID
+                         SELECT 1,id, apitype,transactiontype,name, url, isactive, isdefault, isdeleted,  entryby, entrydate, modifyby,modifydate, apimethod,      
+      restype,ismultipleallowed,ApiCode       
+    FROM   smsapi(nolock)  where id=2  ";
+
+                    var result = _dapper.GetMultipleAsync<SocialAlertFormat, SmsApi>(selectTemplate, dbparams, CommandType.Text).Result;
                     var socialAlertFormat = (List<SocialAlertFormat>)result.GetType().GetProperty("Table1").GetValue(result, null);
                     var smsapi = (List<SmsApi>)result.GetType().GetProperty("Table2").GetValue(result, null);
 
@@ -271,53 +321,48 @@ namespace Service.Notify
                     if (socialAlertFormat != null && socialAlertFormat.Count > 0)
                     {
                         var NotificationDetail = socialAlertFormat.FirstOrDefault();
-                        if (NotificationDetail.IsSocialAlert)// check if SocialAlert Enable
+                        string formatedMessage = GetFormatedMessage(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.SocialAlertTemplate, param);
+                        if (!string.IsNullOrEmpty(NotificationDetail.WhatsappTitle))
                         {
-                            string formatedMessage = GetFormatedMessage(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.SocialAlertTemplate, param);
-                            if (!string.IsNullOrEmpty(NotificationDetail.WhatsappTitle))
+                            NotificationDetail.WhatsappTitle = GetFormatedMessage(NotificationDetail.WhatsappTitle, param);
+                        }
+                        if (!string.IsNullOrEmpty(NotificationDetail.WhatsappFooter))
+                        {
+                            NotificationDetail.WhatsappFooter = GetFormatedMessage(NotificationDetail.WhatsappFooter, param);
+                        }
+                        //param.OTP = "******";
+                        string formatedMessageSave = GetFormatedMessageForSaving(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.SocialAlertTemplate, param);
+                        var detail = smsapi.FirstOrDefault();
+                        if (!string.IsNullOrEmpty(sendTo))
+                        {
+                            var p = new NotifyModel()
                             {
-                                NotificationDetail.WhatsappTitle = GetFormatedMessage(NotificationDetail.WhatsappTitle, param);
-                            }
-                            if (!string.IsNullOrEmpty(NotificationDetail.WhatsappFooter))
-                            {
-                                NotificationDetail.WhatsappFooter = GetFormatedMessage(NotificationDetail.WhatsappFooter, param);
-                            }
-                            //param.OTP = "******";
-                            string formatedMessageSave = GetFormatedMessageForSaving(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.SocialAlertTemplate, param);
-                            var detail = smsapi.FirstOrDefault();
-                           
-                                if (!string.IsNullOrEmpty(sendTo))
-                                {
-                                    var p = new NotifyModel()
-                                    {
-                                        Method = detail.apimethod,
-                                        ApiUrl = detail.url,
-                                        Message = formatedMessage,
-                                        CommunicationMode = (int)CommunicationMode.Social,
-                                        ApiType = detail.apitype,
-                                        UserID = param.UserID,
-                                        EncryptedData = HashEncryption.O.Encrypt(param.OTP ?? "0"),
-                                        EmailConfiguration = String.Empty,
-                                        Subject = String.Empty,
-                                        SendTo = param.WhatsappNo,
-                                        SendFrom = NotificationDetail.ScanNo,
-                                        APIID = detail.id,
-                                        ButtonJson = NotificationDetail.ButtonJson,
-                                        WhatsappTitle = NotificationDetail.WhatsappTitle,
-                                        WhatsappFooter = NotificationDetail.WhatsappFooter,
-                                        ImageUrl = param.URL,
-                                        WhatsappTitleType = NotificationDetail.WhatsappTitleType,
-                                    };
-                                    SaveNotify(p);
-                                }
-                            
+                                Method = detail.apimethod,
+                                ApiUrl = detail.url,
+                                Message = formatedMessage,
+                                CommunicationMode = (int)CommunicationMode.Social,
+                                ApiType = detail.apitype,
+                                UserID = param.UserID,
+                                EncryptedData = HashEncryption.O.Encrypt(param.OTP ?? "0"),
+                                EmailConfiguration = String.Empty,
+                                Subject = String.Empty,
+                                SendTo = param.WhatsappNo,
+                                SendFrom = NotificationDetail.ScanNo,
+                                APIID = detail.id,
+                                ButtonJson = NotificationDetail.ButtonJson,
+                                WhatsappTitle = NotificationDetail.WhatsappTitle,
+                                WhatsappFooter = NotificationDetail.WhatsappFooter,
+                                ImageUrl = param.URL,
+                                WhatsappTitleType = NotificationDetail.WhatsappTitleType,
+                            };
+                            SaveNotify(p);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-               
+
             }
             return _res;
         }
@@ -333,7 +378,6 @@ namespace Service.Notify
             var dbparams = new DynamicParameters();
             try
             {
-                dbparams.Add("WID", ss.WID, DbType.Int32);
                 dbparams.Add("CommunicationMode", ss.CommunicationMode, DbType.Int32);
                 dbparams.Add("Message", ss.Message, DbType.String);
                 dbparams.Add("ApiType", ss.ApiType, DbType.Int32);
@@ -351,12 +395,12 @@ namespace Service.Notify
                 dbparams.Add("ImageUrl", ss.ImageUrl, DbType.String);
                 dbparams.Add("SendFrom", ss.SendFrom, DbType.String);
                 dbparams.Add("WhatsappTitleType", ss.WhatsappTitleType, DbType.String);
-                string sqlQuery = @"insert into tbl_notify(WID,APIID,CommunicationMode,[Subject],[Message],ApiType,SendTo,  
+                string sqlQuery = @"insert into Notify(APIID,CommunicationMode,[Subject],[Message],ApiType,SendTo,  
             BCC,EmailConfiguration,ApiUrl,Method,EncryptedData,IsProcced,CreatedOn,CreatedBY,
             ModifyOn,ButtonJson,WhatsappTitle,WhatsappFooter,ImageUrl,SendFrom,WhatsappTitleType)              
-            values(@WID,@APIID,@CommunicationMode,@Subject,@Message,@ApiType,@SendTo,'',@EmailConfiguration,  
+            values(@APIID,@CommunicationMode,@Subject,@Message,@ApiType,@SendTo,'',@EmailConfiguration,  
             @ApiUrl,@Method,@EncryptedData,0,GETDATE(),@UserID,'',@ButtonJson,@WhatsappTitle,@WhatsappFooter,
-            @ImageUrl,@SendFrom,@WhatsappTitleType)      d";
+            @ImageUrl,@SendFrom,@WhatsappTitleType)";
                 int i = -5;
                 i = await _dapper.ExecuteAsync(sqlQuery, dbparams, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
@@ -372,7 +416,7 @@ namespace Service.Notify
             }
             catch (Exception ex)
             {
-             
+
             }
             return _res;
         }
@@ -380,92 +424,45 @@ namespace Service.Notify
         private string GetFormatedMessage(string Template, AlertReplacementModel Replacements)
         {
             StringBuilder sb = new StringBuilder(Template);
-
             sb.Replace("{FromUserName}", Replacements.LoginUserName);
-            sb.Replace("{FromUserMobile}", Replacements.LoginMobileNo);
-            sb.Replace("{FromUserID}", Replacements.LoginPrefix + Replacements.LoginID.ToString());
-            sb.Replace("{ToUserMobile}", Replacements.UserMobileNo);
-            sb.Replace("{ToUserID}", Replacements.UserPrefix + Replacements.UserID.ToString());
-            sb.Replace("{ToUserName}", Replacements.UserName);
-            sb.Replace("{UserName}", Replacements.UserName);
-            sb.Replace("{Mobile}", Replacements.UserMobileNo);
-            sb.Replace("{UserMobile}", Replacements.UserMobileNo);
+            sb.Replace("{FromUserMobile}", Replacements.PhoneNumber);
             sb.Replace("{Amount}", Convert.ToString(Replacements.Amount));
-            sb.Replace("{BalanceAmount}", Convert.ToString(Replacements.BalanceAmount));
-            sb.Replace("{UserBalanceAmount}", Convert.ToString(Replacements.UserCurrentBalance));
-            sb.Replace("{LoginBalanceAmount}", Convert.ToString(Replacements.LoginCurrentBalance));
-            sb.Replace("{Operator}", Replacements.Operator);
-            sb.Replace("{OperatorName}", Replacements.Operator);
             sb.Replace("{Company}", Replacements.Company);
             sb.Replace("{CompanyName}", Replacements.Company);
             sb.Replace("{CompanyDomain}", Replacements.CompanyDomain);
             sb.Replace("{CompanyAddress}", Replacements.CompanyAddress);
             sb.Replace("{BrandName}", Replacements.BrandName);
-            sb.Replace("{OutletName}", Replacements.OutletName);
             sb.Replace("{SupportNumber}", Replacements.SupportNumber);
             sb.Replace("{SupportEmail}", Replacements.SupportEmail);
-            sb.Replace("{AccountNumber}", Replacements.AccountNo);
-            sb.Replace("{AccountsContactNo}", Replacements.AccountsContactNo);
-            sb.Replace("{AccountEmail}", Replacements.AccountEmail);
             sb.Replace("{OTP}", Replacements.OTP);
             sb.Replace("{LoginID}", Replacements.LoginID.ToString());
-            sb.Replace("{Password}", Replacements.Password);
-            sb.Replace("{PinPassword}", Replacements.PinPassword);
-            sb.Replace("{AccountNo}", Replacements.AccountNo);
             sb.Replace("{LiveID}", Replacements.LiveID);
-            sb.Replace("{TID}", Convert.ToString(Replacements.TID));
             sb.Replace("{TransactionID}", Replacements.TransactionID);
-            sb.Replace("{BankRequestStatus}", Replacements.RequestStatus);
-            sb.Replace("{DATETIME}", Replacements.DATETIME);
-            sb.Replace("{Duration}", Replacements.Duration);
-            //sb.Replace(MessageTemplateKeywords.AccountNumber, Replacements.AccountNumber);
             return Convert.ToString(sb);
         }
         private string GetFormatedMessageForSaving(string Template, AlertReplacementModel Replacements)
         {
             string star = "******";
             StringBuilder sb = new StringBuilder(Template);
-
             sb.Replace("{FromUserName}", Replacements.LoginUserName);
-            sb.Replace("{FromUserMobile}", Replacements.LoginMobileNo);
-            sb.Replace("{FromUserID}", Replacements.LoginPrefix + Replacements.LoginID.ToString());
-            sb.Replace("{ToUserMobile}", Replacements.UserMobileNo);
-            sb.Replace("{ToUserID}", Replacements.UserPrefix + Replacements.UserID.ToString());
-            sb.Replace("{ToUserName}", Replacements.UserName);
-            sb.Replace("{UserName}", Replacements.UserName);
-            sb.Replace("{Mobile}", Replacements.UserMobileNo);
-            sb.Replace("{UserMobile}", Replacements.UserMobileNo);
+            sb.Replace("{FromUserMobile}", Replacements.PhoneNumber);
             sb.Replace("{Amount}", Convert.ToString(Replacements.Amount));
-            sb.Replace("{BalanceAmount}", Convert.ToString(Replacements.BalanceAmount));
-            sb.Replace("{UserBalanceAmount}", Convert.ToString(Replacements.UserCurrentBalance));
-            sb.Replace("{LoginBalanceAmount}", Convert.ToString(Replacements.LoginCurrentBalance));
-            sb.Replace("{Operator}", Replacements.Operator);
-            sb.Replace("{OperatorName}", Replacements.Operator);
             sb.Replace("{Company}", Replacements.Company);
             sb.Replace("{CompanyName}", Replacements.Company);
             sb.Replace("{CompanyDomain}", Replacements.CompanyDomain);
             sb.Replace("{CompanyAddress}", Replacements.CompanyAddress);
             sb.Replace("{BrandName}", Replacements.BrandName);
-            sb.Replace("{OutletName}", Replacements.OutletName);
             sb.Replace("{SupportNumber}", Replacements.SupportNumber);
             sb.Replace("{SupportEmail}", Replacements.SupportEmail);
-            sb.Replace("{AccountNumber}", Replacements.AccountNo);
-            sb.Replace("{AccountsContactNo}", Replacements.AccountsContactNo);
-            sb.Replace("{AccountEmail}", Replacements.AccountEmail);
             sb.Replace("{OTP}", star);
             sb.Replace("{LoginID}", Replacements.LoginID.ToString());
             sb.Replace("{Password}", star);
             sb.Replace("{PinPassword}", star);
-            sb.Replace("{AccountNo}", Replacements.AccountNo);
             sb.Replace("{LiveID}", Replacements.LiveID);
-            sb.Replace("{TID}", Convert.ToString(Replacements.TID));
             sb.Replace("{TransactionID}", Replacements.TransactionID);
-            sb.Replace("{BankRequestStatus}", Replacements.RequestStatus);
-            sb.Replace("{OutletID}", Replacements.OutletID);
-            sb.Replace("{OutletMobile}", Replacements.OutletMobile);
             sb.Replace("{RejectReason}", Replacements.KycRejectReason);
             sb.Replace("{DATETIME}", Replacements.DATETIME);
-            sb.Replace("{Duration}", Replacements.Duration);
+
             return Convert.ToString(sb);
         }
 
@@ -475,8 +472,11 @@ namespace Service.Notify
             var res = new Response<IEnumerable<NotifyModel>>();
             try
             {
+                string query = @"select ID,CommunicationMode,SendTo,BCC,Subject,Message,ApiType,EmailConfiguration,ApiUrl,Method,EncryptedData,  
+                                    IsProcced,CreatedOn,CreatedBY,ModifyOn,ButtonJson,WhatsappFooter,WhatsappTitle,ImageUrl,WhatsappTitleType,SendFrom
+                                    from notify where IsProcced = 0   ";
                 var dbparams = new DynamicParameters();
-                res.Result = await _dapper.GetAllAsync<NotifyModel>("proc_SelectNotify", dbparams, CommandType.StoredProcedure);
+                res.Result = await _dapper.GetAllAsync<NotifyModel>(query, dbparams, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
                 if (res != null && res.Result.ToList().Count > 0)
@@ -501,7 +501,7 @@ namespace Service.Notify
             }
             catch (Exception ex)
             {
-              
+
             }
             return res;
         }
@@ -530,21 +530,20 @@ namespace Service.Notify
                     MobileNo = item.SendTo,
                     TransactionID = "",
                     SMS = item.Message,
-                    WID = item.WID,
-                   
+                    NotifyID=item.ID
                 };
                 SaveSMSResponse(_Response);
             }
             catch (Exception ex)
             {
-              
+
             }
         }
         private async Task SendEmail(NotifyModel item)
         {
             try
             {
-                
+
 
                 EmailSettingswithFormat mailSetting = JsonSerializer.Deserialize<EmailSettingswithFormat>(item.EmailConfiguration);
 
@@ -552,7 +551,7 @@ namespace Service.Notify
                 string MailFooter = " <tr><td bgcolor='#f4f4f4' align='center' style='padding: 30px 10px 20px 10px;'><table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'><tbody><tr><td bgcolor = '#FFECD1' align = 'center' style = 'padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;margin-bottom:20px;'><h2 style = 'font-size: 20px; font-weight: 400; color: #111111; margin: 0;'> Need more help?</h2><p style='margin:0;'><a href = 'https://lapurobotics.com/' target='_blank' style = 'color: #2262c6;'>{Domain}</a></p></td></tr></tbody></table></td></tr> ";
                 MailFooter = MailFooter.Replace("{Domain}", "https://lapurobotics.com/");
 
-                var emailresponse = SendEMailAsync(mailSetting, item.SendTo, null, item.Subject, item.Message, item.WID, "LogoURL", true, MailFooter).Result;
+                var emailresponse = SendEMailAsync(mailSetting, item.SendTo, null, item.Subject, item.Message, 0, "LogoURL", true, MailFooter).Result;
 
                 SendEmail sendEmail = new SendEmail
                 {
@@ -561,15 +560,14 @@ namespace Service.Notify
                     Recipients = item.SendTo,
                     Subject = item.Subject,
                     IsSent = true,
-                    WID = item.WID,
                     NotifyID = item.ID,
-                    Response = emailresponse?"Success":"Failed"
+                    Response = emailresponse ? "Success" : "Failed"
                 };
                 SaveEMailResponse(sendEmail);
             }
             catch (Exception ex)
             {
-              
+
             }
         }
         private async Task SendSocialAlertWhatsapp(NotifyModel item)
@@ -663,14 +661,15 @@ namespace Service.Notify
                         SMSID = item.APIID,
                         MobileNo = item.SendTo,
                         TransactionID = "",
-                        SMS = item.Message
+                        SMS = item.Message,
+                        NotifyID = item.ID
                     };
                     SaveSMSResponse(_Response);
                 }
             }
             catch (Exception ex)
             {
-               
+
             }
         }
         public async Task<string> AlertHub_SendSessionMessageButton(WhatsappAPIAlertHubButtons _ObjAlertHub)
@@ -685,7 +684,7 @@ namespace Service.Notify
             }
             catch (Exception ex)
             {
-                
+
             }
             return resp;
         }
@@ -700,19 +699,23 @@ namespace Service.Notify
                 dbparams.Add("SMSID", Response.SMSID, DbType.Int32);
                 dbparams.Add("MobileNo", Response.MobileNo, DbType.String);
                 dbparams.Add("SMS", Response.SMS, DbType.String);
-                dbparams.Add("WID", Response.WID, DbType.Int32);
                 dbparams.Add("Status", Response.Status, DbType.String);
                 dbparams.Add("TransactionID", Response.TransactionID, DbType.String);
                 dbparams.Add("Response", Response.Response, DbType.String);
                 dbparams.Add("ResponseID", Response.ResponseID, DbType.String);
                 dbparams.Add("ReqURL", Response.ReqURL, DbType.String);
                 dbparams.Add("SocialAlertType", Response.SocialAlertType, DbType.String);
-           
-               // var res = _dapper.Insert<CommonResponse>("proc_SaveSMSResponse", dbparams,  CommandType.StoredProcedure);
+                dbparams.Add("NotifyID", Response.NotifyID, DbType.Int32);
+                        string query = @"insert into SendSMS(APIID, MobileNO,[Message],[Status], TransactionID, ResponseID, Response, EntryDate, IsRead,
+                                          ModifyDate,  Req, SocialAlertType)
+                                      values(@SMSID, @MobileNo, @SMS, @Status, dbo.fn_TransactionID(), @ResponseID, Replace(@Response, 'login.js', ''), getDate(),0,
+                                        getDate(),  @ReqURL, @SocialAlertType)
+                                        update notify set IsProcced = 1, ModifyOn = GETDATE() where ID = @NotifyID";
+                await _dapper.ExecuteAsync(query, dbparams, CommandType.Text);
             }
             catch (Exception ex)
             {
-               
+
             }
         }
         public async Task SaveEMailResponse(SendEmail sendEmail)
@@ -725,14 +728,13 @@ namespace Service.Notify
                 dbparams.Add("Subject", sendEmail.Subject ?? "", DbType.String);
                 dbparams.Add("Body", sendEmail.Body, DbType.String);
                 dbparams.Add("IsSent", sendEmail.IsSent, DbType.Boolean);
-                dbparams.Add("WID", sendEmail.WID, DbType.Int32);
                 dbparams.Add("NotifyID", sendEmail.NotifyID, DbType.Int32);
                 dbparams.Add("Response", sendEmail.Response, DbType.String);
-             //   var res =_dapper.Insert<CommonResponse>("proc_SaveEmailesponse", dbparams, CommandType.StoredProcedure);
+                //   var res =_dapper.Insert<CommonResponse>("proc_SaveEmailesponse", dbparams, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                
+
             }
         }
 
@@ -751,8 +753,6 @@ namespace Service.Notify
                 Tp_ReplaceKeywords.Columns.Add("Keyword", typeof(string));
                 Tp_ReplaceKeywords.Columns.Add("ReplaceValue", typeof(string));
                 Tp_ReplaceKeywords.Rows.Add(AddKeyAndValue(MessageTemplateKeywords.LoginID, LoginID));
-                Tp_ReplaceKeywords.Rows.Add(AddKeyAndValue(MessageTemplateKeywords.Password, Password));
-                Tp_ReplaceKeywords.Rows.Add(AddKeyAndValue(MessageTemplateKeywords.PinPassword, string.Empty));
                 SendSMS(Tp_ReplaceKeywords, MobileNo, EmailID, WID, true, "User Registration", (int)MessageFormat.Registration, Logo);
             }
             catch (Exception ex)
@@ -775,7 +775,7 @@ namespace Service.Notify
                 FormatType = FormatType,
                 MobileNo = MobileNo,
                 Tp_ReplaceKeywords = Tp_ReplaceKeywords,
-                WID = WID
+                
             };
             // SMSSendResp smsResponse = (SMSSendResp)SendSMS(procSendSMS);
             //if (WithMail)
@@ -803,7 +803,7 @@ namespace Service.Notify
             {
                 if (_req.APIMethod == "GET")
                 {
-                    ApiResp =await AppWebRequest.O.CallUsingHttpWebRequest_GET(_req.SmsURL);
+                    ApiResp = await AppWebRequest.O.CallUsingHttpWebRequest_GET(_req.SmsURL);
                     _req.IsSend = true;
                 }
                 if (_req.APIMethod == "POST")

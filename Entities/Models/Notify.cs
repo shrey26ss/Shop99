@@ -6,38 +6,27 @@ using System.Text;
 
 namespace Entities.Models
 {
-    public class AlertReplacementModel 
+    public class SMSEmailWhatsappNotification
+    {
+        public int UserID { get; set; }
+        public MessageFormat FormatID { get; set; }
+        public bool IsSms { get; set; }
+        public bool IsEmail { get; set; }
+        public bool IsWhatsapp { get; set; }
+    }
+    public class AlertReplacementModel
     {
         public string KycRejectReason { get; set; }
         public string Message { get; set; }
-        public string OutletID { get; set; }
-        public string OutletMobile { get; set; }
-        public int RefundStatus { get; set; }
-        public int KYCStatus { get; set; }
         public string URL { get; set; }
         public int LoginID { get; set; }
-        public string LoginPrefix { get; set; }
-        public int CCID { get; set; }
-        public string CCName { get; set; }
-        public string APICode { get; set; }
         public string LoginUserName { get; set; }
-        public string LoginMobileNo { get; set; }
-        public string LoginEmailID { get; set; }
-        public string Password { get; set; }
-        public string PinPassword { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailID { get; set; }
         public decimal Amount { get; set; }
-        public string BalanceAmount { get; set; }
-        public string UserName { get; set; }
-        public string OutletName { get; set; }
         public string OTP { get; set; }
-        public string UserFCMID { get; set; }
-        public bool IsPrefix { get; set; }
-        public string UserPrefix { get; set; }
-        public string LoginFCMID { get; set; }
-        public decimal LoginCurrentBalance { get; set; }
-        public decimal UserCurrentBalance { get; set; }
         public int UserID { get; set; }
-        public int TID { get; set; }
         public string TransactionID { get; set; }
         public string Company { get; set; }
         public string CompanyDomain { get; set; }
@@ -45,56 +34,27 @@ namespace Entities.Models
         public string BrandName { get; set; }
         public string SupportNumber { get; set; }
         public string SupportEmail { get; set; }
-        public string AccountsContactNo { get; set; }
-        public string AccountEmail { get; set; }
-        public string UserEmailID { get; set; }
-        public string AccountNo { get; set; }
-        public string UserMobileNo { get; set; }
-        public string EmailID { get; set; }
-        public string SenderName { get; set; }
-        public string TransMode { get; set; }
-        public string UTRorRRN { get; set; }
-        public string IFSC { get; set; }
         public string DATETIME { get; set; }
-        public string AccountNumber { get; set; }
         public string RequestIP { get; set; }
-        public string RequestPage { get; set; }
-       
-        public int RequestMode { get; set; }
-        public string Operator { get; set; }
-        public decimal UserAlertBalance { get; set; }
         public string LiveID { get; set; }
-        public string RequestStatus { get; set; }
         public MessageFormat FormatID { get; set; }
         public string NotificationTitle { get; set; }
-        public string UserIds { get; set; }
         public string MobileNos { get; set; }
         public string SocialIDs { get; set; }
         public string WhatsappNo { get; set; }
         public string WhatsappConversationID { get; set; }
         public string TelegramNo { get; set; }
         public string HangoutNo { get; set; }
-        public string WhatsappNoL { get; set; }
-        public string TelegramNoL { get; set; }
-        public string HangoutNoL { get; set; }
         public int SocialAlertType { get; set; }
         public string SocialID { get; set; }
-        public string Roles { get; set; }
         public string Subject { get; set; }
-        public string Duration { get; set; }
         public List<string> bccList { get; set; }
-        public int LoginRoleId { get; set; }
-        public bool IsSendFailed { get; set; }
-        public bool IsPaid { get; set; }
-        public int PackageId { get; set; }
-        public string Operation { get; set; }
     }
 
- 
+
     public class NotifyModel
     {
-        public int WID { get; set; }
-        public int ID { get; set; }
+        public int ID { get; set; }     
         public int UserID { get; set; }
         public int APIID { get; set; }
         public int CommunicationMode { get; set; }
@@ -119,10 +79,7 @@ namespace Entities.Models
     public class MessageTemplate
     {
         public MessageTemplateType TemplateType { get; set; }
-        public bool IsEnable { get; set; }
-        public int ID { get; set; }
-        public int WID { get; set; }
-        public int LoginID { get; set; }
+        
         public int FormatID { get; set; }
         public bool IsSMSEnable { get; set; }
         public string SMSTemplateID { get; set; }
@@ -142,10 +99,6 @@ namespace Entities.Models
         public bool IsTelegramEnable { get; set; }
         public string TelegramTemplate { get; set; }
 
-        public string EntryBy { get; set; }
-        public string EntryDate { get; set; }
-        public string ModifyBy { get; set; }
-        public string ModifyDate { get; set; }
         public string MasterTemplate { get; set; }
         public string ButtonJson { get; set; }
         public string WhatsappTitle { get; set; }
@@ -163,7 +116,7 @@ namespace Entities.Models
         public string isactive { get; set; }
         public string isdefault { get; set; }
         public string isdeleted { get; set; }
-        public string wid { get; set; }
+       
         public string entryby { get; set; }
         public string entrydate { get; set; }
         public string modifyby { get; set; }
@@ -202,7 +155,7 @@ namespace Entities.Models
         public string HostName { get; set; }
         public string SmtpUserName { get; set; }
         public int Port { get; set; }
-        public int WID { get; set; }
+ 
         public string EntryByLT { get; set; }
         public int EntryBy { get; set; }
         public string EntryDate { get; set; }
@@ -248,7 +201,6 @@ namespace Entities.Models
     public class SMSResponse
     {
         public int SMSID { get; set; }
-        public int WID { get; set; }
         public string MobileNo { get; set; }
         public string SMS { get; set; }
         public int Status { get; set; }
@@ -257,6 +209,7 @@ namespace Entities.Models
         public string ResponseID { get; set; }
         public string ReqURL { get; set; }
         public int SocialAlertType { get; set; }
+        public int NotifyID { get; set; }
     }
     public class SendEmail
     {
@@ -266,7 +219,7 @@ namespace Entities.Models
         public string Subject { get; set; }
         public string Body { get; set; }
         public bool IsSent { get; set; }
-        public int WID { get; set; }
+    
         public string UserName { get; set; }
         public string UserMobileNo { get; set; }
         public string EmailID { get; set; }
@@ -316,25 +269,17 @@ namespace Entities.Models
         public bool IsSSL { get; set; }
         public string MailUserID { get; set; }
         public string Password { get; set; }
-        public int WID { get; set; }
+
     }
     public class MessageTemplateKeywords
     {
         public const string Mobile = "{Mobile}";
-        public const string OperatorName = "{OperatorName}";
-        public const string OperatorID = "{OperatorID}";
-        public const string FromMobileNo = "{FromMobileNo}";
         public const string Amount = "{Amount}";
         public const string ToMobileNo = "{ToMobileNo}";
-        public const string BalanceAmount = "{BalanceAmount}";
         public const string TransactionID = "{TransactionID}";
         public const string Company = "{Company}";
         public const string CompanyDomain = "{CompanyDomain}";
-        public const string Password = "{Password}";
-        public const string PinPassword = "{PinPassword}";
         public const string OTP = "{OTP}";
-        public const string FromUserName = "{FromUserName}";
-        public const string ToUserName = "{ToUserName}";
         public const string UserName = "{UserName}";
         public const string CompanyMobile = "{CompanyMobile}";
         public const string CompanyEmail = "{CompanyEmail}";
@@ -343,9 +288,6 @@ namespace Entities.Models
         public const string UserEmail = "{UserEmail}";
         public const string SenderName = "{SenderName}";
         public const string TransMode = "{TransMode}";
-        public const string UTRorRRN = "{UTRorRRN}";
-        public const string IFSC = "{IFSC}";
-        public const string AccountNumber = "{AccountNumber}";
     }
     public class SMSSendREQ
     {
@@ -353,7 +295,7 @@ namespace Entities.Models
         public string MobileNo { get; set; }
         public DataTable Tp_ReplaceKeywords { get; set; }
         public string GeneralSMS { get; set; }
-        public int WID { get; set; }
+        
     }
     public class WhatsappSetting
     {
