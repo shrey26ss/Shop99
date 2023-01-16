@@ -62,5 +62,10 @@ namespace Service.Identity
             }
             return result;
         }
+
+        public override Task<IList<string>> GetValidTwoFactorProvidersAsync(ApplicationUser user)
+        {
+            return base.GetValidTwoFactorProvidersAsync(user);
+        }
     }
 }
