@@ -193,6 +193,7 @@ namespace WebApp.Controllers
                     model.Charges = product.Charges;
                     model.FreeOnAmount = product.FreeOnAmount;
                     model.IsFlat = product.IsFlat;
+                    model.IsCod = product.IsCod;
                     model.Specification = product.Specification;
                     model.ShortDescription = product.ShortDescription;
                 }

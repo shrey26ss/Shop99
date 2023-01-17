@@ -32,6 +32,7 @@ namespace Entities.Models
         public bool IsPublished { get; set; }
         public string Specification { get; set; }
         public string ShortDescription { get; set; }
+        public bool IsCod { get; set; }
     }
     public class ProductShippingDetail
     {
