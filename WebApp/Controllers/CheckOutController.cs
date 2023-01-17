@@ -52,9 +52,9 @@ namespace WebApp.Controllers
         }
         [Route("GetPaymentMode")]
         [HttpPost]
-        public async Task<IActionResult> GetPaymentMode()
+        public async Task<IActionResult> GetPaymentMode(bool IsCod)
         {
-            var res = _checkout.GetPaymentMode(GetToken()).Result;
+            var res = _checkout.GetPaymentMode(IsCod, GetToken()).Result;
             return Json(res);
         }
         [Route("PlaceOrder")]

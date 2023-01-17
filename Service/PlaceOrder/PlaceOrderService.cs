@@ -35,13 +35,13 @@ namespace Service.CartWishList
             _notify = notify;
         }
 
-        public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode()
+        public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(bool IsCod)
         {
-            string sp = @"select * from PaymentMode(nolock) where IsActive=1 order by ID ";
+            string sp = @"select * from PaymentMode(nolock) where IsActive=1 and (@IsCod=1 or ID<>1) order by ID ";
             var res = new Response<IEnumerable<PaymentMode>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<PaymentMode>(sp, null, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<PaymentMode>(sp,new { IsCod }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }

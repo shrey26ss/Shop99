@@ -9,7 +9,7 @@ namespace Infrastructure.Interface
 {
     public interface IPlaceOrder
     {
-        Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode();
+        Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(bool IsCod);
         Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request);
     }
 }

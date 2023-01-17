@@ -17,7 +17,7 @@ namespace WebApp.Servcie
     public interface ICheckOutAPI
     {
         Task<IResponse<IEnumerable<UserAddress>>> GetUserGetAddress(string _token);
-        Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(string _token);
+        Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(bool IsCod, string _token);
         Task<PlaceOrderResponse> PlaceOrder(PlaceOrderReq req, string _token);
         Task<Response> AddAddress(UserAddress model, string _token);
     }
@@ -55,14 +55,15 @@ namespace WebApp.Servcie
         }
 
 
-        public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(string _token)
+        public async Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(bool IsCod,string _token)
         {
             var res = new Response<IEnumerable<PaymentMode>>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/PlaceOrder/GetPaymentMode", null, _token);
+            
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/PlaceOrder/GetPaymentMode?IsCod={IsCod}",null, _token);
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try

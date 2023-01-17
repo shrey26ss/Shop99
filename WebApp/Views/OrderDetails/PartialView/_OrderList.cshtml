@@ -23,6 +23,10 @@
                             <a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>
                             <a href="#" onclick="Confirm('@item.ID','@StatusType.Confirmed')" class="dropdown-item Edit">Confirm</a>
                         }
+                        @if (item.StatusID == StatusType.Shipped)
+                        {
+                            <a href="#" onclick="MarkasDilivered('@item.ID','@StatusType.Delivered','')" class="dropdown-item Edit">Mark Deliver</a>
+                        }
                         @if (item.StatusID == StatusType.Confirmed)
                         {
                             <a href="#" onclick="MarkasShipped('@item.ID')" class="dropdown-item Edit">Mark as Shipped</a>
@@ -31,6 +35,7 @@
                         {
                             <a href="#" onclick="IsReplacedConform('@item.ID')" class="dropdown-item Edit">Replacement Conform</a>
                         }
+                         <a  href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
                     </div>
                 </div>
             </td>
@@ -63,6 +68,15 @@
                 width: 600
             });
         })
+    }
+    var MarkasDilivered = (Id,StatusID,Remark='') => {
+        $.post('/OrderDetails/ChangeStatus', { ID:Id, StatusID:StatusID, Remark:Remark }).done((result) => {
+            
+            Q.notify(result.statusCode, result.statusCode==1?'Success':result.responseText);
+            if (result.statusCode){
+                loadData();
+            }                
+        });
     }
     var IsReplacedConform = (Id) => {
         $.post('/OrderDetails/OrderReplacedConform', {ID:Id}).done(function(result) {
