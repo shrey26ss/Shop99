@@ -41,11 +41,11 @@
 
                                 @*	<a href="~/assets/images/product-sidebar/001.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/001.jpg" xpreview="/assets/images/product-sidebar/001.jpg" ></a>
 
-                                    <a href="~/assets/images/product-sidebar/002.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/002.jpg"></a>
+                            <a href="~/assets/images/product-sidebar/002.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/002.jpg"></a>
 
-                                    <a href="~/assets/images/product-sidebar/003.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/003.jpg"></a>
+                            <a href="~/assets/images/product-sidebar/003.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/003.jpg"></a>
 
-                                    <a href="~/assets/images/product-sidebar/004.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/004.jpg"></a>*@
+                            <a href="~/assets/images/product-sidebar/004.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/004.jpg"></a>*@
 
                             </div>
                         </div>
@@ -103,8 +103,9 @@
                                         @foreach (var attrinfo in Model.AttributeInfo)
                                         {
                                             string activeclass = attrinfo.AttributeValue ==item.AttributeValue ? "active" : "";
-                                        <a href="javacript:Void()" data-id="@attrinfo.GroupId" class="changeVariant" > <li class="@activeclass attributeValue btn btn-sm btn-outline-dark" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
-                                       }
+                                            <a href="javacript:Void()" data-id="@attrinfo.GroupId" class="changeVariant">
+                                            <li class="@activeclass attributeValue btn btn-sm btn-outline-dark" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
+                                        }
                                     }
                                 </ul>
                             </div>
@@ -307,8 +308,8 @@
     //	const variantId = @Model;
     //getProductAllDetails(variantId);
 
-    (function($) {
-        $(document).ready(function() {
+    (function ($) {
+        $(document).ready(function () {
             $('.xzoom, .xzoom-gallery').xzoom({ zoomWidth: 400, title: true, tint: '#333', Xoffset: 15 });
             $('.xzoom2, .xzoom-gallery2').xzoom({ position: '#xzoom2-id', tint: '#ffa200' });
             $('.xzoom3, .xzoom-gallery3').xzoom({ position: 'lens', lensShape: 'circle', sourceClass: 'xzoom-hidden' });
@@ -320,20 +321,20 @@
 
             if (isTouchSupported) {
                 //If touch device
-                $('.xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5').each(function() {
+                $('.xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5').each(function () {
                     var xzoom = $(this).data('xzoom');
                     xzoom.eventunbind();
                 });
 
-                $('.xzoom, .xzoom2, .xzoom3').each(function() {
+                $('.xzoom, .xzoom2, .xzoom3').each(function () {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function(event) {
+                    $(this).hammer().on("tap", function (event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function(element) {
-                            element.hammer().on('drag', function(event) {
+                        xzoom.eventmove = function (element) {
+                            element.hammer().on('drag', function (event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -341,8 +342,8 @@
                             });
                         }
 
-                        xzoom.eventleave = function(element) {
-                            element.hammer().on('tap', function(event) {
+                        xzoom.eventleave = function (element) {
+                            element.hammer().on('tap', function (event) {
                                 xzoom.closezoom();
                             });
                         }
@@ -350,15 +351,15 @@
                     });
                 });
 
-                $('.xzoom4').each(function() {
+                $('.xzoom4').each(function () {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function(event) {
+                    $(this).hammer().on("tap", function (event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function(element) {
-                            element.hammer().on('drag', function(event) {
+                        xzoom.eventmove = function (element) {
+                            element.hammer().on('drag', function (event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -367,8 +368,8 @@
                         }
 
                         var counter = 0;
-                        xzoom.eventclick = function(element) {
-                            element.hammer().on('tap', function() {
+                        xzoom.eventclick = function (element) {
+                            element.hammer().on('tap', function () {
                                 counter++;
                                 if (counter == 1) setTimeout(openfancy, 300);
                                 event.gesture.preventDefault();
@@ -388,15 +389,15 @@
                     });
                 });
 
-                $('.xzoom5').each(function() {
+                $('.xzoom5').each(function () {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function(event) {
+                    $(this).hammer().on("tap", function (event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function(element) {
-                            element.hammer().on('drag', function(event) {
+                        xzoom.eventmove = function (element) {
+                            element.hammer().on('drag', function (event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -405,8 +406,8 @@
                         }
 
                         var counter = 0;
-                        xzoom.eventclick = function(element) {
-                            element.hammer().on('tap', function() {
+                        xzoom.eventclick = function (element) {
+                            element.hammer().on('tap', function () {
                                 counter++;
                                 if (counter == 1) setTimeout(openmagnific, 300);
                                 event.gesture.preventDefault();
@@ -435,7 +436,7 @@
                 //If not touch device
 
                 //Integration with fancybox plugin
-                $('#xzoom-fancy').bind('click', function(event) {
+                $('#xzoom-fancy').bind('click', function (event) {
                     var xzoom = $(this).data('xzoom');
                     xzoom.closezoom();
                     $.fancybox.open(xzoom.gallery().cgallery, { padding: 0, helpers: { overlay: { locked: false } } });
@@ -443,7 +444,7 @@
                 });
 
                 //Integration with magnific popup plugin
-                $('#xzoom-magnific').bind('click', function(event) {
+                $('#xzoom-magnific').bind('click', function (event) {
                     var xzoom = $(this).data('xzoom');
                     xzoom.closezoom();
                     var gallery = xzoom.gallery().cgallery;
@@ -461,15 +462,30 @@
 
 <!--for image zoom script end-->
 
-<script>
-    $('.changeVariant').click(function(){
-     const variantID= $(this).attr("data-id");
-     Q.rewriteURL('/productdetails/' + variantID);
-    getProductAllDetails(variantID);
-     
-    })
+<script>    
+    $('.btnAddtocart').click(() => {
+        let _url = new URL(window.location.href)
+        let vId = _url.pathname.replace('/productdetails/','');
+        addToCart(vId);
+    });
 
+    $('.btnBuyNow').click(function () {
+        let _url = new URL(window.location.href)
+        let vId = _url.pathname.replace('/productdetails/', '');
+        let param = { VariantID: vId };
+        $.post("/AddToCart", param).done(res => {
+            if (res.statusCode == -1) {
+                Q.notify(res.statusCode, res.responseText)
+            }
+            else {
+                window.location.href = "/checkout/" + true;
+            }
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+    });
 
-
-
+    $('.changeVariant').click(function () {
+        let variantID = $(this).attr("data-id");
+        Q.rewriteURL('/productdetails/' + variantID);
+        getProductAllDetails(variantID);
+    });
 </script>
