@@ -27,9 +27,9 @@ namespace WebAPI.Controllers
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(GetPaymentMode))]
-        public async Task<IActionResult> GetPaymentMode()
+        public async Task<IActionResult> GetPaymentMode(bool IsCod)
         {
-            return Ok(await _placeorder.GetPaymentMode());
+            return Ok(await _placeorder.GetPaymentMode(IsCod));
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(PlaceOrder))]

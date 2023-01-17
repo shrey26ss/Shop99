@@ -3,6 +3,7 @@
 @using Entities.Enums;
 @model Response<IEnumerable<CartItemSlide>>
 @{
+    bool IsCod = Model.Result?.Any(x => x.IsCod) ?? false;
     decimal SubTotal = 0;
     decimal Total = 0;
 }
@@ -49,11 +50,11 @@
                     <h3 class="box-title">Select Payment Method</h3>
                     <div class='payments' id="dvPaymentModes">
 
-                      @*  <div class='button '>
-                          CADH
-                         <br />
-                         <img src="Image/icons/debit.svg" height="55px" />
-                      </div>*@
+                        @*  <div class='button '>
+                            CADH
+                            <br />
+                            <img src="Image/icons/debit.svg" height="55px" />
+                            </div>*@
                     </div>
                 </div>
             </div>
@@ -62,19 +63,19 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-   $.post("/GetPaymentMode").done(res => {
-       console.log(res.result);
-        $.each(res.result, async function (i, v) {
-            let current = i == 0 ? "checked" : "";
-           $('#dvPaymentModes').append(`<div class='button '>
-           <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
-                           ${v.name}
-                           
-                            <img src="${v.icon}" />
-                        </div>`);
-        });
-    }).fail(xhr => Q.xhrError(xhr)).always(() => "");
-});
+        $(document).ready(function () {
+       $.post("/GetPaymentMode",{IsCod:'@IsCod'}).done(res => {
+           console.log(res.result);
+            $.each(res.result, async function (i, v) {
+                let current = i == 0 ? "checked" : "";
+               $('#dvPaymentModes').append(`<div class='button '>
+               <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
+                               ${v.name}
+
+                                <img src="${v.icon}" />
+                            </div>`);
+            });
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+    });
 
 </script>
