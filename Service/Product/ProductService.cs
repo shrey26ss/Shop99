@@ -49,6 +49,7 @@ namespace Service.Product
                     request.Data.ShippingDetailId,
                     Specification = request.Data.Specification ?? String.Empty,
                     request.Data.ShortDescription,
+                    request.Data.IsCod,
                 }, CommandType.StoredProcedure);
             }
             catch (Exception ex)
