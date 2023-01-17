@@ -14,7 +14,7 @@
             <div class="product-box">
                 <div class="product-imgbox">
                     <div class="product-front">
-                        <a href="/productdetail/@item.VariantID">
+                        <a href="/productdetails/@item.VariantID">
                             <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
                         </a>
                     </div>
@@ -29,7 +29,7 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <a href="/productdetail/@item.VariantID">
+                            <a href="/productdetails/@item.VariantID">
                                 <h6 class="price-title">
                                     @item.Title
                                 </h6>
@@ -49,7 +49,7 @@
                         <button class="add-to-wish tooltip-top addtowishlist" data-variant-id="@item.VariantID" data-tippy-content="Add to Wishlist">
                             <img src="~/Image/icons/wishlist.svg" class="svg">
                         </button>
-                        <a href="/productdetail/@item.VariantID" class="tooltip-top" data-tippy-content="Quick View">
+                        <a href="/productdetails/@item.VariantID" class="tooltip-top" data-tippy-content="Quick View">
                             <img src="/Image/icons/info.svg" class="svg">
                         </a>
                         <a href="#" class="tooltip-top" data-tippy-content="Compare">

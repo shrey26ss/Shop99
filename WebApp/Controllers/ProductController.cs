@@ -283,7 +283,7 @@ namespace WebApp.Controllers
                     string _token = User.GetLoggedInUserToken();
                     var jsonData = JsonConvert.SerializeObject(model);
                     var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
-                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                   if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
                     {
                         var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
                         response = deserializeObject;

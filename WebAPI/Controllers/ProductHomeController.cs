@@ -15,8 +15,12 @@ namespace WebAPI.Controllers
         private readonly IProductHomeService _product;
 
         public ProductHomeController(IProductHomeService product) => _product = product;
+
         [Route("ProductHome/GetProductDetails")]
         public async Task<IActionResult> GetProductDetails(SearchItem req) => Ok(await _product.GetProductDetails(req));
+        [Route("ProductHome/GetProductAllDetails")]
+        public async Task<IActionResult> GetProductAllDetails(SearchItem req) => Ok(await _product.GetProductAllDetails(req));
+
         [Route("ProductHome/GetProductAttrDetails")]
         public async Task<IActionResult> GetProductAttrDetails(SearchItem req) => Ok(await _product.GetProductAttrDetails(req));
         [Route("ProductHome/GetProductAttributeInfo")]

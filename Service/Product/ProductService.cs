@@ -163,6 +163,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 var VariantGroup = ConvertToDataTable.ToDataTable(request.Data.GroupInfo);
                 var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
                 var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
+                var picturejson = request.Data.PictureInfo.ToString();
                 string sqlQuery = "Proc_AddVariant";
                 int i = -5;
                 DynamicParameters param = new DynamicParameters();
@@ -171,6 +172,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 param.Add("PictureInfo", PictureInfo, DbType.Object);
                 param.Add("ProductId", request.Data.ProductId, DbType.Int32);
                 param.Add("EntryBy", request.LoginId, DbType.Int32);
+                param.Add("PictureInfojson", picturejson, DbType.String);
                 i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
                 if (i > -1 && i < 100)
                 {

@@ -166,14 +166,14 @@ namespace WebApp.Controllers
         [Route("ProductDetails/{Id}")]
         public async Task<IActionResult> ProductDetails(int Id)
         {
-            var res = await _product.GetProductDetails(Id);
-            return View(res.Result ?? new ProductDetails());
+           // var res = await _product.GetProductDetails(Id);
+            return View(Id);
         }
         [HttpPost]
         [Route("ProductAllDetails")]
         public async Task<IActionResult> ProductAllDetails(int Id)
         {
-            var res = await _product.GetProductDetails(Id);
+            var res = await _product.GetProductAllDetails(Id);
             return PartialView("partial/_ProductDetails", res.Result ?? new ProductDetails());
         }
         public async Task<IActionResult> ProductAttrDetail(int Id)

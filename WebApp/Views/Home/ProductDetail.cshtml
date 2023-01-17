@@ -460,7 +460,7 @@
                 }
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         }
-        Q.rewriteURL('/productdetail/' + vDetail.variantId);
+        Q.rewriteURL('/productdetails/' + vDetail.variantId);
         variantId = vDetail.variantId;
     };
 

@@ -13,12 +13,12 @@
         counter++;
         <tr>
             <td>
-                <a href="/productdetail/@item.VarriantID">
+                <a href="/productdetails/@item.VarriantID">
                     <img src="@item.Thumbnail" alt="product" class="img-fluid" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
                 </a>
             </td>
             <td>
-                <a href="/productdetail/@item.VarriantID">order no: <span class="dark-data">@item.OrderID.ToString().ToUpper()</span> <br>@item.Title</a>
+                <a href="/productdetails/@item.VarriantID">order no: <span class="dark-data">@item.OrderID.ToString().ToUpper()</span> <br>@item.Title</a>
                 <div class="mobile-cart-content row">
                     <div class="col-xs-3">
                         <div class="qty-box">
