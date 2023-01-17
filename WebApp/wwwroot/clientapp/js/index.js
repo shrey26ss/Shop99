@@ -76,12 +76,12 @@ const loadTopCategoryProduct = function (cId, i) {
                   <div class="product-box">
                     <div class="product-imgbox">
                       <div class="product-front">
-                        <a href="/productdetail/${v.variantID}">
+                        <a href="/productdetails/${v.variantID}">
                           <img src="${v.imagePath}"   onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
                         </a>
                       </div>
                       <div class="product-back">
-                        <a href="/productdetail/${v.variantID}">
+                        <a href="/productdetails/${v.variantID}">
                           <img src="${v.imagePath}" class="img-fluid  " onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="product">
                         </a>
                       </div>
@@ -92,7 +92,7 @@ const loadTopCategoryProduct = function (cId, i) {
                         <a href="javascript:void(0)"  class="add-to-wish tooltip-top addtowishlist" data-variant-id="${v.variantID}"   data-tippy-content="Add to Wishlist" >
                             <img src="/Image/icons/wishlist.svg" class="svg"/>
                         </a>
-                        <a href="/productdetail/${v.variantID}" class="tooltip-top" data-tippy-content="Quick View">
+                        <a href="/productdetails/${v.variantID}" class="tooltip-top" data-tippy-content="Quick View">
                             <img src="/Image/icons/info.svg" class="svg">
                         </a>
                         <a href="#" class="tooltip-top" data-tippy-content="Compare">
@@ -116,7 +116,7 @@ const loadTopCategoryProduct = function (cId, i) {
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                           </div>
-                          <a href="/productdetail/${v.variantID}">
+                          <a href="/productdetails/${v.variantID}">
                             <h6 class="price-title">
                               ${v.title}
                             </h6>

@@ -15,5 +15,6 @@ namespace Infrastructure.Interface
         Task<IResponse<VariantIdByAttributesResponse>> GetVariantIdByAttributes(RequestBase<VariantIdByAttributesRequest> request);
         Task<IResponse<VariantDetailsByAttributesResponse>> GetVariantdetailsByAttributes(RequestBase<VariantIdByAttributesRequest> request);
         Task<IResponse<IEnumerable<PictureInformation>>> PictureInformation(RequestBase<VariantIdByAttributesRequest> request);
+        Task<IResponse<ProductDetails>> GetProductAllDetails(SearchItem req);   
     }
 }
