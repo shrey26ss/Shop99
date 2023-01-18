@@ -83,7 +83,7 @@ namespace WebApp.Controllers
             {
                 response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             }
-            if(response.StatusCode==ResponseStatus.Success)
+            if (response.StatusCode == ResponseStatus.Success)
             {
                 return PartialView();
             }
@@ -109,7 +109,7 @@ namespace WebApp.Controllers
             try
             {
                 var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Login", JsonConvert.SerializeObject(model));
-                if (Response.HttpStatusCode== HttpStatusCode.OK)
+                if (Response.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<AuthenticateResponse>>(Response.Result);
 
@@ -165,6 +165,96 @@ namespace WebApp.Controllers
                 _logger.LogError(ex.Message.ToString(), new { this.GetType().Name, fn = nameof(this.Login) });
             }
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> LoginWithOTP(LoginViewModel model, string ReturnUrl)
+        {
+            var res = new LoginViewModel
+            {
+                StatusCode = "Falied"
+            };
+            if (string.IsNullOrEmpty(model.OTP))
+            {
+                var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/SendLoginOTP", JsonConvert.SerializeObject(model));
+                var deserializeObject = JsonConvert.DeserializeObject<Response>(Response.Result);
+                if (deserializeObject.StatusCode == ResponseStatus.Success)
+                {
+                    res.StatusCode = "Success";
+                }
+                return View("Login", res);
+            }
+            else
+            {
+                ReturnUrl = ReturnUrl ?? Url.Content("~/");
+                try
+                {
+                    var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/LoginWithOTP", JsonConvert.SerializeObject(model));
+                    if (Response.HttpStatusCode == HttpStatusCode.OK)
+                    {
+                        var deserializeObject = JsonConvert.DeserializeObject<Response<AuthenticateResponse>>(Response.Result);
+
+                        if (deserializeObject.StatusCode == ResponseStatus.Success)
+                        {
+                            if (deserializeObject.StatusCode == ResponseStatus.Success)
+                            {
+                                var applicationUser = deserializeObject.Result;
+                                ApplicationUser user = new ApplicationUser
+                                {
+                                    Id = applicationUser.Id,
+                                    Name = applicationUser.Name,
+                                    RefreshToken = applicationUser.RefreshToken,
+                                    Role = applicationUser.Role,
+                                    Token = applicationUser.Token
+                                };
+                                if (applicationUser.Role.Equals("3"))// Vendor
+                                {
+                                    user.Role = "0";
+                                    ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Vendor/Index" : ReturnUrl;
+                                }
+                                else if (applicationUser.Role.Equals("1")) // Admin
+                                {
+                                    ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
+                                }
+                                else if (applicationUser.Role.Equals("2")) // Customer
+                                {
+                                    ReturnUrl = ReturnUrl?.Trim() == "/" ? "/User/Profile" : ReturnUrl;
+                                }
+                                var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+                                identity.AddClaim(new Claim("Id", user.Id.ToString()));
+                                identity.AddClaim(new Claim("Token", user.Token.ToString()));
+                                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
+                                identity.AddClaim(new Claim(ClaimTypes.Role, user.Role ?? string.Empty));
+                                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
+                                if (!string.IsNullOrEmpty(ReturnUrl))
+                                {
+                                    return LocalRedirect(ReturnUrl);
+                                }
+                                else
+                                {
+                                    res.StatusCode = "Success";
+                                    return View("Login", res);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, deserializeObject.ResponseText);
+                            res.StatusCode = "Success";
+                        }
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError(string.Empty, Response.HttpMessage);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message.ToString(), new { this.GetType().Name, fn = nameof(this.Login) });
+                }
+            }
+            return View("Login", res);
+            
         }
         #endregion
 

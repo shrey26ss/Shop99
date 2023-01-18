@@ -9,7 +9,7 @@ namespace WebAPI.Models.ViewModels
         public string MobileNo { get; set; }
         //[EmailAddress]
         //public string EmailId { get; set; }
-        [Required]
+        //[Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
@@ -17,5 +17,6 @@ namespace WebAPI.Models.ViewModels
         public bool IsTwoFactorEnabled { get; set; }
         [Display(Name = "Authentication Pin")]
         public string GAuthPin { get; set; }
+        public string OTP { get; set; }
     }
 }

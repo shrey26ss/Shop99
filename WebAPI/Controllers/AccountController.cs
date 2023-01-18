@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
                     //res.StatusCode = ResponseStatus.Success;
                     //res.ResponseText = "Login Succussful";
                     //res.Result = authResponse;
-                    res = await GenerateAccessToken(model.MobileNo);
+                    res = await GenerateAccessToken("",model.MobileNo);
                 }
 
             }
@@ -104,6 +104,8 @@ namespace WebAPI.Controllers
                 /* End SMS */
 
                 var result = await _userManager.SaveLoginOTP(model.MobileNo, model.Password);
+                res.StatusCode = result.StatusCode;
+                res.ResponseText = result.ResponseText;
             }
             catch (Exception ex)
             {
@@ -125,7 +127,7 @@ namespace WebAPI.Controllers
             };
             try
             {
-                var result = await _userManager.SigninWithOTP(model.MobileNo, model.Password,lockoutOnFailure: true);
+                var result = await _userManager.SigninWithOTP(model.MobileNo, model.OTP, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     res = await GenerateAccessToken(model.MobileNo);
@@ -139,24 +141,47 @@ namespace WebAPI.Controllers
             return Ok(res);
         }
 
-        private async Task<Response<AuthenticateResponse>> GenerateAccessToken(string mobileNo)
+        private async Task<Response<AuthenticateResponse>> GenerateAccessToken(string mobileNo, string email = "")
         {
             var res = new Response<AuthenticateResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Invalid Credentials"
             };
-            var user = await _userManager.FindByMobileNoAsync(mobileNo);
-            var claims = new[] {
+            if (!string.IsNullOrEmpty(mobileNo))
+            {
+                var user = await _userManager.FindByMobileNoAsync(mobileNo);
+                if (user.Id > 0)
+                {
+                    var claims = new[] {
                         new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
                         new Claim(ClaimTypesExtension.Role, user.Role??"2"),
                         new Claim(ClaimTypesExtension.UserName, user.UserName),
                     };
-            var token = _tokenService.GenerateAccessToken(claims);
-            var authResponse = new AuthenticateResponse(user, token);
-            res.StatusCode = ResponseStatus.Success;
-            res.ResponseText = "Login Succussful";
-            res.Result = authResponse;
+                    var token = _tokenService.GenerateAccessToken(claims);
+                    var authResponse = new AuthenticateResponse(user, token);
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Login Succussful";
+                    res.Result = authResponse;
+                }
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user.Id > 0)
+                {
+                    var claims = new[] {
+                        new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
+                        new Claim(ClaimTypesExtension.Role, user.Role??"2"),
+                        new Claim(ClaimTypesExtension.UserName, user.UserName),
+                    };
+                    var token = _tokenService.GenerateAccessToken(claims);
+                    var authResponse = new AuthenticateResponse(user, token);
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Login Succussful";
+                    res.Result = authResponse;
+                }
+            }
             return res;
         }
 
@@ -181,7 +206,7 @@ namespace WebAPI.Controllers
 
             return Ok(new { StatusCode = -3, ResponseText = "Two factor verification needed" });
         }
-  
+
         [HttpPost("/api/LoginTwoStepPost")]
         public async Task<IActionResult> LoginTwoStep(TwoStepModel twoStepModel)
         {
