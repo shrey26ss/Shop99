@@ -39,24 +39,6 @@ namespace Service.Identity
             }
             return user ?? new ApplicationUser();
         }
-        public async Task<ApplicationUser> FindByEmailAsync(string Email)
-        {
-            var user = new ApplicationUser();
-            try
-            {
-                string sqlQuery = @"SELECT u.Id,u.UserName,u.RefreshToken,u.[Name], r.[RoleId] as [Role], u.Email 
-                                FROM Users u(nolock) 
-                                     LEFT join UserRoles r(nolock) on r.UserId = u.Id 
-                                     LEFT join ApplicationRole ar(nolock) on ar.Id = r.RoleId 
-                                WHERE u.UserName = @Email";
-                user = await _dapperRepository.GetAsync<ApplicationUser>(sqlQuery, new { Email }, commandType: CommandType.Text);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return user ?? new ApplicationUser();
-        }
 
         public Task FindByMobileNoAsync()
         {

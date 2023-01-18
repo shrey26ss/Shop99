@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
                     //res.StatusCode = ResponseStatus.Success;
                     //res.ResponseText = "Login Succussful";
                     //res.Result = authResponse;
-                    res = await GenerateAccessToken("",model.MobileNo);
+                    res = await GenerateAccessToken(model.MobileNo);
                 }
 
             }
@@ -115,7 +115,6 @@ namespace WebAPI.Controllers
             return Ok(res);
         }
 
-
         [AllowAnonymous]
         [HttpPost("/api/LoginWithOTP")]
         public async Task<IActionResult> LoginWithOTP(LoginViewModel model)
@@ -141,46 +140,26 @@ namespace WebAPI.Controllers
             return Ok(res);
         }
 
-        private async Task<Response<AuthenticateResponse>> GenerateAccessToken(string mobileNo, string email = "")
+        private async Task<Response<AuthenticateResponse>> GenerateAccessToken(string mobileNo)
         {
             var res = new Response<AuthenticateResponse>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Invalid Credentials"
             };
-            if (!string.IsNullOrEmpty(mobileNo))
+            var user = await _userManager.FindByMobileNoAsync(mobileNo);
+            if (user.Id > 0)
             {
-                var user = await _userManager.FindByMobileNoAsync(mobileNo);
-                if (user.Id > 0)
-                {
-                    var claims = new[] {
+                var claims = new[] {
                         new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
                         new Claim(ClaimTypesExtension.Role, user.Role??"2"),
                         new Claim(ClaimTypesExtension.UserName, user.UserName),
                     };
-                    var token = _tokenService.GenerateAccessToken(claims);
-                    var authResponse = new AuthenticateResponse(user, token);
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Login Succussful";
-                    res.Result = authResponse;
-                }
-            }
-            else
-            {
-                var user = await _userManager.FindByEmailAsync(email);
-                if (user.Id > 0)
-                {
-                    var claims = new[] {
-                        new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
-                        new Claim(ClaimTypesExtension.Role, user.Role??"2"),
-                        new Claim(ClaimTypesExtension.UserName, user.UserName),
-                    };
-                    var token = _tokenService.GenerateAccessToken(claims);
-                    var authResponse = new AuthenticateResponse(user, token);
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Login Succussful";
-                    res.Result = authResponse;
-                }
+                var token = _tokenService.GenerateAccessToken(claims);
+                var authResponse = new AuthenticateResponse(user, token);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "Login Succussful";
+                res.Result = authResponse;
             }
             return res;
         }
