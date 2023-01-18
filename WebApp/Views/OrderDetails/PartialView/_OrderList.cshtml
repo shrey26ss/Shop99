@@ -35,9 +35,13 @@
                         {
                             <a href="#" onclick="IsReplacedConform('@item.ID')" class="dropdown-item Edit">Replacement Conform</a>
                         }
-                        @if (item.StatusID == StatusType.CancelRequest)
+                        @if (item.StatusID == StatusType.CancelRequest || item.StatusID == StatusType.CancelRequestRejected)
                         {
-                            <a href="#" onclick="IsCancelConform('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Order Cancel</a>
+                            <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Order Cancel Approved</a>
+                            @if(item.StatusID != StatusType.CancelRequestRejected)
+                            {
+                                <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.CancelRequestRejected')" class="dropdown-item Edit">Order Cancel Reject</a>
+                            }
                         }
                         <a href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
                     </div>
@@ -90,7 +94,7 @@
             Q.notify(-1, 'something went wrong.');
         });
     }
-    var IsCancelConform = (Id, StatusId) => {
+    var IsCancelConfAndRej = (Id, StatusId) => {
         let obj = {
             ID: Id,
             StatusID: StatusId
