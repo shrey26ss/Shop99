@@ -8,18 +8,9 @@ using Service.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
-using Service.API;
-using System.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using WebAPI.Models.ViewModels;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using Services.Identity;
-using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Models;
 using WebAPI.Middleware;
@@ -62,7 +53,16 @@ namespace WebAPI.Controllers
             try
             {
                 var result = await _signInManager.PasswordSignInAsync(model.MobileNo, model.Password, model.RememberMe, lockoutOnFailure: true);
-                if (result.Succeeded)
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToAction(nameof(LoginTwoStep), new
+                    {
+                        model.MobileNo,
+                        model.RememberMe
+                    });
+                }
+
+                else if (result.Succeeded)
                 {
                     var user = await _userManager.FindByEmailAsync(model.MobileNo);
                     var claims = new[] {
@@ -76,12 +76,67 @@ namespace WebAPI.Controllers
                     res.ResponseText = "Login Succussful";
                     res.Result = authResponse;
                 }
+                
             }
             catch (Exception ex)
             {
 
             }
             return Ok(res);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LoginTwoStep(string email, bool rememberMe, string returnUrl = null)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest("Invalid attempt");
+            }
+            var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
+            if (!providers.Contains("Email"))
+            {
+                return BadRequest("Invalid attempt");
+            }
+            var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+            
+            //var message = new Message(new string[] { email }, "Authentication token", token, null);
+            
+            //await _emailSender.SendEmailAsync(message);
+
+            return Ok(new { StatusCode = -3,ResponseText = "Two factor verification needed"});
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginTwoStep(TwoStepModel twoStepModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(twoStepModel);
+            }
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                //return RedirectToAction(nameof(Error));
+                return BadRequest("Error");
+            }
+            var result = await _signInManager.TwoFactorSignInAsync("Email", twoStepModel.TwoFactorCode, twoStepModel.RememberMe, rememberClient: false);
+            if (result.Succeeded)
+            {
+                //return RedirectToLocal(returnUrl);
+                return Ok("Success");
+            }
+            else if (result.IsLockedOut)
+            {
+                //Same logic as in the Login action
+                ModelState.AddModelError("", "The account is locked out");
+                return BadRequest("The account is locked out");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid Login Attempt");
+                return BadRequest("Invalid Login Attempt");
+            }
         }
 
         [HttpPost("/token/refresh")]
