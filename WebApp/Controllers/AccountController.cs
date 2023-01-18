@@ -137,7 +137,7 @@ namespace WebApp.Controllers
                             }
                             else if (applicationUser.Role.Equals("2")) // Customer
                             {
-                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/User/Profile" : ReturnUrl;
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/" : ReturnUrl;
                             }
                             var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));

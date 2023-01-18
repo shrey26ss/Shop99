@@ -53,7 +53,9 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> MarkAsShippV(int Id)
         {
-            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id });
+            string o = Id.ToString();
+            string InVoiceNo=$"TID{o.PadLeft(7,'0')}A";
+            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id,InvoiceNumber= InVoiceNo });
         }
         public IActionResult ShareTrackingDetails(TrackingModel model)
         {
