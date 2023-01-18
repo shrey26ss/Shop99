@@ -18,7 +18,6 @@ namespace WebApp.Models.ViewModels
         public bool IsTwoFactorEnabled { get; set; }
         [Display(Name = "Authentication Pin")]
         public string GAuthPin { get; set; }
-        [Required]
         public string OTP { get; set; }
         public string StatusCode { get; set; }
 
