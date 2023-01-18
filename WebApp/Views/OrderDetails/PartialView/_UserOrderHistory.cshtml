@@ -67,7 +67,7 @@
             <td>
                 @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted)
                 {
-                    <a href="#" onclick="CancelUser('@item.ID','@StatusType.Cancel')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
+                    <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
                 }
                 @if (item.StatusID == StatusType.Delivered && deliveredDays <= 0)
                 {

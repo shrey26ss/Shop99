@@ -35,7 +35,15 @@
                         {
                             <a href="#" onclick="IsReplacedConform('@item.ID')" class="dropdown-item Edit">Replacement Conform</a>
                         }
-                         <a  href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
+                        @if (item.StatusID == StatusType.CancelRequest || item.StatusID == StatusType.CancelRequestRejected)
+                        {
+                            <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Order Cancel Approved</a>
+                            @if(item.StatusID != StatusType.CancelRequestRejected)
+                            {
+                                <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.CancelRequestRejected')" class="dropdown-item Edit">Order Cancel Reject</a>
+                            }
+                        }
+                        <a href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
                     </div>
                 </div>
             </td>
@@ -69,17 +77,29 @@
             });
         })
     }
-    var MarkasDilivered = (Id,StatusID,Remark='') => {
-        $.post('/OrderDetails/ChangeStatus', { ID:Id, StatusID:StatusID, Remark:Remark }).done((result) => {
-            
-            Q.notify(result.statusCode, result.statusCode==1?'Success':result.responseText);
-            if (result.statusCode){
+    var MarkasDilivered = (Id, StatusID, Remark = '') => {
+        $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: Remark }).done((result) => {
+
+            Q.notify(result.statusCode, result.statusCode == 1 ? 'Success' : result.responseText);
+            if (result.statusCode) {
                 loadData();
-            }                
+            }
         });
     }
     var IsReplacedConform = (Id) => {
-        $.post('/OrderDetails/OrderReplacedConform', {ID:Id}).done(function(result) {
+        $.post('/OrderDetails/OrderReplacedConform', { ID: Id }).done(function(result) {
+            Q.notify(result.statusCode, result.responseText);
+        }).fail(function(xhr) {
+            console.log(xhr.responseText);
+            Q.notify(-1, 'something went wrong.');
+        });
+    }
+    var IsCancelConfAndRej = (Id, StatusId) => {
+        let obj = {
+            ID: Id,
+            StatusID: StatusId
+        }
+        $.post('/OrderDetails/ChangeStatus', obj).done(function(result) {
             Q.notify(result.statusCode, result.responseText);
         }).fail(function(xhr) {
             console.log(xhr.responseText);
