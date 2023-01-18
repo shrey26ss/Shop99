@@ -6,6 +6,7 @@ namespace WebApp.Models.ViewModels
 {
     public class LoginViewModel
     {
+        [Required]
         public string MobileNo { get; set; }
         //[EmailAddress]
         //public string EmailId { get; set; }
@@ -17,6 +18,7 @@ namespace WebApp.Models.ViewModels
         public bool IsTwoFactorEnabled { get; set; }
         [Display(Name = "Authentication Pin")]
         public string GAuthPin { get; set; }
+        [Required]
         public string OTP { get; set; }
         public string StatusCode { get; set; }
 

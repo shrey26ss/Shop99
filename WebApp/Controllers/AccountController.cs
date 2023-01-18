@@ -173,6 +173,13 @@ namespace WebApp.Controllers
             {
                 StatusCode = "Falied"
             };
+            if (!string.IsNullOrEmpty(model.MobileNo))
+            {
+                if (model.MobileNo.Length < 10)
+                {
+                    ModelState.AddModelError(string.Empty, "Please Enter Valid Mobile Number");
+                }
+            }            
             if (string.IsNullOrEmpty(model.OTP))
             {
                 var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/SendLoginOTP", JsonConvert.SerializeObject(model));
@@ -254,7 +261,6 @@ namespace WebApp.Controllers
                 }
             }
             return View("Login", res);
-            
         }
         #endregion
 
