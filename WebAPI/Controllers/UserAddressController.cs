@@ -9,7 +9,7 @@ using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+   
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
@@ -18,6 +18,7 @@ namespace WebAPI.Controllers
         public readonly IUserAddress _address;
         public UserAddressController(IUserAddress address) => _address = address;
 
+        [HttpPost]
         [Route("UserAddress/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddUpdate(UserAddress req) => Ok(await _address.AddUpdate(new RequestBase<UserAddress>
@@ -25,7 +26,7 @@ namespace WebAPI.Controllers
             Data = req,
             LoginId = User.GetLoggedInUserId<int>()
         }));
-
+        [HttpPost]
         [Route("UserAddress/GetAddress")]
         public async Task<IActionResult> GetAddress() => Ok(await _address.GetList(new Request { LoginId = User.GetLoggedInUserId<int>() }));
     }
