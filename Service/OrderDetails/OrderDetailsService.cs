@@ -66,11 +66,15 @@ namespace Service.OrderDetails
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString()
             };
-            string sp = "proc_OrderCancel";
             try
             {
-                if (req.StatusID == StatusType.Cancel)
+                if (req.StatusID == StatusType.CancelRequest)
                 {
+                    res = await _dapper.GetAsync<Response>("UPdate Orders set PreviousStatusID = StatusID,StatusID = @StatusID , Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Requested Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
+                else if (req.StatusID == StatusType.Cancel)
+                {
+                    string sp = "proc_OrderCancel";
                     res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
                 }
                 else if (req.StatusID == StatusType.OrderReplaced)
