@@ -42,8 +42,7 @@ namespace Service.Notify
                 ResponseText = ResponseStatus.Failed.ToString()
             };
             var res = await GetUserDeatilForAlert(req.UserID);
-            if (res != null)
-            {
+          
                 res.FormatID = req.FormatID;
                 if (req.IsSms)
                 {
@@ -57,7 +56,7 @@ namespace Service.Notify
                 {
                     await NotifySocialALert(res);
                 }
-            }
+            
             return _res;
         }
 
@@ -67,7 +66,7 @@ namespace Service.Notify
             var dbparams = new DynamicParameters();
             dbparams.Add("LoginID", UserID, DbType.Int32);
             var res = await _dapper.GetAsync<AlertReplacementModel>("Proc_UserDetailForAlert", dbparams, CommandType.StoredProcedure);
-            return res;
+            return res??new AlertReplacementModel();
         }
 
         #region SendSMS
@@ -82,7 +81,6 @@ namespace Service.Notify
             {
                 string sendRes = string.Empty;
                 var dbparams = new DynamicParameters();
-                dbparams.Add("LoginID", model.UserID, DbType.Int32);
                 dbparams.Add("FormatID", model.FormatID, DbType.Int32);
 
                 string selectTemplate = @" select * from MessageTemplate(nolock) where FormatID=@FormatID
