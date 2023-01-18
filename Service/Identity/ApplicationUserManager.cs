@@ -3,7 +3,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Services.Identity;
+using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,9 +14,11 @@ namespace Service.Identity
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         private readonly IDapperRepository _dapperRepository;
+        private readonly ILogger<UserManager<ApplicationUser>> _logger;
         public ApplicationUserManager(IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger, IDapperRepository dapperRepository) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
             _dapperRepository = dapperRepository;
+            _logger = logger;
         }
 
         public async Task<ApplicationUser> FindByMobileNoAsync(string mobileNo)
@@ -66,6 +68,50 @@ namespace Service.Identity
         public override Task<IList<string>> GetValidTwoFactorProvidersAsync(ApplicationUser user)
         {
             return base.GetValidTwoFactorProvidersAsync(user);
+        }
+
+        public async Task<IdentityResult> SigninWithOTP(string mobileNo, string otp, bool lockoutOnFailure = false)
+        {
+            var result = IdentityResult.Failed();
+            int i = await _dapperRepository.GetAsync<int>("proc_SignWithOTP", new { mobileNo, otp, lockoutOnFailure }, commandType: CommandType.StoredProcedure);
+            if (i > 0)
+            {
+                result = IdentityResult.Success;
+            }
+            return result;
+        }
+
+        public async Task<Response> SaveLoginOTP(string mobileNo, string otp)
+        {
+            var result = new Response();
+            if (string.IsNullOrEmpty(mobileNo))
+            {
+                result.ResponseText="Invalid MobileNo";
+                return result;
+            }
+            else if (string.IsNullOrEmpty(otp))
+            {
+                result.ResponseText="Invalid OTP";
+                return result;
+            }
+            try
+            {
+                var sqlQuery = @"IF NOT Exists (Select 1 from Users Where PhoneNumber = @mobileNo)
+                             begin
+                             	Select -1 StatusCode,'Mobile number is not registered' ResponseText
+                             	return
+                             end
+                             INSERT INTO RequestedOTP(MobileNo,OTP,[Action],EntryOn, IsUsed,attemptedCount) 
+                             VALUES (@mobileNo,@otp,'LOGINOTP',GETDATE(),0,0)
+                             Select 1 StatusCode,'OTP Send Successfully' ResponseText";
+                result = await _dapperRepository.GetAsync<Response>(sqlQuery, new { mobileNo, otp }, commandType: CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                result.ResponseText="Something went wrong.Please try after sometime.";
+                _logger.LogError(ex, ex.Message);
+            }
+            return result;
         }
     }
 }

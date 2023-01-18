@@ -61,31 +61,106 @@ namespace WebAPI.Controllers
                         model.RememberMe
                     });
                 }
-
                 else if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByEmailAsync(model.MobileNo);
-                    var claims = new[] {
-                        new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
-                        new Claim(ClaimTypesExtension.Role, user.Role??"2"),
-                        new Claim(ClaimTypesExtension.UserName, user.UserName),
-                    };
-                    var token = _tokenService.GenerateAccessToken(claims);
-                    var authResponse = new AuthenticateResponse(user, token);
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Login Succussful";
-                    res.Result = authResponse;
+                    //var user = await _userManager.FindByEmailAsync(model.MobileNo);
+                    //var claims = new[] {
+                    //    new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
+                    //    new Claim(ClaimTypesExtension.Role, user.Role??"2"),
+                    //    new Claim(ClaimTypesExtension.UserName, user.UserName),
+                    //};
+                    //var token = _tokenService.GenerateAccessToken(claims);
+                    //var authResponse = new AuthenticateResponse(user, token);
+                    //res.StatusCode = ResponseStatus.Success;
+                    //res.ResponseText = "Login Succussful";
+                    //res.Result = authResponse;
+                    res = await GenerateAccessToken(model.MobileNo);
                 }
-                
+
             }
             catch (Exception ex)
             {
-
+                res.ResponseText = "Something went wrong.Please tru after some time.";
+                _logger.LogError(ex, ex.Message);
             }
             return Ok(res);
         }
 
-        [HttpGet]
+        [AllowAnonymous]
+        [HttpPost("/api/SendLoginOTP")]
+        public async Task<IActionResult> SendLoginOTP(LoginViewModel model)
+        {
+            var res = new Response<AuthenticateResponse>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Invalid OTP"
+            };
+            try
+            {
+                model.Password = AppUtility.Helper.Utility.O.GenrateRandom(6, true);
+
+                /* Send SMS here */
+
+                /* End SMS */
+
+                var result = await _userManager.SaveLoginOTP(model.MobileNo, model.Password);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = "Something went wrong.Please tru after some time.";
+                _logger.LogError(ex, ex.Message);
+            }
+            return Ok(res);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("/api/LoginWithOTP")]
+        public async Task<IActionResult> LoginWithOTP(LoginViewModel model)
+        {
+            var res = new Response<AuthenticateResponse>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Invalid OTP"
+            };
+            try
+            {
+                var result = await _userManager.SigninWithOTP(model.MobileNo, model.Password,lockoutOnFailure: true);
+                if (result.Succeeded)
+                {
+                    res = await GenerateAccessToken(model.MobileNo);
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = "Something went wrong.Please tru after some time.";
+                _logger.LogError(ex, ex.Message);
+            }
+            return Ok(res);
+        }
+
+        private async Task<Response<AuthenticateResponse>> GenerateAccessToken(string mobileNo)
+        {
+            var res = new Response<AuthenticateResponse>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Invalid Credentials"
+            };
+            var user = await _userManager.FindByMobileNoAsync(mobileNo);
+            var claims = new[] {
+                        new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
+                        new Claim(ClaimTypesExtension.Role, user.Role??"2"),
+                        new Claim(ClaimTypesExtension.UserName, user.UserName),
+                    };
+            var token = _tokenService.GenerateAccessToken(claims);
+            var authResponse = new AuthenticateResponse(user, token);
+            res.StatusCode = ResponseStatus.Success;
+            res.ResponseText = "Login Succussful";
+            res.Result = authResponse;
+            return res;
+        }
+
+        [HttpGet("/api/LoginTwoStep")]
         public async Task<IActionResult> LoginTwoStep(string email, bool rememberMe, string returnUrl = null)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -99,15 +174,15 @@ namespace WebAPI.Controllers
                 return BadRequest("Invalid attempt");
             }
             var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
-            
+
             //var message = new Message(new string[] { email }, "Authentication token", token, null);
-            
+
             //await _emailSender.SendEmailAsync(message);
 
-            return Ok(new { StatusCode = -3,ResponseText = "Two factor verification needed"});
+            return Ok(new { StatusCode = -3, ResponseText = "Two factor verification needed" });
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+  
+        [HttpPost("/api/LoginTwoStepPost")]
         public async Task<IActionResult> LoginTwoStep(TwoStepModel twoStepModel)
         {
             if (!ModelState.IsValid)
