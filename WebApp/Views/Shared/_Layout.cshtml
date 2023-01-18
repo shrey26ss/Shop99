@@ -48,7 +48,7 @@
     <!--header start-->
     <header id="stickyheader">
         <div class="mobile-fix-option"></div>
-        <div class="top-header">
+        @*<div class="top-header">
             <div class="custom-container">
                 <div class="row">
                     <div class="col-xl-5 col-md-7 col-sm-6">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="layout-header2">
             <div class="container">
                 <div class="col-md-12">
@@ -95,7 +95,7 @@
 
                             <div class="brand-logo logo-sm-center">
                                 <a href="/">
-                                    <img src="~/assets/images/layout-2/logo/logo.png" class="img-fluid  " alt="logo">
+                                    <img src="~/assets/images/layout-2/logo/logo.svg" class="img-fluid  " alt="logo">
                                 </a>
                             </div>
                         </div>
@@ -110,6 +110,12 @@
                                         </div>
                                     </div>
                                 </form>
+                                @if (!Context.User.Identity.IsAuthenticated)
+                                    {
+                                <div>
+                                    <a class="top-login-btn" href="/account/login">Login</a>
+                                </div>
+                                    }
                             </div>
                         </div>
                         <div id="dvAutoSuggestion"></div>
@@ -154,14 +160,14 @@
                                         <div class="cart-count">
                                         </div>
                                     </li>
-                                    @if (!Context.User.Identity.IsAuthenticated)
+                                    @*@if (!Context.User.Identity.IsAuthenticated)
                                     {
                                         <li class="mobile-setting">
                                             <a href="/account/login">
                                                 <img src="~/Image/icons/Login.svg">
                                             </a>
                                         </li>
-                                    }
+                                    }*@
 
                                 </ul>
                             </div>
@@ -230,14 +236,14 @@
 
                                     <li class="mobile-wishlist item-count openWishList">
                                         <a href="javascript:void(0)">
-                                            <img src="~/Image/icons/wishlist.svg" />
+                                            <img src="~/Image/icons/wishlist-b.svg" />
                                             <div class="wishlist-count">
                                             </div>
                                         </a>
                                     </li>
                                     <li class="mobile-cart item-count openCartSlide">
                                         <a href="javascript:void(0)">
-                                            <img src="~/Image/icons/cart.svg" />
+                                            <img src="~/Image/icons/cart-b.svg" />
                                         </a>
                                         <div class="cart-count">
                                         </div>
