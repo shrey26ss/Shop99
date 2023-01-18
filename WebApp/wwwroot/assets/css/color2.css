@@ -40136,7 +40136,7 @@ body.dark {
         background-color: #262626;
     }
 
-@media (max-width: 1470px) {
+@media (min-width: 1024px) and  (max-width: 2370px) {
     .dark .header-search .input-group .input-group-text select {
         padding-left: 30px;
         padding-right: 15px;

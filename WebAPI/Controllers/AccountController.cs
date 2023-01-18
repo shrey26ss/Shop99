@@ -100,7 +100,9 @@ namespace WebAPI.Controllers
                 model.Password = AppUtility.Helper.Utility.O.GenrateRandom(6, true);
 
                 /* Send SMS here */
-
+                #region send Notification
+                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true,IsEmail=true }, User.GetLoggedInUserId<int>());
+                #endregion
                 /* End SMS */
 
                 var result = await _userManager.SaveLoginOTP(model.MobileNo, model.Password);
