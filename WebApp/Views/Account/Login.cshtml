@@ -45,9 +45,10 @@
                                                         <span asp-validation-for="OTP" class="text-danger"></span>
                                                     </div>
                                                 }
-                                                @if(Model.StatusCode == "Success")
+                                                @if (Model.StatusCode == "Success")
                                                 {
-                                                    <button type="submit" id="btnsndOTP" class="btn btn-normal">Verify OTP</button>
+                                                    <button type="submit" id="btnVerifyOtp" class="btn btn-normal">Verify OTP</button>
+                                                     <button type="submit" id="btnresendsndOTP" class="btn btn-normal2">Re Send OTP</button>
                                                 }
                                                 else
                                                 {
@@ -90,11 +91,11 @@
                         </div>
 
                         <p class="mt-3 mb-3">Sign up for a free account at our store. Registration is quick and easy. It allows you to be able to order from our shop. To start shopping click register.</p>
-                    <a href="~/Account/Register" class="txt-default d-block">Create an Account</a>
+                        <a href="~/Account/Register" class="txt-default d-block">Create an Account</a>
 
                     </div>
 
-                    
+
                 </div>
             </div>
         </div>
@@ -119,28 +120,36 @@
 
 
 @section Scripts {
-    <script>
-        $(document).ready(function() {
-            //$('#btnsubmit').click(function (e) {
-            //    if ($('#txtemail').val() == '') {
-            //        e.preventDefault();
-            //        Q.notify(-1, 'Email Required');
-            //        return false;
-            //    }
-            //    if ($('#txtpassord').val() == '') {
-            //        e.preventDefault();
-            //        Q.notify(-1, 'Password Required');
-            //        return false;
-            //    }
-            //});
-            $('#forgotPass').click(function(e) {
-                $.post('/Account/ForgotPasswordView').done(result => {
-                    $('.modal-body').html(result);
-                    $('#myModal').modal('show');
-                }).fail(xhr => {
-                    console.log(xhr.responseText);
-                });
+<script>
+    $(document).ready(function() {
+        //$('#btnsubmit').click(function (e) {
+        //    if ($('#txtemail').val() == '') {
+        //        e.preventDefault();
+        //        Q.notify(-1, 'Email Required');
+        //        return false;
+        //    }
+        //    if ($('#txtpassord').val() == '') {
+        //        e.preventDefault();
+        //        Q.notify(-1, 'Password Required');
+        //        return false;
+        //    }
+        //});
+        $('#forgotPass').click(function(e) {
+            $.post('/Account/ForgotPasswordView').done(result => {
+                $('.modal-body').html(result);
+                $('#myModal').modal('show');
+            }).fail(xhr => {
+                console.log(xhr.responseText);
             });
         });
-    </script>
+
+        $('#btnVerifyOtp').click(function(){
+        if($('#txtotp').val()=='')
+        {
+           Q.notify(-1, 'Otp Required.!');
+               return false;
+        }
+        });
+    });
+</script>
 }
