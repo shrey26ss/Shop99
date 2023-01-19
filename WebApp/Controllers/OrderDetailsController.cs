@@ -96,6 +96,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Invoice(int OrderId = 0)
         {
             var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId = OrderId });
+            res.InvoiceNo = Helper.O.GenerateInvoiceNumber(OrderId);
             return View(res);
         }
         [HttpPost]
