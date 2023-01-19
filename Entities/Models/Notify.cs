@@ -9,6 +9,8 @@ namespace Entities.Models
     public class SMSEmailWhatsappNotification
     {
         public int UserID { get; set; }
+        public string OTP { get; set; }
+        public string PhoneNumber { get; set; }
         public MessageFormat FormatID { get; set; }
         public bool IsSms { get; set; }
         public bool IsEmail { get; set; }
@@ -172,7 +174,7 @@ namespace Entities.Models
     public class SocialAlertFormat
     {
         public bool IsSocialAlert { get; set; }
-        public string SocialAlertTemplate { get; set; }
+        public string WhatsappTemplate { get; set; }
         public string ScanNo { get; set; }
         public string CountryCode { get; set; }
         public int SocialAlertAPIID { get; set; }
