@@ -83,11 +83,11 @@ namespace WebApp.Controllers
             {
                 response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             }
-            if (response.StatusCode == ResponseStatus.Success)
-            {
-                return PartialView();
-            }
-            return Ok(response);
+            //if (response.StatusCode == ResponseStatus.Success)
+            //{
+            //    return PartialView();
+            //}
+            return Json(response);
         }
         #endregion
 

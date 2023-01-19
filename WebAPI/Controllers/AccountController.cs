@@ -101,7 +101,7 @@ namespace WebAPI.Controllers
 
                 /* Send SMS here */
                 #region send Notification
-                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true,IsEmail=true }, User.GetLoggedInUserId<int>());
+                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsEmail=true }, User.GetLoggedInUserId<int>());
                 #endregion
                 /* End SMS */
 
@@ -289,7 +289,7 @@ namespace WebAPI.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User creation failed! Please check user details and try again." });
             #region send Notification
-            await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true }, User.GetLoggedInUserId<int>());
+            _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true }, User.GetLoggedInUserId<int>());
             #endregion
             return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "User created successfully!" });
         }
