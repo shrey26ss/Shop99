@@ -31,10 +31,10 @@ namespace Entities.Models
         public int PaymentModeId { get; set; }
         public string PaymentMode { get; set; }
         public string Remark { get; set; }
+        public string InvoiceNumber { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {
-        public string InvoiceNumber { get; set; }
         public string DocketNo { get; set; }
         public DateTime ReturnTillOn { get; set; }
     }

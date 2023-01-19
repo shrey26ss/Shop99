@@ -31,7 +31,7 @@
                         {
                             <a href="#" onclick="MarkasShipped('@item.ID')" class="dropdown-item Edit">Mark as Shipped</a>
                         }
-                        @if (item.StatusID == StatusType.OrderReplaced)
+                        @if (item.StatusID == StatusType.ReturnInitiated)
                         {
                             <a href="#" onclick="IsReplacedConform('@item.ID')" class="dropdown-item Edit">Replacement Conform</a>
                         }

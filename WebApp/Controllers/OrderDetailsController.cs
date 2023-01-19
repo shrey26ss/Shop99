@@ -53,9 +53,8 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> MarkAsShippV(int Id)
         {
-            string o = Id.ToString();
-            string InVoiceNo=$"TID{o.PadLeft(7,'0')}A";
-            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id,InvoiceNumber= InVoiceNo });
+            var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId = Id });
+            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id,InvoiceNumber= res.InvoiceNo });
         }
         public IActionResult ShareTrackingDetails(TrackingModel model)
         {
@@ -86,6 +85,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ChangeStatus(OrderDetailsVM model)
         {
             var res = new Response();
+            if(model.StatusID == StatusType.Confirmed)
+                model.InvoiceNumber = Helper.O.GenerateInvoiceNumber(model.ID);
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/ChangeStatus", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -96,7 +97,6 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Invoice(int OrderId = 0)
         {
             var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId = OrderId });
-            res.InvoiceNo = Helper.O.GenerateInvoiceNumber(OrderId);
             return View(res);
         }
         [HttpPost]

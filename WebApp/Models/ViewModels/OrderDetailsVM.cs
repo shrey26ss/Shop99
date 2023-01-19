@@ -7,6 +7,7 @@ namespace WebApp.Models.ViewModels
         public int ID { get; set; }
         public string Remark { get; set; }
         public StatusType StatusID { get; set; }
+        public string InvoiceNumber { get; set; }
     }
     public class TrackingModel
     {
