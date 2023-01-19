@@ -184,6 +184,10 @@ namespace WebApp.Controllers
             {
                 var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/SendLoginOTP", JsonConvert.SerializeObject(model));
                 var deserializeObject = JsonConvert.DeserializeObject<Response>(Response.Result);
+                if (deserializeObject.ResponseText.EndsWith("not registered"))
+                {
+                    ModelState.AddModelError(string.Empty, "It seems you are not registered with us. Please sign up");
+                }
                 if (deserializeObject.StatusCode == ResponseStatus.Success)
                 {
                     res.StatusCode = "Success";
@@ -272,6 +276,5 @@ namespace WebApp.Controllers
             HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
             return LocalRedirect(returnUrl);
         }
-
     }
 }

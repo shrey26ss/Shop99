@@ -26,5 +26,11 @@ namespace WebApp.AppCode.Helper
             }
             return response;
         }
+        public string GenerateInvoiceNumber(int Id)
+        {
+            string o = Id.ToString();
+            string InvoiceNo = $"TID{o.PadLeft(7, '0')}A";
+            return InvoiceNo;
+        }
     }
 }
