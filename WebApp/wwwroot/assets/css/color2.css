@@ -1169,6 +1169,46 @@ button {
     background-color: #2874f0;
 }*/
 
+.btn-normal2 {
+    font-size: 14px;
+    padding: 18px 45px;
+    font-weight: 700;
+    color: #ffffff !important;
+    background-color: #ff8500;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    display: inline-block;
+    line-height: 1;
+    border-radius: 0;
+    letter-spacing: 0.05em;
+}
+
+    .btn-normal2.btn-outline {
+        background-color: #ffffff;
+        border: 1px solid #2874f0;
+        color: #444444 !important;
+    }
+
+        .btn-normal2.btn-outline:hover {
+            background-color: #2874f0;
+            color: #ffffff !important;
+        }
+
+    .btn-normal2:hover {
+        background-color: #000000;
+    }
+
+    .btn-normal2.btn-md {
+        padding: 15px 30px;
+        text-transform: capitalize;
+    }
+
+    .btn-normal2.btn-xs {
+        padding: 10px 15px;
+        text-transform: capitalize;
+    }
+
 .btn-normal {
     font-size: 14px;
     padding: 18px 45px;
@@ -1247,6 +1287,8 @@ button {
             background-color: #2874f0;
             color: #ffffff !important;
         }
+
+
 
 /*=====================
   2.Services CSS start
