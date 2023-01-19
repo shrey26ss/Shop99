@@ -42,10 +42,13 @@ namespace Service.Notify
                 ResponseText = ResponseStatus.Failed.ToString()
             };
             var res = await GetUserDeatilForAlert(req.UserID);
-          
+            res.OTP=req.OTP==null?"0": req.OTP;
+            res.PhoneNumber = req.PhoneNumber==null? res.PhoneNumber: req.PhoneNumber;
+            res.WhatsappNo = req.PhoneNumber == null ? res.WhatsappNo : req.PhoneNumber;
                 res.FormatID = req.FormatID;
                 if (req.IsSms)
                 {
+               
                     await NotifySMS(res);
                 }
                 if (req.IsEmail)
@@ -299,10 +302,7 @@ namespace Service.Notify
                     }
                     param.SocialAlertType = int.Parse(ActivatedType[i]);
                     var dbparams = new DynamicParameters();
-                    dbparams.Add("LoginID", param.UserID, DbType.Int32);
-                    dbparams.Add("FormatID", param.FormatID, DbType.Int32);
-                    dbparams.Add("SocialAlertType", param.SocialAlertType, DbType.Int32);
-
+                    dbparams.Add("FormatID",(int)param.FormatID, DbType.Int32);
                     string selectTemplate = @" select * from MessageTemplate(nolock) where FormatID=@FormatID
                          SELECT 1,id, apitype,transactiontype,name, url, isactive, isdefault, isdeleted,  entryby, entrydate, modifyby,modifydate, apimethod,      
       restype,ismultipleallowed,ApiCode       
@@ -319,7 +319,7 @@ namespace Service.Notify
                     if (socialAlertFormat != null && socialAlertFormat.Count > 0)
                     {
                         var NotificationDetail = socialAlertFormat.FirstOrDefault();
-                        string formatedMessage = GetFormatedMessage(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.SocialAlertTemplate, param);
+                        string formatedMessage = GetFormatedMessage(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.WhatsappTemplate, param);
                         if (!string.IsNullOrEmpty(NotificationDetail.WhatsappTitle))
                         {
                             NotificationDetail.WhatsappTitle = GetFormatedMessage(NotificationDetail.WhatsappTitle, param);
@@ -329,7 +329,7 @@ namespace Service.Notify
                             NotificationDetail.WhatsappFooter = GetFormatedMessage(NotificationDetail.WhatsappFooter, param);
                         }
                         //param.OTP = "******";
-                        string formatedMessageSave = GetFormatedMessageForSaving(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.SocialAlertTemplate, param);
+                        string formatedMessageSave = GetFormatedMessageForSaving(!string.IsNullOrEmpty(param.Message) ? param.Message : NotificationDetail.WhatsappTemplate, param);
                         var detail = smsapi.FirstOrDefault();
                         if (!string.IsNullOrEmpty(sendTo))
                         {
@@ -406,6 +406,7 @@ namespace Service.Notify
                 {
                     _res.StatusCode = ResponseStatus.Success;
                     _res.ResponseText = ResponseStatus.Success.ToString();
+                    GetNotify();
                 }
                 else
                 {

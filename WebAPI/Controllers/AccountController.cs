@@ -101,7 +101,7 @@ namespace WebAPI.Controllers
 
                 /* Send SMS here */
                 #region send Notification
-                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsEmail=true }, User.GetLoggedInUserId<int>());
+                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsWhatsapp=true,PhoneNumber= model.MobileNo,OTP= model.Password }, User.GetLoggedInUserId<int>());
                 #endregion
                 /* End SMS */
 
