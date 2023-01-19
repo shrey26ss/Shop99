@@ -89,6 +89,10 @@ namespace Service.OrderDetails
                 {
                     res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Recived Successfully',ReturnRemark=@Remark  Where ID=@ID; update ReturnAndReplaceProducts set StatusID = @StatusID,UpdatedOn = Getdate() where OrderID = @ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
+                else if(req.StatusID == StatusType.Confirmed)
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,InvoiceNo = @InvoiceNumber ,@StatusCode = 1,@ResponseText = 'Order Confirmed Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, req.InvoiceNumber, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
                 else
                 {
                     res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
@@ -167,7 +171,7 @@ namespace Service.OrderDetails
         }
         public async Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id)
         {
-            string sp = @"Select ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
+            string sp = @"Select o.InvoiceNo,ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
 vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email VendorEmail,
 stuff((    
   select ',' + aiu.AttributeValue    
