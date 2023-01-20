@@ -33,17 +33,28 @@
                         }
                         @if (item.StatusID == StatusType.ReturnInitiated)
                         {
-                            <a href="#" onclick="IsReplacedConform('@item.ID')" class="dropdown-item Edit">Replacement Conform</a>
+                            <a href="#" onclick="IsReturnCancelConform('@item.ID','@StatusType.ReturnCanceled')" class="dropdown-item Edit">Return Cancel</a>
+                            <a href="#" onclick="IsReturnCancelConform('@item.ID','@StatusType.ReturnConfirmred')" class="dropdown-item Edit">Return Conform</a>
+                        }
+                        @if (item.StatusID == StatusType.OrderReplaceInitiated)
+                        {
+                            <a href="#" onclick="IsReplaceCancelConform('@item.ID','@StatusType.ReplaceRejected')" class="dropdown-item Edit">Replace Cancel</a>
+                            <a href="#" onclick="IsReplaceCancelConform('@item.ID','@StatusType.ReplacementAccepted')" class="dropdown-item Edit">Replace Conform</a>
+                        }
+                        @if (item.StatusID == StatusType.ReplacementAccepted)
+                        {
+                            <a href="#" onclick="OrderReplaced('@item.ID','@StatusType.OrderReplaced')" class="dropdown-item Edit">Order Replaced</a>
                         }
                         @if (item.StatusID == StatusType.CancelRequest || item.StatusID == StatusType.CancelRequestRejected)
                         {
                             <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Order Cancel Approved</a>
-                            @if(item.StatusID != StatusType.CancelRequestRejected)
+                            @if (item.StatusID != StatusType.CancelRequestRejected)
                             {
                                 <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.CancelRequestRejected')" class="dropdown-item Edit">Order Cancel Reject</a>
                             }
                         }
-                        @if(item.StatusID != StatusType.Cancel && item.StatusID != StatusType.OrderPlaced){
+                        @if (item.StatusID != StatusType.Cancel && item.StatusID != StatusType.OrderPlaced)
+                        {
                             <a href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
                         }
                     </div>
@@ -88,13 +99,42 @@
             }
         });
     }
-    var IsReplacedConform = (Id) => {
-        $.post('/OrderDetails/OrderReplacedConform', { ID: Id }).done(function(result) {
-            Q.notify(result.statusCode, result.responseText);
-        }).fail(function(xhr) {
-            console.log(xhr.responseText);
-            Q.notify(-1, 'something went wrong.');
-        });
+    var IsReturnCancelConform = (Id, StatusID) => {
+        if (StatusID == 'ReturnCanceled') {
+            let btntxt = StatusID == 'ReturnCanceled' ? "Procced Cancel Request" : "Procced Replacement Accepted";
+            const html = `<div class="form-group">
+                                                                           <label for="inputAddress">Reason</label>
+                                                                           <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                                                           </div>
+                                                                           <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                                                                           `;
+            Q.alert({
+                title: 'Add Reason',
+                body: html,
+                width: 500
+            });
+            $('#btnSubmitRemark').click(function() {
+                let remark = $('#txtRemark').val();
+                $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: remark }).done(function(result) {
+                    Q.notify(result.statusCode, result.responseText);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 5000);
+                }).fail(function(xhr) {
+                    console.log(xhr.responseText);
+                    Q.notify(-1, 'something went wrong.');
+                });
+            });
+        }
+        else {
+            $.post('/OrderDetails/OrderReplacedConform', { ID: Id, StatusID: StatusID }).done(function(result) {
+                Q.notify(result.statusCode, result.responseText);
+                window.location.reload();
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                Q.notify(-1, 'something went wrong.');
+            });
+        }
     }
     var IsCancelConfAndRej = (Id, StatusId) => {
         let obj = {
@@ -103,6 +143,54 @@
         }
         $.post('/OrderDetails/ChangeStatus', obj).done(function(result) {
             Q.notify(result.statusCode, result.responseText);
+        }).fail(function(xhr) {
+            console.log(xhr.responseText);
+            Q.notify(-1, 'something went wrong.');
+        });
+    }
+    var IsReplaceCancelConform = (Id, StatusID) => {
+        if (StatusID == 'ReplaceRejected') {
+            let btntxt = StatusID == 'ReplaceRejected' ? "Procced Cancel Replacement" : "Procced Replacement Accepted";
+            const html = `<div class="form-group">
+                                                                           <label for="inputAddress">Reason</label>
+                                                                           <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                                                           </div>
+                                                                           <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                                                                           `;
+            Q.alert({
+                title: 'Add Reason',
+                body: html,
+                width: 500
+            });
+            $('#btnSubmitRemark').click(function() {
+                let remark = $('#txtRemark').val();
+                $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: remark }).done(function(result) {
+                    Q.notify(result.statusCode, result.responseText);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 5000);
+                }).fail(function(xhr) {
+                    console.log(xhr.responseText);
+                    Q.notify(-1, 'something went wrong.');
+                });
+            });
+        }
+        else {
+            $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID }).done(function(result) {
+                Q.notify(result.statusCode, result.responseText);
+                window.location.reload();
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                Q.notify(-1, 'something went wrong.');
+            });
+        }
+    }
+    var OrderReplaced = (Id, StatusID) => {
+        $.post('/OrderDetails/OrderReplacedConform', { ID: Id, StatusID: StatusID }).done(function(result) {
+            Q.notify(result.statusCode, result.responseText);
+            setTimeout(function() {
+                window.location.reload();
+            }, 5000);
         }).fail(function(xhr) {
             console.log(xhr.responseText);
             Q.notify(-1, 'something went wrong.');

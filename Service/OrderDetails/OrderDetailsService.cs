@@ -72,7 +72,7 @@ namespace Service.OrderDetails
                 {
                     res = await _dapper.GetAsync<Response>("declare @PreviousStatusID int select @PreviousStatusID = PreviousStatusID from Orders where ID =@ID; UPdate Orders set PreviousStatusID = StatusID,StatusID = @PreviousStatusID , Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Request Rejected Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
-                if (req.StatusID == StatusType.CancelRequest)
+                if (req.StatusID == StatusType.CancelRequest || req.StatusID == StatusType.ReturnCanceled)
                 {
                     res = await _dapper.GetAsync<Response>("UPdate Orders set PreviousStatusID = StatusID, StatusID = @StatusID, Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Requested Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
@@ -81,9 +81,21 @@ namespace Service.OrderDetails
                     string sp = "proc_OrderCancel";
                     res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
                 }
+                else if (req.StatusID == StatusType.OrderReplaceInitiated)
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Replace Initiated Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
+                else if (req.StatusID == StatusType.ReplaceRejected)
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Replace Rejected Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
+                else if (req.StatusID == StatusType.ReplacementAccepted)
+                {
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Order Replacement Accepted Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                }
                 else if (req.StatusID == StatusType.OrderReplaced)
                 {
-                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Order Replaced Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
                 else if (req.StatusID == StatusType.ReturnRecived)
                 {
@@ -210,8 +222,31 @@ where o.ID = @Id";
                 res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     req.ID,
-                    req.Role
+                    req.Role,
+                    req.StatusID
                 }, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<UsersOrderTrakingRes> GetUsersOrderTraking(OrderReplacedConformReq req)
+        {
+            var res = new UsersOrderTrakingRes();
+            try
+            {
+                string sqlQuery = @"select o.ID,u.Name as VendorName,CONVERT(varchar,otl.CreatedOn,106) CreatedOn,o.StatusID,v.Thumbnail,u.Email,v.Title,v.MRP,v.SellingCost,ua.FullName,ua.MobileNo,ua.Pincode,ua.HouseNo,ua.Area,ua.Landmark,ua.TownCity,s.StateName from Orders o inner join VariantGroup v on o.VarriantID = v.Id 
+                   inner join UserAddress ua on o.ShippingAddressID = ua.Id
+                   inner join States s on ua.StateID = s.Id 
+                   inner join VendorProfile vp on  o.VendorID = vp.Id
+                   inner join Users u on vp.UserId = u.Id 
+                   inner join OrderTimeline otl  on o.ID = otl.OrderID where o.ID = @ID";
+                res = await _dapper.GetAsync<UsersOrderTrakingRes>(sqlQuery, new
+                {
+                    req.ID
+                }, CommandType.Text);
             }
             catch (Exception ex)
             {

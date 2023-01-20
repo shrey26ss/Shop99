@@ -21,8 +21,8 @@ namespace Entities.Enums
         ReturnInitiated = 6,
         [Description("Return Completed")]
         ReturnCompleted = 7,
-        [Description("Order Replaced")]
-        OrderReplaced = 8,
+        [Description("Order Replace Initiated")]
+        OrderReplaceInitiated = 8,
         [Description("Replacement Accepted")]
         ReplacementAccepted = 9,
         [Description("Return Recived")]
@@ -31,6 +31,16 @@ namespace Entities.Enums
         CancelRequest = 11,
         [Description("Cancel Rejected")]
         CancelRequestRejected = 12,
+        [Description("Return Confirmred")]
+        ReturnConfirmred = 13,
+        [Description("Return Canceled")]
+        ReturnCanceled = 14,
+        [Description("Order Replaced")]
+        OrderReplaced = 15,
+        [Description("Replace Rejected")]
+        ReplaceRejected = 16,
+        [Description("Out For Delivery")]
+        OutForDelivery = 17,
     }
     public enum PurchaseType
     {

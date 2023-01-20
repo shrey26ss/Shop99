@@ -18,7 +18,7 @@
                 </a>
             </td>
             <td>
-                <a href="/productdetails/@item.VarriantID">order no: <span class="dark-data">@item.OrderID.ToString().ToUpper()</span> <br>@item.Title</a>
+                <a href="/UserOrderDetails/?OrderId=@item.ID">order no: <span class="dark-data">@item.OrderID.ToString().ToUpper()</span> <br>@item.Title</a>
                 <div class="mobile-cart-content row">
                     <div class="col-xs-3">
                         <div class="qty-box">
@@ -65,17 +65,17 @@
                 </span>
             </td>
             <td>
-                @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted)
+                @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted && item.StatusID != StatusType.ReturnConfirmred && item.StatusID != StatusType.OrderReplaceInitiated && item.StatusID != StatusType.ReplacementAccepted && item.StatusID != StatusType.OrderReplaced && item.StatusID != StatusType.ReplaceRejected)
                 {
                     <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
                 }
-                @if (item.StatusID == StatusType.Delivered && deliveredDays <= 0)
+                @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
                 {
                     <a href="#" onclick="ReturnItem('@item.ID','@StatusType.ReturnInitiated')" class="btn btn-sm btn-info btnCancelOrder">Return</a>
                 }
-                @if (item.StatusID == StatusType.Delivered && deliveredDays <= 0)
+                @if (item.StatusID == StatusType.Delivered || item.StatusID == StatusType.CancelRequest && deliveredDays <= 10)
                 {
-                    <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaced')" class="btn btn-sm btn-info btnCancelOrder">Replace</a>
+                    <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaceInitiated')" class="btn btn-sm btn-info btnCancelOrder">Replace</a>
                 }
             </td>
         </tr>

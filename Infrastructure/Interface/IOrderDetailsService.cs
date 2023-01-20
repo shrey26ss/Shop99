@@ -14,6 +14,7 @@ namespace Infrastructure.Interface
         Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id);
         Task<IResponse> OrderReplacedConform(OrderReplacedConformReq req);
         Task<IResponse<IEnumerable<ReturnRequestList>>> GetReturnRequest(dynamic param = null);
+        Task<UsersOrderTrakingRes> GetUsersOrderTraking(OrderReplacedConformReq req);
 
         //Task<IResponse<IEnumerable<TColumn>>> GetAsync<TColumn>(Expression<Func<TColumn, bool>> predicate);
         //string GetAsync<OrderDetailsRow>(Expression<Func<OrderDetailsRow, bool>> predicate);
