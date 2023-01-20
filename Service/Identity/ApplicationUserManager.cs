@@ -26,7 +26,7 @@ namespace Service.Identity
             var user = new ApplicationUser();
             try
             {
-                string sqlQuery = @"SELECT u.Id,u.UserName,u.RefreshToken,u.[Name], r.[RoleId] as [Role], u.Email 
+                string sqlQuery = @"SELECT u.Id,u.UserName,u.RefreshToken,u.[Name], r.[RoleId] as [Role], u.Email ,u.PhoneNumberConfirmed
                                 FROM Users u(nolock) 
                                      LEFT join UserRoles r(nolock) on r.UserId = u.Id 
                                      LEFT join ApplicationRole ar(nolock) on ar.Id = r.RoleId 
@@ -93,6 +93,16 @@ namespace Service.Identity
             }
             return result;
         }
+         public async Task<IdentityResult> ConfirmPhoneNumber(string mobileNo, string otp, bool lockoutOnFailure = false)
+        {
+            var result = IdentityResult.Failed();
+            int i = await _dapperRepository.GetAsync<int>("proc_ConfirmPhoneNumber", new { mobileNo, otp, lockoutOnFailure }, commandType: CommandType.StoredProcedure);
+            if (i > 0)
+            {
+                result = IdentityResult.Success;
+            }
+            return result;
+        }
 
         public async Task<Response> SaveLoginOTP(string mobileNo, string otp)
         {
@@ -109,11 +119,7 @@ namespace Service.Identity
             }
             try
             {
-                var sqlQuery = @"IF NOT Exists (Select 1 from Users Where PhoneNumber = @mobileNo)
-                             begin
-                             	Select -1 StatusCode,'Mobile number is not registered' ResponseText
-                             	return
-                             end
+                var sqlQuery = @"
                              INSERT INTO RequestedOTP(MobileNo,OTP,[Action],EntryOn, IsUsed,attemptedCount) 
                              VALUES (@mobileNo,@otp,'LOGINOTP',GETDATE(),0,0)
                              Select 1 StatusCode,'OTP Send Successfully' ResponseText";

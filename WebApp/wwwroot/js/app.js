@@ -7,7 +7,11 @@
         }
     });
     $('body').on('submit', 'form', function () {
-        ajaxFormSubmit(this)
+        let ajaxDisabled = $(this).attr('ajaxDisabled');
+        //ajaxFormSubmit(this)
+        if (ajaxDisabled === undefined || ajaxDisabled.toLowerCase() === 'false') {
+            ajaxFormSubmit(this)
+        }
     });
 })();
 var dialog;

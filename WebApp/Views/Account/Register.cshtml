@@ -26,8 +26,70 @@
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @*<h5>Create your  Account.</h5>*@
 @Html.Partial("PartialView/_Register")
-@*<hr>
-<div class="actions align-left">
-    <span class="additional-link">Have an account? </span>
-    <a href="~/Account/Login" class="btn btn-dark">Login</a>
-</div>*@
+
+
+
+
+@section scripts{
+<script>
+      $('body').on('input','#txtPhoneNumber' ,function () {
+              let currentEle = $(this);
+              let eleValue = currentEle.val();
+              if (eleValue.length < 10) {
+                  let _lastChar = eleValue?.slice(-1);
+                  let keycode = (_lastChar.charCodeAt(0));
+                  if (keycode >= 48 && keycode <= 57) {
+                  }
+                  else {
+                      currentEle.val(eleValue.slice(0, (eleValue.length - 1)));
+                  }
+              }
+              else {
+                   console.log($('#txtPhoneNumber').val());
+               checkmobileno($('#txtPhoneNumber').val());
+
+              }
+    });
+          $('body').on('paste','#txtPhoneNumber', function (e) {
+              let pastedData = e.originalEvent.clipboardData.getData('text');
+              pastedData = pastedData?.trim() ?? '';
+              if (isNaN(pastedData) || pastedData.length > 10) {
+                  pastedData = pastedData.substring(0, 10);
+                  element.val(pastedData)
+                  return false;
+              }
+          })
+           const checkmobileno = async function (mobileno) {
+            await $.post("/Account/OtpRegistration", { MobileNo: mobileno }).done(res => {
+               const obj = JSON.parse(res);
+               if(obj.statusCode==1)
+               {
+                    $('#registration').removeClass( "d-none");
+                    $('#otpreg').removeClass( "d-none");
+                    $('#btnSubmit').text('Create Account');
+                      Q.notify(obj.statusCode, obj.responseText);
+               }
+               else if(obj.statusCode==2)
+               {
+                  
+                   $('#txtName').val('name');
+                   $('#txtPassword').val('password');
+                   $('#txtConfirmPassword').val('password');
+                        $('#btnSubmit').text('Verify OTP');
+                    $('#registration').addClass("d-none");
+                    $('#otpreg').removeClass( "d-none");
+                      Q.notify(obj.statusCode, obj.responseText);
+               }
+               else
+               {
+                   console.log(obj.statusCode);
+                          $('#registration').addClass("d-none");
+                          $('#otpreg').addClass("d-none");
+                          Q.notify(obj.statusCode, obj.responseText);
+               }
+            }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+        }
+
+</script>
+}
+

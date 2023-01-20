@@ -172,7 +172,7 @@ namespace Service.OrderDetails
         public async Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id)
         {
             string sp = @"Select o.InvoiceNo,ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
-vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email VendorEmail,
+vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email VendorEmail,o.IGST,o.CGST,o.SGST,
 stuff((    
   select ',' + aiu.AttributeValue    
   from AttributeInfo aiu    

@@ -45,10 +45,10 @@ namespace Service.Notify
             res.OTP=req.OTP==null?"0": req.OTP;
             res.PhoneNumber = req.PhoneNumber==null? res.PhoneNumber: req.PhoneNumber;
             res.WhatsappNo = req.PhoneNumber == null ? res.WhatsappNo : req.PhoneNumber;
+            res.Name = req.Name == null ? res.Name : req.Name;
                 res.FormatID = req.FormatID;
                 if (req.IsSms)
                 {
-               
                     await NotifySMS(res);
                 }
                 if (req.IsEmail)
@@ -59,7 +59,6 @@ namespace Service.Notify
                 {
                     await NotifySocialALert(res);
                 }
-            
             return _res;
         }
 
@@ -423,6 +422,7 @@ namespace Service.Notify
         private string GetFormatedMessage(string Template, AlertReplacementModel Replacements)
         {
             StringBuilder sb = new StringBuilder(Template);
+            sb.Replace("{Name}", Replacements.Name);
             sb.Replace("{FromUserName}", Replacements.LoginUserName);
             sb.Replace("{FromUserMobile}", Replacements.PhoneNumber);
             sb.Replace("{Amount}", Convert.ToString(Replacements.Amount));

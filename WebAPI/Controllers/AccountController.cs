@@ -93,21 +93,77 @@ namespace WebAPI.Controllers
             var res = new Response<AuthenticateResponse>
             {
                 StatusCode = ResponseStatus.Failed,
-                ResponseText = "Invalid OTP"
+                ResponseText = "It seems you are not registered with us. Please sign up.!"
             };
             try
             {
+                var userExists = await _userManager.FindByMobileNoAsync(model.MobileNo);
+                if (userExists?.Id < 1)
+                    return Ok(res);
                 model.Password = AppUtility.Helper.Utility.O.GenrateRandom(6, true);
 
                 /* Send SMS here */
                 #region send Notification
-                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsWhatsapp=true,PhoneNumber= model.MobileNo,OTP= model.Password }, User.GetLoggedInUserId<int>());
+                await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsWhatsapp = true, PhoneNumber = model.MobileNo, OTP = model.Password }, User.GetLoggedInUserId<int>());
                 #endregion
                 /* End SMS */
 
                 var result = await _userManager.SaveLoginOTP(model.MobileNo, model.Password);
                 res.StatusCode = result.StatusCode;
                 res.ResponseText = result.ResponseText;
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = "Something went wrong.Please tru after some time.";
+                _logger.LogError(ex, ex.Message);
+            }
+            return Ok(res);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("/api/OtpRegistration")]
+        public async Task<IActionResult> OtpRegistration(LoginViewModel model)
+        {
+            var res = new Response<AuthenticateResponse>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Mobile no Allready Exists Try another Mobile no."
+            };
+            try
+            {
+                model.Password = AppUtility.Helper.Utility.O.GenrateRandom(6, true);
+                var userExists = await _userManager.FindByMobileNoAsync(model.MobileNo);
+                if (userExists?.Id < 1)
+                {
+                    var result = await _userManager.SaveLoginOTP(model.MobileNo, model.Password);
+                    if (result.StatusCode == ResponseStatus.Success)
+                    {
+                        await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsWhatsapp = true, PhoneNumber = model.MobileNo, OTP = model.Password }, User.GetLoggedInUserId<int>());
+                        res.StatusCode = ResponseStatus.Success;
+                        res.ResponseText = "Otp Sent On Your MobileNo.";
+                    }
+                    else
+                    {
+                        res.StatusCode = result.StatusCode;
+                        res.ResponseText = result.ResponseText;
+                    }
+                }
+                else if (!userExists.PhoneNumberConfirmed)
+                {
+                    var result = await _userManager.SaveLoginOTP(model.MobileNo, model.Password);
+                    if (result.StatusCode == ResponseStatus.Success)
+                    {
+                        await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.OTP, IsSms = true, IsWhatsapp = true, PhoneNumber = model.MobileNo, OTP = model.Password }, User.GetLoggedInUserId<int>());
+                        res.StatusCode = ResponseStatus.Pending;
+                        res.ResponseText = "Otp Sent On Your MobileNo.";
+                    }
+                    else
+                    {
+                        res.StatusCode = result.StatusCode;
+                        res.ResponseText = result.ResponseText;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -270,8 +326,18 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Register(RegisterViewModels model)
         {
             var userExists = await _userManager.FindByMobileNoAsync(model.PhoneNumber);
-            if (userExists?.Id > 0 && userExists.ToString() != "{}")
+            if (userExists?.Id > 0 && userExists.ToString() != "{}" && userExists.PhoneNumberConfirmed)
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User already exists!" });
+            }
+            else if(userExists?.Id > 0 && !userExists.PhoneNumberConfirmed)
+            {
+                var otpverify = await _userManager.ConfirmPhoneNumber(model.PhoneNumber, model.OTP, lockoutOnFailure: true);
+                if (otpverify.Succeeded)
+                {
+                    return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "OTP Verified Successfull" });
+                }
+            }
             ApplicationUser user = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -289,9 +355,21 @@ namespace WebAPI.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User creation failed! Please check user details and try again." });
             #region send Notification
-            _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true }, User.GetLoggedInUserId<int>());
+
+
+            var otpverify2 = await _userManager.ConfirmPhoneNumber(model.PhoneNumber, model.OTP, lockoutOnFailure: true);
+            if (otpverify2.Succeeded)
+            {
+                _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true, IsWhatsapp = true, PhoneNumber = model.PhoneNumber, Name = model.Name }, User.GetLoggedInUserId<int>());
+                return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "User created successfully!" });
+            }
+            else
+            {
+                return Ok(new Response { StatusCode = ResponseStatus.Failed, ResponseText = "Invalid OTP!" });
+            }
+         
             #endregion
-            return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "User created successfully!" });
+            
         }
     }
 }

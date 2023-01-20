@@ -284,9 +284,11 @@
                                         <tr>
                                             <th>#</th>
                                             <th class="text-left">DESCRIPTION</th>
-                                            <th class="text-right">HOUR PRICE</th>
-                                            <th class="text-right">QUANTITY</th>
-                                            <th class="text-right">TOTAL</th>
+                                             <th class="text-right">GST </th>
+                                            <th class="text-right">PRICE </th>
+                                            <th class="text-right">QUANTITY</th>    
+                                           
+                                            <th class="text-right">TOTAL </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -302,17 +304,24 @@
                                                     @Model.Attributes
                                                 </a>
                                             </td>
-                                            <td class="unit">@Model.Rate</td>
+                                             <td class="qty">
+                                                @{
+                                                    string gst = Model.IGST > 0 ? "IGST ₹ " + Model.IGST*Model.Qty :Model.SGST>0? "CGST/SGST ₹ " + (Model.SGST + Model.CGST)*Model.Qty:"0";
+                                                }
+                                                 @gst
+                                                 
+                                             </td>
+                                            <td class="unit">₹ @Model.Rate</td>
                                             <td class="qty">@Model.Qty</td>
-                                            <td class="total">@(Model.Rate)</td>
+                                            <td class="total">₹ @(Convert.ToDouble((Model.Rate)*Model.Qty)+Model.IGST+Model.CGST+Model.SGST)</td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
-                                        <tr>
+                                      @*  <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">SUBTOTAL</td>
                                             <td>₹@(Model.Rate * Model.Qty)</td>
-                                        </tr>
+                                        </tr>*@
                                         @*<tr>
                                         <td colspan="2"></td>
                                         <td colspan="2">TAX 25%</td>
@@ -321,10 +330,12 @@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">GRAND TOTAL</td>
-                                            <td>₹@(Model.Rate * Model.Qty)</td>
+                                            <td>₹ @(Convert.ToDouble((Model.Rate)*Model.Qty)+Model.IGST+Model.CGST+Model.SGST)</td>
                                         </tr>
                                     </tfoot>
                                 </table>
+                                 <br />
+                                <br />
                                 <div class="thanks">Thank you!</div>
                                 <div class="notices">
                                     <div>NOTICE:</div>

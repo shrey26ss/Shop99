@@ -78,6 +78,10 @@ namespace Entities.Models
         public string VendorState { get; set; }
         public string VendorEmail { get; set; }
         public int Qty { get; set; }
+        public double IGST { get; set; }
+        public double SGST { get; set; }
+        public double CGST { get; set; }
+             
     }
     public class OrderReplacedConformReq
     {

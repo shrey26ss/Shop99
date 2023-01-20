@@ -76,7 +76,6 @@ namespace WebApp.Controllers
         [ValidateAjax]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            model.OTP = Utility.O.GenrateRandom(6, true);
             var response = new Response();
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/register", JsonConvert.SerializeObject(model), null);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
@@ -266,7 +265,21 @@ namespace WebApp.Controllers
             }
             return View("Login", res);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> OtpRegistration(string  MobileNo)
+        {
+            var otpmodel = new LoginViewModel()
+            {
+                MobileNo= MobileNo
+            };
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OtpRegistration", JsonConvert.SerializeObject(otpmodel));
+            return Json(Response.Result);
+        }
         #endregion
+
+
 
         public async Task<IActionResult> Logout(string returnUrl = "/")
         {

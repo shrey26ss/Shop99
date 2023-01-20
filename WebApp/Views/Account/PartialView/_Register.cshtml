@@ -5,72 +5,69 @@
 
 <div class="row mt-2 mb-2">
     <div class="col-lg-4 offset-lg-4">
-        <div class="theme-card">
+        <div class="theme-card " id="register">
             <h3 class="text-center">Create account</h3>
             <form class="theme-form" id="RegisterForm" action="@Html.Raw(Model.Id==0?"/Account/Register":"/User/Update")" method="post">
                 <input type="hidden" value="@Model.Id" name="@nameof(Model.Id)" />
-                <div class="row g-3">
-                    <div class="col-md-12 form-group">
-                        <label asp-for="Name" class="control-label"></label><span class="text-danger">*</span>
-                        <input asp-for="Name" maxlength="32" id="txtName" autocomplete="off" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-12 form-group">
-                        <label class="control-label">Mobile No</label><span class="text-danger">*</span>
-                        <input asp-for="PhoneNumber"  id="txtPhoneNumber" autocomplete="off" class="form-control" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-                    @if (Model.Id == 0)
-                    {
+                <div id="register">
+                    <div class="row g-3">
                         <div class="col-md-12 form-group">
-                            <label asp-for="Password" class="control-label"></label><span class="text-danger">*</span>
-                            <input asp-for="Password" id="txtPassword" autocomplete="new-password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <label class="control-label">Mobile No</label><span class="text-danger">*</span>
+                            <input asp-for="PhoneNumber" maxlength="10" id="txtPhoneNumber" autocomplete="off" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
-                        <div class="col-md-12 form-group">
-                            <label class="control-label">Confirm Password</label><span class="text-danger">*</span>
-                            <input asp-for="ConfirmPassword" id="txtConfirmPassword" autocomplete="off" class="form-control" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label class="control-label">Signup As</label><span class="text-danger">*</span><br />
-                            <input asp-for="Role" type="radio" value="@Role.Customer" checked/> Customer Signup
-                            <input asp-for="Role" type="radio" value="@Role.Vendor" /> Vendor Signup
-                            <span asp-validation-for="Role" class="text-danger"></span>
-                        </div>
-                    }
-                    <div class="col-md-12 form-group">
-                        <button type="submit" id="btnSubmit" class="btn btn-normal">@Html.Raw(Model.Id==0? "Create Account" : "Update") </button>
-                    </div>
-                </div>
 
-                <div class="row g-3">
-                    <div class="col-md-12 ">
-                        <p>Have you already account? <a href="/account/login" class="txt-default">click here to Login</a></p>
+                    </div>
+                      <div class="row g-3 d-none" id="otpreg">
+                        <div class="col-md-12 form-group">
+                            <label class="control-label">OTP</label><span class="text-danger">*</span>
+                            <input asp-for="OTP" maxlength="10" id="textOTP" autocomplete="off" class="form-control" />
+                            <span asp-validation-for="OTP" class="text-danger"></span>
+                       </div>
+                     
+                    </div>
+                    <div class="row g-3 d-none" id="registration">
+                        <div class="col-md-12 form-group">
+                            <label asp-for="Name" class="control-label"></label><span class="text-danger">*</span>
+                            <input asp-for="Name" maxlength="32" id="txtName" autocomplete="off" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        @if (Model.Id == 0)
+                        {
+                            <div class="col-md-12 form-group">
+                                <label asp-for="Password" class="control-label"></label><span class="text-danger">*</span>
+                                <input asp-for="Password" id="txtPassword" autocomplete="new-password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label class="control-label">Confirm Password</label><span class="text-danger">*</span>
+                                <input asp-for="ConfirmPassword" id="txtConfirmPassword" autocomplete="off" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label class="control-label">Signup As</label><span class="text-danger">*</span><br />
+                                <input asp-for="Role" type="radio" value="@Role.Customer" checked /> Customer Signup
+                                <input asp-for="Role" type="radio" value="@Role.Vendor" /> Vendor Signup
+                                <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>
+                        }
+                     
+                    </div>
+                  
+                       <div class="col-md-12 form-group">
+                            <button type="submit" id="btnSubmit" class="btn btn-normal">@Html.Raw(Model.Id==0? "Create Account" : "Update") </button>
+                        </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-12 ">
+                            <p>Have you already account? <a href="/account/login" class="txt-default">click here to Login</a></p>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
+
     </div>
 </div>
-<script>
-    function getUserss() {
-        Q.preloader.load();
-        $.ajax({
-            type: 'post',
-            url: '/User/UsersList',
-            success: function (data) {
-                $('tbody').html(data);
-            },
-            error: function (data) {
-                console.log('An error occurred.');
-                console.log(data);
-                Q.notify(-1, 'An error occurred.');
-            },
-        });
-        Q.preloader.remove();
-    }
 
-</script>
+
