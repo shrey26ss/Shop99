@@ -3,15 +3,20 @@
 });
 $(document).on('click', '.addtowishlist', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
-    $.post("/AddWishList", { VariantID: vId }).done(res => {
-        Q.notify(res.statusCode, res.responseText)
-        cartWishListCount();
-    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+    addToWishList(vId);
 });
 $(document).on('click', '.addtocart', (e) => {
     let vId = $(e.currentTarget).data()?.variantId ?? 0;
     addToCart(vId);
 });
+
+
+const addToWishList = (vId) => {
+    $.post("/AddWishList", { VariantID: vId }).done(res => {
+        Q.notify(res.statusCode, res.responseText)
+        cartWishListCount();
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+}
 
 const addToCart = (vId, Qty) => {
     let param = { VariantID: vId };
