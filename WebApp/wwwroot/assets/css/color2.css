@@ -6296,8 +6296,8 @@ button {
 
         .layout-header2 .main-menu-block .icon-block ul li .item-count-contain {
             position: absolute;
-            top: -16px;
-            left: 16px;
+            top: -10px;
+            left: 22px;
         }
 
         .layout-header2 .main-menu-block .icon-block ul li:nth-child(n+5) {
@@ -17336,7 +17336,7 @@ ul.sosiyal {
         }
 
             .order-box .qty li span {
-                float: right;
+                float: none;
                 font-size: 18px;
                 line-height: 20px;
                 color: #333333;
@@ -40576,6 +40576,7 @@ body.dark {
 
     .product-buttons .btn {
         margin: 10px 0;
+        z-index:999;
     }
 
 .top-login-btn {
