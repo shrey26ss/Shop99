@@ -17,6 +17,10 @@
     font-weight: 500 !important;
 }
 
+.text-right{
+    text-align:right;
+}
+
 </style>
 <div class="checkout-details theme-form  section-big-mt-space">
     <div class="order-box">
@@ -29,7 +33,7 @@
                 @foreach (var item in Model.Result)
                 {
                     @*  <li><span>mrp <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span></li>*@
-                    <li> @item.Title × @item.Qty <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost*item.Qty)</span></li>
+                    <li> <div class="row"> <div class="col-md-7">@item.Title × @item.Qty</div><div class="col-md-5 text-right"><span class="cart-pro-price"> <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span> <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost*item.Qty)</span></div></div>  </li>
                    
                     SubTotal = (SubTotal + item.SellingCost * item.Qty);
                     Off =Off+((item.MRP*item.Qty)-(item.SellingCost*item.Qty));
@@ -38,8 +42,9 @@
             }
         </ul>
         <ul class="sub-total">
-               <li>Off <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Off</span></li>
-            <li>Subtotal <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal</span></li>
+               <li><div class="row"><div class="col-md-7">Off</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Off</span></div></div></li>
+                <li><div class="row"><div class="col-md-7">Subtotal</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal</span></div></div></li>
+            
             <li>
                 Shipping
                 <div class="shipping">
@@ -55,7 +60,8 @@
             </li>
         </ul>
         <ul class="total">
-            <li>Total <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Total</span></li>
+            <li><div class="row"><div class="col-md-7">Total</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Total</span></div></div></li>
+            
         </ul>
     </div>
     <div class="payment-box">
