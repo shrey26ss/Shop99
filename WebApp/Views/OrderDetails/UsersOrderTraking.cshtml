@@ -1,0 +1,505 @@
+﻿@using Entities.Models
+@using Entities.Enums
+@model UsersOrderTrakingRes
+@{
+    Layout = "_layout";
+}
+<style>
+    .order-details {
+        box-shadow: 0px 0px 7px 0px #939b9e8a;
+        margin: 16px 0;
+        padding: 0;
+        background: #fff;
+    }
+
+    .address-details {
+        display: inline-block;
+    }
+
+        .address-details .title {
+            padding-bottom: 8px;
+        }
+
+    .title span {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .user-details {
+        position: relative;
+    }
+
+        .user-details .username {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-justify-content: space-between;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .user-details .name {
+            font-weight: 500;
+        }
+
+        .user-details .address {
+            padding-top: 10px;
+            width: 75%;
+        }
+
+        .user-details .number {
+            padding-top: 10px;
+        }
+
+        .user-details .name {
+            font-weight: 600;
+        }
+
+        .user-details .contact {
+            display: inline;
+        }
+
+    .border-left {
+        display: inline-block;
+        position: relative;
+        border-left: 1px solid #f0f0f0;
+    }
+
+    .link {
+        cursor: pointer;
+    }
+
+    .reward-img {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        margin: 20px 0;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+        .reward-img .images {
+            height: 22px;
+            width: 22px;
+            padding-top: 2px;
+        }
+
+        .reward-img .reward-details {
+            margin-left: 15px;
+        }
+
+    .more-details {
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        border-left: none;
+        margin: 12px 0;
+    }
+
+        .more-details, .more-details .invoice-img {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+    .invoice-img {
+        max-width: 65%;
+    }
+
+    .more-details .invoice-img .invoice-image {
+        width: 25px;
+        height: 25px;
+        margin-right: 8px;
+    }
+
+    .more-details .invoice-img .invoice-download {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+
+    .invoice-btn {
+        border: 1px solid #e0e0e0;
+        width: 140px;
+        display: inline-block;
+        border-radius: 2px;
+        color: #212121;
+        padding: 10px 20px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: box-shadow .2s ease;
+        vertical-align: super;
+        background: #fff;
+        cursor: pointer;
+        outline: none;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+        border: 1px solid #e0e0e0;
+    }
+
+    .order-status {
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0px 0px 7px 0px #939b9e8a;
+    }
+
+
+
+
+    .media .media-body {
+        margin-left: 10px;
+    }
+
+        .media .media-body h3 {
+            text-transform: capitalize;
+            color: #444444;
+            font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320)));
+            margin-bottom: 5px;
+        }
+
+        .media .media-body p {
+            color: #878787;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .media .media-body h4 {
+            color: #00baf2;
+        }
+
+            .media .media-body h4 span {
+                color: #acacac;
+                text-decoration: line-through;
+                margin-left: 10px;
+            }
+
+            .media img{
+                width: 100px;
+            }
+
+
+    .timeline {
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .li {
+        transition: all 200ms ease-in;
+    }
+
+    .timestamp {
+        margin-bottom: 10px;
+        padding: 0px 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 100;
+    }
+
+    .status {
+        padding: 0px 20px;
+        display: flex;
+        justify-content: center;
+        border-top: 2px solid #D6DCE0;
+        position: relative;
+        transition: all 200ms ease-in;
+    }
+
+        .status h4 {
+            font-weight: 600;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .status:before {
+            content: "";
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            position: absolute;
+            top: -10px;
+            left: 42%;
+            transition: all 200ms ease-in;
+        }
+
+    .li.complete .status {
+        border-top: 2px solid #66DC71;
+    }
+
+        .li.complete .status:before {
+            background-color: #66DC71;
+            border: none;
+            transition: all 200ms ease-in;
+        }
+
+        .li.complete .status h4 {
+            color: #66DC71;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+    @@media (min-device-width: 320px) and (max-device-width: 700px) {
+        .timeline {
+            list-style-type: none;
+            display: block;
+        }
+
+        .li {
+            transition: all 200ms ease-in;
+            display: flex;
+            width: inherit;
+        }
+
+        .timestamp {
+            width: 100px;
+        }
+
+        .status:before {
+            left: -8%;
+            top: 30%;
+            transition: all 200ms ease-in;
+        }
+    }
+
+    .item_details {
+        padding: 2px 0;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .item_details_txt {
+        border-top: 1px solid #e0e0e0;
+        margin-top: 15px;
+        padding-top: 5px;
+    }
+
+    .rate-box {
+        padding-bottom: 10px;
+        font-weight: 500;
+        width: auto;
+    }
+
+    .rate-img {
+        width: 18px;
+        cursor: pointer;
+    }
+
+    .rate-txt {
+        cursor: pointer;
+        width: auto;
+        vertical-align: top;
+    }
+
+    .know-more-text {
+        font-size: 14px;
+        margin: 10px 0;
+        color: #212121;
+    }
+
+</style>
+<!-- section start -->
+<section class="section-big-py-space b-g-light pt-4">
+    <div class="custom-container">
+        <div class="contact-page">
+            <div class="checkout-title">
+                <h3>Order Details</h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="order-details row">
+                        <div class="col-md-6 p-3">
+                            <div class="address-details">
+                                <div class="title"><span>Delivery Address</span></div>
+                                <div class="user-details">
+                                    <div class="username">
+                                        <div class="name">@Model.FullName</div>
+                                    </div>
+                                    <div class="email">@Model.Email</div>
+                                    <div class="address">@Model.HouseNo @Model.Area, @Model.Landmark, @Model.TownCity - @Model.Pincode, @Model.TownCity</div>
+                                    <div class="username number">
+                                        <div>
+                                            <span class="name">Phone number</span>
+                                            <div class="contact">@Model.MobileNo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 border-left p-3">
+                            <div class="title"><span class="title">More actions</span></div>
+                            <div class="row more-details">
+                                <div class="invoice-img">
+                                    <img src="~/assets/images/download_Invoice.png" class="invoice-image" />
+                                    <span class="invoice-download">Download Invoice</span>
+                                </div>
+                                <a href="/OrderDetails/Invoice?OrderId=@Model.ID" target="_blank" class="invoice-btn text-center"><span>Download</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="order-status">
+                        <div class="p-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="media">
+                                        <img src="@Model.Thumbnail" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="">
+                                        <div class="media-body">
+                                            <h3>@Model.Title</h3>
+                                            <p>Seller: @Model.VendorName</p>
+                                            <h4><i class="fa fa-inr"></i>@Model.SellingCost<span><i class="fa fa-inr"></i> @Model.MRP</span></h4>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="timeline" id="timeline">
+                                        @if (Model.StatusID == StatusType.Confirmed)
+                                        {
+                                            <li class="li complete">
+                                                <div class="timestamp">
+                                                    <span class="date">Mon, 12th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Order Confirmed </h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="li">
+                                                <div class="timestamp">
+                                                    <span class="date">Mon, 12th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Order Confirmed </h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        @if (Model.StatusID == StatusType.Shipped)
+                                        {
+                                            <li class="li complete">
+                                                <div class="timestamp">
+                                                    <span class="date">Tue, 13th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Shipped </h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="li">
+                                                <div class="timestamp">
+                                                    <span class="date">Tue, 13th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Shipped </h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        @if (Model.StatusID == StatusType.OutForDelivery)
+                                        {
+                                            <li class="li complete">
+                                                <div class="timestamp">
+                                                    <span class="date">Tue, 13th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Out For Delivery</h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="li">
+                                                <div class="timestamp">
+                                                    <span class="date">Tue, 13th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Out For Delivery</h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        @if (Model.StatusID == StatusType.Delivered)
+                                        {
+                                            <li class="li complete">
+                                                <div class="timestamp">
+                                                    <span class="date">Tue, 13th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Delivered</h4>
+                                                </div>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="li">
+                                                <div class="timestamp">
+                                                    <span class="date">Tue, 13th Dec</span>
+                                                </div>
+                                                <div class="status">
+                                                    <h4> Delivered</h4>
+                                                </div>
+                                            </li> 
+                                        }
+                                    </ul>
+
+                                    <div class="item_details">
+                                        <div class="item_details_txt">
+                                            <div class="">
+                                                <span class="">Your item has been @Model.StatusID</span>
+                                                @*<span> Ekart Logistics - FMPP1476285578</span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="rate-box row">
+                                        <a href="#">
+                                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTYnIGhlaWdodD0nMTknIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTggMTgiPgoJPGcgZmlsbD0nbm9uZSc+CgkJPHBvbHlnb24gaWQ9IlNoYXBlIiBmaWxsPSIjMjg3NEYxIiBwb2ludHM9IjkgMTIuMDYyNSAxMy42Mzc1IDE1LjQzNzUgMTEuODYyNSA5Ljk4NzUgMTYuNSA2LjY4NzUgMTAuODEyNSA2LjY4NzUgOSAxLjA2MjUgNy4xODc1IDYuNjg3NSAxLjUgNi42ODc1IDYuMTM3NSA5Ljk4NzUgNC4zNjI1IDE1LjQzNzUiIC8+CgkJPHBvbHlnb24gaWQ9IlNoYXBlIiBwb2ludHM9IjAgMCAxOCAwIDE4IDE4IDAgMTgiIC8+Cgk8L2c+Cjwvc3ZnPg=="
+                                                 class="rate-img" />
+                                            <span class="rate-txt">Rate &amp; Review Product</span>
+                                        </a>
+                                    </div>
+                                    <div class="rate-box row">
+                                        <span>
+
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="24" height="24" rx="3" fill="#2874F0" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.109 20.219C9.95342 20.2466 7.88149 19.3859 6.38 17.839C4.83297 16.3372 3.97222 14.2649 4 12.109C3.97238 9.95342 4.83313 7.88148 6.38 6.38C7.88149 4.83312 9.95342 3.97238 12.109 4C14.2649 3.97222 16.3372 4.83297 17.839 6.38C19.3859 7.88148 20.2466 9.95342 20.219 12.109C20.2468 14.2649 19.386 16.3372 17.839 17.839C16.3372 19.386 14.2649 20.2468 12.109 20.219ZM11.309 16.183V17.783H12.909V16.183H11.309ZM13.251 8.535C12.9554 8.21816 12.5423 8.03726 12.109 8.035V8.036C11.6772 8.03787 11.2652 8.2168 10.969 8.531C10.6546 8.82783 10.4757 9.24061 10.474 9.673H8.874C8.86365 8.81332 9.20759 7.98729 9.825 7.389C10.4291 6.77971 11.2515 6.43698 12.1095 6.43698C12.9675 6.43698 13.7899 6.77971 14.394 7.389C15.0114 7.98729 15.3554 8.81332 15.345 9.673C15.3537 10.3611 15.0784 11.0224 14.584 11.501L13.86 12.262C13.2592 12.8714 12.9185 13.6903 12.91 14.546H11.31V14.127C11.3191 13.271 11.6604 12.452 12.262 11.843L13.251 10.819C13.5668 10.5231 13.7459 10.1097 13.7459 9.677C13.7459 9.24428 13.5668 8.83087 13.251 8.535Z" fill="white" />
+                                            </svg>
+
+                                            <span class="rate-txt col-3-5">Need help?</span>
+                                        </span>
+                                    </div>
+
+                                    <div class="know-more-text">
+                                        <div>Product has no-return policy, <a href="#">Know more</a></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

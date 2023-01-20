@@ -100,14 +100,10 @@ namespace WebApp.Controllers
             return View(res);
         }
         [HttpPost]
-        public async Task<IActionResult> OrderReplacedConform(int ID)
+        public async Task<IActionResult> OrderReplacedConform(OrderReplacedConformReq model)
         {
             var res = new Response();
-            var model = new
-            {
-                ID = ID,
-                Role = User.GetLoggedInUserRoles()
-            };
+            model.Role = User.GetLoggedInUserRoles();
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/OrderReplacedConform", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -139,6 +135,15 @@ namespace WebApp.Controllers
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest",null, User.GetLoggedInUserToken());
             var response = JsonConvert.DeserializeObject<Response<List<ReturnRequestList>>>(apiResponse.Result);
             return PartialView("PartialView/_ReturnRequestList", response.Result);
+        }
+        [Route("UserOrderDetails")]
+        public async Task<IActionResult> UsersOrderTraking(int OrderId)
+        {
+            OrderReplacedConformReq model = new OrderReplacedConformReq();
+            model.ID = OrderId;
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetUsersOrderTraking", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
+            var response = JsonConvert.DeserializeObject<UsersOrderTrakingRes>(apiResponse.Result);
+            return View(response);
         }
     }
 }

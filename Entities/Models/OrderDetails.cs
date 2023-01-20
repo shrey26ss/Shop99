@@ -87,6 +87,8 @@ namespace Entities.Models
     {
         public int ID { get; set; }
         public string Role { get; set; }
+        public string Remark { get; set; }
+        public StatusType StatusID { get; set; }
     }
     public class ReturnRequestList
     {
@@ -100,5 +102,25 @@ namespace Entities.Models
         public decimal MRP { get; set; }
         public string PaymentMode { get; set; }
         public string EntryOn { get; set; }
+    }
+    public class UsersOrderTrakingRes
+    {
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public string FullName { get; set; }
+        public string VendorName { get; set; }
+        public string MobileNo { get; set; }
+        public string Email { get; set; }
+        public string Thumbnail { get; set; }
+        public string Area { get; set; }
+        public string Landmark { get; set; }
+        public string TownCity { get; set; }
+        public string CreatedOn { get; set; }
+        public string StateName { get; set; }
+        public double MRP { get; set; }
+        public double SellingCost { get; set; }
+        public StatusType StatusID { get; set; }
+        public int Pincode { get; set; }
+        public int HouseNo { get; set; }
     }
 }
