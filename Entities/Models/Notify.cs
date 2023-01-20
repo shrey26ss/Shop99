@@ -9,6 +9,7 @@ namespace Entities.Models
     public class SMSEmailWhatsappNotification
     {
         public int UserID { get; set; }
+        public string Name { get; set; }
         public string OTP { get; set; }
         public string PhoneNumber { get; set; }
         public MessageFormat FormatID { get; set; }
