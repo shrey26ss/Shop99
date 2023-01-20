@@ -5,8 +5,19 @@
 @{
     bool IsCod = Model.Result?.Any(x => x.IsCod) ?? false;
     decimal SubTotal = 0;
+     decimal Off = 0;
     decimal Total = 0;
 }
+
+<style>
+.cart-pro-price{
+    text-decoration: line-through;
+    color: #777777!important;
+    font-size: 80% !important;
+    font-weight: 500 !important;
+}
+
+</style>
 <div class="checkout-details theme-form  section-big-mt-space">
     <div class="order-box">
         <div class="title-box">
@@ -17,14 +28,18 @@
             {
                 @foreach (var item in Model.Result)
                 {
-                    <li>@item.Title × @item.Qty <span>@(item.SellingCost*item.Qty)</span></li>
+                    @*  <li><span>mrp <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span></li>*@
+                    <li> @item.Title × @item.Qty <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost*item.Qty)</span></li>
+                   
                     SubTotal = (SubTotal + item.SellingCost * item.Qty);
+                    Off =Off+((item.MRP*item.Qty)-(item.SellingCost*item.Qty));
                 }
                 Total = SubTotal;
             }
         </ul>
         <ul class="sub-total">
-            <li>Subtotal <span class="count">@SubTotal</span></li>
+               <li>Off <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Off</span></li>
+            <li>Subtotal <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal</span></li>
             <li>
                 Shipping
                 <div class="shipping">
@@ -33,14 +48,14 @@
                         <label for="free-shipping">Free Shipping</label>
                     </div>
                     <div class="shopping-option">
-                        <input type="checkbox" name="local-pickup" id="local-pickup">
-                        <label for="local-pickup">Local Pickup</label>
+                      @*  <input type="checkbox" name="local-pickup" id="local-pickup">*@
+                      @*  <label for="local-pickup">Local Pickup</label>*@
                     </div>
                 </div>
             </li>
         </ul>
         <ul class="total">
-            <li>Total <span class="count">@Total</span></li>
+            <li>Total <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Total</span></li>
         </ul>
     </div>
     <div class="payment-box">

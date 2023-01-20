@@ -67,7 +67,7 @@
                     <a href="javascript:void(0)" class="btn cart-btn btn-normal btnBuyNow">
                         Buy Now
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-normal  addtowishlist">
+                    <a href="javascript:void(0)" class="btn btn-normal  btnaddtowishlist">
                         <i class="fa fa-heart" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -83,6 +83,7 @@
                     <ul class="pro-price">
                         <li><i class="fa fa-inr"></i> @Model.SellingCost</li>
                         <li><span>mrp <i class="fa fa-inr"></i> @Model.MRP</span></li>
+                       
                         <li> @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100))  % off</li>
                     </ul>
                     <div class="revieu-box">
@@ -142,20 +143,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="pro-group d-none">
+                <div class="pro-group">
                     <div class="product-offer">
-                        <h6 class="product-title"><i class="fa fa-tags"></i>5 offers Available </h6>
+                        <h6 class="product-title"><i class="fa fa-tags"></i>1 offer Available </h6>
                         <div class="offer-contain">
                             <ul>
                                 <li>
-                                    <span class="code-lable">OFFER40</span>
+                                    <span class="code-lable">OFFER  @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) % Off</span>
                                     <div>
-                                        <h5>Get extra $40 off on first Orders</h5>
-                                        <p>Use code "OFFER40" Min. Cart Value $99 | Max. Discount $40</p>
+                                       @* <h5>Get @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) % off on this Order</h5>*@
+                                    @*    <p>Buy this product and get @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) off  </p>*@
                                     </div>
                                 </li>
                             </ul>
-                            <ul class="offer-sider">
+                    @*        <ul class="offer-sider">
                                 <li>
                                     <span class="code-lable">OFFER25</span>
                                     <div>
@@ -185,7 +186,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <h5 class="show-offer"><span class="more-offer">show more offer</span><span class="less-offer">less offer</span></h5>
+                            <h5 class="show-offer"><span class="more-offer">show more offer</span><span class="less-offer">less offer</span></h5>*@
                         </div>
                     </div>
                 </div>
@@ -478,7 +479,11 @@
         let vId = _url.pathname.replace('/productdetails/','');
         addToCart(vId);
     });
-
+    $('.btnaddtowishlist').click(() => {
+        let _url = new URL(window.location.href)
+        let vId = _url.pathname.replace('/productdetails/','');
+        addToWishList(vId);
+    });
     $('.btnBuyNow').click(function () {
         let _url = new URL(window.location.href)
         let vId = _url.pathname.replace('/productdetails/', '');
