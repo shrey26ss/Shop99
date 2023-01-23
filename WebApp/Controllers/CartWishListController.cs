@@ -114,10 +114,30 @@ namespace WebApp.Controllers
             var res = _cartwishlist.MoveItemWishListToCart(id,GetToken()).Result;
             return Json(res);
         }
+        [Route("DeleteWishList")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteWishList(int id)
+        {
+            var res = _cartwishlist.DeleteWishListItem(id, GetToken()).Result;
+            return Json(res);
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
         }
-
+        [Route("wishlist")]
+        [HttpGet]
+        public async Task<IActionResult> Wishlist()
+        {
+            var res = _cartwishlist.GetWishListSlide(GetToken()).Result;
+            return View(res);
+        }
+        [Route("MoveAllToCart")]
+        [HttpPost]
+        public async Task<IActionResult> MoveAllToCart()
+        {
+            var res = _cartwishlist.MoveAllItemWishListToCart(User.GetLoggedInUserToken()).Result;
+            return Json(res);
+        }
     }
 }

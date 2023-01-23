@@ -142,7 +142,7 @@ namespace WebApp.Controllers
             OrderReplacedConformReq model = new OrderReplacedConformReq();
             model.ID = OrderId;
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetUsersOrderTraking", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
-            var response = JsonConvert.DeserializeObject<UsersOrderTrakingRes>(apiResponse.Result);
+            var response = JsonConvert.DeserializeObject<UsersOrderTrakingViewModel>(apiResponse.Result);
             return View(response);
         }
     }
