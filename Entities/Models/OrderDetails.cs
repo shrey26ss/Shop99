@@ -8,30 +8,33 @@ namespace Entities.Models
 {
     public class OrderDetailsRow
     {
+        public string InvoiceNumber { get; set; }
+        public string Product { get; set; }
+        public string Title { get; set; }
+        public StatusType StatusID { get; set; }
+        public int Qty { get; set; }
+        public string Attributes { get; set; }
+        public decimal Rate { get; set; }
+        public decimal MRP { get; set; }
+        public string PaymentMode { get; set; }
+        public string EntryOn { get; set; }
+        public string ShopName { get; set; }
         public int ID { get; set; }
         public int VarriantID { get; set; }
         public Guid OrderID { get; set; }
-        public string Product { get; set; }
-        public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
         public string SKU { get; set; }
-        public int Qty { get; set; }
-        public decimal Rate { get; set; }
-        public decimal MRP { get; set; }
         public decimal Discount { get; set; }
         public decimal OtherCharge { get; set; }
         public decimal Total { get; set; }
         public int UserID { get; set; }
-        public string EntryOn { get; set; }
-        public StatusType StatusID { get; set; }
         public string Thumbnail { get; set; }
-        public string ShopName { get; set; }
-        public string Attributes { get; set; }
         public int PaymentModeId { get; set; }
-        public string PaymentMode { get; set; }
         public string Remark { get; set; }
-        public string InvoiceNumber { get; set; }
+        public string IGST { get; set; }
+        public string SGST { get; set; }
+        public string CGST { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {
@@ -43,6 +46,9 @@ namespace Entities.Models
         public int Id { get; set; }
         public StatusType StatusID { get; set; }
         public int Top { get; set; } = 50;
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string SearchText { get; set; } = string.Empty;
     }
     public class OrderShippedStatus
     {
@@ -92,16 +98,16 @@ namespace Entities.Models
     }
     public class ReturnRequestList
     {
-        public int ID { get; set; }
-        public string Thumbnail { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
-        public string StatusType { get; set; }
         public int Qty { get; set; }
         public decimal Rate { get; set; }
         public decimal MRP { get; set; }
+        public string StatusType { get; set; }
         public string PaymentMode { get; set; }
         public string EntryOn { get; set; }
+        public int ID { get; set; }
+        public string Thumbnail { get; set; }
     }
     public class UsersOrderTrakingRes
     {

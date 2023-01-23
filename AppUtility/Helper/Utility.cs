@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
+using OfficeOpenXml;
 using Response = AppUtility.UtilityModels;
 
 namespace AppUtility.Helper
@@ -159,6 +160,52 @@ namespace AppUtility.Helper
                              select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
 
             return String.Join("&", properties.ToArray());
+        }
+        public ExcelResponse<byte[]> ExportToExcel(DataTable dataTable, string[] removableCol = null)
+        {
+            ExcelResponse<byte[]> response = new ExcelResponse<byte[]>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Something went wrong"
+            };
+            try
+            {
+                if (removableCol != null)
+                {
+                    foreach (string str in removableCol)
+                    {
+                        if (dataTable.Columns.Contains(str))
+                        {
+                            dataTable.Columns.Remove(str);
+                        }
+                    }
+                }
+
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("sheet1");
+                    worksheet.Cells["A1"].LoadFromDataTable(dataTable, PrintHeaders: true);
+                    worksheet.Row(1).Height = 20;
+                    worksheet.Row(1).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    worksheet.Row(1).Style.Font.Bold = true;
+                    for (var col = 1; col < dataTable.Columns.Count + 1; col++)
+                    {
+                        worksheet.Column(col).AutoFit();
+                    }
+                    var exportToExcel = new InMemoryFile
+                    {
+                        Content = package.GetAsByteArray()
+                    };
+                    response.data = exportToExcel.Content;
+                    response.StatusCode = ResponseStatus.Success;
+                    response.ResponseText = ResponseStatus.Success.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ResponseText = ex.Message;
+            }
+            return response;
         }
     }
 }

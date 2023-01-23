@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Service.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.AppCode.Attributes;
@@ -37,6 +38,21 @@ namespace WebApp.Controllers
         public async Task<IActionResult> OrderList(OrderDetailsRequest request)
         {
             return PartialView("PartialView/_OrderList", await GetList(request).ConfigureAwait(false));
+        }
+        public async Task<IActionResult> OrderReportExcel(int Top = 50, string FromDate = "", string ToDate = "", StatusType StatusID = 0, string SearchText = "")
+        {
+            var res = await GetList(new OrderDetailsRequest
+            {
+                Top = Top,
+                FromDate = FromDate,
+                ToDate = ToDate,
+                StatusID = StatusID,
+                SearchText = SearchText
+            }).ConfigureAwait(false);
+            DataTable dataTable = ConvertToDataTable.ToDataTable(res);
+            string[] removbleCol = { "ID", "VarriantID", "OrderID", "EntryBy", "Description", "SKU", "Discount", "OtherCharge", "Total", "UserID", "Thumbnail", "PaymentModeId", "Remark", "DocketNo", "ReturnTillOn" };
+            var exportToExcel = Utility.O.ExportToExcel(dataTable, removbleCol);
+            return File(exportToExcel.data, DOCType.XlsxContentType, "Order.xlsx");
         }
         [Route("UserOrderHistory")]
         [HttpGet]
@@ -130,11 +146,21 @@ namespace WebApp.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> ReturnRequestList()
+        public async Task<IActionResult> ReturnRequestList(OrderDetailsRequest req)
         {
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest",null, User.GetLoggedInUserToken());
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest",JsonConvert.SerializeObject(req), User.GetLoggedInUserToken());
             var response = JsonConvert.DeserializeObject<Response<List<ReturnRequestList>>>(apiResponse.Result);
             return PartialView("PartialView/_ReturnRequestList", response.Result);
+        }
+        public async Task<IActionResult> ReturnOrderReportExcel(StatusType StatusID = 0)
+        {
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest", JsonConvert.SerializeObject(new OrderDetailsRequest { StatusID = StatusID }), User.GetLoggedInUserToken());
+            var response = JsonConvert.DeserializeObject<Response<List<ReturnRequestList>>>(apiResponse.Result);
+            var res = response.Result;
+            DataTable dataTable = ConvertToDataTable.ToDataTable(res);
+            string[] removbleCol = { "ID", "Thumbnail" };
+            var exportToExcel = Utility.O.ExportToExcel(dataTable, removbleCol);
+            return File(exportToExcel.data, DOCType.XlsxContentType, "ReturnOrder.xlsx");
         }
         [Route("UserOrderDetails")]
         public async Task<IActionResult> UsersOrderTraking(int OrderId)
