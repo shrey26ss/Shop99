@@ -11,9 +11,9 @@
         <div class="cart_top">
             @if (Model != null && Model.Id > 0)
             {
-                <h3>Welcome @Model.name</h3>
-                <br />
-                @Model.role.ToString()
+                <h3>Welcome - @Model.name</h3>
+             
+               @* @Model.role.ToString()*@
             }
             else
             {

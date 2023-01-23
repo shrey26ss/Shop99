@@ -141,7 +141,7 @@ namespace WebApp.Controllers
                             var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));
                             identity.AddClaim(new Claim("Token", user.Token.ToString()));
-                            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
+                            identity.AddClaim(new Claim(ClaimTypes.Name, user.Name ?? string.Empty));
                             identity.AddClaim(new Claim(ClaimTypes.Role, user.Role ?? string.Empty));
                             await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
                             return LocalRedirect(ReturnUrl);
@@ -232,7 +232,7 @@ namespace WebApp.Controllers
                                 var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                                 identity.AddClaim(new Claim("Id", user.Id.ToString()));
                                 identity.AddClaim(new Claim("Token", user.Token.ToString()));
-                                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName ?? string.Empty));
+                                identity.AddClaim(new Claim(ClaimTypes.Name, user.Name ?? string.Empty));
                                 identity.AddClaim(new Claim(ClaimTypes.Role, user.Role ?? string.Empty));
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity));
                                 if (!string.IsNullOrEmpty(ReturnUrl))
