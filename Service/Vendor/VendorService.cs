@@ -29,7 +29,7 @@ namespace Service.Vendor
             try
             {
                 string sqlQuery = "Proc_ValidateVendor";
-                res = await _dapper.GetAsync<Response<bool>>(sqlQuery, new {request.LoginId}, CommandType.StoredProcedure);
+                res = await _dapper.GetAsync<Response<bool>>(sqlQuery, new { request.LoginId }, CommandType.StoredProcedure);
                 if (res.StatusCode == ResponseStatus.Success)
                     res.Result = true;
             }
@@ -55,9 +55,14 @@ namespace Service.Vendor
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
-                    request.LoginId, request.Data.Id,request.Data.ShopName,
+                    request.LoginId,
+                    request.Data.Id,
+                    request.Data.ShopName,
                     request.Data.GSTNumber,
-                    request.Data.TIN,request.Data.Address,request.Data.ContactNo,request.Data.StateId
+                    TIN = request.Data.TIN ?? string.Empty,
+                    request.Data.Address,
+                    request.Data.ContactNo,
+                    request.Data.StateId
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)

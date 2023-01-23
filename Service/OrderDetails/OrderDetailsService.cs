@@ -57,8 +57,8 @@ namespace Service.OrderDetails
                     LoginId = loginId,
                     req.StatusID,
                     req.Top,
-                    req.FromDate,
-                    req.ToDate,
+                    FromDate = req.FromDate ?? "",
+                    ToDate = req.ToDate ?? "",
                     SearchText = req.SearchText ?? ""
                 }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
