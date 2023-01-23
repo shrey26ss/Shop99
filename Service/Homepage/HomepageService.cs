@@ -220,10 +220,14 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
 Select Distinct Top(50) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%'
 Union
 Select Distinct Top(50) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'
+Union 
+Select Distinct Top(50) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'
 else
 Select Distinct Top(@Top) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%'
 Union
-Select Distinct Top(@Top) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'";
+Select Distinct Top(@Top) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'
+Union
+Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'";
                 res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, new { searchText = searchText ?? "", Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
