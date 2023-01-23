@@ -57,7 +57,7 @@
                         <span class="btn btn-sm btn-rounded" title="@item.DocketNo"> <i class="fa fa-solid fa-info"></i> </span>
                         <button class="btn btn-sm btn-rounded" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')">Share</button>
                     }
-                    @if (item.StatusID == StatusType.Confirmed)
+                    @if (item.StatusID == StatusType.Confirmed || item.StatusID == StatusType.Delivered)
                     {
                         <a class="badge badge-info" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
                     }
@@ -65,18 +65,20 @@
                 </span>
             </td>
             <td>
-                @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted && item.StatusID != StatusType.ReturnConfirmred && item.StatusID != StatusType.OrderReplaceInitiated && item.StatusID != StatusType.ReplacementAccepted && item.StatusID != StatusType.OrderReplaced && item.StatusID != StatusType.ReplaceRejected)
-                {
-                    <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
-                }
-                @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
-                {
-                    <a href="#" onclick="ReturnItem('@item.ID','@StatusType.ReturnInitiated')" class="btn btn-sm btn-info btnCancelOrder">Return</a>
-                }
-                @if (item.StatusID == StatusType.Delivered || item.StatusID == StatusType.CancelRequest && deliveredDays <= 10)
-                {
-                    <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaceInitiated')" class="btn btn-sm btn-info btnCancelOrder">Replace</a>
-                }
+                <div class="d-flex justify-content-center">
+                    @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted && item.StatusID != StatusType.ReturnConfirmred && item.StatusID != StatusType.OrderReplaceInitiated && item.StatusID != StatusType.ReplacementAccepted && item.StatusID != StatusType.OrderReplaced && item.StatusID != StatusType.ReplaceRejected)
+                    {
+                        <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
+                    }
+                    @if (item.StatusID == StatusType.Delivered)
+                    {
+                        <a href="#" onclick="ReturnItem('@item.ID','@StatusType.ReturnInitiated')" class="btn btn-sm btn-danger btnCancelOrder" style="color:white">Return</a>
+                    }
+                    @if (item.StatusID == StatusType.Delivered || item.StatusID == StatusType.CancelRequest && deliveredDays <= 10)
+                    {
+                        <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaceInitiated')" class="btn btn-sm btn-info btnCancelOrder mrl">Replace</a>
+                    }
+                </div>
             </td>
         </tr>
     }
@@ -84,15 +86,15 @@
 <script>
     var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ReturnItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Return This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
-     var ReplaceItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Replace This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
-    var ChangeStatusItemWithRemark = function (ID, StatusID) {
+    var ReplaceItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Replace This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
+    var ChangeStatusItemWithRemark = function(ID, StatusID) {
         let btntxt = StatusID == 'InitiateReturn' ? "Procced Your Return" : "Procced Your Cancellation";
         const html = `<div class="form-group">
-                           <label for="inputAddress">Reason</label>
-                           <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                           </div>
-                           <button type="submit"  data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
-                           `;
+                                   <label for="inputAddress">Reason</label>
+                                   <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                   </div>
+                                   <button type="submit"  data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                                   `;
         Q.alert({
             title: 'Add Reason',
             body: html,
@@ -112,10 +114,10 @@
         $.post('/OrderDetails/ChangeStatus', { ID, StatusID, Remark }).done((result) => {
             console.log('result :', result);
             Q.notify(result.statusCode, result.responseText);
-            if (result.statusCode){
+            if (result.statusCode) {
                 loadData();
                 $('.ui-dialog-titlebar-close').click();
-            }                
+            }
         });
     });
 </script>

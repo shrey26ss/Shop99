@@ -43,4 +43,13 @@ namespace Entities.Models
         public string ImagePath { get; set; }
         public string ImgVariant { get; set; }
     }
+    public class ProductRating
+    {
+        public int VariantID { get; set; }
+        public int UserID { get; set; }
+        public string Title { get; set; }
+        public int Reting { get; set; }
+        public string Review { get; set; }
+        public string Images { get; set; }
+    }
 }
