@@ -212,6 +212,7 @@ namespace WebAPI.Controllers
                         new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
                         new Claim(ClaimTypesExtension.Role, user.Role??"2"),
                         new Claim(ClaimTypesExtension.UserName, user.UserName),
+                        new Claim(ClaimTypesExtension.Name, user.Name),
                     };
                 var token = _tokenService.GenerateAccessToken(claims);
                 var authResponse = new AuthenticateResponse(user, token);

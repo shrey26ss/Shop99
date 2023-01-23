@@ -61,7 +61,8 @@ where ur.RoleId = 3";
         }
         public async Task<IResponse<UserDetails>> GetUserById(int Id)
         {
-            string sp = @"Select u.*,r.RoleId,ar.[Name] [Role] from Users u(nolock) inner join UserRoles r(nolock) on r.UserId = u.Id inner join ApplicationRole ar(nolock) on ar.Id = r.RoleId where u.Id = @Id";
+            string sp = @"Select  u.Id,u.UserId,iif(u.Email='youremail@shop99.com','',u.Email)Email,u.LockoutEnabled,u.LockoutEnd,u.PhoneNumber,u.UserName,u.Name,u.IsActive,u.EntryOn,
+	r.RoleId,ar.[Name] [Role] from Users u(nolock) inner join UserRoles r(nolock) on r.UserId = u.Id inner join ApplicationRole ar(nolock) on ar.Id = r.RoleId where u.Id = @Id";
             var res = new Response<UserDetails>();
             try
             {
