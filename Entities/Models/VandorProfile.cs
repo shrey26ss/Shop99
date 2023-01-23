@@ -14,7 +14,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Please Enter GST Number")]
         [Display(Name ="GST Number")]
         public string GSTNumber { get; set; }
-        [Required(ErrorMessage = "Please Enter Your TIN")]
+      
         public string TIN { get; set; }
         public int UserId { get; set; }
         [Required(ErrorMessage = "Please Select State")]
