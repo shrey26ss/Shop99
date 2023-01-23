@@ -15,7 +15,11 @@
                aria-haspopup="true" aria-expaned="false"></a>
                     <div class="dropdown-menu" aria-labelledby="act">
                         <h6 class="dropdown-header">Action Menu</h6>
-                            @*<a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>*@
+                        @if(item.Qty < 10)
+                        {
+                            <a href="#" class="dropdown-item item-quantity" data-variantid="@item.Id" data-qauntity="@item.Qty">Add Stock</a>
+                        }
+                        <a href="#"  class="dropdown-item Edit">Cancel</a>
                     </div>
                 </div>
             </td>
@@ -29,3 +33,60 @@
         </tr>
     }
 }
+<script>
+    $('.item-quantity').click(function() {
+         const vid = $(this).data('variantid');
+         const prevQty = $(this).data('qauntity');
+        const html=` <div class="form-row">
+             <div class="form-group col-md-6">
+               <label for="inputEmail4">Qauntity</label>
+               <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
+             </div>
+             <input type="hidden" name="VariantId" value="${vid}">
+             <div class="form-group col-md-6">
+               <label for="inputPassword4">Add Quantity</label>
+               <input type="number" class="form-control" id="txtaddDelete" min="1" name="Quantity" placeholder="Add Qauntity">
+             </div>
+          </div>
+           <div class="form-group">
+             <label for="inputAddress">Remark</label>
+             <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
+           </div>
+           <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
+           `;
+          Q.alert({
+                 title: 'Add Qauntity',
+                 body: html,
+                 width: 500
+             });
+
+     });
+
+    $(document).on('click', '.addQuantity', (e) => {
+        const remark = $('#txtRemark').val();
+        const vId = $(e.currentTarget).data()?.variantid ?? 0;
+        const am = $(e.currentTarget).data()?.addminus ?? 0;
+        const currentQty = $('#txtaddDelete').val();
+        if (currentQty == '') {
+            Q.notify(-1, 'Minimum 1 Quantity Required.!');
+            $('#txtaddDelete').focus();
+            return;
+        }
+        if (!remark) {
+            Q.notify(-1, 'Remark Required.!');
+            $('#txtRemark').focus();
+            return;
+        }
+        $.post('/Product/VariantQuantityUpdate', { v: vId, q: currentQty, IsReduce: am == 0 ? false : true, Remark: remark }).done(function (result) {
+            Q.notify(result.statusCode, result.responseText);
+            (result.statusCode == 1)
+            {
+                // loadData();
+                location.reload();
+            }
+        }).fail(function (xhr) {
+            console.log(xhr.responseText);
+            Q.notify(-1, 'something went wrong.');
+        })
+    });
+</script>
