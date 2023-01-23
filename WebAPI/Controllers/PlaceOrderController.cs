@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
   
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
-    [Route("/api/{controller}")]
+    [Route("/api/PlaceOrder")]
     public class PlaceOrderController : ControllerBase
     {
         private readonly IPlaceOrder _placeorder;

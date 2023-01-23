@@ -67,8 +67,8 @@ namespace PaymentGateWay.PaymentGateway.PayU
             };
             try
             {
-                
 
+               
                 Dictionary<string, string> keyValue = new Dictionary<string, string>(){
                     {"key", payURequest.key},
                     {"txnid", payURequest.txnid},
@@ -127,7 +127,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
 
             return HashEncryption.O.SHA512Hash(str1);
         }
-
+        
         private string GenerateHash(string salt, List<string> keyValuePairs)
         {
             var sb = new StringBuilder();
