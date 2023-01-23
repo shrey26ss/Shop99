@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
    
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
-    [Route("/api/{controller}")]
+    [Route("/api/CartWishList")]
     public class CartWishList : ControllerBase
     {
         private readonly ICartWishListService _cartwishlist;
