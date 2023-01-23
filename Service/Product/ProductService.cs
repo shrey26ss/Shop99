@@ -81,7 +81,7 @@ where p.Id = @Id";
 inner join Category c on c.CategoryId = p.CategoryId 
 inner join Brands b on b.Id = p.BrandId 
 inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or p.CategoryId=@CategoryID) and p.Name like '%'+@SearchText+'%' Order By p.Id desc";
-                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.CategoryID, SearchText=request.Data.SearchText??string.Empty }, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Products>(sp, new { request.Data.CategoryID, SearchText = request.Data.SearchText ?? string.Empty }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
@@ -216,7 +216,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 param.Add("VarriantId", request.Data.VariantId, DbType.Int32);
                 param.Add("Quantity", request.Data.Quantity, DbType.Int32);
                 param.Add("IsReduce", request.Data.IsReduce, DbType.Boolean);
-                param.Add("Remark", request.Data.Remark??string.Empty, DbType.String);
+                param.Add("Remark", request.Data.Remark ?? string.Empty, DbType.String);
                 i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.Text);
                 if (i > -1 && i < 100)
                 {
@@ -273,6 +273,28 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse> ProductRating(RequestBase<ProductRating> request)
+        {
+            string sp = @"ProcReview";
+
+            var res = new Response();
+            try
+            {
+                res = await _dapper.GetAsync<Response>(sp, new
+                {
+                    request.Data.VariantID,
+                    UserID = request.LoginId,
+                    request.Data.Title,
+                    request.Data.Reting,
+                    request.Data.Review
+                }, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
             }
             return res;
         }

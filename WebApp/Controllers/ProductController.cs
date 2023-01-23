@@ -459,6 +459,18 @@ namespace WebApp.Controllers
             return User.GetLoggedInUserToken();
         }
         #endregion
+        #region Rating
+        [Route("ProductRating")]
+        [HttpPost]
+        public async Task<IActionResult> ProductRating(ProductRating request)
+        {
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(request);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/ProductRating", jsonData, _token);
+            var res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            return Json(res);
+        }
+        #endregion
 
     }
 }

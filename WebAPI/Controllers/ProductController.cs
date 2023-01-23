@@ -95,5 +95,14 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/ProductRating")]
+        public async Task<IActionResult> ProductRating(ProductRating req)
+        {
+            return Ok(await _products.ProductRating(new RequestBase<ProductRating>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }
