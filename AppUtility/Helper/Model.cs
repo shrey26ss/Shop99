@@ -38,4 +38,8 @@ namespace AppUtility.Helper
         public int Id { get; set; }
         public bool IsThumbnailRequired { get; set; }
     }
+    public class DOCType
+    {
+        public const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    }
 }

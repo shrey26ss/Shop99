@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
         [Route("OrderDetails/OrderReplacedConform")]
         public async Task<IActionResult> OrderReplacedConform(OrderReplacedConformReq req) => Ok(await _orderRepo.OrderReplacedConform(req));
         [Route("OrderDetails/GetReturnRequest")]
-        public async Task<IActionResult> GetReturnRequest() => Ok(await _orderRepo.GetReturnRequest());
+        public async Task<IActionResult> GetReturnRequest(OrderDetailsRequest request) => Ok(await _orderRepo.GetReturnRequest(request));
         [Route("OrderDetails/GetUsersOrderTraking")]
         public async Task<IActionResult> GetUsersOrderTraking(OrderReplacedConformReq req) => Ok(await _orderRepo.GetUsersOrderTraking(req));
     }

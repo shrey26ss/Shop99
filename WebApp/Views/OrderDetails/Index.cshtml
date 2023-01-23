@@ -8,22 +8,56 @@
 <div class="card">
     <div class="card-body">
         <div class="row justify-content-end">
-            <div class="col-md-9 col-sm-6">
+            <div class="col-sm-12">
                 <h2 class="float-left">
                     Order Details
                 </h2>
             </div>
-            <div class="col-md-3 col-sm-6">
-                <select class="form-control" id="status" onchange="loadData();">
-                    <option value="0">Select Status</option>
-                    <option value="@StatusType.OrderPlaced">@StatusType.OrderPlaced.ToString()</option>
-                    <option value="@StatusType.Cancel">@StatusType.Cancel.ToString()</option>
-                    <option value="@StatusType.Confirmed">@StatusType.Confirmed.ToString()</option>
-                    <option value="@StatusType.Delivered">@StatusType.Delivered.ToString()</option>
-                    <option value="@StatusType.Shipped">@StatusType.Shipped.ToString()</option>
-                    <option value="@StatusType.ReturnInitiated">@StatusType.ReturnInitiated.ToString()</option>
-                    <option value="@StatusType.ReturnCompleted">@StatusType.ReturnCompleted.ToString()</option>
-                </select>
+            <div class="row w-100">
+                <div class="col-sm-1">
+                    <label>Top</label>
+                    <select id="Top" class="form-control">
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                        <option value="2000">2000</option>
+                        <option value="4000">4000</option>
+                        <option value="20000">All</option>
+                    </select>
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2 float-end">
+                    <label>From Date</label>
+                    <input aria-describedby="dtFromDate" class="form-control" id="dtFromDate" tabindex="5" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")" />
+                </div>
+                <div class="col-sm-2 float-end">
+                    <label>To Date</label>
+                    <input aria-describedby="dtToDate" class="form-control" id="dtToDate" tabindex="6" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")">
+                </div>
+                <div class="col-sm-2 float-end">
+                    <label>Status</label>
+                    <select class="form-control" id="status">
+                        <option value="0">All</option>
+                        <option value="@StatusType.OrderPlaced">@StatusType.OrderPlaced.ToString()</option>
+                        <option value="@StatusType.Cancel">@StatusType.Cancel.ToString()</option>
+                        <option value="@StatusType.Confirmed">@StatusType.Confirmed.ToString()</option>
+                        <option value="@StatusType.Delivered">@StatusType.Delivered.ToString()</option>
+                        <option value="@StatusType.Shipped">@StatusType.Shipped.ToString()</option>
+                        <option value="@StatusType.ReturnInitiated">@StatusType.ReturnInitiated.ToString()</option>
+                        <option value="@StatusType.ReturnCompleted">@StatusType.ReturnCompleted.ToString()</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 float-end">
+                    <label>Search Order</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="SearchText" />
+                        <div class="input-group-append" style="cursor:pointer">
+                            <span class="input-group-text btn-primary" onclick="loadData()" id="basic-addon1"><i class="fa fa-search" style="font-size: 22px;"></i></span>
+                            <span class="input-group-text btn-success" title="Download Excel" onclick="downloadExcel()" id="basic-addon1"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12 mt-2 table-responsive">
                 <table class="table table-bordered" id="Grid">
@@ -39,6 +73,9 @@
                             <th>Attributes</th>
                             <th>Rate</th>
                             <th>MRP</th>
+                            <th>IGST</th>
+                            <th>CGST</th>
+                            <th>SGST</th>
                             <th>Mode</th>
                             <th class="text-nowrap">Order Date</th>
                             <th>ShopName</th>
@@ -61,14 +98,18 @@
         })
         var loadData = () => {
             let param = {
-                StatusID: $('#status').val()
+                Top: $('#Top').val(),
+                FromDate: $('#dtFromDate').val(),
+                ToDate: $('#dtToDate').val(),
+                StatusID: $('#status').val(),
+                SearchText: $('#SearchText').val()
             }
             $.post('/OrderDetails/OrderList', param).done(function (result) {
                 $('#Grid tbody').html(result);
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
-      
+
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
 
 
@@ -80,7 +121,18 @@
                     loadData();
             })
         };
-       
-     
+        Q.dateRangeFilter();
+        var downloadExcel = () => {
+            let param = {
+                Top: $('#Top').val(),
+                FromDate: $('#dtFromDate').val(),
+                ToDate: $('#dtToDate').val(),
+                StatusID: $('#status').val(),
+                SearchText: $('#SearchText').val()
+            }
+            window.location = '/OrderDetails/OrderReportExcel?' + $.param(param);
+        }
+
+
     </script>
 }

@@ -44,7 +44,23 @@ namespace Service.OrderDetails
             try
             {
                 var req = (OrderDetailsRequest)T;
-                res.Result = await _dapper.GetAllAsync<OrderDetailsColumn>(sp, new { LoginId = loginId, req.StatusID, req.Top }, CommandType.StoredProcedure);
+                if (!string.IsNullOrEmpty(req.SearchText) && req.SearchText.Length > 7)
+                {
+                    req.SearchText = req.SearchText.Remove(req.SearchText.Length - 1).Remove(0, 3);
+                }
+                else
+                {
+                    req.SearchText = "";
+                }
+                res.Result = await _dapper.GetAllAsync<OrderDetailsColumn>(sp, new 
+                {
+                    LoginId = loginId,
+                    req.StatusID,
+                    req.Top,
+                    req.FromDate,
+                    req.ToDate,
+                    SearchText = req.SearchText ?? ""
+                }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
             }
@@ -97,7 +113,7 @@ namespace Service.OrderDetails
                 {
                     res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Order Replaced Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
-                else if (req.StatusID == StatusType.ReturnRecived)
+                else if (req.StatusID == StatusType.ReturnReceived)
                 {
                     res = await _dapper.GetAsync<Response>("UPDATE Orders SET StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Return Recived Successfully',ReturnRemark=@Remark  Where ID=@ID; update ReturnAndReplaceProducts set StatusID = @StatusID,UpdatedOn = Getdate() where OrderID = @ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
                 }
@@ -268,12 +284,13 @@ left Join OrderTimeline ot(nolock) on ot.StatusID = st.Id Where OrderID = @ID an
                   inner join Products ps on vg.ProductId = ps.Id
                   inner join Orders os on rp.OrderID = os.ID
                   inner join PaymentMode pm on os.PaymentMode = pm.ID
-                  inner join StatusTypes st on rp.StatusID = st.Id";
+                  inner join StatusTypes st on rp.StatusID = st.Id
+				  where (rp.StatusID = @StatusID or @StatusID = 0)";
             var res = new Response<IEnumerable<ReturnRequestList>>();
             try
             {
-                var req = (ReturnRequestList)T;
-                res.Result = await _dapper.GetAllAsync<ReturnRequestList>(sp, null, CommandType.Text);
+                var req = (OrderDetailsRequest)T;
+                res.Result = await _dapper.GetAllAsync<ReturnRequestList>(sp, new { req.StatusID }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
             }
