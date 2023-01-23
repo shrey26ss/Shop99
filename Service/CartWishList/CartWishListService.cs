@@ -221,6 +221,41 @@ select count(1) Items,'W' Type from WishList(nolock) where EntryBy = @LoginId";
             }
             return res;
         }
-
+        public async Task<IResponse> DeleteWishListItem(SearchItem req)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                sqlQuery = "DELETE FROM Wishlist WHERE ID = @WishListId;Select 1 StatusCode,'Item Removed From WishList' ResponseText";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
+                {
+                    WishListId = req.Id
+                }, CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse> MoveAllItemWishListToCart(int LoginId)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                sqlQuery = "proc_MoveItemWishListToCart";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
+                {
+                    UserID = LoginId
+                }, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }

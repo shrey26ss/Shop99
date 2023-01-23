@@ -77,6 +77,10 @@ namespace WebAPI.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(AddWishListToCart))]
         public async Task<IActionResult> AddWishListToCart(SearchItem req) => Ok(await _cartwishlist.AddWishListToCart(req));
+        [HttpPost(nameof(DeleteWishListItem))]
+        public async Task<IActionResult> DeleteWishListItem(SearchItem req) => Ok(await _cartwishlist.DeleteWishListItem(req));
+        [HttpPost(nameof(MoveAllItemWishListToCart))]
+        public async Task<IActionResult> MoveAllItemWishListToCart() => Ok(await _cartwishlist.MoveAllItemWishListToCart(User.GetLoggedInUserId<int>()));
 
     }
 }

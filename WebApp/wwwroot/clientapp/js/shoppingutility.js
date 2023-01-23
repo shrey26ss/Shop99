@@ -24,7 +24,7 @@ const addToCart = (vId, Qty) => {
         param["Qty"] = Qty
     };
     $.post("/AddToCart", param).done(res => {
-        Q.notify(res.statusCode, res.statusCode == -1 ? res.responseText : Qty < 0? "Item removed from cart." :"Item Added in cart")
+        Q.notify(res.statusCode, res.statusCode == -1 ? res.responseText : Qty < 0 ? "Item removed from cart." : "Item Added in cart")
         if (res.statusCode == 1) {
             loadCartDetails();
             loadCartSlide();
@@ -82,6 +82,22 @@ $(document).on('click', '.openCartSlide', (e) => {
     loadCartSlide();
     $('#cart_side')?.addClass('open-side');
 });
+const DeleteWishListTitem = (wId) => {
+    $.post("/DeleteWishList", { id: wId }).done(res => {
+        Q.notify(res.statusCode, res.responseText)
+        if (res.statusCode == 1) {
+            window.location.reload();
+        }
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+}
+const MoveToAll = () => {
+    $.post("/MoveAllToCart").done(res => {
+        Q.notify(res.statusCode, res.responseText)
+        if (res.statusCode == 1) {
+            setTimeout(window.location.reload(),4000);
+        }
+    }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+}
 const loadCartSlide = function () {
     $.post("/CartSlide").done(res => {
         $('#cart_side').html(res);
@@ -105,10 +121,10 @@ const cartWishListCount = function () {
                 if (v.type == 'C') {
                     $('.cart-count').html(v.items == 0 ? "" : v.items);
                     $('.cart-count').addClass(v.items == 0 ? "" : 'item-count-contain');
-                    
+
                 }
                 if (v.type == 'W') {
-                    
+
                     $('.wishlist-count').html(v.items == 0 ? "" : v.items);
                     $('.wishlist-count').addClass(v.items == 0 ? "" : 'item-count-contain');
                 }

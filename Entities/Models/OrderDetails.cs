@@ -123,4 +123,15 @@ namespace Entities.Models
         public int Pincode { get; set; }
         public int HouseNo { get; set; }
     }
+    public class OrderTimeline
+    {
+        public int Id { get; set; }
+        public string StatusType { get; set; }
+        public string EntryOn { get; set; }
+    }
+    public class UsersOrderTrakingViewModel
+    {
+        public UsersOrderTrakingRes usersOrderTrakingRes { get; set; }
+        public IEnumerable<OrderTimeline> OrderTimeline { get; set; }
+    }
 }

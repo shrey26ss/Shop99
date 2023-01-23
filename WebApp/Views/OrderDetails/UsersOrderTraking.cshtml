@@ -1,6 +1,6 @@
 ﻿@using Entities.Models
 @using Entities.Enums
-@model UsersOrderTrakingRes
+@model UsersOrderTrakingViewModel
 @{
     Layout = "_layout";
 }
@@ -180,9 +180,9 @@
                 margin-left: 10px;
             }
 
-            .media img{
-                width: 100px;
-            }
+    .media img {
+        width: 100px;
+    }
 
 
     .timeline {
@@ -323,14 +323,14 @@
                                 <div class="title"><span>Delivery Address</span></div>
                                 <div class="user-details">
                                     <div class="username">
-                                        <div class="name">@Model.FullName</div>
+                                        <div class="name">@Model.usersOrderTrakingRes.FullName</div>
                                     </div>
-                                    <div class="email">@Model.Email</div>
-                                    <div class="address">@Model.HouseNo @Model.Area, @Model.Landmark, @Model.TownCity - @Model.Pincode, @Model.TownCity</div>
+                                    <div class="email">@Model.usersOrderTrakingRes.Email</div>
+                                    <div class="address">@Model.usersOrderTrakingRes.HouseNo @Model.usersOrderTrakingRes.Area, @Model.usersOrderTrakingRes.Landmark, @Model.usersOrderTrakingRes.TownCity - @Model.usersOrderTrakingRes.Pincode, @Model.usersOrderTrakingRes.TownCity</div>
                                     <div class="username number">
                                         <div>
                                             <span class="name">Phone number</span>
-                                            <div class="contact">@Model.MobileNo</div>
+                                            <div class="contact">@Model.usersOrderTrakingRes.MobileNo</div>
                                         </div>
                                     </div>
                                 </div>
@@ -344,7 +344,7 @@
                                     <img src="~/assets/images/download_Invoice.png" class="invoice-image" />
                                     <span class="invoice-download">Download Invoice</span>
                                 </div>
-                                <a href="/OrderDetails/Invoice?OrderId=@Model.ID" target="_blank" class="invoice-btn text-center"><span>Download</span></a>
+                                <a href="/OrderDetails/Invoice?OrderId=@Model.usersOrderTrakingRes.ID" target="_blank" class="invoice-btn text-center"><span>Download</span></a>
                             </div>
                         </div>
                     </div>
@@ -355,11 +355,11 @@
                             <div class="row align-items-center">
                                 <div class="col-md-3">
                                     <div class="media">
-                                        <img src="@Model.Thumbnail" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="">
+                                        <img src="@Model.usersOrderTrakingRes.Thumbnail" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="">
                                         <div class="media-body">
-                                            <h3>@Model.Title</h3>
-                                            <p>Seller: @Model.VendorName</p>
-                                            <h4><i class="fa fa-inr"></i>@Model.SellingCost<span><i class="fa fa-inr"></i> @Model.MRP</span></h4>
+                                            <h3>@Model.usersOrderTrakingRes.Title</h3>
+                                            <p>Seller: @Model.usersOrderTrakingRes.VendorName</p>
+                                            <h4><i class="fa fa-inr"></i>@Model.usersOrderTrakingRes.SellingCost<span><i class="fa fa-inr"></i> @Model.usersOrderTrakingRes.MRP</span></h4>
 
 
                                         </div>
@@ -369,100 +369,37 @@
                                 </div>
                                 <div class="col-md-6">
                                     <ul class="timeline" id="timeline">
-                                        @if (Model.StatusID == StatusType.Confirmed)
+                                        @foreach (var item in Model.OrderTimeline)
                                         {
-                                            <li class="li complete">
-                                                <div class="timestamp">
-                                                    <span class="date">Mon, 12th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Order Confirmed </h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="li">
-                                                <div class="timestamp">
-                                                    <span class="date">Mon, 12th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Order Confirmed </h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        @if (Model.StatusID == StatusType.Shipped)
-                                        {
-                                            <li class="li complete">
-                                                <div class="timestamp">
-                                                    <span class="date">Tue, 13th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Shipped </h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="li">
-                                                <div class="timestamp">
-                                                    <span class="date">Tue, 13th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Shipped </h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        @if (Model.StatusID == StatusType.OutForDelivery)
-                                        {
-                                            <li class="li complete">
-                                                <div class="timestamp">
-                                                    <span class="date">Tue, 13th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Out For Delivery</h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="li">
-                                                <div class="timestamp">
-                                                    <span class="date">Tue, 13th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Out For Delivery</h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        @if (Model.StatusID == StatusType.Delivered)
-                                        {
-                                            <li class="li complete">
-                                                <div class="timestamp">
-                                                    <span class="date">Tue, 13th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Delivered</h4>
-                                                </div>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="li">
-                                                <div class="timestamp">
-                                                    <span class="date">Tue, 13th Dec</span>
-                                                </div>
-                                                <div class="status">
-                                                    <h4> Delivered</h4>
-                                                </div>
-                                            </li> 
+                                            if (!string.IsNullOrEmpty(item.EntryOn))
+                                            {
+                                                <li class="li complete">
+                                                    <div class="timestamp">
+                                                        <span class="date">@item.EntryOn</span>
+                                                    </div>
+                                                    <div class="status">
+                                                        <h4> @item.StatusType</h4>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="li">
+                                                    <div class="timestamp">
+                                                        <span class="date">PENDDING</span>
+                                                    </div>
+                                                    <div class="status">
+                                                        <h4> @item.StatusType </h4>
+                                                    </div>
+                                                </li>
+                                            }
                                         }
                                     </ul>
 
                                     <div class="item_details">
                                         <div class="item_details_txt">
                                             <div class="">
-                                                <span class="">Your item has been @Model.StatusID</span>
+                                                <span class="">Your item has been @Model.usersOrderTrakingRes.StatusID</span>
                                                 @*<span> Ekart Logistics - FMPP1476285578</span>*@
                                             </div>
                                         </div>
