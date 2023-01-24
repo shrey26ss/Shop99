@@ -58,7 +58,8 @@
                         </div>
                         <div class="card-tools float-right">
                             <button class="btn btn-tool" data-card-widget="collapse" type="button">
-                            <i class="fa toggle-icon fa-minus"></i></button>
+                                <i class="fa toggle-icon fa-minus"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -66,7 +67,7 @@
                             <div class="row">
                                 <h4 class="col-sm-12">
                                     Combination-1
-                                      @*<button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>*@
+                                    @*<button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>*@
                                     <hr />
                                 </h4>
                                 @Html.Partial("Partials/_AddAttributeGroup")
@@ -109,7 +110,7 @@
 </section>
 
 @section Scripts{
-    <script>
+<script>
         variantImages = [];
         const isPartOfArray = (a, b) => {
             a = a.sort();
@@ -273,10 +274,27 @@
         });
 
         $(document).on('click', '#AddProductImg', () => {
-
             let __files = $('#PictureFile')[0].files;
             let totalFiles = __files.length;
             for (let i = 0; i < totalFiles;i++){
+                
+                //HightWidthValidatio
+                var k=0;
+                var _URL = window.URL || window.webkitURL;
+                var file, img;
+                 if ((file =__files[i])) {
+                        img = new Image();
+                        img.onload = function() {
+                            if(this.width<500 || this.height<700){
+                                 Q.notify(-1, 'Image width must be 500 and above and height must be 700 and above');
+                                 $('.pictureGrid').find('tr:last').remove();
+                                  variantImages.splice(-1);
+                                  return false;
+                            }
+                        };
+                        img.src = _URL.createObjectURL(file);
+                    }
+                   //HightWidthValidatio
                 let param = {
                     File: __files[i],
                     //File: $('#PictureFile')[0].files[0],
@@ -290,6 +308,8 @@
                     Q.notify(-1, 'All Image fileds are required');
                     return false;
                 }
+
+
                 let pictureGrid = $(`.pictureGrid`);
                 let count = pictureGrid.find('tr').length;
                 variantImages.push(param);
@@ -323,12 +343,12 @@
                 Q.notify('Selling Price cannot be greater than MRP');
             }
         });
-        
+
         $(document).on('change', '[name="Title"]', e=> {
             let _title = $(e.currentTarget).val();
             $('[name="Alt"]').val(_title);
             $('#pictureSection').find('[name="Title"]').val(_title);
         });
         $('[name="Quantity"], [name="DisplayOrder"]').numeric({ numericType: 'number', maxLength: '7' });
-    </script>
+</script>
  }
