@@ -3,6 +3,7 @@ using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using WebAPI.Middleware;
 
@@ -28,6 +29,13 @@ namespace WebAPI.Controllers
         {
             Data = req,
             LoginId = User.GetLoggedInUserId<int>()
+        }));
+        [Route("User/ApproveVendorProfile")]
+        public async Task<IActionResult> ApproveVendorProfile(VendorProfileRequest req) => Ok(await _userservice.ApproveVendorProfile(new RequestBase<VendorProfileRequest>
+        {
+            Data = req,
+            LoginId = User.GetLoggedInUserId<int>(),
+            RoleId = Convert.ToInt32(User.GetLoggedInUserRoles())
         }));
 
     }

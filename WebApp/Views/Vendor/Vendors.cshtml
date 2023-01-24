@@ -19,7 +19,8 @@
                             <th>Email</th>
                             <th>State</th>
                             <th>Address</th>
-                            <th>IsActive</th>
+                            @*<th>IsActive</th>*@
+                            <th>IsApproved</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -39,5 +40,11 @@
             }).fail(function (xhr) {
             })
         };
+        var ApproveVendor = (VendorId) => {
+            $.post('/Vendor/ApproveVendorProfile', { VendorId }).done((result) => {
+                console.log(result);
+                Q.notify(result.statusCode, result.responseText);
+            })
+        }
     </script>
 }

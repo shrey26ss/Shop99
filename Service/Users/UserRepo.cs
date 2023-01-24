@@ -40,7 +40,7 @@ namespace Service.Variant
 
         public async Task<IResponse<IEnumerable<VendorProfileList>>> GetVendorList(VendorProfileRequest request = null)
         {
-            string sp = @"Select u.Id UserId,u.ConcurrencyStamp,u.Email,u.NormalizedEmail,u.PasswordHash,u.PhoneNumber,u.UserName,u.RefreshToken,u.[Name],u.IsActive, v.ShopName,v.GSTNumber,v.TIN,v.[Address],v.ContactNo,v.StateId,s.StateName [State] 
+            string sp = @"Select u.Id UserId,u.ConcurrencyStamp,u.Email,u.NormalizedEmail,u.PasswordHash,u.PhoneNumber,u.UserName,u.RefreshToken,u.[Name],u.IsActive, v.ShopName,v.GSTNumber,v.TIN,v.[Address],v.ContactNo,v.StateId,s.StateName [State] , v.IsApproved, v.Id
 from Users u(nolock) 
 inner join VendorProfile v(nolock) on v.UserId = u.Id 
 inner join UserRoles ur(nolock) on ur.UserId = u.Id
@@ -106,5 +106,36 @@ where ur.RoleId = 3";
             }
             return res;
         }
+        public async Task<IResponse> ApproveVendorProfile(RequestBase<VendorProfileRequest> request)
+        {
+            var res = new Response();
+            if (request.RoleId != 1)
+                return new Response { ResponseText = "Unauthorised Action", StatusCode = ResponseStatus.Failed };
+            try
+            {
+                string sqlQuery = @"Update VendorProfile Set IsApproved = IsApproved^1 where Id = @VendorId";
+                int i = -5;
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                   request.Data.VendorId
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Successfully Updated";
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
     }
 }

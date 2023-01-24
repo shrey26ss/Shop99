@@ -17,7 +17,18 @@
             <td>@item.Email</td>
             <td>@item.State</td>
             <td>@item.Address</td>
-            <td>@item.IsActive</td>
+            @*<td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" id="isActive_@counter" checked="@item.IsActive">
+                    <label for="isActive_@counter"></label>
+                </span>
+            </td>*@
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" id="isApproved_@counter" onclick="ApproveVendor('@item.Id')" checked="@item.IsApproved">
+                    <label for="isApproved_@counter"></label>
+                </span>
+            </td>
         </tr>
     }
 }

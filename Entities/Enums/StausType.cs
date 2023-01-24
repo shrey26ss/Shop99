@@ -41,6 +41,8 @@ namespace Entities.Enums
         ReplaceRejected = 16,
         [Description("Out For Delivery")]
         OutForDelivery = 17,
+        [Description("Is Approved")]
+        IsApproved = 18
     }
     public enum PurchaseType
     {
