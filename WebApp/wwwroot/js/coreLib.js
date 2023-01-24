@@ -1132,6 +1132,8 @@ function ajaxFormSubmit(form) {
             if (response.statusCode == 1) {
                 $('.error').text('');
                 /*$(form).trigger("reset");*/
+                if (response.returnURL)
+                    window.location.href = `${response.returnURL}`;
                 $('.ui-dialog-titlebar-close:last').click();
                 Q.reset();
                 if (typeof loadData !== 'undefined' && $.isFunction(loadData))
