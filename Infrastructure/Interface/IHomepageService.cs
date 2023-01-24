@@ -17,6 +17,7 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<ProductResponse<ProductResponse>>>> GetFeatureProducts(ProductRequest productRequest);
         Task<IResponse<IEnumerable<HotDealsResponse>>> GetHotDeals(ProductRequest productRequest);
         Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion(string searchText = "", int Top = 0);
+        Task<IResponse> AddNewsLetter(RequestBase<NewsLetter> request);
 
     }
 }

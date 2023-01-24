@@ -17,7 +17,8 @@ namespace Entities.Enums
         FundCredit = 4,
         ForgetPass = 5,
         ThankYou =6,
-        OrderPlaced = 7
+        OrderPlaced = 7,
+        NewsLetter = 8
     }
     public enum CommunicationMode
     {

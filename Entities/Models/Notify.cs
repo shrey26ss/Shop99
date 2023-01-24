@@ -12,6 +12,7 @@ namespace Entities.Models
         public string Name { get; set; }
         public string OTP { get; set; }
         public string PhoneNumber { get; set; }
+        public string EmailID { get; set; }
         public MessageFormat FormatID { get; set; }
         public bool IsSms { get; set; }
         public bool IsEmail { get; set; }
