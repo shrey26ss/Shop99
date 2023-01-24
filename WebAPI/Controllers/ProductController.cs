@@ -96,9 +96,9 @@ namespace WebAPI.Controllers
             }));
         }
         [Route("Product/ProductRating")]
-        public async Task<IActionResult> ProductRating(ProductRating req)
+        public async Task<IActionResult> ProductRating(ProductRatingReq req)
         {
-            return Ok(await _products.ProductRating(new RequestBase<ProductRating>
+            return Ok(await _products.ProductRating(new RequestBase<ProductRatingReq>
             {
                 Data = req,
                 LoginId = User.GetLoggedInUserId<int>()

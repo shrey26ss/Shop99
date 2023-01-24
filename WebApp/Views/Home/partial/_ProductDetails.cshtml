@@ -307,20 +307,23 @@
                                                             <input type="checkbox" id="rate_@i" name="rate" value="@i" />
                                                             <label for="rate_@i" onclick="rate('@i')" class="rating" title="text">@i stars</label>
                                                         }
-                                                        <span class="text-danger d-none" id="hdnratesm">Please Select Rate</span>
                                                         <input type="hidden" id="hdnrate" value="" />
                                                     </div>
                                                 </div>
+                                                <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
                                             </div>
                                             <div class="col-md-12">
-                                                <label>Title</label>
-                                                <input type="text" class="form-control" id="txttitle" placeholder="Enter your Review Subjects" required>
-                                                <span class="text-danger d-none" id="txttitlesm">Please Enter Title</span>
+                                                <label>Title (Optional)</label>
+                                                <input type="text" class="form-control" id="txttitle" placeholder="Enter your Review Subjects">
                                             </div>
                                             <div class="col-md-12">
                                                 <label>Review</label>
                                                 <textarea class="form-control" id="txtreview" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
                                                 <span class="text-danger d-none" id="txtreviewsm">Please Enter Review</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Images</label>
+                                                <input type="file" accept=".jpg,jpeg" class="form-control" id="fileimg" placeholder="Photo" multiple>
                                             </div>
                                             <div class="col-md-12">
                                                 <button class="btn btn-normal" type="submit" onclick="SaveReview('@Model.VariantId')">Submit Your Review</button>
@@ -531,29 +534,43 @@
         getProductAllDetails(variantID);
     });
     var SaveReview = (variantid) => {
+        debugger
         let obj = {
-            VariantID:variantid,
-            Reting:$('#hdnrate').val(),
-            Title:$('#txttitle').val(),
-            Review:$('#txtreview').val(),
+            VariantID: variantid,
+            Reting: $('#hdnrate').val(),
+            Title: $('#txttitle').val(),
+            Review: $('#txtreview').val()
         }
-        if(obj.Reting == ''){
+        let Images = $("#fileimg").prop("files").length;
+        if (obj.Reting == '') {
             $('#hdnratesm').removeClass('d-none');
             return false;
         }
-        if(obj.Review == ''){
+        if (obj.Review == '') {
             $('#txtreviewsm').removeClass('d-none');
             return false;
         }
-        if(obj.Title == ''){
-            $('#txttitlesm').removeClass('d-none');
-            return false;
+        formData = new FormData();
+        for (let i = 0; i < Images; i++) {
+            formData.append(`req[${i}].VariantID`, obj.VariantID);
+            formData.append(`req[${i}].Title`, obj.Title);
+            formData.append(`req[${i}].Reting`, obj.Reting);
+            formData.append(`req[${i}].Review`, obj.Review);
+            formData.append(`req[${i}].file`, $("#fileimg").prop("files")[i]);
         }
-        $.post("/ProductRating", obj).done(res => {
-            Q.notify(res.statusCode, res.responseText);
-            if (res.statusCode == 1) {
-                setTimeout(window.location.reload(),4000);
-            }
-        }).fail(xhr => Q.xhrError(xhr)).always(() => "")
+        $.ajax({
+            type: 'POST',
+            url: '/ProductRating',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                Q.notify(response.statusCode, response.responseText)
+                $('input').val('');
+            },
+            error: function(xhr) {
+                Q.notify(-1, xhr.responseText)
+            },
+        });
     }
 </script>

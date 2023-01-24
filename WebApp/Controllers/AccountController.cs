@@ -168,24 +168,22 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginWithOTP(LoginViewModel model, string ReturnUrl)
         {
-            var res = new LoginViewModel
-            {
-                StatusCode = "Falied"
-            };
+            var res = new LoginViewModel();
             if (!string.IsNullOrEmpty(model.MobileNo))
             {
                 if (model.MobileNo.Length < 10)
                 {
                     ModelState.AddModelError(string.Empty, "Please Enter Valid Mobile Number");
+                    return View("Login", res);
                 }
             }            
             if (string.IsNullOrEmpty(model.OTP))
             {
                 var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/SendLoginOTP", JsonConvert.SerializeObject(model));
                 var deserializeObject = JsonConvert.DeserializeObject<Response>(Response.Result);
-                if (deserializeObject.ResponseText.EndsWith("not registered"))
+                if (deserializeObject.StatusCode == ResponseStatus.Failed)
                 {
-                    ModelState.AddModelError(string.Empty, "It seems you are not registered with us. Please sign up");
+                    ModelState.AddModelError(string.Empty, deserializeObject.ResponseText);
                 }
                 if (deserializeObject.StatusCode == ResponseStatus.Success)
                 {

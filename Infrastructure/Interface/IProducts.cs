@@ -16,6 +16,6 @@ namespace Infrastructure.Interface
         Task<IResponse> UpdateIsPublishProduct(RequestBase<UpdateIsPublishProduct> request);
         Task<IResponse> UpdateIsPublishVarAttr(RequestBase<UpdateIsPublishProduct> request);
         Task<IResponse<List<string>>> DeletevariantImage(RequestBase<DeleteVariantReq> request);
-        Task<IResponse> ProductRating(RequestBase<ProductRating> request);
+        Task<IResponse> ProductRating(RequestBase<ProductRatingReq> request);
     }
 }

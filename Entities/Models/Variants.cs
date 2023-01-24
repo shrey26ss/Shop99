@@ -110,4 +110,13 @@ namespace Entities.Models
         public string ImgPath { get; set; }
 
     }
+    public class ProductRatingReq
+    {
+        public int VariantID { get; set; }
+        public int UserID { get; set; }
+        public string Title { get; set; }
+        public int Reting { get; set; }
+        public string Review { get; set; }
+        public string Images { get; set; }
+    }
 }

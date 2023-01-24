@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
@@ -49,15 +50,15 @@ namespace WebApp.Controllers
         public IActionResult Index()
         {
             var model = new ProductViewModel();
-            model.Categories =  _ddl.GetCategoryDDL(GetToken(), _apiBaseURL).Result;
+            model.Categories = _ddl.GetCategoryDDL(GetToken(), _apiBaseURL).Result;
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> ProductList(int CID,string SearchText)
+        public async Task<IActionResult> ProductList(int CID, string SearchText)
         {
             var response = new List<Products>();
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new ProductSearchItem { CategoryID = CID,SearchText=SearchText });
+            var jsonData = JsonConvert.SerializeObject(new ProductSearchItem { CategoryID = CID, SearchText = SearchText });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -268,9 +269,9 @@ namespace WebApp.Controllers
             var model = new VariantCombination();
             model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
             ModelState.Clear();
-           TryValidateModel(model);
-            
-           
+            TryValidateModel(model);
+
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -279,12 +280,12 @@ namespace WebApp.Controllers
             try
             {
                 model.PictureInfo = UploadProductImage(req);
-                if (model.PictureInfo.Count()>0)
+                if (model.PictureInfo.Count() > 0)
                 {
                     string _token = User.GetLoggedInUserToken();
                     var jsonData = JsonConvert.SerializeObject(model);
                     var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
-                   if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
                     {
                         var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
                         response = deserializeObject;
@@ -295,7 +296,7 @@ namespace WebApp.Controllers
                     response.ResponseText = "Image is currupted.Please try another image.";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
@@ -313,13 +314,14 @@ namespace WebApp.Controllers
         //    return PartialView("Partials/_AddAttributes", model);
         //}
         [HttpPost]
-        public async Task<ActionResult> VariantQuantityUpdate(int v, int q,bool IsReduce, string Remark)
+        public async Task<ActionResult> VariantQuantityUpdate(int v, int q, bool IsReduce, string Remark)
         {
-            var response = new Response() { 
-            StatusCode=ResponseStatus.Failed,
-            ResponseText= ResponseStatus.Failed.ToString()
+            var response = new Response()
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = ResponseStatus.Failed.ToString()
             };
-            if(q<=0)
+            if (q <= 0)
             {
                 response.ResponseText = "Minimum 1 Quantity Required.";
                 return Ok(response);
@@ -335,7 +337,7 @@ namespace WebApp.Controllers
                 return Ok(response);
             }
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new VariantQuantity { VariantId = v, Quantity = q,IsReduce= IsReduce,Remark=Remark });
+            var jsonData = JsonConvert.SerializeObject(new VariantQuantity { VariantId = v, Quantity = q, IsReduce = IsReduce, Remark = Remark });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/VariantQuantityUpdate", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -366,7 +368,7 @@ namespace WebApp.Controllers
             return Json(response);
         }
         [HttpPost]
-        public async Task<IActionResult> UploadVariantImage(int VariantId,string VariantColor,string ImgAlt)
+        public async Task<IActionResult> UploadVariantImage(int VariantId, string VariantColor, string ImgAlt)
         {
             var model = new ViewVariantCombinationModel
             {
@@ -414,7 +416,7 @@ namespace WebApp.Controllers
                             var dimension = sValue.Split("_");
                             ImageResizer resizer = new ImageResizer();
                             var resizedImg = resizer.ResizeImage(item.file, Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-                            if (resizedImg==null)
+                            if (resizedImg == null)
                             {
                                 ImageInfo = new List<PictureInformation>();
                                 goto Finish;
@@ -451,7 +453,7 @@ namespace WebApp.Controllers
                     }
                 }
             }
-            Finish:
+        Finish:
             return ImageInfo;
         }
         private string GetToken()
@@ -462,13 +464,45 @@ namespace WebApp.Controllers
         #region Rating
         [Route("ProductRating")]
         [HttpPost]
-        public async Task<IActionResult> ProductRating(ProductRating request)
+        public async Task<IActionResult> ProductRating(List<ProductRating> req)
         {
             string _token = User.GetLoggedInUserToken();
+            var path = UploadRatingImage(req);
+            var requ = req.FirstOrDefault();
+            var request = new ProductRating
+            {
+                VariantID = requ.VariantID,
+                Title = requ.Title,
+                Reting = requ.Reting,
+                Review = requ.Review,
+                Images = path,
+            };
             var jsonData = JsonConvert.SerializeObject(request);
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/ProductRating", jsonData, _token);
             var res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             return Json(res);
+        }
+        private string UploadRatingImage(List<ProductRating> req)
+        {
+            var ImagePath = new List<string>();
+            if (req != null && req.Any())
+            {
+                int counter = 0;
+                foreach (var item in req)
+                {
+                    counter++;
+                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+                    Utility.O.UploadFile(new FileUploadModel
+                    {
+                        file = item.file,
+                        FileName = fileName,
+                        FilePath = FileDirectories.ProductRateSuffixDefault.Replace("/{0}", string.Empty),
+                        IsThumbnailRequired = false,
+                    });
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL(),FileDirectories.ProductRateSuffixDefault, fileName));
+                }
+            }
+            return string.Join(',',ImagePath);
         }
         #endregion
 
