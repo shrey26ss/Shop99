@@ -13,5 +13,7 @@ namespace Infrastructure.Interface
         Task<IResponse<UserDetails>> GetUserById(int Id);
         Task<IResponse<IEnumerable<VendorProfileList>>> GetVendorList(VendorProfileRequest request = null);
         Task<IResponse> SaveProfileInfo(RequestBase<UserDetails> request);
+        Task<IResponse> ApproveVendorProfile(RequestBase<VendorProfileRequest> request);
+        
     }
 }

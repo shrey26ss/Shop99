@@ -3,6 +3,7 @@ using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Models;
 using System;
@@ -23,15 +24,18 @@ namespace Service.Vendor
             _logger = logger;
         }
 
-        public async Task<IResponse<bool>> ValidateVendor(RequestBase<SearchItem> request)
+        public async Task<IResponse<ValidateVendor>> ValidateVendor(RequestBase<SearchItem> request)
         {
-            var res = new Response<bool>();
+            var res = new Response<ValidateVendor>();
             try
             {
                 string sqlQuery = "Proc_ValidateVendor";
-                res = await _dapper.GetAsync<Response<bool>>(sqlQuery, new { request.LoginId }, CommandType.StoredProcedure);
-                if (res.StatusCode == ResponseStatus.Success)
-                    res.Result = true;
+                res.Result = await _dapper.GetAsync<ValidateVendor>(sqlQuery, new { request.LoginId }, CommandType.StoredProcedure);
+                if (res.Result.IsOnboard)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = res.Result.ResponseText;
+                }
             }
             catch (Exception ex)
             {

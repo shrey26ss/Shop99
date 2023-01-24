@@ -14,71 +14,84 @@
         display: none;
     }
 </style>
-<div class="container">
-    <h3>Welcome To Onboard</h3>
-    <div class="card mt-4 card-primary">
-        <div class="card-header">
-            <h4 class="text-monospace">Please fill below details to continue</h4>
-        </div>
-        <div class="card-body">
-            <form method="post" id="vendor" asp-action="Onboard">
-                <div class="row">
-                    <div class="col-sm-6 col-ms-6">
-                        <div class="form-group">
-                            <label asp-for="ShopName"></label>
-                            <input asp-for="ShopName" class="form-control" />
-                            <span asp-validation-for="ShopName" class="text-danger"></span>
+@if (Model.IsOnboard == false)
+{
+    <div class="container">
+        <h3>Welcome To Onboard</h3>
+        <div class="card mt-4 card-primary">
+            <div class="card-header">
+                <h4 class="text-monospace">Please fill below details to continue</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" id="vendor" asp-action="Onboard">
+                    <div class="row">
+                        <div class="col-sm-6 col-ms-6">
+                            <div class="form-group">
+                                <label asp-for="ShopName"></label>
+                                <input asp-for="ShopName" class="form-control" />
+                                <span asp-validation-for="ShopName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-ms-6">
+                            <div class="form-group">
+                                <label asp-for="ContactNo"></label>
+                                <input asp-for="ContactNo" class="form-control" />
+                                <span asp-validation-for="ContactNo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-ms-6">
+                            <div class="form-group">
+                                <label>State</label>
+                                <select class="form-control" asp-for="StateId" asp-items="@DDL">
+                                    <option value="">:: Select State ::</option>
+                                </select>
+                                <span asp-validation-for="StateId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="GSTNumber"></label>
+                                <input asp-for="GSTNumber" class="form-control" />
+                                <span asp-validation-for="GSTNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label asp-for="TIN"></label>
+                                <input asp-for="TIN" class="form-control" />
+                                <span asp-validation-for="TIN" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Full Address</label>
+                                <textarea asp-for="Address" class="form-control" rows="6"></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="row text-center">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Save" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-ms-6">
-                        <div class="form-group">
-                            <label asp-for="ContactNo"></label>
-                            <input asp-for="ContactNo" class="form-control" />
-                            <span asp-validation-for="ContactNo" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-ms-6">
-                        <div class="form-group">
-                            <label>State</label>
-                            <select class="form-control" asp-for="StateId" asp-items="@DDL">
-                               <option value="">:: Select State ::</option>
-                           </select>
-                            <span asp-validation-for="StateId" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label asp-for="GSTNumber"></label>
-                            <input asp-for="GSTNumber" class="form-control" />
-                            <span asp-validation-for="GSTNumber" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label asp-for="TIN"></label>
-                            <input asp-for="TIN" class="form-control" />
-                            <span asp-validation-for="TIN" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Full Address</label>
-                            <textarea asp-for="Address" class="form-control" rows="6"></textarea>
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-                    </div>
-               
-                </div>
-                <hr />
-                <div class="row text-center">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Save" />
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+}
+else if(Model.IsOnboard == true && Model.IsApproved ==  false)
+{
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class=" col-12 alert alert-warning text-center" role="alert">
+                Please wait for admin varification
+            </div>
+        </div>
+    </div>
+}

@@ -8,7 +8,7 @@ namespace Infrastructure.Interface
 {
     public interface IVendor
     {
-        Task<IResponse<bool>> ValidateVendor(RequestBase<SearchItem> request);
+        Task<IResponse<ValidateVendor>> ValidateVendor(RequestBase<SearchItem> request);
         Task<IResponse> AddUpdate(RequestBase<VendorProfile> request);
         Task<IResponse<VendorProfile>> GetVendorDetails(RequestBase<SearchItem> request);
     }

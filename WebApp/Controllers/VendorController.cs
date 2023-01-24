@@ -18,6 +18,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WebApp.AppCode.Attributes;
+using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
 using WebApp.Models.ViewModels;
@@ -30,11 +31,13 @@ namespace WebApp.Controllers
         private string _apiBaseURL;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private IDDLHelper _ddl;
-        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager,IDDLHelper ddl)
+        private readonly IGenericMethods _convert;
+        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager,IDDLHelper ddl, IGenericMethods convert)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _signInManager = signInManager;
             _ddl = ddl;
+            _convert = convert;
         }
         // GET: VendorController
         [Authorize(Roles = "0,3")]
@@ -42,10 +45,13 @@ namespace WebApp.Controllers
         {
             string _token = User.GetLoggedInUserToken();
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Vendor/ValidateVendor", "", _token);
+            bool IsApproved = false, IsOnboard = false;
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
-                var deserializeObject = JsonConvert.DeserializeObject<Response<bool>>(apiResponse.Result);
-                if (deserializeObject.Result == true)
+                var deserializeObject = JsonConvert.DeserializeObject<Response<ValidateVendor>>(apiResponse.Result);
+                IsApproved = deserializeObject.Result.IsApproved;
+                IsOnboard = deserializeObject.Result.IsOnboard;
+                if (deserializeObject.Result.IsOnboard == true && deserializeObject.Result.IsApproved ==  true)
                 {
                     var Identity = HttpContext.User.Identity as ClaimsIdentity;
                     Identity.RemoveClaim(Identity.FindFirst(ClaimTypes.Role));
@@ -53,15 +59,21 @@ namespace WebApp.Controllers
                     await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,new ClaimsPrincipal(Identity));
                     return View();
                 }
+                else if (deserializeObject.Result.IsOnboard == true && deserializeObject.Result.IsApproved == false)
+                {
+                    return RedirectToAction(nameof(Onboard), "Vendor", new { IsApproved, IsOnboard });
+                }
             }
-            return RedirectToAction(nameof(Onboard));
+            return RedirectToAction(nameof(Onboard), "Vendor", new { IsApproved, IsOnboard });
         }
         [Authorize(Roles ="0")]
-        public async Task<IActionResult> Onboard()
+        public async Task<IActionResult> Onboard(bool IsApproved = false, bool IsOnboard = false)
         {
             var model = new VendorVM
             {
-                States = await _ddl.GetStateDDL(_apiBaseURL)
+                States = await _ddl.GetStateDDL(_apiBaseURL),
+                IsApproved = IsApproved,
+                IsOnboard = IsOnboard
             };
             return View(model);
         }
@@ -85,7 +97,7 @@ namespace WebApp.Controllers
                         {
                             var Identity = HttpContext.User.Identity as ClaimsIdentity;
                             Identity.RemoveClaim(Identity.FindFirst(ClaimTypes.Role));
-                            Identity.AddClaim(new Claim(ClaimTypes.Role, "3"));
+                            Identity.AddClaim(new Claim(ClaimTypes.Role, "0"));
                             await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(Identity));
                         }
                     }
@@ -94,7 +106,7 @@ namespace WebApp.Controllers
                 {
                     response.ResponseText = ex.Message;
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Onboard", new {IsApproved = false, IsOnBoard = true});
             }
             model.States = await _ddl.GetStateDDL(_apiBaseURL);
             return View(model);
@@ -166,6 +178,19 @@ namespace WebApp.Controllers
                 list = deserializeObject.Result;
             }
             return PartialView("PartialView/_vendorList", list);
+        }
+        [Authorize(Roles ="1")]
+        [HttpPost]
+        public async Task<IActionResult> ApproveVendorProfile(int VendorId)
+        {
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/User/ApproveVendorProfile", JsonConvert.SerializeObject
+                (new { VendorId }), GetToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                return Json(deserializeObject);
+            }
+            return Json(new Response());
         }
         private string GetToken()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -35,9 +36,17 @@ namespace Entities.Models
         public int VendorId { get; set; }
         public string Address { get; set; }
         public string ContactNo { get; set; }
+        public bool IsApproved { get; set; }
     }
     public class VendorProfileRequest
     {
         public int UserId { get; set; }
+        public int VendorId { get; set; }
+    }
+    public class ValidateVendor
+    {
+        public bool IsOnboard { get; set; }
+        public bool IsApproved { get; set; }
+        public string ResponseText { get; set; }
     }
 }
