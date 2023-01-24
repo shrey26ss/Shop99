@@ -71,5 +71,14 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> ByProductId(ProductRequest<ProductFilter> productRequest) => Ok(await _homepageService.GetProductByPID(productRequest));
         [HttpPost(nameof(ByBrandId))]
         public async Task<ActionResult> ByBrandId(ProductRequest<BrandFilter> brandRequest) => Ok(await _homepageService.GetProductByBrandID(brandRequest));
+       
+        [HttpPost(nameof(AddNewsLetter))]
+        public async Task<IActionResult> AddNewsLetter(NewsLetter req)
+        {
+            return Ok(await _homepageService.AddNewsLetter(new RequestBase<NewsLetter>
+            {
+                Data = req
+            }));
+        }
     }
 }

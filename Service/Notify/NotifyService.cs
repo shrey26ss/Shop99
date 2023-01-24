@@ -45,6 +45,9 @@ namespace Service.Notify
             res.OTP=req.OTP==null?"0": req.OTP;
             res.PhoneNumber = req.PhoneNumber==null? res.PhoneNumber: req.PhoneNumber;
             res.WhatsappNo = req.PhoneNumber == null ? res.WhatsappNo : req.PhoneNumber;
+            res.EmailID = req.EmailID == null ? res.EmailID : req
+                
+                .EmailID;
             res.Name = req.Name == null ? res.Name : req.Name;
                 res.FormatID = req.FormatID;
                 if (req.IsSms)
@@ -547,10 +550,9 @@ namespace Service.Notify
                 EmailSettingswithFormat mailSetting = JsonSerializer.Deserialize<EmailSettingswithFormat>(item.EmailConfiguration);
 
 
-                string MailFooter = " <tr><td bgcolor='#f4f4f4' align='center' style='padding: 30px 10px 20px 10px;'><table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'><tbody><tr><td bgcolor = '#FFECD1' align = 'center' style = 'padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;margin-bottom:20px;'><h2 style = 'font-size: 20px; font-weight: 400; color: #111111; margin: 0;'> Need more help?</h2><p style='margin:0;'><a href = 'https://lapurobotics.com/' target='_blank' style = 'color: #2262c6;'>{Domain}</a></p></td></tr></tbody></table></td></tr> ";
-                MailFooter = MailFooter.Replace("{Domain}", "https://lapurobotics.com/");
-
-                var emailresponse = SendEMailAsync(mailSetting, item.SendTo, null, item.Subject, item.Message, 0, "LogoURL", true, MailFooter).Result;
+              
+           
+                var emailresponse = SendEMailAsync(mailSetting, item.SendTo, null, item.Subject, item.Message, 0, "LogoURL", true).Result;
 
                 SendEmail sendEmail = new SendEmail
                 {
@@ -729,7 +731,9 @@ namespace Service.Notify
                 dbparams.Add("IsSent", sendEmail.IsSent, DbType.Boolean);
                 dbparams.Add("NotifyID", sendEmail.NotifyID, DbType.Int32);
                 dbparams.Add("Response", sendEmail.Response, DbType.String);
-                //   var res =_dapper.Insert<CommonResponse>("proc_SaveEmailesponse", dbparams, CommandType.StoredProcedure);
+                string query = @" INSERT INTO SendEmailLog ([From],Recipients,[Subject],Body,IsSent,EntryDate,ModifyDate,Response)VALUES(@From,@Recipients,@Subject,@Body,@IsSent,getdate(),GETDATE(),@Response); 
+                      update notify set IsProcced=1,ModifyOn=GETDATE() where ID=@NotifyID";
+                await _dapper.ExecuteAsync(query, dbparams, CommandType.Text);
             }
             catch (Exception ex)
             {
@@ -819,18 +823,24 @@ namespace Service.Notify
         #endregion
         public async Task<bool> SendEMailAsync(EmailSettingswithFormat setting, string ToEmail, List<string> bccList, string Subject, string Body, int WID, string Logo, bool IsHTML = true, string MailFooter = "")
         {
+           // System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
             bool IsSent = false;
             if (setting.FromEmail != null && setting.Port != 0 && setting.Password != null && setting.HostName != null)
             {
+                string htmlMailTemplate = @"<html><head><title></title><meta charset='utf - 8'><meta name='viewport' content='width = device - width,initial - scale = 1'></head><body><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css'><div style='margin:0;text-align:center;font-family:Karla,sans-serif;color:#092147;background-color:#eaf0f8'><div style='width:624px;display:inline-block;border:1px solid #f8f8f9;background-color:#f8f8f9'><div style='padding:15px'><div class='d-flex align-items-center'><div><img alt='vauld' src='https://shop99.co.in/assets/images/layout-2/logo/logo.png' style='width:137px' class='CToWUd a6T mr-3' data-bit='iit' tabindex='0'></div><div><h3>Shop99</h3><p class='mb-1' style='font-size:13px'>Sales@Shop99.Co.In , Support@Shop99.Co.In</p><p class='mb-1' style='font-size:13px'>+91-8920114845</p></div></div></div><div style='background-color:#fff;padding:0 48px;text-align:left'><div style='margin-top:20px;font-size:15px;color:#092147;line-height:1.5;display:inline-block;width:100%'>{BODY}</div><div style='height:2px;background-color:#f6f9fd;margin:20px 0'></div></div><div style='text-align:center;margin-top:20px'><div style='margin-top:20px;font-size:12px;color:#09214799'>Shop with Shop99.<br>Buy and sell Product.</div><div style='margin:28px 0 33px;color:#09214799;font-size:10px;line-height:1.5'>© 2022 Shop99. All rights reserved</div></div></div></div></body></html> ";
+
                 if (IsHTML)
                 {
-                    Body = "HTML Template".Replace("{BODY}", Body).Replace("{Footer}", MailFooter).ToString();
+                    Body = htmlMailTemplate.Replace("{BODY}", Body).ToString();
                 }
                 try
                 {
+
+                   // MailMessage mailMessage = new System.Net.Mail.MailMessage(setting.FromEmail, ToEmail.Trim(),setting.Password, "Hello Word");
                     MailMessage mailMessage = new MailMessage
                     {
-                        From = new MailAddress(setting.FromEmail, "Lapu-Robotics"),
+                        From = new MailAddress(setting.FromEmail),
                         Subject = Subject,
                         Body = Body,
                         IsBodyHtml = IsHTML
@@ -849,7 +859,7 @@ namespace Service.Notify
                     }
                     SmtpClient smtpClient = new SmtpClient(setting.HostName, setting.Port)
                     {
-                        Credentials = new NetworkCredential(string.IsNullOrEmpty(setting.MailUserID) ? setting.FromEmail : setting.MailUserID, setting.Password)
+                        Credentials = new NetworkCredential(setting.FromEmail,setting.Password)
                     };
                     if (setting.IsSSL)
                     {
@@ -857,7 +867,13 @@ namespace Service.Notify
                     }
                     try
                     {
-                        Task.Factory.StartNew(() => smtpClient.Send(mailMessage));
+
+
+
+
+
+                       // Task.Factory.StartNew(() => smtpClient.Send(mailMessage));
+                            smtpClient.Send(mailMessage);
                         IsSent = true;
                     }
                     catch (Exception ex)
@@ -872,6 +888,9 @@ namespace Service.Notify
             }
             return IsSent;
         }
+       
 
+
+
+        }
     }
-}

@@ -368,18 +368,18 @@
                                     <div class="newsletter-second">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="enter full name">
+                                                <input type="text" class="form-control" id="txtname" placeholder="enter full name">
                                                 <span class="input-group-text"><i class="ti-user"></i></span>
                                             </div>
                                         </div>
                                         <div class="form-group ">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="enter email address">
+                                                <input type="text" class="form-control" id="textemail" placeholder="enter email address">
                                                 <span class="input-group-text"><i class="ti-email"></i></span>
                                             </div>
                                         </div>
                                         <div class="form-group mb-0">
-                                            <a href="javascript:void(0)" class="btn btn-solid btn-sm">submit now</a>
+                                            <a href="javascript:void(0)" id="btnNewsLetter" class="btn btn-solid btn-sm">submit now</a>
                                         </div>
                                     </div>
                                 </div>
@@ -466,6 +466,44 @@
 
     @RenderSection("Scripts", required: false)
     <script>
+
+        $('#btnNewsLetter').click(function(){
+            const name=$('#txtname').val();
+            const  email=$('#textemail').val()
+            if(name==='')
+            {
+                 Q.notify(-1,'Name Required');
+                 return;
+            }
+             if(email==='')
+            {
+                 Q.notify(-1,'Email Reuired');
+                 return;
+            }
+
+                  var settings = {
+                  "url":baseURL+ "/Home/AddNewsLetter",
+                  "method": "POST",
+                  "timeout": 0,
+                  "headers": {
+                    "Content-Type": "application/json"
+                  },
+                  "data": JSON.stringify({
+                    "Name": name,
+                    "Email": email
+                  }),
+                };
+            $.ajax(settings).done(function (response) {
+                Q.notify(response.statusCode,response.statusCode==1?"News Letter Subscribed Successfull.":response.responseText);
+                if(response.statusCode==1)
+                {
+                $('#txtname').val('');
+                $('#textemail').val('');
+                }
+            });
+        })
+
+
         var SearchItems = [];
         var loadAutoSuggestion = async function (searchTerm = '', Top = 0 , triggerSuggestion=false) {
             await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {

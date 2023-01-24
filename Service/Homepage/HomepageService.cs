@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using AppUtility.Helper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -16,8 +17,10 @@ namespace Service.Homepage
     {
         private IDapperRepository _dapper;
         private readonly ILogger<DapperRepository> _logger;
-        public HomepageService(IDapperRepository dapper, ILogger<DapperRepository> logger)
+        private readonly INotifyService _notify;
+        public HomepageService(IDapperRepository dapper, ILogger<DapperRepository> logger, INotifyService notify)
         {
+            _notify = notify;
             _dapper = dapper;
             _logger = logger;
         }
@@ -309,5 +312,44 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             }
             return res;
         }
+        public async Task<IResponse> AddNewsLetter(RequestBase<NewsLetter> request)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                int i = -5;
+                
+                 sqlQuery = @"if not  exists (select ID from NewsLetter where Email=@Email)
+                              begin
+                              insert into NewsLetter(Name,Email,CeratedOn)values(@Name,@Email,getdate())
+                              end";
+                i = await _dapper.ExecuteAsync(sqlQuery, new
+                {
+                    request.Data.Name,
+                    request.Data.Email,
+                }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    #region Send Email
+                    await _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.NewsLetter, IsEmail = true,EmailID = request.Data.Email},0);
+                    #endregion
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+                else
+                {
+                    res.StatusCode = ResponseStatus.Failed;
+                    res.ResponseText = "Email Allready Exists Try Another Email.!";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
     }
 }
