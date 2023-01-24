@@ -276,7 +276,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             }
             return res;
         }
-        public async Task<IResponse> ProductRating(RequestBase<ProductRating> request)
+        public async Task<IResponse> ProductRating(RequestBase<ProductRatingReq> request)
         {
             string sp = @"ProcReview";
 
@@ -289,7 +289,8 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                     UserID = request.LoginId,
                     request.Data.Title,
                     request.Data.Reting,
-                    request.Data.Review
+                    request.Data.Review,
+                    request.Data.Images,
                 }, CommandType.StoredProcedure);
             }
             catch (Exception ex)
