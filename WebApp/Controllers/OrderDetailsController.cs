@@ -1,6 +1,5 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
-using AutoMapper;
 using Entities.Enums;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -24,12 +23,14 @@ namespace WebApp.Controllers
     [Authorize]
     public class OrderDetailsController : Controller
     {
-        private string _apiBaseURL;
+        private readonly string _apiBaseURL;
         private readonly IGenericMethods _convert;
-        public OrderDetailsController(ILogger<OrderDetailsController> logger, IMapper mapper, AppSettings appSettings, IGenericMethods convert)
+        private readonly ILogger _logger;
+        public OrderDetailsController(ILogger<OrderDetailsController> logger, AppSettings appSettings, IGenericMethods convert)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
+            _logger= logger;
         }
         public IActionResult Index(StatusType type)
         {
@@ -92,7 +93,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex.Message, ex);
             }
             return Json(response);
         }

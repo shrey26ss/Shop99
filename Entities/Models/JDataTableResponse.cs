@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Entities.Models
 {
@@ -11,13 +9,18 @@ namespace Entities.Models
         public int Draw { get; set; }
     }
 
-    public class JDataTable<T>
+    public class JDataTableResponse
     {
         public int draw { get; set; }
+        public int start { get; set; }
         public int recordsTotal { get; set; }
         public int recordsFiltered { get; set; }
-        public List<T> Data { get; set; }
         public PageSetting PageSetting { get; set; }
+    }
+
+    public class JDataTableResponse<T>: JDataTableResponse
+    {
+        public List<T> Data { get; set; }
     }
     public class JSONAOData
     {

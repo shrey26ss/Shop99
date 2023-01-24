@@ -1,70 +1,144 @@
 ﻿@using Entities.Models
 @using Service.Models
 @using Entities.Enums;
-@model Response<IEnumerable<ProductResponse>>
+@*@model Response<IEnumerable<ProductResponse>>*@
+@model Response<JDataTableResponse<ProductResponse>>
 @{
-    var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<ProductResponse>();
+    var result = new List<ProductResponse>();
+    int recordsTotal = 0;
+    string range = "1-24";
+    if (Model.StatusCode == ResponseStatus.Success)
+    {
+        recordsTotal = Model.Result.recordsTotal;
+        range = $"{Model.Result.start+1}-{Model.Result.start+Model.Result.draw}";
+        if (Model.Result.Data.Any())
+        {
+            result = Model.Result.Data;
+        }
+    }
 }
 
-@if (result.Any())
-{
-    @foreach (var item in result)
-    {
-        <div class="col-xl-3 col-md-4 col-6 col-grid-box">
-            <div class="product-box">
-                <div class="product-imgbox">
-                    <div class="product-front">
-                        <a href="/productdetails/@item.VariantID">
-                            <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
-                        </a>
-                    </div>
-                </div>
-                <div class="product-detail detail-center detail-inverse">
-                    <div class="detail-title">
-                        <div class="detail-left">
-                            <div class="rating-star">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <a href="/productdetails/@item.VariantID">
-                                <h6 class="price-title">
-                                    @item.Title
-                                </h6>
-                            </a>
-                        </div>
-                        <div class="detail-right">
-                            <div class="check-price">&#8377; @item.MRP </div>
-                            <div class="price">
-                                <div class="price">&#8377; @item.SellingCost</div>
+<div class="collection-content">
+    <div class="page-main-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="collection-product-wrapper">
+                    <div class="product-top-filter">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="filter-main-btn"><span class="filter-btn btn btn-theme"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span></div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="product-filter-content">
+                                    <div class="search-count">
+                                        <h5>Showing Products @range of @recordsTotal Result</h5>
+                                    </div>
+                                    <div class="collection-view">
+                                        <ul>
+                                            <li><i class="fa fa-th grid-layout-view"></i></li>
+                                            <li><i class="fa fa-list-ul list-layout-view"></i></li>
+                                        </ul>
+                                    </div>
+                                    <div class="collection-grid-view">
+                                        <ul>
+                                            <li><img src="~/assets/images/category/icon/2.png" alt="" class="product-2-layout-view"></li>
+                                            <li><img src="~/assets/images/category/icon/3.png" alt="" class="product-3-layout-view"></li>
+                                            <li><img src="~/assets/images/category/icon/4.png" alt="" class="product-4-layout-view"></li>
+                                            <li><img src="~/assets/images/category/icon/6.png" alt="" class="product-6-layout-view"></li>
+                                        </ul>
+                                    </div>
+                                    <div class="product-page-per-view">
+                                        <select>
+                                            <option value="High to low">24 Products Par Page</option>
+                                            <option value="Low to High">50 Products Par Page</option>
+                                            <option value="Low to High">100 Products Par Page</option>
+                                        </select>
+                                    </div>
+                                    <div class="product-page-filter">
+                                        <select asp-items="Html.GetEnumSelectList<SortingOption>()">
+                                           @* <option value="High to low">Sorting items</option>
+                                            <option value="Low to High">Relevance</option>
+                                            <option value="Low to High">Popularity</option>
+                                            <option value="Low to High">Price--Low to High</option>
+                                            <option value="Low to High">Price--High to Low</option>
+                                            <option value="Low to High">Newest First</option>*@
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="icon-detail">
-                        <button class="tooltip-top add-cartnoty addtocart" data-variant-id="@item.VariantID" data-tippy-content="Add to cart">
-                            <img src="~/Image/icons/cart-mini.svg" class="svg">
-                        </button>
-                        <button class="add-to-wish tooltip-top addtowishlist" data-variant-id="@item.VariantID" data-tippy-content="Add to Wishlist">
-                            <img src="~/Image/icons/wishlist-b.svg" class="svg">
-                        </button>
-                        <a href="/productdetails/@item.VariantID" class="tooltip-top" data-tippy-content="Quick View">
-                            <img src="/Image/icons/info.svg" class="svg">
-                        </a>
-                        <a href="#" class="tooltip-top" data-tippy-content="Compare">
-                            <img src="~/Image/icons/compare.svg" class="svg">
-                        </a>
+                    <div class="product-wrapper-grid product-load-more product">
+                        <div class="row" id="dvCategoryProducts">
+                            @if (result.Any())
+                            {
+                                @foreach (var item in result)
+                                {
+                                    <div class="col-xl-3 col-md-4 col-6 col-grid-box">
+                                        <div class="product-box">
+                                            <div class="product-imgbox">
+                                                <div class="product-front">
+                                                    <a href="/productdetails/@item.VariantID">
+                                                        <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-detail detail-center detail-inverse">
+                                                <div class="detail-title">
+                                                    <div class="detail-left">
+                                                        <div class="rating-star">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <a href="/productdetails/@item.VariantID">
+                                                            <h6 class="price-title">
+                                                                @item.Title
+                                                            </h6>
+                                                        </a>
+                                                    </div>
+                                                    <div class="detail-right">
+                                                        <div class="check-price">&#8377; @item.MRP </div>
+                                                        <div class="price">
+                                                            <div class="price">&#8377; @item.SellingCost</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="icon-detail">
+                                                    <button class="tooltip-top add-cartnoty addtocart" data-variant-id="@item.VariantID" data-tippy-content="Add to cart">
+                                                        <img src="~/Image/icons/cart-mini.svg" class="svg">
+                                                    </button>
+                                                    <button class="add-to-wish tooltip-top addtowishlist" data-variant-id="@item.VariantID" data-tippy-content="Add to Wishlist">
+                                                        <img src="~/Image/icons/wishlist-b.svg" class="svg">
+                                                    </button>
+                                                    <a href="/productdetails/@item.VariantID" class="tooltip-top" data-tippy-content="Quick View">
+                                                        <img src="/Image/icons/info.svg" class="svg">
+                                                    </a>
+                                                    <a href="#" class="tooltip-top" data-tippy-content="Compare">
+                                                        <img src="~/Image/icons/compare.svg" class="svg">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+
+                            <div class="load-more-sec"><a href="javascript:void(0)" class="loadMore">load more</a></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    }
-}
+    </div>
+</div>
 
 
-
-<div class="load-more-sec"><a href="javascript:void(0)" class="loadMore">load more</a></div>
 
 
 <script>

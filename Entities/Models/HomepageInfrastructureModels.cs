@@ -22,6 +22,7 @@
     {
         public string OrderBy { get; set; }
         public int Top { get; set; }
+        public int Start { get; set; }
     }
     public class ProductRequest<T> : ProductRequest
     {

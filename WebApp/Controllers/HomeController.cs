@@ -1,31 +1,22 @@
 ﻿using Entities.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Models;
 using WebApp.Models.ViewModels;
 using WebApp.Servcie;
 
 namespace WebApp.Controllers
 {
-
     public class HomeController : Controller
     {
-        private readonly ILogger<UserHomeController> _logger;
         private readonly ICategoryAPI _category;
         private readonly IProductsAPI _product;
-        public HomeController(ILogger<UserHomeController> logger, ICategoryAPI category, IProductsAPI product)
+        public HomeController(ICategoryAPI category, IProductsAPI product)
         {
-            _logger = logger;
             _category = category;
             _product = product;
         }
+
         #region Wesbite terms and privacy and refund pages
         [Route("terms")]
         [HttpGet]
@@ -154,6 +145,7 @@ namespace WebApp.Controllers
             return PartialView("partial/HotDealsNewProduct", res);
         }
         #endregion
+
         #region Product Details
         [Route("Home/ProductDetail/{Id}")]
         [Route("ProductDetail/{Id}")]
@@ -201,6 +193,7 @@ namespace WebApp.Controllers
         {
             return View();
         }
+
         [Route("ProductsByCategoryFilter")]
         [HttpPost]
         public async Task<IActionResult> ProductsByCategoryFilter(int cid, string filters)
@@ -215,7 +208,7 @@ namespace WebApp.Controllers
                     CategoryId = cid,
                 }
             };
-            var res = _category.GetProducts(req, @"/api/Home/ByCategoryProduct").Result;
+            var res = _category.GetProductsByCategory(req, @"/api/Home/ByCategoryProduct").Result;
             return PartialView("Partial/_ProductsByCategory", res);
         }
 
@@ -233,6 +226,7 @@ namespace WebApp.Controllers
             return PartialView("Partial/_categoryfilters", res);
         }
         #endregion
+
         public async Task<IActionResult> Error(int statusCode)
         {
             switch (statusCode)
@@ -248,6 +242,7 @@ namespace WebApp.Controllers
         {
             return Json(await _product.GetVariantIdByAttributes(request));
         }
+
         #region Products By ProductID
         [Route("Product/{id}")]
         [HttpGet]
@@ -274,7 +269,6 @@ namespace WebApp.Controllers
         }
 
         #endregion
-
 
         #region Products By BrandID
         [Route("/Brand/{id}")]
