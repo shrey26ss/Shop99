@@ -1,10 +1,6 @@
 ﻿@{
     Layout = "_layout";
 }
-<!-- section start -->
-@*<section class="section-big-py-space ratio_asos b-g-light" id="dvCategoryProducts">
-
-</section>*@
 <section class="section-big-py-space ratio_asos b-g-light">
     <div class="collection-wrapper">
         <div class="custom-container">
@@ -29,25 +25,33 @@
 </section>
 
 @section scripts{
-<script>
+    <script>
+        const getCategoryId = () => {
+            var url = window.location.href;
+            return url.substring(url.lastIndexOf('/') + 1);
+        };
 
-        $(document).ready(function(){
-             var url= window.location.href;
-             var id = url.substring(url.lastIndexOf('/') + 1);
-             loadFilters(id);
-             loadCategoryProducts(id);
-            });
-          
+        $(document).ready(function () {
+            loadFilters();
+            loadProductsByCategory();
+        });
 
-            const loadCategoryProducts = function (cid) {
-            $.post("/ProductsByCategoryFilter",{cid:cid}).done(res => {
+        const loadProductsByCategory = function (filters='') {
+            let param = {
+                cid: getCategoryId(),
+                sortBy: $('#sortItem').val(),
+                filters
+            };
+            $.post("/FilteredProductsByCategory",param).done(res => {
                 $('products').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        }
-        const loadFilters = function (cid) {
-            $.post("/categoryfilters",{cid:cid}).done(res => {
+        };
+
+        const loadFilters = function () {
+            let cid = getCategoryId();
+            $.post("/Categoryfilters", { cid: cid }).done(res => {
                 $('#dvfilters').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        }
-</script>
+        };
+    </script>
 }

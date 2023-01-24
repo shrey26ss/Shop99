@@ -783,7 +783,7 @@ button:focus {
 }
 
 .section-big-py-space {
-    padding-top: 90px;
+    padding-top: 25px;
     padding-bottom: 90px;
 }
 
@@ -40351,8 +40351,8 @@ body.dark {
     }
 
 .icon-detail img.svg {
-    width: 31px;
-    height: 31px;
+    width: 21px;
+    height: 21px;
 }
 
 

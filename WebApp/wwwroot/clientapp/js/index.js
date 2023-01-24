@@ -13,7 +13,7 @@
 });
 const loadTopBrands = function () {
     let item = {
-        OrderBy: "",
+        OrderBy: 0,
         Top: 10
     };
     $.ajax({
@@ -56,7 +56,7 @@ const loadMainCategory = function () {
 }
 const loadTopCategoryProduct = function (cId, i) {
     let item = {
-        OrderBy: "",
+        OrderBy: 0,
         Top: 10,
         MoreFilters: {
             CategoryId: cId

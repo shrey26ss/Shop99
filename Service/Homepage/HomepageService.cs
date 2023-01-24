@@ -36,28 +36,19 @@ namespace Service.Homepage
                 productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
                 productRequest.Start = (productRequest.Start-1)*productRequest.Top;
                 productRequest.Start =productRequest.Start < 0 ? 0 : productRequest.Start;
-
                 var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByCategory", new
                 {
+                    productRequest.Start,
+                    length = productRequest.Top,
+                    productRequest.OrderBy,
                     productRequest.MoreFilters.CategoryId,
                     productRequest.MoreFilters.Attributes,
-                    productRequest.Start,
-                    length = productRequest.Top
                 }, CommandType.StoredProcedure);
-
                 var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);
                 var jdataTableResponse = (List<JDataTableResponse>)result.GetType().GetProperty("Table2").GetValue(result, null);
-
-                //res.Result = await _dapper.GetAllAsync<ProductResponse>("proc_GetProductByCategory", new
-                //{
-                //    productRequest.MoreFilters.CategoryId,
-                //    productRequest.MoreFilters.Attributes,
-                //    productRequest.Start,
-                //    length = productRequest.Top
-                //}, CommandType.StoredProcedure);
-
                 res.Result.recordsTotal= jdataTableResponse.FirstOrDefault()?.recordsTotal ?? 0;
                 res.Result.start = productRequest.Start;
+                res.Result.OrderBy = productRequest.OrderBy;
                 res.Result.draw = productRequest.Top;
                 res.Result.Data = products;
                 res.StatusCode = ResponseStatus.Success;

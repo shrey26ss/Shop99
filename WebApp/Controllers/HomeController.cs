@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Enums;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -80,8 +81,7 @@ namespace WebApp.Controllers
             };
             var req = new ProductRequest()
             {
-                Top = 24,
-                OrderBy = ""
+                Top = 24
             };
             if (id == 1)
             {
@@ -119,8 +119,7 @@ namespace WebApp.Controllers
         {
             var req = new ProductRequest()
             {
-                Top = 24,
-                OrderBy = ""
+                Top = 24
             };
 
             var res = _category.GetHotDeals(req).Result;
@@ -138,8 +137,7 @@ namespace WebApp.Controllers
             };
             var req = new ProductRequest()
             {
-                Top = 24,
-                OrderBy = ""
+                Top = 24
             };
              res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
@@ -187,21 +185,20 @@ namespace WebApp.Controllers
         #endregion
 
         #region Products by Category
-        [Route("category/{id}")]
-        [HttpGet]
+        
+        [HttpGet("category/{id}")]
         public async Task<IActionResult> ProductsByCategory()
         {
             return View();
         }
-
-        [Route("ProductsByCategoryFilter")]
-        [HttpPost]
-        public async Task<IActionResult> ProductsByCategoryFilter(int cid, string filters)
+        
+        [HttpPost(nameof(FilteredProductsByCategory))]
+        public async Task<IActionResult> FilteredProductsByCategory(int cid, string filters, SortingOption sortBy)
         {
             var req = new ProductRequest<CategorFilter>()
             {
                 Top = 24,
-                OrderBy = "",
+                OrderBy = sortBy,
                 MoreFilters = new CategorFilter
                 {
                     Attributes = filters,
@@ -212,14 +209,13 @@ namespace WebApp.Controllers
             return PartialView("Partial/_ProductsByCategory", res);
         }
 
-        [Route("categoryfilters")]
+        [Route(nameof(Categoryfilters))]
         [HttpPost]
-        public async Task<IActionResult> GetCategoryFilters(int cid)
+        public async Task<IActionResult> Categoryfilters(int cid)
         {
             var req = new ProductRequest<int>()
             {
                 Top = 24,
-                OrderBy = "",
                 MoreFilters = cid
             };
             var res = _category.GetCategoryFilters(req).Result;
@@ -257,7 +253,6 @@ namespace WebApp.Controllers
             var req = new ProductRequest<ProductFilter>()
             {
                 Top = 24,
-                OrderBy = "",
                 MoreFilters = new ProductFilter
                 {
                     Attributes = filters,
@@ -284,7 +279,6 @@ namespace WebApp.Controllers
             var req = new ProductRequest<BrandFilter>()
             {
                 Top = 24,
-                OrderBy = "",
                 MoreFilters = new BrandFilter
                 {
                     Attributes = filters,
