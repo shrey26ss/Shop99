@@ -1,31 +1,23 @@
-﻿using Entities.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Entities.Enums;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Models;
 using WebApp.Models.ViewModels;
 using WebApp.Servcie;
 
 namespace WebApp.Controllers
 {
-
     public class HomeController : Controller
     {
-        private readonly ILogger<UserHomeController> _logger;
         private readonly ICategoryAPI _category;
         private readonly IProductsAPI _product;
-        public HomeController(ILogger<UserHomeController> logger, ICategoryAPI category, IProductsAPI product)
+        public HomeController(ICategoryAPI category, IProductsAPI product)
         {
-            _logger = logger;
             _category = category;
             _product = product;
         }
+
         #region Wesbite terms and privacy and refund pages
         [Route("terms")]
         [HttpGet]
@@ -89,8 +81,7 @@ namespace WebApp.Controllers
             };
             var req = new ProductRequest()
             {
-                Top = 24,
-                OrderBy = ""
+                Top = 24
             };
             if (id == 1)
             {
@@ -128,8 +119,7 @@ namespace WebApp.Controllers
         {
             var req = new ProductRequest()
             {
-                Top = 24,
-                OrderBy = ""
+                Top = 24
             };
 
             var res = _category.GetHotDeals(req).Result;
@@ -147,13 +137,13 @@ namespace WebApp.Controllers
             };
             var req = new ProductRequest()
             {
-                Top = 24,
-                OrderBy = ""
+                Top = 24
             };
              res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
         }
         #endregion
+
         #region Product Details
         [Route("Home/ProductDetail/{Id}")]
         [Route("ProductDetail/{Id}")]
@@ -195,44 +185,44 @@ namespace WebApp.Controllers
         #endregion
 
         #region Products by Category
-        [Route("category/{id}")]
-        [HttpGet]
+        
+        [HttpGet("category/{id}")]
         public async Task<IActionResult> ProductsByCategory()
         {
             return View();
         }
-        [Route("ProductsByCategoryFilter")]
-        [HttpPost]
-        public async Task<IActionResult> ProductsByCategoryFilter(int cid, string filters)
+        
+        [HttpPost(nameof(FilteredProductsByCategory))]
+        public async Task<IActionResult> FilteredProductsByCategory(int cid, string filters, SortingOption sortBy)
         {
             var req = new ProductRequest<CategorFilter>()
             {
                 Top = 24,
-                OrderBy = "",
+                OrderBy = sortBy,
                 MoreFilters = new CategorFilter
                 {
                     Attributes = filters,
                     CategoryId = cid,
                 }
             };
-            var res = _category.GetProducts(req, @"/api/Home/ByCategoryProduct").Result;
+            var res = _category.GetProductsByCategory(req, @"/api/Home/ByCategoryProduct").Result;
             return PartialView("Partial/_ProductsByCategory", res);
         }
 
-        [Route("categoryfilters")]
+        [Route(nameof(Categoryfilters))]
         [HttpPost]
-        public async Task<IActionResult> GetCategoryFilters(int cid)
+        public async Task<IActionResult> Categoryfilters(int cid)
         {
             var req = new ProductRequest<int>()
             {
                 Top = 24,
-                OrderBy = "",
                 MoreFilters = cid
             };
             var res = _category.GetCategoryFilters(req).Result;
             return PartialView("Partial/_categoryfilters", res);
         }
         #endregion
+
         public async Task<IActionResult> Error(int statusCode)
         {
             switch (statusCode)
@@ -248,6 +238,7 @@ namespace WebApp.Controllers
         {
             return Json(await _product.GetVariantIdByAttributes(request));
         }
+
         #region Products By ProductID
         [Route("Product/{id}")]
         [HttpGet]
@@ -262,7 +253,6 @@ namespace WebApp.Controllers
             var req = new ProductRequest<ProductFilter>()
             {
                 Top = 24,
-                OrderBy = "",
                 MoreFilters = new ProductFilter
                 {
                     Attributes = filters,
@@ -274,7 +264,6 @@ namespace WebApp.Controllers
         }
 
         #endregion
-
 
         #region Products By BrandID
         [Route("/Brand/{id}")]
@@ -290,7 +279,6 @@ namespace WebApp.Controllers
             var req = new ProductRequest<BrandFilter>()
             {
                 Top = 24,
-                OrderBy = "",
                 MoreFilters = new BrandFilter
                 {
                     Attributes = filters,

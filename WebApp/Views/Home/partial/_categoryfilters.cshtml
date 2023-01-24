@@ -31,29 +31,15 @@
 
 }
 <script>
-
     $('.collection-collapse-block .form-check-input').change(function () {
-        var url = window.location.href;
-        var id = url.substring(url.lastIndexOf('/') + 1);
-        var val = [];
+        let val = [];
         $(':checkbox:checked').each(function (i) {
             val[i] = $(this).val();
         });
         let filt = val.join(',');
-        let path = window.location.href;
-        arr = path.split('/');
-        let filterPath = '/ProductsByCategoryFilter';
-        let boxSection = 'dvCategoryProducts';
-        if (arr.includes('Product')){
-            filterPath = '/ProductsByPID';
-            boxSection = 'dvProducts';
-        }
-            
-        $.post(filterPath, { cid: id, filters: filt }).done(res => {
-            $('#' + boxSection).html(res);
-        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-
+        loadProductsByCategory(filt);
     });
+
     $('.collapse-block-title').on('click', function (e) {
         e.preventDefault;
         var speed = 300;
@@ -68,7 +54,4 @@
             nextLevel.slideDown(speed);
         }
     });
-
-
-
 </script>

@@ -23,10 +23,7 @@ namespace Data
         Task<int> ExecuteAsync(string sp, object parms = null, CommandType commandType = CommandType.StoredProcedure);
         Task<T> InsertAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
         Task<T> UpdateAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
-        Task<dynamic> GetMultipleAsync<T1, T2>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure);
         Task<dynamic> GetMultipleAsync<T1, T2>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure);
-
-
 
         //MultiWith Split
         Task<dynamic> GetMultipleAsync<T1, T2, TReturn>(string sp, object parms, Func<T1, T2, TReturn> p, string splitOn, CommandType commandType = CommandType.StoredProcedure);
@@ -48,7 +45,7 @@ namespace Data
             Func<T1, T2, T3, TReturn> p, string splitOn);
         Task<IEnumerable<TReturn>> GetAllAsyncProc<T1, T2, T3, T4, TReturn>(T1 entity, string sqlQuery, DynamicParameters parms, Func<T1, T2, T3, T4, TReturn> p, string splitOn);
         Task<IEnumerable<TReturn>> GetAllAsyncProc<T1, T2, T3, T4, T5, T6, T7, TReturn>(T1 entity, string sqlQuery, DynamicParameters parms, Func<T1, T2, T3, T4, T5, T6, T7, TReturn> p, string splitOn);
-        Task<JDataTable<T1>> GetJDatTableAsync<T1>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure);
+        Task<JDataTableResponse<T1>> GetJDatTableAsync<T1>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure);
         Task<dynamic> GetMultipleAsync<T1, T2, T3, TReturn>(string sp, object parms, Func<T1, T2, T3, TReturn> p, string splitOn, CommandType commandType = CommandType.StoredProcedure);
         Parameters PrepareParameters(string sqlQuery, Dictionary<string, dynamic> args = null);
 

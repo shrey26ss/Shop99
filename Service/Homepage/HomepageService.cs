@@ -7,6 +7,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Service.Homepage
@@ -21,31 +22,35 @@ namespace Service.Homepage
             _logger = logger;
         }
 
-        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest)
+        public async Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest)
+        {
+            var res = new Response<JDataTableResponse<ProductResponse>>
             {
-            var res = new Response<IEnumerable<ProductResponse>>();
+                Result= new JDataTableResponse<ProductResponse>
+                {
+                    Data = new List<ProductResponse>()
+                }
+            };
             try
             {
-                string sqlQuery = @"CREATE TABLE #temp (attributes varchar(max)) 
-insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
-  if((select count(*) from #temp)>0)
-  begin
-   with cte as ( Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p 
-            inner join VariantGroup vg(nolock) on vg.ProductId = p.Id 
-			 inner join CategoryAttributeMapping cam(nolock) on cam.CategoryId=p.CategoryId
-			  inner join AttributeInfo ai(nolock) on ai.AttributeId=cam.AttributeId
-			 inner join #temp t on t.attributes = ai.AttributeValue and vg.id=ai.GroupId
-            where p.CategoryId = @CategoryId and vg.IsShowOnHome=1 and vg.ispublished = 1 and p.ispublished = 1
-)select * from cte group by ProductID,VariantID,PublishedOn,Title,MRP,GroupID,ImagePath,Label,SellingCost,Stars
-  end
-  else
-  begin
-   Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,4 Stars from Products p (nolock)
-            inner join VariantGroup vg(nolock) on vg.ProductId = p.Id 
-            where p.CategoryId =@CategoryId and vg.IsShowOnHome=1 and vg.ispublished = 1 and p.ispublished = 1
-  end";
-                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters.CategoryId, productRequest.MoreFilters.Attributes, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
-
+                productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
+                productRequest.Start = (productRequest.Start-1)*productRequest.Top;
+                productRequest.Start =productRequest.Start < 0 ? 0 : productRequest.Start;
+                var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByCategory", new
+                {
+                    productRequest.Start,
+                    length = productRequest.Top,
+                    productRequest.OrderBy,
+                    productRequest.MoreFilters.CategoryId,
+                    productRequest.MoreFilters.Attributes,
+                }, CommandType.StoredProcedure);
+                var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);
+                var jdataTableResponse = (List<JDataTableResponse>)result.GetType().GetProperty("Table2").GetValue(result, null);
+                res.Result.recordsTotal= jdataTableResponse.FirstOrDefault()?.recordsTotal ?? 0;
+                res.Result.start = productRequest.Start;
+                res.Result.OrderBy = productRequest.OrderBy;
+                res.Result.draw = productRequest.Top;
+                res.Result.Data = products;
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }

@@ -250,7 +250,7 @@ namespace Data
             return result;
         }
 
-        public async Task<dynamic> GetMultipleAsync<T1, T2>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        public async Task<dynamic> GetMultipleAsync<T1, T2>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace Data
             , CommandType commandType = CommandType.StoredProcedure)
         {
             parms = prepareParam((JSONAOData)parms);
-            var res = new JDataTable<TReturn>
+            var res = new JDataTableResponse<TReturn>
             {
                 Data = new List<TReturn>(),
                 PageSetting = new PageSetting()
@@ -291,7 +291,7 @@ namespace Data
                     {
                         var pgstng = reader.Read<PageSetting>();
                         var stuff = reader.Read<T1, T2, TReturn>(p, splitOn: splitOn).ToList();
-                        res = new JDataTable<TReturn>
+                        res = new JDataTableResponse<TReturn>
                         {
                             Data = stuff,
                             PageSetting = pgstng.FirstOrDefault()
@@ -309,7 +309,7 @@ namespace Data
         public async Task<dynamic> GetMultipleAsync<T1, T2, TReturn>(string sp, DynamicParameters parms, Func<T1, T2, TReturn> p, string splitOn
             , CommandType commandType = CommandType.StoredProcedure)
         {
-            var res = new JDataTable<TReturn>
+            var res = new JDataTableResponse<TReturn>
             {
                 Data = new List<TReturn>(),
                 PageSetting = new PageSetting()
@@ -322,7 +322,7 @@ namespace Data
                     {
                         var pgstng = reader.Read<PageSetting>();
                         var stuff = reader.Read<T1, T2, TReturn>(p, splitOn: splitOn).ToList();
-                        res = new JDataTable<TReturn>
+                        res = new JDataTableResponse<TReturn>
                         {
                             Data = stuff,
                             PageSetting = pgstng.FirstOrDefault()
@@ -535,10 +535,10 @@ namespace Data
                 throw ex;
             }
         }
-        public async Task<JDataTable<T1>> GetJDatTableAsync<T1>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure)
+        public async Task<JDataTableResponse<T1>> GetJDatTableAsync<T1>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure)
         {
             parms = prepareParam((JSONAOData)parms);
-            var res = new JDataTable<T1>
+            var res = new JDataTableResponse<T1>
             {
                 Data = new List<T1>(),
                 PageSetting = new PageSetting()
@@ -555,7 +555,7 @@ namespace Data
                         {
                             stuff = reader.Read<T1>();
                         }
-                        res = new JDataTable<T1>
+                        res = new JDataTableResponse<T1>
                         {
                             Data = stuff?.ToList(),
                             PageSetting = pgstng.FirstOrDefault()
@@ -574,7 +574,7 @@ namespace Data
      , CommandType commandType = CommandType.StoredProcedure)
         {
             parms = prepareParam((JSONAOData)parms);
-            var res = new JDataTable<TReturn>
+            var res = new JDataTableResponse<TReturn>
             {
                 Data = new List<TReturn>(),
                 PageSetting = new PageSetting()
@@ -587,7 +587,7 @@ namespace Data
                     {
                         var pgstng = reader.Read<PageSetting>();
                         var stuff = reader.Read<T1, T2, T3, TReturn>(p, splitOn: splitOn).ToList();
-                        res = new JDataTable<TReturn>
+                        res = new JDataTableResponse<TReturn>
                         {
                             Data = stuff,
                             PageSetting = pgstng.FirstOrDefault()
@@ -675,11 +675,6 @@ namespace Data
         }
 
         public Task<IEnumerable<TReturn>> GetAllAsyncProc<T1, T2, T3, TReturn>(T1 entity, string sqlQuery, Func<T1, T2, TReturn> p, string splitOn)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<dynamic> GetMultipleAsync<T1, T2>(string sp, object parms, CommandType commandType = CommandType.StoredProcedure)
         {
             throw new NotImplementedException();
         }

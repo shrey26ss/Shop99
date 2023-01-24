@@ -6,7 +6,7 @@ namespace Infrastructure.Interface
 {
     public interface IHomepageService
     {
-        Task<IResponse<IEnumerable<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest);
+        Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetProductByBrandID(ProductRequest<BrandFilter> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetRandomProduct(ProductRequest productRequest);

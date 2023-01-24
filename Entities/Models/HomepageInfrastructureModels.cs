@@ -1,4 +1,6 @@
-﻿namespace Entities.Models
+﻿using Entities.Enums;
+
+namespace Entities.Models
 {
     public class ProductResponse
     {
@@ -20,8 +22,9 @@
     }
     public class ProductRequest 
     {
-        public string OrderBy { get; set; }
+        public SortingOption OrderBy { get; set; }
         public int Top { get; set; }
+        public int Start { get; set; }
     }
     public class ProductRequest<T> : ProductRequest
     {

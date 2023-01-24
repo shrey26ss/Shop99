@@ -13,7 +13,7 @@
 });
 const loadTopBrands = function () {
     let item = {
-        OrderBy: "",
+        OrderBy: 0,
         Top: 10
     };
     $.ajax({
@@ -47,6 +47,7 @@ const loadMainCategory = function () {
                 if (_categoryCount === (i + 1)) {
                     setTimeout(() => {
                         $('.tab-content').css({ 'display': 'none' });
+                        $('#tab1').css({ 'display': 'block' });
                     }, 1100);
                 }
             })
@@ -55,7 +56,7 @@ const loadMainCategory = function () {
 }
 const loadTopCategoryProduct = function (cId, i) {
     let item = {
-        OrderBy: "",
+        OrderBy: 0,
         Top: 10,
         MoreFilters: {
             CategoryId: cId
@@ -71,7 +72,7 @@ const loadTopCategoryProduct = function (cId, i) {
         success: result => {
             let current = i == 1 ? "active default" : "";
             let htmlbody = `<div id="tab${i}" class="tab-content ${current}"><div class="product-slide-${i} product-m no-arrow">`;
-            $.each(result.result, async function (i, v) {
+            $.each(result.result.data, async function (i, v) {
                 htmlbody = htmlbody + `<div>
                   <div class="product-box">
                     <div class="product-imgbox">
