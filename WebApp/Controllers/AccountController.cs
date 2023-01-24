@@ -86,7 +86,8 @@ namespace WebApp.Controllers
             //{
             //    return PartialView();
             //}
-            return Json(response);
+            string ReturnURL = response.StatusCode == ResponseStatus.Success ? "/account/login" : "";
+            return Json(new { response.StatusCode, response.ResponseText, ReturnURL });
         }
         #endregion
 
