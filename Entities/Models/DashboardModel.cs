@@ -10,5 +10,6 @@ namespace Entities.Models
         public int ConfirmedOrder { get; set; }
         public int LowStocks { get; set; }
         public int TotalCustomer { get; set; }
+        public int TotalPendingApprovel { get; set; }
     }
 }
