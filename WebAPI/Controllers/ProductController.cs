@@ -74,7 +74,8 @@ namespace WebAPI.Controllers
         [Route("Product/GetProductVarAttrDetails")]
         public async Task<IActionResult> GetProductVarAttrDetails(SearchItem req)
         {
-            return Ok(await _products.GetProductVarAttrDetails(req));
+            req.UserID = User.GetLoggedInUserId<int>();
+            return Ok(await _products.GetProductVarAttrDetails(req, Convert.ToInt32(User.GetLoggedInUserRoles())));
         }
         [Route("Product/UpdateIsPublishVarAttr")]
         public async Task<IActionResult> UpdateIsPublishVarAttr(UpdateIsPublishProduct req)

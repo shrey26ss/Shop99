@@ -232,13 +232,15 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             return res;
         }
 
-        public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req)
+        public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req, int Role)
         {
-            string sp = @"Select * from VariantGroup where ProductId = @Id";
+            if (Role == 1)
+                req.UserID = 0;
+            string sp = @"Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0)";
             var res = new Response<IEnumerable<ProductVariantAttributeDetails>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id, LoginId = req.UserID }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
