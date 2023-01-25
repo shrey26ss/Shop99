@@ -75,6 +75,8 @@ namespace WebApp.Middleware
             configuration.Bind(appSettings);
             services.AddSingleton(appSettings);
             services.ConfigureDictionary<ImageSize>(configuration.GetSection("ImageSize"));
+
+
         }
     }
 }
