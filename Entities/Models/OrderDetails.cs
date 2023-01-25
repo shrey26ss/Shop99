@@ -35,6 +35,7 @@ namespace Entities.Models
         public string IGST { get; set; }
         public string SGST { get; set; }
         public string CGST { get; set; }
+        public string ImagePaths { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {
@@ -108,6 +109,8 @@ namespace Entities.Models
         public string EntryOn { get; set; }
         public int ID { get; set; }
         public string Thumbnail { get; set; }
+        public string SourceImage { get; set; }
+        public string Remark { get; set; }
     }
     public class UsersOrderTrakingRes
     {

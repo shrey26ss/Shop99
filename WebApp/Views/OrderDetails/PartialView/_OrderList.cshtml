@@ -69,7 +69,20 @@
             </td>
             <td>@item.Product</td>
             <td>@item.Title</td>
-            <td><span class="badge @badge">@item.StatusID.ToString()</span></td>
+            <td>
+                @if (item.StatusID == StatusType.ReturnInitiated || item.StatusID == StatusType.ReturnCompleted || item.StatusID == StatusType.ReturnReceived || item.StatusID == StatusType.ReturnConfirmred)
+                {
+                    <label class="w-100">
+                        <span class="fa fa-info-circle text-info" style="cursor:pointer" onclick="ShowReason('@item.ID')" aria-hidden="true" title="View Reason"></span>
+                        <span class="badge @badge">@item.StatusID.ToString()</span>
+                    </label>
+                }
+                else
+                {
+                    <span class="badge @badge">@item.StatusID.ToString()</span>
+                }
+
+            </td>
             <td>@item.Qty</td>
             <td>@item.Attributes</td>
             <td>@item.Rate</td>
@@ -95,7 +108,6 @@
     }
     var MarkasDilivered = (Id, StatusID, Remark = '') => {
         $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: Remark }).done((result) => {
-
             Q.notify(result.statusCode, result.statusCode == 1 ? 'Success' : result.responseText);
             if (result.statusCode) {
                 loadData();
@@ -106,34 +118,34 @@
         if (StatusID == 'ReturnCanceled') {
             let btntxt = StatusID == 'ReturnCanceled' ? "Procced Cancel Request" : "Procced Replacement Accepted";
             const html = `<div class="form-group">
-                                                                           <label for="inputAddress">Reason</label>
-                                                                           <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                                                                           </div>
-                                                                           <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
-                                                                           `;
+                     <label for="inputAddress">Reason</label>
+                     <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                     </div>
+                     <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                     `;
             Q.alert({
                 title: 'Add Reason',
                 body: html,
                 width: 500
             });
-            $('#btnSubmitRemark').click(function() {
+            $('#btnSubmitRemark').click(function () {
                 let remark = $('#txtRemark').val();
-                $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: remark }).done(function(result) {
+                $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: remark }).done(function (result) {
                     Q.notify(result.statusCode, result.responseText);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location.reload();
                     }, 5000);
-                }).fail(function(xhr) {
+                }).fail(function (xhr) {
                     console.log(xhr.responseText);
                     Q.notify(-1, 'something went wrong.');
                 });
             });
         }
         else {
-            $.post('/OrderDetails/OrderReplacedConform', { ID: Id, StatusID: StatusID }).done(function(result) {
+            $.post('/OrderDetails/OrderReplacedConform', { ID: Id, StatusID: StatusID }).done(function (result) {
                 Q.notify(result.statusCode, result.responseText);
                 window.location.reload();
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 console.log(xhr.responseText);
                 Q.notify(-1, 'something went wrong.');
             });
@@ -144,9 +156,9 @@
             ID: Id,
             StatusID: StatusId
         }
-        $.post('/OrderDetails/ChangeStatus', obj).done(function(result) {
+        $.post('/OrderDetails/ChangeStatus', obj).done(function (result) {
             Q.notify(result.statusCode, result.responseText);
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             console.log(xhr.responseText);
             Q.notify(-1, 'something went wrong.');
         });
@@ -155,46 +167,46 @@
         if (StatusID == 'ReplaceRejected') {
             let btntxt = StatusID == 'ReplaceRejected' ? "Procced Cancel Replacement" : "Procced Replacement Accepted";
             const html = `<div class="form-group">
-                                                                           <label for="inputAddress">Reason</label>
-                                                                           <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                                                                           </div>
-                                                                           <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
-                                                                           `;
+                                                                                   <label for="inputAddress">Reason</label>
+                                                                                   <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                                                                   </div>
+                                                                                   <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                                                                                   `;
             Q.alert({
                 title: 'Add Reason',
                 body: html,
                 width: 500
             });
-            $('#btnSubmitRemark').click(function() {
+            $('#btnSubmitRemark').click(function () {
                 let remark = $('#txtRemark').val();
-                $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: remark }).done(function(result) {
+                $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID, Remark: remark }).done(function (result) {
                     Q.notify(result.statusCode, result.responseText);
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.location.reload();
                     }, 5000);
-                }).fail(function(xhr) {
+                }).fail(function (xhr) {
                     console.log(xhr.responseText);
                     Q.notify(-1, 'something went wrong.');
                 });
             });
         }
         else {
-            $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID }).done(function(result) {
+            $.post('/OrderDetails/ChangeStatus', { ID: Id, StatusID: StatusID }).done(function (result) {
                 Q.notify(result.statusCode, result.responseText);
                 window.location.reload();
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 console.log(xhr.responseText);
                 Q.notify(-1, 'something went wrong.');
             });
         }
     }
     var OrderReplaced = (Id, StatusID) => {
-        $.post('/OrderDetails/OrderReplacedConform', { ID: Id, StatusID: StatusID }).done(function(result) {
+        $.post('/OrderDetails/OrderReplacedConform', { ID: Id, StatusID: StatusID }).done(function (result) {
             Q.notify(result.statusCode, result.responseText);
-            setTimeout(function() {
+            setTimeout(function () {
                 window.location.reload();
             }, 5000);
-        }).fail(function(xhr) {
+        }).fail(function (xhr) {
             console.log(xhr.responseText);
             Q.notify(-1, 'something went wrong.');
         });
