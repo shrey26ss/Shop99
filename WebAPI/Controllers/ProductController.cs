@@ -105,5 +105,16 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/UpdateAdminApprovelStatus")]
+        public async Task<IActionResult> UpdateAdminApprovelStatus(UpdateAdminApprovelStatus req)
+        {
+            if (req.Remark == null)
+                req.Remark = string.Empty;
+            return Ok(await _products.UpdateAdminApprovelStatus(new RequestBase<UpdateAdminApprovelStatus>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace Entities.Enums
         [Description("Replacement Accepted")]
         ReplacementAccepted = 9,
         [Description("Return Recived")]
-        ReturnReceived =10,
+        ReturnReceived = 10,
         [Description("Cancel Requested")]
         CancelRequest = 11,
         [Description("Cancel Rejected")]
@@ -41,8 +41,10 @@ namespace Entities.Enums
         ReplaceRejected = 16,
         [Description("Out For Delivery")]
         OutForDelivery = 17,
+        [Description("Rejected")]
+        Rejected = 18,
         [Description("Is Approved")]
-        IsApproved = 18
+        IsApproved = 19
     }
     public enum PurchaseType
     {

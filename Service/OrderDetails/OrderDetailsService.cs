@@ -256,8 +256,8 @@ where o.ID = @Id";
                 string sqlQuery = @"select o.ID,u.Name as VendorName,CONVERT(varchar,otl.CreatedOn,106) CreatedOn,o.StatusID,v.Thumbnail,u.Email,v.Title,v.MRP,v.SellingCost,ua.FullName,ua.MobileNo,ua.Pincode,ua.HouseNo,ua.Area,ua.Landmark,ua.TownCity,s.StateName from Orders o inner join VariantGroup v on o.VarriantID = v.Id 
                    inner join UserAddress ua on o.ShippingAddressID = ua.Id
                    inner join States s on ua.StateID = s.Id 
-                   inner join VendorProfile vp on  o.VendorID = vp.Id
-                   inner join Users u on vp.UserId = u.Id 
+                   left join VendorProfile vp on  o.VendorID = vp.Id
+                   left join Users u on vp.UserId = u.Id 
                    inner join OrderTimeline otl  on o.ID = otl.OrderID where o.ID = @ID;";
                 res.usersOrderTrakingRes = await _dapper.GetAsync<UsersOrderTrakingRes>(sqlQuery, new
                 {

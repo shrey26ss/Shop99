@@ -1,4 +1,6 @@
 ﻿
+using Entities.Enums;
+
 namespace Entities.Models
 {
     public class RequestBase<T> : Request
@@ -14,12 +16,17 @@ namespace Entities.Models
     public class SearchItem
     {
         public int Id { get; set; } = 0;
-
         public string SearchText { get; set; } = string.Empty;
         public int UserID { get; set; }
+        public StatusType StatusID { get; set; }
     }
     public class ProductSearchItem: SearchItem
     {
         public int CategoryID { get; set; } = 0;
+    }
+    public class UpdateAdminApprovelStatus: SearchItem
+    {
+        public string Remark { get; set; }
+        public StatusType StatusID { get; set; }
     }
 }

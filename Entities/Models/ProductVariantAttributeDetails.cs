@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,5 +19,10 @@ namespace Entities.Models
         public bool IsFeatured { get; set; }
         public bool IsShowOnHome { get; set; }
         public bool IsPublished { get; set; }
+    }
+    public class AttrinutesViewModel
+    {
+        public int Id { get; set; }
+        public StatusType statusid { get; set; }
     }
 }

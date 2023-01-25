@@ -68,18 +68,48 @@ namespace WebApp.Controllers
             return PartialView("Partials/_ProductList", response);
         }
         [HttpGet]
-        public async Task<IActionResult> Attributes(int Id)
+        public async Task<IActionResult> Attributes(int Id, StatusType s)
+        {
+            var response = new AttrinutesViewModel();
+            response.Id = Id;
+            response.statusid = s;
+            //var response = new List<ProductVariantAttributeDetails>();
+            //string _token = User.GetLoggedInUserToken();
+            //var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id, StatusID = s });
+            //var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductVarAttrDetails", jsonData, _token);
+            //if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            //{
+            //    var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductVariantAttributeDetails>>>(apiResponse.Result);
+            //    response = deserializeObject.Result;
+            //}
+            return View(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetAttributes(int Id, StatusType s)
         {
             var response = new List<ProductVariantAttributeDetails>();
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id });
+            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id, StatusID = s });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductVarAttrDetails", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductVariantAttributeDetails>>>(apiResponse.Result);
                 response = deserializeObject.Result;
             }
-            return View(response);
+            return PartialView("Partials/GetAttributes", response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateAdminApprovelStatus(int Id, StatusType StatusID,string Remark = "")
+        {
+            var response = new Response();
+            string _token = User.GetLoggedInUserToken();
+            var jsonData = JsonConvert.SerializeObject(new UpdateAdminApprovelStatus { Id = Id,Remark = Remark,StatusID = StatusID });
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/UpdateAdminApprovelStatus", jsonData, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            return Json(response);
         }
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishVariant(UpdateIsPublishProduct req)
