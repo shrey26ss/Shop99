@@ -82,6 +82,21 @@
                 </div>
             </div>
             <div class="col-lg-3 col-6">
+                <div class="small-box bg-gray">
+                    <div class="inner">
+                        <h3 id="PACount">0</h3>
+                        <p>Pending Approval</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a class="small-box-footer" href="/Product">
+                        More info
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            @*<div class="col-lg-3 col-6">
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3 id="RCCount">0</h3>
@@ -95,7 +110,7 @@
                         <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
-            </div>
+            </div>*@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-red">
                     <div class="inner">
@@ -380,6 +395,7 @@
                 $('#CCount').text(result.confirmedOrder);
                 $('#RCCount').text(result.totalCustomer);
                 $('#LSCount').text(result.lowStocks);
+                $('#PACount').text(result.totalPendingApprovel);
             })
         }
         const fetchOrders = () => {
