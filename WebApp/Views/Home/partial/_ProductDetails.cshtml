@@ -5,44 +5,73 @@
     var json = "";
 }
 <style>
-    .rate {
-    }
+    .star-rating__stars {
+  position: relative;
+  height: 2rem;
+  width:10rem;
+  background: url(../../Image/off.svg);
+  background-size: 2rem 2rem;
+  margin-bottom:10px;
+}
 
-        .rate:not(:checked) > input {
-            position: absolute;
-            top: -9999px;
-        }
+.star-rating__label {
+  position: absolute;
+  height: 100%;
+  background-size: 2rem 2rem;
+}
 
-        .rate:not(:checked) > label {
-            float: right;
-            width: 1em;
-            overflow: hidden;
-            white-space: nowrap;
-            cursor: pointer;
-            font-size: 30px;
-            color: #e0e0e0;
-        }
+.star-rating__input {
+  margin: 0;
+  position: absolute;
+  height: 1px; 
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
 
-            .rate:not(:checked) > label:before {
-                content: "★ ";
-            }
+.star-rating__stars .star-rating__label:nth-of-type(1) {
+  z-index: 5;
+  width: 20%;
+}
 
-        .rate > input:checked ~ label {
-            color: #ffa500;
-        }
+.star-rating__stars .star-rating__label:nth-of-type(2) {
+  z-index: 4;
+  width: 40%;
+}
 
-        .rate:not(:checked) > label:hover,
-        .rate:not(:checked) > label:hover ~ label {
-            color: #ffa500;
-        }
+.star-rating__stars .star-rating__label:nth-of-type(3) {
+  z-index: 3;
+  width: 60%;
+}
 
-        .rate > input:checked + label:hover,
-        .rate > input:checked + label:hover ~ label,
-        .rate > input:checked ~ label:hover,
-        .rate > input:checked label:hover label,
-        .rate > label:hover input:checked label {
-            color: #ffa500;
-        }
+.star-rating__stars .star-rating__label:nth-of-type(4) {
+  z-index: 2;
+  width: 80%;
+}
+
+.star-rating__stars .star-rating__label:nth-of-type(5) {
+  z-index: 1;
+  width: 100%;
+}
+
+.star-rating__input:checked + .star-rating__label,
+.star-rating__input:focus + .star-rating__label,
+.star-rating__label:hover {
+  background-image: url(../../Image/on.svg);
+}
+
+.star-rating__label:hover ~ .star-rating__label {
+  background-image: url(../../Image/off.svg);
+}
+
+.star-rating__input:focus ~ .star-rating__focus {
+  position: absolute;
+  top: -.25em;
+  right: -.25em;
+  bottom: -.25em;
+  left: -.25em;
+  outline: 0.25rem solid lightblue;
+}
 </style>
 <div class="">
     <div class="row">
@@ -314,14 +343,29 @@
                                             <div class="col-md-12">
                                                 <label class="mt-3"><b>Rating</b></label>
                                                 <div class="media mt-0">
-                                                    <div class="rate">
+                                                   @* <div class="rate">
                                                         @for (int i = 5; i >= 1; i--)
                                                         {
                                                             <input type="checkbox" id="rate_@i" name="rate" value="@i" />
                                                             <label for="rate_@i" onclick="rate('@i')" class="rating" title="text">@i stars</label>
                                                         }
                                                         <input type="hidden" id="hdnrate" value="" />
+                                                    </div>*@
+                                                     <fieldset class="star-rating">
+                                                    <div class="star-rating__stars">
+                                                      <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
+                                                      <label class="star-rating__label" for="rating-1" aria-label="One"></label>
+                                                      <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
+                                                      <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
+                                                      <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
+                                                      <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
+                                                      <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
+                                                      <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
+                                                      <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
+                                                      <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
+                                                   
                                                     </div>
+                                                  </fieldset>
                                                 </div>
                                                 <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
                                             </div>
@@ -355,9 +399,9 @@
 <script src='../assets/js/xzoom.min.js'></script>
 <script src='../assets/js/hammer.min.js'></script>
 <script>
-    var rate = (rate) => {
-        $('#hdnrate').val(rate);
-    }
+    //var rate = (rate) => {
+    //    $('#hdnrate').val(rate);
+    //}
     //	const variantId = @Model;
     //getProductAllDetails(variantId);
 
@@ -602,7 +646,7 @@
         debugger
         let obj = {
             VariantID: variantid,
-            Reting: $('#hdnrate').val(),
+            Reting: $('.star-rating__input:checked')?.val() ?? 1,
             Title: $('#txttitle').val(),
             Review: $('#txtreview').val()
         }
@@ -631,7 +675,12 @@
             contentType: false,
             success: function(response) {
                 Q.notify(response.statusCode, response.responseText)
-                $('input').val('');
+                if(response.statusCode==1)
+                {
+                $('#txttitle').val('');
+                 $('#txtreview').val('');
+                 $('#fileimg').val('');
+                }
             },
             error: function(xhr) {
                 Q.notify(-1, xhr.responseText)

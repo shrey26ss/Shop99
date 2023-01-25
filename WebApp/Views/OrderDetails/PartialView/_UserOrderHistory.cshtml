@@ -1,4 +1,5 @@
-﻿@using Entities.Enums;
+﻿@using AppUtility.Extensions
+@using Entities.Enums;
 @using Entities.Models;
 @model IEnumerable<OrderDetailsColumn>
 
@@ -66,15 +67,19 @@
             </td>
             <td>
                 <div class="d-flex justify-content-center">
-                    @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted && item.StatusID != StatusType.ReturnConfirmred && item.StatusID != StatusType.OrderReplaceInitiated && item.StatusID != StatusType.ReplacementAccepted && item.StatusID != StatusType.OrderReplaced && item.StatusID != StatusType.ReplaceRejected)
+                    @if (item.StatusID.In(StatusType.OrderPlaced, StatusType.Confirmed, StatusType.Shipped))
                     {
                         <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
                     }
-                    @if (item.StatusID == StatusType.Delivered)
+                    @* @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted && item.StatusID != StatusType.ReturnConfirmred && item.StatusID != StatusType.OrderReplaceInitiated && item.StatusID != StatusType.ReplacementAccepted && item.StatusID != StatusType.OrderReplaced && item.StatusID != StatusType.ReplaceRejected)
+                        {
+                        <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
+                        }*@
+                    @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
                     {
                         <a href="#" onclick="ReturnItem('@item.ID')" class="btn btn-sm btn-danger btnCancelOrder" style="color:white">Return</a>
                     }
-                    @if (item.StatusID == StatusType.Delivered || item.StatusID == StatusType.CancelRequest && deliveredDays <= 10)
+                    @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
                     {
                         <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaceInitiated')" class="btn btn-sm btn-info btnCancelOrder mrl">Replace</a>
                     }
