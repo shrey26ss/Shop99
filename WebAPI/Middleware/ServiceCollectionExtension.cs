@@ -107,16 +107,49 @@ namespace WebAPI.Middleware
             services.AddSingleton(jwtConfig);
             services.AddSwaggerGen(option =>
             {
-                option.SchemaFilter<SwaggerIgnoreFilter>();
                 option.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Version = "v1.1"
+                    Version = "v1.1",
+                    Title = "API Documentation(v1.1)"
                 });
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "ApiDoc.xml");
                 option.IncludeXmlComments(filePath);
                 //option.OperationFilter<AddRequiredHeaderParameter>();
                 option.UseAllOfToExtendReferenceSchemas();
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Standard authorization header using the bearer scheme(\"Bearer {token}\")",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                //option.OperationFilter<SecurityRequirementsOperationFilter>();
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
+            //services.AddSwaggerGen(option =>
+            //{
+            //    option.SchemaFilter<SwaggerIgnoreFilter>();
+            //    option.SwaggerDoc("v1", new OpenApiInfo
+            //    {
+            //        Version = "v1.1"
+            //    });
+            //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "ApiDoc.xml");
+            //    option.IncludeXmlComments(filePath);
+            //    //option.OperationFilter<AddRequiredHeaderParameter>();
+            //    option.UseAllOfToExtendReferenceSchemas();
+            //});
         }
     }
 }
