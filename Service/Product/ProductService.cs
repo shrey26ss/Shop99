@@ -234,13 +234,21 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
 
         public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req, int Role)
         {
+            string sp = string.Empty;
             if (Role == 1)
                 req.UserID = 0;
-            string sp = @"Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0)";
+            if (req.Id != 0)
+            {
+                sp = @"Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0)";
+            }
+            else
+            {
+                sp = @"select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,0) = (case Isnull(@StatusID,0) when 0 then Isnull(AdminApproveStatus,0) else @StatusID end) and (Isnull(AdminApproveStatus,0)=@StatusID)";
+            }
             var res = new Response<IEnumerable<ProductVariantAttributeDetails>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id, LoginId = req.UserID }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id, LoginId = req.UserID,req.StatusID }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
@@ -294,6 +302,27 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                     request.Data.Review,
                     request.Data.Images,
                 }, CommandType.StoredProcedure);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
+        public async Task<IResponse> UpdateAdminApprovelStatus(RequestBase<UpdateAdminApprovelStatus> request)
+        {
+            string sp = @"Update VariantGroup set AdminApproveStatus = @StatusID,Remark = @Remark where Id = @Id;
+                                    select 1 StatusCode,'Status updated successfully' ResponseText";
+
+            var res = new Response();
+            try
+            {
+                res = await _dapper.GetAsync<Response>(sp, new
+                {
+                    request.Data.Id,
+                    Remark = request.Data.Remark.ToString() ?? string.Empty,
+                    StatusID = request.Data.StatusID
+                }, CommandType.Text);
             }
             catch (Exception ex)
             {

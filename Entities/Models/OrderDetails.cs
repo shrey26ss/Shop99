@@ -127,7 +127,7 @@ namespace Entities.Models
         public double SellingCost { get; set; }
         public StatusType StatusID { get; set; }
         public int Pincode { get; set; }
-        public int HouseNo { get; set; }
+        public string HouseNo { get; set; }
     }
     public class OrderTimeline
     {
