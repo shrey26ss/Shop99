@@ -1,0 +1,72 @@
+﻿@using Entities.Models;
+@model ReturnRequestList
+@{
+    string[] imgList = Model?.SourceImage.Split(",");
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <img src="@Model.Thumbnail" alt="Product Image" class="img-fluid" />
+            </div>
+            <div class="col-sm-9 text-right">
+                @*Product Name : @Model.Name <br />
+                Date : @Model?.EntryOn<br />
+                Title : @Model?.Title<br />
+                Status : @Model?.StatusType.ToString();<br />
+                Qty : @Model?.Qty<br />
+                Rate : @Model?.Rate<br />
+                MRP : @Model?.MRP*@
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Product Name
+                        <span>@Model.Name</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Title
+                        <span>@Model.Title</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Date
+                        <span>@Model.EntryOn</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Status
+                        <span>@Model.StatusType.ToString()</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Quantity
+                        <span>@Model.Qty</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Rate
+                        <span>@Model.Rate</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        MRP
+                        <span>@Model.MRP</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <h6>Return Reason</h6>
+                <i>@Model.Remark</i>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            @if (imgList != null && imgList.Length > 0)
+            {
+                for (int i = 0; i < imgList.Length; i++)
+                {
+                    <div class="col-sm-3">
+                        <img src="@imgList[i]" alt="Product Image" class="img-fluid" />
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

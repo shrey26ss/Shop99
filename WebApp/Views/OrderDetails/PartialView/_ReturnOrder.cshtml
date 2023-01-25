@@ -1,0 +1,67 @@
+﻿@using WebApp.Models.ViewModels;
+@model OrderDetailsVM
+
+<div class="card">
+    <div class="card-body">
+        <div class="form-group">
+            <label>Reason</label>
+            <textarea class="form-control" rows="3" placeholder="Please provide reason" id="Reason"></textarea>
+            <small class="resonSp text-danger d-none">Please Provide Reason</small>
+        </div>
+        <div class="form-group">
+            <input multiple type="file" accept="image/png,image/jpeg" class="" id="img" /><br />
+            <small class="imgSp text-danger d-none">Please Select Minimum 1 Image and Maximum 4 Images</small>
+        </div>
+        <div>
+            <hr />
+            <input type="button" value="Return Order" class="btn btn-danger" id="BtnSubmits" />
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).on('click', '#BtnSubmits', () => {
+        let reason = $('#Reason').val();
+        let ImgLength = $("#img").prop("files").length;
+        if (!reason) {
+            $('.resonSp').removeClass('d-none');
+            return false;
+        }
+        if (!ImgLength) {
+            $('.imgSp').removeClass('d-none');
+            return false;
+        }
+        if (ImgLength >= 5){
+            $('.imgSp').removeClass('d-none');
+            return false;   
+        }
+        $('.resonSp').addClass('d-none');
+        $('.imgSp').addClass('d-none');
+        var fileList = [];
+        formData = new FormData();
+        for (let i = 0; i < ImgLength; i++) {
+            formData.append("Files", $("#img").prop("files")[i]);
+        }
+        formData.append(`ID`, '@Model.ID');
+        formData.append(`Remark`, reason);
+        //formData.append(`Files`, fileList);
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ' , : ' + pair[1]);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/PlaceReturnOrder',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                Q.notify(response.statusCode, response.responseText);
+                if (response.statusCode)
+                    $('.ui-dialog-titlebar-close').click(); loadData();
+            },
+            error: function (xhr) {
+                Q.notify(-1, xhr.responseText)
+            },
+        });
+    })
+</script>

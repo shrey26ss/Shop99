@@ -3,6 +3,7 @@ using AppUtility.Helper;
 using Entities.Enums;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Threading.Tasks;
+using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
 using WebApp.AppCode.Helper;
 using WebApp.Middleware;
@@ -26,11 +28,13 @@ namespace WebApp.Controllers
         private readonly string _apiBaseURL;
         private readonly IGenericMethods _convert;
         private readonly ILogger _logger;
-        public OrderDetailsController(ILogger<OrderDetailsController> logger, AppSettings appSettings, IGenericMethods convert)
+        private readonly IHttpRequestInfo _httpInfo;
+        public OrderDetailsController(ILogger<OrderDetailsController> logger, AppSettings appSettings, IGenericMethods convert, IHttpRequestInfo httpInfo)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
             _logger= logger;
+            _httpInfo = httpInfo;
         }
         public IActionResult Index(StatusType type)
         {
@@ -171,6 +175,58 @@ namespace WebApp.Controllers
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetUsersOrderTraking", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
             var response = JsonConvert.DeserializeObject<UsersOrderTrakingViewModel>(apiResponse.Result);
             return View(response);
+        }
+
+        [HttpPost]
+        public IActionResult ReturnOrder(OrderDetailsVM req)
+        {
+            return PartialView("PartialView/_ReturnOrder", req);
+        }
+        [HttpPost("PlaceReturnOrder")]
+        public async Task<IActionResult> PlaceReturnOrder(OrderDetailsVM model)
+        {
+            var res = new Response();
+            if (model.Files.Count == 0 || model.Files.Count >= 5)
+                return Json(new Response { ResponseText = "Please Select Minimum 1 Image and Maximum 4 Images", StatusCode = ResponseStatus.Failed});
+            if (String.IsNullOrEmpty(model.Remark))
+                return Json(new Response { ResponseText = "Please Enter Reason", StatusCode = ResponseStatus.Failed });
+            model.ImagePaths = UploadImage(model.Files, model.ID);
+            model.StatusID = StatusType.ReturnInitiated;
+            if (model.StatusID == StatusType.Confirmed)
+                model.InvoiceNumber = Helper.O.GenerateInvoiceNumber(model.ID);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/ChangeStatus", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+            }
+            return Json(res);
+        }
+        private string UploadImage(List<IFormFile> req, int OrderId)
+        {
+            var ImagePath = new List<string>();
+            if (req != null)
+            {
+                int counter = 0;
+                foreach (var item in req)
+                {
+                    counter++;
+                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+                    Utility.O.UploadFile(new FileUploadModel
+                    {
+                        file = item,
+                        FileName = fileName,
+                        FilePath = FileDirectories.ReplaceOrderImageSuffixDefault.Replace("{0}", OrderId.ToString()),
+                        IsThumbnailRequired = false,
+                    });
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ReplaceOrderImageSuffixDefault.Replace("{0}", OrderId.ToString()), fileName));
+                }
+            }
+            return string.Join(',', ImagePath);
+        }
+        public async Task<IActionResult> GetReturnRequestByOrderId(int Id)
+        {
+            var res = await _convert.GetItem<ReturnRequestList>("OrderDetails/GetReturnRequestByOrderId", User.GetLoggedInUserToken(), new { Id });
+            return PartialView("PartialView/_GetReturnRequestByOrderId", res);
         }
     }
 }

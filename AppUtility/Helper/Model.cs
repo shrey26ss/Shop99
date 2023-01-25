@@ -19,6 +19,7 @@ namespace AppUtility.Helper
         public const string TopLowerBannerSuffix = "Image/TopLowerBanner/";
         public const string ProductSuffixDefault = "Image/Product/";
         public const string ProductRateSuffixDefault = "Image/Product/RateImg/";
+        public const string ReplaceOrderImageSuffixDefault = "Image/Product/ReplaceOrderImages/{0}/";
         public const string ProductSuffix = "Image/Product/{0}/";
         public static string Receipt = "wwwroot/receipt/";
         public static string Thumbnail = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Thumbnail/");
