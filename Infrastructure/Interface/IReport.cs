@@ -8,6 +8,7 @@ namespace Infrastructure.Interface
 {
     public interface IReport : IRepository<ReportRow, ReportColumn>
     {
+        Task<IResponse<IEnumerable<Inventory>>> GetInventoryLadgerReport(RequestBase<InventoryRequest> req);
         Task<IResponse<IEnumerable<Inventory>>> GetInventoryReport(RequestBase<InventoryRequest> req);
     }
 }
