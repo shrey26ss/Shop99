@@ -19,6 +19,8 @@ namespace WebAPI.Controllers
         {
             _report = report;
         }
+        [Route("Report/GetInventoryLadgerReport")]
+        public async Task<IActionResult> GetInventoryLadgerReport(InventoryRequest req) => Ok(await _report.GetInventoryLadgerReport(new RequestBase<InventoryRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
         [Route("Report/GetInventoryReport")]
         public async Task<IActionResult> GetInventoryReport(InventoryRequest req) => Ok(await _report.GetInventoryReport(new RequestBase<InventoryRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
     }

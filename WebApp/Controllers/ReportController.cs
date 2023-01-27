@@ -22,14 +22,25 @@ namespace WebApp.Controllers
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
         }
-        public IActionResult Inventory(InventoryStatus status = InventoryStatus.All)
+        public IActionResult _Inventory(InventoryStatus status = InventoryStatus.All)
         {
-            return View(new InventoryRequest {  Status = status});
+            return View(new InventoryRequest { Status = status });
         }
         [HttpPost("Report/InventoryList")]
         public async Task<IActionResult> InventoryList(InventoryRequest request)
         {
             var res = await _convert.GetList<Inventory>("Report/GetInventoryReport", GetToken(), request);
+            return PartialView("Partial/_InventoryList", res);
+        }
+        [Route("Report/InventoryLedger")]
+        public IActionResult Inventory(InventoryStatus status = InventoryStatus.All)
+        {
+            return View(new InventoryRequest {  Status = status});
+        }
+        [HttpPost("Report/InventoryLedgerList")]
+        public async Task<IActionResult> InventoryLedgerList(InventoryRequest request)
+        {
+            var res = await _convert.GetList<Inventory>("Report/GetInventoryLadgerReport", GetToken(), request);
             return PartialView("Partial/InventoryList", res);
         }
         private string GetToken()
