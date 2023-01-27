@@ -23,6 +23,7 @@ namespace Entities.Models
         public int ReturnInDays { get; set; }
         public int Warranty { get; set; }
         public string WarrantyUnit { get; set; }
+        public decimal Rating { get; set; }
         public List<ProductAttributes> ProductAttributes { get; set; }
         public List<ProductPictureInfo> ProductPictureInfos { get; set; }
         public List<AttributeInfo> AttributeInfo { get; set; }
