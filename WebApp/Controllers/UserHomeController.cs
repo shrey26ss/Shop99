@@ -112,7 +112,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> SaveProfile(UserDetails model)
         {
             Response response = new Response();
-            if(string.IsNullOrEmpty(model.PhoneNumber) || string.IsNullOrEmpty(model.PhoneNumber))
+            if(string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Email))
             {
                 return Json(new Response { ResponseText = "All Fields Are Mandatory", StatusCode = ResponseStatus.Failed});
             }

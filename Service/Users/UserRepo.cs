@@ -81,13 +81,13 @@ where ur.RoleId = 3";
             var res = new Response();
             try
             {
-                string sqlQuery = @"Update Users Set [Name] = @Name, PhoneNumber=@PhoneNumber where Id = @LoginId";
+                string sqlQuery = @"Update Users Set [Name] = @Name, [Email]=@Email where Id = @LoginId";
                 int i = -5;
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
                     request.LoginId,
                     request.Data.Name,
-                    request.Data.PhoneNumber
+                    request.Data.Email
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)

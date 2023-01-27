@@ -21,6 +21,7 @@ namespace Entities.Models
         public string UserId { get; set; }
         public string Role { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
         public string GAuthPin { get; set; }
         public int FOSId { get; set; }
         public string? RefreshToken { get; set; }
