@@ -11,32 +11,32 @@
                     </h2>
                 </div>
                 <div class="col-md-4 col-sm-6">
-                   <div class="d-flex">
+                    <div class="d-flex">
                         <select class="form-control" id="status" onchange="loadData();">
-                        <option value="@InventoryStatus.All">@InventoryStatus.All.ToString()</option>
-                        <option value="@InventoryStatus.LowStock">@InventoryStatus.LowStock.ToString()</option>
-                    </select>
+                            <option value="@InventoryStatus.All">@InventoryStatus.All.ToString()</option>
+                            <option value="@InventoryStatus.LowStock">@InventoryStatus.LowStock.ToString()</option>
+                        </select>
 
-                    <a href="/Report/InventoryLedger" class="btn btn-success ml-2">InventoryList</a>
-                   </div>
+                        <a href="/Report/InventoryLedger" class="btn btn-success ml-2">InventoryList</a>
+                    </div>
                 </div>
-                
+
                 <div class="col-md-12 mt-2">
                     <div class="col-md-12 mt-2">
                         <table class="table table-bordered" id="Grid">
                             <thead>
                                 <tr role="row">
                                     <th>#</th>
+                                    <th>Action</th>
                                     <th>Product</th>
                                     <th>Variant</th>
                                     <th>Qty</th>
-                                    <th>Remark</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
     </div>
@@ -51,9 +51,9 @@
             loadData();
         })
         var loadData = () => {
-            $.post('/Report/InventoryList', { Status: $('#status').val() }).done(function (result) {
+            $.post('/Report/InventoryList', { Status: $('#status').val() }).done(function(result) {
                 $('#Grid tbody').html(result);
-            }).fail(function (xhr) {
+            }).fail(function(xhr) {
             })
         };
     </script>

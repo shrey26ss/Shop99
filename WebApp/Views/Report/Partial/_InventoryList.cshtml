@@ -9,10 +9,23 @@
         counter++;
         <tr>
             <td>@counter</td>
+            <td class="align-middle">
+                <div class="btn-group dropup">
+                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expaned="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="act">
+                        <h6 class="dropdown-header">Action Menu</h6>
+                        @if(item.Qty < 10)
+                        {
+                            <a href="#" class="dropdown-item item-quantity" data-variantid="@item.VarriantId" data-qauntity="@item.Qty">Add Stock</a>
+                        }
+                        <a href="#"  class="dropdown-item Edit">Cancel</a>
+                    </div>
+                </div>
+            </td>
             <td>@item.ProductName</td>
             <td>@item.VariantTitle</td>
             <td class="text-right">@item.Qty</td>
-            <td>@item.Remark</td>
         </tr>
     }
 }
