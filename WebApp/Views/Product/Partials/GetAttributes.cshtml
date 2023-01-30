@@ -9,6 +9,16 @@
         counter++;
         <tr>
             <td>@counter</td>
+            <td class="align-middle">
+                <div class="btn-group dropup">
+                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expaned="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="act">
+                        <a class="dropdown-item Edit" href="#" onclick="loadPartial('@item.Id')">Details</a>
+                        <a class="dropdown-item Edit" href="#" onclick="loadReview('@item.Id')">Show Review</a>
+                    </div>
+                </div>
+            </td>
             <td>@item.Title</td>
             <td>@item.MRP</td>
             <td>@item.SellingCost</td>
@@ -35,12 +45,8 @@
                 </span>
             </td>
             <td>
-                <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Confirmed')"><i class="ti-close text-danger" title="Remove Wishlist"></i></a>
-                <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Rejected')"><i class="ti-check text-success" style="margin-left: 12px;" title="Move To Cart"></i></a>
-            </td>
-            <td>
-                <a class="btn btn-sm btn-outline-primary" onclick="loadPartial('@item.Id')">Details</a>
-                <a class="btn btn-sm btn-outline-primary" onclick="loadReview('@item.Id')">Show Review</a>
+                <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Confirmed')"><i class="ti-close text-danger" title="Reject"></i></a>
+                <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Rejected')"><i class="ti-check text-success" style="margin-left: 12px;" title="Approve"></i></a>
             </td>
         </tr>
     }
@@ -74,23 +80,13 @@
             body: html,
             width: 500
         });
-
-
-        //var prevQty = $(this).data('val');
-        //var vid = $(this).data('variantid');
-        //var currentQty = $(this).val();
-        //if (currentQty <= 0) {
-        //    Q.notify(-1, 'Minimum 1 Quantity Required.');
-        //    return;
-        //}
-
     });
     var loadReview = function (Id = 0) {
         $.post('/Report/ReviewReport', { Id }).done((result) => {
             Q.alert({
                 title: 'Reviews',
                 body: result,
-                width: 850
+                width: 1200
             });
         })
     };

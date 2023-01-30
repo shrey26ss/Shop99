@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
@@ -118,7 +119,7 @@ namespace Entities.Models
         public int Rating { get; set; }
         public string Review { get; set; }
         public string Images { get; set; }
-        public string EntryOn { get; set; }
+        public DateTime EntryOn { get; set; }
         public string UserName { get; set; }
     }
 }

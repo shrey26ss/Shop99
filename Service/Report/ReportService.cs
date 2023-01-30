@@ -94,7 +94,7 @@ having SUM(i.Qty) <= 10";
             var res = new Response<IEnumerable<ProductRatingReq>>();
             try
             {
-                string sp = @"Select Rating, Title, Review, Images, CreatedOn EntryOn, u.[Name] UserName from Review r(nolock) inner join Users u(nolock) on u.Id = r.UserID where r.VariantID = r.VariantID";
+                string sp = @"Select Rating, Title, Review, Images, CreatedOn EntryOn, u.[Name] UserName from Review r(nolock) inner join Users u(nolock) on u.Id = r.UserID where r.VariantID = @Id";
                 res.Result = await _dapper.GetAllAsync<ProductRatingReq>(sp, new { req.Id }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
