@@ -26,11 +26,14 @@
                                 <div>
                                     <div class="product-detail">
                                         <ul class="rating">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
+                                                  @for (var i = 0; i < Products[j].Rating; i++)
+                                                    {
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    }
+                                                    @for (var i = 0; i < 5 - Products[j].Rating; i++)
+                                                    {
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                    }
                                         </ul>
                                         <a href="/productdetails/@Products[j].VariantID"><p>@Products[j].Title</p></a>
                                         <h6>@Products[j].SellingCost <span>@Products[j].MRP</span></h6>
@@ -66,11 +69,14 @@
                                     <div>
                                         <div class="product-detail">
                                             <ul class="rating">
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
+                                                       @for (var i = 0; i < Products[j+1].Rating; i++)
+                                                    {
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    }
+                                                    @for (var i = 0; i < 5 - Products[j+1].Rating; i++)
+                                                    {
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                    }
                                             </ul>
                                             <a href="/productdetails/@Products[j+1].VariantID"><p>@Products[j+1].Title</p></a>
                                             <h6>@Products[j+1].SellingCost <span>@Products[j+1].MRP</span></h6>
@@ -107,11 +113,14 @@
                                     <div>
                                         <div class="product-detail">
                                             <ul class="rating">
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
+                                                       @for (var i = 0; i < Products[j+2].Rating; i++)
+                                                    {
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    }
+                                                    @for (var i = 0; i < 5 - Products[j+2].Rating; i++)
+                                                    {
+                                                        <li><i class="fa fa-star-o"></i></li>
+                                                    }
                                             </ul>
                                             <a href="/productdetails/@Products[j+2].VariantID"><p>@Products[j+2].Title</p></a>
                                             <h6>@Products[j+2].SellingCost <span>@Products[j+2].MRP</span></h6>

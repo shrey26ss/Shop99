@@ -110,12 +110,14 @@ const loadTopCategoryProduct = function (cId, i) {
                     <div class="product-detail detail-inline ">
                       <div class="detail-title">
                         <div class="detail-left">
-                          <div class="rating-star">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                          <div class="rating-star">`
+                for (var i = 0; i < v.rating; i++) {
+                    htmlbody = htmlbody + `<i class="fa fa-star"></i>`;
+                }
+                for (var i = 0; i < 5-v.rating; i++) {
+                    htmlbody = htmlbody + `<i class="fa fa-star-o"></i>`;
+                }
+                htmlbody = htmlbody+`
                           </div>
                           <a href="/productdetails/${v.variantID}">
                             <h6 class="price-title">

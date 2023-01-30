@@ -10,7 +10,7 @@
     if (Model.StatusCode == ResponseStatus.Success)
     {
         recordsTotal = Model.Result.recordsTotal;
-        range = $"{Model.Result.start+1}-{Model.Result.start+Model.Result.draw}";
+        range = $"{Model.Result.start + 1}-{Model.Result.start + Model.Result.draw}";
         if (Model.Result.Data.Any())
         {
             result = Model.Result.Data;
@@ -75,11 +75,16 @@
                                                 <div class="detail-title">
                                                     <div class="detail-left">
                                                         <div class="rating-star">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
+                                                             <ul>
+                                                            @for (var i = 0; i < item.Rating; i++)
+                                                            {
+                                                                <li><i class="fa fa-star"></i></li>
+                                                            }
+                                                            @for (var i = 0; i < 5 - item.Rating; i++)
+                                                            {
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                            }
+                                                             </ul>
                                                         </div>
                                                         <a href="/productdetails/@item.VariantID">
                                                             <h6 class="price-title">
