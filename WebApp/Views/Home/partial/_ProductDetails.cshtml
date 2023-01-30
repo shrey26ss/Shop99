@@ -157,11 +157,16 @@
                     </ul>
                     <div class="revieu-box">
                         <ul>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
+                          @for (var i = 0; i < Model.Rating; i++)
+                          {
+                            <li><i class="fa fa-star"></i></li>   
+                          }
+                          @for (var i = 0; i < 5-Model.Rating; i++)
+                          {
                             <li><i class="fa fa-star-o"></i></li>
+                          }
+                           
+                           
                         </ul>
                         <a href="review.html"><span>(6 reviews)</span></a>
                     </div>

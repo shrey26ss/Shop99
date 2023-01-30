@@ -28,13 +28,20 @@
                         <a href="/productdetails/@item.VariantID">
                             <h5>@item.Title</h5>
                         </a>
+
+
                         <ul class="rating">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
+                         @for (var i = 0; i < item.Rating; i++)
+                          {
+                            <li><i class="fa fa-star"></i></li>   
+                          }
+                          @for (var i = 0; i < 5-item.Rating; i++)
+                          {
                             <li><i class="fa fa-star-o"></i></li>
+                          }
                         </ul>
+
+
                         <p>
                             @{
                                 string dec = string.IsNullOrEmpty(@item.ShortDescription) ? "N/A" : @item.ShortDescription;

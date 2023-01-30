@@ -8,7 +8,7 @@ namespace Entities.Models
         public decimal MRP { get; set; }
         public decimal SellingCost { get; set; }
         public string Title { get; set; }
-        public int Stars { get; set; }
+        public decimal Rating { get; set; }
         public string Label { get; set; }
         public string PublishedOn { get; set; }
         public int ProductID { get; set; }
