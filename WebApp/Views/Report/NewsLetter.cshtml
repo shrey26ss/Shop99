@@ -23,14 +23,23 @@
                             <tbody>
                                 @{
                                     int i = 0;
-                                    @foreach (var item in Model.result)
+                                    if (Model.result.Count>0)
                                     {
-                                        i++;
+                                        @foreach (var item in Model.result)
+                                        {
+                                            i++;
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Email</td>
+                                                <td>@item.CeratedOn</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
                                         <tr>
-                                            <td>@i</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Email</td>
-                                            <td>@item.CeratedOn</td>
+                                            <td class="text-danger text-center" colspan="4">Record Not Found</td>
                                         </tr>
                                     }
                                 }
