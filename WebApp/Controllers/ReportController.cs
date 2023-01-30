@@ -43,6 +43,12 @@ namespace WebApp.Controllers
             var res = await _convert.GetList<Inventory>("Report/GetInventoryLadgerReport", GetToken(), request);
             return PartialView("Partial/InventoryList", res);
         }
+        [HttpPost("Report/ReviewReport")]
+        public async Task<IActionResult> ReviewReport(SearchItem req)
+        {
+            var res = await _convert.GetList<ProductRatingReq>("Report/ReviewReport", GetToken(), req);
+            return PartialView("Partial/ReviewReport", res);
+        }
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
