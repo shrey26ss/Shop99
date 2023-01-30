@@ -1,0 +1,53 @@
+﻿@using Entities.Models
+@model NewsLetterResponse
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-9 col-sm-6">
+                    <h2 class="float-left">
+                        News Latter
+                    </h2>
+                </div>
+                <div class="col-md-12 mt-2">
+                    <div class="col-md-12 mt-2">
+                        <table class="table table-bordered" id="Grid">
+                            <thead>
+                                <tr role="row">
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>EmailID</th>
+                                    <th>EntryOn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 0;
+                                    if (Model.result.Count>0)
+                                    {
+                                        @foreach (var item in Model.result)
+                                        {
+                                            i++;
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Email</td>
+                                                <td>@item.CeratedOn</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td class="text-danger text-center" colspan="4">Record Not Found</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
