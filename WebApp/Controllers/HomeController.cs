@@ -1,6 +1,7 @@
 ﻿using Entities.Enums;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models.ViewModels;
@@ -274,18 +275,19 @@ namespace WebApp.Controllers
         }
         [Route("ProductsByBID")]
         [HttpPost]
-        public async Task<IActionResult> ProductsByBrandID(int cid, string filters)
+        public async Task<IActionResult> ProductsByBrandID(int cid, string filters, SortingOption sortBy)
         {
             var req = new ProductRequest<BrandFilter>()
             {
                 Top = 24,
+                OrderBy = sortBy,
                 MoreFilters = new BrandFilter
                 {
                     Attributes = filters,
-                    BrandId = cid
+                    BrandId = cid,
                 }
             };
-            var res = _category.GetProducts(req, @"/api/Home/ByBrandId").Result;
+            var res = _category.GetProductsByCategory(req, @"/api/Home/ByBrandId").Result;
             return PartialView("Partial/_ProductsByCategory", res);
         }
         #endregion

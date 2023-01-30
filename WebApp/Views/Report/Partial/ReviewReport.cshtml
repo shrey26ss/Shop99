@@ -1,0 +1,60 @@
+﻿@using Entities.Models;
+@model IEnumerable<ProductRatingReq>
+@{
+    string ss = "";
+    string ssss = "";
+}
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row justify-content-end">
+                <div class="col-md-12 mt-2">
+                    <table class="table table-bordered" id="Grid">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Review</th>
+                                <th>Rating</th>
+                                <th>UserName</th>
+                                <th>Date</th>
+                                <th>Images</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Any())
+                            {
+                                int counter = 0;
+                                foreach (var item in Model)
+                                {
+                                    string[] arr = item.Images.Split(',');
+                                    counter++;
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@item.Title</td>
+                                        <td>@item.Review</td>
+                                        <td>@item.Rating</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.EntryOn</td>
+                                        <td>
+                                            @for(int i = 0; i < arr.Length; i++)
+                                            {
+                                                <img src="@arr[i]" alt="image" style="width:100px">
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr class="text-center">
+                                    <td colspan="6">No Review Recieved</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

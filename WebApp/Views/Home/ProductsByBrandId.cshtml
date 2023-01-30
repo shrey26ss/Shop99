@@ -28,7 +28,7 @@
                             <div class="col-sm-12">
 
                                 <div class="collection-product-wrapper">
-                                    <div class="product-top-filter">
+                                    @*<div class="product-top-filter">
                                         <div class="row">
                                             <div class="col-xl-12">
                                                 <div class="filter-main-btn"><span class="filter-btn btn btn-theme"><i class="fa fa-filter" aria-hidden="true"></i> Filter</span></div>
@@ -71,7 +71,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="product-wrapper-grid product-load-more product">
                                         <div class="row" id="dvProducts">
                                         </div>
@@ -88,22 +88,35 @@
 
 @section scripts{
     <script>
-
-        $(document).ready(function () {
+        const getBrandId = () => {
             var url = window.location.href;
-            var id = url.substring(url.lastIndexOf('/') + 1);
-            loadFilters(id);
-            loadProducts(id);
+            return url.substring(url.lastIndexOf('/') + 1);
+        };
+        $(document).ready(function () {
+            loadFilters();
+            loadProducts();
         });
 
 
-        const loadProducts = function (cid) {
-            $.post("/ProductsByBID", { cid: cid }).done(res => {
+        const loadProducts = function (filters = '') {
+            loadMain(filters);
+        }
+        const loadProductsByCategory = function (filters = '') {
+            loadMain(filters);
+        }
+        const loadMain = function (filters = '') {
+            let param = {
+                cid: getBrandId(),
+                sortBy: $('#sortItem').val(),
+                filters
+            };
+            $.post("/ProductsByBID", param).done(res => {
                 $('#dvProducts').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         }
-        const loadFilters = function (cid) {
-            $.post("/categoryfilters", { cid: cid }).done(res => {
+        
+        const loadFilters = function () {
+            $.post("/categoryfilters", { cid: getBrandId() }).done(res => {
                 $('#dvfilters').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         }

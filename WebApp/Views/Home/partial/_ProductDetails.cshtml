@@ -632,7 +632,6 @@
             Attributes: readAttributes()
         };
             await $.post('/GetVariantIdByAttributes', param).done(result => {
-                console.log(result);
                 if (result.statusCode === 1) {
                  let variantID= result.result.variantId;
                         Q.rewriteURL('/productdetails/' + variantID);
@@ -648,15 +647,14 @@
 
 
     var SaveReview = (variantid) => {
-        debugger
         let obj = {
             VariantID: variantid,
-            Reting: $('.star-rating__input:checked')?.val() ?? 1,
+            Rating: $('.star-rating__input:checked')?.val() ?? 1,
             Title: $('#txttitle').val(),
             Review: $('#txtreview').val()
         }
         let Images = $("#fileimg").prop("files").length;
-        if (obj.Reting == '') {
+        if (obj.Rating == '') {
             $('#hdnratesm').removeClass('d-none');
             return false;
         }
@@ -668,7 +666,7 @@
         for (let i = 0; i < Images; i++) {
             formData.append(`req[${i}].VariantID`, obj.VariantID);
             formData.append(`req[${i}].Title`, obj.Title);
-            formData.append(`req[${i}].Reting`, obj.Reting);
+            formData.append(`req[${i}].Rating`, obj.Rating);
             formData.append(`req[${i}].Review`, obj.Review);
             formData.append(`req[${i}].file`, $("#fileimg").prop("files")[i]);
         }
