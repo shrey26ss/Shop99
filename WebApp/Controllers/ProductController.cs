@@ -503,7 +503,7 @@ namespace WebApp.Controllers
             {
                 VariantID = requ.VariantID,
                 Title = requ.Title,
-                Reting = requ.Reting,
+                Rating = requ.Rating,
                 Review = requ.Review,
                 Images = path,
             };
@@ -529,7 +529,7 @@ namespace WebApp.Controllers
                         FilePath = FileDirectories.ProductRateSuffixDefault.Replace("/{0}", string.Empty),
                         IsThumbnailRequired = false,
                     });
-                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL(),FileDirectories.ProductRateSuffixDefault, fileName));
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/",FileDirectories.ProductRateSuffixDefault, fileName));
                 }
             }
             return string.Join(',',ImagePath);

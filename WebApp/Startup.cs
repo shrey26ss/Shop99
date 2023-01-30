@@ -12,12 +12,14 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Service.Identity;
 using Services.Identity;
 using System;
+using System.IO;
 using System.Text;
 using WebApp.AppCode.Extension;
 using WebApp.Middleware;
@@ -133,6 +135,20 @@ namespace WebApp
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             //app.ConfigureExceptionHandler(logger);
             app.UseSession();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Image")),
+                RequestPath = new PathString("/Image"),
+                OnPrepareResponse = r =>
+                {
+                    string path = r.File.PhysicalPath;
+                    if (path.EndsWith(".css") || path.EndsWith(".js") || path.EndsWith(".gif") || path.EndsWith(".jpg") || path.EndsWith(".png") || path.EndsWith(".svg"))
+                    {
+                        TimeSpan maxAge = new TimeSpan(7, 0, 0, 0);
+                        r.Context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
+                    }
+                }
+            });
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(x => x
