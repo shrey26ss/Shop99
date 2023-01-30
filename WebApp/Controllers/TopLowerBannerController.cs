@@ -3,6 +3,7 @@ using AppUtility.Helper;
 using AutoMapper;
 using Entities.Enums;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "1")]
     public class TopLowerBannerController : Controller
     {
         private string _apiBaseURL;

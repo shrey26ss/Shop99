@@ -21,7 +21,7 @@ using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "1")]
     public class TopBannerController : Controller
     {
         private string _apiBaseURL;

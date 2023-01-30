@@ -38,7 +38,7 @@ namespace WebApp.Controllers
             _checkout = checkOutAPI;
             _ddl = ddl;
         }
-
+        [Authorize(Roles="1")]
         [Route("/dashboard")]
         public async Task<IActionResult> Index()
         {

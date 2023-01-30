@@ -26,7 +26,7 @@ using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "1,3")]
     public class ProductController : Controller
     {
 
