@@ -30,4 +30,11 @@ namespace Entities.Models
     {
         public InventoryStatus Status { get; set; } = 0;
     }
+    public class NewsLatter
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string CeratedOn { get; set; }
+        public string Email { get; set; }
+    }
 }

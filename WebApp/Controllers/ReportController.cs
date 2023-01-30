@@ -9,6 +9,9 @@ using WebApp.Servcie;
 using WebApp.Middleware;
 using Service.Models;
 using Entities.Enums;
+using AppUtility.APIRequest;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace WebApp.Controllers
 {
@@ -47,6 +50,17 @@ namespace WebApp.Controllers
         {
             return User.GetLoggedInUserToken();
         }
-
+        [Route("Report/NewsLetter")]
+        public async Task<IActionResult> NewsLetter()
+        {
+            string _token = GetToken();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Report/GetNewslatter", null, _token);
+            if (apiResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var res = JsonConvert.DeserializeObject<NewsLetterResponse>(apiResponse.Result);
+                return View(res);
+            }
+            return View();
+        }
     }
 }

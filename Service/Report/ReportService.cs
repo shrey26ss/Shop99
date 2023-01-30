@@ -89,6 +89,22 @@ having SUM(i.Qty) <= 10";
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<NewsLatter>>> GetNewslatter()
+        {
+            var res = new Response<IEnumerable<NewsLatter>>();
+            try
+            {
+                string sp = @"select * from NewsLetter";
+                res.Result = await _dapper.GetAllAsync<NewsLatter>(sp, null, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
 
         public Task<IResponse<ReportRow>> GetByIdAsync(int id)
         {

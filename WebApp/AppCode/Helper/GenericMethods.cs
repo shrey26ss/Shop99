@@ -45,6 +45,6 @@ namespace WebApp.AppCode.Helper
                 return result;
             }
             return result;
-        } 
+        }
     }
 }
