@@ -40,48 +40,58 @@
             </td>
             <td>
                 <a class="btn btn-sm btn-outline-primary" onclick="loadPartial('@item.Id')">Details</a>
+                <a class="btn btn-sm btn-outline-primary" onclick="loadReview('@item.Id')">Show Review</a>
             </td>
         </tr>
     }
 }
 <script>
-    $('.item-quantity').click(function() {
-            const vid = $(this).data('variantid');
-            const prevQty = $(this).data('qauntity');
-            const html = ` <div class="form-row">
-                                                                                 <div class="form-group col-md-6">
-                                                                                   <label for="inputEmail4">Qauntity</label>
-                                                                                   <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
-                                                                                 </div>
-                                                                                 <input type="hidden" name="VariantId" value="${vid}">
-                                                                                 <div class="form-group col-md-6">
-                                                                                   <label for="inputPassword4">Add/Delete</label>
-                                                                                   <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
-                                                                                 </div>
-                                                                              </div>
-                                                                               <div class="form-group">
-                                                                                 <label for="inputAddress">Remark</label>
+    $('.item-quantity').click(function () {
+        const vid = $(this).data('variantid');
+        const prevQty = $(this).data('qauntity');
+        const html = ` <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Qauntity</label>
+                      <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
+                    </div>
+                    <input type="hidden" name="VariantId" value="${vid}">
+                    <div class="form-group col-md-6">
+                      <label for="inputPassword4">Add/Delete</label>
+                      <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
+                    </div>
+                 </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Remark</label>
 
-                                                                                 <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
-                                                                               </div>
+                    <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
+                  </div>
 
-                                                                               <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
-                                                                               <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
-                                                                               `;
-            Q.alert({
-                title: 'Add/Delete Qauntity',
-                body: html,
-                width: 500
-            });
-
-
-            //var prevQty = $(this).data('val');
-            //var vid = $(this).data('variantid');
-            //var currentQty = $(this).val();
-            //if (currentQty <= 0) {
-            //    Q.notify(-1, 'Minimum 1 Quantity Required.');
-            //    return;
-            //}
-
+                  <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
+                  <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
+                  `;
+        Q.alert({
+            title: 'Add/Delete Qauntity',
+            body: html,
+            width: 500
         });
+
+
+        //var prevQty = $(this).data('val');
+        //var vid = $(this).data('variantid');
+        //var currentQty = $(this).val();
+        //if (currentQty <= 0) {
+        //    Q.notify(-1, 'Minimum 1 Quantity Required.');
+        //    return;
+        //}
+
+    });
+    var loadReview = function (Id = 0) {
+        $.post('/Report/ReviewReport', { Id }).done((result) => {
+            Q.alert({
+                title: 'Reviews',
+                body: result,
+                width: 850
+            });
+        })
+    };
 </script>

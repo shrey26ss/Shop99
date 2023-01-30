@@ -298,7 +298,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                     request.Data.VariantID,
                     UserID = request.LoginId,
                     request.Data.Title,
-                    request.Data.Reting,
+                    request.Data.Rating,
                     request.Data.Review,
                     request.Data.Images,
                 }, CommandType.StoredProcedure);

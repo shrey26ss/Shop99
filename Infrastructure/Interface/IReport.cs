@@ -10,5 +10,6 @@ namespace Infrastructure.Interface
     {
         Task<IResponse<IEnumerable<Inventory>>> GetInventoryLadgerReport(RequestBase<InventoryRequest> req);
         Task<IResponse<IEnumerable<Inventory>>> GetInventoryReport(RequestBase<InventoryRequest> req);
+        Task<IResponse<IEnumerable<ProductRatingReq>>> ReviewReport(SearchItem req);
     }
 }
