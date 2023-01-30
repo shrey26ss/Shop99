@@ -12,9 +12,11 @@ using Entities.Enums;
 using AppUtility.APIRequest;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
+    [Authorize(Roles = "1")]
     public class ReportController : Controller
     {
         private string _apiBaseURL;

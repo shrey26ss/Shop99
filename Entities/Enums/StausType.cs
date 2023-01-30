@@ -44,7 +44,9 @@ namespace Entities.Enums
         [Description("Rejected")]
         Rejected = 18,
         [Description("Is Approved")]
-        IsApproved = 19
+        IsApproved = 19,
+        [Description("Order Initiated")]
+        OrderInitiated = 20
     }
     public enum PurchaseType
     {
