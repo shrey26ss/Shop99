@@ -492,6 +492,7 @@ namespace WebApp.Controllers
         }
         #endregion
         #region Rating
+        [Authorize(Roles = "2")]
         [Route("ProductRating")]
         [HttpPost]
         public async Task<IActionResult> ProductRating(List<ProductRating> req)
