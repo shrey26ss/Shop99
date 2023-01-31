@@ -36,11 +36,18 @@ inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
 inner join Products p(nolock) on p.Id = vg.ProductId
 Order by i.Id desc
 else
-Select i.*,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
-inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
+with cteRowNumber as (
+    select Id,IsOut,OpeningQty,VarriantId,Qty,ClosingQty,Remark,EntryOn,
+           row_number() over(partition by VarriantId order by EntryOn desc) as RowNum
+        from inventory (nolock) 
+)
+select i.*,p.[Name] ProductName,vg.Title VariantTitle
+    from cteRowNumber i
+	inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
 inner join Products p(nolock) on p.Id = vg.ProductId
-where Qty <=10
-Order by i.Id desc";
+    where i.RowNum = 1 and i.ClosingQty<10 Order by i.Id desc
+
+";
                     res.Result = await _dapper.GetAllAsync<Inventory>(sp, new { req.Data.Status }, CommandType.Text);
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = nameof(ResponseStatus.Success);
