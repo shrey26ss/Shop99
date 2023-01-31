@@ -6,72 +6,72 @@
 }
 <style>
     .star-rating__stars {
-  position: relative;
-  height: 2rem;
-  width:10rem;
-  background: url(../../Image/off.svg);
-  background-size: 2rem 2rem;
-  margin-bottom:10px;
-}
+        position: relative;
+        height: 2rem;
+        width: 10rem;
+        background: url(../../Image/off.svg);
+        background-size: 2rem 2rem;
+        margin-bottom: 10px;
+    }
 
-.star-rating__label {
-  position: absolute;
-  height: 100%;
-  background-size: 2rem 2rem;
-}
+    .star-rating__label {
+        position: absolute;
+        height: 100%;
+        background-size: 2rem 2rem;
+    }
 
-.star-rating__input {
-  margin: 0;
-  position: absolute;
-  height: 1px; 
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-}
+    .star-rating__input {
+        margin: 0;
+        position: absolute;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+    }
 
-.star-rating__stars .star-rating__label:nth-of-type(1) {
-  z-index: 5;
-  width: 20%;
-}
+    .star-rating__stars .star-rating__label:nth-of-type(1) {
+        z-index: 5;
+        width: 20%;
+    }
 
-.star-rating__stars .star-rating__label:nth-of-type(2) {
-  z-index: 4;
-  width: 40%;
-}
+    .star-rating__stars .star-rating__label:nth-of-type(2) {
+        z-index: 4;
+        width: 40%;
+    }
 
-.star-rating__stars .star-rating__label:nth-of-type(3) {
-  z-index: 3;
-  width: 60%;
-}
+    .star-rating__stars .star-rating__label:nth-of-type(3) {
+        z-index: 3;
+        width: 60%;
+    }
 
-.star-rating__stars .star-rating__label:nth-of-type(4) {
-  z-index: 2;
-  width: 80%;
-}
+    .star-rating__stars .star-rating__label:nth-of-type(4) {
+        z-index: 2;
+        width: 80%;
+    }
 
-.star-rating__stars .star-rating__label:nth-of-type(5) {
-  z-index: 1;
-  width: 100%;
-}
+    .star-rating__stars .star-rating__label:nth-of-type(5) {
+        z-index: 1;
+        width: 100%;
+    }
 
-.star-rating__input:checked + .star-rating__label,
-.star-rating__input:focus + .star-rating__label,
-.star-rating__label:hover {
-  background-image: url(../../Image/on.svg);
-}
+    .star-rating__input:checked + .star-rating__label,
+    .star-rating__input:focus + .star-rating__label,
+    .star-rating__label:hover {
+        background-image: url(../../Image/on.svg);
+    }
 
-.star-rating__label:hover ~ .star-rating__label {
-  background-image: url(../../Image/off.svg);
-}
+        .star-rating__label:hover ~ .star-rating__label {
+            background-image: url(../../Image/off.svg);
+        }
 
-.star-rating__input:focus ~ .star-rating__focus {
-  position: absolute;
-  top: -.25em;
-  right: -.25em;
-  bottom: -.25em;
-  left: -.25em;
-  outline: 0.25rem solid lightblue;
-}
+    .star-rating__input:focus ~ .star-rating__focus {
+        position: absolute;
+        top: -.25em;
+        right: -.25em;
+        bottom: -.25em;
+        left: -.25em;
+        outline: 0.25rem solid lightblue;
+    }
 </style>
 <div class="">
     <div class="row">
@@ -116,11 +116,11 @@
 
                                 @*	<a href="~/assets/images/product-sidebar/001.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/001.jpg" xpreview="/assets/images/product-sidebar/001.jpg" ></a>
 
-                                    <a href="~/assets/images/product-sidebar/002.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/002.jpg"></a>
+                            <a href="~/assets/images/product-sidebar/002.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/002.jpg"></a>
 
-                                    <a href="~/assets/images/product-sidebar/003.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/003.jpg"></a>
+                            <a href="~/assets/images/product-sidebar/003.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/003.jpg"></a>
 
-                                    <a href="~/assets/images/product-sidebar/004.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/004.jpg"></a>*@
+                            <a href="~/assets/images/product-sidebar/004.jpg"><img class="xzoom-gallery" width="80" src="~/assets/images/product-sidebar/004.jpg"></a>*@
 
                             </div>
                         </div>
@@ -157,16 +157,16 @@
                     </ul>
                     <div class="revieu-box">
                         <ul>
-                          @for (var i = 0; i < Model.Rating; i++)
-                          {
-                            <li><i class="fa fa-star"></i></li>   
-                          }
-                          @for (var i = 0; i < 5-Model.Rating; i++)
-                          {
-                            <li><i class="fa fa-star-o"></i></li>
-                          }
-                           
-                           
+                            @for (var i = 0; i < Model.Rating; i++)
+                            {
+                                <li><i class="fa fa-star"></i></li>
+                            }
+                            @for (var i = 0; i < 5 - Model.Rating; i++)
+                            {
+                                <li><i class="fa fa-star-o"></i></li>
+                            }
+
+
                         </ul>
                         <a href="review.html"><span>(6 reviews)</span></a>
                     </div>
@@ -176,30 +176,30 @@
                     {
                         @foreach (var item in Model.ProductAttributes)
                         {
-                            <div  id="attributeList">
-                            <div class="attibute mb-2" data-attribute-id="@item.AttributeId" data-attribute-name="@item.AttributeName">
-                                <h6 class="product-title size-text">@item.AttributeName</h6><ul>
+                            <div id="attributeList">
+                                <div class="attibute mb-2" data-attribute-id="@item.AttributeId" data-attribute-name="@item.AttributeName">
+                                    <h6 class="product-title size-text">@item.AttributeName</h6><ul>
 
-                                    @if (Model != null && Model.AttributeInfo.Any())
-                                    {
-                                        var AttributeValue = new List<string>();
-                                        foreach (var attrinfo in Model.AttributeInfo)
+                                        @if (Model != null && Model.AttributeInfo.Any())
                                         {
-                                            if (!AttributeValue.Any(x => x == attrinfo.AttributeValue))
+                                            var AttributeValue = new List<string>();
+                                            foreach (var attrinfo in Model.AttributeInfo)
                                             {
-                                                if (attrinfo.AttributeId == item.AttributeId)
+                                                if (!AttributeValue.Any(x => x == attrinfo.AttributeValue))
                                                 {
-                                                    AttributeValue.Add(attrinfo.AttributeValue);
-                                                    string activeclass = attrinfo.AttributeValue == item.AttributeValue ? "active" : "";
-                                                    <a  data-id="@attrinfo.GroupId" class="changeVariant">
-                                                    <li class="@activeclass attributeValue btn btn-sm btn-outline-dark" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
+                                                    if (attrinfo.AttributeId == item.AttributeId)
+                                                    {
+                                                        AttributeValue.Add(attrinfo.AttributeValue);
+                                                        string activeclass = attrinfo.AttributeValue == item.AttributeValue ? "active" : "";
+                                                        <a data-id="@attrinfo.GroupId" class="changeVariant">
+                                                        <li class="@activeclass attributeValue btn btn-sm btn-outline-dark" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
-                             </div>
                         }
 
                     }
@@ -208,7 +208,7 @@
 
 
                 </div>
-                <div><label class="text-danger h5" id="lblmsg" ></label></div>
+                <div><label class="text-danger h5" id="lblmsg"></label></div>
                 <div class="pro-group d-none">
                     <h6 class="product-title">delivery location</h6>
                     <div class="delivery-detail">
@@ -239,36 +239,36 @@
                                 </li>
                             </ul>
                             @*        <ul class="offer-sider">
-                                <li>
-                                <span class="code-lable">OFFER25</span>
-                                <div>
-                                <h5>Get extra $25 off on second Orders</h5>
-                                <p>Use code "OFFER25" Min. Cart Value $99 | Max. Discount $25</p>
-                                </div>
-                                </li>
-                                <li>
-                                <span class="code-lable">OFFER40</span>
-                                <div>
-                                <h5>Bank Offer40% Unlimited Cashback on bideal Axis Bank Credit Card</h5>
-                                <p>Use code "OFFER40" Min. Cart Value $99 | Max. Discount $40</p>
-                                </div>
-                                </li>
-                                <li>
-                                <span class="code-lable">OFFER10</span>
-                                <div>
-                                <h5>Bank Offer10% off* with Axis Bank Buzz Credit Card</h5>
-                                <p>Use code "OFFER10" Min. Cart Value $99 | Max. Discount $10</p>
-                                </div>
-                                </li>
-                                <li>
-                                <span class="code-lable">OFFER5</span>
-                                <div>
-                                <h5>Bank Offer5% Unlimited Cashback on bideal sbi banck Credit Card</h5>
-                                <p>Use code "OFFER5" Min. Cart Value $99 | Max. Discount $5</p>
-                                </div>
-                                </li>
-                                </ul>
-                                <h5 class="show-offer"><span class="more-offer">show more offer</span><span class="less-offer">less offer</span></h5>*@
+                            <li>
+                            <span class="code-lable">OFFER25</span>
+                            <div>
+                            <h5>Get extra $25 off on second Orders</h5>
+                            <p>Use code "OFFER25" Min. Cart Value $99 | Max. Discount $25</p>
+                            </div>
+                            </li>
+                            <li>
+                            <span class="code-lable">OFFER40</span>
+                            <div>
+                            <h5>Bank Offer40% Unlimited Cashback on bideal Axis Bank Credit Card</h5>
+                            <p>Use code "OFFER40" Min. Cart Value $99 | Max. Discount $40</p>
+                            </div>
+                            </li>
+                            <li>
+                            <span class="code-lable">OFFER10</span>
+                            <div>
+                            <h5>Bank Offer10% off* with Axis Bank Buzz Credit Card</h5>
+                            <p>Use code "OFFER10" Min. Cart Value $99 | Max. Discount $10</p>
+                            </div>
+                            </li>
+                            <li>
+                            <span class="code-lable">OFFER5</span>
+                            <div>
+                            <h5>Bank Offer5% Unlimited Cashback on bideal sbi banck Credit Card</h5>
+                            <p>Use code "OFFER5" Min. Cart Value $99 | Max. Discount $5</p>
+                            </div>
+                            </li>
+                            </ul>
+                            <h5 class="show-offer"><span class="more-offer">show more offer</span><span class="less-offer">less offer</span></h5>*@
                         </div>
                     </div>
                 </div>
@@ -348,29 +348,29 @@
                                             <div class="col-md-12">
                                                 <label class="mt-3"><b>Rating</b></label>
                                                 <div class="media mt-0">
-                                                   @* <div class="rate">
-                                                        @for (int i = 5; i >= 1; i--)
-                                                        {
-                                                            <input type="checkbox" id="rate_@i" name="rate" value="@i" />
-                                                            <label for="rate_@i" onclick="rate('@i')" class="rating" title="text">@i stars</label>
-                                                        }
-                                                        <input type="hidden" id="hdnrate" value="" />
+                                                    @* <div class="rate">
+                                                    @for (int i = 5; i >= 1; i--)
+                                                    {
+                                                    <input type="checkbox" id="rate_@i" name="rate" value="@i" />
+                                                    <label for="rate_@i" onclick="rate('@i')" class="rating" title="text">@i stars</label>
+                                                    }
+                                                    <input type="hidden" id="hdnrate" value="" />
                                                     </div>*@
-                                                     <fieldset class="star-rating">
-                                                    <div class="star-rating__stars">
-                                                      <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
-                                                      <label class="star-rating__label" for="rating-1" aria-label="One"></label>
-                                                      <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
-                                                      <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
-                                                      <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
-                                                      <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
-                                                      <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
-                                                      <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
-                                                      <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
-                                                      <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
-                                                   
-                                                    </div>
-                                                  </fieldset>
+                                                    <fieldset class="star-rating">
+                                                        <div class="star-rating__stars">
+                                                            <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
+                                                            <label class="star-rating__label" for="rating-1" aria-label="One"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
+                                                            <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
+                                                            <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
+                                                            <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
+                                                            <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
+
+                                                        </div>
+                                                    </fieldset>
                                                 </div>
                                                 <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
                                             </div>
@@ -410,8 +410,8 @@
     //	const variantId = @Model;
     //getProductAllDetails(variantId);
 
-    (function($) {
-        $(document).ready(function() {
+    (function ($) {
+        $(document).ready(function () {
             $('.xzoom, .xzoom-gallery').xzoom({ zoomWidth: 400, title: true, tint: '#333', Xoffset: 15 });
             $('.xzoom2, .xzoom-gallery2').xzoom({ position: '#xzoom2-id', tint: '#ffa200' });
             $('.xzoom3, .xzoom-gallery3').xzoom({ position: 'lens', lensShape: 'circle', sourceClass: 'xzoom-hidden' });
@@ -423,20 +423,20 @@
 
             if (isTouchSupported) {
                 //If touch device
-                $('.xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5').each(function() {
+                $('.xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5').each(function () {
                     var xzoom = $(this).data('xzoom');
                     xzoom.eventunbind();
                 });
 
-                $('.xzoom, .xzoom2, .xzoom3').each(function() {
+                $('.xzoom, .xzoom2, .xzoom3').each(function () {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function(event) {
+                    $(this).hammer().on("tap", function (event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function(element) {
-                            element.hammer().on('drag', function(event) {
+                        xzoom.eventmove = function (element) {
+                            element.hammer().on('drag', function (event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -444,8 +444,8 @@
                             });
                         }
 
-                        xzoom.eventleave = function(element) {
-                            element.hammer().on('tap', function(event) {
+                        xzoom.eventleave = function (element) {
+                            element.hammer().on('tap', function (event) {
                                 xzoom.closezoom();
                             });
                         }
@@ -453,15 +453,15 @@
                     });
                 });
 
-                $('.xzoom4').each(function() {
+                $('.xzoom4').each(function () {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function(event) {
+                    $(this).hammer().on("tap", function (event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function(element) {
-                            element.hammer().on('drag', function(event) {
+                        xzoom.eventmove = function (element) {
+                            element.hammer().on('drag', function (event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -470,8 +470,8 @@
                         }
 
                         var counter = 0;
-                        xzoom.eventclick = function(element) {
-                            element.hammer().on('tap', function() {
+                        xzoom.eventclick = function (element) {
+                            element.hammer().on('tap', function () {
                                 counter++;
                                 if (counter == 1) setTimeout(openfancy, 300);
                                 event.gesture.preventDefault();
@@ -491,15 +491,15 @@
                     });
                 });
 
-                $('.xzoom5').each(function() {
+                $('.xzoom5').each(function () {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function(event) {
+                    $(this).hammer().on("tap", function (event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function(element) {
-                            element.hammer().on('drag', function(event) {
+                        xzoom.eventmove = function (element) {
+                            element.hammer().on('drag', function (event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -508,8 +508,8 @@
                         }
 
                         var counter = 0;
-                        xzoom.eventclick = function(element) {
-                            element.hammer().on('tap', function() {
+                        xzoom.eventclick = function (element) {
+                            element.hammer().on('tap', function () {
                                 counter++;
                                 if (counter == 1) setTimeout(openmagnific, 300);
                                 event.gesture.preventDefault();
@@ -538,7 +538,7 @@
                 //If not touch device
 
                 //Integration with fancybox plugin
-                $('#xzoom-fancy').bind('click', function(event) {
+                $('#xzoom-fancy').bind('click', function (event) {
                     var xzoom = $(this).data('xzoom');
                     xzoom.closezoom();
                     $.fancybox.open(xzoom.gallery().cgallery, { padding: 0, helpers: { overlay: { locked: false } } });
@@ -546,7 +546,7 @@
                 });
 
                 //Integration with magnific popup plugin
-                $('#xzoom-magnific').bind('click', function(event) {
+                $('#xzoom-magnific').bind('click', function (event) {
                     var xzoom = $(this).data('xzoom');
                     xzoom.closezoom();
                     var gallery = xzoom.gallery().cgallery;
@@ -565,8 +565,8 @@
 <!--for image zoom script end-->
 
 <script>
-    
-       const readAttributes = () => {
+
+    const readAttributes = () => {
         let attributes = []
         $('#attributeList .attibute').each(function (i, t) {
             attributes.push($(t).find('li.attributeValue.active').text());
@@ -586,7 +586,7 @@
         let vId = _url.pathname.replace('/productdetails/', '');
         addToWishList(vId);
     });
-    $('.btnBuyNow').click(function() {
+    $('.btnBuyNow').click(function () {
         let _url = new URL(window.location.href)
         let vId = _url.pathname.replace('/productdetails/', '');
         let param = { VariantID: vId };
@@ -600,7 +600,7 @@
         }).fail(xhr => Q.xhrError(xhr)).always(() => "")
     });
 
-     $(document).on('click', '.attributeValue', (e) => {
+    $(document).on('click', '.attributeValue', (e) => {
         let ele = $(e.currentTarget);
         ele.parents('ul').find('.attributeValue').removeClass('active');
         ele.addClass('active');
@@ -616,11 +616,11 @@
             attributes: _attr.join(',')
         };
         let attributeName = ele.parents('.attibute').data()?.attributeName;
-      
+
         getVariantId();
     });
 
-      const getVariantId = async () => {
+    const getVariantId = async () => {
         let _u = new URL(window.location);
         let qs = _u.pathname.split('/');
         let vId = 0;
@@ -631,18 +631,18 @@
             VariantId: vId,
             Attributes: readAttributes()
         };
-            await $.post('/GetVariantIdByAttributes', param).done(result => {
-                if (result.statusCode === 1) {
-                 let variantID= result.result.variantId;
-                        Q.rewriteURL('/productdetails/' + variantID);
-                        getProductAllDetails(variantID);
-                }
-                else {
-                     $('.btnBuyNow').attr("disabled","disabled");
-                     $('.btnAddtocart').attr("disabled","disabled");
-                  $('#lblmsg').text('Not Avialable');
-                }
-            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        await $.post('/GetVariantIdByAttributes', param).done(result => {
+            if (result.statusCode === 1) {
+                let variantID = result.result.variantId;
+                Q.rewriteURL('/productdetails/' + variantID);
+                getProductAllDetails(variantID);
+            }
+            else {
+                $('.btnBuyNow').attr("disabled", "disabled");
+                $('.btnAddtocart').attr("disabled", "disabled");
+                $('#lblmsg').text('Not Avialable');
+            }
+        }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
     };
 
 
@@ -678,16 +678,15 @@
             data: formData,
             processData: false,
             contentType: false,
-            success: function(response) {
+            success: function (response) {
                 Q.notify(response.statusCode, response.responseText)
-                if(response.statusCode==1)
-                {
-                $('#txttitle').val('');
-                 $('#txtreview').val('');
-                 $('#fileimg').val('');
+                if (response.statusCode == 1) {
+                    $('#txttitle').val('');
+                    $('#txtreview').val('');
+                    $('#fileimg').val('');
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 Q.notify(-1, xhr.responseText)
             },
         });
