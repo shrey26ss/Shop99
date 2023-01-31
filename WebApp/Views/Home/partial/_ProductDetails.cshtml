@@ -649,7 +649,7 @@
     var SaveReview = (variantid) => {
         let obj = {
             VariantID: variantid,
-            Rating: $('.star-rating__input:checked')?.val() ?? 1,
+            Rating: $('.star-rating__input:checked')?.val() ?? '1',
             Title: $('#txttitle').val(),
             Review: $('#txtreview').val()
         }
@@ -662,13 +662,15 @@
             $('#txtreviewsm').removeClass('d-none');
             return false;
         }
+        $('#hdnratesm').addClass('d-none');
+        $('#txtreviewsm').addClass('d-none');
         formData = new FormData();
+        formData.append(`VariantID`, obj.VariantID);
+        formData.append(`Title`, obj.Title);
+        formData.append(`Rating`, obj.Rating);
+        formData.append(`Review`, obj.Review);
         for (let i = 0; i < Images; i++) {
-            formData.append(`req[${i}].VariantID`, obj.VariantID);
-            formData.append(`req[${i}].Title`, obj.Title);
-            formData.append(`req[${i}].Rating`, obj.Rating);
-            formData.append(`req[${i}].Review`, obj.Review);
-            formData.append(`req[${i}].file`, $("#fileimg").prop("files")[i]);
+            formData.append(`file`, $("#fileimg").prop("files")[i]);
         }
         $.ajax({
             type: 'POST',

@@ -11,7 +11,7 @@ namespace WebApp.Models
         public int Rating { get; set; }
         public string Review { get; set; }
         public string Images { get; set; }
-        public IFormFile file { get; set; }
+        public List<IFormFile> file { get; set; }
     }
     public class ProductRatingImg
     {

@@ -12,6 +12,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.SymbolStore;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,7 +27,7 @@ using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "1,3")]
+    [Authorize]
     public class ProductController : Controller
     {
 
@@ -46,6 +47,7 @@ namespace WebApp.Controllers
 
         #region Add Product
         // GET: ProductController
+        [Authorize(Roles = "1,3")]
         [HttpGet("/Product")]
         public IActionResult Index()
         {
@@ -53,6 +55,7 @@ namespace WebApp.Controllers
             model.Categories = _ddl.GetCategoryDDL(GetToken(), _apiBaseURL).Result;
             return View(model);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> ProductList(int CID, string SearchText)
         {
@@ -67,6 +70,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_ProductList", response);
         }
+        [Authorize(Roles = "1,3")]
         [HttpGet]
         public async Task<IActionResult> Attributes(int Id, StatusType s)
         {
@@ -84,6 +88,7 @@ namespace WebApp.Controllers
             //}
             return View(response);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> GetAttributes(int Id, StatusType s)
         {
@@ -98,6 +103,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/GetAttributes", response);
         }
+        [Authorize(Roles = "1")]
         [HttpPost]
         public async Task<IActionResult> UpdateAdminApprovelStatus(int Id, StatusType StatusID,string Remark = "")
         {
@@ -111,6 +117,7 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishVariant(UpdateIsPublishProduct req)
         {
@@ -126,6 +133,7 @@ namespace WebApp.Controllers
             }
             return Json(res);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> VariantAttributeList(int Id)
         {
@@ -140,7 +148,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
-
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> VariantDetail(int Id, string Color = "")
         {
@@ -172,7 +180,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantDetail", response);
         }
-
+        [Authorize(Roles = "1")]
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
         {
@@ -194,7 +202,7 @@ namespace WebApp.Controllers
         {
             return Json(await _ddl.GetBrandsDDL(GetToken(), _apiBaseURL));
         }
-
+        [Authorize(Roles = "1")]
         [HttpGet("Product/Edit/{Id}")]
         public async Task<IActionResult> Edit(int Id = 0)
         {
@@ -231,7 +239,7 @@ namespace WebApp.Controllers
             }
             return View("Partials/_Edit", model);
         }
-
+        [Authorize(Roles = "1")]
         [HttpPost]
         [ValidateAjax]
         public async Task<IActionResult> AddProduct(Products model)
@@ -259,6 +267,7 @@ namespace WebApp.Controllers
         #region Add Variants
 
         // GET: ProductController/Create
+        [Authorize(Roles = "1,3")]
         public async Task<IActionResult> AddVariant(int Id = 0, int cId = 0)
         {
             VariantViewModel model = new VariantViewModel()
@@ -268,18 +277,18 @@ namespace WebApp.Controllers
             };
             return View(model);
         }
-
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> GetAttributeSectionView(int Id = 0)
         {
             return PartialView("Partials/_Variants");
         }
-
+        [Authorize(Roles = "1,3")]
         public async Task<IActionResult> AddAttributeGroup()
         {
             return PartialView("Partials/_AddAttributeGroup");
         }
-
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> AddAttributes(string combinationId, int CategoryId)
         {
@@ -291,6 +300,7 @@ namespace WebApp.Controllers
             };
             return PartialView("Partials/_AddAttributes", model);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         [ValidateAjax]
         public async Task<IActionResult> SaveVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)
@@ -343,6 +353,7 @@ namespace WebApp.Controllers
         //    };
         //    return PartialView("Partials/_AddAttributes", model);
         //}
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<ActionResult> VariantQuantityUpdate(int v, int q, bool IsReduce, string Remark)
         {
@@ -376,6 +387,7 @@ namespace WebApp.Controllers
             }
             return Ok(response);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> DeleteVariantImage(int VariantId, int ImgId, string ImgPath)
         {
@@ -397,6 +409,7 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> UploadVariantImage(int VariantId, string VariantColor, string ImgAlt)
         {
@@ -486,6 +499,7 @@ namespace WebApp.Controllers
         Finish:
             return ImageInfo;
         }
+        [Authorize(Roles = "1,2,3")]
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
@@ -495,42 +509,41 @@ namespace WebApp.Controllers
         [Authorize(Roles = "2")]
         [Route("ProductRating")]
         [HttpPost]
-        public async Task<IActionResult> ProductRating(List<ProductRating> req)
+        public async Task<IActionResult> ProductRating(ProductRating req)
         {
-            string _token = User.GetLoggedInUserToken();
-            var path = UploadRatingImage(req);
-            var requ = req.FirstOrDefault();
+            if (string.IsNullOrEmpty(req.Review))
+                return Json(new Response { ResponseText="Please Enter Review", StatusCode = ResponseStatus.Failed});
             var request = new ProductRating
             {
-                VariantID = requ.VariantID,
-                Title = requ.Title,
-                Rating = requ.Rating,
-                Review = requ.Review,
-                Images = path,
+                VariantID = req.VariantID,
+                Title = req.Title ?? "",
+                Rating = req.Rating,
+                Review = req.Review,
+                Images = UploadRatingImage(req) ?? "",
             };
-            var jsonData = JsonConvert.SerializeObject(request);
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/ProductRating", jsonData, _token);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/ProductRating", JsonConvert.SerializeObject(request), User.GetLoggedInUserToken());
             var res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             return Json(res);
         }
-        private string UploadRatingImage(List<ProductRating> req)
+        [Authorize(Roles = "2")]
+        private string UploadRatingImage(ProductRating req)
         {
             var ImagePath = new List<string>();
-            if (req != null && req.Any())
+            if (req != null && req.file != null && req.file.Count > 0)
             {
                 int counter = 0;
-                foreach (var item in req)
+                foreach (var item in req.file)
                 {
                     counter++;
                     string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
                     Utility.O.UploadFile(new FileUploadModel
                     {
-                        file = item.file,
+                        file = item,
                         FileName = fileName,
-                        FilePath = FileDirectories.ProductRateSuffixDefault.Replace("/{0}", string.Empty),
+                        FilePath = FileDirectories.ProductRateSuffixDefault.Replace("{0}", req.VariantID.ToString()),
                         IsThumbnailRequired = false,
                     });
-                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/",FileDirectories.ProductRateSuffixDefault, fileName));
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ProductRateSuffixDefault.Replace("{0}", req.VariantID.ToString()), fileName));
                 }
             }
             return string.Join(',',ImagePath);

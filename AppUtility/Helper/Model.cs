@@ -18,7 +18,7 @@ namespace AppUtility.Helper
         public const string TopBannerSuffix = "Image/TopBanner/";
         public const string TopLowerBannerSuffix = "Image/TopLowerBanner/";
         public const string ProductSuffixDefault = "Image/Product/";
-        public const string ProductRateSuffixDefault = "Image/RatingImages/";
+        public const string ProductRateSuffixDefault = "Image/RatingImages/{0}/";
         public const string ReplaceOrderImageSuffixDefault = "Image/ReplaceOrderImages/{0}/";
         public const string ProductSuffix = "Image/Product/{0}/";
         public static string Receipt = "wwwroot/receipt/";
