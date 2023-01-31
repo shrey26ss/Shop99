@@ -490,8 +490,8 @@ var Q;
     };
 
     Q.preloader = {
-        load: () => $("body").addClass('has-loading').append('<div class="loading">Loading&#8230;</div>'),
-        remove: () => $(".loading").removeClass('has-loading').remove()
+        load: () => $("body").addClass('has-loading').append('<div class="loader-wrapper loading"><div><img src="/assets/images/loader.gif" alt="loader"></div></div>'),
+        remove: () => { $(".loading").removeClass('has-loading').remove(); }
     };
 
     Q.print = (id, css = '') => {
@@ -1101,6 +1101,7 @@ function ajaxFormSubmit(form) {
         isMultipart = true;
     }
     if (isMultipart) {
+        Q.preloader.load();
         var ajaxConfig = {
             type: 'POST',
             url: form.action,
@@ -1115,9 +1116,11 @@ function ajaxFormSubmit(form) {
                     if (typeof loadData !== 'undefined' && $.isFunction(loadData))
                         loadData();
                 }
+                Q.preloader.remove();
             },
             error: function (xhr) {
                 Q.renderError(xhr);
+                Q.preloader.remove();
             }
         }
         if (enctype == "multipart/form-data") {
@@ -1127,6 +1130,7 @@ function ajaxFormSubmit(form) {
         $.ajax(ajaxConfig);
     }
     else {
+        Q.preloader.load();
         $.post(form.action, data).done(response => {
             Q.notify(response.statusCode, response.responseText);
             if (response.statusCode == 1) {
@@ -1139,7 +1143,7 @@ function ajaxFormSubmit(form) {
                 if (typeof loadData !== 'undefined' && $.isFunction(loadData))
                     loadData();
             }
-        }).fail(xhr => Q.renderError(xhr)).always(() => {});
+        }).fail(xhr => Q.renderError(xhr)).always(() => { Q.preloader.remove(); });
     }
 }
 

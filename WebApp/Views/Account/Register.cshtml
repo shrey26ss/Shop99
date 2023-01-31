@@ -60,6 +60,7 @@
               }
           })
            const checkmobileno = async function (mobileno) {
+            Q.preloader.load();            
             await $.post("/Account/OtpRegistration", { MobileNo: mobileno }).done(res => {
                const obj = JSON.parse(res);
                if(obj.statusCode==1)
@@ -87,7 +88,8 @@
                           $('#otpreg').addClass("d-none");
                           Q.notify(obj.statusCode, obj.responseText);
                }
-            }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+            }).fail(xhr => Q.xhrError(xhr)).always(() => {  Q.preloader.remove();});
+            
         }
 
 </script>

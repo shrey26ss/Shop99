@@ -646,7 +646,7 @@
     };
 
 
-    var SaveReview = (variantid) => {
+    var SaveReview = (variantid) => {        
         let obj = {
             VariantID: variantid,
             Rating: $('.star-rating__input:checked')?.val() ?? '1',
@@ -672,6 +672,7 @@
         for (let i = 0; i < Images; i++) {
             formData.append(`file`, $("#fileimg").prop("files")[i]);
         }
+        Q.preloader.load();
         $.ajax({
             type: 'POST',
             url: '/ProductRating',
@@ -685,6 +686,7 @@
                     $('#txtreview').val('');
                     $('#fileimg').val('');
                 }
+                Q.preloader.remove();
             },
             error: function (xhr) {
                 Q.notify(-1, xhr.responseText)
