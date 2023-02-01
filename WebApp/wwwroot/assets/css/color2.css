@@ -12464,6 +12464,7 @@ ul.sosiyal {
     font-weight: 600;
     line-height: 1.3;
     color: #333333;
+    font-size: 25px;
 }
 
 .about-page p {
@@ -34067,7 +34068,7 @@ body.rtl {
     }
 
     .about-page {
-        text-align: center;
+        text-align: justify;
     }
 
         .about-page p {

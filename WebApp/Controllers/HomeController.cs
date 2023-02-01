@@ -34,6 +34,15 @@ namespace WebApp.Controllers
 
             return View();
         }
+
+        [Route("aboutus")]
+        [HttpGet]
+        public async Task<IActionResult> Aboutus()
+        {
+
+            return View();
+        }
+
         [Route("refund")]
         [HttpGet]
         public async Task<IActionResult> Refund()
