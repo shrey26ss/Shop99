@@ -1,70 +1,478 @@
-﻿@{
-    Layout = "_layout";
+﻿@{ Layout = "_layout"; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+
+<style>
+.faq-item p{
+    margin-bottom:10px;
+    text-align:justify;
 }
- <section class="terms-wrap ptb-100 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-10">
-                    <div class="section-title style1 mb-40">
+body {
+    font-family: 'Rubik', sans-serif;
+}
+</style>
+
+<div class="breadcrumb-main">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="breadcrumb-contain">
+                    <div>
                         <h2>Term & Conditions</h2>
-                    </div>
-                    <div class="faq-content">
-                        <div class="faq-item">
-
-                            <p>
-                                The terms "We" / "Us" / "Our"/”Company” individually and collectively refer to Shop 99 and the terms "Visitor” ”User” refer to the users. This page states the Terms and Conditions under which you (Visitor) may visit this our website, Please read this page carefully. If you do not accept the Terms and Conditions stated here, we would request you to exit this site. The business, any of its business divisions and / or its subsidiaries, associate companies or subsidiaries to subsidiaries or such other investment companies (in India or abroad) reserve their respective rights to revise these Terms and Conditions at any time by updating this posting. You should visit this page periodically to re-appraise yourself of the Terms and Conditions, because they are binding on all users of this Website.
-                            </p>
-                        </div>
-
-                        <div class="faq-item">
-                            <h5>Use of Content</h5>
-                            <p>
-                                All logos, brands, marks headings, labels, names, signatures, numerals, shapes or any combinations thereof, appearing in this site, except as otherwise noted, are properties either owned, or used under licence, by the business and / or its associate entities who feature on this Website. The use of these properties or any other content on this site, except as provided in these terms and conditions or in the site content, is strictly prohibited.You may not sell or modify the content of this Website or reproduce, display, publicly perform, distribute, or otherwise use the materials in any way for any public or commercial purpose without the respective organisation’s or entity’s written permission.
-                            </p>
-                        </div>
-
-                        <div class="faq-item">
-                            <h5>Security Rules</h5>
-                            <p>
-                                Visitors are prohibited from violating or attempting to violate the security of the Web site, including, without limitation, (1) accessing data not intended for such user or logging into a server or account which the user is not authorised to access, (2) attempting to probe, scan or test the vulnerability of a system or network or to breach security or authentication measures without proper authorisation, (3) attempting to interfere with service to any user, host or network, including, without limitation, via means of submitting a virus or "Trojan horse" to the Website, overloading, "flooding", "mail bombing" or "crashing", or (4) sending unsolicited electronic mail, including promotions and/or advertising of products or services. Violations of system or network security may result in civil or criminal liability. The business and / or its associate entities will have the right to investigate occurrences that they suspect as involving such violations and will have the right to involve, and cooperate with, law enforcement authorities in prosecuting users who are involved in such violations.
-                            </p>
-                        </div>
-
-                        <div class="faq-item">
-                            <h5>General Rules</h5>
-                            <p>
-                                Visitors may not use the Web Site in order to transmit, distribute, store or destroy material (a) that could constitute or encourage conduct that would be considered a criminal offence or violate any applicable law or regulation, (b) in a manner that will infringe the copyright, trademark, trade secret or other intellectual property rights of others or violate the privacy or publicity of other personal rights of others, or (c) that is libellous, defamatory, pornographic, profane, obscene, threatening, abusive or hateful.
-                            </p>
-                        </div>
-
-                        <div class="faq-item">
-                            <h5>Indemnity</h5>
-                            <p>
-                                The User unilaterally agree to indemnify and hold harmless, without objection, the Company, its officers, directors, employees and agents from and against any claims, actions and/or demands and/or liabilities and/or losses and/or damages whatsoever arising from or resulting from their use of website or their breach of the terms .
-                            </p>
-                        </div>
-
-                        <div class="faq-item">
-                            <h5>Liability</h5>
-                            <p>
-                                User agrees that neither Company nor its group companies, directors, officers or employee shall be liable for any direct or/and indirect or/and incidental or/and special or/and consequential or/and exemplary damages, resulting from the use or/and the inability to use the service or/and for cost of procurement of substitute goods or/and services or resulting from any goods or/and data or/and information or/and services purchased or/and obtained or/and messages received or/and transactions entered into through or/and from the service or/and resulting from unauthorized access to or/and alteration of user's transmissions or/and data or/and arising from any other matter relating to the service, including but not limited to, damages for loss of profits or/and use or/and data or other intangible, even if Company has been advised of the possibility of such damages.
-                            </p>
-                            <p>
-                                User further agrees that Company shall not be liable for any damages arising from interruption, suspension or termination of service, including but not limited to direct or/and indirect or/and incidental or/and special consequential or/and exemplary damages, whether such interruption or/and suspension or/and termination was justified or not, negligent or intentional, inadvertent or advertent.
-                            </p>
-                            <p>
-                                User agrees that Company shall not be responsible or liable to user, or anyone, for the statements or conduct of any third party of the service. In sum, in no event shall Company's total liability to the User for all damages or/and losses or/and causes of action exceed the amount paid by the User to Company, if any, that is related to the cause of action.
-                            </p>
-                        </div>
-
-                        <div class="faq-item">
-                            <h5>Disclaimer Of Consequential Damages</h5>
-                            <p>
-                                In no event shall Company or any parties, organizations or entities associated with the corporate brand name us or otherwise, mentioned at this Website be liable for any damages whatsoever (including, without limitations, incidental and consequential damages, lost profits, or damage to computer hardware or loss of data information or business interruption) resulting from the use or inability to use the Website and the Website material, whether based on warranty, contract, tort, or any other legal theory, and whether or not, such organization or entities were advised of the possibility of such damages.
-                            </p>
-                        </div>
+                        <ul>
+                            <li><a href="javascript:void(0)">home</a></li>
+                            <li><i class="fa fa-angle-double-right"></i></li>
+                            <li><a href="javascript:void(0)">Term & Conditions</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
+
+<section class="about-page section-big-py-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="section-title style1 mb-40">
+                    <h2>Term & Conditions</h2>
+                </div>
+                <div class="faq-content">
+                    <div class="faq-item">
+                        <p>
+                            Prakash Electronics (India), is a proprietorship firm, having its registered office at 804/24-26,940/23,939/23, GROUND FLOOR, GT KARNAL ROAD, New Delhi, North Delhi, Delhi, 110033, operating under the trademarked
+                            name “Shop99”, sales car media player, car speakers,Car Android Stereo, etc. The use and access of our website www.Shop99.in (“Website”), and our mobile applications “Shop99” (“Applications”), or any products or
+                            services in connection with the Application or Website (“Services”) shall be governed by these terms and conditions (“Terms”). The Website and Applications are together called the “Platform”.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <p>
+                            These terms constitute a legally binding and enforceable agreement between Shop99 (“Company/we/us/our”) and its Users (“User/you/your”) and govern your use of the Platform to browse and/or avail the Services
+                            displayed by us on the Platform. By accessing and using our Services, you agree to be bound by these terms, establishing a contractual relationship between you and the Company. In case you do not agree to the
+                            terms, you may not use or access or stop your use or access of our Services. These Terms expressly supersede prior written agreements with you. The Company requests the User to carefully go through these terms &
+                            conditions (“Terms and Conditions” or “Terms”) prior to accessing the Platform or availing Services (as defined below) using the Platform.
+                        </p>
+
+                        <p>
+                            The Company reserves the right, in its sole discretion, to change, modify or amend the Terms for complying with the legal or regulatory framework and for other legitimate business purposes, at any time, and the
+                            Company will post the amended Terms at the domain of www.Shop99.co.in. It is your responsibility to review the Terms for any changes and you are encouraged to check the Terms frequently. The Company shall not be
+                            under an obligation to notify Users of any changes to the Terms and Conditions. If you continue to use the Platform, Content (as defined below) and/or Services after the updated Terms and Conditions have been
+                            published, it shall be deemed that you have read and understood and accept the updated Terms and Conditions. Any reference to Terms and Conditions, made herein shall refer to the latest version of the Terms and
+                            Conditions.
+                        </p>
+                        <p>
+                            THESE WEBSITE TERMS OF USE (“TERMS OF USE”) IS AN ELECTRONIC RECORD IN THE FORM OF AN ELECTRONIC CONTRACT FORMED UNDER INFORMATION TECHNOLOGY ACT, 2000 AND RULES MADE THEREUNDER AND THE AMENDED PROVISIONS
+                            PERTAINING TO ELECTRONIC DOCUMENTS / RECORDS IN VARIOUS STATUTES AS AMENDED BY THE INFORMATION TECHNOLOGY ACT, 2000. THESE TERMS OF USE DOES NOT REQUIRE ANY PHYSICAL, ELECTRONIC OR DIGITAL SIGNATURE.
+                        </p>
+
+                        <p>
+                            These Terms of Use of the website located at the URL www.shop99.co.in and mobile application under the name and style “SHOP99” (the Website) is between Appsec Solutions Private Limited (hereinafter referred to as
+                            “Appsec Solutions” or “SHOP99” or “We” or “Us” or “Our”) and the guest users or registered users of the Website (hereinafter referred to as “You” or “Your” or “Yourself” or “User”) describe the terms on which
+                            SHOP99 offers You access to the Website and such other services as are incidental and ancillary thereto (“Services”).
+                        </p>
+                        <p>
+                            PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE USING OR REGISTERING ON THE WEBSITE OR ACCESSING ANY MATERIAL, INFORMATION OR SERVICES THROUGH THE WEBSITE. IF YOU DO NOT AGREE WITH THESE TERMS OF USE, PLEASE DO
+                            NOT USE THE WEBSITE.
+                        </p>
+                        <p>
+                            These Terms of Use together with the Privacy Policy available at www.shop99.co.in, Seller Agreement available at www.shop99.co.in (applicable if You are a seller of the products on the Website) and any other
+                            terms which may apply to specific Services (“Additional Service Terms”) together with all other notices, disclaimers, guidelines appearing on the Website from time to time (collectively referred to as
+                            “Agreement(s)”) constitute the entire agreement upon which You are allowed to access and use the Website and avail the Services.
+                        </p>
+                        <p>
+                            If you are accessing the SHOP99 mobile application or accessing the Services through the SHOP99 mobile application, then while these Terms of Use will apply to such use, there may be additional terms (such as the
+                            terms imposed by mobile application stores like Apple’s iTunes, Android’s play store, Microsoft’s store from time to time) which will govern the use of the mobile application. These additional terms to the extent
+                            applicable are hereby deemed to be incorporated in these Terms of Use by way of reference.
+                        </p>
+                    </div>
+
+                    <div class="faq-item">
+                        <p><b>1.</b> General</p>
+                        <p>
+                           <b> 1.1</b> SHOP99 is an intermediary in the form of an online marketplace and is limited to managing the Website to enable seller to exhibit, advertise, display, make available and offer to sell the products and to
+                            enable buyer to purchase the products so offered (“Products”), and other incidental Services thereto (“Services”) including use of the Website by any User.
+                        </p>
+                        <p>
+                            <b>1.2</b> These Terms of Use are subject to revision by SHOP99 at any time and hence the Users are requested to carefully read these Terms of Use from time to time before using the Website. The revised Terms of Use
+                            shall be made available on the Website. You are requested to regularly visit the Website to view the most current Terms of Use. In the event such a facility is provided on the Website, You can determine when
+                            SHOP99 last modified any part of the Agreement by referring to the “Last Updated” legend provided in that document. It shall be Your responsibility to check these Terms of Use periodically for changes. SHOP99 may
+                            require You to provide Your direct or indirect consent to any update in a specified manner before further use of the Website and the Services. If no such separate consent is sought, Your continued use of the
+                            Website and/or Services, following such changes, will constitute Your acceptance of those changes.
+                        </p>
+                        <p><b>1.3</b> If there is any conflict:</p>
+                        <p><b>(i)</b> between the Privacy Policy and any other Agreement, the Privacy Policy shall take precedence’ but only to the extent of the conflict;</p>
+                        <p><b>(ii)</b> between the Additional Service Terms and any other part of these Terms of Use, the Additional Service Terms shall take precedence in relation to that Service;</p>
+                        <p><b>(iii)</b> between the Seller Agreement and any other part of these Terms of Use, the Seller Agreement shall take precedence but only to the extent of the conflict;</p>
+                        <p><b>(iv)</b> between these Terms of Use and any other notices, disclaimers or guidelines appearing on the Website, these Terms of Use shall take precedence but only to the extent of the conflict.</p>
+                        <p><b>2.</b> Services</p>
+                        <p>
+                           <b> 2.1</b> The Website is an electronic platform in the form of an electronic marketplace and an intermediary that (a) provides a platform for Users (who are sellers) to advertise, exhibit, make available and offer to
+                            sell various Products to other Users (who are buyers / customers), and (b) a platform for such other Users to accept the offer to sell of the Products made by the sellers on the Website and to make payments to
+                            the sellers for purchase of the Products, and (c) services to facilitate the engagement of buyers and sellers to under commerce on the Website, and (d) such other services as are incidental and ancillary thereto.
+                            The Services are offered to the Users through various modes which may include issue of coupons and vouchers that can be redeemed for various Products.
+                        </p>
+                        <p><b>3.</b> Eligibility to Use</p>
+                        <p>
+                           <b> 3.1</b> The Services are not available to minors under the age of eighteen (18) or to any Users suspended or removed from the SHOP99 system by SHOP99 for any reason whatsoever. If You are disqualified as per the
+                            preceding sentence, You shall not be permitted to avail of the Services or use the Website. You represent that You are of legal age to form a binding contract and are not a person barred from receiving the
+                            Services under the laws as applicable in India. Notwithstanding the foregoing, if You are below the age of eighteen (18) years, please read through these Terms of Use with your parent or legal guardian, and in
+                            such a case these Terms of Use shall be deemed to be a contract between SHOP99 and Your legal guardian or parent and to the extent permissible under applicable laws, enforceable against You.
+                        </p>
+                        <p><b>3.2</b> SHOP99 reserves the right to refuse access to use the Services offered at the Website to new Users or to terminate access granted to existing Users at any time without according any reasons for doing so.</p>
+                        <p><b>3.3</b> You shall not have more than one active Account (defined hereunder) on the Website. Additionally, You are prohibited from selling, trading, or otherwise transferring Your Account to another person.</p>
+                        <p><b>4.</b> User Account, Password, and Security</p>
+                        <p><b>4.1</b> You may access and use the Website and the Services either as a registered user or as a guest user. However, not all sections of the Website and Services will be accessible to guest users.</p>
+                        <p>
+                           <b> 4.2</b> Registered users: SHOP99 makes certain sections of the Services available to You through the Website only if You have provided SHOP99 certain required User information and created an account and a SHOP99 ID
+                            through certain log-in ID and password (“Account”). You can create Your Account on the Website through logging in by Your third party website user ID and password including that of www.facebook.com, websites
+                            owned by Yahoo Inc. or its subsidiaries, Google Inc. or its subsidiaries, twitter or any other social media website or any other Internet service as permitted on the Website (SHOP99 ID and/or other third party
+                            login identification as provided above are individually and collectively referred to the “Account Information”).
+                        </p>
+                        <p>
+                            In the event You register as a User by creating an Account in order to avail of the Services provided by the Website, You will be responsible for maintaining the confidentiality and security of the Account
+                            Information, and are fully responsible for all activities that occur under Your Account. You agree to (a) immediately notify SHOP99 of any unauthorized use of Your Account Information or any other breach of
+                            security, and (b) ensure that You exit from Your Account at the end of each session. SHOP99 cannot and will not be liable for any loss or damage arising from Your failure to comply with this section. You may be
+                            held liable for losses incurred by SHOP99 or any other user of or visitor to the Website due to authorized or unauthorized use of Your Account as a result of Your failure in keeping Your Account Information
+                            secure and confidential.
+                        </p>
+                        <p>
+                            You shall ensure that the Account Information provided by You in the Website’s registration form is complete, accurate and up-to-date. Use of another user’s Account Information for availing the Services is
+                            expressly prohibited.
+                        </p>
+                        <p>
+                            If You provide any information that is untrue, inaccurate, not current or incomplete (or becomes untrue, inaccurate, not current or incomplete), or SHOP99 has reasonable grounds to suspect that such information
+                            is untrue, inaccurate, not current or incomplete, SHOP99 has the right to suspend or terminate Your Account and refuse any and all current or future use of the Website / Services (or any portion thereof).
+                        </p>
+                        <p>
+                           <b> 4.3</b> Guest users: The Website also allows limited access to the Services for unregistered Users (also called as guest users’). Such users will be able to browse the Website and use the Services for the purpose of
+                            purchasing goods, and placing orders. However, You will not be provided with access to certain benefits reserved only for the purpose of registered users. These benefits may change from time to time.
+                        </p>
+                        <p>
+                           <b> 4.4</b> Depending upon whether You are a seller or a buyer or another user who otherwise wish to use the Website, and the nature of Services You wish to avail from the Website, You may be required to provide certain
+                            personal information and SHOP99 may collect certain personal information. Your provision of, and SHOP99’s collection, storage, use, disclosure and otherwise dealing of such personal information shall be governed
+                            by SHOP99’s privacy policy, which is available at http://www. https://shop99.co.in/privacypolicy (“Privacy Policy”).
+                        </p>
+                        <p><b>5.</b> Payments related Information</p>
+                        <p>
+                           <b> 5.1</b> Presently, SHOP99 does not levy any fee for browsing the Website or buying the Products on the Website. SHOP99 may charge Users certain fees for the use of the Website and Services as a whole, or certain
+                            features of the Website / Services. You agree to pay any such fees, as may be applicable to the Services that You use. SHOP99 will try to ensure that You are made aware of the applicability of any fees for a
+                            particular use of the Website / Services, as well as the amount of fees payable by You for any such use of the Website / Service. You agree that SHOP99 may, at any time, charge, modify or waive fees required to
+                            use the Website. Your continued use of the Website / Services after such change in the fees will be considered to be Your acceptance of such changes, and the applicability of these Terms of Use to such changes.
+                        </p>
+                        <p>
+                           <b> 5.2</b> You agree to provide correct and accurate financial information, such as credit/debit card details to the approved payment gateway or pre-paid payment instrument account details for availing Services on the
+                            Website. You shall not use the credit/debit card or pre-paid payment instrument which is not lawfully owned by You, i.e. in any transaction, You must use Your own credit/debit card or pre-paid instrument account.
+                            The information provided by You will not be utilized or shared with any third party unless required in relation to fraud verifications or by law, regulation or court order or in accordance with the terms of the
+                            Privacy Policy. You will be solely responsible for the security and confidentiality of Your credit/debit card details or pre-paid instrument account. SHOP99 expressly disclaims all liabilities that may arise as a
+                            consequence of any unauthorized use of Your credit/ debit card or pre-paid instrument account.
+                        </p>
+                        <p>
+                           <b> 5.3</b> SHOP99 may have existing arrangements with its banks, regarding limits on the amounts You can pay (if You are a buyer) or receive (if You are a seller) in the course of a single transaction. SHOP99 will work
+                            towards ensuring that You are made aware of such limits if they may be applicable to You. However, SHOP99 shall be under no liability whatsoever in respect of any loss or damage arising directly or indirectly out
+                            of the decline of authorization for any transaction, on account of You/cardholder having exceeded the preset limit mutually agreed by SHOP99 with its bank from time to time.
+                        </p>
+                        <p>
+                           <b> 5.4</b> For Your making payments for buying the Products on the Website, in addition to the Agreement(s), the terms and conditions of Your bank, applicable financial institution and/or card issuing association may
+                            also be applicable to You. Your bank, financial institution or card issuing association may decline or prevent You from making electronic payments for buying the Products on Website and SHOP99 does not control
+                            the same and shall be liable for the same.
+                        </p>
+                        <p>
+                           <b> 5.4 </b>Payment Facility for Your orders: SHOP99 may from time to time contract with third party payment service providers including banks to open nodal bank account under applicable Indian laws, to facilitate the
+                            payment between Users i.e. buyers and sellers and for collection of SHOP99’s fees and other charges. These third party payment service providers may include third party banking or credit card payment gateways,
+                            payment aggregators, pre-paid instruments, cash on delivery or demand draft / pay order on delivery service providers, mobile payment service providers or through any facility as may be authorized by the Reserve
+                            Bank of India for collection, refund and remittance, as the case may be of payment or supporting the same in any manner. SHOP99 shall initiate the remittance of the payments made by Your for Your purchase orders
+                            on the Website after the Products are delivered to You and the date of completion of transaction shall be after the Products are delivered to You and such other additional time as may be agreed between SHOP99 and
+                            sellers.
+                        </p>
+                        <p><b>6.</b> User Obligations And Role Of SHOP99</p>
+                        <p>
+                           <b> 6.1</b> Subject to compliance with the Agreement(s), SHOP99 grants You a non-exclusive, non-sub-licensable, non-transferable, revocable, and limited right to access and use this Website and the Services provided
+                            therein.
+                        </p>
+                        <p>
+                           <b> 6.2</b> You agree to use the Services, Website and the Content (as defined herein) provided therein only for purposes that are permitted by: (a) the Agreement(s) (including these Terms of Use); and (b) any applicable
+                            law.
+                        </p>
+                        <p><b>6.3</b> You agree to adhere to all limitations on dissemination, use and reproduction of any materials (such as the Product catalogues) that Your access on the Website in accordance with clause 7.</p>
+                        <p>
+                            <b>6.4</b> You agree not to access (or attempt to access) the Website or Services by any means other than through the interfaces that are provided by SHOP99. You shall not use any deep-link, robot, spider or other
+                            automatic device, program, algorithm or methodology, or any similar or equivalent manual process, to access, acquire, copy or monitor any portion of the Website or Content (as defined below), or in any way
+                            reproduce or circumvent the navigational structure or presentation of the Website, to obtain or attempt to obtain any materials, documents or information through any means not specifically made available through
+                            the Website.
+                        </p>
+                        <p>
+                           <b> 6.5</b> If you believe that any Content or User Content (as defined herein) or other content available on the Website does not comply with the terms of the Agreement(s) or applicable law, You may report such content
+                            in the manner prescribed under clause 14 herein.
+                        </p>
+                        <p>
+                           <b> 6.6</b> The Website may allow you to post certain content, data or information of Your own such as allowing You to rate Products, seller, post your comments, and reviews in relation to Products on specific pages of
+                            the Website, as well as submit any suggestions, comments, questions or other information to SHOP99 using the Website / Services (collectively referred to “User Content”). You, being the originator of the User
+                            Content, are responsible for the User Content that You upload, post, publish, transmit or otherwise make available on the Website. You represent that you have obtained all relevant consents and approvals in order
+                            to post any User Content. You further represent that all such User Content will be in accordance with applicable law. You acknowledge that SHOP99 does not endorse any User Content on the Website and is not
+                            responsible or liable for any User Content. SHOP99 reserve the right to disable access to the User Content on the Website.
+                        </p>
+                        <p>
+                            <b>6.7</b> You hereby grant SHOP99 a perpetual, non-revocable, worldwide, royalty-free and sub-licensable right and license to use, copy, distribute, display, publish, transmit, make available, reproduce, modify, adapt
+                            the User Content and create derivate works of the User Content. You represent and warrant that You own or otherwise control all of the rights to the User Content that You post or that You otherwise provide on or
+                            through the Website; and that, as at the date that the User Content is posted or submitted on the Website: (i) the User Content is accurate; (ii) use of the User Content You supply does not breach these Terms of
+                            Use; and (iii) that such User Content is lawful.
+                        </p>
+                        <p>
+                           <b> 6.8</b> You agree, understand and acknowledge that the Website is an electronic platform in the form of an electronic marketplace and an intermediary that provides an electronic venue where various Users may
+                            electronically meet and interact with each other to engage in commerce and transact. You further agree and acknowledge that SHOP99 is only a facilitator and is not and cannot be a party to or control in any
+                            manner any advertisement, exhibition, making available, offer to sell or transactions of sale or purchase of Products on the Website. Accordingly, any contract for the sale / purchase of Products on the Website
+                            is a bipartite contract between You and the sellers (if You are a buyer) or You and the buyer (if You are a seller). SHOP99 neither recommends You to buy or sell any Products on the Website nor does SHOP99
+                            endorses any such Products and nor does SHOP99 provides any guarantee, warranties or assurance with respect to the advertisement, exhibition, making available, offer to sell or transactions of sale or purchase of
+                            Products on the Website. Further, SHOP99 does not guarantee, warranty or provide any assurance on the behaviour of any User of the Website including any guarantee, warranty or assurance that any User (whether
+                            buyer or seller) will complete any transaction or act in a prudent manner.
+                        </p>
+                        <p>
+                            <b>6.9</b> When you use the Website and/or the Services You specifically undertake not to host, display, upload, modify, publish, transmit, update or share any information or Content that: belongs to another person and
+                            to which the User does not have any right to; is grossly harmful, harassing, blasphemous, defamatory, obscene, pornographic, paedophilic, libelous, invasive of another’s privacy, hateful, or racially, ethnicall
+                            objectionable, disparaging, relating or encouraging money laundering or gambling, or otherwise unlawful in any manner whatsoever; harms minors in any way; impersonate any person or entity, or falsely state or
+                            otherwise misrepresent Your affiliation with a person or entity; threatens the unity, integrity, defense, security or sovereignty of India, friendly relations with foreign states or public order or causes
+                            incitement to the commission of any cognizable offence or prevents investigation of any offence or is insulting of any other nation; infringes any patent, trademark, copyright or other proprietary rights; contain
+                            software viruses or any other computer code, files or programs designed to interrupt destroy or limit the functionality of any computer resource; deceives or misleads the addressee about the origin of such
+                            messages or communicates any information which is grossly offensive or menacing in nature; engage in any activity that interferes with or disrupts access to the Website or the Services (or the servers and
+                            networks which are connected to the Website); attempt to gain unauthorized access to any portion or feature of the Website, any other systems or networks connected to the Website, to any SHOP99 server, or to any
+                            of the Services offered on or through the Website, by hacking, password mining or any other illegitimate means; probe, scan or test the vulnerability of the Website or any network connected to the Website, nor
+                            breach the security or authentication measures on the Website or any network connected to the Website. You may not reverse look-up, trace or seek to trace any information on any other user, of or visitor to, the
+                            Website, or any other customer of SHOP99, including any SHOP99 Account not owned by You, to its source, or exploit the Website or Service or information made available or offered by or through the Website, in any
+                            way whether or not the purpose is to reveal any information, including but not limited to personal identification information, other than Your own information, as provided for by the Website; disrupt or interfere
+                            with the security of, or otherwise cause harm to, the Website, systems resources, accounts, passwords, servers or networks connected to or accessible through the Websites or any affiliated or linked sites; use
+                            the Website or Content for any purpose that is unlawful or prohibited by the Agreement, or to solicit the performance of any illegal activity or other activity which infringes the rights of SHOP99 or other third
+                            parties; falsify or delete any author attributions, legal or other proper notices or proprietary designations or labels of the origin or source of software or other material contained in a file that is uploaded;
+                            violate any code of conduct or other guidelines, which may be applicable for or to any particular Service; violate any applicable laws or regulations for the time being in force within or outside India; violate
+                            the terms of the Agreement.
+                        </p>
+                        <p><b>
+                            6.10</b> You agree that You are solely responsible to SHOP99 and to any third party for any breach of Your obligations under these Terms of Use or other Agreements and for the consequences (including any loss or
+                            damage which SHOP99 or its affiliates or its vendors may suffer) for any such breach.
+                        </p>
+                        <p>
+                            <b>6.11</b> SHOP99 does not pre-screen User Content. SHOP99has no obligation to monitor any User Content. However, SHOP99 at its discretion and/or in accordance with applicable law may monitor any User Content and may
+                            remove any User Content from the Website if SHOP99 determines in its sole discretion that such User Content is in violation of these Terms of Use or any applicable law. Where SHOP99 removes any User Content from
+                            the Website, SHOP99 will make reasonable efforts to inform the user who had posted such User Content. Such actions do not in manner negate or dilute SHOP99’s position as an intermediary or impose any liability on
+                            SHOP99 with respect to User Content.
+                        </p>
+                        <p>
+                            <b>6.12</b> You shall solely be responsible for maintaining the necessary computer / mobile equipment, internet connections and other software and technologies that may be required to access, use and transact on the
+                            Website. You may incur access or data fees from third parties in connection with your purchase and/or use of the services. You are responsible for all such fees.
+                        </p>
+                        <p><b>6.13</b> You shall use this Website, and any voucher/coupons purchased through it, for personal, non-commercial use only and shall not re-sell the same to any other person.</p>
+                        <p>
+                           <b> 6.14 </b>You may need to install updates that we or any third party introduce from time to time to use the services, Products, Website including downloads and required functionality, such as bug fixes, patches,
+                            enhanced functions, missing plug-ins and new versions (collectively, “Updates”). Your use of the Products or Website you have installed requires that you have agreed to receive such automatically requested
+                            Updates.
+                        </p>
+                        <p>
+                            <b>6.15</b> Any purchase of the Products from the Website will be strictly for personal use of the User. The User hereby expressly agrees that any merchandise or Services purchased by the User will not be sold, resold,
+                            bartered or in any way used for any commercial purposes or for profit. The User hereby acknowledges that the Products purchased are not transferrable to any third party for profit. Accordingly, SHOP99 reserves
+                            the right to cancel any orders that classify as ‘Bulk Order’ as determined by SHOP99 as per certain criteria. Any rewards or benefits provided by SHOP99 and used by You for placing the ‘Bulk Order’ will not be
+                            refunded. An order can be classified as ‘Bulk Order’ if it meets certain criteria adopted by SHOP99 for the purpose of identifying Bulk Order’, including but not limited to:
+                        </p>
+                        <p><b>a.</b> Products ordered for commercial resale and not for self-consumption;</p>
+                        <p><b>b.</b> Multiple orders placed for same product at the same address;</p>
+                        <p><b>c.</b> Bulk quantity of the same product ordered;</p>
+                        <p><b>d.</b> Invalid address given in order details; or</p>
+                        <p><b>e.</b> Any malpractice used to place the order.</p>
+                        <p>
+                           <b> 6.16</b> There may be certain orders that SHOP99 is unable to process or pass on buyer’s order to the seller and must cancel. Some situations that may result in SHOP99’s inability to process or pass on buyer’s order
+                            to the seller include, without limitation, non- availability of the Website service, force majure, credit limitations or suspected fraud.
+                        </p>
+                        <p>
+                            <b>6.17</b> In case buyer purchases multiple Products in one transaction, the Seller(s) may deliver all such Products together. However, this may not always be possible. If buyer purchases multiple Products in a single
+                            transaction, then all the Products would be dispatched to a single delivery address provided by buyer at the time of purchase. If buyer wishes to get delivery of the Products to different addresses, then buyer
+                            should purchase the Products under separate transactions and provide separate delivery addresses for each transaction, as may be required. Buyer agrees that the delivery of the Products can be made to the person
+                            who is present at the shipping address provided by You.
+                        </p>
+                        <p>
+                           <b> 6.18</b> In certain cases, where buyer requires certain services in relation to a Product, such as warranty, after-sales or installation services, buyer shall directly contact seller or the manufacturer. However, in
+                            the event, buyer contacts SHOP99 for the same, SHOP99 may inform the seller to provide or facilitate the provision of such services to the buyer. SHOP99 is not and shall not be obliged to provide any such
+                            additional services. SHOP99’s role in relation to facilitating such services shall be limited to facilitating communication between buyer and the seller for the purpose of provision of such additional services.
+                        </p>
+                        <p>
+                            <b>6.19</b> You represent and warrant that <br />
+                            (i) You are not located in a country that is subject to a U.S. Government embargo, or that has been designated by the U.S. Government as a “terrorist supporting” country; and<br />
+                            (ii) You are not listed on any U.S. Government list of prohibited or restricted parties.
+                        </p>
+                        <p><b>7.</b> Use of Content</p>
+                        <p>
+                           <b> 7.1</b> Except as expressly indicated to the contrary in any applicable Additional Service Terms, SHOP99hereby grants You a non-exclusive, revocable and non-transferable right to view, download and print product
+                            catalogues available on the Website, subject to the following conditions:
+                        </p>
+                        <p>You may access and use the product catalogues solely for personal, informational, and internal purposes, in accordance with these Terms of Use;</p>
+                        <p>You may not modify or alter product catalogues available on the Website;</p>
+                        <p>You may not distribute or sell, rent, lease, license or otherwise make the product catalogues available on the Website available to others; and</p>
+                        <p>You may not remove any text, copyright or other proprietary notices contained in the product catalogues available on the Website.</p>
+                        <p>
+                           <b> 7.2</b> The rights granted to You in the product catalogues or any other materials as specified above are not applicable to the design, layout or look and feel of the Website. Such elements of the Website are
+                            protected by intellectual property rights and may not be copied or imitated in whole or in part.
+                        </p>
+                        <p>
+                           <b> 7.3</b> Any software that is available on the Website is the property of SHOP99or its vendors. You may not use, download or install any software available at the Website, unless otherwise expressly permitted by the
+                            Agreement or by the express written permission of cctvlelo.
+                        </p>
+                        <p><b>8.</b> Intellectual Property Rights</p>
+                        <p>
+                           <b> 8.1</b> The Website and the processes, and their selection and arrangement, including but not limited to all text, graphics, user interfaces, visual interfaces, sounds and music (if any), artwork and computer code
+                            (collectively, the “Content”) on the Website is owned and controlled by SHOP99 or its licensors and the design, structure, selection, coordination, expression, look and feel and arrangement of such Content is
+                            protected by copyright, patent and trademark laws, and various other intellectual property rights. Through Your use of the Website, by no means are any rights impliedly or expressly granted to You in respect of
+                            such Content. SHOP99 reserves the right to change or modify the Content from time to time at its sole discretion.
+                        </p>
+                        <p>
+                            <b>8.2</b> The trademarks, logos and service marks displayed on the Website (“Marks”) are the property of SHOP99 or their vendors/seller or respective third parties. You are not permitted to use the Marks without the
+                            prior consent of SHOP99, the vendor/seller or the third party that may own the Marks.
+                        </p>
+                        <p>
+                           <b> 8.3</b> Unless otherwise indicated or anything contained to the contrary or any proprietary material owned by a third party and so expressly mentioned, SHOP99 owns all intellectual property rights to and into the
+                            trademark “SHOP99”, and the Website, including, without limitation, any and all rights, title and interest in and to copyright, related rights, patents, utility models, designs, know-how, trade secrets and
+                            inventions (patent pending), goodwill, source code, meta tags, databases, text, content, graphics, icons, and hyperlinks.
+                        </p>
+                        <p>
+                           <b> 8.4</b> Except as expressly provided herein, You acknowledge and agree that You shall not copy, republish, post, display, translate, transmit, reproduce or distribute any Content through any medium without obtaining
+                            the necessary authorization from SHOP99 or thirty party owner of such Content.
+                        </p>
+                        <p><b>9.</b> Third Party Content</p>
+                        <p>
+                            <b>9.1</b> General third party information such as, product catalogues, product description and specifications, lists of dealers, reports on news, entertainment, technology and features, advertisements including videos,
+                            images and photographs of the products, links to third party websites and other data from external sources is made available on the Website (“Third Party Content”). The provision of Third Party Content is for
+                            general informational purposes only. You acknowledge that the Third Party Content provided to You is obtained from sources believed to be reliable or provided by the sellers in the process of advertising,
+                            exhibiting and offering to sell the Products on the Website. All Third Party Content is provided on an As Is’ basis. SHOP99 may not own / have the rights and title to any such Third Party Content, or provide any
+                            guarantee with respect to the accuracy, title, merchantability, non-infringement or fitness for a particular purpose of any Third Party Content. SHOP99 shall not be held liable for any loss suffered by You based
+                            on Your reliance on or use of such Third Party Content.
+                        </p>
+                        <p>
+                           <b> 9.2</b> In the event any Third Party Content contains links to third party websites, and You visit any such external link, You agree to do so at your own risk, responsibility and liability. SHOP99 makes no warranty
+                            or representation regarding, and does not endorse, any website linked to the Website / Services or the information appearing thereon or any of the products or services described thereon.
+                        </p>
+                        <p><b>10.</b> Disclaimer Of Warranties & Liability</p>
+                        <p>
+                            <b>10.1</b> THE WEBSITE, SERVICES, CONTENT, USER CONTENT AND ANY THIRD PARTY CONTENT ARE PROVIDED BY SHOP99 ON AN “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS, IMPLIED, STATUTORY OR OTHERWISE, INCLUDING THE
+                            IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. WITHOUT LIMITING THE FOREGOING, SHOP99MAKES NO WARRANTY THAT (I) THE WEBSITE OR THE SERVICES WILL MEET YOUR
+                            REQUIREMENTS OR YOUR USE OF THE WEBSITE OR THE SERVICES WILL BE UNINTERRUPTED, TIMELY, SECURE OR ERROR-FREE; (II) THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THE WEBSITE OR SERVICES WILL BE EFFECTIVE,
+                            ACCURATE OR RELIABLE; (III) THE QUALITY OF THE WEBSITE OR SERVICES WILL MEET YOUR EXPECTATIONS; OR THAT (IV) ANY ERRORS OR DEFECTS IN THE WEBSITE ORSERVICES WILL BE CORRECTED. NO ADVICE OR INFORMATION, WHETHER
+                            ORAL OR WRITTEN, OBTAINED BY YOU FROM SHOP99 OR THROUGHTHE WEBSITE / CONTENTOR FROM USE OF THE SERVICES SHALL CREATE ANY WARRANTY NOT EXPRESSLY STATED IN THESE TERMS OF USE.
+                        </p>
+                        <p>
+                           <b> 10.2</b> TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, SHOP99 WILL HAVE NO LIABILITY RELATED TO USER CONTENTAND / OR THIRD PARTY CONTENTARISING UNDER INTELLECTUAL PROPERTY RIGHTS, LIBEL, PRIVACY, PUBLICITY,
+                            OBSCENITY OR OTHER LAWS. SHOP99 ALSO DISCLAIMS ALL LIABILITY WITH RESPECT TO THE MISUSE, LOSS, MODIFICATION OR UNAVAILABILITY OF ANY USER CONTENT AND / OR THIRD PARTY CONTENT.
+                        </p>
+                        <p>
+                            <b>10.3</b> YOU EXPRESSLY UNDERSTAND AND AGREE THAT, TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW SHOP99 WILL NOT BE LIABLE FOR ANY LOSS THAT YOU MAY INCUR AS A CONSEQUENCE OF UNAUTHORIZED USE OF YOUR ACCOUNT OR
+                            ACCOUNT INFORMATION IN CONNECTION WITH THE WEBSITE OR ANY SERVICES, EITHER WITH OR WITHOUT YOUR KNOWLEDGE. SHOP99HAS ENDEAVORED TO ENSURE THAT ALL THE INFORMATION ON THE WEBSITE IS CORRECT, BUT SHOP99 NEITHER
+                            WARRANTS NOR MAKES ANY REPRESENTATIONS REGARDING THE QUALITY, ACCURACY OR COMPLETENESS OF ANY DATA, INFORMATION, PRODUCT OR SERVICE. SHOP99 SHALL NOT BE RESPONSIBLE FOR THE DELAY OR INABILITY TO USE THE WEBSITE
+                            OR RELATED FUNCTIONALITIES, THE PROVISION OF OR FAILURE TO PROVIDE FUNCTIONALITIES, OR FOR ANY INFORMATION, SOFTWARE, PRODUCTS, FUNCTIONALITIES AND RELATED GRAPHICS OBTAINED THROUGH THE WEBSITE, OR OTHERWISE
+                            ARISING OUT OF THE USE OF THE WEBSITE, WHETHER BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY OR OTHERWISE. FURTHER, SHOP99 SHALL NOT BE HELD RESPONSIBLE FOR NON-AVAILABILITY OF THE WEBSITE DURING PERIODIC
+                            MAINTENANCE OPERATIONS OR ANY UNPLANNED SUSPENSION OF ACCESS TO THE WEBSITE THAT MAY OCCUR DUE TO TECHNICAL REASONS OR FOR ANY REASON BEYOND SHOP99 ‘S CONTROL. THE USER UNDERSTANDS AND AGREES THAT ANY MATERIAL OR
+                            DATA DOWNLOADED OR OTHERWISE OBTAINED THROUGH THE WEBSITE IS DONE ENTIRELY AT THEIR OWN DISCRETION AND RISK AND THEY WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO THEIR COMPUTER SYSTEMS OR LOSS OF DATA THAT
+                            RESULTS FROM THE DOWNLOAD OF SUCH MATERIAL OR DATA. SHOP99IS NOT RESPONSIBLE FOR ANY TYPOGRAPHICAL ERROR LEADING TO AN INVALID COUPON. SHOP99 ACCEPTS NO LIABILITY FOR ANY ERRORS OR OMISSIONS, WITH RESPECT TO ANY
+                            INFORMATION PROVIDED TO YOU WHETHER ON BEHALF OF ITSELF OR THIRD PARTIES.
+                        </p>
+                        <p>
+                           <b> 10.4</b> In the event You have purchased / downloaded the Website from any online application stores, whether provided by Apple, Inc., Google, Inc. or Blackberry Limited (or their respective affiliates) (collectively
+                            referred to as “Store Providers”), and there occurs any failure of the Website and / or Services, You may follow the process recommended by the Store Provider under the terms of the contract applicable between
+                            You and such Store Provider. The Store Providers shall not be liable for any (i) warranty obligations of SHOP99 and related claims, losses, liabilities, damages, costs or expenses; (ii) product liability /
+                            consumer protection claims, and claims related to the Website’s non-conformity with any applicable laws; and (iii) any third party claims of infringement of intellectual property rights by the Website / SHOP99.
+                        </p>
+                        <p><b>11.</b> Indemnification and Limitation of Liability</p>
+                        <p>
+                           <b> 11.1</b> You agree to indemnify, defend and hold harmless SHOP99, its subsidiaries, affiliates, vendors, agents and their respective directors, officers, employees, contractors and agents (herein after individually
+                            and collectively referred to as “indemnified parties”) from and against any and all losses, liabilities, claims, suits, proceedings, penalties, interests, damages, demands, costs and expenses (including legal and
+                            other statutory fees and disbursements in connection therewith and interest chargeable thereon) asserted against or incurred by the indemnified parties that arise out of, result from, or in connection with (i)
+                            Your breach of the Agreement(s); or (ii) any claims made by any third party due to, or arising out of, or in connection with, Your use of the Website; or (iii) any claim that any Third Party Content / content,
+                            information or materials provided by You caused damage to a third party; or (iv) Your violation of any rights of another, including any intellectual property rights.
+                        </p>
+                        <p>
+                           <b> 11.2</b> SHOP99 may notify You of any claims which You shall be liable to indemnify SHOP99 against. You will then be required to consult with SHOP99 regarding the course of action to be undertaken in defending such a
+                            claim. Further, You shall not compromise or settle any claim or admit any liability or wrongdoing on the part of SHOP99 without the express prior written consent of SHOP99 which can be withheld or denied or
+                            conditioned by SHOP99 in its sole discretion.
+                        </p>
+                        <p>
+                            <b>11.3</b> Notwithstanding anything to contrary in the Agreement(s), SHOP99’s entire and aggregate liability to You under and in relation to these Terms of Use or otherwise shall not exceed the greater of Indian Rupees
+                            One Hundred (INR 100) or the amount of fees, if any, paid by You to SHOP99 under the relevant order to which the cause of action for the liability relates.
+                        </p>
+                        <p>
+                           <b> 11.4</b> Notwithstanding anything to contrary in the Agreement(s), in no event shall cctvlelo, its subsidiaries or affiliates and their respective officers, directors, employees, partners or suppliers be liable to
+                            You for any special, incidental, indirect, consequential, exemplary or punitive damages whatsoever, including those resulting from loss of use, data or profits, whether or not foreseeable or whether or not SHOP99
+                            has been advised of the possibility of such damages, or based on any theory of liability, including breach of contract or warranty, negligence or other tortious action, or any other claim arising out of or in
+                            connection with Your use of or access to the Website, Services or Content.
+                        </p>
+                        <p><b>12.</b> Terms</p>
+                        <p>
+                           <b> 12.1</b> The Agreement will continue to apply until terminated by either You or SHOP99 as set forth below. If You want to terminate Your agreement with SHOP99, You may do so by (i) not accessing the Website; or (ii)
+                            closing Your Account for all of the Services that You use, where SHOP99 has made this option available to You.
+                        </p>
+                        <p>
+                            <b>12.2</b> You agree that SHOP99 may, in its sole discretion and without prior notice, terminate Your access to the Website and block Your future access to the Website if SHOP99 determines that You have violated the
+                            terms of these Terms of Use or any other Agreement(s). You also agree that any violation by You of the Agreement(s) will cause irreparable harm to SHOP99, for which monetary damages may be inadequate, and You
+                            consent to SHOP99 obtaining any injunctive or equitable relief that SHOP99 deems necessary or appropriate in such circumstances. These remedies are in addition to any other remedies SHOP99 may have at law or in
+                            equity.
+                        </p>
+                        <p>
+                           <b> 12.3</b> In addition to Clause 12.2 above, SHOP99 may, at any time, with or without notice, terminate these Terms of Use (or portion thereof, such as any individual Additional Terms) with You if: SHOP99 is required
+                            to do so by law (for example, where the provision of the Services to You is, or becomes, unlawful), or upon request by any law enforcement or other government agencies; The provision of the Services to You by
+                            SHOP99 is, in SHOP99’s opinion, no longer commercially viable; SHOP99 has elected to discontinue, with or without reason, access to the Website, the Services (or any part thereof); or
+                        </p>
+                        <p>In the event SHOP99 faces any unexpected technical issues or problems that prevent the Website and / or Services from working.</p>
+                        <p>
+                            <b>12.4</b> SHOP99 may also terminate or suspend all or a portion of Your Account or access to the Services with or without reason. Except as may be set forth in any Additional Terms applicable to a particular Service,
+                            termination of Your Account may include: (i) removal of access to all offerings within the Website or with respect to the Services; (ii) disabling access to the Account Information, including Your personal
+                            information, log-in ID and password, and all related information, files and materials associated with or inside Your Account (or any part thereof), and any User Content uploaded by You; and (iii) prohibiting
+                            further use of the Services.
+                        </p>
+                        <p>
+                            <b>12.5</b> You agree that all terminations shall be made in SHOP99’s sole discretion and that SHOP99 shall not be liable to You or any third party for any termination of Your Account (and accompanying deletion of Your
+                            Account Information), or Your access to the Website and Services.
+                        </p>
+                        <p>
+                            <b>12.6 </b>Notwithstanding the foregoing, these such terms of this Agreement as are meant to survive termination / expiry of this Agreement, will survive indefinitely unless and until SHOP99 chooses to terminate them.
+                            SHOP99 may inform the sellers who have accepted Your purchase orders on the Website, that this Agreement is terminated, and upon such information sellers may cancel the purchase order. SHOP99 may also cancel all
+                            Your non-fulfilled orders on the Website without any obligation or liability towards You.
+                        </p>
+                        <p><b>13.</b> Governing Law and Jurisdiction</p>
+                        <p>
+                           <b> 13.1</b> These Terms of Use and all transactions entered into on or through the Website and the relationship between You and SHOP99 shall be governed in accordance with the laws of India without reference to conflict
+                            of laws principles.
+                        </p>
+                        <p>
+                           <b> 13.2</b> You agree that all claims, differences and disputes arising under or in connection with or in relation hereto the Website, these Terms of Use, the Agreement(s) or any transactions entered into on or through
+                            the Website or the relationship between You and SHOP99 shall be subject to the exclusive jurisdiction of the courts at New Delhi, India and You hereby accede to and accept the jurisdiction of such courts. Each
+                            party hereby irrevocably waives any objection which such party may now or hereafter have to the laying of improper venue or forum non convenient. Each party agrees that a judgment in any such action or proceeding
+                            may be enforced in other jurisdictions by suit on the judgment or in any manner provided by law. Any and all service of process and any other notice in any such suit, action or proceeding with respect to this
+                            Agreement shall be effective against a party if given as provided herein.
+                        </p>
+                        <p><b>14.</b> Report Abuse And Take Down Policy</p>
+                        <p>
+                            <b>14.1</b> In the event You come across any abuse or violation of these Terms of Use or if You become aware of any objectionable content on the Website, or if You believe your intellectual property rights have been
+                            violated in any manner through the Website, please refer to the SHOP99 Report and Take Down Policy available at www.shop99.co.in under “Policy Info” section.
+                        </p>
+                        <p><b>15.</b> Communications</p>
+                        <p>
+                            <b>15.1</b> When You use the Website or send emails or other data, information or communication to SHOP99, You agree and understand that You are communicating with SHOP99 through electronic records and You consent to
+                            receive communications via electronic records from SHOP99 periodically and as and when required. SHOP99 will communicate with You by email or by notices on Website or electronic records on the Website or on Your
+                            mobile number which will be deemed adequate service of notice / electronic record to the maximum extent permitted under any applicable law,
+                        </p>
+                        <p><b>16.</b> Feedback and Information</p>
+                        <p>
+                            <b>16.1</b> Any feedback You provide to this Website shall be deemed to be non-confidential. shall be free to use such information on an unrestricted basis. Further, by submitting the feedback, You represent and warrant
+                            that (i) Your feedback does not contain confidential or proprietary information of You or of third parties; (ii) SHOP99 is not under any obligation of confidentiality, express or implied, with respect to the
+                            feedback; (iii) SHOP99 may have something similar to the feedback already under consideration or in development; and (iv) You are not entitled to any compensation or reimbursement of any kind from SHOP99 for the
+                            feedback under any circumstances.
+                        </p>
+                        <p>
+                           <b> 17.1</b> To clarify, SHOP99 may at its discretion, make any modifications or changes to the Website, Content and / or Services on the basis of such feedback, however SHOP99 shall not be obliged to do so. Further, in
+                            the event that SHOP99 makes any changes or modifications to the Website, Content and / or Services on the basis of any such feedback, You shall not have any rights or title (including any intellectual property
+                            rights) in such changes or modifications to the Website, Content and / or Services. You expressly waive any and all rights in such changes or modifications to the Website, Content and / or Services, and assign to
+                            SHOP99, all worldwide rights and title (including any intellectual property rights) to such changes or modifications to the Website, Content and / or Services, in perpetuity. You hereby waive all rights under
+                            Section 19(4) of the Indian Copyright Act, 1956, or other similar provisions in laws of any jurisdiction, in relation to any such changes or modifications to the Website, Content and / or Services.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
