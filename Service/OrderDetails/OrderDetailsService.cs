@@ -199,7 +199,12 @@ namespace Service.OrderDetails
         }
         public async Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id)
         {
-            string sp = @"Select o.InvoiceNo,ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
+            string sp = @"
+declare @CompanyName varchar(50),@CompanyMobile varchar(10),@CompanyEmailID varchar(120),@CompanyAddress varchar(500),@GSTN varchar(20)
+
+select @CompanyName=CompanyName,@CompanyMobile=CompanyMobile,@CompanyEmailID=CompanyEmailID,@CompanyAddress=CompanyAddress,@GSTN=GSTN from CompanyProfile
+
+Select @CompanyName ShopName,@CompanyMobile VendorMobile,@CompanyEmailID VendorEmail,@CompanyAddress VendorAddress,@GSTN GSTN,o.InvoiceNo,ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
 vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email VendorEmail,o.IGST,o.CGST,o.SGST,
 stuff((    
   select ',' + aiu.AttributeValue    

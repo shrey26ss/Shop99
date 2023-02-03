@@ -79,11 +79,13 @@ namespace Entities.Models
         public decimal MRP { get; set; }
         public string DocketNo { get; set; }
         public string Attributes { get; set; }
-        public string ContactNo { get; set; }
+      
         public string ShopName { get; set; }
         public string VendorAddress { get; set; }
         public string VendorState { get; set; }
         public string VendorEmail { get; set; }
+        public string VendorMobile { get; set; }
+        public string GSTN { get; set; }
         public int Qty { get; set; }
         public double IGST { get; set; }
         public double SGST { get; set; }
