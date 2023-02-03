@@ -322,5 +322,38 @@ left Join OrderTimeline ot(nolock) on ot.StatusID = st.Id Where OrderID = @ID an
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<OrderGSTDetails>>> GetOrderGST(int loginId = 0, dynamic T = null)
+        {
+            string sp = "Proc_OrderGSTDetails";
+            var res = new Response<IEnumerable<OrderGSTDetails>>();
+            try
+            {
+                var req = (OrderDetailsRequest)T;
+                if (!string.IsNullOrEmpty(req.SearchText) && req.SearchText.Length > 7)
+                {
+                    req.SearchText = req.SearchText.Remove(req.SearchText.Length - 1).Remove(0, 3);
+                }
+                else
+                {
+                    req.SearchText = "";
+                }
+                res.Result = await _dapper.GetAllAsync<OrderGSTDetails>(sp, new
+                {
+                    LoginId = loginId,
+                    req.StatusID,
+                    req.Top,
+                    FromDate = req.FromDate ?? "",
+                    ToDate = req.ToDate ?? "",
+                    SearchText = req.SearchText ?? ""
+                }, CommandType.StoredProcedure);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }

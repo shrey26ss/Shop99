@@ -25,6 +25,7 @@ namespace Entities.Models
         public SortingOption OrderBy { get; set; }
         public int Top { get; set; }
         public int Start { get; set; }
+        public char CalledFrom { get; set; } = 'A';
     }
     public class ProductRequest<T> : ProductRequest
     {

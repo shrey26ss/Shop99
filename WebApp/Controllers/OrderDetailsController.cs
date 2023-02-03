@@ -11,6 +11,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.AppCode;
@@ -58,6 +59,22 @@ namespace WebApp.Controllers
             string[] removbleCol = { "ID", "VarriantID", "OrderID", "EntryBy", "Description", "SKU", "Discount", "OtherCharge", "Total", "UserID", "Thumbnail", "PaymentModeId", "Remark", "DocketNo", "ReturnTillOn" };
             var exportToExcel = Utility.O.ExportToExcel(dataTable, removbleCol);
             return File(exportToExcel.data, DOCType.XlsxContentType, "Order.xlsx");
+        }
+        public async Task<IActionResult> OrderGSTExcel(int Top = 50, string FromDate = "", string ToDate = "", StatusType StatusID = 0, string SearchText = "")
+        {
+            var req = new OrderDetailsRequest
+            {
+                Top = Top,
+                FromDate = FromDate,
+                ToDate = ToDate,
+                StatusID = StatusID,
+                SearchText = SearchText
+            };
+            var res = await _convert.GetList<OrderGSTDetails>("OrderDetails/GetOrderGSTDetails", User.GetLoggedInUserToken(), req);
+            DataTable dataTable = ConvertToDataTable.ToDataTable(res.ToList());
+            string[] removbleCol = { "" };
+            var exportToExcel = Utility.O.ExportToExcel(dataTable, removbleCol);
+            return File(exportToExcel.data, DOCType.XlsxContentType, "OrderGSTReport.xlsx");
         }
         [Route("UserOrderHistory")]
         [HttpGet]
