@@ -529,6 +529,7 @@ namespace WebApp.Controllers
         private string UploadRatingImage(ProductRating req)
         {
             var ImagePath = new List<string>();
+            string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
             if (req != null && req.file != null && req.file.Count > 0)
             {
                 int counter = 0;
@@ -543,7 +544,7 @@ namespace WebApp.Controllers
                         FilePath = FileDirectories.ProductRate.Replace("{0}", req.VariantID.ToString()),
                         IsThumbnailRequired = false,
                     });
-                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ProductRate.Replace("{0}", req.VariantID.ToString()), fileName));
+                    ImagePath.Add(string.Concat(absoluteURL + "/", FileDirectories.ProductRateSuffixDefault.Replace("{0}", req.VariantID.ToString()), fileName));
                 }
             }
             return string.Join(',',ImagePath);
