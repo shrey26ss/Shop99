@@ -185,11 +185,11 @@
             let remark = '';
             if (statusid == 'Rejected') {
                 const html = `<div class="form-group">
-                                                                                           <label for="inputAddress">Reason</label>
-                                                                                           <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                                                                                           <small class="text-danger d-none" id="txtRemarksm">Remark is required</small>
-                                                                                           </div>
-                                                                                           <button type="submit"  data-id="${id}" data-status="${statusid}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Reject</button>
+                  <label for="inputAddress">Reason</label>
+                  <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                  <small class="text-danger d-none" id="txtRemarksm">Remark is required</small>
+                  </div>
+                  <button type="submit"  data-id="${id}" data-status="${statusid}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Reject</button>
                                                                                            `;
                 Q.alert({
                     title: 'Add Reason',
