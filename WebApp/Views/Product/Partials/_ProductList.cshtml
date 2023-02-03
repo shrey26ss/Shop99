@@ -26,13 +26,12 @@
             <td>@item.Title</td>
             <td>@item.CategoryName</td>
             <td>@item.BrandName</td>
+            <td>@item.SKU</td>
             <td>
                 <span class="switch switch-sm">
                 <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
                 <label for="Ispublish_@item.Id"></label>
             </td>
-           
-            <td>@item.SKU</td>
         </tr>
     }
 }

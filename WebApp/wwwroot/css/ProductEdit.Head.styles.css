@@ -73468,7 +73468,7 @@ div.dataTables_wrapper > div.row.margin-t-5 > div.col-lg-1.col-xs-12 > div > div
 }
 
     .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th {
-        border: 1px solid #e3e3e3
+        border: 1px solid #343a40;
     }
 
         .table-bordered > thead > tr > th label, .table-bordered > tbody > tr > th label, .table-bordered > tfoot > tr > th label {

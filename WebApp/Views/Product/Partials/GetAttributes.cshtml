@@ -14,13 +14,13 @@
                     <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expaned="false"></a>
                     <div class="dropdown-menu" aria-labelledby="act">
-                        <a class="dropdown-item Edit" href="#" onclick="loadPartial('@item.Id')">Details</a>
+                        <a class="dropdown-item Edit" href="/Product/VariantDetail?Id=@item.Id">Details</a>
                         <a class="dropdown-item Edit" href="#" onclick="loadReview('@item.Id')">Show Review</a>
                     </div>
                 </div>
             </td>
             <td>
-                <img src="@item.Thumbnail" alt="Thumbnail" class="img img-fluid" style="width:80px" />
+                <img src="@item.Thumbnail" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="Thumbnail" class="img img-fluid" style="width:80px" />
             </td>
             <td>@item.Title</td>
             <td>@item.MRP</td>
@@ -47,44 +47,57 @@
                     <label for="Ispublish_@item.Id"></label>
                 </span>
             </td>
-            <td>
-                <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Confirmed')"><i class="ti-close text-danger" title="Reject"></i></a>
-                <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Rejected')"><i class="ti-check text-success" style="margin-left: 12px;" title="Approve"></i></a>
-            </td>
+            @if (@item.EntryBy == 1)
+            {
+                <td>@item.AdminApproveStatus</td>
+            }
+            else
+            {
+                <td>
+                    <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Confirmed')"><i class="ti-close text-danger" title="Reject"></i></a>
+                    <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Rejected')"><i class="ti-check text-success" style="margin-left: 12px;" title="Approve"></i></a>
+                </td>
+            }
         </tr>
     }
 }
+else
+{
+    <tr>
+        <td class="text-danger text-center" colspan="13">Record Not Found</td>
+    </tr>
+}
 <script>
-    $('.item-quantity').click(function () {
+    $('.item-quantity').click(function() {
         const vid = $(this).data('variantid');
         const prevQty = $(this).data('qauntity');
         const html = ` <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="inputEmail4">Qauntity</label>
-                      <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
-                    </div>
-                    <input type="hidden" name="VariantId" value="${vid}">
-                    <div class="form-group col-md-6">
-                      <label for="inputPassword4">Add/Delete</label>
-                      <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
-                    </div>
-                 </div>
-                  <div class="form-group">
-                    <label for="inputAddress">Remark</label>
+                        <div class="form-group col-md-6">
+                          <label for="inputEmail4">Qauntity</label>
+                          <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
+                        </div>
+                        <input type="hidden" name="VariantId" value="${vid}">
+                        <div class="form-group col-md-6">
+                          <label for="inputPassword4">Add/Delete</label>
+                          <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
+                        </div>
+                     </div>
+                      <div class="form-group">
+                        <label for="inputAddress">Remark</label>
 
-                    <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
-                  </div>
+                        <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
+                      </div>
 
-                  <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
-                  <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
-                  `;
+                      <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
+                      <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
+                      `;
         Q.alert({
             title: 'Add/Delete Qauntity',
             body: html,
             width: 500
         });
     });
-    var loadReview = function (Id = 0) {
+    var loadReview = function(Id = 0) {
         $.post('/Report/ReviewReport', { Id }).done((result) => {
             Q.alert({
                 title: 'Reviews',

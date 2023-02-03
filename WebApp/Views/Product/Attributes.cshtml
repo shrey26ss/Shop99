@@ -38,7 +38,7 @@
                 <input type="hidden" id="hdnid" value="@Model.Id" />
                 <select class="form-control" id="ddlstatus" asp-for="@Model.statusid" onchange="loaddata()">
                     <option value="">-- Select Status --</option>
-                    <option value="0">Pending</option>
+                    <option value="1">Pending</option>
                     <option value="@StatusType.Confirmed">@StatusType.Confirmed</option>
                     <option value="@StatusType.Rejected">@StatusType.Rejected</option>
                 </select>
@@ -48,7 +48,7 @@
 
             <div class="col-md-12 table-responsive">
                 <table class="table table-bordered" id="Grid">
-                    <thead>
+                    <thead  class="text-nowrap">
                         <tr role="row">
                             <th>#</th>
                             <th>Action</th>
@@ -85,16 +85,16 @@
                 Q.notify(-1, 'something went wrong.');
             });
         }
-        var loadPartial = function(Id = 0) {
-            ///Product/VariantAttributeList
-            $.post('/Product/VariantDetail', { Id }).done((result) => {
-                Q.alert({
-                    title: 'Attribute List',
-                    body: result,
-                    width: 600
-                });
-            })
-        };
+        //var loadPartial = function(Id = 0) {
+        //    ///Product/VariantAttributeList
+        //    $.post('/Product/VariantDetail', { Id }).done((result) => {
+        //        //Q.alert({
+        //        //    title: 'Attribute List',
+        //        //    body: result,
+        //        //    width: 600
+        //        //});
+        //    })
+        //};
 
         $(document).on('click', '.addQuantity', (e) => {
             const remark = $('#txtRemark').val();

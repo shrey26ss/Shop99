@@ -243,7 +243,13 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             }
             else
             {
-                sp = @"select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,0) = (case Isnull(@StatusID,0) when 0 then Isnull(AdminApproveStatus,0) else @StatusID end) and (Isnull(AdminApproveStatus,0)=@StatusID)";
+                sp = @"if(@StatusID = 0)begin
+                        select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0)
+                           end
+                        else
+                        begin
+                        select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,0) = (case Isnull(@StatusID,0) when 0 then Isnull(AdminApproveStatus,0) else @StatusID end) and (Isnull(AdminApproveStatus,0)=@StatusID)
+                            end";
             }
             var res = new Response<IEnumerable<ProductVariantAttributeDetails>>();
             try
