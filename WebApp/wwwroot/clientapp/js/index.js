@@ -54,7 +54,7 @@ const loadMainCategory = function () {
                 loadTopCategoryProduct(v.categoryId, i + 1, 'H');
                 if (_categoryCount === (i + 1)) {
                     setTimeout(() => {
-                        $('.tab-content').css({ 'display': 'none' });
+                        $('.cat-tab-content').css({ 'display': 'none' });
                         $('#tab1').css({ 'display': 'block' });
                     }, 1100);
                 }
@@ -80,14 +80,14 @@ const loadTopCategoryProduct = function (cId, i,calledFrom = 'A') {
         data: JSON.stringify(item),
         success: result => {
             let current = i == 1 ? "active default" : "";
-            let htmlbody = `<div id="tab${i}" class="tab-content ${current}"><div class="product-slide-${i} product-m no-arrow">`;
+            let htmlbody = `<div id="tab${i}" class="cat-tab-content ${current}"><div class="cat-product-slide-${i} product-m no-arrow">`;
             $.each(result.result.data, async function (i, v) {
                 htmlbody = htmlbody + `<div>
                   <div class="product-box">
                     <div class="product-imgbox">
                       <div class="product-front">
                         <a href="/productdetails/${v.variantID}">
-                          <img src="${v.imagePath}"   onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
+                          <img src="${v.imagePath}" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="product">
                         </a>
                       </div>
                       <div class="product-back">
@@ -153,10 +153,10 @@ const loadTopCategoryProduct = function (cId, i,calledFrom = 'A') {
             </div>`;
             $('#secDvPRodByCat').append(htmlbody);
             $(`#tab${i}`).css({ 'display': 'block' });
-            if ($(`.product-slide-${i}`).hasClass('slick-initialized')) {
-                $(`.product-slide-${i}`).slick('unslick')
+            if ($(`.cat-product-slide-${i}`).hasClass('slick-initialized')) {
+                $(`.cat-product-slide-${i}`).slick('unslick')
             }
-            $(`.product-slide-${i}`).slick({
+            $(`.cat-product-slide-${i}`).slick({
                 arrows: true,
                 dots: false,
                 infinite: false,
@@ -241,11 +241,9 @@ const loadNewProducts = async function () {
     await $.post("/ProductSection", { id: 1 }).done(res => {
         $('#secDvProduct').html(res);
     });
-
 }
 const loadFeatureProducts = async function () {
     await $.post("/ProductSection", { id: 2 }).done(res => {
-
         $('#secDvProduct').append(res);
     });
 }
@@ -257,7 +255,6 @@ const loadBestSeller = async function () {
 }
 const loadOnSale = async function () {
     await $.post("/ProductSection", { id: 4 }).done(res => {
-
         $('#secDvProduct').append(res);
     });
 }
@@ -271,6 +268,3 @@ const loadHotDealsNewProduct = async function () {
         $('#dvHotDealNewProduct').append(res);
     });
 }
-
-
-
