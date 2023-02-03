@@ -141,7 +141,7 @@ namespace Service.Product
             {
                 try
                 {
-                    string sp = @"select * from VariantGroup where Id = @VariantId";
+                    string sp = @"select v.*, p.CategoryId from VariantGroup v(nolock) inner join Products p(nolock) on p.Id = v.ProductId where v.Id = @VariantId";
                     res.Result = await _dapper.GetAsync<VariantDetailsByAttributesResponse>(sp, new { request.Data.VariantId }, CommandType.Text);
                     if (res.Result != null && res.Result.Id > 0)
                     {
