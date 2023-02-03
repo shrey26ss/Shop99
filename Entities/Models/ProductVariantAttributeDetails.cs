@@ -19,6 +19,8 @@ namespace Entities.Models
         public bool IsFeatured { get; set; }
         public bool IsShowOnHome { get; set; }
         public bool IsPublished { get; set; }
+        public int EntryBy { get; set; }
+        public StatusType AdminApproveStatus { get; set; }
     }
     public class AttrinutesViewModel
     {

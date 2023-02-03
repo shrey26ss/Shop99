@@ -95,7 +95,8 @@ namespace Service.Homepage
                                            vg.Rating 
                                     from    Products p (nolock)
                                             inner join VariantGroup vg on vg.ProductId = p.Id 
-                                    where   vg.IsShowOnHome=1 and p.ispublished = 1 and vg.ispublished = 1 
+                                    where   vg.IsShowOnHome=1 and p.ispublished = 1 and vg.ispublished = 1
+                                            and vg.AdminApproveStatus = 3
                                             and DATEDIFF(D,vg.PublishedOn,getdate())<=@days 
                                     order by p.ID desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { days = productRequest.MoreFilters < 1 ? 5 : productRequest.MoreFilters, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
@@ -140,7 +141,7 @@ namespace Service.Homepage
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
                                             vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  
                                     from    Products p (nolock)
-                                            inner join VariantGroup vg on vg.ProductId = p.Id and p.ispublished = 1 and vg.ispublished = 1
+                                            inner join VariantGroup vg on vg.ProductId = p.Id and p.ispublished = 1 and vg.ispublished = 1 and vg.AdminApproveStatus = 3
                                     order by vg.SellingCost";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
@@ -163,7 +164,7 @@ namespace Service.Homepage
                                             vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating 
                                     from    Products p (nolock)
                                             inner join VariantGroup vg on vg.ProductId = p.Id
-                                    where   vg.IsShowOnHome = 1 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
+                                    where   vg.IsShowOnHome = 1 and vg.AdminApproveStatus = 3 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
                 res.StatusCode = ResponseStatus.Success;
@@ -185,7 +186,7 @@ namespace Service.Homepage
                                             vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  
                                     from    Products p (nolock)
                                             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id
-                                    where vg.IsShowOnHome = 1 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
+                                    where vg.IsShowOnHome = 1 and vg.AdminApproveStatus = 3 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse<ProductResponse>>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
                 res.StatusCode = ResponseStatus.Success;

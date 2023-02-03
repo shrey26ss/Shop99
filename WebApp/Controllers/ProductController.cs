@@ -149,7 +149,7 @@ namespace WebApp.Controllers
             return PartialView("Partials/_VariantAttributeList", response);
         }
         [Authorize(Roles = "1,3")]
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> VariantDetail(int Id, string Color = "")
         {
             var response = new VariantDetailVM
@@ -178,7 +178,7 @@ namespace WebApp.Controllers
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<PictureInformation>>>(Responseapi.Result);
                 response.PictureInformation = deserializeObject.Result;
             }
-            return PartialView("Partials/_VariantDetail", response);
+            return View("_VariantDetail", response);
         }
         [Authorize(Roles = "1")]
         [HttpPost]
@@ -540,10 +540,10 @@ namespace WebApp.Controllers
                     {
                         file = item,
                         FileName = fileName,
-                        FilePath = FileDirectories.ProductRateSuffixDefault.Replace("{0}", req.VariantID.ToString()),
+                        FilePath = FileDirectories.ProductRate.Replace("{0}", req.VariantID.ToString()),
                         IsThumbnailRequired = false,
                     });
-                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ProductRateSuffixDefault.Replace("{0}", req.VariantID.ToString()), fileName));
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ProductRate.Replace("{0}", req.VariantID.ToString()), fileName));
                 }
             }
             return string.Join(',',ImagePath);

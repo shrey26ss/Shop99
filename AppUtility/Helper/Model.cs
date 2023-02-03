@@ -29,6 +29,7 @@ namespace AppUtility.Helper
         public static string JsonDoc = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/doc/");
         public static string TopBanner = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{TopBannerSuffix}");
         public static string TopLowerBanner = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{TopLowerBannerSuffix}");
+        public static string ProductRate = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{ProductRateSuffixDefault}");
     }
 
     public class FileUploadModel
