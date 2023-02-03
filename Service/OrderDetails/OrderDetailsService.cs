@@ -205,7 +205,7 @@ declare @CompanyName varchar(50),@CompanyMobile varchar(10),@CompanyEmailID varc
 select @CompanyName=CompanyName,@CompanyMobile=CompanyMobile,@CompanyEmailID=CompanyEmailID,@CompanyAddress=CompanyAddress,@GSTN=GSTN from CompanyProfile
 
 Select @CompanyName ShopName,@CompanyMobile VendorMobile,@CompanyEmailID VendorEmail,@CompanyAddress VendorAddress,@GSTN GSTN,o.InvoiceNo,ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,
-vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email VendorEmail,o.IGST,o.CGST,o.SGST,
+vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email EmailID,o.IGST,o.CGST,o.SGST,
 stuff((    
   select ',' + aiu.AttributeValue    
   from AttributeInfo aiu    
