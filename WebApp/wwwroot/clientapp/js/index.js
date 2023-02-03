@@ -23,11 +23,19 @@ const loadTopBrands = function () {
         dataType: 'json',
         data: JSON.stringify(item),
         success: result => {
-            let htmlbody = ``;
-            $.each(result.result, async function (i, v) {
-                htmlbody = htmlbody + `<li><a href="/Brand/${v.id}">${v.name}</a></li>`;
-            });
-            $('#litopbrand').append(htmlbody);
+            let brandLength = result.result.length;
+            if (brandLength >= 1) {
+                $('.topBrandPanel').removeClass('d-none');
+                let htmlbody = ``;
+                $.each(result.result, async function (i, v) {
+                    htmlbody = htmlbody + `<li><a href="/Brand/${v.id}">${v.name}</a></li>`;
+                });
+                $('#litopbrand').append(htmlbody);
+            }
+            else {
+                $('.topBrandPanel').addClass('d-none');
+            }
+            
         },
         error: result => {
 
@@ -43,7 +51,7 @@ const loadMainCategory = function () {
             $.each(res.result, async function (i, v) {
                 let current = i == 0 ? "class='current'" : "";
                 TopCategory.append(`<li ${current}><a href="tab${i + 1}">${v.categoryName}</a></li >`);
-                loadTopCategoryProduct(v.categoryId, i + 1);
+                loadTopCategoryProduct(v.categoryId, i + 1, 'H');
                 if (_categoryCount === (i + 1)) {
                     setTimeout(() => {
                         $('.tab-content').css({ 'display': 'none' });
@@ -54,8 +62,9 @@ const loadMainCategory = function () {
         }
     });
 }
-const loadTopCategoryProduct = function (cId, i) {
+const loadTopCategoryProduct = function (cId, i,calledFrom = 'A') {
     let item = {
+        CalledFrom: calledFrom,
         OrderBy: 0,
         Top: 10,
         MoreFilters: {

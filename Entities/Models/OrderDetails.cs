@@ -143,4 +143,21 @@ namespace Entities.Models
         public UsersOrderTrakingRes usersOrderTrakingRes { get; set; }
         public IEnumerable<OrderTimeline> OrderTimeline { get; set; }
     }
+    public class OrderGSTDetails
+    {
+        public string InvoiceNumber { get; set; }
+        public string InvoiceDate { get; set; }
+        public string VoucherType { get; set; }
+        public string CustomerName { get; set; }
+        public string BillingState { get; set; }
+        public string ItemName { get; set; }
+        public string HSNCode { get; set; }
+        public Int32 GSTRate { get; set; }
+        public Int32 Quantity { get; set; }
+        public Int32 Rate { get; set; }
+        public Int32 Amount { get; set; }
+        public Int32 IGST { get; set; }
+        public Int32 CGST { get; set; }
+        public Int32 SGST { get; set; }
+    }
 }

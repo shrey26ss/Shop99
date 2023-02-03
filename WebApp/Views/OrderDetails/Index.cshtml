@@ -54,7 +54,8 @@
                         <input type="text" class="form-control" id="SearchText" />
                         <div class="input-group-append" style="cursor:pointer">
                             <span class="input-group-text btn-primary" onclick="loadData()" id="basic-addon1"><i class="fa fa-search" style="font-size: 22px;"></i></span>
-                            <span class="input-group-text btn-success" title="Download Excel" onclick="downloadExcel()" id="basic-addon1"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
+                            <span class="input-group-text btn-success" title="Download Order Report" onclick="downloadExcel()" id="basic-addon1"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
+                            <span class="input-group-text btn-success" title="Download GST Exel" onclick="downloadGSTExcel()" id="basic-addon2"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
                         </div>
                     </div>
                 </div>
@@ -96,14 +97,17 @@
                 $('#status').val(modelval);
             loadData();
         })
-        var loadData = () => {
-            let param = {
+        var params = () => {
+            return {
                 Top: $('#Top').val(),
                 FromDate: $('#dtFromDate').val(),
                 ToDate: $('#dtToDate').val(),
                 StatusID: $('#status').val(),
                 SearchText: $('#SearchText').val()
-            }
+            };
+        }
+        var loadData = () => {
+            let param = params();
             $.post('/OrderDetails/OrderList', param).done(function (result) {
                 $('#Grid tbody').html(result);
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
@@ -115,7 +119,6 @@
 
         var ChangeStatusItem = function (ID, StatusID) {
             $.post('/OrderDetails/ChangeStatus', { ID, StatusID }).done((result) => {
-                console.log('result :', result);
                 Q.notify(result.statusCode, result.responseText);
                 if (result.statusCode)
                     loadData();
@@ -123,18 +126,15 @@
         };
         Q.dateRangeFilter();
         var downloadExcel = () => {
-            let param = {
-                Top: $('#Top').val(),
-                FromDate: $('#dtFromDate').val(),
-                ToDate: $('#dtToDate').val(),
-                StatusID: $('#status').val(),
-                SearchText: $('#SearchText').val()
-            }
+            let param = params();
             window.location = '/OrderDetails/OrderReportExcel?' + $.param(param);
+        }
+        var downloadGSTExcel = () => {
+            let param = params();
+            window.location = '/OrderDetails/OrderGSTExcel?' + $.param(param);
         }
 
         var ShowReason = (Id) => {
-            console.log('Id', Id);
             $.get('/OrderDetails/GetReturnRequestByOrderId', { Id }).done((result) => {
                 Q.alert({
                     title: 'Order Details',
