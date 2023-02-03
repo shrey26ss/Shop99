@@ -165,6 +165,7 @@
                 });
                 var returnindays=currentGroup.find('[name="ReturnInDays"]').val();
                 var warranty=currentGroup.find('[name="Warranty"]').val();
+                  var warrantyUnit=currentGroup.find('[name="WarrantyUnit"]').val();
                 let groupDetail = {
                     Id: groupId,
                     HSN: currentGroup.find('[name="HSN"]').val(),
@@ -172,6 +173,7 @@
                     Quantity: currentGroup.find('[name="Quantity"]').val(),
                     ReturnInDays: returnindays==''?0:returnindays,
                     Warranty: warranty==''?0:warranty,
+                    WarrantyUnit:warrantyUnit,
                     GTIN: currentGroup.find('[name="GTIN"]').val(),
                     Title: currentGroup.find('[name="Title"]').val(),
                     SellingCost: currentGroup.find('[name="SellingCost"]').val(),
