@@ -468,7 +468,11 @@ var Q;
     };
 
     Q.reset = () => {
-        $('input').val('');
+        $('input[type="text"]').val('');
+        $('input[type="number"]').val('0');
+        $('input[type="hidden"]').val('0');
+        $('input[type="file"]').val('');
+        $('input[type="checkbox"]').prop('checked',false);
         $('textarea').val('');
         $('select').val('0').trigger('change');
         $('select').each(function (i) {

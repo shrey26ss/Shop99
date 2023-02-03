@@ -36,7 +36,7 @@ namespace Entities.Models
     }
     public class ProductShippingDetail
     {
-        public int ShippingDetailId { get; set; }
+        public int ShippingDetailId { get; set; } 
         public int ProductId { get; set; }
         [Required (ErrorMessage ="Please Enter Charges")]
         public decimal Charges { get; set; }
