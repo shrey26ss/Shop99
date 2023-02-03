@@ -1375,47 +1375,45 @@
      ==========================*/
     $("#tab1").css("display", "Block");
     $(".default").css("display", "Block");
-    $(document).on('click', ".tabs li a", function () {
+    $(document).on('click', "#secTopCategory.tabs li a", function () {
         event.preventDefault();
-        //$('.tab_product_slider').slick('unslick');
-        //$('.product-4').slick('unslick');
         $(this).parent().parent().find("li").removeClass("current");
         $(this).parent().addClass("current");
-        $(".tab-content").css("display", "none");
+        $(".cat-tab-content").css("display", "none");
         var currunt_href = $(this).attr("href");
         $('#' + currunt_href).show();
 
-        $(".product-4").slick({
-            arrows: true,
-            dots: false,
-            infinite: false,
-            speed: 300,
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            responsive: [
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 991,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-                {
-                    breakpoint: 420,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        });
+        //$(".product-4").slick({
+        //    arrows: true,
+        //    dots: false,
+        //    infinite: false,
+        //    speed: 300,
+        //    slidesToShow: 4,
+        //    slidesToScroll: 1,
+        //    responsive: [
+        //        {
+        //            breakpoint: 1200,
+        //            settings: {
+        //                slidesToShow: 3,
+        //                slidesToScroll: 3
+        //            }
+        //        },
+        //        {
+        //            breakpoint: 991,
+        //            settings: {
+        //                slidesToShow: 2,
+        //                slidesToScroll: 2
+        //            }
+        //        },
+        //        {
+        //            breakpoint: 420,
+        //            settings: {
+        //                slidesToShow: 1,
+        //                slidesToScroll: 1
+        //            }
+        //        }
+        //    ]
+        //});
     });
 
 
@@ -1715,169 +1713,7 @@
             }
         ]
     });
-
-
-
-
-
-
-    //$('.product-4').slick({
-    //    infinite: true,
-    //    speed: 300,
-    //    slidesToShow: 4,
-    //    slidesToScroll: 4,
-    //    autoplay: true,
-    //    autoplaySpeed: 3000,
-    //    responsive: [
-    //        {
-    //            breakpoint: 1200,
-    //            settings: {
-    //                slidesToShow: 3,
-    //                slidesToScroll: 3
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 991,
-    //            settings: {
-    //                slidesToShow: 2,
-    //                slidesToScroll: 2
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 420,
-    //            settings: {
-    //                slidesToShow: 1,
-    //                slidesToScroll: 1
-    //            }
-    //        }
-    //    ]
-    //});
-    //$('.product-slide').slick({
-    //    dots: false,
-    //    infinite: true,
-    //    speed: 300,
-    //    slidesToShow: 6,
-    //    slidesToScroll: 6,
-    //    responsive: [
-    //        {
-    //            breakpoint: 1700,
-    //            settings: {
-    //                slidesToShow: 5,
-    //                slidesToScroll: 5,
-    //                infinite: true
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 1367,
-    //            settings: {
-    //                slidesToShow: 4,
-    //                slidesToScroll: 4,
-    //                infinite: true
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 991,
-    //            settings: {
-    //                slidesToShow: 3,
-    //                slidesToScroll: 3,
-    //                infinite: true
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 768,
-    //            settings: {
-    //                slidesToShow: 2,
-    //                slidesToScroll: 2
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 481,
-    //            settings: {
-    //                slidesToShow: 1,
-    //                slidesToScroll: 1
-    //            }
-    //        }
-
-    //    ]
-    //});
-    //$('.product_4').slick({
-    //    infinite: true,
-    //    speed: 300,
-    //    slidesToShow: 4,
-    //    slidesToScroll: 4,
-    //    autoplay: true,
-    //    autoplaySpeed: 5000,
-    //    responsive: [
-    //        {
-    //            breakpoint: 1430,
-    //            settings: {
-    //                slidesToShow: 3,
-    //                slidesToScroll: 3
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 1200,
-    //            settings: {
-    //                slidesToShow: 2,
-    //                slidesToScroll: 2
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 991,
-    //            settings: {
-    //                slidesToShow: 3,
-    //                slidesToScroll: 3
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 768,
-    //            settings: {
-    //                slidesToShow: 2,
-    //                slidesToScroll: 2
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 420,
-    //            settings: {
-    //                slidesToShow: 1,
-    //                slidesToScroll: 1
-    //            }
-    //        }
-    //    ]
-    //});
-    //$('.product-6').slick({
-    //    infinite: true,
-    //    speed: 300,
-    //    slidesToShow: 6,
-    //    slidesToScroll: 6,
-    //    autoplay: true,
-    //    autoplaySpeed: 3000,
-    //    responsive: [
-    //        {
-    //            breakpoint: 1200,
-    //            settings: {
-    //                slidesToShow: 3,
-    //                slidesToScroll: 3
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 991,
-    //            settings: {
-    //                slidesToShow: 2,
-    //                slidesToScroll: 2
-    //            }
-    //        },
-    //        {
-    //            breakpoint: 420,
-    //            settings: {
-    //                slidesToShow: 1,
-    //                slidesToScroll: 1
-    //            }
-    //        }
-    //    ]
-    //});
-
-
+    
     /*=====================
      14. RTL & Dark Light
      ==========================*/
