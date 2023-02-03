@@ -167,3 +167,143 @@
         </div>
     </div>
 </div>
+@section scripts{
+    <script>
+        $(document).on('click', '.addQuantity', (e) => {
+            const remark = $('#txtRemark').val();
+            const vId = $(e.currentTarget).data()?.variantid ?? 0;
+            const am = $(e.currentTarget).data()?.addminus ?? 0;
+            const currentQty = $('#txtaddDelete').val();
+            if (currentQty == '') {
+                Q.notify(-1, 'Minimum 1 Quantity Required.!');
+                $('#txtaddDelete').focus();
+                return;
+            }
+            if (am == 1 && remark == '') {
+                Q.notify(-1, 'Remark Required.!');
+                $('#txtRemark').focus();
+                return;
+            }
+            $.post('/Product/VariantQuantityUpdate', { v: vId, q: currentQty, IsReduce: am == 0 ? false : true, Remark: remark }).done(function(result) {
+                Q.notify(result.statusCode, result.responseText);
+                (result.statusCode == 1)
+                {
+                    // loadData();
+                    location.reload();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                Q.notify(-1, 'something went wrong.');
+            })
+        });
+
+        var UpdateIspublish = function(Id) {
+            let IsPublish = false;
+            if ($('#Ispublish_' + Id).is(":checked")) {
+                IsPublish = true;
+            }
+            let obj = {
+                Id: Id,
+                IsPublish: IsPublish
+            }
+            $.post('/Product/UpdateIsPublishVariant', obj).done(function(result) {
+                console.log(result);
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode == 1) {
+                    loaddata();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
+        var AddNewAttribute = function(Id) {
+            let combinationId = '';
+            $.post('/Product/AddAttributes', { combinationId, CategoryId: Id }).done((result) => {
+                Q.alert({
+                    title: 'Add Attribute',
+                    body: result,
+                    width: 900
+                });
+            })
+        }
+        var DeleteImage = function(VarId, ImgId, Path) {
+            Q.confirm("Are You Sure. You Want To Delete This Image", () => deletevariantImg(VarId, ImgId, Path));
+        }
+        var deletevariantImg = function(VarId, ImgId, Path) {
+            $.post('/Product/DeleteVariantImage', { VariantId: VarId, ImgId: ImgId, ImgPath: Path }).done((result) => {
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode == 1) {
+                    window.location.reload();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
+        var AddNewimage = function(VarId, color, Alt) {
+            $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: color, ImgAlt: Alt }).done((result) => {
+                Q.alert({
+                    title: 'Upload Variant Image',
+                    body: result,
+                    width: 900
+                });
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
+        var AdminApprovelChangeStatus = (id, statusid) => {
+            debugger
+            let remark = '';
+            if (statusid == 'Rejected') {
+                const html = `<div class="form-group">
+                                                                                                   <label for="inputAddress">Reason</label>
+                                                                                                   <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                                                                                   <small class="text-danger d-none" id="txtRemarksm">Remark is required</small>
+                                                                                                   </div>
+                                                                                                   <button type="submit"  data-id="${id}" data-status="${statusid}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Reject</button>
+                                                                                                   `;
+                Q.alert({
+                    title: 'Add Reason',
+                    body: html,
+                    width: 500
+                });
+                $('#btnSubmitRemark').click(() => {
+                    remark = $('#txtRemark').val();
+                    if (remark == '') {
+                        $('#txtRemarksm').removeClass('d-none');
+                        return false;
+                    }
+                    else {
+                        $('#txtRemarksm').addClass('d-none');
+                    }
+                    $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done((result) => {
+                        Q.notify(result.statusCode, result.responseText);
+                        setTimeout(window.location.reload(), 4000)
+                    }).fail(function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('something went wrong');
+                    })
+                });
+            }
+            else {
+                $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done((result) => {
+                    Q.notify(result.statusCode, result.responseText);
+                    setTimeout(window.location.reload(), 4000)
+                }).fail(function(xhr) {
+                    console.log(xhr.responseText);
+                    alert('something went wrong');
+                })
+            }
+        }
+                                //var FilterData = () => {
+                                //    if($('#ddlstatus').val() == ''){
+                                //        window.location.href = '/Product/Attributes';
+                                //    }
+                                //    else{
+                                //        window.location.href = '/Product/Attributes?s=' + $('#ddlstatus').val();
+                                //    }
+                                //}
+    </script>
+}
