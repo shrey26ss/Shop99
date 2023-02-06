@@ -163,7 +163,7 @@ namespace Service.CartWishList
             return res;
 
         }
-        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartItemlist(Request req, bool  IsBuyNow=false)
+        public async Task<IResponse<CartItemsTotalVM>> GetCartItemlist(Request req, bool  IsBuyNow=false)
         {
             string sp = @"Select * from vw_CartItems(nolock) where CustomerUserId = @LoginId";
             if(IsBuyNow)
@@ -171,12 +171,24 @@ namespace Service.CartWishList
                 sp = "Select top(1) * from vw_CartItems(nolock) where CustomerUserId = @LoginId order by CartItemId desc ";
             }
 
-            var res = new Response<IEnumerable<CartItemSlide>>();
+            var res = new Response<CartItemsTotalVM>();
+            res.Result = new CartItemsTotalVM();
             try
             {
-                res.Result = await _dapper.GetAllAsync<CartItemSlide>(sp, new { req.LoginId,IsBuyNow }, CommandType.Text);
-                res.StatusCode = ResponseStatus.Success;
-                res.ResponseText = nameof(ResponseStatus.Success);
+                var list = await _dapper.GetAllAsync<CartItemSlide>(sp, new { req.LoginId,IsBuyNow }, CommandType.Text);
+                if(list.Count() > 0)
+                {
+                    res.Result.CartItemSlides = list.ToList();
+                    if(res.Result.CartItemSlides != null && res.Result.CartItemSlides.Count() > 0)
+                    {
+                        res.Result.PayableAmount = res.Result.CartItemSlides.Sum(a => (a.SellingCost * a.Qty));
+                        res.Result.TotalPrice = res.Result.CartItemSlides.Sum(a => (a.SellingCost * a.Qty));
+                        res.Result.TotalMRP = res.Result.CartItemSlides.Sum(a => (a.MRP * a.Qty));
+                        res.Result.TotalDiscount = res.Result.TotalMRP - res.Result.PayableAmount;
+                    }                    
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = nameof(ResponseStatus.Success);
+                }                
             }
             catch (Exception ex)
             {

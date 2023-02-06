@@ -1,9 +1,9 @@
 ﻿@using Entities.Models
 @using Service.Models
 @using Entities.Enums;
-@model Response<IEnumerable<CartItemSlide>>
+@model Response<CartItemsTotalVM>
 @{
-    bool IsCod = Model.Result?.Any(x => x.IsCod) ?? false;
+    bool IsCod = Model.Result?.CartItemSlides?.Any(x => x.IsCod) ?? false;
     decimal SubTotal = 0;
      decimal Off = 0;
     decimal Total = 0;
@@ -28,9 +28,9 @@
             <div>Product <span>Total</span></div>
         </div>
         <ul class="qty">
-            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.CartItemSlides.Any())
             {
-                @foreach (var item in Model.Result)
+                @foreach (var item in Model.Result.CartItemSlides)
                 {
                     @*  <li><span>mrp <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span></li>*@
                     <li> <div class="row"> <div class="col-md-7">@item.Title × @item.Qty</div><div class="col-md-5 text-right"><span class="cart-pro-price"> <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span> <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost*item.Qty)</span></div></div>  </li>

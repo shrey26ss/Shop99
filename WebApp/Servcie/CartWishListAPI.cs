@@ -19,7 +19,7 @@ namespace WebApp.Servcie
         Task<IResponse> AddWishList(WishList req, string _token);
         Task<IResponse> AddToCart(CartItem req, string _token);
         Task<IResponse<IEnumerable<WishListSlide>>> GetWishListSlide(string _token);
-        Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token, bool IsBuyNow = false);
+        Task<IResponse<CartItemsTotalVM>> GetCartListSlide(string _token, bool IsBuyNow = false);
         Task<IResponse> DeleteCart(CartItem req, string _token);
         Task<IResponse<IEnumerable<CartWishlistCount>>> GetCartwishListCount(string _token);
         Task<IResponse> MoveItemWishListToCart(int Id, string _token);
@@ -126,9 +126,9 @@ namespace WebApp.Servcie
             return res;
 
         }
-        public async Task<IResponse<IEnumerable<CartItemSlide>>> GetCartListSlide(string _token,bool IsBuyNow = false)
+        public async Task<IResponse<CartItemsTotalVM>> GetCartListSlide(string _token,bool IsBuyNow = false)
         {
-            var res = new Response<IEnumerable<CartItemSlide>>
+            var res = new Response<CartItemsTotalVM>
             {
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
@@ -139,7 +139,7 @@ namespace WebApp.Servcie
             {
                 try
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<CartItemSlide>>>(Response.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<CartItemsTotalVM>>(Response.Result);
                     return deserializeObject;
                 }
                 catch (Exception e)
