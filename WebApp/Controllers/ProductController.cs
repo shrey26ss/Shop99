@@ -221,7 +221,7 @@ namespace WebApp.Controllers
                     model.SKU = product.SKU;
                     model.Name = product.Name;
                     model.Id = product.Id;
-                    model.Title = product.Title;
+                    //model.Title = product.Title;
                     model.Description = product.Description;
                     model.BrandId = product.BrandId;
                     model.BrandName = product.BrandName;

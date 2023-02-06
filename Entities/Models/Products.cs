@@ -10,8 +10,8 @@ namespace Entities.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Please Enter Name")]
         public string Name { get; set; }
-        [Required(ErrorMessage ="Please Enter Title")]
-        public string Title { get; set; }
+        //[Required(ErrorMessage ="Please Enter Title")]
+        //public string Title { get; set; }
         public string Description { get; set; }
         public string SKU { get; set; }
 
