@@ -1,7 +1,7 @@
 ﻿@using Entities.Models
 @using Service.Models
 @using Entities.Enums;
-@model Response<IEnumerable<CartItemSlide>>
+@model Response<CartItemsTotalVM>
 @{
     decimal TotalPrice = 0;
 }
@@ -21,10 +21,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+                    @if (Model.StatusCode == ResponseStatus.Success && Model.Result.CartItemSlides.Any())
                     {
 
-                        @foreach (var item in Model.Result)
+                        @foreach (var item in Model.Result.CartItemSlides)
                         {
 
                             <tr>
@@ -93,7 +93,7 @@
                     }
                 </tbody>
             </table>
-            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.CartItemSlides.Any())
             {
                 <table class="table cart-table table-responsive-md">
                     <tfoot>
@@ -111,7 +111,7 @@
     <div class="row cart-buttons">
         <div class="col-12">
             <a href="/" class="btn btn-normal">continue shopping</a>
-            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.Any())
+            @if (Model.StatusCode == ResponseStatus.Success && Model.Result.CartItemSlides.Any())
             {
                 <a href="/checkout/false" class="btn btn-normal ms-3">check out</a>
             }

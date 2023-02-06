@@ -44,4 +44,12 @@ namespace Entities.Models
         public int Items { get; set; }
         public string Type { get; set; }
     }
+    public class CartItemsTotalVM
+    {
+        public List<CartItemSlide> CartItemSlides { get; set; }
+        public decimal PayableAmount { get; set; }
+        public decimal TotalPrice { get; set; }
+        public decimal TotalMRP { get; set; }
+        public decimal TotalDiscount { get; set; }
+    }
 }
