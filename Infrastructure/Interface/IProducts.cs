@@ -18,5 +18,6 @@ namespace Infrastructure.Interface
         Task<IResponse<List<string>>> DeletevariantImage(RequestBase<DeleteVariantReq> request);
         Task<IResponse> ProductRating(RequestBase<ProductRatingReq> request);
         Task<IResponse> UpdateAdminApprovelStatus(RequestBase<UpdateAdminApprovelStatus> request);
+        Task<IResponse> UpdateProductVariant(RequestBase<VariantCombination> request);
     }
 }

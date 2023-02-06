@@ -36,9 +36,9 @@
         <button class="btn btn-primary ml-2" id="btnAttributeSubmit">Add Attribute</button>
     </div>
 
-    @section scripts{
     <script>
-        $('#btnAttributeSubmit').click(function() {
+        $('#btnAttributeSubmit').click(function () {
+            console.log('AkashSingh')
             let param = {
                 AttributeId: $('#AttributeId').val(),
                 AttributeText: $("#AttributeId option:selected").text(),
@@ -55,17 +55,18 @@
             }
             let attributeName = $('#AttributeId option:selected').text()?.toLowerCase();
             let groupId = $('#hdGroupId').val();
+            console.log(groupId);
             let attributeGrid = $(`#${groupId} .attributeGrid`);
             if (attributeGrid.find(`[data-attr-Id="${param.AttributeId}"]`).length > 0) {
                 Q.notify(-1, 'Already Added.Please add new attribute!!');
                 return false;
             }
             let _html = `<tr data-attr-Id="${param.AttributeId}" data-attr-Name="${attributeName}" data-attr-value="${param.AttrValue}" >
-                                            <td>${attributeGrid.find('tr').length}</td>
-                                            <td>${param.AttributeText}</td>
-                                            <td>${param.AttrValue}</td>
-                                            <td><span class="btn btn-danger rmRow"><i class="fa fa-times"></i><span></td>
-                                         </tr>`;
+                                 <td>${attributeGrid.find('tr').length}</td>
+                                 <td>${param.AttributeText}</td>
+                                 <td>${param.AttrValue}</td>
+                                 <td><span class="btn btn-danger rmRow"><i class="fa fa-times"></i><span></td>
+                              </tr>`;
             attributeGrid.append(_html);
             if (param.AttributeId == "1" || param.AttributeText == "Color") {
                 $('#attrColor option[value="Default"]').remove();
@@ -76,7 +77,6 @@
             }
         });
     </script>
-    }
 }
 else
 {

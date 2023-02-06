@@ -116,5 +116,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/UpdateProductVariant")]
+        [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateProductVariant(VariantCombination req)
+        {
+            return Ok(await _products.UpdateProductVariant(new RequestBase<VariantCombination>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }

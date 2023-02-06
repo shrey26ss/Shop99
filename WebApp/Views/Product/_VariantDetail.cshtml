@@ -7,7 +7,11 @@
             <a href="/Product/Attributes?s=0">back to variant list</a>
         </small>
     </h1>
+    <div class="float-right">
+        <input type="button" value="Save" class="btn btn-primary" id="SaveProduct">
+    </div>
 </div>
+
 <div class="validation-summary-valid" data-valmsg-summary="true">
     <ul>
         <li style="display:none"></li>
@@ -30,60 +34,56 @@
                 </button>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body attrCombination">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Title</label>
-                        <input name="" class="form-control" value="@Model.variantDetailsByAttributes.Title" />
+                        <input id="Titles" class="form-control" value="@Model.variantDetailsByAttributes.Title" />
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input name="" class="form-control" value="@Model.variantDetailsByAttributes.MRP" />
+                        <input id="MRP" class="form-control" value="@Model.variantDetailsByAttributes.MRP" />
                     </div>
                     <div class="form-group">
                         <label>Selling Cost</label>
-                        <input name="" class="form-control" value="@Model.variantDetailsByAttributes.SellingCost" />
+                        <input id="SellingCost" class="form-control" value="@Model.variantDetailsByAttributes.SellingCost" />
                     </div>
                     <div class="form-group">
                         <label>HSN</label>
-                        <input name="" class="form-control" value="@Model.variantDetailsByAttributes.HSN" />
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity</label>
-                        <input name="" class="form-control" value="@Model.variantDetailsByAttributes.Quantity" />
-                    </div>
+                        <input id="HSN" class="form-control" value="@Model.variantDetailsByAttributes.HSN" />
+                    </div> <input id="Quantity" type="hidden" class="form-control" value="@Model.variantDetailsByAttributes.Quantity" />
                     <div class="form-group">
                         <label>GTIN</label>
-                        <input name="" class="form-control" value="@Model.variantDetailsByAttributes.GTIN" />
+                        <input id="GTIN" class="form-control" value="@Model.variantDetailsByAttributes.GTIN" />
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-4 input-group">
                                 <div class="input-group-prepend" style="height: 38px;">
                                     <div class="input-group-text">
-                                        <input type="checkbox" name="IsFeatured" id="IsFeatured_@Model.variantDetailsByAttributes.Id" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsFeatured ? "checked='checked'" : "")>
+                                        <input type="checkbox" name="IsFeatured" id="IsFeatured" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsFeatured ? "checked='checked'" : "")>
                                     </div>
                                 </div>
-                                <label class="form-control" for="IsFeatured_@Model.variantDetailsByAttributes.Id">IsFeatured</label>
+                                <label class="form-control" for="IsFeatured">IsFeatured</label>
                             </div>
 
                             <div class="col-sm-4 input-group">
                                 <div class="input-group-prepend" style="height: 38px;">
                                     <div class="input-group-text">
-                                        <input type="checkbox" name="IsFeatured" id="IsShowOnHome_@Model.variantDetailsByAttributes.Id" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsShowOnHome ? "checked='checked'" : "")>
+                                        <input type="checkbox" name="IsFeatured" id="IsShowOnHome" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsShowOnHome ? "checked='checked'" : "")>
                                     </div>
                                 </div>
-                                <label class="form-control" for="IsShowOnHome_@Model.variantDetailsByAttributes.Id">IsShowOnHome</label>
+                                <label class="form-control" for="IsShowOnHome">IsShowOnHome</label>
                             </div>
 
                             <div class="col-sm-4 input-group">
                                 <div class="input-group-prepend" style="height: 38px;">
                                     <div class="input-group-text">
-                                        <input type="checkbox" name="IsFeatured" id="IsPublished_@Model.variantDetailsByAttributes.Id" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsPublished ? "checked='checked'" : "")>
+                                        <input type="checkbox" name="IsFeatured" id="IsPublished" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsPublished ? "checked='checked'" : "")>
                                     </div>
                                 </div>
-                                <label class="form-control" for="IsPublished_@Model.variantDetailsByAttributes.Id">IsPublished</label>
+                                <label class="form-control" for="IsPublished">IsPublished</label>
                             </div>
                         </div>
                     </div>
@@ -99,14 +99,16 @@
 
                         }
                     }
-                    <div class="form-group">
-                        <table class="table table-bordered" id="Grid">
+                    <input type="hidden" id="hdGroupId" value="MainAttrGrid" />
+                    <div class="form-group" id="MainAttrGrid">
+                        <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right">Add Attribute</button>
+                        <table class="table table-bordered attributeGrid" id="attributeGrid">
                             <thead>
                                 <tr role="row">
                                     <th>#</th>
                                     <th>Attribute Name</th>
                                     <th>Attribute Value</th>
-                                    @*<th>Action</th>*@
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,11 +118,11 @@
                                     foreach (var item in Model.Attributes)
                                     {
                                         counter++;
-                                        <tr>
+                                        <tr data-attr-Id="@item.AttributeId" data-attr-Name="@item.AttributeName" data-attr-value="@item.AttributeValue">
                                             <td>@counter</td>
                                             <td>@item.AttributeName</td>
                                             <td>@item.AttributeValue</td>
-                                            @*<td><span class="btn btn-danger rmImage" onclick="DeleteImage('@Model.variantDetailsByAttributes.Id')"><i class="fa fa-times"> </i><span></span></span></td>*@
+                                            <td><span class="btn btn-danger rmRow"><i class="fa fa-times"></i><span></td>
                                         </tr>
                                     }
                                 }
@@ -129,7 +131,7 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-info btnAddNewImage mb-2 float-right" onclick="AddNewimage('@Model.variantDetailsByAttributes.Id','@color','@Model.variantDetailsByAttributes.Title')">Upload Image</button>
                     <div class="form-group">
-                        <table class="table table-bordered" id="Grid">
+                        <table class="table table-bordered pictureGrid" id="Grid">
                             <thead>
                                 <tr role="row">
                                     <th>#</th>
@@ -148,14 +150,14 @@
                                     foreach (var item in Model.PictureInformation)
                                     {
                                         counter++;
-                                        <tr>
+                                        <tr data-group-id="@item.GroupId" data-alt-value="@item.Alt" data-title-value="@item.Title" data-display-value="@item.DisplayOrder" data-color-value="@item.Color">
                                             <td>@counter</td>
-                                            <td><img src="@item.ImagePath" alt="@item.Alt" class="img-fluid" /></td>
+                                            <td><img src="@item.ImagePath" alt="@item.Alt" style="width:100px" class="img-fluid" /></td>
                                             <td>@item.DisplayOrder</td>
                                             <td>@item.Alt</td>
                                             <td>@item.Title</td>
                                             <td>@item.Color</td>
-                                            <td><span class="btn btn-danger rmImage" onclick="DeleteImage('@Model.variantDetailsByAttributes.Id','@item.Id','@item.ImagePath')"><i class="fa fa-times"> </i><span></span></span></td>
+                                            <td><span class="btn btn-danger rmImage"><i class="fa fa-times"> </i><span></span></span></td>
                                         </tr>
                                     }
                                 }
@@ -169,6 +171,25 @@
 </div>
 @section scripts{
     <script>
+        variantImages = [];
+        var imgArray = JSON.parse('@Html.Raw(Json.Serialize(Model.PictureInformation))');
+        imgArray.forEach(function (arrayItem) {
+            let imgParams = {
+                Alt: arrayItem.alt,
+                Title: arrayItem.title,
+                DisplayOrder: arrayItem.displayOrder,
+                AttrColor: arrayItem.color,
+                GroupId: arrayItem.groupId
+            };
+            fetch(arrayItem.imagePath)
+                .then(async response => {
+                    const contentType = response.headers.get('content-type')
+                    const blob = await response.blob()
+                    const file = new File([blob], 'myFile.jpg', { contentType })
+                    imgParams.File = file;
+                });
+            variantImages.push(imgParams);
+        });
         $(document).on('click', '.addQuantity', (e) => {
             const remark = $('#txtRemark').val();
             const vId = $(e.currentTarget).data()?.variantid ?? 0;
@@ -184,126 +205,229 @@
                 $('#txtRemark').focus();
                 return;
             }
-            $.post('/Product/VariantQuantityUpdate', { v: vId, q: currentQty, IsReduce: am == 0 ? false : true, Remark: remark }).done(function(result) {
+            $.post('/Product/VariantQuantityUpdate', { v: vId, q: currentQty, IsReduce: am == 0 ? false : true, Remark: remark }).done(function (result) {
                 Q.notify(result.statusCode, result.responseText);
                 (result.statusCode == 1)
                 {
                     // loadData();
                     location.reload();
                 }
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 console.log(xhr.responseText);
                 Q.notify(-1, 'something went wrong.');
             })
         });
-
-        var UpdateIspublish = function(Id) {
-            let IsPublish = false;
-            if ($('#Ispublish_' + Id).is(":checked")) {
-                IsPublish = true;
-            }
-            let obj = {
-                Id: Id,
-                IsPublish: IsPublish
-            }
-            $.post('/Product/UpdateIsPublishVariant', obj).done(function(result) {
-                console.log(result);
-                Q.notify(result.statusCode, result.responseText);
-                if (result.statusCode == 1) {
-                    loaddata();
-                }
-            }).fail(function(xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
-            })
-        }
-        var AddNewAttribute = function(Id) {
-            let combinationId = '';
-            $.post('/Product/AddAttributes', { combinationId, CategoryId: Id }).done((result) => {
-                Q.alert({
-                    title: 'Add Attribute',
-                    body: result,
-                    width: 900
-                });
-            })
-        }
-        var DeleteImage = function(VarId, ImgId, Path) {
-            Q.confirm("Are You Sure. You Want To Delete This Image", () => deletevariantImg(VarId, ImgId, Path));
-        }
-        var deletevariantImg = function(VarId, ImgId, Path) {
-            $.post('/Product/DeleteVariantImage', { VariantId: VarId, ImgId: ImgId, ImgPath: Path }).done((result) => {
-                Q.notify(result.statusCode, result.responseText);
-                if (result.statusCode == 1) {
-                    window.location.reload();
-                }
-            }).fail(function(xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
-            })
-        }
-        var AddNewimage = function(VarId, color, Alt) {
+        var AddNewimage = function (VarId, color, Alt) {
             $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: color, ImgAlt: Alt }).done((result) => {
                 Q.alert({
                     title: 'Upload Variant Image',
                     body: result,
                     width: 900
                 });
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 console.log(xhr.responseText);
                 alert('something went wrong');
             })
         }
-        var AdminApprovelChangeStatus = (id, statusid) => {
-            debugger
-            let remark = '';
-            if (statusid == 'Rejected') {
-                const html = `<div class="form-group">
-                                                                                                   <label for="inputAddress">Reason</label>
-                                                                                                   <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                                                                                                   <small class="text-danger d-none" id="txtRemarksm">Remark is required</small>
-                                                                                                   </div>
-                                                                                                   <button type="submit"  data-id="${id}" data-status="${statusid}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Reject</button>
-                                                                                                   `;
+        $(document).on('click', '.btnAddNewAttribute', e => {
+            let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
+            let __top = $(e.currentTarget).offset().top - 100;
+            $.post('/Product/AddAttributes', { combinationId, CategoryId: '@Model.variantDetailsByAttributes.CategoryId' }).done((result) => {
                 Q.alert({
-                    title: 'Add Reason',
-                    body: html,
-                    width: 500
+                    title: 'Add Attribute',
+                    body: result,
+                    width: 900,
+                    top: __top
                 });
-                $('#btnSubmitRemark').click(() => {
-                    remark = $('#txtRemark').val();
-                    if (remark == '') {
-                        $('#txtRemarksm').removeClass('d-none');
-                        return false;
+            })
+        })
+        $(document).on('click', '.rmRow', (e) => {
+            let data = $(e.currentTarget).closest('tr').data();
+            if (data) {
+                let param = {
+                    AttributeId: data.attrId,
+                    AttributeText: data.attrValue,
+                    AttributeName: data.attrName
+                };
+                $(e.currentTarget).closest('tr').remove();
+                if (param.AttributeName == "color") {
+                    let _colors = selectedColors();
+                    if (!_colors.includes(param.AttributeText)) {
+                        $(`#attrColor option[value="${param.AttributeText}"]`).remove();
                     }
-                    else {
-                        $('#txtRemarksm').addClass('d-none');
-                    }
-                    $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done((result) => {
-                        Q.notify(result.statusCode, result.responseText);
-                        setTimeout(window.location.reload(), 4000)
-                    }).fail(function(xhr) {
-                        console.log(xhr.responseText);
-                        alert('something went wrong');
-                    })
+                }
+                if ($('#attrColor option').length <= 0) {
+                    let _option = `<option value="Default" data-group-id="1">Default</option>`;
+                    $('#attrColor').append(_option);
+                }
+            }
+        });
+        $('.rmImage').unbind().click(e => {
+            let _ele = $(e.currentTarget).closest('tr');
+            let __index = _ele.index();
+            variantImages.splice(__index, 1);
+            _ele.remove();
+        });
+        $(document).on('click', '#AddProductImg', () => {
+            let __files = $('#PictureFile')[0].files;
+            let totalFiles = __files.length;
+            for (let i = 0; i < totalFiles; i++) {
+
+                //HightWidthValidatio
+                var k = 0;
+                var _URL = window.URL || window.webkitURL;
+                var file, img;
+                if ((file = __files[i])) {
+                    img = new Image();
+                    img.onload = function () {
+                        if (this.width < 500 || this.height < 700) {
+                            Q.notify(-1, 'Image width must be 500 and above and height must be 700 and above');
+                            $('.pictureGrid').find('tr:last').remove();
+                            variantImages.splice(-1);
+                            return false;
+                        }
+                    };
+                    img.src = _URL.createObjectURL(file);
+                }
+                //HightWidthValidatio
+                let param = {
+                    File: __files[i],
+                    //File: $('#PictureFile')[0].files[0],
+                    Alt: $('#Alt').val(),
+                    Title: $('#Title').val(),
+                    DisplayOrder: $('#DisplayOrder').val(),
+                    AttrColor: $("#attrColor option:selected").text(),
+                    GroupId: $("#attrColor option:selected").data()?.groupId
+                };
+                if (!param.File || !param.Alt || !param.Title || !param.DisplayOrder || !param.AttrColor) {
+                    Q.notify(-1, 'All Image fileds are required');
+                    return false;
+                }
+
+
+                let pictureGrid = $(`.pictureGrid`);
+                let count = pictureGrid.find('tr').length;
+                variantImages.push(param);
+                let _src = URL.createObjectURL(param.File);
+                let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
+                           <td>${count}</td>
+                           <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                           <td>${param.DisplayOrder}</td>
+                           <td>${param.Alt}</td>
+                           <td>${param.Title}</td>
+                           <td>${param.AttrColor}</td>
+                           <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                      </tr>`;
+                pictureGrid.append(_html);
+                $('.rmImage').unbind().click(e => {
+                    let _ele = $(e.currentTarget).closest('tr');
+                    let __index = _ele.index();
+                    variantImages.splice(__index, 1);
+                    _ele.remove();
                 });
             }
-            else {
-                $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done((result) => {
-                    Q.notify(result.statusCode, result.responseText);
-                    setTimeout(window.location.reload(), 4000)
-                }).fail(function(xhr) {
-                    console.log(xhr.responseText);
-                    alert('something went wrong');
-                })
-            }
+        });
+
+    </script>
+    <script>
+        const isPartOfArray = (a, b) => {
+            a = a.sort();
+            b = b.sort();
+            return a.join().includes(b.join())
+        };
+        const selectedColors = () => {
+            let colorList = [];
+            $('.attributeGrid').each(function () {
+                colorList.push($(this).find('[data-attr-name="color"]').data()?.attrValue)
+            })
+            return colorList;
         }
-                                //var FilterData = () => {
-                                //    if($('#ddlstatus').val() == ''){
-                                //        window.location.href = '/Product/Attributes';
-                                //    }
-                                //    else{
-                                //        window.location.href = '/Product/Attributes?s=' + $('#ddlstatus').val();
-                                //    }
-                                //}
+        $(document).on('click', '#SaveProduct', () => {
+            let groupInfo = [];
+            let attrInfo = [];
+            let pictureInfo = [];
+            let valCount = 0;
+            $('.attrCombination').each(function (i) {
+                let groupId = i + 1;
+                let currentGroup = $(this);
+                let attributes = currentGroup.find('.attributeGrid tr').each(function (j) {
+                    let cAttr = $(this).data();
+                    let cAttrs = $(this).closest('.attributeGrid');
+                    if (!$.isEmptyObject(cAttr)) {
+                        let attributes = {
+                            Id: j,
+                            AttributeId: cAttr.attrId,
+                            AttributeValue: cAttr.attrValue,
+                            GroupId: groupId
+                        };
+                        attrInfo.push(attributes);
+                    }
+
+                });
+                var returnindays = currentGroup.find('[name="ReturnInDays"]').val();
+                var warranty = currentGroup.find('[name="Warranty"]').val();
+                var warrantyUnit = currentGroup.find('[name="WarrantyUnit"]').val();
+                let groupDetail = {
+                    Id: '@Model.variantDetailsByAttributes.Id',
+                    HSN: $('#HSN').val(),
+                    MRP: $('#MRP').val(),
+                    Quantity: $('#Quantity').val(),
+                    GTIN: $('#GTIN').val(),
+                    Title: $('#Titles').val(),
+                    SellingCost: $('#SellingCost').val(),
+                    IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
+                    IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
+                    IsPublished: $('#IsPublished').is(':checked') ? 1 : 0
+                };
+                groupInfo.push(groupDetail);
+            });
+            $('.pictureGrid tbody tr').each(function (i) {
+                let pictureGroup = $(this).data();
+                let pic = {
+                    Alt: pictureGroup.altValue,
+                    Title: pictureGroup.titleValue,
+                    DisplayOrder: pictureGroup.displayValue,
+                    AttrColor: pictureGroup.colorValue,
+                    GroupId: pictureGroup.groupId
+                };
+                pictureInfo.push(pic);
+            });
+
+            if (!isPartOfArray(pictureInfo.map(x => x.AttrColor), selectedColors())) {
+                Q.notify(-1, 'Some Images of selected colores are missing.');
+                return false;
+            }
+
+            let param = {
+                ProductId: parseInt('@Model.variantDetailsByAttributes.ProductId'),
+                AttributeInfo: attrInfo,
+                GroupInfo: groupInfo,
+                PictureInfo: pictureInfo
+            };
+            formData = new FormData();
+            for (let i = 0; i < variantImages.length; i++) {
+                formData.append(`req[${i}].file`, variantImages[i].File);
+                formData.append(`req[${i}].Color`, variantImages[i].AttrColor);
+                formData.append(`req[${i}].GroupId`, variantImages[i].GroupId);
+                formData.append(`req[${i}].DisplayOrder`, variantImages[i].DisplayOrder);
+                formData.append(`req[${i}].Title`, variantImages[i].Title);
+                formData.append(`req[${i}].Alt`, variantImages[i].Alt);
+            }
+            formData.append('jsonObj', JSON.stringify(param));
+
+            $.ajax({
+                url: '/Product/UpdateVariants',
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (response) {
+                    Q.notify(response.statusCode, response.responseText)
+                },
+                error: function (xhr) {
+                    Q.notify(-1, xhr.responseText)
+                },
+            });
+        })
     </script>
 }

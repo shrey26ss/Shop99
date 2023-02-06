@@ -551,5 +551,45 @@ namespace WebApp.Controllers
         }
         #endregion
 
+        [Authorize(Roles = "1,3")]
+        [HttpPost]
+        [ValidateAjax]
+        public async Task<IActionResult> UpdateVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)
+        {
+            var model = new VariantCombination();
+            model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
+            ModelState.Clear();
+            TryValidateModel(model);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var response = new Response();
+            try
+            {
+                model.PictureInfo = UploadProductImage(req);
+                if (model.PictureInfo.Count() > 0)
+                {
+                    string _token = User.GetLoggedInUserToken();
+                    var jsonData = JsonConvert.SerializeObject(model);
+                    var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/UpdateProductVariant", jsonData, _token);
+                    if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                    {
+                        var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
+                        response = deserializeObject;
+                    }
+                }
+                else
+                {
+                    response.ResponseText = "Image is currupted.Please try another image.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return Json(response);
+        }
     }
 }

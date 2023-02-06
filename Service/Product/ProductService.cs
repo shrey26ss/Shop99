@@ -336,5 +336,37 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             }
             return res;
         }
+        public async Task<IResponse> UpdateProductVariant(RequestBase<VariantCombination> request)
+        {
+            var res = new Response();
+            try
+            {
+                var VariantGroup = ConvertToDataTable.ToDataTable(request.Data.GroupInfo);
+                var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
+                var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
+                var picturejson = request.Data.PictureInfo.ToString();
+                string sqlQuery = "Proc_UpdateVariant";
+                int i = -5;
+                DynamicParameters param = new DynamicParameters();
+                param.Add("VariantGroup", VariantGroup, DbType.Object);
+                param.Add("AttributeInfo", AttributeInfo, DbType.Object);
+                param.Add("PictureInfo", PictureInfo, DbType.Object);
+                param.Add("VariantId", request.Data.GroupInfo.FirstOrDefault().Id, DbType.Int32);
+                param.Add("EntryBy", request.LoginId, DbType.Int32);
+                param.Add("PictureInfojson", picturejson, DbType.String);
+                i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
+                if (i > -1 && i < 100)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return res;
+        }
     }
 }
