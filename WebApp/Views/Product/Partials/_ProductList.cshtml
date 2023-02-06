@@ -7,8 +7,8 @@
     foreach (var item in Model)
     {
         counter++;
-       
-                 <tr>
+
+        <tr>
             <td>@counter</td>
             <td class="align-middle">
                 <div class="btn-group dropup">
@@ -23,14 +23,14 @@
                 </div>
             </td>
             <td> <a class="btn btn-link" href="/Product/Edit/@item.Id">    @item.Name</a> </td>
-            <td>@item.Title</td>
+            @*<td>@item.Title</td>*@
             <td>@item.CategoryName</td>
             <td>@item.BrandName</td>
             <td>@item.SKU</td>
             <td>
                 <span class="switch switch-sm">
-                <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
-                <label for="Ispublish_@item.Id"></label>
+                    <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
+                    <label for="Ispublish_@item.Id"></label>
             </td>
         </tr>
     }
