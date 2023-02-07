@@ -936,7 +936,7 @@ function printDiv(divName) {
         fromDateSelector.datepicker({
             dateFormat: 'dd M yy',
             maxDate: new Date(),
-            autoClose:true,
+            autoClose: true,
             onSelect: function (dateText, inst) {
                 //let toDateSelector = $('#dtToDate');
                 let date = $(this).val();
