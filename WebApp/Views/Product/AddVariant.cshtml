@@ -227,7 +227,20 @@
                     Q.notify(response.statusCode, response.responseText)
                 },
                 error: function (xhr) {
-                    Q.notify(-1, xhr.responseText)
+                    Q.renderError(xhr);
+                    let errors = [];
+                    let keys = Object.keys(xhr.responseJSON);
+                    for(let i=0;i<keys.length;i++){
+                        let isErrorsExists = 'errors' in xhr.responseJSON[keys[i]]
+                        if (isErrorsExists){
+                            let e = xhr.responseJSON.map(x=>x.errors);
+                            errors = [...e];
+                        }
+                        else{
+                            errors.push(xhr.responseJSON[keys[i]]);
+                        }
+                    }
+                    Q.notify(-1, errors.join('<br/>'))
                 },
             });
         })

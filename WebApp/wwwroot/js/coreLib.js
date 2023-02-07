@@ -784,7 +784,7 @@ function printDiv(divName) {
             for (var i = 0; i < validationErrors.length; i++) {
                 let __span = $('span[data-valmsg-for="' + validationErrors[i].key + '"]');
                 if (__span.index() == -1) {
-                    console.log('[name="' + validationErrors[i] + '"]');
+                    console.log('[name="' + validationErrors[i].key + '"]');
                     $('[name="' + validationErrors[i].key + '"]').parent('div').append(`<span data-valmsg-for="${validationErrors[i].key}" class="error">${validationErrors[i].errors[0]}</span>`);
                 }
                 else {
