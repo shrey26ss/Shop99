@@ -58,6 +58,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\Image\icons\ui-icons_444444_256x240.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="wwwroot\Image\icons\wishlist.svg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
