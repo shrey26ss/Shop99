@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.SymbolStore;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -310,10 +312,9 @@ namespace WebApp.Controllers
             model = JsonConvert.DeserializeObject<VariantCombination>(jsonObj ?? "");
             ModelState.Clear();
             TryValidateModel(model);
-
-
             if (!ModelState.IsValid)
             {
+                //ModelState.SetModelValue("GroupInfo[0].Title", new ValueProviderResult("New value", CultureInfo.InvariantCulture));
                 return BadRequest(ModelState);
             }
             var response = new Response();
