@@ -260,7 +260,7 @@ namespace WebApp.Controllers
             {
 
             }
-            return Json(response);
+            return Json(new  { response.ResponseText, response.StatusCode, ReturnURL = "/Product" });
         }
         #endregion
 
