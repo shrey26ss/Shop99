@@ -9782,7 +9782,7 @@ ul.sosiyal {
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        background-color: #f7f7f7;
+        background-color: #2874f0;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
     }
@@ -9792,7 +9792,8 @@ ul.sosiyal {
         }
 
         ul.sosiyal li a i {
-            color: #444444;
+            /*color: #444444;*/
+            color: #ffffff;
             font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
         }
 
@@ -9818,7 +9819,7 @@ ul.sosiyal {
     .footer-title h5 {
         font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
         text-transform: uppercase;
-        color: #000000;
+        color: #ffffff;
         font-family: "Raleway", sans-serif;
     }
 
@@ -9839,7 +9840,7 @@ ul.sosiyal {
 
     .footer-contant .footer-logo img {
         width: auto;
-        height: calc(30px + (66 - 30) * ((100vw - 320px) / (1920 - 320)));
+        height: calc(50px + (66 - 30) * ((100vw - 320px) / (1920 - 320)));
     }
 
 .footer-contant ul li {
@@ -9859,11 +9860,13 @@ ul.sosiyal {
     }
 
     .footer-contant ul li a {
-        color: #8d8d8d;
+        /*color: #8d8d8d;*/
+        color: #ffffff;
     }
 
 .footer-contant .contact-list li {
     padding-left: 25px;
+    color: #ffffff;
 }
 
     .footer-contant .contact-list li:first-child {
@@ -9872,10 +9875,12 @@ ul.sosiyal {
 
         .footer-contant .contact-list li:first-child i {
             margin-top: 4px;
+            color: #ffffff;
         }
 
     .footer-contant .contact-list li span {
         font-family: "PT Sans", sans-serif;
+        color: #ffffff;
     }
 
     .footer-contant .contact-list li i {
@@ -9931,8 +9936,8 @@ ul.sosiyal {
         }
 
     .footer-contant .newsletter-second .form-group .input-group-text {
-        background-color: #2874f0;
-        border-color: #2874f0;
+        background-color: #002e78;
+        border-color: #002e78;
         color: #ffffff;
         border-bottom-right-radius: 5px;
         border-top-right-radius: 5px;
@@ -9961,7 +9966,9 @@ ul.sosiyal {
 }
 
     .footer-contant ul.paymant li img {
-        width: calc(20px + (25 - 20) * ((100vw - 320px) / (1920 - 320)));
+        /* width: calc(20px + (25 - 20) * ((100vw - 320px) / (1920 - 320)));*/
+        border: 2px solid #fff;
+        border-radius: 50%;
     }
 
     .footer-contant ul.paymant li:nth-child(n+2) {
@@ -9971,12 +9978,17 @@ ul.sosiyal {
 .footer-contant p {
     line-height: 1.6;
     margin-bottom: 20px;
+    color:#fff;
+}
+
+.footer-contant .btn-solid {
+    background-color: #002e78;
 }
 
 .footer1 {
     padding-top: calc(30px + (60 - 30) * ((100vw - 320px) / (1920 - 320)));
     padding-bottom: calc(30px + (60 - 30) * ((100vw - 320px) / (1920 - 320)));
-    background-color: #ffffff;
+    background-color: #2874f0;
 }
 
     .footer1 .footer-main {
@@ -10012,11 +10024,11 @@ ul.sosiyal {
     }
 
         .subfooter .footer-left p {
-            color: #8d8d8d;
+            color: #8d8d8d!important;
             text-transform: uppercase;
-            font-family: "Raleway", sans-serif;
+            font-weight:500;
             letter-spacing: 0.05em;
-            font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
+            font-size: calc(13px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
         }
 
     .subfooter .footer-right {
@@ -10030,7 +10042,8 @@ ul.sosiyal {
         }
 
     .subfooter.dark-footer {
-        background-color: #444444;
+        /*background-color: #444444;*/
+        background-color: #ffffff;
     }
 
         .subfooter.dark-footer .footer-left p {
@@ -19831,7 +19844,7 @@ ul.sosiyal {
 
     .tap-top svg {
         width: calc(35px + (50 - 35) * ((100vw - 320px) / (1920 - 320)));
-        fill: #2874f0;
+        fill: #002e78;
     }
 
     .tap-top.top-cls {
