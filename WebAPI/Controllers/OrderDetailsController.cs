@@ -8,7 +8,7 @@ using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+  
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("/api/")]
@@ -17,25 +17,34 @@ namespace WebAPI.Controllers
         private readonly IOrderDetailsService _orderRepo;
 
         public OrderDetailsController(IOrderDetailsService orderRepo) => _orderRepo = orderRepo;
+        [HttpPost]
         [Route("OrderDetails/GetDetails")]
         public async Task<IActionResult> GetDetails(OrderDetailsRequest req)
         {
             return Ok(await _orderRepo.GetAsync(User.GetLoggedInUserId<int>(), req));
         }
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/ChangeStatus")]
         public async Task<IActionResult> ChangeStatus(OrderDetailsRow req) => Ok(await _orderRepo.ChengeStatusAsync(User.GetLoggedInUserId<int>(),req));
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/UpdateShippingNInvoice")]
         public async Task<IActionResult> UpdateShippingNInvoice(OrderShippedStatus req) => Ok(await _orderRepo.UpdateShippingNInvoice(req));
+        [HttpPost]
         [Route("OrderDetails/GetInvoiceDetails")]
         public async Task<IActionResult> GetInvoiceDetails(OrderInvoiceRequest req) => Ok(await _orderRepo.GetInvoiceDetails(req.OrderId));
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/OrderReplacedConform")]
         public async Task<IActionResult> OrderReplacedConform(OrderReplacedConformReq req) => Ok(await _orderRepo.OrderReplacedConform(req));
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/GetReturnRequest")]
         public async Task<IActionResult> GetReturnRequest(OrderDetailsRequest request) => Ok(await _orderRepo.GetReturnRequest(request));
+        [HttpPost]
         [Route("OrderDetails/GetUsersOrderTraking")]
         public async Task<IActionResult> GetUsersOrderTraking(OrderReplacedConformReq req) => Ok(await _orderRepo.GetUsersOrderTraking(req));
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/GetReturnRequestByOrderId")]
         public async Task<IActionResult> GetReturnRequestByOrderId(OrderDetailsRequest req) => Ok(await _orderRepo.GetReturnRequestByOrderId(req));
+        [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/GetOrderGSTDetails")]
         public async Task<IActionResult> GetOrderGSTDetails(OrderDetailsRequest req) => Ok(await _orderRepo.GetOrderGST(User.GetLoggedInUserId<int>(),req));
 
