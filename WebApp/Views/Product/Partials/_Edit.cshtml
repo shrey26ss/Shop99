@@ -42,8 +42,8 @@
 
                         </div>
                         <div class="card-body">
-                            <div id="row">
-                                <div class="col-md-12 col-sm-12">
+                            <div class="row" id="row">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Category</label>
                                         <div class="input-group">
@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Brand</label>
                                         <div class="input-group">
@@ -72,56 +72,59 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
                                         <label>Name</label>
                                         <input class="form-control text-box single-line" asp-for="Name" type="text">
                                     </div>
-                                    <div class="form-group col-md-12 col-sm-12">
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
                                         <label>SKU</label>
                                         <input class="form-control text-box single-line" asp-for="SKU" type="text">
-
                                     </div>
 
+                                </div>
 
 
-                                    @*<div class="col-md-12 col-sm-12">
+
+                                @*<div class="col-md-12 col-sm-12">
                                     <div class="form-group">
                                     <label>Title</label>
                                     <input class="form-control text-box single-line" asp-for="Title" type="text">
                                     </div>
                                     </div>*@
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <label>ShortDescription</label>
-                                            <input class="form-control text-box single-line" asp-for="ShortDescription" type="text" maxlength="300">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4 input-group mt-3">
-                                            <div class="input-group-prepend" >
-                                                <div class="input-group-text">
-                                                    <input type="checkbox" asp-for="IsCod" type="checkbox">
-                                                </div>
-                                            </div>
-                                            <label class="form-control" for="IsCod">IsCod</label>
-                                        </div>
-                                    <div class="form-group col-sm-8 mt-3">
-                                        
-                                    </div>
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea asp-for="Description" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Specification</label>
-                                            <textarea asp-for="Specification" class="form-control"></textarea>
-                                        </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>ShortDescription</label>
+                                        <input class="form-control text-box single-line" asp-for="ShortDescription" type="text" maxlength="300">
                                     </div>
                                 </div>
+                                <div class="col-sm-4 input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" asp-for="IsCod" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <label class="form-control" for="IsCod">IsCod</label>
+                                </div>
+                                <div class="form-group col-sm-8 mt-3">
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea asp-for="Description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Specification</label>
+                                        <textarea asp-for="Specification" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -138,6 +141,8 @@
                             <div class="card-title">
                                 <i class="fas fa-info"></i>Shipping Address
                             </div>
+
+                            <div class="card-tools float-right"><button class="btn btn-tool" data-card-widget="collapse" type="button"><i class="fa toggle-icon fa-minus"></i></button></div>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -149,12 +154,25 @@
                                     <label>Free On Amount</label>
                                     <input class="form-control text-box single-line" type="number" min="0" asp-for="FreeOnAmount">
                                 </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <input class="" asp-for="IsFlat" type="checkbox">
-                                        <label class="ml-2">IsFlat</label>
+                                <div class="col-sm-4 input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" asp-for="IsFlat" type="checkbox">
+                                        </div>
                                     </div>
+                                    <label class="form-control" for="IsFlat">IsFlat</label>
                                 </div>
+                                <div class="form-group col-sm-8 mt-3">
+                                </div>
+                                @*                                <div class="form-group col-sm-8 mt-3">
+
+                                    <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                    <input class="" asp-for="IsFlat" type="checkbox">
+                                    <label class="ml-2">IsFlat</label>
+                                    </div>
+                                    </div>
+                                    </div>*@
                             </div>
                         </div>
                     </div>
@@ -165,14 +183,14 @@
 </form>
 
 @section scripts{
-    <script>
-        Q.initEditor('#Description');
-        Q.initEditor('#Specification');
-        //$('#Charges, #FreeOnAmount').numeric({
-        //    numericType: "numeric",
-        //    maxLength: 9
-        //});
+<script>
+    Q.initEditor('#Description');
+    Q.initEditor('#Specification');
+    //$('#Charges, #FreeOnAmount').numeric({
+    //    numericType: "numeric",
+    //    maxLength: 9
+    //});
 
-        $('#CategoryId,#BrandId').select2();
-    </script>
+    $('#CategoryId,#BrandId').select2();
+</script>
 }
