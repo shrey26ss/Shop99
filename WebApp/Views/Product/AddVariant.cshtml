@@ -319,7 +319,7 @@
                     AttrColor: $("#attrColor option:selected").text(),
                     GroupId: $("#attrColor option:selected").data()?.groupId
                 };
-                if (!param.File || !param.Alt || !param.Title || !param.DisplayOrder || !param.AttrColor) {
+                if (!param.File || !param.Alt || !param.Title || !param.AttrColor) {
                     Q.notify(-1, 'All Image fileds are required');
                     return false;
                 }
@@ -329,6 +329,7 @@
                 let count = pictureGrid.find('tr').length;
                 variantImages.push(param);
                 let _src = URL.createObjectURL(param.File);
+                param.DisplayOrder = $('.pictureGrid tr').length;
                 let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
                                       <td>${count}</td>
                                       <td><img src="${_src}" alt="image" style="width:100px"/></td>
