@@ -6,7 +6,7 @@
     <div class="custom-container">
         <div class="row">
             <div class="col">
-                <div class="slide-1 no-arrow">
+                <div class="slide-1">
                     @if (Model != null && Model.topBanner.Any())
                     {
                         var banner = Model.topBanner;
@@ -87,8 +87,10 @@
 }
 <script>
     $('.slide-1').slick({
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 2500,
+        nav: true,
+        dots: false,
     });
     $('.slide-1-section').slick({
         dots: false,
