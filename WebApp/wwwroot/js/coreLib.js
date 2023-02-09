@@ -934,6 +934,8 @@ function printDiv(divName) {
         fromDateSelector = $('#' + fromDateSelector);
         toDateSelector = $('#' + toDateSelector);
         fromDateSelector.datepicker({
+            changeYear: true,
+            changeMonth: true,
             dateFormat: 'dd M yy',
             maxDate: new Date(),
             autoClose: true,
