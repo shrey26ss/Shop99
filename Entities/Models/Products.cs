@@ -9,10 +9,13 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Please Enter Name")]
+        [MaxLength(240, ErrorMessage = "Allowed Maximum 240 Characters For Name")]
         public string Name { get; set; }
         //[Required(ErrorMessage ="Please Enter Title")]
         //public string Title { get; set; }
+        [MaxLength(3000, ErrorMessage ="Allowed Maximum 3000 Characters For Description")]
         public string Description { get; set; }
+        [MaxLength(50, ErrorMessage = "Allowed Maximum 50 Characters For SKU")]
         public string SKU { get; set; }
 
         [Required]
@@ -31,6 +34,7 @@ namespace Entities.Models
         public string ModifyOn { get; set; }   
         public bool IsPublished { get; set; }
         public string Specification { get; set; }
+        [MaxLength(1000, ErrorMessage = "Allowed Maximum 1000 Characters For Short Description")]
         public string ShortDescription { get; set; }
         public bool IsCod { get; set; }
     }
