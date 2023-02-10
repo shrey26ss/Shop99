@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
@@ -428,11 +429,14 @@ namespace WebApp.Controllers
         private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)
         {
             List<PictureInformation> ImageInfo = new List<PictureInformation>();
+            Regex reg = new Regex("[*'\",_&#^@]");
             if (req != null && req.Any())
             {
                 int counter = 0;
                 foreach (var item in req)
                 {
+                    item.Alt = reg.Replace(item.Alt.Replace("\\", "|").Replace("/", "|"), " ");
+                    item.Title = reg.Replace(item.Title.Replace("\\", "|").Replace("/", "|"), " ");
                     counter++;
                     string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
                     Utility.O.UploadFile(new FileUploadModel
