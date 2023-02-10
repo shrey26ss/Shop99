@@ -280,8 +280,8 @@
                 if ((file = __files[i])) {
                     img = new Image();
                     img.onload = function () {
-                        if (this.width < 500 || this.height < 700) {
-                            Q.notify(-1, 'Image width must be 500 and above and height must be 700 and above');
+                        if (this.width < 400 || this.height < 400) {
+                            Q.notify(-1, 'Image width must be 400 and above and height must be 400 and above');
                             $('.pictureGrid').find('tr:last').remove();
                             variantImages.splice(-1);
                             return false;
@@ -319,6 +319,7 @@
                            <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
                       </tr>`;
                 pictureGrid.append(_html);
+                Q.notify(1, 'Image Added Successfully');
                 $('.rmImage').unbind().click(e => {
                     let _ele = $(e.currentTarget).closest('tr');
                     let __index = _ele.index();
