@@ -138,8 +138,10 @@ namespace Service.Categories
         }
         public async Task<IResponse<IEnumerable<Category>>> TopCategories()
         {
-            string sp = @"Select *  from Category(nolock) where ParentId=0 and IsPublish=1 Order by Ind";
-
+            string sp = @";with cte as(
+select   ProductId from VariantGroup  group by ProductId)
+select top(5) c.CategoryId,c.CategoryName,c.Icon from cte inner join Products p on p.Id=cte.ProductId
+ inner join Category c on c.CategoryId=p.CategoryId group by  c.CategoryId,c.CategoryName,c.Icon";
             var res = new Response<IEnumerable<Category>>();
             try
             {
