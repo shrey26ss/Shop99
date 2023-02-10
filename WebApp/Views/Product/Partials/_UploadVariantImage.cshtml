@@ -15,7 +15,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="input-group input-group-required">
-                                            <input class="text-box single-line" type="file" accept=".jpg,jpeg" id="PictureFile" name="PictureFile" multiple="">
+                                            <input class="text-box single-line" type="file" accept=".jpg,.jpeg,.png" id="PictureFile" name="PictureFile" multiple="">
                                         </div>
                                     </div>
                                 </div>
@@ -43,18 +43,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-md-3">
-                                        <div class="label-wrapper">
-                                            <label class="col-form-label required" for="Displayorder">Display order</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="input-group input-group-required ">
-                                            <input class="form-control text-box single-line" type="number" id="DisplayOrder" name="DisplayOrder" value="1">
-                                        </div>
-                                    </div>
+                                @* <div class="form-group row">
+                                <div class="col-md-3">
+                                <div class="label-wrapper">
+                                <label class="col-form-label required" for="Displayorder">Display order</label>
                                 </div>
+                                </div>
+                                <div class="col-md-9">
+                                <div class="input-group input-group-required ">
+                                <input class="form-control text-box single-line" type="number" id="DisplayOrder" name="DisplayOrder" value="1">
+                                </div>
+                                </div>
+                                </div>*@
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <div class="label-wrapper">
@@ -64,12 +64,13 @@
                                     <div class="col-md-9">
                                         <div class="input-group input-group-required">
                                             <select class="form-control text-box single-line" id="attrColor">
-                                                @if(Model.VariantColor != null && Model.VariantColor != ""){
+                                                @if (Model.VariantColor != null && Model.VariantColor != "")
+                                                {
                                                     <option value="@Model.VariantColor" data-group-id="@Model.VariantId">@Model.VariantColor</option>
                                                 }
                                                 else
                                                 {
-                                                 <option value="Defult" data-group-id="@Model.VariantId">Defult</option>   
+                                                    <option value="Defult" data-group-id="@Model.VariantId">Defult</option>
                                                 }
                                             </select>
                                         </div>
@@ -92,3 +93,20 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        console.log();
+        $('#attributeGrid tbody tr').each(function (index, tr) {
+            let attrId = $(this).data().attrId;
+            let attrColor = $(this).data().attrName;
+            let attrValue = $(this).data().attrValue;
+            if (attrId == 1 || attrColor == "Color" || attrColor == "color" || attrColor == "Colour" || attrId == '1') {
+                $('#attrColor option[value="Default"]').remove();
+                $('tr[data-color-value="Default"]').remove();
+                let groupId = $('#VariantIDD').val();
+                let _option = `<option value="${attrId}" data-group-Id="${groupId}">${attrValue}</option>`;
+                $('#attrColor').append(_option);
+            }
+        });
+    });
+</script>

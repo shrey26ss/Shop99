@@ -99,6 +99,7 @@
 
                         }
                     }
+                    <input type="hidden" id="VariantIDD" value="@Model.PictureInformation.FirstOrDefault().GroupId" />
                     <input type="hidden" id="hdGroupId" value="MainAttrGrid" />
                     <div class="form-group" id="MainAttrGrid">
                         <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right">Add Attribute</button>
@@ -218,7 +219,7 @@
             })
         });
         var AddNewimage = function (VarId, color, Alt) {
-            $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: color, ImgAlt: Alt }).done((result) => {
+            $.post('/Product/UploadVariantImage', { VariantId: VarId, VariantColor: 'Default', ImgAlt: Alt }).done((result) => {
                 Q.alert({
                     title: 'Upload Variant Image',
                     body: result,
@@ -295,20 +296,19 @@
                     //File: $('#PictureFile')[0].files[0],
                     Alt: $('#Alt').val(),
                     Title: $('#Title').val(),
-                    DisplayOrder: $('#DisplayOrder').val(),
                     AttrColor: $("#attrColor option:selected").text(),
                     GroupId: $("#attrColor option:selected").data()?.groupId
                 };
-                if (!param.File || !param.Alt || !param.Title || !param.DisplayOrder || !param.AttrColor) {
+                if (!param.File || !param.Alt || !param.Title || !param.AttrColor) {
                     Q.notify(-1, 'All Image fileds are required');
                     return false;
                 }
-
 
                 let pictureGrid = $(`.pictureGrid`);
                 let count = pictureGrid.find('tr').length;
                 variantImages.push(param);
                 let _src = URL.createObjectURL(param.File);
+                param.DisplayOrder = $('.pictureGrid tr').length;
                 let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
                            <td>${count}</td>
                            <td><img src="${_src}" alt="image" style="width:100px"/></td>
