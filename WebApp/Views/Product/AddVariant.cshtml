@@ -300,12 +300,12 @@
                  if ((file =__files[i])) {
                         img = new Image();
                         img.onload = function() {
-                            if(this.width<400 || this.height<400){
-                                 Q.notify(-1, 'Image width must be 400 and above and height must be 400 and above');
-                                 $('.pictureGrid').find('tr:last').remove();
-                                  variantImages.splice(-1);
-                                  return false;
-                            }
+                            //if(this.width<400 || this.height<400){
+                            //     Q.notify(-1, 'Image width must be 400 and above and height must be 400 and above');
+                            //     $('.pictureGrid').find('tr:last').remove();
+                            //      variantImages.splice(-1);
+                            //      return false;
+                            //}
                         };
                         img.src = _URL.createObjectURL(file);
                     }
