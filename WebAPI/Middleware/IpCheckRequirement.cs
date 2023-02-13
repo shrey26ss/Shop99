@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Net.Http.Headers;
 using System.Linq;
+using Newtonsoft.Json;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Threading;
+using Microsoft.AspNetCore.Mvc;
+using WebAPI.AppCode;
+using AppUtility.AppCode;
 
 namespace WebAPI.Middleware
 {
@@ -23,37 +31,44 @@ namespace WebAPI.Middleware
         }
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IpCheckRequirement requirement)
         {
-            Claim ipClaim = context.User.FindFirst(claim => claim.Type == HeaderNames.Authorization);
-            //var authorization = context.User.Claims.GetType(""); as ClaimsPrincipal;//.Headers[HeaderNames.Authorization];
+            string reqUA = HttpContext.Request.Headers["UserAgent"].ToString();
             string reqIP = HttpContext.Connection.RemoteIpAddress?.ToString();
-            string authToken = HttpContext.Request.Headers.FirstOrDefault(a => a.Key == HeaderNames.Authorization).ToString() ?? "";
-            var encodedIPAgent = context.User.Claims.FirstOrDefault(a => a.Type == "sameSession");
-            // No claim existing set and and its configured as optional so skip the check
-            if (ipClaim == null && !requirement.IpClaimRequired)
+            string authToken = HttpContext.Request.Headers.FirstOrDefault(a => a.Key == HeaderNames.Authorization).ToString();
+            string tokenIP = "";
+            if (!string.IsNullOrEmpty(authToken) && authToken != "[, ]")
             {
-                // Optional claims (IsClaimRequired=false and no "ipaddress" in the claims principal) won't call context.Fail()
-                // This allows next Handle to succeed. If we call Fail() the access will be denied, even if handlers
-                // evaluated after this one do succeed
-                return Task.CompletedTask;
+                authToken = authToken.Split(",").Last();
+                authToken = authToken.Split(" ").Last();
+                authToken = authToken.Substring(0, authToken.Length - 1);
+
+                if (!string.IsNullOrEmpty(authToken))
+                {
+                    TokenSession printObj = JsonConvert.DeserializeObject<TokenSession>((((new JwtSecurityTokenHandler()).ReadToken(authToken)) as JwtSecurityToken).ToString().Split(".").Last());
+                    tokenIP = printObj.sameSession;
+                }
             }
-
-            //if (ipClaim.Value = HttpContext.Connection.RemoteIpAddress?.ToString())
-            //{
-            //    context.Succeed(requirement);
-            //}
-            //else
-            //{
-            //    // Only call fail, to guarantee a failure, even if further handlers may succeed
-            //    context.Fail();
-            //}
-
+            if (authToken == "[, ]" && requirement.IpClaimRequired)
+            {
+                context.Succeed(requirement);
+            }
+            else
+            {
+                if (tokenIP == EncodeString(reqIP + reqUA))
+                {
+                    context.Succeed(requirement);
+                }
+                else
+                {
+                    context.Fail();
+                }
+            }
             return Task.CompletedTask;
         }
 
 
-        private static string DecodeString(string encodedServername)
+        private static string EncodeString(string serverName)
         {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(encodedServername));
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         }
         private class TokenSession
         {

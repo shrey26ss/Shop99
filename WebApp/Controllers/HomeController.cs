@@ -300,5 +300,10 @@ namespace WebApp.Controllers
             return PartialView("Partial/_ProductsByCategory", res);
         }
         #endregion
+
+        public IActionResult Test()
+        {
+            return Ok(Request.Headers.ToList());
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Entities.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -68,7 +69,10 @@ namespace AppUtility.APIRequest
             HttpResponse httpResponse = new HttpResponse();
             HttpWebRequest http = (HttpWebRequest)WebRequest.Create(URL);
             if (!string.IsNullOrEmpty(AccessToken))
+            {
                 http.Headers.Add("Authorization", "Bearer " + AccessToken);
+            }
+            http.Headers.Add("UserAgent", UserAgent.Name + "|" + UserAgent.Version);
             http.Timeout = timeout == 0 ? 5 * 60 * 1000 : timeout;
             var data = Encoding.ASCII.GetBytes(PostData ?? "");
             http.Method = "POST";
@@ -322,5 +326,12 @@ namespace AppUtility.APIRequest
             return result;
         }
 
+    }
+
+    public static class UserAgent
+    {
+        public static string Name { get; set; }
+        public static string Version { get; set; }
+        public static string FullInfo { get; set; }
     }
 }

@@ -14,6 +14,8 @@ using WebAPI.Models.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Models;
 using WebAPI.Middleware;
+using System.Linq;
+using System.Text;
 
 namespace WebAPI.Controllers
 {
@@ -208,11 +210,15 @@ namespace WebAPI.Controllers
             var user = await _userManager.FindByMobileNoAsync(mobileNo);
             if (user.Id > 0)
             {
+                string IP = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                string UserAgent = Request.HttpContext.Request.Headers["UserAgent"].ToString();
+                string mergeToken = EncodeString(IP + UserAgent);
                 var claims = new[] {
                         new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
                         new Claim(ClaimTypesExtension.Role, user.Role??"2"),
                         new Claim(ClaimTypesExtension.UserName, user.UserName),
                         new Claim(ClaimTypesExtension.Name, user.Name),
+                        new Claim(ClaimTypesExtension.SameSession, mergeToken)
                     };
                 var token = _tokenService.GenerateAccessToken(claims);
                 var authResponse = new AuthenticateResponse(user, token);
@@ -221,6 +227,10 @@ namespace WebAPI.Controllers
                 res.Result = authResponse;
             }
             return res;
+        }
+        private static string EncodeString(string serverName)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         }
 
         [HttpGet("/api/LoginTwoStep")]

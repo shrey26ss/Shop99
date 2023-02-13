@@ -1,3 +1,5 @@
+using AppUtility.APIRequest;
+using AppUtility.AppCode;
 using Entities.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication;
@@ -42,6 +44,7 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.RegisterService(Configuration);
             services.AddAuthentication(option =>
             {
@@ -110,7 +113,6 @@ namespace WebApp
                 options.Cookie.IsEssential = true;
             });
             services.Configure<JWTConfig>(Configuration.GetSection("JWT"));
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDataProtection().SetApplicationName($"{WebHostEnvironment.EnvironmentName}")
                 .PersistKeysToFileSystem(new System.IO.DirectoryInfo($@"{WebHostEnvironment.ContentRootPath}\keys"));
             services.AddCors(options =>
@@ -157,6 +159,7 @@ namespace WebApp
                 .AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<UserAgentMiddleware>();
             app.UseHangfireDashboard("/mydashboard", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthorizationFilter() }
