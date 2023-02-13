@@ -24,6 +24,9 @@ namespace Entities.Models
         public int Warranty { get; set; }
         public string WarrantyUnit { get; set; }
         public decimal Rating { get; set; }
+        public int  TotalReviews { get; set; }
+        public int WishListID { get; set; }
+        
         public List<ProductAttributes> ProductAttributes { get; set; }
         public List<ProductPictureInfo> ProductPictureInfos { get; set; }
         public List<AttributeInfo> AttributeInfo { get; set; }

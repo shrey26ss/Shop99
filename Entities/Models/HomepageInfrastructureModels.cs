@@ -13,6 +13,7 @@ namespace Entities.Models
         public string PublishedOn { get; set; }
         public int ProductID { get; set; }
         public int VariantID { get; set; }
+        public int WishListID { get; set; }
     }
 
     public class ProductResponse<T> : ProductResponse
@@ -24,6 +25,7 @@ namespace Entities.Models
     {
         public SortingOption OrderBy { get; set; }
         public int Top { get; set; }
+        public int UserID { get; set; }
         public int Start { get; set; }
         public char CalledFrom { get; set; } = 'A';
     }

@@ -46,6 +46,7 @@ namespace Service.Homepage
                     productRequest.OrderBy,
                     productRequest.MoreFilters.CategoryId,
                     productRequest.MoreFilters.Attributes,
+                    productRequest.UserID,
                 }, CommandType.StoredProcedure);
                 var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);
                 var jdataTableResponse = (List<JDataTableResponse>)result.GetType().GetProperty("Table2").GetValue(result, null);

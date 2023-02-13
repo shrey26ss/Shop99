@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
                 Data = req
             }));
         }
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
      
         [HttpPost(nameof(AddCartItem))]
         public async Task<IActionResult> AddCartItem(CartItem req)
