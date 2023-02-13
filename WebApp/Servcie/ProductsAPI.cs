@@ -20,7 +20,7 @@ namespace WebApp.Servcie
         Task<IResponse<List<ProductPictureInfo>>> GetProductPicDetails(int Id);
         Task<IResponse<List<AttributeInfo>>> GetProductAttributeInfo(int Id);
         Task<IResponse<VariantIdByAttributesResponse>> GetVariantIdByAttributes(VariantIdByAttributesRequest request);
-        Task<IResponse<ProductDetails>> GetProductAllDetails(int Id);
+        Task<IResponse<ProductDetails>> GetProductAllDetails(int Id, int UserID = 0);
     }
     public class ProductsAPI : IProductsAPI
     {
@@ -47,9 +47,9 @@ namespace WebApp.Servcie
                 return res;
             }
         }
-        public async Task<IResponse<ProductDetails>> GetProductAllDetails(int Id)
+        public async Task<IResponse<ProductDetails>> GetProductAllDetails(int Id,int UserID =0)
         {
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductAllDetails", JsonConvert.SerializeObject(new SearchItem { Id = Id }));
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/ProductHome/GetProductAllDetails", JsonConvert.SerializeObject(new SearchItem { Id = Id, UserID= UserID }));
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<ProductDetails>>(Response.Result);

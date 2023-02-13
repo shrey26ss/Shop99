@@ -137,7 +137,10 @@
                         Buy Now
                     </button>
                     <button class="btn btn-normal  btnaddtowishlist">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
+                            @{
+                            string wishlist = @Model.WishListID > 0 ? "text-danger" :string.Empty;
+                             }
+                        <i class="fa fa-heart @wishlist" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -162,7 +165,7 @@
 
 
                         </ul>
-                        <a href="review.html"><span>(6 reviews)</span></a>
+                        <a href="#"><span>(@Model.TotalReviews reviews)</span></a>
                     </div>
                     <ul class="pro-price">
                         <li><i class="fa fa-inr" style="color:green"></i> @Model.SellingCost</li>

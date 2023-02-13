@@ -29,7 +29,8 @@ namespace Service.Product
             var res = new Response<ProductDetails>();
             try
             {
-                res.Result = await _dapper.GetAsync<ProductDetails>(sp, new { req.Id }, CommandType.StoredProcedure);
+         
+                res.Result = await _dapper.GetAsync<ProductDetails>(sp, new { req.Id,req.UserID }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
@@ -45,7 +46,7 @@ namespace Service.Product
             var res = new Response<ProductDetails>();
             try
             {
-                var productdetails = await _dapper.GetAsync<ProductDetails>(sp, new { req.Id }, CommandType.StoredProcedure);
+                var productdetails = await _dapper.GetAsync<ProductDetails>(sp, new { req.Id, req.UserID }, CommandType.StoredProcedure);
                 var picturInfo = await _dapper.GetAllAsync<ProductPictureInfo>("Proc_GetProductPicDetails", new { variantId = req.Id }, CommandType.StoredProcedure);
                 var AttributeInfo = await _dapper.GetAllAsync<AttributeInfo>("Proc_ProductAttrInfo", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 var AttributDetails = await _dapper.GetAllAsync<ProductAttributes>("Proc_ProductAttrDetails", new { VariantId = req.Id }, CommandType.StoredProcedure);

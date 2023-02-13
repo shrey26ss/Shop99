@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApp.Middleware;
 using WebApp.Models.ViewModels;
 using WebApp.Servcie;
 
@@ -54,7 +55,7 @@ namespace WebApp.Controllers
 
         #region Index Dashboard
 
-      
+
 
         public async Task<IActionResult> Index()
         {
@@ -149,7 +150,7 @@ namespace WebApp.Controllers
             {
                 Top = 24
             };
-             res.ProductsData = _category.GetNewProducts(req).Result;
+            res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
         }
         #endregion
@@ -159,6 +160,7 @@ namespace WebApp.Controllers
         [Route("ProductDetail/{Id}")]
         public async Task<IActionResult> ProductDetail(int Id)
         {
+
             var res = await _product.GetProductDetails(Id);
             return View(res.Result ?? new ProductDetails());
         }
@@ -166,14 +168,15 @@ namespace WebApp.Controllers
         [Route("ProductDetails/{Id}")]
         public async Task<IActionResult> ProductDetails(int Id)
         {
-           // var res = await _product.GetProductDetails(Id);
+            // var res = await _product.GetProductDetails(Id);
             return View(Id);
         }
         [HttpPost]
         [Route("ProductAllDetails")]
         public async Task<IActionResult> ProductAllDetails(int Id)
         {
-            var res = await _product.GetProductAllDetails(Id);
+            int UserID = User?.GetLoggedInUserId<int>() ?? 0;
+            var res = await _product.GetProductAllDetails(Id, UserID);
             return PartialView("partial/_ProductDetails", res.Result ?? new ProductDetails());
         }
         public async Task<IActionResult> ProductAttrDetail(int Id)
@@ -195,13 +198,13 @@ namespace WebApp.Controllers
         #endregion
 
         #region Products by Category
-        
+
         [HttpGet("category/{id}")]
         public async Task<IActionResult> ProductsByCategory()
         {
             return View();
         }
-        
+
         [HttpPost(nameof(FilteredProductsByCategory))]
         public async Task<IActionResult> FilteredProductsByCategory(int cid, string filters, SortingOption sortBy)
         {
@@ -209,6 +212,7 @@ namespace WebApp.Controllers
             {
                 Top = 24,
                 OrderBy = sortBy,
+                UserID = User?.GetLoggedInUserId<int>() ?? 0,
                 MoreFilters = new CategorFilter
                 {
                     Attributes = filters,
