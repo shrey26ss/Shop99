@@ -138,6 +138,7 @@ namespace AppUtility.AppCode
                 this.Name = "Black Berry";
                 this.FullInfo = this.Name; 
             }
+            UserAgent.FullInfo = GetBrowserInfo(ua);
             UserAgent.Name = this.Name;
             UserAgent.Version = this.Version;
             //fallback to basic platform:
@@ -170,6 +171,63 @@ namespace AppUtility.AppCode
                     break;
             }
             this.Version = version;
+        }
+
+        private string GetBrowserInfo(string useragent)
+        {
+            string name = "", version = "";
+            try
+            {
+                //RestSharp/106.2.1.0
+                if (useragent.Contains(" "))
+                {
+                    string[] arr = useragent.Split(' ');
+                    string lastelement = arr[arr.Length - 1].ToLower();
+                    if (lastelement.Contains("safari"))
+                    {
+                        string secondlastelement = arr[arr.Length - 2].ToLower();
+                        if (secondlastelement.Contains("version"))
+                        {
+                            name = lastelement.Split('/')[0].ToUpper();
+                            version = secondlastelement.Split('/')[1].ToString();
+                        }
+                        else
+                        if (secondlastelement.Contains("chrome"))
+                        {
+                            name = secondlastelement.Split('/')[0].ToUpper();
+                            version = secondlastelement.Split('/')[1].ToString();
+                        }
+                    }
+                    else
+                    if (lastelement.Contains("firefox") || lastelement.Contains("edge") || lastelement.Contains("edg"))
+                    {
+                        name = lastelement.Split('/')[0].ToUpper();
+                        version = lastelement.Split('/')[1].ToString();
+                    }
+                    else
+                    if (lastelement.Contains("gecko"))
+                    {
+                        name = "Internet Explorer";
+                        string[] arrtl = arr[arr.Length - 3].ToLower().Split(' ');
+                        string thirdlastelemnt = arrtl[arrtl.Length - 1].ToLower();
+                        version = thirdlastelemnt.Split(':')[1].ToString().TrimEnd(')');
+                    }
+                }
+                else if (useragent.Contains("/"))
+                {
+                    name = "";//useragent.Split('/')[0];
+                    version = useragent.Split('/')[1];
+                }
+                if (!string.IsNullOrEmpty(useragent) && name == "")
+                {
+                    version = useragent;
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+            return name + "/" + version;
         }
     }
 }
