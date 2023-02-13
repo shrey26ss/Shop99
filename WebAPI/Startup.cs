@@ -20,6 +20,8 @@ using WebAPI.Middleware;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using Infrastructure.Interface;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace WebAPI
 {
@@ -62,21 +64,33 @@ namespace WebAPI
                     ValidAudience = Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secretkey"]))
                 };
-            }).AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
-            {
-                // runs on each request
-                options.ForwardDefaultSelector = context =>
-                {
-                    // filter by auth type
-                    string authorization = context.Request.Headers[HeaderNames.Authorization];
-                    if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
-                        return "Bearer";
-                    // otherwise always check for cookie auth
-                    return "Cookies";
-                };
             });
+            services.AddSingleton<IAuthorizationHandler, IpCheckHandler>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("sameSession",
+                    policy => policy.Requirements.Add(new IpCheckRequirement { IpClaimRequired = true }));
+            });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter("sameSession"));
+            });
+            //.AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
+            //{
+            //    // runs on each request
+            //    options.ForwardDefaultSelector = context =>
+            //    {
+            //        // filter by auth type
+            //        string authorization = context.Request.Headers[HeaderNames.Authorization];
+            //        if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+            //            return "Bearer";
+            //        // otherwise always check for cookie auth
+            //        return "Cookies";
+            //    };
+            //});
             /* End Jwd */
             services.AddControllersWithViews();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -172,6 +186,8 @@ namespace WebAPI
                 c.InjectJavascript("/js/swagger-custom-script.js", "text/javascript");
                 c.DefaultModelsExpandDepth(-1);
             });
+
+            //app.UseMiddleware<CheckBlackListToken>();
             app.UseAuthentication();
             app.UseAuthorization();
             //app.UseMiddleware<JwtMiddleware>();
