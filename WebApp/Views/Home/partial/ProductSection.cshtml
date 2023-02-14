@@ -6,7 +6,7 @@
     int ProductLength = Products.Count();
     string acts = Model.TabID == 1 ? "active default" : "";
 }
-<div id="tab-@Model.TabID" class="tab-content  @acts">
+<div id="tab-@Model.TabID" class="tab-content @acts">
     <div class="media-slide-5 product-m no-arrow">
         @if (Model != null && Model.ProductsData != null && Model.ProductsData.StatusCode == ResponseStatus.Success && Model.ProductsData.Result.Any())
         {
@@ -140,3 +140,5 @@
         }
     </div>
 </div>
+
+  
