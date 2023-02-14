@@ -2,7 +2,7 @@
     <h1 class="float-left">
         Top Lower Banner
     </h1>
-    <div class="float-right">
+    <div class="float-right btnAddNewBanner">
         <a class="btn btn-primary" href="javascript:void(0)" onclick="AddNewItem()">
             <i class="fas fa-plus-square"></i>
             Add new
@@ -41,6 +41,7 @@
         })
         var loadData = () => {
             $.post('/TopLowerBanner/TopLowerBannerList').done(function (result) {
+                console.log(result);
                 $('#Grid tbody').html(result);
             }).fail(function (xhr) {
                 console.log(xhr.responseText);

@@ -211,7 +211,7 @@
 
 
                 </div>
-                <div><label class="text-danger h5" id="lblmsg"></label></div>
+                <div class="lblmsg" style="display:none"><label class="text-danger h5" id="lblmsg"></label></div>
                 <div class="pro-group d-none">
                     <h6 class="product-title">delivery location</h6>
                     <div class="delivery-detail">
@@ -644,6 +644,7 @@
                 $('.btnBuyNow').attr("disabled", "disabled");
                 $('.btnAddtocart').attr("disabled", "disabled");
                 $('#lblmsg').text('Not Avialable');
+                $('.lblmsg').show();
             }
         }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
     };
