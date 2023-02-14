@@ -186,7 +186,7 @@ namespace WebAPI
                 c.InjectJavascript("/js/swagger-custom-script.js", "text/javascript");
                 c.DefaultModelsExpandDepth(-1);
             });
-
+            app.UseMiddleware<UserAgentMiddleware>();
             //app.UseMiddleware<CheckBlackListToken>();
             app.UseAuthentication();
             app.UseAuthorization();

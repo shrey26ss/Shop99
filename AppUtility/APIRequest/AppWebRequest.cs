@@ -72,7 +72,7 @@ namespace AppUtility.APIRequest
             {
                 http.Headers.Add("Authorization", "Bearer " + AccessToken);
             }
-            http.Headers.Add("UserAgent", UserAgent.Name + "|" + UserAgent.Version);
+            http.Headers.Add("UserAgent", UserAgent.FullInfo);
             http.Timeout = timeout == 0 ? 5 * 60 * 1000 : timeout;
             var data = Encoding.ASCII.GetBytes(PostData ?? "");
             http.Method = "POST";

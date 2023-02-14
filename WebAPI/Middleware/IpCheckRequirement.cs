@@ -43,12 +43,12 @@ namespace WebAPI.Middleware
 
                 if (!string.IsNullOrEmpty(authToken))
                 {
-                    if (string.IsNullOrEmpty(reqUA))
-                    {
-                        context.Fail();
-                        return Task.CompletedTask;
-                    }
-                    TokenSession printObj = JsonConvert.DeserializeObject<TokenSession>((((new JwtSecurityTokenHandler()).ReadToken(authToken)) as JwtSecurityToken).ToString().Split(".").Last());
+                    //if (string.IsNullOrEmpty(reqUA))
+                    //{
+                    //    context.Fail();
+                    //    return Task.CompletedTask;
+                    //}
+                    TokenSession printObj = JsonConvert.DeserializeObject<TokenSession>((new JwtSecurityTokenHandler().ReadToken(authToken) as JwtSecurityToken).ToString().Split(".").Last());
                     tokenIP = printObj.sameSession;
                 }
             }
