@@ -1,0 +1,86 @@
+﻿<div class="content-header clearfix">
+    <h1 class="float-left">
+        Offers
+    </h1>
+    <div class="float-right">
+        <a class="btn btn-primary" href="javascript:void(0)" id="btnNew">
+            <i class="fas fa-plus-square"></i>
+            Add new
+        </a>
+    </div>
+</div>
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered" id="Grid">
+                        <thead>
+                            <tr role="row" style="" class="">
+                                <th>#</th>
+                                <th>Offer Name</th>
+                                <th>Offer Discription</th>
+                                <th>Offer BeginOn</th>
+                                <th>Offer EndOn</th>
+                                <th>Discount Amount</th>
+                                <th>Is Active</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            $('#btnNew').click(() => dialog.offer());//AddCategory());
+            loadData();
+        })
+        var loadData = function() {
+            let request = {
+                Id: 0
+            };
+            $.post('/Offer/OffersList', request).done(function(result) {
+                $('#Grid tbody').html(result);
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        };
+        var UpdateIsActive = function(Id) {
+            let IsActive = false;
+            if ($('#IsActive_' + Id).is(":checked")) 
+            {
+                IsActive = true;
+            }
+            let obj = {
+                OfferID:Id,
+                IsActive:IsActive
+            }
+            $.post('/Offer/UpdateIsActiveOffer',obj).done(function(result) {
+                console.log(result);
+                Q.notify(result.statusCode,result.responseText);
+                if (result.statusCode==1) {
+                loadData();
+                }
+            }).fail(function(xhr) {
+                console.log(xhr.responseText);
+                alert('something went wrong');
+            })
+        }
+
+        //var AddOffer = function(Id) {
+        //    $.get('/Offer/OfferCreate', { Id: Id })
+        //        .done(result => {
+        //            Q.alert({
+        //                title: 'Offer',
+        //                body: result
+        //            });
+        //        }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+        //};
+    </script>
+    }

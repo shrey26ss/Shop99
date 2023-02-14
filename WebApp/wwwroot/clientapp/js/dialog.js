@@ -10,6 +10,16 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
+    dialog.offer = function (Id) {
+        $.get('/Offer/OfferCreate', { Id: Id })
+            .done(result => {
+                Q.alert({
+                    title: 'Offer',
+                    body: result,
+                    onClose: () => { __bind.dropDown.category(0, "#CategoryId") }
+                });
+            }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+    };
     dialog.brand = function (Id) {
         $.get('/Brand/Create', { Id: Id })
             .done(result => {

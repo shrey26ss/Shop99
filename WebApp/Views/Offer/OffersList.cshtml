@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Entities.Models.GetOffers>
+
+@if (Model != null && Model.Any())
+{
+    int i = 0;
+    foreach (var item in Model)        
+    {
+        i++;
+        <tr data-item-id="@item.OfferTypeId">           
+            <td>@i</td>
+            <td>@item.OfferTitle</td>
+            <td>@item.OfferDescription</td>
+            <td>@item.OfferBeginOn</td>
+            <td>@item.OfferEndOn</td>
+            <td>@item.DiscountUpToAmount</td>
+            <td>
+                <span class="switch switch-sm">
+                <input type="checkbox" class="switch" onclick="UpdateIsActive('@item.OfferId')" id="IsActive_@item.OfferId" @Html.Raw(item.IsActive ? "checked='checked'" : "")>
+                <label for="IsActive_@item.OfferId"></label>
+            </span>
+            </td>
+            <td><input type="button" value="Edit" onclick="dialog.offer('@item.OfferId')" class="btn btn-sm btn-success"></td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="4">No Data Found</td>
+    </tr>
+}
