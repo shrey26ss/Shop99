@@ -77,14 +77,14 @@
                                 <label class="form-control" for="IsShowOnHome">IsShowOnHome</label>
                             </div>
 
-                            <div class="col-sm-4 input-group">
+                            @*<div class="col-sm-4 input-group">
                                 <div class="input-group-prepend" style="height: 38px;">
                                     <div class="input-group-text">
                                         <input type="checkbox" name="IsFeatured" id="IsPublished" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.IsPublished ? "checked='checked'" : "")>
                                     </div>
                                 </div>
                                 <label class="form-control" for="IsPublished">IsPublished</label>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     @*<button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right" onclick="AddNewAttribute('@Model.variantDetailsByAttributes.Id')">Add Attribute</button>*@
@@ -377,8 +377,7 @@
                     Title: $('#Titles').val(),
                     SellingCost: $('#SellingCost').val(),
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
-                    IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
-                    IsPublished: $('#IsPublished').is(':checked') ? 1 : 0
+                    IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0
                 };
                 groupInfo.push(groupDetail);
             });
