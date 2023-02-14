@@ -1,9 +1,12 @@
 ﻿@using Entities.Models;
 @model IEnumerable<TopLowerBanner>
-
+@{
+    int count=0;
+}
 @if (Model.Any())
 {
     int counter = 0;
+    count = Model.Count();
     foreach (var item in Model)
     {
         counter++;
@@ -28,3 +31,12 @@
         </tr>
     }
 }
+<script>
+    if(@count>=3)
+    {
+         $('.btnAddNewBanner').hide();
+    }
+    else{
+          $('.btnAddNewBanner').show();
+    }
+</script>
