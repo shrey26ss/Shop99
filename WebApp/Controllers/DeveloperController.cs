@@ -47,7 +47,7 @@ namespace WebApp.Controllers
             {
                 if (!filenamesFromTable.Contains(Files[i].Name))
                 {
-                    string filePath = d + "/" +  Files[i].Name;
+                    string filePath = "";
                     if(Files[i].FullName.Contains("400_400"))
                         filePath = d + "/400_400/" + Files[i].Name;
                     else if(Files[i].FullName.Contains("700_700"))
