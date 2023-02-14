@@ -35,6 +35,7 @@ using Service.OrderDetails;
 using Service.Report;
 using Service.Dashboard;
 using Service.Notify;
+using Service.Offers;
 using AppUtility.AppCode;
 using AppUtility.Helper;
 
@@ -88,6 +89,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IRequestInfo, RequestInfoServcie>();
             services.AddScoped<IDashboard, DashboardService>();
+            services.AddScoped<IOffersService, OffersService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
