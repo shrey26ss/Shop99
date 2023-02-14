@@ -16,6 +16,7 @@ namespace AppUtility.Helper
     public interface IDDLHelper
     {
         Task<List<CategoryDDL>> GetCategoryDDL(string _token, string _apiBaseURL);
+        Task<List<offerstype>> GetOfferDDL(string _token, string _apiBaseURL);
         Task<List<AttributesDDL>> GetAttributeDDL(string _token, string _apiBaseURL);
         Task<List<AttributesDDL>> GetCategoryMappedAttributeDDL(string _token, string _apiBaseURL, int CatId);
         Task<List<BrandsDDL>> GetBrandsDDL(string _token, string _apiBaseURL);
@@ -23,6 +24,17 @@ namespace AppUtility.Helper
     }
     public class DDLHelper : IDDLHelper
     {
+        public async Task<List<offerstype>> GetOfferDDL(string _token, string _apiBaseURL)
+        {
+            var list = new List<offerstype>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetOffertypeList", null, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var _ = JsonConvert.DeserializeObject<Response<IEnumerable<offerstype>>>(apiResponse.Result);
+                list = _.Result.ToList();
+            }
+            return list;
+        }
         public async Task<List<CategoryDDL>> GetCategoryDDL(string _token, string _apiBaseURL)
         {
             var list = new List<CategoryDDL>();
