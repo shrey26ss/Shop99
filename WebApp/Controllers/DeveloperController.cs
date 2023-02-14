@@ -33,7 +33,7 @@ namespace WebApp.Controllers
         public IActionResult ClearImage()
         {
             DeleteUnutilizedImage();
-            return Ok();
+            return RedirectToAction("Index", "Developer");
         }
         private async Task DeleteUnutilizedImage()
         {
