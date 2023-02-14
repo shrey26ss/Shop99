@@ -21,6 +21,8 @@ using WebApp.AppCode;
 using WebApp.Servcie;
 using WebApp.AppCode.Helper;
 using AppUtility.Helper;
+using AppUtility.AppCode;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Middleware
 {
@@ -75,7 +77,7 @@ namespace WebApp.Middleware
             configuration.Bind(appSettings);
             services.AddSingleton(appSettings);
             services.ConfigureDictionary<ImageSize>(configuration.GetSection("ImageSize"));
-
+            services.AddSingleton<OSInfo>();
 
         }
     }

@@ -21,5 +21,6 @@ namespace Entities.Models
         public const string UserName = "userName";
         public const string Name = "name";
         public const string RefreshToken = "refreshToken";
+        public const string SameSession = "sameSession";
     }
 }
