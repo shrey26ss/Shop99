@@ -1,64 +1,65 @@
 ﻿using AppUtility.APIRequest;
 using Microsoft.AspNetCore.Http;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace AppUtility.AppCode
+namespace AppUtility.Helper
 {
-    public class OSInfo
+    public class OSInfoAPI
     {
         public string Name { get; set; }
         public string Version { get; set; }
         public string FullInfo { get; set; }
-        public OSInfo(IHttpContextAccessor accessor)
+        public OSInfoAPI(IHttpContextAccessor accessor)
         {
             var ua = accessor.HttpContext.Request.Headers["User-Agent"].ToString();
             if (ua.Replace(" ", "").Contains("Android", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Android";
                 SetVersion(ua, "Android");
-                this.FullInfo = this.Name; 
+                this.FullInfo = this.Name;
             }
 
             if (ua.Replace(" ", "").Contains("iPhone", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "iPhone";
                 SetVersion(ua, "OS");
-                this.FullInfo = this.Name; 
+                this.FullInfo = this.Name;
             }
 
             if (ua.Replace(" ", "").Contains("iPad", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "iPad";
                 SetVersion(ua, "OS");
-                this.FullInfo = this.Name; 
+                this.FullInfo = this.Name;
             }
 
             if (ua.Replace(" ", "").Contains("MacOS", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "MacOS";
-                this.FullInfo = this.Name; 
+                this.FullInfo = this.Name;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT10", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "10";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT6.3", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "8.1";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT6.2", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "8";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
 
@@ -66,14 +67,14 @@ namespace AppUtility.AppCode
             {
                 this.Name = "Windows";
                 this.Version = "7";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT6.0", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "Vista";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT5.1") || ua.Replace(" ", "").Contains("WindowsNT5.2", StringComparison.OrdinalIgnoreCase))
@@ -81,42 +82,42 @@ namespace AppUtility.AppCode
             {
                 this.Name = "Windows";
                 this.Version = "XP";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT5", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "2000";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("WindowsNT4", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "NT4";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("Win9x4.90", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "Me";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("Windows98", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "98";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("Windows95", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "95";
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
 
@@ -124,23 +125,23 @@ namespace AppUtility.AppCode
             {
                 this.Name = "Windows Phone";
                 SetVersion(ua, "Windows Phone");
-                this.FullInfo = this.Name + " " + this.Version; 
+                this.FullInfo = this.Name + " " + this.Version;
             }
 
             if (ua.Replace(" ", "").Contains("Linux") && ua.Replace(" ", "").Contains("KFAPWI", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Kindle Fire";
-                this.FullInfo = this.Name; 
+                this.FullInfo = this.Name;
             }
 
             if (ua.Replace(" ", "").Contains("RIMTablet") || (ua.Replace(" ", "").Contains("BB") && ua.Replace(" ", "").Contains("Mobile", StringComparison.OrdinalIgnoreCase)))
             {
                 this.Name = "Black Berry";
-                this.FullInfo = this.Name; 
+                this.FullInfo = this.Name;
             }
-            UserAgent.FullInfo = GetBrowserInfo(ua);
-            UserAgent.Name = ua;
-            UserAgent.Version = this.Version;
+            UserAgentAPI.FullInfo = GetBrowserInfo(ua);
+            UserAgentAPI.Name = this.Name;
+            UserAgentAPI.Version = this.Version;
             //fallback to basic platform:
             //this.Name = request.Browser.Platform + (ua.Replace(" ","").Contains("Mobile") ? " Mobile " : "");
         }

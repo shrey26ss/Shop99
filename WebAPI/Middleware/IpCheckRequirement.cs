@@ -14,6 +14,8 @@ using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.AppCode;
 using AppUtility.AppCode;
+using AppUtility.Helper;
+using AppUtility.APIRequest;
 
 namespace WebAPI.Middleware
 {
@@ -31,7 +33,7 @@ namespace WebAPI.Middleware
         }
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IpCheckRequirement requirement)
         {
-            string reqUA = HttpContext.Request.Headers["UserAgent"].ToString();            
+            string reqUA = UserAgentAPI.FullInfo;            
             string reqIP = HttpContext.Connection.RemoteIpAddress?.ToString();
             string authToken = HttpContext.Request.Headers.FirstOrDefault(a => a.Key == HeaderNames.Authorization).ToString();
             string tokenIP = "";
@@ -43,11 +45,11 @@ namespace WebAPI.Middleware
 
                 if (!string.IsNullOrEmpty(authToken))
                 {
-                    //if (string.IsNullOrEmpty(reqUA))
-                    //{
-                    //    context.Fail();
-                    //    return Task.CompletedTask;
-                    //}
+                    if (string.IsNullOrEmpty(reqUA))
+                    {
+                        context.Fail();
+                        return Task.CompletedTask;
+                    }
                     TokenSession printObj = JsonConvert.DeserializeObject<TokenSession>((new JwtSecurityTokenHandler().ReadToken(authToken) as JwtSecurityToken).ToString().Split(".").Last());
                     tokenIP = printObj.sameSession;
                 }

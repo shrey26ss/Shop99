@@ -72,7 +72,7 @@ namespace AppUtility.APIRequest
             {
                 http.Headers.Add("Authorization", "Bearer " + AccessToken);
             }
-            http.Headers.Add("UserAgent", UserAgent.FullInfo);
+            http.Headers.Add("User-Agent", UserAgent.Name);
             http.Timeout = timeout == 0 ? 5 * 60 * 1000 : timeout;
             var data = Encoding.ASCII.GetBytes(PostData ?? "");
             http.Method = "POST";
@@ -329,6 +329,12 @@ namespace AppUtility.APIRequest
     }
 
     public static class UserAgent
+    {
+        public static string Name { get; set; }
+        public static string Version { get; set; }
+        public static string FullInfo { get; set; }
+    }
+    public static class UserAgentAPI
     {
         public static string Name { get; set; }
         public static string Version { get; set; }

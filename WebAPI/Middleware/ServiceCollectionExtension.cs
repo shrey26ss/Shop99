@@ -35,6 +35,8 @@ using Service.OrderDetails;
 using Service.Report;
 using Service.Dashboard;
 using Service.Notify;
+using AppUtility.AppCode;
+using AppUtility.Helper;
 
 namespace WebAPI.Middleware
 {
@@ -105,6 +107,7 @@ namespace WebAPI.Middleware
             JWTConfig jwtConfig = new JWTConfig();
             configuration.GetSection("JWT").Bind(jwtConfig);
             services.AddSingleton(jwtConfig);
+            services.AddSingleton<OSInfoAPI>();
             services.AddSwaggerGen(option =>
             {
                 option.SwaggerDoc("v1", new OpenApiInfo

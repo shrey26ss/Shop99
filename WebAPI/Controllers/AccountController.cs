@@ -16,6 +16,7 @@ using Service.Models;
 using WebAPI.Middleware;
 using System.Linq;
 using System.Text;
+using AppUtility.APIRequest;
 
 namespace WebAPI.Controllers
 {
@@ -211,7 +212,7 @@ namespace WebAPI.Controllers
             if (user.Id > 0)
             {
                 string IP = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                string UserAgent = Request.HttpContext.Request.Headers["UserAgent"].ToString();
+                string UserAgent = UserAgentAPI.FullInfo;
                 string mergeToken = EncodeString(IP + UserAgent);
                 var claims = new[] {
                         new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
