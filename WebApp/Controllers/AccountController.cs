@@ -1,38 +1,23 @@
 ﻿using AutoMapper;
 using Entities.Enums;
-using Hangfire;
-using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Service.Identity;
-using Services.Identity;
-using System.Data;
 using System.Threading.Tasks;
 using System;
 using WebApp.Models.ViewModels;
-using System.Linq;
 using Entities.Models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
 using WebApp.Models;
-using System.Text;
 using System.Security.Claims;
-using Microsoft.AspNet.Identity;
-using Service.API;
 using AppUtility.APIRequest;
 using System.Net;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Http;
-using WebApp.Middleware;
 using Service.Models;
 using WebApp.AppCode.Attributes;
-using Newtonsoft.Json.Linq;
-using AppUtility.Helper;
 
 namespace WebApp.Controllers
 {
@@ -138,6 +123,10 @@ namespace WebApp.Controllers
                             else if (applicationUser.Role.Equals("2")) // Customer
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/" : ReturnUrl;
+                            }
+                            else if (applicationUser.Role.Equals("4"))
+                            {
+                                ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Developer/Index" : ReturnUrl;
                             }
                             var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                             identity.AddClaim(new Claim("Id", user.Id.ToString()));

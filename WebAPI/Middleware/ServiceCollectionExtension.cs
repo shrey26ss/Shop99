@@ -38,6 +38,7 @@ using Service.Notify;
 using Service.Offers;
 using AppUtility.AppCode;
 using AppUtility.Helper;
+using Service.Developer;
 
 namespace WebAPI.Middleware
 {
@@ -71,6 +72,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IVendor, VendorService>();
             services.AddScoped<ITopBanner, TopBannerService>();
             services.AddScoped<ITopLowerBanner, TopLowerBannerService>();
+            services.AddScoped<IDeveloper, DeveloperService>();
             services.AddScoped<ILog, LogNLog>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<Data.Migrations.Database>();
