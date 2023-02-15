@@ -24,6 +24,7 @@ namespace AppUtility.APIRequest
             http.Method = "GET";
             http.ContentType = "application/json";
             http.Timeout = 2 * 60 * 1000;
+            http.Headers.Add("User-Agent", UserAgent.Name);
             WebResponse response = http.GetResponse();
             string result = string.Empty;
             try
@@ -136,6 +137,7 @@ namespace AppUtility.APIRequest
                 http.ContentType = ContentType.application_json;
                 http.MediaType = ContentType.application_json;
                 http.ContentLength = data.Length;
+                http.Headers.Add("User-Agent", UserAgent.Name);
                 if (headers != null)
                 {
                     foreach (var item in headers)
@@ -189,6 +191,7 @@ namespace AppUtility.APIRequest
             http.Method = "POST";
             http.ContentType = ContentType;
             http.ContentLength = data.Length;
+            http.Headers.Add("User-Agent", UserAgent.Name);
             using (Stream stream = await http.GetRequestStreamAsync().ConfigureAwait(false))
             {
                 await stream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
@@ -241,6 +244,7 @@ namespace AppUtility.APIRequest
                 http.Accept = ContentType.application_json;
                 http.ContentType = ContentType.application_json;
                 http.ContentLength = data.Length;
+                http.Headers.Add("User-Agent", UserAgent.Name);
                 using (Stream stream = http.GetRequestStream())
                 {
                     stream.Write(data, 0, data.Length);
@@ -288,6 +292,7 @@ namespace AppUtility.APIRequest
             http.ContentType = ContentType;
             http.ContentLength = data.Length;
             http.Timeout = 5 * 60 * 1000;
+            http.Headers.Add("User-Agent", UserAgent.Name);
             using (Stream stream = http.GetRequestStream())
             {
                 stream.Write(data, 0, data.Length);
