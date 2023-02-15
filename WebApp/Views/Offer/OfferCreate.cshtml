@@ -16,7 +16,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label required" for="Name">OfferTitle</label>
+                            <label class="col-form-label required" for="Name">Title</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -26,21 +26,21 @@
                     </div>
                 </div>
 
-               
+
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label">OfferDesc</label>
+                            <label class="col-form-label">Description</label>
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <input class="form-control text-box single-line" asp-for="OfferDescription" type="text" >
+                        <input class="form-control text-box single-line" asp-for="OfferDescription" type="text">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label required" for="Name">Discount Ammount</label>
+                            <label class="col-form-label" for="Name">Discount in%</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -49,19 +49,19 @@
                         </div>
                     </div>
                 </div>
-                 <div class="form-group row">
+                <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label">OfferID</label>
+                            <label class="col-form-label">OfferTypeId</label>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <select class="form-control" asp-for="OfferTypeId" style="width: 100%">
                             <option value="0"> --Choose offerid -- </option>
-                           @* <optgroup label="Test">*@
+                            @* <optgroup label="Test">*@
                             @foreach (var item in Model.offerstypeDDLs)
                             {
-                                    <option value="@item.Id">@item.Id</option>
+                                <option value="@item.Id">@item.OfferName</option>
                             }
                             @*</optgroup>*@
                         </select>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
+            @*<div class="form-group row">
                 <div class="col-md-3">
                     <div class="label-wrapper">
                         <label class="col-form-label">IsActive</label>
@@ -78,6 +78,14 @@
                 <div class="col-md-9">
                     <input type="checkbox" asp-for="IsActive" checked>
                 </div>
+            </div>*@
+            <div class="col-sm-4 input-group mt-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" asp-for="IsActive" checked>
+                    </div>
+                </div>
+                <label class="form-control" for="IsActive">IsActive</label>
             </div>
         </div>
     </div>
