@@ -346,7 +346,6 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
                 var picturejson = request.Data.PictureInfo.ToString();
                 string sqlQuery = "Proc_UpdateVariant";
-                int i = -5;
                 DynamicParameters param = new DynamicParameters();
                 param.Add("VariantGroup", VariantGroup, DbType.Object);
                 param.Add("AttributeInfo", AttributeInfo, DbType.Object);
@@ -354,12 +353,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 param.Add("VariantId", request.Data.GroupInfo.FirstOrDefault().Id, DbType.Int32);
                 param.Add("EntryBy", request.LoginId, DbType.Int32);
                 param.Add("PictureInfojson", picturejson, DbType.String);
-                i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
-                if (i > -1 && i < 100)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
-                }
+                res = await _dapper.GetByDynamicParamAsync<Response>(sqlQuery, param, CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
