@@ -995,6 +995,7 @@ function printDiv(divName) {
             }
         });
     };
+
     Q.xhrError = (xhr, isErrorShow = true) => {
         if (isErrorShow) {
             if (xhr.status === 401) {
@@ -1007,7 +1008,10 @@ function printDiv(divName) {
             Q.notify(-1, xhr.responseText);
         }
     }
+
     Q.rewriteURL = (url, _html = '', _title = '') => window.history.pushState(_html, _title, url);
+
+    Q.removeDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) === index);
 })(Q || (Q = {}));
 
 class ShowJsTimer {
