@@ -41,11 +41,11 @@ namespace Service.TopLowerBanners
                 {
                     request.LoginId,
                     request.Data.Id,
-                    request.Data.Title,
-                    request.Data.BannerPath,
-                    request.Data.Subtitle,
-                    request.Data.BackLinkText,
-                    request.Data.BackLinkURL
+                    Title = request.Data.Title ?? "",
+                    BannerPath = request.Data.BannerPath,
+                    Subtitle= request.Data.Subtitle ?? "",
+                    BackLinkText = request.Data.BackLinkText ?? "",
+                    BackLinkURL = request.Data.BackLinkURL ?? ""
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)
