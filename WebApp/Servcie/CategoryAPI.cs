@@ -104,7 +104,7 @@ namespace WebApp.Servcie
         //    return res;
         //}
 
-      
+
 
 
         public async Task<IResponse<IEnumerable<TopBanner>>> GetTopBanner()
@@ -114,18 +114,19 @@ namespace WebApp.Servcie
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.CallUsingHttpWebRequest_GET($"{_apiBaseURL}/api/Home/TopBanners");
-            if (!string.IsNullOrEmpty(Response))
+            try
             {
-                try
+                var Response = await AppWebRequest.O.CallUsingHttpWebRequest_GET($"{_apiBaseURL}/api/Home/TopBanners");
+                if (!string.IsNullOrEmpty(Response))
                 {
+
                     var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<TopBanner>>>(Response);
                     return deserializeObject;
                 }
-                catch (Exception e)
-                {
-                    res.ResponseText = e.Message;
-                }
+            }
+            catch (Exception e)
+            {
+                res.ResponseText = e.Message;
             }
             return res;
         }
@@ -159,7 +160,7 @@ namespace WebApp.Servcie
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = "Somthing Went Wrong",
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/NewArrivals",JsonConvert.SerializeObject(productRequest));
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/NewArrivals", JsonConvert.SerializeObject(productRequest));
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
                 try
@@ -288,7 +289,7 @@ namespace WebApp.Servcie
             }
             return res;
         }
-        
+
         public async Task<IResponse<IEnumerable<ProductResponse>>> GetProducts(ProductRequest productRequest, string URL)
         {
             var res = new Response<IEnumerable<ProductResponse>>
@@ -311,7 +312,7 @@ namespace WebApp.Servcie
             }
             return res;
         }
-        
+
         public async Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductsByCategory(ProductRequest productRequest, string URL)
         {
             var res = new Response<JDataTableResponse<ProductResponse>>

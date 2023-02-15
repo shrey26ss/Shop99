@@ -25,7 +25,7 @@
                                         <div>
                                             <h1><span>@item.Title</span></h1>
                                             <h4>@item.Subtitle</h4>
-                                            @if(!string.IsNullOrEmpty(@item.BackLinkText)){
+                                            if(!string.IsNullOrEmpty(item.BackLinkText)){
                                             <a href="@item.BackLinkURL" class="btn btn-normal">
                                                 @item.BackLinkText
                                             </a>
