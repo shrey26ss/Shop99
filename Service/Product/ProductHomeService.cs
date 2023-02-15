@@ -164,8 +164,8 @@ namespace Service.Product
             {
                 try
                 {
-                    string sp = @"select * from PictureInformation  where GroupId = @VariantId and ImgVariant = 'default'";
-                    res.Result = await _dapper.GetAllAsync<PictureInformation>(sp, new { request.Data.VariantId, request.Data.Color }, CommandType.Text);
+                    //string sp = @"select * from PictureInformation  where GroupId = @VariantId and ImgVariant = 'default'";
+                    res.Result = await _dapper.GetAllAsync<PictureInformation>("Proc_GetProductPicDetails", new { request.Data.VariantId}, CommandType.StoredProcedure);
                     if (res.Result != null)
                     {
                         res.StatusCode = ResponseStatus.Success;
