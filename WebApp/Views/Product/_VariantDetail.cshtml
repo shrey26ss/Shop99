@@ -92,14 +92,14 @@
                         string color = "";
                         try
                         {
-                            color = Model.PictureInformation.ToList().FirstOrDefault().Color;
+                            color = Model.PictureInformation.ToList().FirstOrDefault()?.Color ?? "default";
                         }
                         catch (Exception ex)
                         {
 
                         }
                     }
-                    <input type="hidden" id="VariantIDD" value="@Model.PictureInformation.FirstOrDefault().GroupId" />
+                    <input type="hidden" id="VariantIDD" value="@Model.PictureInformation?.FirstOrDefault().GroupId" />
                     <input type="hidden" id="hdGroupId" value="MainAttrGrid" />
                     <div class="form-group" id="MainAttrGrid">
                         <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right">Add Attribute</button>
