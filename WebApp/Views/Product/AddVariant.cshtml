@@ -112,7 +112,7 @@
 @section Scripts{
 <script>
     variantImages = [];
-    const removeDuplicates(arr) {
+    const removeDuplicates = function(arr) {
         return arr.filter((item, index) => arr.indexOf(item) === index);
     }
     const isPartOfArray = (a, b) => {
