@@ -57,12 +57,15 @@ namespace WebApp.Controllers
             return PartialView("PartialView/_AddTopBanner", res);
         }
         [HttpPost]
-        [ValidateAjax]
         public async Task<IActionResult> Edit(TopBannerViewModel model)
         {
             Response response = new Response();
             try
             {
+                if (model.Id == 0 && model.File == null)
+                {
+                    return Json(new Response { ResponseText = "Please Select a Image" });
+                }
                 string absoluteURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.jpg";
                 if (model.File != null)

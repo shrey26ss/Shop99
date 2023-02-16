@@ -3,8 +3,10 @@ using AppUtility.Helper;
 using AutoMapper;
 using Entities.Enums;
 using Entities.Models;
+using FluentMigrator.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Service.Models;
@@ -56,12 +58,15 @@ namespace WebApp.Controllers
             return PartialView("PartialView/_AddLowerTopBanner", res);
         }
         [HttpPost]
-        [ValidateAjax]
         public async Task<IActionResult> Edit(TopLowerBannerViewModel model) //TopLowerBanner
         {
             Response response = new Response();
             try
             {
+                if(model.Id == 0 && model.File == null)
+                {
+                    return Json(new Response { ResponseText = "Please Select a Image"});
+                }
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.jpg";
                 if(model.File != null)
                 {

@@ -7,12 +7,10 @@ namespace WebApp.Models.ViewModels
 {
     public class TopBannerViewModel : TopBanner
     {
-        [Required(ErrorMessage = "Please select file.")]
         public IFormFile File { get; set; }
     }
     public class TopLowerBannerViewModel : TopLowerBanner
     {
-        [Required(ErrorMessage = "Please select file.")]
         public IFormFile File { get; set; }
     }
     public class TopBannerDashBoard
