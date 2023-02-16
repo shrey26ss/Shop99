@@ -39,6 +39,7 @@ using Service.Offers;
 using AppUtility.AppCode;
 using AppUtility.Helper;
 using Service.Developer;
+using Service.Websiteinfo;
 
 namespace WebAPI.Middleware
 {
