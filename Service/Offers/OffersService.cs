@@ -30,7 +30,7 @@ namespace Service.Offers
                 string sqlQuery = "";
                 if (offers.Data.OfferId != 0 && offers.Data.OfferId > 0)
                 {
-                    sqlQuery = @"update Offers set OfferTitle = @OfferTitle,OfferDescription=@OfferDescription,DiscountUpToAmount=@DiscountUpToAmount,OfferTypeId = @OfferTypeId,IsActive=@IsActive where OfferId = @OfferId;Select 1 StatusCode,'Offer Updated successfully' ResponseText";
+                    sqlQuery = @"update Offers set OfferTitle = @OfferTitle,OfferDescription=@OfferDescription,AtRate=@AtRate,OfferTypeId = @OfferTypeId,IsActive=@IsActive where OfferId = @OfferId;Select 1 StatusCode,'Offer Updated successfully' ResponseText";
                 }
                 else
                 {
