@@ -248,7 +248,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                            end
                         else
                         begin
-                        select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,0) = (case Isnull(@StatusID,0) when 0 then Isnull(AdminApproveStatus,0) else @StatusID end) and (Isnull(AdminApproveStatus,0)=@StatusID)
+                        select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,1) = @StatusID or (Isnull(AdminApproveStatus,0)=@StatusID)
                             end";
             }
             var res = new Response<IEnumerable<ProductVariantAttributeDetails>>();
