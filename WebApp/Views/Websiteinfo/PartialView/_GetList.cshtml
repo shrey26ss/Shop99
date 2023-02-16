@@ -1,0 +1,28 @@
+﻿@using Entities.Models
+@model List<WebsiteinfoModel>
+@if(Model.Any()){
+    int i = 0;
+    foreach (var item in Model)
+    {
+        i++;
+        <tr>
+            <td>@i</td>
+            <td><img src="@item.Whitelogo" class="img-fluid rounded-circle" onerror="this.onerror=null;this.src='/image/static/no-image.png'"/></td>
+            <td><img src="@item.Coloredlogo" class="img-fluid rounded-circle" onerror="this.onerror=null;this.src='/image/static/no-image.png'"/></td>
+            <td>@item.Companydomain</td>
+            <td>@item.Companyname</td>
+            <td>@item.CompanyemailID</td>
+            <td>@item.Companymobile</td>
+            <td>@item.Companyaddress</td>
+            <td>@item.Footerdescription</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-primary" onclick="AddNewItem('@item.Id')">Edit</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="Delete('@item.Id')">Delete</button>
+            </td>
+        </tr>
+    }
+}
+else
+{
+
+}

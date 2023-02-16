@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Service.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.AppCode.Attributes;
@@ -31,13 +32,25 @@ namespace WebApp.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> GetwebsiteList()
+        {
+            List<WebsiteinfoModel> resList = await GetList();
+            return PartialView("PartialView/_GetList", resList);
+        }
         public async Task<IActionResult> Edit(int Id = 0)
         {
             var res = new WebsiteinfoViewModel();
             if (Id > 0)
             {
                 List<WebsiteinfoModel> resList = await GetList(Id);
-                
+                res.Whitelogo = resList.FirstOrDefault().Whitelogo;
+                res.Coloredlogo = resList.FirstOrDefault().Coloredlogo;
+                res.Companydomain = resList.FirstOrDefault().Companydomain;
+                res.Companyname = resList.FirstOrDefault().Companyname;
+                res.CompanyemailID = resList.FirstOrDefault().CompanyemailID;
+                res.Companymobile = resList.FirstOrDefault().Companymobile;
+                res.Companyaddress = resList.FirstOrDefault().Companyaddress;
+                res.Footerdescription = resList.FirstOrDefault().Footerdescription;
             }
             return PartialView("PartialView/_Addwebsiteinfo", res);
         }
@@ -92,6 +105,17 @@ namespace WebApp.Controllers
             catch (Exception ex)
             {
 
+            }
+            return Json(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var response = new Response();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Websiteinfo/Delete", JsonConvert.SerializeObject(new SearchItem { Id = Id }), User.GetLoggedInUserToken());
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             }
             return Json(response);
         }

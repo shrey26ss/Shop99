@@ -15,7 +15,7 @@ namespace Entities.Models
         public string CompanyemailID { get; set; }
         public string Companymobile { get; set; }
         public string Companyaddress { get; set; }
-        public string Footerdescreption { get; set; }
+        public string Footerdescription { get; set; }
         public int LoginID { get; set; }
     }
 }
