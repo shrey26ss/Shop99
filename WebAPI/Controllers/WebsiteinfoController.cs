@@ -27,5 +27,10 @@ namespace WebAPI.Controllers
         {
             Data = req
         }));
+        [Route("Websiteinfo/Delete")]
+        public async Task<IActionResult> Delete(SearchItem req) => Ok(await _websiteinfo.Delete(new RequestBase<SearchItem>
+        {
+            Data = req
+        }));
     }
 }

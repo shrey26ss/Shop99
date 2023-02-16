@@ -25,7 +25,7 @@
                                 <th>Company EmailID</th>
                                 <th>Company Mobile</th>
                                 <th>Company Address</th>
-                                <th>Company description</th>
+                                <th>Footer description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -41,12 +41,12 @@
         $(() => {
             loadData();
         })
-        //var loadData = () => {
-        //    $.post('/TopBanner/TopBannerList').done(function (result) {
-        //        $('#Grid tbody').html(result);
-        //    }).fail(function (xhr) {
-        //    })
-        //};
+        var loadData = () => {
+            $.post('/Websiteinfo/GetwebsiteList').done(function (result) {
+                $('#Grid tbody').html(result);
+            }).fail(function (xhr) {
+            })
+        };
 
         var AddNewItem = function (Id = 0) {
             $.get('/Websiteinfo/Edit',  { Id}).done((result) => {
@@ -58,10 +58,9 @@
             })
         }; 
 
-    var Delete = (Id) => Q.confirm("Are You Sure. You Want To Delete This Banner", () => DeleteItem(Id));
+    var Delete = (Id) => Q.confirm("Are You Sure. You Want To Delete WebsiteInfo", () => DeleteItem(Id));
     var DeleteItem = function (Id = 0) {
-        $.post('/TopBanner/Delete',  { Id}).done((result) => {
-            console.log('result :', result);
+        $.post('/Websiteinfo/Delete',  { Id}).done((result) => {
             Q.notify(result.statusCode,result.responseText);
             if(result.statusCode)
                 loadData();

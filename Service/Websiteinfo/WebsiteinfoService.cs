@@ -30,12 +30,12 @@ namespace Service.Websiteinfo
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update CompanyProfile set Whitelogo = @Whitelogo,Coloredlogo=@Coloredlogo,CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=Footerdescreption,ModifyOn=GETDATE() where ID = @Id";
+                    sqlQuery = @"Update CompanyProfile set Whitelogo = @Whitelogo,Coloredlogo=@Coloredlogo,CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=@Footerdescription,ModifyOn=GETDATE() where ID = @Id";
                 }
                 else
                 {
                     sqlQuery = @"insert into CompanyProfile(Whitelogo,Coloredlogo,CompanyDomain,CompanyName,CompanyEmailID,CompanyMobile,CompanyAddress,Footerdescription,EnteryOn,ModifyOn)
-values(@Whitelogo,@Coloredlogo,@Companydomain,@Companyname,@CompanyemailID,@Companymobile,@Companyaddress,@Footerdescreption,GETDATE(),GETDATE());";
+values(@Whitelogo,@Coloredlogo,@Companydomain,@Companyname,@CompanyemailID,@Companymobile,@Companyaddress,@Footerdescription,GETDATE(),GETDATE());";
                 }
                 i = await _dapper.ExecuteAsync(sqlQuery, new
                 {
@@ -48,7 +48,7 @@ values(@Whitelogo,@Coloredlogo,@Companydomain,@Companyname,@CompanyemailID,@Comp
                     request.Data.CompanyemailID,
                     request.Data.Companymobile,
                     request.Data.Companyaddress,
-                    request.Data.Footerdescreption,
+                    request.Data.Footerdescription,
                 }, CommandType.Text);
                 var description = Utility.O.GetErrorDescription(i);
                 if (i > 0 && i < 10)
@@ -82,6 +82,32 @@ values(@Whitelogo,@Coloredlogo,@Companydomain,@Companyname,@CompanyemailID,@Comp
             catch (Exception ex)
             {
 
+            }
+            return res;
+        }
+        public async Task<IResponse> Delete(RequestBase<SearchItem> req)
+        {
+            var res = new Response();
+            try
+            {
+                if (req.Data == null)
+                    return res;
+                string sqlQuery = @"Delete from CompanyProfile where Id = @Id";
+                int i = -5;
+                i = await _dapper.ExecuteAsync(sqlQuery, new { req.Data.Id }, CommandType.Text);
+                var description = Utility.O.GetErrorDescription(i);
+                if (i > 0 && i < 10)
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
+                else
+                {
+                    res.ResponseText = description;
+                }
+            }
+            catch (Exception ex)
+            {
             }
             return res;
         }
