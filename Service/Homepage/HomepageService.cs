@@ -70,8 +70,9 @@ namespace Service.Homepage
             var res = new Response<IEnumerable<ProductResponse>>();
             try
             {
-                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  from Products p(nolock) 
+                string sqlQuery = @"Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  from Products p(nolock) 
             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id
+ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
             where p.IsPublished = 1 and vg.IsShowOnHome = 1 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
@@ -92,10 +93,11 @@ namespace Service.Homepage
             try
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn)       
-                                            PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,
+                                            PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,
                                            vg.Rating 
                                     from    Products p (nolock)
                                             inner join VariantGroup vg on vg.ProductId = p.Id 
+ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                                     where   vg.IsShowOnHome=1 and p.ispublished = 1 and vg.ispublished = 1
                                             and vg.AdminApproveStatus = 3
                                             and DATEDIFF(D,vg.PublishedOn,getdate())<=@days 
@@ -118,9 +120,11 @@ namespace Service.Homepage
             try
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
-                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  
+                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  
                                     from    Products p (nolock)
                                             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id 
+ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
+
                                     where vg.IsFeatured=1 and p.ispublished = 1 and vg.ispublished = 1";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
@@ -140,9 +144,11 @@ namespace Service.Homepage
             try
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
-                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  
+                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  
                                     from    Products p (nolock)
-                                            inner join VariantGroup vg on vg.ProductId = p.Id and p.ispublished = 1 and vg.ispublished = 1 and vg.AdminApproveStatus = 3
+                                            inner join VariantGroup vg on vg.ProductId = p.Id and p.ispublished = 1 and vg.ispublished = 1 and 
+vg.AdminApproveStatus = 3 
+ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                                     order by vg.SellingCost";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
@@ -162,9 +168,10 @@ namespace Service.Homepage
             try
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
-                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating 
+                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating 
                                     from    Products p (nolock)
                                             inner join VariantGroup vg on vg.ProductId = p.Id
+ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                                     where   vg.IsShowOnHome = 1 and vg.AdminApproveStatus = 3 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
@@ -184,9 +191,10 @@ namespace Service.Homepage
             try
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
-                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  
+                                            vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  
                                     from    Products p (nolock)
                                             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id
+  left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                                     where vg.IsShowOnHome = 1 and vg.AdminApproveStatus = 3 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse<ProductResponse>>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
@@ -207,9 +215,10 @@ namespace Service.Homepage
             {
                 string sqlQuery = @"Select  top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,
                                             vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,p.Description,p.ShortDescription,'' DealEndsOn,'Hot Deal' [Label],
-                                            vg.SellingCost,vg.Rating  
+                                            Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  
                                     from    Products p (nolock)
                                             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id
+left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                                     where   vg.IsShowOnHome = 1 and p.ispublished = 1 and vg.ispublished = 1 order by NEWID() desc ";
                 res.Result = await _dapper.GetAllAsync<HotDealsResponse>(sqlQuery, new { Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
@@ -259,11 +268,13 @@ Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup 
 insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
   if((select count(*) from #temp)>0)
   begin
-   with cte as ( Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  from Products p(nolock) 
+   with cte as ( Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  from Products p(nolock) 
             inner join VariantGroup vg(nolock) on vg.ProductId = p.Id 
 			 inner join CategoryAttributeMapping cam(nolock) on cam.CategoryId=p.CategoryId
 			  inner join AttributeInfo ai(nolock) on ai.AttributeId=cam.AttributeId
+ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
 			 inner join #temp t on t.attributes = ai.AttributeValue and vg.id=ai.GroupId
+
             where p.Id = @ProductId
 )select * from cte group by 	ProductID,VariantID,PublishedOn,Title,MRP,GroupID,ImagePath,Label,SellingCost,Stars
   end
