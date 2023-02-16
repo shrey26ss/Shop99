@@ -54,8 +54,15 @@
             else
             {
                 <td>
-                    <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Confirmed')"><i class="ti-close text-danger" title="Reject"></i></a>
-                    <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Rejected')"><i class="ti-check text-success" style="margin-left: 12px;" title="Approve"></i></a>
+                    @if (@item.AdminApproveStatus == StatusType.Confirmed || @item.AdminApproveStatus == StatusType.Rejected)
+                    {
+                        @item.AdminApproveStatus
+                    }
+                    else
+                    {
+                        <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Rejected')"><i class="ti-close text-danger" title="Reject"></i></a>
+                        <a class="icon" onclick="AdminApprovelChangeStatus('@item.Id','@StatusType.Confirmed')"><i class="ti-check text-success" style="margin-left: 12px;" title="Approve"></i></a>
+                    }
                 </td>
             }
         </tr>
@@ -72,25 +79,25 @@ else
         const vid = $(this).data('variantid');
         const prevQty = $(this).data('qauntity');
         const html = ` <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label for="inputEmail4">Qauntity</label>
-                          <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
-                        </div>
-                        <input type="hidden" name="VariantId" value="${vid}">
-                        <div class="form-group col-md-6">
-                          <label for="inputPassword4">Add/Delete</label>
-                          <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
-                        </div>
-                     </div>
-                      <div class="form-group">
-                        <label for="inputAddress">Remark</label>
+                                    <div class="form-group col-md-6">
+                                      <label for="inputEmail4">Qauntity</label>
+                                      <input type="number" disabled class="form-control" value="${prevQty}" id="txtqauntity">
+                                    </div>
+                                    <input type="hidden" name="VariantId" value="${vid}">
+                                    <div class="form-group col-md-6">
+                                      <label for="inputPassword4">Add/Delete</label>
+                                      <input type="number" class="form-control" id="txtaddDelete" name="Quantity" placeholder="Add/Delete Qauntity">
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label for="inputAddress">Remark</label>
 
-                        <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
-                      </div>
+                                    <textarea  id="txtRemark" class="form-control" rows="2" ></textarea>
+                                  </div>
 
-                      <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
-                      <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
-                      `;
+                                  <button type="submit"  data-variantid="${vid}" data-addminus="0" class="btn btn-outline-primary addQuantity " id="addQuantity">Add</button>
+                                  <button type="submit"  data-variantid="${vid}" data-addminus="1"  class="btn btn-outline-danger addQuantity" id="RemoveQauntity">Reduce</button>
+                                  `;
         Q.alert({
             title: 'Add/Delete Qauntity',
             body: html,

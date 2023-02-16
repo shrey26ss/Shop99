@@ -38,6 +38,7 @@ using Service.Notify;
 using Service.Offers;
 using AppUtility.AppCode;
 using AppUtility.Helper;
+using Service.Websiteinfo;
 
 namespace WebAPI.Middleware
 {
@@ -90,6 +91,7 @@ namespace WebAPI.Middleware
             services.AddScoped<IRequestInfo, RequestInfoServcie>();
             services.AddScoped<IDashboard, DashboardService>();
             services.AddScoped<IOffersService, OffersService>();
+            services.AddScoped<IWebsiteinfo, WebsiteinfoService>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
             services.AddHangfire(x => x.UseSqlServerStorage(dbConnectionString));
