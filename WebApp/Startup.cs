@@ -43,7 +43,6 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 20, DelaysInSeconds = new int[] { 300 } });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.RegisterService(Configuration);
             services.AddAuthentication(option =>
@@ -73,14 +72,11 @@ namespace WebApp
                 };
             }).AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
             {
-                // runs on each request
                 options.ForwardDefaultSelector = context =>
                 {
-                    // filter by auth type
                     string authorization = context.Request.Headers[HeaderNames.Authorization];
                     if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
                         return "Bearer";
-                    // otherwise always check for cookie auth
                     return "Cookies";
                 };
             });
@@ -98,14 +94,12 @@ namespace WebApp
             services.AddIdentity<ApplicationUser, ApplicationRole>();
             services.ConfigureApplicationCookie(options =>
             {
-                // Cookie settings
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
             });
-            //#endregion
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromHours(2);
@@ -131,26 +125,10 @@ namespace WebApp
             else
             {
                 app.UseExceptionHandler("/Error/Status404");
-                //app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
                 app.UseHsts();
             }
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
-            //app.ConfigureExceptionHandler(logger);
             app.UseSession();
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Image")),
-            //    RequestPath = new PathString("/Image"),
-            //    OnPrepareResponse = r =>
-            //    {
-            //        string path = r.File.PhysicalPath;
-            //        if (path.EndsWith(".css") || path.EndsWith(".js") || path.EndsWith(".gif") || path.EndsWith(".jpg") || path.EndsWith(".png") || path.EndsWith(".svg"))
-            //        {
-            //            TimeSpan maxAge = new TimeSpan(7, 0, 0, 0);
-            //            r.Context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
-            //        }
-            //    }
-            //});
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors(x => x
@@ -160,10 +138,6 @@ namespace WebApp
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<UserAgentMiddleware>();
-            app.UseHangfireDashboard("/mydashboard", new DashboardOptions
-            {
-                Authorization = new[] { new HangfireAuthorizationFilter() }
-            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
