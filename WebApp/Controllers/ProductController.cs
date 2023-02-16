@@ -324,6 +324,11 @@ namespace WebApp.Controllers
                 model.PictureInfo = UploadProductImage(req);
                 if (model.PictureInfo.Count() > 0)
                 {
+                    foreach(var item in model.GroupInfo)
+                    {
+                        item.Images = JsonConvert.SerializeObject(model.PictureInfo.Where(a => a.GroupId == item.Id));
+                        item.Thumbnail = model.PictureInfo.Where(a => a.ImgVariant.Equals("default")).Where(a => a.GroupId== item.Id).FirstOrDefault().ImagePath;
+                    }
                     string _token = User.GetLoggedInUserToken();
                     var jsonData = JsonConvert.SerializeObject(model);
                     var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/AddProductVariant", jsonData, _token);
@@ -576,6 +581,8 @@ namespace WebApp.Controllers
                 model.PictureInfo = UploadProductImage(req);
                 if (model.PictureInfo.Count() > 0)
                 {
+                    model.GroupInfo.FirstOrDefault().Images = JsonConvert.SerializeObject(model.PictureInfo);
+                    model.GroupInfo.FirstOrDefault().Thumbnail = model.PictureInfo.Where(a => a.ImgVariant.Equals("default")).FirstOrDefault().ImagePath;
                     string _token = User.GetLoggedInUserToken();
                     var jsonData = JsonConvert.SerializeObject(model);
                     var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/UpdateProductVariant", jsonData, _token);

@@ -27,6 +27,8 @@ namespace Entities.Models
         public bool? IsFeatured { get; set; }
         public int? Warranty { get; set; }
         public string WarrantyUnit { get; set; }
+        public string Images { get; set; }
+        public string Thumbnail { get; set; }
     }
     public class AttributeInfo
     {
