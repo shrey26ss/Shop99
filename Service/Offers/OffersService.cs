@@ -28,16 +28,15 @@ namespace Service.Offers
             try
             {
                 string sqlQuery = "";
-                int i = -5;
                 if (offers.Data.OfferId != 0 && offers.Data.OfferId > 0)
                 {
-                    sqlQuery = @"update Offers set OfferTitle = @OfferTitle,OfferDescription=@OfferDescription,DiscountUpToAmount=@DiscountUpToAmount,OfferTypeId = @OfferTypeId,IsActive=@IsActive where OfferId = @OfferId ";
+                    sqlQuery = @"update Offers set OfferTitle = @OfferTitle,OfferDescription=@OfferDescription,DiscountUpToAmount=@DiscountUpToAmount,OfferTypeId = @OfferTypeId,IsActive=@IsActive where OfferId = @OfferId;Select 1 StatusCode,'Offer Updated successfully' ResponseText";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Offers (OfferTypeId,OfferTitle,OfferDescription,OfferBeginOn,OfferEndOn,IsFlat,AtRate,DiscountUpToAmount,MinEligibleAmount,IsActive,	UserID,IsAutoApply,CouponCode) values(@OfferTypeId,@OfferTitle,@OfferDescription,GETDATE(),GETDATE(),@Isflat,@AtRate,@DiscountUpToAmount,@MinEligibleAmount,@IsActive,@LoginId,@IsAutoApply,@CouponCode);";
+                    sqlQuery = @"Insert into Offers (OfferTypeId,OfferTitle,OfferDescription,OfferBeginOn,OfferEndOn,IsFlat,AtRate,DiscountUpToAmount,MinEligibleAmount,IsActive,	UserID,IsAutoApply,CouponCode) values(@OfferTypeId,@OfferTitle,@OfferDescription,GETDATE(),GETDATE(),@Isflat,@AtRate,@DiscountUpToAmount,@MinEligibleAmount,@IsActive,@LoginId,@IsAutoApply,@CouponCode);Select 1 StatusCode,'Offer Inserted successfully' ResponseText";
                 }
-                i = await _dapper.ExecuteAsync(sqlQuery, new
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
                 { 
                     offers.Data.OfferId,
                     offers.Data.OfferTypeId,
@@ -52,16 +51,6 @@ namespace Service.Offers
                     IsAutoApply = true,
                     CouponCode = offers.Data.CouponCode ?? String.Empty
                 }, CommandType.Text);
-                var description = Utility.O.GetErrorDescription(i);
-                if (i > 0 && i < 10)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Offers added successfully";
-                }
-                else
-                {
-                    res.ResponseText = description;
-                }
             }
             catch (Exception ex)
             {
@@ -113,31 +102,51 @@ namespace Service.Offers
             }
             return res;
         }
+        //public async Task<IResponse> UpdateIsActiveOffer(RequestBase<OfferUpdateIsActive> offer)
+        //{
+        //    var res = new Response();
+        //    try
+        //    {
+        //        string sqlQuery = "";
+        //        int i = -5;
+
+        //        sqlQuery = @"update offers set IsActive = @IsActive where OfferID = @OfferID;";
+
+        //        i = await _dapper.ExecuteAsync(sqlQuery, new
+        //        {
+        //            offer.Data.OfferID,
+        //            offer.Data.IsActive
+        //        }, CommandType.Text);
+        //        var description = Utility.O.GetErrorDescription(i);
+        //        if (i > 0 && i < 10)
+        //        {
+        //            res.StatusCode = ResponseStatus.Success;
+        //            res.ResponseText = "Offer Updated successfully";
+        //        }
+        //        else
+        //        {
+        //            res.ResponseText = description;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //    }
+        //    return res;
+        //}
         public async Task<IResponse> UpdateIsActiveOffer(RequestBase<OfferUpdateIsActive> offer)
         {
             var res = new Response();
             try
             {
                 string sqlQuery = "";
-                int i = -5;
-
-                sqlQuery = @"update offers set IsActive = @IsActive where OfferID = @OfferID;";
-
-                i = await _dapper.ExecuteAsync(sqlQuery, new
+                sqlQuery = @"update offers set IsActive = @IsActive where OfferID = @OfferID;Select 1 StatusCode,'Offer Updated successfully' ResponseText";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     offer.Data.OfferID,
                     offer.Data.IsActive
                 }, CommandType.Text);
-                var description = Utility.O.GetErrorDescription(i);
-                if (i > 0 && i < 10)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Offer Updated successfully";
-                }
-                else
-                {
-                    res.ResponseText = description;
-                }
+
             }
             catch (Exception ex)
             {
