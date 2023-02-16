@@ -29169,7 +29169,7 @@ body.rtl {
 
     .creative-card {
         border-width: 25px;
-        padding: 0px;
+       /* padding: 0px;*/
     }
 
     .collection-collapse-block {
