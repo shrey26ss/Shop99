@@ -47,7 +47,7 @@
                     <label for="Ispublish_@item.Id"></label>
                 </span>
             </td>
-            @if (@item.EntryBy == 1)
+            @if (@item.EntryBy == 1 && @item.AdminApproveStatus == StatusType.Confirmed || @item.AdminApproveStatus == StatusType.Rejected)
             {
                 <td>@item.AdminApproveStatus</td>
             }
