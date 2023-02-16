@@ -86,7 +86,16 @@ namespace Service.OrderDetails
             {
                 if (req.StatusID == StatusType.CancelRequestRejected)
                 {
-                    res = await _dapper.GetAsync<Response>("declare @PreviousStatusID int select @PreviousStatusID = PreviousStatusID from Orders where ID =@ID; UPdate Orders set PreviousStatusID = StatusID,StatusID = @PreviousStatusID , Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Request Rejected Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    if (loginId == 1)
+                    {
+                        res = await _dapper.GetAsync<Response>("declare @PreviousStatusID int select @PreviousStatusID = PreviousStatusID from Orders where ID =@ID; UPdate Orders set PreviousStatusID = StatusID,StatusID = @PreviousStatusID , Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Request Rejected Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    }
+                    else
+                    {
+                        res.StatusCode = ResponseStatus.Failed;
+                        res.ResponseText = "Invalid access!";
+                        return res;
+                    }
                 }
                 if (req.StatusID == StatusType.CancelRequest || req.StatusID == StatusType.ReturnCanceled)
                 {
@@ -103,11 +112,30 @@ namespace Service.OrderDetails
                 }
                 else if (req.StatusID == StatusType.ReplaceRejected)
                 {
-                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Replace Rejected Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    if (loginId == 1)
+                    {
+                        res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Replace Rejected Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    }
+                    else
+                    {
+                        res.StatusCode = ResponseStatus.Failed;
+                        res.ResponseText = "Invalid access!";
+                        return res;
+                    }
+                    
                 }
                 else if (req.StatusID == StatusType.ReplacementAccepted)
                 {
-                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Order Replacement Accepted Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    if (loginId == 1)
+                    {
+                        res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID,@StatusCode = 1,@ResponseText = 'Order Replacement Accepted Successfully',ReturnRemark=@Remark  Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    }
+                    else
+                    {
+                        res.StatusCode = ResponseStatus.Failed;
+                        res.ResponseText = "Invalid access!";
+                        return res;
+                    }
                 }
                 else if (req.StatusID == StatusType.OrderReplaced)
                 {
@@ -119,11 +147,29 @@ namespace Service.OrderDetails
                 }
                 else if(req.StatusID == StatusType.Confirmed)
                 {
-                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID,InvoiceNo = @InvoiceNumber ,@StatusCode = 1,@ResponseText = 'Order Confirmed Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, req.InvoiceNumber, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    if (loginId == 1)
+                    {
+                        res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID,InvoiceNo = @InvoiceNumber ,@StatusCode = 1,@ResponseText = 'Order Confirmed Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, req.InvoiceNumber, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    }
+                    else
+                    {
+                        res.StatusCode = ResponseStatus.Failed;
+                        res.ResponseText = "Invalid access!";
+                        return res;
+                    }                    
                 }
                 else
                 {
-                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID, SourceImage = @SourceImage, @StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed", SourceImage = req.ImagePaths}, CommandType.Text);
+                    if (loginId == 1)
+                    {
+                        res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID, SourceImage = @SourceImage, @StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed", SourceImage = req.ImagePaths }, CommandType.Text);
+                    }
+                    else
+                    {
+                        res.StatusCode = ResponseStatus.Failed;
+                        res.ResponseText = "Invalid access!";
+                        return res;
+                    }
                 }
             }
             catch (Exception ex)

@@ -48,7 +48,7 @@
 
             <div class="col-md-12 table-responsive">
                 <table class="table table-bordered" id="Grid">
-                    <thead  class="text-nowrap">
+                    <thead class="text-nowrap">
                         <tr role="row">
                             <th>#</th>
                             <th>Action</th>
@@ -180,17 +180,21 @@
                 alert('something went wrong');
             })
         }
+        var reloadpage = () =>{
+            setTimeout(function() {
+                window.location.reload();
+            },3000);
+        }
         var AdminApprovelChangeStatus = (id, statusid) => {
-            debugger
             let remark = '';
             if (statusid == 'Rejected') {
                 const html = `<div class="form-group">
-                  <label for="inputAddress">Reason</label>
-                  <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                  <small class="text-danger d-none" id="txtRemarksm">Remark is required</small>
-                  </div>
-                  <button type="submit"  data-id="${id}" data-status="${statusid}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">Reject</button>
-                                                                                           `;
+                                          <label for="inputAddress">Reason</label>
+                                          <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                          <small class="text-danger d-none" id="txtRemarksm">Remark is required</small>
+                                          </div>
+                                          <button type="submit"  data-id="${id}" data-status="${statusid}" class="btn btn-outline-primary" id="btnSubmitRemark">Reject</button>
+                                                                                                                   `;
                 Q.alert({
                     title: 'Add Reason',
                     body: html,
@@ -205,32 +209,31 @@
                     else {
                         $('#txtRemarksm').addClass('d-none');
                     }
-                    $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done((result) => {
+                    $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done(function(result) {
                         Q.notify(result.statusCode, result.responseText);
-                        setTimeout(window.location.reload(), 4000)
+                        reloadpage();
                     }).fail(function(xhr) {
                         console.log(xhr.responseText);
-                        alert('something went wrong');
-                    })
+                    });
                 });
             }
             else {
-                $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done((result) => {
+                $.post('/Product/UpdateAdminApprovelStatus', { Id: id, StatusID: statusid, Remark: remark }).done(function(result) {
                     Q.notify(result.statusCode, result.responseText);
-                    setTimeout(window.location.reload(), 4000)
+                    reloadpage();
                 }).fail(function(xhr) {
                     console.log(xhr.responseText);
-                    alert('something went wrong');
-                })
+                });
             }
         }
-                        //var FilterData = () => {
-                        //    if($('#ddlstatus').val() == ''){
-                        //        window.location.href = '/Product/Attributes';
-                        //    }
-                        //    else{
-                        //        window.location.href = '/Product/Attributes?s=' + $('#ddlstatus').val();
-                        //    }
-                        //}
+                                                //var FilterData = () => {
+                                                //    if($('#ddlstatus').val() == ''){
+                                                //        window.location.href = '/Product/Attributes';
+                                                //    }
+                                                //    else{
+                                                //        window.location.href = '/Product/Attributes?s=' + $('#ddlstatus').val();
+                                                //    }
+                                                //}
+        
     </script>
 }

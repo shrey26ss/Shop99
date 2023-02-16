@@ -1,0 +1,86 @@
+﻿@using WebApp.Models.ViewModels;
+@model WebsiteinfoViewModel
+@{
+    //string src = string.Empty;
+    //if (!string.IsNullOrEmpty(Model.BannerPath))
+    //    src = Model.BannerPath;
+    //else
+    //    src = "/image/static/no-image.png";
+}
+<form method="post" asp-action="Save">
+    <div class="row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-6">
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Whitelogo"></label>
+                    <input asp-for="Whitelogofile" class="form-control" type="file" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Coloredlogo"></label>
+                    <input asp-for="Coloredlogofile" class="form-control" type="file" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Companydomain"></label>
+                    <input asp-for="Companydomain" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Companyname"></label>
+                    <input asp-for="Companyname" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="CompanyemailID"></label>
+                    <input asp-for="CompanyemailID" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Companymobile"></label>
+                    <input asp-for="Companymobile" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Companyaddress"></label>
+                    <input asp-for="Companyaddress" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-ms-12">
+                <div class="form-group">
+                    <label asp-for="Footerdescreption"></label>
+                    <textarea asp-for="Footerdescreption" class="form-control" ></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row text-center">
+        <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $('#File').change(function() {
+        const file = this.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                $('#blah').attr('src', event.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
