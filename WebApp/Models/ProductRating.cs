@@ -23,5 +23,10 @@ namespace WebApp.Models
         public int ID { get; set; }
         public string CreatedOn { get; set; }
         public string Name { get; set; }
+        public int Top1 { get; set; }
+        public int Top2 { get; set; }
+        public int Top3 { get; set; }
+        public int Top4 { get; set; }
+        public int Top5 { get; set; }
     }
 }

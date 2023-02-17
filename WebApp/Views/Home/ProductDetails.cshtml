@@ -30,11 +30,11 @@
         $(() => {
             getProductAllDetails(variantId);
             loadHotDealsNewProduct();
-            loadrate(variantId);
         });
         const getProductAllDetails = async function(variantId) {
             await $.post("/ProductAllDetails", { Id: variantId }).done(res => {
                 $('#productDetails').html(res);
+                loadrate(variantId);
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
         const loadrate = async function(variantId) {

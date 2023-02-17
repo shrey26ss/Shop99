@@ -317,9 +317,14 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
         }
         public async Task<IResponse<IEnumerable<ProductRatings>>> ProductWiseRatings(RequestBase<ProductRatingReq> request)
         {
-            string sp = @"declare @heighstar int
+            string sp = @"declare @heighstar int,@Top1 int,@Top2 int,@Top3 int,@Top4 int,@Top5 int
+				select @Top1 = Count(Rating) from Review where VariantID = @VariantID and Rating = 5
+				select @Top2 = Count(Rating) from Review where VariantID = @VariantID and Rating = 4
+				select @Top3 = Count(Rating) from Review where VariantID = @VariantID and Rating = 3
+				select @Top4 = Count(Rating) from Review where VariantID = @VariantID and Rating = 2
+				select @Top5 = Count(Rating) from Review where VariantID = @VariantID and Rating = 1
                 select @heighstar = Rating from VariantGroup where Id = @VariantID
-                select @heighstar heighstar ,re.*,_user.Name from Review re
+                select @heighstar heighstar ,@Top1 Top1,@Top2 Top2,@Top3 Top3,@Top4 Top4,@Top5 Top5,re.*,_user.Name from Review re
                 inner join users _user on re.Userid = _user.id where re.VariantID = @VariantID";
 
             var res = new Response<IEnumerable<ProductRatings>>();

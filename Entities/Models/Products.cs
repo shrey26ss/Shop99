@@ -64,5 +64,10 @@ namespace Entities.Models
         public int Rating { get; set; }
         public string Review { get; set; }
         public string Images { get; set; }
+        public int Top1 { get; set; }
+        public int Top2 { get; set; }
+        public int Top3 { get; set; }
+        public int Top4 { get; set; }
+        public int Top5 { get; set; }
     }
 }
