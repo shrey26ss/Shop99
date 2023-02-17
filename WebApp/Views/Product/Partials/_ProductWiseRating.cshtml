@@ -1,0 +1,129 @@
+﻿@model List<ProductWiseRating>
+@{
+    int i = 1;
+}
+<div class="container-fluid px-1 py-2 mx-auto">
+    <div class="row justify-content-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
+            <div class="card p-3">
+                <div class="row justify-content-left d-flex">
+                    <div class="col-md-4 d-flex flex-column">
+                        <div class="rating-box">
+                            @if (Model != null && Model.Count > 0)
+                            {
+                                <h1 class="pt-4">@Model.FirstOrDefault().heighstar.0</h1>
+                            }
+                            <p class="">out of 5</p>
+                        </div>
+                        <div>
+                            @if (Model != null && Model.Count > 0)
+                            {
+                                @for (i = 1; i <= @Model.FirstOrDefault().heighstar; i++)
+                                {
+                                    <span class="fa fa-star star-active mx-1"></span>
+                                }
+                                @for (int j = i; j <= 5; j++)
+                                {
+                                    <span class="fa fa-star star-inactive mx-1"></span>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="rating-bar0 justify-content-center">
+                            <table class="text-left mx-auto">
+                                <tr>
+                                    <td class="rating-label">Excellent</td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-5"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">123</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">Good</td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-4"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">23</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">Average</td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-3"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">10</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">Poor</td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-2"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">3</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">Terrible</td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-1"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">0</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @if (Model != null && Model.Count > 0)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-md-12 mb-3">
+                    <div class="card p-3">
+                        <div class="row d-flex">
+
+                            <div class="d-flex flex-column">
+                                <h3 class="mt-2 mb-0" style="font-size:medium;">@item.Name</h3>
+                                <div class="d-flex align-itemscenter justify-content-between">
+                                    <p class="text-left p-0">
+                                        <span class="text-muted">@item.Rating.0</span>
+                                        @for (i = 1; i <= @item.Rating; i++)
+                                        {
+                                            <span class="fa fa-star star-active ml-3"></span>
+                                        }
+                                        @for (int j = i; j <= 5; j++)
+                                        {
+                                            <span class="fa fa-star star-inactive"></span>
+                                        }
+                                    </p>
+
+                                    <div class="ml-auto">
+                                        <p class="text-muted p-0">@item.CreatedOn</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row text-left mb-3">
+                            <h4 class="blue-text mt-3" style="font-size:small;">"@item.Title"</h4>
+                            <p class="content pt-0 ">@item.Review</p>
+                        </div>
+                        <div class="row text-left">
+                            <img class="pic" src="@item.Images" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'">
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

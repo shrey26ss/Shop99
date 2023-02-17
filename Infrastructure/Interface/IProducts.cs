@@ -19,5 +19,6 @@ namespace Infrastructure.Interface
         Task<IResponse> ProductRating(RequestBase<ProductRatingReq> request);
         Task<IResponse> UpdateAdminApprovelStatus(RequestBase<UpdateAdminApprovelStatus> request);
         Task<IResponse> UpdateProductVariant(RequestBase<VariantCombination> request);
+        Task<IResponse<IEnumerable<ProductRatings>>> ProductWiseRatings(RequestBase<ProductRatingReq> request);
     }
 }

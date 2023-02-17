@@ -535,6 +535,18 @@ namespace WebApp.Controllers
             var res = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             return Json(res);
         }
+        [AllowAnonymous]
+        [Route("ProductWiseRating")]
+        public async Task<IActionResult> ProductWiseRating(int VariantID)
+        {
+            var req = new ProductRating
+            {
+                VariantID = VariantID,
+            };
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/ProductWiseRating", JsonConvert.SerializeObject(req), User.GetLoggedInUserToken());
+            var res = JsonConvert.DeserializeObject<Response<List<ProductWiseRating>>>(apiResponse.Result);
+            return PartialView("Partials/_ProductWiseRating", res.Result);
+        }
         [Authorize(Roles = "2")]
         private string UploadRatingImage(ProductRating req)
         {

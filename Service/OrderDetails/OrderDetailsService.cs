@@ -160,16 +160,7 @@ namespace Service.OrderDetails
                 }
                 else
                 {
-                    if (loginId == 1)
-                    {
-                        res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID, SourceImage = @SourceImage, @StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed", SourceImage = req.ImagePaths }, CommandType.Text);
-                    }
-                    else
-                    {
-                        res.StatusCode = ResponseStatus.Failed;
-                        res.ResponseText = "Invalid access!";
-                        return res;
-                    }
+                    res = await _dapper.GetAsync<Response>("UPDATE Orders SET PreviousStatusID = StatusID, StatusID=@StatusID, SourceImage = @SourceImage, @StatusCode = 1,@ResponseText = 'Return Initiated Successfully',ReturnRemark=@ReturnRemark Where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, ReturnRemark = req.Remark ?? string.Empty, LoginID = loginId, StatusCode = -1, ResponseText = "Failed", SourceImage = req.ImagePaths }, CommandType.Text);
                 }
             }
             catch (Exception ex)

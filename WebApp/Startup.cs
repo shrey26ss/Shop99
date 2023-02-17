@@ -18,11 +18,15 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 using Service.Identity;
 using Services.Identity;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using WebApp.AppCode.Extension;
 using WebApp.Middleware;
 using WebApp.Models;
@@ -138,6 +142,7 @@ namespace WebApp
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<UserAgentMiddleware>();
+            app.UseMiddleware<WebsiteinfoMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -146,4 +151,5 @@ namespace WebApp
             });
         }
     }
+
 }

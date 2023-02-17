@@ -52,4 +52,17 @@ namespace Entities.Models
         public int ID { get; set; }
         public bool IsPublish { get; set; }
     }
+    public class ProductRatings
+    {
+        public int heighstar { get; set; }
+        public int ID { get; set; }
+        public string CreatedOn { get; set; }
+        public string Name { get; set; }
+        public int VariantID { get; set; }
+        public int UserID { get; set; }
+        public string Title { get; set; }
+        public int Rating { get; set; }
+        public string Review { get; set; }
+        public string Images { get; set; }
+    }
 }

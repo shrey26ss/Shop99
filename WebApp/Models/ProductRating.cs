@@ -17,4 +17,11 @@ namespace WebApp.Models
     {
         public IFormFile file { get; set; }
     }
+    public class ProductWiseRating: ProductRating
+    {
+        public int heighstar { get; set; }
+        public int ID { get; set; }
+        public string CreatedOn { get; set; }
+        public string Name { get; set; }
+    }
 }

@@ -105,6 +105,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [AllowAnonymous]
+        [Route("Product/ProductWiseRating")]
+        public async Task<IActionResult> ProductWiseRating(ProductRatingReq req)
+        {
+            return Ok(await _products.ProductWiseRatings(new RequestBase<ProductRatingReq>
+            {
+                Data = req
+            }));
+        }
         [Route("Product/UpdateAdminApprovelStatus")]
         public async Task<IActionResult> UpdateAdminApprovelStatus(UpdateAdminApprovelStatus req)
         {

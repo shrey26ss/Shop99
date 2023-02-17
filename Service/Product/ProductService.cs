@@ -315,6 +315,27 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<ProductRatings>>> ProductWiseRatings(RequestBase<ProductRatingReq> request)
+        {
+            string sp = @"declare @heighstar int
+                select @heighstar = Rating from VariantGroup where Id = @VariantID
+                select @heighstar heighstar ,re.*,_user.Name from Review re
+                inner join users _user on re.Userid = _user.id where re.VariantID = @VariantID";
+
+            var res = new Response<IEnumerable<ProductRatings>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<ProductRatings>(sp, new
+                {
+                    request.Data.VariantID
+                }, CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return res;
+        }
         public async Task<IResponse> UpdateAdminApprovelStatus(RequestBase<UpdateAdminApprovelStatus> request)
         {
             string sp = @"Update VariantGroup set AdminApproveStatus = @StatusID,Remark = @Remark where Id = @Id;

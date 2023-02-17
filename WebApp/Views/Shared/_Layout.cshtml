@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using AppUtility.APIRequest
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Shop 99</title>
@@ -95,7 +96,7 @@
 
                             <div class="brand-logo logo-sm-center">
                                 <a href="/">
-                                    <img src="~/assets/images/layout-2/logo/logo.svg" class="img-fluid  " alt="logo">
+                                    <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="logo">
                                 </a>
                             </div>
                         </div>
@@ -217,7 +218,7 @@
                             <div class="logo-block">
                                 <div class="brand-logo logo-sm-center">
                                     <a href="/">
-                                        <img src="~/assets/images/layout-2/logo/logo.png" class="img-fluid  " alt="logo">
+                                        <img src="@Websiteinfomation.Coloredlogo" class="img-fluid  " alt="logo">
                                     </a>
                                 </div>
                             </div>
@@ -320,7 +321,7 @@
                                 <div class="footer-contant">
                                     <div class="footer-logo">
                                         <a href="/">
-                                            <img src="~/assets/images/layout-2/logo/logo.svg" class="img-fluid" alt="logo">
+                                            <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"  class="img-fluid" alt="logo">
                                         </a>
                                     </div>
                                     <p>Best for a Limitless Product Inventory</p>
@@ -353,9 +354,9 @@
                                 </div>
                                 <div class="footer-contant">
                                     <ul class="contact-list">
-                                        <li><i class="fa fa-map-marker"></i>804/24-26,940/23,939/23, GROUND FLOOR, <br> GT KARNAL ROAD, New Delhi, <span>110033 </span></li>
-                                        <li><i class="fa fa-phone"></i>call us: <span>+91-8920114845</span></li>
-                                        <li><i class="fa fa-envelope-o"></i>email us: <span>sales@shop99.co.in , support@shop99.co.in</span></li>
+                                        <li><i class="fa fa-map-marker"></i>@Websiteinfomation.Companyaddress, <span> </span></li>
+                                        <li><i class="fa fa-phone"></i>call us: <span>@Websiteinfomation.Companymobile</span></li>
+                                        <li><i class="fa fa-envelope-o"></i>email us: <span>@Websiteinfomation.CompanyemailID</span></li>
                                         @*<li><i class="fa fa-fax"></i>fax <span>123456</span></li>*@
                                     </ul>
                                 </div>
@@ -394,7 +395,7 @@
                 <div class="row">
                     <div class="col-xl-6 col-md-8 col-sm-12">
                         <div class="footer-left">
-                            <p>2022 POWERED BY PRAKASH ELECTRONICS (INDIA)</p>
+                            <p>@Websiteinfomation.Footerdescription</p>
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-4 col-sm-12">

@@ -5,6 +5,7 @@ using Entities.Enums;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Service.Models;
@@ -24,9 +25,12 @@ namespace WebApp.Controllers
     public class WebsiteinfoController : Controller
     {
         private string _apiBaseURL;
-        public WebsiteinfoController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings)
+
+        private readonly IMemoryCache _memoryCache;
+        public WebsiteinfoController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, IMemoryCache memoryCache)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
+            _memoryCache = memoryCache;
         }
         public IActionResult Index()
         {
@@ -75,29 +79,33 @@ namespace WebApp.Controllers
                 string fileName = $"{DateTime.Now.ToString("ddmmyyhhssmmttt")}.jpg";
                 if (model.Whitelogofile != null)
                 {
+                    var Wlogo = "W" + fileName;
                     var _ = Utility.O.UploadFile(new FileUploadModel
                     {
                         file = model.Whitelogofile,
-                        FileName = fileName,
+                        FileName = Wlogo,
                         FilePath = FileDirectories.Websiteinfo,
                     });
                     if (_.StatusCode == ResponseStatus.Success)
-                        model.Whitelogo = $"{absoluteURL}/{FileDirectories.WebsiteinfoSuffix}/{fileName}";
+                        model.Whitelogo = $"{absoluteURL}/{FileDirectories.WebsiteinfoSuffix}/{Wlogo}";
                 }
                 if (model.Coloredlogofile != null)
                 {
+                    var Clogo = "C" + fileName;
                     var _ = Utility.O.UploadFile(new FileUploadModel
                     {
                         file = model.Coloredlogofile,
-                        FileName = fileName,
+                        FileName = Clogo,
                         FilePath = FileDirectories.Websiteinfo,
                     });
                     if (_.StatusCode == ResponseStatus.Success)
-                        model.Coloredlogo = $"{absoluteURL}/{FileDirectories.WebsiteinfoSuffix}/{fileName}";
+                        model.Coloredlogo = $"{absoluteURL}/{FileDirectories.WebsiteinfoSuffix}/{Clogo}";
                 }
                 var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Websiteinfo/AddUpdate", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
                 if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
                 {
+                    var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMilliseconds(1));
+                    _memoryCache.Set(ChacheKeys.WebsiteinfoModel, model, cacheEntryOptions);
                     var deserializeObject = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
                     response = deserializeObject;
                 }
