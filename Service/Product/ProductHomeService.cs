@@ -168,6 +168,7 @@ namespace Service.Product
                 {
                     string picInfo = await _dapper.GetAsync<string>("Select Images from VariantGroup where Id = @VariantId", new { request.Data.VariantId}, CommandType.Text);
                     res.Result = JsonConvert.DeserializeObject<IEnumerable<PictureInformation>>(picInfo);
+                    res.Result = res.Result.Where(a => a.ImgVariant == "default");
                     if (res.Result != null)
                     {
                         res.StatusCode = ResponseStatus.Success;

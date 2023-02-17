@@ -156,14 +156,6 @@ namespace WebApp.Controllers
         #endregion
 
         #region Product Details
-        //[Route("Home/ProductDetail/{Id}")]
-        //[Route("ProductDetail/{Id}")]
-        //public async Task<IActionResult> ProductDetail(int Id)
-        //{
-        //    return View(Id);
-        //}
-		[Route("Home/ProductDetail/{Id}")]
-		[Route("ProductDetail/{Id}")]
 		[Route("Home/ProductDetails/{Id}")]
         [Route("ProductDetails/{Id}")]
         public async Task<IActionResult> ProductDetails(int Id)
