@@ -100,8 +100,7 @@ namespace Service.Homepage
  left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                                     where   vg.IsShowOnHome=1 and p.ispublished = 1 and vg.ispublished = 1
                                             and vg.AdminApproveStatus = 3
-                                            and DATEDIFF(D,vg.PublishedOn,getdate())<=@days 
-                                    order by p.ID desc ";
+                                    order by vg.PublishedOn desc ";
                 res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { days = productRequest.MoreFilters < 1 ? 5 : productRequest.MoreFilters, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
 
                 res.StatusCode = ResponseStatus.Success;

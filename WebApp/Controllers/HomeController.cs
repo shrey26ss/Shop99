@@ -148,7 +148,7 @@ namespace WebApp.Controllers
             };
             var req = new ProductRequest()
             {
-                Top = 24
+                Top = 20
             };
             res.ProductsData = _category.GetNewProducts(req).Result;
             return PartialView("partial/HotDealsNewProduct", res);
