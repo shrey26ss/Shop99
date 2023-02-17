@@ -43,7 +43,9 @@ namespace WebApp.Middleware
             services.AddScoped<Data.Migrations.Database>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
-            
+
+            services.AddMemoryCache();
+
             //JWTConfig jwtConfig = new JWTConfig();
             //configuration.GetSection("JWT").Bind(jwtConfig);
             //services.AddSingleton(jwtConfig);
