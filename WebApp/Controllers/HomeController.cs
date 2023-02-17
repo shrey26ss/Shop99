@@ -156,19 +156,18 @@ namespace WebApp.Controllers
         #endregion
 
         #region Product Details
-        [Route("Home/ProductDetail/{Id}")]
-        [Route("ProductDetail/{Id}")]
-        public async Task<IActionResult> ProductDetail(int Id)
-        {
-
-            var res = await _product.GetProductDetails(Id);
-            return View(res.Result ?? new ProductDetails());
-        }
-        [Route("Home/ProductDetails/{Id}")]
+        //[Route("Home/ProductDetail/{Id}")]
+        //[Route("ProductDetail/{Id}")]
+        //public async Task<IActionResult> ProductDetail(int Id)
+        //{
+        //    return View(Id);
+        //}
+		[Route("Home/ProductDetail/{Id}")]
+		[Route("ProductDetail/{Id}")]
+		[Route("Home/ProductDetails/{Id}")]
         [Route("ProductDetails/{Id}")]
         public async Task<IActionResult> ProductDetails(int Id)
         {
-            // var res = await _product.GetProductDetails(Id);
             return View(Id);
         }
         [HttpPost]
