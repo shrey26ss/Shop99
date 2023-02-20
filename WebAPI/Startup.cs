@@ -49,7 +49,7 @@ namespace WebAPI
             }).AddCookie("Cookies", options =>
             {
                 options.LoginPath = "/Account/login";
-                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
             }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
@@ -100,7 +100,7 @@ namespace WebAPI
                 {
                     IncludeSubDomains = true,
                     Preload = true,
-                    MaxAge = TimeSpan.FromDays(7),
+                    MaxAge = TimeSpan.FromDays(30),
                 };
             });
             #region Identity
@@ -123,7 +123,7 @@ namespace WebAPI
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;

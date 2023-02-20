@@ -92,21 +92,21 @@ namespace WebApp
                 {
                     IncludeSubDomains = true,
                     Preload = true,
-                    MaxAge = TimeSpan.FromDays(7),
+                    MaxAge = TimeSpan.FromDays(30),
                 };
             });
             services.AddIdentity<ApplicationUser, ApplicationRole>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
             });
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromHours(2);
+                options.IdleTimeout = TimeSpan.FromDays(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
