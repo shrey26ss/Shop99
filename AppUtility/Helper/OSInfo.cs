@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
+using System.Linq;
 
 namespace AppUtility.AppCode
 {
@@ -13,48 +14,50 @@ namespace AppUtility.AppCode
         public OSInfo(IHttpContextAccessor accessor)
         {
             var ua = accessor.HttpContext.Request.Headers["User-Agent"].ToString();
-            if (ua.Replace(" ", "").Contains("Android", StringComparison.OrdinalIgnoreCase))
+            ua = ua ?? string.Empty;
+            ua = ua.Replace(" ", "");
+            if (ua.Contains("Android", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Android";
                 SetVersion(ua, "Android");
                 this.FullInfo = this.Name; 
             }
 
-            if (ua.Replace(" ", "").Contains("iPhone", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("iPhone", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "iPhone";
                 SetVersion(ua, "OS");
                 this.FullInfo = this.Name; 
             }
 
-            if (ua.Replace(" ", "").Contains("iPad", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("iPad", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "iPad";
                 SetVersion(ua, "OS");
                 this.FullInfo = this.Name; 
             }
 
-            if (ua.Replace(" ", "").Contains("MacOS", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("MacOS", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "MacOS";
                 this.FullInfo = this.Name; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT10", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT10", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "10";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT6.3", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT6.3", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "8.1";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT6.2", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT6.2", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "8";
@@ -62,21 +65,21 @@ namespace AppUtility.AppCode
             }
 
 
-            if (ua.Replace(" ", "").Contains("WindowsNT6.1", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT6.1", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "7";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT6.0", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT6.0", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "Vista";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT5.1") || ua.Replace(" ", "").Contains("WindowsNT5.2", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT5.1") || ua.Contains("WindowsNT5.2", StringComparison.OrdinalIgnoreCase))
 
             {
                 this.Name = "Windows";
@@ -84,35 +87,35 @@ namespace AppUtility.AppCode
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT5", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT5", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "2000";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("WindowsNT4", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("WindowsNT4", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "NT4";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("Win9x4.90", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("Win9x4.90", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "Me";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("Windows98", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("Windows98", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "98";
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("Windows95", StringComparison.OrdinalIgnoreCase))
+            if (ua.Contains("Windows95", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Windows";
                 this.Version = "95";
@@ -127,13 +130,23 @@ namespace AppUtility.AppCode
                 this.FullInfo = this.Name + " " + this.Version; 
             }
 
-            if (ua.Replace(" ", "").Contains("Linux") && ua.Replace(" ", "").Contains("KFAPWI", StringComparison.OrdinalIgnoreCase))
+            if (ua.Replace(" ", "").Contains("Linux") && ua.Contains("KFAPWI", StringComparison.OrdinalIgnoreCase))
             {
                 this.Name = "Kindle Fire";
                 this.FullInfo = this.Name; 
             }
+            if (ua.Contains("PostmanRuntime"))
+            {
+                var d = ua.Split('/');
+                this.Name = d[0];
+                if (d.Count() > 1)
+                {
+                    this.Version = d[1];
+                }
+                this.FullInfo = this.Name + this.Version; 
+            }
 
-            if (ua.Replace(" ", "").Contains("RIMTablet") || (ua.Replace(" ", "").Contains("BB") && ua.Replace(" ", "").Contains("Mobile", StringComparison.OrdinalIgnoreCase)))
+            if (ua.Contains("RIMTablet") || (ua.Contains("BB") && ua.Contains("Mobile", StringComparison.OrdinalIgnoreCase)))
             {
                 this.Name = "Black Berry";
                 this.FullInfo = this.Name; 

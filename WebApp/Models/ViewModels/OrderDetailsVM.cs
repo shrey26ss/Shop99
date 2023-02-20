@@ -18,4 +18,9 @@ namespace WebApp.Models.ViewModels
         public string TrackID { get; set; }
         public string URL { get; set; }
     }
+    public class ReplaceOrderImageVM
+    {
+        public List<IFormFile> Files { get; set; }
+        public int OrderId { get; set; }
+    }
 }
