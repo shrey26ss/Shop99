@@ -4589,6 +4589,7 @@ button {
     background-color: #ffffff;
     padding: calc(10px + (15 - 10) * ((100vw - 320px) / (1920 - 320)));
     overflow: auto;
+    height: 121px;
 }
 
 .product .product-box .product-detail.detail-inverse .detail-title .detail-right .price {
