@@ -4626,11 +4626,15 @@ button {
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
             line-height: 22px;
+            max-width: 217px;
         }
 
     .product .product-box .product-detail .detail-title .detail-right {
         float: right;
         font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
     }
 
         .product .product-box .product-detail .detail-title .detail-right .check-price {
