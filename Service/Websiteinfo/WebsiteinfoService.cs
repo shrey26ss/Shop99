@@ -30,7 +30,23 @@ namespace Service.Websiteinfo
                 int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update CompanyProfile set Whitelogo = @Whitelogo,Coloredlogo=@Coloredlogo,CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=@Footerdescription,ModifyOn=GETDATE() where ID = @Id";
+                    if (string.IsNullOrEmpty(request.Data.Whitelogo) && !string.IsNullOrEmpty(request.Data.Coloredlogo))
+                    {
+                        sqlQuery = @"Update CompanyProfile set Coloredlogo=@Coloredlogo,CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=@Footerdescription,ModifyOn=GETDATE() where ID = @Id";
+                    }
+                    else if(string.IsNullOrEmpty(request.Data.Coloredlogo) && !string.IsNullOrEmpty(request.Data.Whitelogo))
+                    {
+                        sqlQuery = @"Update CompanyProfile set Whitelogo = @Whitelogo,CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=@Footerdescription,ModifyOn=GETDATE() where ID = @Id";
+                    }
+                    else if (!string.IsNullOrEmpty(request.Data.Coloredlogo) || !string.IsNullOrEmpty(request.Data.Whitelogo))
+                    {
+                        sqlQuery = @"Update CompanyProfile set Whitelogo = @Whitelogo,Coloredlogo=@Coloredlogo,CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=@Footerdescription,ModifyOn=GETDATE() where ID = @Id";
+                    }
+                    else
+                    {
+                        sqlQuery = @"Update CompanyProfile set CompanyDomain=@Companydomain,CompanyName=@Companyname,CompanyEmailID=@CompanyemailID,CompanyMobile=@Companymobile,CompanyAddress=@Companyaddress,Footerdescription=@Footerdescription,ModifyOn=GETDATE() where ID = @Id";
+                    }
+                    
                 }
                 else
                 {
