@@ -344,7 +344,7 @@ left Join OrderTimeline ot(nolock) on ot.StatusID = st.Id Where OrderID = @ID an
         }
         public async Task<IResponse<ReturnRequestList>> GetReturnRequestByOrderId(OrderDetailsRequest req)
         {
-            string sp = @"select os.ID,vg.Thumbnail,ps.Name,ps.Title,st.StatusType,os.Qty,os.Rate,os.MRP,os.EntryOn,pm.Name as PaymentMode,os.SourceImage,os.ReturnRemark Remark from ReturnAndReplaceProducts rp
+            string sp = @"select os.ID,vg.Thumbnail,ps.Name,st.StatusType,os.Qty,os.Rate,os.MRP,os.EntryOn,pm.Name as PaymentMode,os.SourceImage,os.ReturnRemark Remark from ReturnAndReplaceProducts rp
                   inner join VariantGroup vg on rp.VarriantID = vg.Id
                   inner join Products ps on vg.ProductId = ps.Id
                   inner join Orders os on rp.OrderID = os.ID

@@ -228,11 +228,12 @@ namespace WebApp.Controllers
                 {
                     counter++;
                     string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+                    string filePath = FileDirectories.ReplaceOrderImage.Replace("{0}", OrderId.ToString()).Replace("//", "/");
                     Utility.O.UploadFile(new FileUploadModel
                     {
                         file = item,
                         FileName = fileName,
-                        FilePath = FileDirectories.ReplaceOrderImageSuffixDefault.Replace("{0}", OrderId.ToString()),
+                        FilePath = filePath,
                         IsThumbnailRequired = false,
                     });
                     ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ReplaceOrderImageSuffixDefault.Replace("{0}", OrderId.ToString()), fileName));
@@ -243,7 +244,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> GetReturnRequestByOrderId(int Id)
         {
             var res = await _convert.GetItem<ReturnRequestList>("OrderDetails/GetReturnRequestByOrderId", User.GetLoggedInUserToken(), new { Id });
-            return PartialView("PartialView/_GetReturnRequestByOrderId", res);
+            return PartialView("PartialView/_GetReturnRequestByOrderId", res ?? new ReturnRequestList());
         }
     }
 }
