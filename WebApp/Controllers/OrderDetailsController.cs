@@ -227,8 +227,8 @@ namespace WebApp.Controllers
                 foreach (var item in req)
                 {
                     counter++;
-                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
-                    string filePath = FileDirectories.ReplaceOrderImage.Replace("{0}", OrderId.ToString()).Replace("//", "/");
+                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm") + OrderId.ToString()}.jpeg";
+                    string filePath = FileDirectories.ReplaceOrderImage.Replace("//", "/");
                     Utility.O.UploadFile(new FileUploadModel
                     {
                         file = item,
@@ -236,7 +236,7 @@ namespace WebApp.Controllers
                         FilePath = filePath,
                         IsThumbnailRequired = false,
                     });
-                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ReplaceOrderImageSuffixDefault.Replace("{0}", OrderId.ToString()), fileName));
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ReplaceOrderImageSuffixDefault, fileName));
                 }
             }
             return string.Join(',', ImagePath);

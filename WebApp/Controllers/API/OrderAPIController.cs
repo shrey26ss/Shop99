@@ -46,8 +46,8 @@ namespace WebApp.Controllers.API
                 foreach (var item in req)
                 {
                     counter++;
-                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
-                    string filePath = FileDirectories.ReplaceOrderImage.Replace("{0}", OrderId.ToString()).Replace("//", "/");
+                    string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm") + OrderId.ToString()}.jpeg";
+                    string filePath = FileDirectories.ReplaceOrderImage.Replace("//", "/");
                     var _ = Utility.O.UploadFile(new FileUploadModel
                     {
                         file = item,
@@ -56,7 +56,7 @@ namespace WebApp.Controllers.API
                         IsThumbnailRequired = false,
                     });
                     res.StatusCode = _.StatusCode; res.ResponseText = _.ResponseText;
-                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ReplaceOrderImageSuffixDefault.Replace("{0}", OrderId.ToString()), fileName));
+                    ImagePath.Add(string.Concat(_httpInfo.AbsoluteURL() + "/", FileDirectories.ReplaceOrderImageSuffixDefault, fileName));
                 }
             }
             res.Result = res.StatusCode == Entities.Enums.ResponseStatus.Success ? string.Join(',', ImagePath) : "";
