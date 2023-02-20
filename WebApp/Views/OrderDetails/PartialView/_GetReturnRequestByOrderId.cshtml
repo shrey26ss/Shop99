@@ -1,7 +1,7 @@
 ﻿@using Entities.Models;
 @model ReturnRequestList
 @{
-    string[] imgList = Model?.SourceImage.Split(",");
+    string[] imgList = Model?.SourceImage?.Split(",");
 }
 <div class="card">
     <div class="card-body">
@@ -22,10 +22,10 @@
                         Product Name
                         <span>@Model.Name</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @*<li class="list-group-item d-flex justify-content-between align-items-center">
                         Title
                         <span>@Model.Title</span>
-                    </li>
+                    </li>*@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Date
                         <span>@Model.EntryOn</span>

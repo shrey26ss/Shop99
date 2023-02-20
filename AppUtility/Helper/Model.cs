@@ -19,7 +19,7 @@ namespace AppUtility.Helper
         public const string TopLowerBannerSuffix = "Image/TopLowerBanner/";
         public const string ProductSuffixDefault = "Image/Product/";
         public const string ProductRateSuffixDefault = "Image/RatingImages/{0}/";
-        public const string ReplaceOrderImageSuffixDefault = "Image/ReplaceOrderImages/{0}/";
+        public const string ReplaceOrderImageSuffixDefault = "Image/ReplaceOrderImages/";
         public const string ProductSuffix = "Image/Product/{0}/";
         public const string WebsiteinfoSuffix = "Image/Website/";
         public static string Receipt = "wwwroot/receipt/";
@@ -27,6 +27,7 @@ namespace AppUtility.Helper
         public static string Category = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{CategorySuffix}");
         public static string ProfilePic = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Profile/");
         public static string ProductVariant = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{ProductSuffix}/");
+        public static string ReplaceOrderImage = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{ReplaceOrderImageSuffixDefault}/");
         public static string JsonDoc = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/doc/");
         public static string TopBanner = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{TopBannerSuffix}");
         public static string Websiteinfo = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/{WebsiteinfoSuffix}");
