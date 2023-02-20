@@ -604,12 +604,12 @@
         }).fail(xhr => Q.xhrError(xhr)).always(() => "")
     });
 
-    $(document).on('click', '.attributeValue', (e) => {
+    $('.attributeValue').unbind().click(e=>{
         let ele = $(e.currentTarget);
         ele.parents('ul').find('.attributeValue').removeClass('active');
         ele.addClass('active');
         let _attr = [];
-        $('#attributeList').find('.attibute').each(function() {
+        $('#attributeList').find('.attibute').each(function () {
             let _attData = $(this).find('li.active').data();
             if (_attData) {
                 _attr.push(_attData.attrVal);
@@ -620,10 +620,9 @@
             attributes: _attr.join(',')
         };
         let attributeName = ele.parents('.attibute').data()?.attributeName;
-
         getVariantId();
-    });
-
+    })
+    
     const getVariantId = async () => {
         let _u = new URL(window.location);
         let qs = _u.pathname.split('/');

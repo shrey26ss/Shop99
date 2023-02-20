@@ -4,6 +4,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -47,10 +48,11 @@ namespace Service.Product
             try
             {
                 var productdetails = await _dapper.GetAsync<ProductDetails>(sp, new { req.Id, req.UserID }, CommandType.StoredProcedure);
-                var picturInfo = await _dapper.GetAllAsync<ProductPictureInfo>("Proc_GetProductPicDetails", new { variantId = req.Id }, CommandType.StoredProcedure);
+                string picturInfo = await _dapper.GetAsync<string>("Select Images from VariantGroup where Id = @variantId", new { variantId = req.Id }, CommandType.Text);
+                var picInfoList = JsonConvert.DeserializeObject<List<ProductPictureInfo>>(picturInfo);
                 var AttributeInfo = await _dapper.GetAllAsync<AttributeInfo>("Proc_ProductAttrInfo", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 var AttributDetails = await _dapper.GetAllAsync<ProductAttributes>("Proc_ProductAttrDetails", new { VariantId = req.Id }, CommandType.StoredProcedure);
-                productdetails.ProductPictureInfos = picturInfo.ToList();
+                productdetails.ProductPictureInfos = picInfoList;
                 productdetails.AttributeInfo = AttributeInfo.ToList();
                 productdetails.ProductAttributes = AttributDetails.ToList();
                 res.Result = productdetails;
@@ -164,8 +166,9 @@ namespace Service.Product
             {
                 try
                 {
-                    //string sp = @"select * from PictureInformation  where GroupId = @VariantId and ImgVariant = 'default'";
-                    res.Result = await _dapper.GetAllAsync<PictureInformation>("Proc_GetProductPicDetails", new { request.Data.VariantId}, CommandType.StoredProcedure);
+                    string picInfo = await _dapper.GetAsync<string>("Select Images from VariantGroup where Id = @VariantId", new { request.Data.VariantId}, CommandType.Text);
+                    res.Result = JsonConvert.DeserializeObject<IEnumerable<PictureInformation>>(picInfo);
+                    res.Result = res.Result.Where(a => a.ImgVariant == "default");
                     if (res.Result != null)
                     {
                         res.StatusCode = ResponseStatus.Success;
