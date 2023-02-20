@@ -4167,8 +4167,8 @@ button {
     color: #2874f0;
     text-transform: uppercase;
     position: absolute;
-    top: 40px;
-    right: -10px;
+    top: 26px;
+    right: -18px;
     padding: 0 6px;
     font-size: calc(11px + (15 - 11) * ((100vw - 320px) / (1920 - 320)));
     font-weight: 700;
@@ -4178,10 +4178,10 @@ button {
 
 .product .product-box .product-imgbox .new-label1 {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    width: 50px;
-    height: 50px;
+    top: 10px;
+    left: 8px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     background-color: #2874f0;
     color: #ffffff;
@@ -4198,7 +4198,7 @@ button {
     transition: all 0.5s ease;
     text-transform: uppercase;
     font-weight: 700;
-    font-size: calc(10px + (14 - 10) * ((100vw - 320px) / (1920 - 320)));
+    font-size: calc(10px + (10 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 
 .product .product-box .product-imgbox .on-sale2 {
@@ -4616,7 +4616,7 @@ button {
             text-transform: capitalize;
             color: #444444;
             font-weight: 700;
-            font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
+            font-size: calc(14px * ((100vw - 320px) / (1920 - 320)));
             /*overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
