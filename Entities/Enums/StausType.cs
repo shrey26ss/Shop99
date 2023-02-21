@@ -7,6 +7,8 @@ namespace Entities.Enums
 {
     public enum StatusType
     {
+        [Description("All")]
+        All = 0,
         [Description("Order Placed")]
         OrderPlaced = 1,
         [Description("Order Canceled")]
