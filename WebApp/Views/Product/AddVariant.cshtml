@@ -24,7 +24,7 @@
         </small>
     </h1>
     <div class="float-right">
-        <input type="button" value="Save" class="btn btn-primary" id="SaveProduct" />
+         <button class="btn btn-primary" id="SaveProduct">Save</button>
         <button type="submit" name="new-attr-group" class="btn btn-primary btnCloneAttrGroup">
             <i class="far fa-save"></i>
             Add Attribute Group
@@ -225,6 +225,7 @@
             formData.append(`req[${i}].Alt`, variantImages[i].Alt);
         }
         formData.append('jsonObj', JSON.stringify(param));
+        Q.btnLdr.Start($('#SaveProduct'));
         $.ajax({
             url: '/Product/SaveVariants',
             data: formData,
@@ -233,6 +234,8 @@
             type: 'POST',
             success: function (response) {
                 Q.notify(response.statusCode, response.responseText)
+                Q.btnLdr.Stop($('#SaveProduct'));
+                location.reload();
             },
             error: function (xhr) {
                 Q.renderError(xhr);
@@ -248,6 +251,7 @@
                         errors.push(xhr.responseJSON[keys[i]]);
                     }
                 }
+                Q.btnLdr.Stop($('#SaveProduct'));
                 Q.notify(-1, errors.join('<br/>'))
             },
         });

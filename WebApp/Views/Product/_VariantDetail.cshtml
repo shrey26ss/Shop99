@@ -344,13 +344,6 @@
             return colorList;
         }
         $(document).on('click', '#SaveProduct', () => {
-
-            console.log('Ok Submit Now ');
-            let elemet = $('#SaveProduct');
-            Q.btnLdr.Start(elemet);
-
-            return false;
-
             let groupInfo = [];
             let attrInfo = [];
             let pictureInfo = [];
@@ -421,7 +414,7 @@
                 formData.append(`req[${i}].Alt`, variantImages[i].Alt);
             }
             formData.append('jsonObj', JSON.stringify(param));
-
+            Q.btnLdr.Start($('#SaveProduct'));
             $.ajax({
                 url: '/Product/UpdateVariants',
                 data: formData,
@@ -430,8 +423,10 @@
                 type: 'POST',
                 success: function (response) {
                     Q.notify(response.statusCode, response.responseText)
+                    Q.btnLdr.Stop($('#SaveProduct'));
                 },
                 error: function (xhr) {
+                    Q.btnLdr.Stop($('#SaveProduct'));
                     Q.notify(-1, xhr.responseText)
                 },
             });
