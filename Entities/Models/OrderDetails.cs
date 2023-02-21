@@ -44,12 +44,12 @@ namespace Entities.Models
     }
     public class OrderDetailsRequest
     {
-        public int Id { get; set; }
-        public StatusType StatusID { get; set; }
+        public int Id { get; set; } = 0;
+        public StatusType StatusID { get; set; } = StatusType.All;
         public int Top { get; set; } = 50;
-        public string FromDate { get; set; }
-        public string ToDate { get; set; }
-        public string SearchText { get; set; } = string.Empty;
+        public string FromDate { get; set; } = "";
+        public string ToDate { get; set; } = "";
+        public string SearchText { get; set; } = "";
     }
     public class OrderShippedStatus
     {

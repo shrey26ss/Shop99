@@ -54,6 +54,7 @@ namespace Service.OrderDetails
                 }
                 res.Result = await _dapper.GetAllAsync<OrderDetailsColumn>(sp, new 
                 {
+                    ID = req.Id,
                     LoginId = loginId,
                     req.StatusID,
                     req.Top,
