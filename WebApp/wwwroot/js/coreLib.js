@@ -862,25 +862,15 @@ function printDiv(divName) {
     Q.btnLdr = {
         removeClass: '',
         addClass: '',
-        StartWithAnyText: function (btn, btnText, isOriginal) {
-            if (isOriginal === true) {
-                btn.attr('original-text', btn.html());
-            }
-            btn.html(btnLoadingClass + btnText);
-            btn.removeClass(this.removeClass).addClass(this.addClass);
-        },
-        StopWithText: function (btn, btnText) {
-            btn.html(btnText);
-            btn.removeClass(this.addClass).addClass(this.removeClass);
-        },
+        btnLoadingClass: '<i class="fas fa-circle-notch fa-spin"></i> ',
         Start: function (btn, btnText = 'Requesting....') {
-            btn.attr('original-text', btn.html());
-            btn.html(btnLoadingClass + btnText);
+            btn.attr('original-text', btn.html()).attr('disabled', true);
+            btn.html(this.btnLoadingClass + btnText);
             btn.removeClass(this.removeClass).addClass(this.addClass);
         },
         Stop: function (btn) {
             btn.html(btn.attr('original-text'));
-            btn.removeClass(this.addClass).addClass(this.removeClass);
+            btn.removeClass(this.addClass).addClass(this.removeClass).removeAttr('disabled');
         }
     };
 

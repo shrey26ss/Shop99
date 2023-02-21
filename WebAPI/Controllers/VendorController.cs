@@ -10,7 +10,7 @@ using WebAPI.Middleware;
 namespace WebAPI.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles ="3,4")]
     [ApiController]
     [Route("/api/")]
     public class VendorController : ControllerBase

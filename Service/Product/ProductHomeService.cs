@@ -48,8 +48,7 @@ namespace Service.Product
             try
             {
                 var productdetails = await _dapper.GetAsync<ProductDetails>(sp, new { req.Id, req.UserID }, CommandType.StoredProcedure);
-                string picturInfo = await _dapper.GetAsync<string>("Select Images from VariantGroup where Id = @variantId", new { variantId = req.Id }, CommandType.Text);
-                var picInfoList = JsonConvert.DeserializeObject<List<ProductPictureInfo>>(picturInfo);
+                var picInfoList = JsonConvert.DeserializeObject<List<ProductPictureInfo>>(productdetails?.Images ?? "");
                 var AttributeInfo = await _dapper.GetAllAsync<AttributeInfo>("Proc_ProductAttrInfo", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 var AttributDetails = await _dapper.GetAllAsync<ProductAttributes>("Proc_ProductAttrDetails", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 productdetails.ProductPictureInfos = picInfoList;
