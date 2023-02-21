@@ -3,10 +3,10 @@
         Website Info
     </h1>
     @*<div class="float-right">
-        <a class="btn btn-primary" href="javascript:void(0)" onclick="AddNewItem()">
-            <i class="fas fa-plus-square"></i>
-            Add new
-        </a>
+    <a class="btn btn-primary" href="javascript:void(0)" onclick="AddNewItem()">
+    <i class="fas fa-plus-square"></i>
+    Add new
+    </a>
     </div>*@
 </div>
 <div class="content">
@@ -14,23 +14,25 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered" id="Grid">
-                        <thead>
-                            <tr role="row">
-                                <th>#</th>
-                                <th>Whitelogo</th>
-                                <th>Coloredlogo</th>
-                                <th>Company Domain</th>
-                                <th>Company Name</th>
-                                <th>Company EmailID</th>
-                                <th>Company Mobile</th>
-                                <th>Company Address</th>
-                                <th>Footer description</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="Grid">
+                            <thead>
+                                <tr role="row">
+                                    <th>#</th>
+                                    <th>Whitelogo</th>
+                                    <th>Coloredlogo</th>
+                                    <th>Company Domain</th>
+                                    <th>Company Name</th>
+                                    <th>Company EmailID</th>
+                                    <th>Company Mobile</th>
+                                    <th>Company Address</th>
+                                    <th>Footer description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,22 +51,22 @@
         };
 
         var AddNewItem = function (Id = 0) {
-            $.get('/Websiteinfo/Edit',  { Id}).done((result) => {
+            $.get('/Websiteinfo/Edit', { Id }).done((result) => {
                 Q.alert({
                     title: 'Website Info',
                     body: result,
                     width: 800
                 });
             })
-        }; 
+        };
 
-    var Delete = (Id) => Q.confirm("Are You Sure. You Want To Delete WebsiteInfo", () => DeleteItem(Id));
-    var DeleteItem = function (Id = 0) {
-        $.post('/Websiteinfo/Delete',  { Id}).done((result) => {
-            Q.notify(result.statusCode,result.responseText);
-            if(result.statusCode)
-                loadData();
-        })
-    };
+        var Delete = (Id) => Q.confirm("Are You Sure. You Want To Delete WebsiteInfo", () => DeleteItem(Id));
+        var DeleteItem = function (Id = 0) {
+            $.post('/Websiteinfo/Delete', { Id }).done((result) => {
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode)
+                    loadData();
+            })
+        };
     </script>
 }
