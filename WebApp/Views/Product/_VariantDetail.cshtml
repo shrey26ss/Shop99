@@ -8,7 +8,7 @@
         </small>
     </h1>
     <div class="float-right">
-        <input type="button" value="Save" class="btn btn-primary" id="SaveProduct">
+        <button class="btn btn-primary" id="SaveProduct">UPDATE</button>
     </div>
 </div>
 
@@ -345,8 +345,10 @@
         }
         $(document).on('click', '#SaveProduct', () => {
 
+            console.log('Ok Submit Now ');
             let elemet = $('#SaveProduct');
-            Q.btnLdr.StartWithAnyText(elemet);
+            Q.btnLdr.Start(elemet);
+
             return false;
 
             let groupInfo = [];
