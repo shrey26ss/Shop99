@@ -344,6 +344,11 @@
             return colorList;
         }
         $(document).on('click', '#SaveProduct', () => {
+
+            let elemet = $('#SaveProduct');
+            Q.btnLdr.StartWithAnyText(elemet);
+            return false;
+
             let groupInfo = [];
             let attrInfo = [];
             let pictureInfo = [];

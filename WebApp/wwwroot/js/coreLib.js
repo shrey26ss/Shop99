@@ -862,11 +862,12 @@ function printDiv(divName) {
     Q.btnLdr = {
         removeClass: '',
         addClass: '',
+        btnLoadingClass: '<i class="fas fa-circle-notch fa-spin"></i> ',
         StartWithAnyText: function (btn, btnText, isOriginal) {
             if (isOriginal === true) {
                 btn.attr('original-text', btn.html());
             }
-            btn.html(btnLoadingClass + btnText);
+            btn.html(this.btnLoadingClass + btnText);
             btn.removeClass(this.removeClass).addClass(this.addClass);
         },
         StopWithText: function (btn, btnText) {
@@ -875,7 +876,7 @@ function printDiv(divName) {
         },
         Start: function (btn, btnText = 'Requesting....') {
             btn.attr('original-text', btn.html());
-            btn.html(btnLoadingClass + btnText);
+            btn.html(this.btnLoadingClass + btnText);
             btn.removeClass(this.removeClass).addClass(this.addClass);
         },
         Stop: function (btn) {

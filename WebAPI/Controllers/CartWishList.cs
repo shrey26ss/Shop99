@@ -15,7 +15,7 @@ using WebAPI.Middleware;
 namespace WebAPI.Controllers
 {
    
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer",Roles ="2")]
     [ApiController]
     [Route("/api/CartWishList")]
     public class CartWishList : ControllerBase

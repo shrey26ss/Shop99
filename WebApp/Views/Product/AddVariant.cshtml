@@ -225,7 +225,6 @@
             formData.append(`req[${i}].Alt`, variantImages[i].Alt);
         }
         formData.append('jsonObj', JSON.stringify(param));
-
         $.ajax({
             url: '/Product/SaveVariants',
             data: formData,
