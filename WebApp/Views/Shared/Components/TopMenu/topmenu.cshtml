@@ -10,7 +10,7 @@
     {
         <li class="mega">
             @{
-                string href = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "/category/"+@item.CategoryId;
+                string href = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "/products/category/"+@item.CategoryId;
                 string target = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "target='_blank'";
             }
             <a class="dark-menu-item" @target  href="@href">@item.CategoryName</a>
@@ -31,9 +31,9 @@
                                                 <ul>
                                                     @foreach (var child2 in child.ChildNode)
                                                     {
-                                                        <li><a target="_blank" href="/category/@child2.CategoryId">@child2.CategoryName</a></li>
+                                                        <li><a target="_blank" href="/products/category/@child2.CategoryId">@child2.CategoryName</a></li>
                                                         <ul>
-                                                            <li><a target="_blank" href="category/@child2.CategoryId"></a></li>
+                                                            <li><a target="_blank" href="/products/category/@child2.CategoryId"></a></li>
                                                         </ul>
                                                     }
                                                 </ul>
