@@ -85,9 +85,10 @@
         <div class="col-lg-5">
 
 
+
             <div class="large-5 column">
                 <div class="xzoom-container">
-                    @if (Model != null && Model.ProductPictureInfos.Any())
+                    @if (Model != null && Model.ProductPictureInfos!=null && Model.ProductPictureInfos.Any())
                     {
                         var defaultimages = Model.ProductPictureInfos.Where(x => x.ImgVariant?.ToLower() == "default");
                         int i = 0;
