@@ -75,16 +75,24 @@
 
 		$(document).ready(function() {
 			loadFilters();
-			loadProductsByCategory();
+			loadFilteredProduct();
 		});
 
-		const loadProductsByCategory = function(filters = '') {
+		const loadFilteredProduct = function (filters = '') {
+			let url = new URL(window.location.href);
+			let serachParam = url.pathname.split('/');
+			console.log(serachParam)
+			let filterBy = 'category';
+			if(serachParam!=null && serachParam.length>=3){
+				filterBy = serachParam[2];
+			}
 			let param = {
+				filterBy: filterBy,
 				cid: getCategoryId(),
 				sortBy: $('#sortItem').val(),
 				filters
 			};
-			$.post("/FilteredProductsByCategory", param).done(res => {
+			$.post("/Products/Filtered", param).done(res => {
 				$('products').html(res);
 			}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 		};
