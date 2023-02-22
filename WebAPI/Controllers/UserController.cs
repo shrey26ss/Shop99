@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("User/VendorList")]
         public async Task<IActionResult> VendorList(VendorProfileRequest req = null) => Ok(await _userservice.GetVendorList(req));
-        [ApiExplorerSettings(IgnoreApi = true)]
+      [HttpGet]
         [Route("User/GetUserById")]
         public async Task<IActionResult> GetUserById() => Ok(await _userservice.GetUserById(User.GetLoggedInUserId<int>()));
         [HttpPost]
