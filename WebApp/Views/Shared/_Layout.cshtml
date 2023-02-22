@@ -39,61 +39,13 @@
 </head>
 
 <body class="bg-light">
-    <!-- loader start -->
-    @* <div class="loader-wrapper">
-        <div>
-        <img src="~/assets/images/loader.gif" alt="loader">
-        </div>
-        </div>*@
-    <!-- loader end -->
-    <!--header start-->
     <header id="stickyheader">
         <div class="mobile-fix-option"></div>
-        @*<div class="top-header">
-            <div class="custom-container">
-                <div class="row">
-                    <div class="col-xl-5 col-md-7 col-sm-6">
-                        <div class="top-header-left">
-                            <div class="shpping-order">
-                                <h6>free shipping on order over 99 </h6>
-                            </div>
-                            <div class="app-link">
-                                <h6>
-                                    Download aap
-                                </h6>
-                                <ul>
-                                    <li><a><i class="fa fa-apple"></i></a></li>
-                                    <li><a><i class="fa fa-android"></i></a></li>
-                                    <li><a><i class="fa fa-windows"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-7 col-md-5 col-sm-6">
-                        <div class="top-header-right">
-                            <div class="top-menu-block">
-                                <ul>
-                                    <li><a href="javascript:void(0)">gift cards</a></li>
-                                    <li><a href="javascript:void(0)">Notifications</a></li>
-                                    <li><a href="javascript:void(0)">help & contact</a></li>
-                                    <li><a href="javascript:void(0)">todays deal</a></li>
-                                    <li><a href="javascript:void(0)">track order</a></li>
-                                    <li><a href="javascript:void(0)">shipping </a></li>
-                                    <li><a href="javascript:void(0)">easy returns</a></li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
         <div class="layout-header2">
             <div class="custom-container">
                 <div class="col-md-12">
                     <div class="main-menu-block">
                         <div class="header-left">
-
                             <div class="brand-logo logo-sm-center">
                                 <a href="/">
                                     <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="logo">
@@ -112,11 +64,11 @@
                                     </div>
                                 </form>
                                 @if (!Context.User.Identity.IsAuthenticated)
-                                    {
-                                <div>
-                                    <a class="top-login-btn" href="/account/login">Login</a>
-                                </div>
-                                    }
+                                {
+                                    <div>
+                                        <a class="top-login-btn" href="/account/login">Login</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div id="dvAutoSuggestion"></div>
@@ -161,23 +113,14 @@
                                         <div class="cart-count">
                                         </div>
                                     </li>
-                                    @*@if (!Context.User.Identity.IsAuthenticated)
-                                    {
-                                        <li class="mobile-setting">
-                                            <a href="/account/login">
-                                                <img src="~/Image/icons/Login.svg">
-                                            </a>
-                                        </li>
-                                    }*@
-
                                 </ul>
                             </div>
                             @if (!Context.User.Identity.IsAuthenticated)
-                                    {
-                                        <div>
+                            {
+                                <div>
                                     <a class="top-login-btn-mobile" href="/account/login">Login</a>
                                 </div>
-                                    }
+                            }
 
                             <div class="menu-nav">
                                 <span class="toggle-nav">
@@ -189,12 +132,12 @@
 
                     <div class="for-mobile">
                         <form class="big-deal-form ">
-                                    <div class="input-group ">
+                            <div class="input-group ">
 
-                                        <input type="search" class="form-control SearchProduct" id="SearchProduct" placeholder="Search a Product">
-                                        
-                                    </div>
-                                </form>
+                                <input type="search" class="form-control SearchProduct" id="SearchProduct" placeholder="Search a Product">
+
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -281,12 +224,12 @@
                                 </ul>
                             </div>
                             @*<div class="category-right">
-                                <div class="contact-block">
-                                    <div>
-                                        <i class="fa fa-volume-control-phone"></i>
-                                        <span>call us<span>123-456-76890</span></span>
-                                    </div>
-                                </div>
+                            <div class="contact-block">
+                            <div>
+                            <i class="fa fa-volume-control-phone"></i>
+                            <span>call us<span>123-456-76890</span></span>
+                            </div>
+                            </div>
                             </div>*@
                         </div>
                     </div>
@@ -321,7 +264,7 @@
                                 <div class="footer-contant">
                                     <div class="footer-logo">
                                         <a href="/">
-                                            <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"  class="img-fluid" alt="logo">
+                                            <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="logo">
                                         </a>
                                     </div>
                                     <p>Best for a Limitless Product Inventory</p>
@@ -451,9 +394,9 @@
     <!-- tool tip js -->
     <script src="~/assets/js/tippy-popper.min.js"></script>
     <script src="~/assets/js/tippy-bundle.iife.min.js"></script>
-    
+
     @*<>Pace</>*@
-     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
 
@@ -461,7 +404,7 @@
     <script src="~/assets/js/feather.min.js"></script>
     <script src="~/assets/js/feather-icon.js"></script>
     <script src="~/lib/jquery-ui/dist/jquery-ui.min.js"></script>
-      <script src="~/assets/js/jquery.elevatezoom.js"></script>
+    <script src="~/assets/js/jquery.elevatezoom.js"></script>
     <!-- Theme js-->
     <script src="~/assets/js/modal.js"></script>
     <script src="~/assets/js/script.js"></script>
@@ -473,45 +416,42 @@
     @RenderSection("Scripts", required: false)
     <script>
 
-        $('#btnNewsLetter').click(function(){
-            const name=$('#txtname').val();
-            const  email=$('#textemail').val()
-            if(name==='')
-            {
-                 Q.notify(-1,'Name Required');
-                 return;
+        $('#btnNewsLetter').click(function () {
+            const name = $('#txtname').val();
+            const email = $('#textemail').val()
+            if (name === '') {
+                Q.notify(-1, 'Name Required');
+                return;
             }
-             if(email==='')
-            {
-                 Q.notify(-1,'Email Reuired');
-                 return;
+            if (email === '') {
+                Q.notify(-1, 'Email Reuired');
+                return;
             }
 
-                  var settings = {
-                  "url":baseURL+ "/Home/AddNewsLetter",
-                  "method": "POST",
-                  "timeout": 0,
-                  "headers": {
+            var settings = {
+                "url": baseURL + "/Home/AddNewsLetter",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
                     "Content-Type": "application/json"
-                  },
-                  "data": JSON.stringify({
+                },
+                "data": JSON.stringify({
                     "Name": name,
                     "Email": email
-                  }),
-                };
+                }),
+            };
             $.ajax(settings).done(function (response) {
-                Q.notify(response.statusCode,response.statusCode==1?"News Letter Subscribed Successfull.":response.responseText);
-                if(response.statusCode==1)
-                {
-                $('#txtname').val('');
-                $('#textemail').val('');
+                Q.notify(response.statusCode, response.statusCode == 1 ? "News Letter Subscribed Successfull." : response.responseText);
+                if (response.statusCode == 1) {
+                    $('#txtname').val('');
+                    $('#textemail').val('');
                 }
             });
         })
 
 
         var SearchItems = [];
-        var loadAutoSuggestion = async function (searchTerm = '', Top = 0 , triggerSuggestion=false) {
+        var loadAutoSuggestion = async function (searchTerm = '', Top = 0, triggerSuggestion = false) {
             await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
                 if (SearchItems.length <= 0) {
                     SearchItems = res.result.filter(x => !SearchItems.includes(x));
@@ -524,7 +464,7 @@
                     });
                 }
             });
-            if(triggerSuggestion){
+            if (triggerSuggestion) {
                 $(".SearchProduct").trigger("input");
             }
         }
@@ -558,19 +498,19 @@
                 }
             },
             select: function (event, ui) {
-                let homePath=['/','/home']
+                let homePath = ['/', '/home']
                 let u = new URL(window.location.href)
-                if(homePath.includes(u.pathname)){
+                if (homePath.includes(u.pathname)) {
                     window.open(ui.item.url, '_blank');
                 }
-                else{
+                else {
                     window.location.href = ui.item.url
                 }
             },
             minLength: 3
         });
 
-        loadAutoSuggestion('',2);
+        loadAutoSuggestion('', 2);
 
     </script>
 </body>

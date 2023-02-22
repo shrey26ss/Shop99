@@ -27,7 +27,7 @@ const loadTopBrands = function () {
                 $('.topBrandPanel').removeClass('d-none');
                 let htmlbody = ``;
                 $.each(result.result, async function (i, v) {
-                    htmlbody = htmlbody + `<li><a href="/Brand/${v.id}">${v.name}</a></li>`;
+                    htmlbody = htmlbody + `<li><a href="/products/brand/${v.id}">${v.name}</a></li>`;
                 });
                 $('#litopbrand').append(htmlbody);
             }
