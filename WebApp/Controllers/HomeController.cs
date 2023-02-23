@@ -214,6 +214,13 @@ namespace WebApp.Controllers
 			var res = _category.GetCategoryFilters(req).Result;
 			return PartialView("Partial/_categoryfilters", res);
 		}
+		[Route(nameof(RoundedCategory))]
+		[HttpPost]
+		public async Task<IActionResult> RoundedCategory()
+		{
+			var res = _category.GetTopCategory().Result;
+			return PartialView("Partial/_RoundCategory", res);
+		}
 		#endregion
 
 		public async Task<IActionResult> Error(int statusCode)

@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
     loadTopBrands();
+   // loadRoundCategory();
     loadTopBannerSec();
     loadofferBanner();
+
     loadHotDeals();
     loadHotDealsNewProduct();
     loadMainCategory();
@@ -262,6 +264,12 @@ const loadHotDeals = async function () {
         $('#dvHotDeals').append(res);
     });
 }
+const loadRoundCategory = async function () {
+    await $.post("/RoundedCategory").done(res => {
+        $('#dvroundCategory').append(res);
+    });
+}
+
 const loadHotDealsNewProduct = async function () {
     await $.post("/HotDealsNewProduct").done(res => {
         $('#dvHotDealNewProduct').append(res);
