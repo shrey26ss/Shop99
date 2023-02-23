@@ -37,7 +37,7 @@
             val[i] = $(this).val();
         });
         let filt = val.join(',');
-        loadProductsByCategory(filt);
+        loadFilteredProduct(filt);
     });
 
     $('.collapse-block-title').on('click', function (e) {
