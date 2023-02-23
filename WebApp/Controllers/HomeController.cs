@@ -199,7 +199,7 @@ namespace WebApp.Controllers
 		}
 
 		[HttpPost("products/"+nameof(Filtered))]
-		public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy));
+		public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy,int top=24) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top));
 		
 
 		[Route(nameof(Categoryfilters))]
@@ -263,7 +263,7 @@ namespace WebApp.Controllers
 			return Ok(Request.Headers.ToList());
 		}
 
-        private async Task<IResponse<JDataTableResponse<ProductResponse>>> FilteredResponse(string filterBy, int cid, string filters, SortingOption sortBy)
+        private async Task<IResponse<JDataTableResponse<ProductResponse>>> FilteredResponse(string filterBy, int cid, string filters, SortingOption sortBy,int top)
         {
             filterBy = filterBy ?? string.Empty;
 
@@ -277,7 +277,7 @@ namespace WebApp.Controllers
                     {
                         var req = new ProductRequest<CategorFilter>()
                         {
-                            Top = 24,
+                            Top = top,
                             OrderBy = sortBy,
                             UserID = User?.GetLoggedInUserId<int>() ?? 0,
                             MoreFilters = new CategorFilter
