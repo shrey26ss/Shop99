@@ -4,7 +4,6 @@
 @model Response<JDataTableResponse<ProductResponse>>
 @{
     var result = new List<ProductResponse>();
-    var sortedBy = Model.Result.OrderBy;
     int recordsTotal = 0;
     string range = "1-24";
     if (Model.StatusCode == ResponseStatus.Success)
@@ -43,14 +42,14 @@
                                     </div>
                                     <div class="collection-grid-view"></div>
                                     <div class="product-page-per-view">
-                                        <select>
-                                            <option value="High to low">24 Products Par Page</option>
-                                            <option value="Low to High">50 Products Par Page</option>
-                                            <option value="Low to High">100 Products Par Page</option>
+                                        <select id="productPerPage" asp-for="@Model.Result.draw">
+                                            <option value="24">24 Products Par Page</option>
+                                            <option value="50">50 Products Par Page</option>
+                                            <option value="100">100 Products Par Page</option>
                                         </select>
                                     </div>
                                     <div class="product-page-filter">
-                                        <select asp-items="Html.GetEnumSelectList<SortingOption>()" id="sortItem" asp-for="@sortedBy"></select>
+                                        <select asp-items="Html.GetEnumSelectList<SortingOption>()" id="sortItem" asp-for="@Model.Result.OrderBy"></select>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +141,7 @@
             }
         });
     });
-    $('#sortItem').change(e => loadProductsByCategory());
+    $('#sortItem,#productPerPage').change(e => loadFilteredProduct());
 
     //list layout view
     $('.list-layout-view').on('click', function (e) {

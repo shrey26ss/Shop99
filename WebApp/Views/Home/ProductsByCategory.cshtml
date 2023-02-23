@@ -90,6 +90,7 @@
 				filterBy: filterBy,
 				cid: getCategoryId(),
 				sortBy: $('#sortItem').val(),
+				top: $('#productPerPage').val(),
 				filters
 			};
 			$.post("/Products/Filtered", param).done(res => {
