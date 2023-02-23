@@ -3,9 +3,7 @@
 @using Entities.Enums;
 @model IEnumerable<UserAddress>
 <div class="row justify-content-end">
-    <div class="col-2    pl-2">
-        <a href="#" onclick="EditAddress('0')"> Add new address</a>
-    </div>
+    <a href="#" onclick="EditAddress('0')"> Add Address</a>
 </div>
 @if (Model.Any())
 {

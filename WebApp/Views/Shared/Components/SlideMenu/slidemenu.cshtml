@@ -31,9 +31,19 @@
         </div> @if (Model != null && Model.Id > 0)
         {
             <div class="side_menu list-group list-group-flush">
-                <a href="/Profile" class="list-group-item list-group-item-action py-2 ripple active">Dashboard</a>
-                <a href="/User/Profile" class="list-group-item list-group-item-action py-2 ripple">Profile</a>
-                <a href="/UserOrderHistory" class="list-group-item list-group-item-action py-2 ripple">View Orders</a>
+                @if (Model.role==Role.Admin)
+                {
+                    <a href="/dashboard" class="list-group-item list-group-item-action py-2 ripple active">Dashboard</a>
+                    <a href="/user/profile" class="list-group-item list-group-item-action py-2 ripple">Profile</a>
+                }
+                else
+                {
+                    <a href="/Profile" class="list-group-item list-group-item-action py-2 ripple active">Dashboard</a>
+                    <a href="/User/Profile" class="list-group-item list-group-item-action py-2 ripple">Profile</a>
+                    <a href="/UserOrderHistory" class="list-group-item list-group-item-action py-2 ripple">View Orders</a>
+                }
+                
+                
                 <a href="/Account/Logout" class="list-group-item list-group-item-action py-2 ripple">Logout</a>
             </div>
         }
