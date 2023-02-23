@@ -80,7 +80,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ProfileDetails()
         {
             var res = await _convert.GetItem<UserDetails>("User/GetUserById", GetToken());
-            return PartialView("PartailView/_ProfileDetails", res);
+            return PartialView("PartailView/_ProfileDetails", res ?? new UserDetails());
         }
         [HttpPost("User/EditProfile")]
         public async Task<IActionResult> EditProfile()
