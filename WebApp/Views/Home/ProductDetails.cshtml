@@ -32,15 +32,17 @@
             loadHotDealsNewProduct();
         });
         const getProductAllDetails = async function(variantId) {
+            Q.preloader.load();
             await $.post("/ProductAllDetails", { Id: variantId }).done(res => {
                 $('#productDetails').html(res);
-                loadrate(variantId);
+                loadRating(variantId);
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+
         }
-        const loadrate = async function(variantId) {
+        const loadRating = async function(variantId) {
             await $.post("/ProductWiseRating", { VariantID: variantId }).done(res => {
                 $('#divrate').html(res);
-            }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+            }).fail(xhr => Q.xhrError(xhr)).always(() => Q.preloader.remove());
         }
         const slickOnProduct = () => {
             if ($('.product-slick').hasClass('slick-initialized')) {

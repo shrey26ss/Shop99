@@ -640,6 +640,7 @@
                 let variantID = result.result.variantId;
                 Q.rewriteURL('/productdetails/' + variantID);
                 getProductAllDetails(variantID);
+                 loadRating(variantID);
             }
             else {
                 $('.btnBuyNow').attr("disabled", "disabled");
