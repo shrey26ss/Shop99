@@ -23196,9 +23196,9 @@ table.invoice-table {
 
     .pixelstrap.sm-horizontal .mega ul {
         margin-left: 0 !important;
-        max-width: -webkit-max-content;
+        /*max-width: -webkit-max-content;
         max-width: -moz-max-content;
-        max-width: max-content;
+        max-width: max-content;*/
     }
 
 .pixelstrap .icon-trend {
@@ -23258,6 +23258,12 @@ table.invoice-table {
     font-size: 14px;
     margin-bottom: 10px;
     color: #444444;
+    background: #fff;
+    padding: 9px 10px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
 }
 
 .pixelstrap .link-section ul {
@@ -23267,16 +23273,18 @@ table.invoice-table {
 }
 
     .pixelstrap .link-section ul li a {
-        padding-top: 3px;
-        padding-bottom: 3px;
-        font-size: 14px;
-        padding-left: 0;
+        font-size: 13px;
+        background: #fff;
+        width: 100%;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
     }
 
 .pixelstrap .full-mega-menu {
     width: 100% !important;
     border-radius: 0;
-    max-width: 1110px !important;
+    /*max-width: 1110px !important;*/
     left: 50% !important;
     margin-right: -50%;
     -webkit-transform: translate(-50%, 0);
@@ -23507,7 +23515,7 @@ table.invoice-table {
 
     .pixelstrap ul {
         position: absolute;
-        width: 14em !important;
+        /*width: 14em !important;*/
     }
 
     .pixelstrap li {
@@ -23634,9 +23642,9 @@ table.invoice-table {
         border: 0;
     }
 
-    .pixelstrap .full-mega-menu .mega-box {
+    /*.pixelstrap .full-mega-menu .mega-box {
         max-width: 16.666%;
-    }
+    }*/
 
         .pixelstrap .full-mega-menu .mega-box.product {
             max-width: 33%;
@@ -23656,8 +23664,11 @@ table.invoice-table {
 
     .pixelstrap ul {
         padding: 15px 0px 15px 0px;
-        background: #ffffff;
-        border: 5px solid #f2f8f9;
+        /*background: #ffffff;
+        border: 5px solid #f2f8f9;*/
+        background: #ebebeb;
+        border: 5px solid #ffffff;
+        box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
     }
 
         .pixelstrap ul ul {
@@ -40594,6 +40605,11 @@ body.dark {
 
     .padd-left-0 {
         padding-left: 10px;
+    }
+
+    .for-mob{
+        padding-left:0px;
+        padding-right:0px;
     }
 }
 
