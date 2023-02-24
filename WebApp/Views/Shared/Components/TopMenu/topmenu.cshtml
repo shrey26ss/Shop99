@@ -18,23 +18,25 @@
             {
                 <ul class="mega-menu full-mega-menu ratio_landscape">
                     <li>
-                        <div class="container">
+                        <div class="container-fluid for-mob">
                             <div class="row">
                                 @foreach (var child in @item.ChildNode)
                                 {
-                                    <div class="col mega-box">
+                                    <div class="col mega-box for-mob">
                                         <div class="link-section">
                                             <div class="menu-title">
-                                               <a target="_blank" href="/products/category/@child.CategoryId"> <h5>@child.CategoryName </h5></a>
+                                               <a target="_blank" href="/products/category/@child.CategoryId"> <h5><img src="@child.Icon" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" style="width:20px; margin:0 10px 0 0;"> @child.CategoryName </h5></a>
                                             </div>
                                             <div class="menu-content">
                                                 <ul>
                                                     @foreach (var child2 in child.ChildNode)
                                                     {
-                                                        <li><a target="_blank" href="/products/category/@child2.CategoryId">@child2.CategoryName</a></li>
-                                                        <ul>
+                                                        <li><a target="_blank" href="/products/category/@child2.CategoryId">@child2.CategoryName</a>
+                                                          @*   <ul>
                                                             <li><a target="_blank" href="/products/category/@child2.CategoryId"></a></li>
-                                                        </ul>
+                                                        </ul>*@
+                                                        </li>
+                                                       
                                                     }
                                                 </ul>
                                             </div>
