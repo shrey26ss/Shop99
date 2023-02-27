@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
@@ -19,5 +20,9 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public bool IsPublish { get; set; }
+    }
+    public class BrandVM : Brands
+    {
+        public IFormFile Image { get; set; }
     }
 }

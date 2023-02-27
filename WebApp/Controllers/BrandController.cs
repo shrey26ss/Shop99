@@ -16,6 +16,7 @@ using WebApp.Models;
 using Service.Models;
 using System;
 using AppUtility.Helper;
+using Entities.Enums;
 
 namespace WebApp.Controllers
 {
@@ -78,14 +79,14 @@ namespace WebApp.Controllers
         // GET: BrandController/Create
         public async Task<ActionResult> Create(int Id = 0)
         {
-            Brands brands = new Brands();
+            BrandVM brands = new BrandVM();
             if (Id != 0)
             {
                 string _token = User.GetLoggedInUserToken();
                 var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/GetBrands", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
                 if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
-                    var deserializeObject = JsonConvert.DeserializeObject<Response<List<Brands>>>(brandRes.Result);
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<List<BrandVM>>>(brandRes.Result);
                     brands = deserializeObject.Result.FirstOrDefault();
                 }
             }
@@ -94,18 +95,29 @@ namespace WebApp.Controllers
 
         // POST: BrandController/Create
         [HttpPost]
-        public async Task<ActionResult> Create(Brands brands, IFormFile Icon)
+        public async Task<ActionResult> Create(BrandVM brands)
         {
             var response = new Response();
             try
             {
                 string _token = User.GetLoggedInUserToken();
-                var body = JsonConvert.SerializeObject(brands);
+                var body = JsonConvert.SerializeObject(new Brands { Id = brands.Id, Name = brands.Name, IsPublished = brands.IsPublished});
                 var brandRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/AddUpdate", body, _token);
                 if (brandRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response>(brandRes.Result);
                     response = deserializeObject;
+                    if(response.StatusCode == ResponseStatus.Success)
+                    {
+                        string urrr = FileDirectories.BrandImages.Replace("//", "/");
+                        var _ = Utility.O.UploadFile(new FileUploadModel
+                        {
+                            file = brands.Image,
+                            FileName = response.ResponseText + ".jpeg",
+                            FilePath = FileDirectories.BrandImages.Replace("//", "/")
+                        });
+                        response.ResponseText = response.StatusCode == ResponseStatus.Success ? "Success" : "Failed";
+                    }
                 }
             }
             catch (Exception ex)

@@ -4,6 +4,7 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
+using NLog;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,8 @@ namespace Service.Brand
     public class BrandService : IBrands
     {
         private IDapperRepository _dapper;
-        private readonly ILogger<DapperRepository> _logger;
-        public BrandService(IDapperRepository dapper, ILogger<DapperRepository> logger)
+        private readonly ILogger<BrandService> _logger;
+        public BrandService(IDapperRepository dapper, ILogger<BrandService> logger)
         {
             _dapper = dapper;
             _logger = logger;
@@ -28,31 +29,25 @@ namespace Service.Brand
             try
             {
                 string sqlQuery = "";
-                int i = -5;
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sqlQuery = @"Update Brands Set Name=@Name,ModifyOn=GETDATE(),Ind=@Ind where Id = @Id";
+                    sqlQuery = @"Update Brands Set Name=@Name,ModifyOn=GETDATE(),Ind=@Ind where Id = @Id; Select 1 StatusCode, @Id ResponseText";
                 }
                 else
                 {
-                    sqlQuery = @"Insert into Brands(Name,EntryOn,ModifyOn,Ind,IsPublished) values(@Name,GETDATE(),GETDATE(),@Ind,1)";
+                    sqlQuery = @"Insert into Brands(Name,EntryOn,ModifyOn,Ind,IsPublished) values(@Name,GETDATE(),GETDATE(),@Ind,1); Select 1 StatusCode, SCOPE_IDENTITY() ResponseText";
                 }
-                i = await _dapper.ExecuteAsync(sqlQuery, new
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     request.Data.Name,
                     request.Data.Id,
                     request.Ind,
                     request.Data.IsPublished
                 }, CommandType.Text);
-                if (i > -1 && i < 100)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = "Brand add successfully";
-                }
             }
             catch (Exception ex)
             {
-               
+                _logger.LogError(ex, ex.Message);
             }
 
             return res;
@@ -80,7 +75,7 @@ namespace Service.Brand
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
@@ -96,7 +91,7 @@ namespace Service.Brand
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
@@ -113,7 +108,7 @@ namespace Service.Brand
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, ex.Message);
             }
             return res;
         }
