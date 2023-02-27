@@ -53,7 +53,11 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="SearchText" />
                         <div class="input-group-append" style="cursor:pointer">
-                            <span class="input-group-text btn-primary" onclick="loadData()" id="basic-addon1"><i class="fa fa-search" style="font-size: 22px;"></i></span>
+                            <span class="input-group-text btn-primary" id="basic-addon1">
+                                <div class="fa-3x">
+                                    <i class="fa fa-search" style="font-size: 22px;"></i>
+                                </div>
+                            </span>
                             <span class="input-group-text btn-success" title="Download Order Report" onclick="downloadExcel()" id="basic-addon1"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
                             <span class="input-group-text btn-success" title="Download GST Exel" onclick="downloadGSTExcel()" id="basic-addon2"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
                         </div>
@@ -92,9 +96,6 @@
 @section scripts{
     <script>
         $(() => {
-            let modelval = '@Model';
-            if (modelval)
-                $('#status').val(modelval);
             loadData();
         })
         var params = () => {
@@ -105,12 +106,16 @@
                 StatusID: $('#status').val(),
                 SearchText: $('#SearchText').val()
             };
-
         }
+        $('#basic-addon1').click(() => {
+            Q.btnLdr.Start($('#basic-addon1'), '');
+            loadData();
+        });
         var loadData = () => {
             let param = params();
-            $.post('/OrderDetails/OrderList', param).done(function (result) {
+            $.post('/OrderDetails/OrderList', param).done(function(result) {
                 $('#Grid tbody').html(result);
+                Q.btnLdr.Stop($('#basic-addon1'), '');
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
@@ -118,7 +123,7 @@
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
 
 
-        var ChangeStatusItem = function (ID, StatusID) {
+        var ChangeStatusItem = function(ID, StatusID) {
             $.post('/OrderDetails/ChangeStatus', { ID, StatusID }).done((result) => {
                 Q.notify(result.statusCode, result.responseText);
                 if (result.statusCode)

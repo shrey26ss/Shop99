@@ -67,7 +67,7 @@
 
                 .invoice .invoice-details .invoice-id {
                     margin-top: 0;
-                    color: #2874f0
+                    color: #2874f0;
                 }
 
             .invoice main {
@@ -252,9 +252,9 @@
                                         </a>
                                     </div>
                                     <div class="col company-details">
-                                        <h2 class="name">
+                                        <h4 class="name">
                                             @Model.ShopName
-                                        </h2>
+                                        </h4>
                                         <div>@Model.VendorAddress, @Model.VendorState</div>
                                         <div>@Model.VendorMobile</div>
                                         <div>@Model.VendorEmail</div>
@@ -266,14 +266,14 @@
                                 <div class="row contacts">
                                     <div class="col invoice-to">
                                         <div class="text-gray-light">INVOICE TO:</div>
-                                        <h2 class="to">@Model.FullName</h2>
+                                        <h4 class="to">@Model.FullName</h4>
                                         <div class="address">@Model.ShippingAddress</div>
                                         <div class="email">
                                             <a href="mailto:@Model.Email">@Model.Email</a>
                                         </div>
                                     </div>
                                     <div class="col invoice-details">
-                                        <h1 class="invoice-id">@Model.InvoiceNo</h1>
+                                        <h4 class="invoice-id">@Model.InvoiceNo</h4>
                                         <div class="date">Date of Invoice: @Model.InvoiceDate.ToString("dddd, dd MMMM yyyy")</div>
                                         <div class="date">order Date: @Model.OrderDate.ToString("dddd, dd MMMM yyyy")</div>
                                     </div>
@@ -283,36 +283,73 @@
                                         <tr>
                                             <th>#</th>
                                             <th class="text-left">DESCRIPTION</th>
-                                             <th class="text-right">GST </th>
+                                            @*<td>GST</td>*@
                                             <th class="text-right">PRICE </th>
-                                            <th class="text-right">QUANTITY</th>    
+                                            <th class="text-right">QTY</th>    
                                            
                                             <th class="text-right">TOTAL </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="no">01</td>
+                                            <td >01</td>
                                             <td class="text-left">
                                                 <h3>
-                                                    <a target="_blank" href="javascript:;">
-                                                        @Model.Title
-                                                    </a>
+                                                    <p>
+                                                        @Model.Title<br />
+                                                        @Model.Attributes
+                                                    </p>
                                                 </h3>
-                                                <a target="_blank" href="javascript:;">
-                                                    @Model.Attributes
-                                                </a>
                                             </td>
-                                             <td class="qty">
+                                             @*<td class="qty">
                                                 @{
                                                     string gst = Model.IGST > 0 ? "IGST ₹ " + Model.IGST*Model.Qty :Model.SGST>0? "CGST/SGST ₹ " + (Model.SGST + Model.CGST)*Model.Qty:"0";
                                                 }
                                                  @gst
                                                  
-                                             </td>
-                                            <td class="unit">₹ @Model.Rate</td>
+                                             </td>*@
+                                            <td class="text-right">₹ @Model.Rate</td>
                                             <td class="qty">@Model.Qty</td>
-                                            <td class="total">₹ @(Convert.ToDouble((Model.Rate)*Model.Qty)+Model.IGST+Model.CGST+Model.SGST)</td>
+                                            <td class="text-right">₹ @((Model.Rate)*Model.Qty)</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <p><b>CGST</b> </p>
+                                            </td>
+                                            <td class="text-right">
+                                                
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <p>₹ @(String.Format("{0:N}",@Model.CGST*@Model.Qty))</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <p><b>SGST</b> </p>
+                                            </td>
+                                            <td class="text-right">
+                                                
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <p>₹ @(String.Format("{0:N}",@Model.SGST*@Model.Qty))</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <p><b>IGST</b> </p>
+                                            </td>
+                                            <td class="text-right">
+                                                
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <p>₹ @(String.Format("{0:N}",@Model.IGST*@Model.Qty))</p>
+                                            </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
