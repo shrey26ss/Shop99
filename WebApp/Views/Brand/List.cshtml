@@ -1,14 +1,19 @@
-﻿@model IEnumerable<Entities.Models.Brands>
+﻿@using AppUtility.Helper;
+@model IEnumerable<Entities.Models.Brands>
 
 @if (Model != null && Model.Any())
 {
     int i = 0;
     foreach (var item in Model)    
     {
+        string ImagePath = "/"+FileDirectories.BrandImageSuffixDefault + item.Id + ".jpeg";
         i++;
         <tr>    
             <td>@i</td>
-            <td>@item.Name</td>
+            <td>                
+                <img src='@ImagePath' onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'"  alt="Thumbnail" class="img img-fluid" style="width:80px">
+                @item.Name
+                </td>
             <td>
                 <span class="switch switch-sm">
                 <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
