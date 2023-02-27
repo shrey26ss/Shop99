@@ -96,6 +96,11 @@
         </tr>
     }
 }
+else{
+    <tr>
+        <td class="text-danger text-center" colspan="16">Record not found</td>
+    </tr>
+}
 <script>
     var MarkasShipped = (Id) => {
         $.get('/OrderDetails/MarkAsShippV', { Id }).done((result) => {
