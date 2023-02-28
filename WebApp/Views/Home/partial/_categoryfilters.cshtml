@@ -6,31 +6,60 @@
     var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<Filters>();
     int i = 1;
     int count = 0;
+    int j = 0;
 }
 
 @foreach (var item in result)
 {
+
     string cls = count == 0 ? "open" : "mt-3";
     string styl = count == 0 ? "" : count == 1 ? "" : "display: none;";
     count++;
+    string dispalyNone = "";
+
     <div class="collection-collapse-block" id="@item.Name">
         <h3 class="collapse-block-title mt-0">@item.Name</h3>
         <div class="collection-collapse-block-content" style="@styl">
             <div class="collection-brand-filter">
                 @foreach (var attr in @item.attributes)
                 {
-                    <div class="custom-control custom-checkbox  form-check collection-filter-checkbox">
+                    j++;
+                    if (j>=4)
+                    {
+                        dispalyNone = "d-none";
+                    }
+                    <div class="custom-control custom-checkbox  form-check collection-filter-checkbox @dispalyNone">
                         <input type="checkbox" class="custom-control-input form-check-input" value="@attr.AttributeValue" id="@i">
                         <label class="custom-control-label form-check-label" for="@attr.AttributeValue">@attr.AttributeValue</label>
                     </div>
+
                     i = i + 1;
                 }
+                <label class="pull-right showMore" style="margin-top:-15px">More</label>
+                @if (j>4)
+                {
+                    j=0;
+                    
+                }
+
             </div>
         </div>
     </div>
 
 }
 <script>
+    $('.showMore').unbind().click(e => {
+        let element = $(e.currentTarget);
+        let divId = element.closest('.collection-collapse-block').attr('id');
+        let showElementCount = $('#' + divId).find('.collection-filter-checkbox :visible').length;
+        let totalElementCount = $('#' + divId).find('.collection-filter-checkbox').length;
+        $('#' + divId).find('.collection-filter-checkbox').slice(showElementCount, showElementCount + 4).toggleClass('d-none');
+        console.log(totalElementCount, showElementCount);
+        if (showElementCount === totalElementCount){
+            element.hide();
+        }
+    });
+
     $('.collection-collapse-block .form-check-input').change(function () {
         let val = [];
         $(':checkbox:checked').each(function (i) {
