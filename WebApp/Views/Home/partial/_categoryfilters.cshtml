@@ -13,7 +13,7 @@
     string cls = count == 0 ? "open" : "mt-3";
     string styl = count == 0 ? "" : count == 1 ? "" : "display: none;";
     count++;
-    <div class="collection-collapse-block">
+    <div class="collection-collapse-block" id="@item.Name">
         <h3 class="collapse-block-title mt-0">@item.Name</h3>
         <div class="collection-collapse-block-content" style="@styl">
             <div class="collection-brand-filter">

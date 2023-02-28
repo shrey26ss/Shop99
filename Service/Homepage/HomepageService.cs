@@ -37,8 +37,8 @@ namespace Service.Homepage
             try
             {
                 productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
-                productRequest.Start = (productRequest.Start-1)*productRequest.Top;
-                productRequest.Start =productRequest.Start < 0 ? 0 : productRequest.Start;
+                //productRequest.Start = (productRequest.Start-1)*productRequest.Top;
+                //productRequest.Start =productRequest.Start < 0 ? 0 : productRequest.Start;
                 var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByCategory", new
                 {
                     productRequest.Start,
