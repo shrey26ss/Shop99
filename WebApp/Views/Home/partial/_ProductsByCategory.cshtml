@@ -9,7 +9,7 @@
     if (Model.StatusCode == ResponseStatus.Success)
     {
         recordsTotal = Model.Result.recordsTotal;
-        range = $"{Model.Result.start + 1}-{Model.Result.start + Model.Result.draw}";
+        range = $"{Model.Result.start + Model.Result.draw}";
         if (Model.Result.Data.Any())
         {
             result = Model.Result.Data;
@@ -32,7 +32,7 @@
                             <div class="col-12">
                                 <div class="product-filter-content">
                                     <div class="search-count">
-                                        <h5>Showing Products @range of @recordsTotal Result</h5>
+                                        <h5>Showing Products 1-<span id="range">@range</span> of <span id="recordsTotal">@recordsTotal</span> Result</h5>
                                     </div>
                                     <div class="collection-view">
                                         <ul>
@@ -74,16 +74,16 @@
                                                 <div class="detail-title">
                                                     <div class="detail-left">
                                                         <div class="rating-star">
-                                                             <ul>
-                                                            @for (var i = 0; i < item.Rating; i++)
-                                                            {
-                                                                <li><i class="fa fa-star"></i></li>
-                                                            }
-                                                            @for (var i = 0; i < 5 - item.Rating; i++)
-                                                            {
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                            }
-                                                             </ul>
+                                                            <ul>
+                                                                @for (var i = 0; i < item.Rating; i++)
+                                                                {
+                                                                    <li><i class="fa fa-star"></i></li>
+                                                                }
+                                                                @for (var i = 0; i < 5 - item.Rating; i++)
+                                                                {
+                                                                    <li><i class="fa fa-star-o"></i></li>
+                                                                }
+                                                            </ul>
                                                         </div>
                                                         <a href="/productdetails/@item.VariantID">
                                                             <h6 class="price-title">
@@ -132,15 +132,9 @@
 <script>
 
     $(function () {
-        $(".col-grid-box").slice(0, 8).show();
-        $(".loadMore").on('click', function (e) {
-            e.preventDefault();
-            $(".col-grid-box:hidden").slice(0, 4).slideDown();
-            if ($(".col-grid-box:hidden").length == 0) {
-                $(".load-more-sec").text('no more products');
-            }
-        });
+        $(".col-grid-box").show();        
     });
+    
     $('#sortItem,#productPerPage').change(e => loadFilteredProduct());
 
     //list layout view

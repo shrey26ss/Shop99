@@ -199,7 +199,7 @@ namespace WebApp.Controllers
 		}
 
 		[HttpPost("products/"+nameof(Filtered))]
-		public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy,int top=24) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top));
+		public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy,int top=24,int start=0) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top, start));
 		
 
 		[Route(nameof(Categoryfilters))]
@@ -270,7 +270,7 @@ namespace WebApp.Controllers
 			return Ok(Request.Headers.ToList());
 		}
 
-        private async Task<IResponse<JDataTableResponse<ProductResponse>>> FilteredResponse(string filterBy, int cid, string filters, SortingOption sortBy,int top)
+        private async Task<IResponse<JDataTableResponse<ProductResponse>>> FilteredResponse(string filterBy, int cid, string filters, SortingOption sortBy,int top, int start)
         {
             filterBy = filterBy ?? string.Empty;
 
@@ -291,7 +291,8 @@ namespace WebApp.Controllers
                             {
                                 Attributes = filters,
                                 CategoryId = cid,
-                            }
+                            },
+							Start = start
                         };
                         res = await _category.GetProductsByCategory(req, @"/api/Home/ByCategoryProduct");
                         break;
@@ -306,7 +307,8 @@ namespace WebApp.Controllers
                             {
                                 Attributes = filters,
                                 BrandId = cid,
-                            }
+                            },
+                            Start = start
                         };
                         res = await _category.GetProductsByCategory(req, @"/api/Home/ByBrandId");
                         break;

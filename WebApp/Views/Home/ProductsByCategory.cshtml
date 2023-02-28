@@ -1,149 +1,182 @@
 ﻿@{
-	Layout = "_layout";
+    Layout = "_layout";
 }
 <section class="section-big-py-space ratio_asos b-g-light">
-	<div class="collection-wrapper">
-		<div class="custom-container">
-			<div class="row">
-				<div class="col-sm-3 collection-filter category-side category-page-side padd-right-0">
+    <div class="collection-wrapper">
+        <div class="custom-container">
+            <div class="row">
+                <div class="col-sm-3 collection-filter category-side category-page-side padd-right-0">
 
-					<div class="_1KOcBL">
-						<section class="JWMl0H _2hbLCH">
-							<div class="_2ssEMF">
-								<div class="_3V8rao"><span>Filters</span></div>
-							</div>
-						</section>
-						<div class="_2q_g77">
-							<div class="collection-filter-block creative-inner category-side">
-								<!-- brand filter start -->
-								<div class="collection-mobile-back">
-									<span class="filter-back"><i class="fa fa-angle-left" aria-hidden="true"></i> back</span>
-								</div>
-								<div id="dvfilters">
-								</div>
-
-
-
-							</div>
-						</div>
-
-						<div class="_2q_g77">
-							<div class="collection-collapse-block">
-								<h3 class="collapse-block-title mt-0">Price</h3>
-								<div class="collection-collapse-block-content">
-									<div class="collection-brand-filter">
-										<div class="range mt-5">
-											<div class="range-slider">
-												<span class="range-selected"></span>
-											</div>
-											<div class="range-input">
-												<input type="range" class="min" min="0" max="1000" value="300" step="10">
-												<input type="range" class="max" min="0" max="1000" value="700" step="10">
-											</div>
-											<div class="range-price">
-												<label for="min">Min</label>
-												<input type="number" name="min" value="300">
-												<label for="max">Max</label>
-												<input type="number" name="max" value="700">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-					</div>
+                    <div class="_1KOcBL">
+                        <section class="JWMl0H _2hbLCH">
+                            <div class="_2ssEMF">
+                                <div class="_3V8rao"><span>Filters</span></div>
+                            </div>
+                        </section>
+                        <div class="_2q_g77">
+                            <div class="collection-filter-block creative-inner category-side">
+                                <!-- brand filter start -->
+                                <div class="collection-mobile-back">
+                                    <span class="filter-back"><i class="fa fa-angle-left" aria-hidden="true"></i> back</span>
+                                </div>
+                                <div id="dvfilters">
+                                </div>
 
 
 
-				</div>
-				<div class="col-sm-9 padd-left-0">
-					<products></products>
-				</div>
-			</div>
-		</div>
-	</div>
+                            </div>
+                        </div>
+
+                        <div class="_2q_g77">
+                            <div class="collection-collapse-block">
+                                <h3 class="collapse-block-title mt-0">Price</h3>
+                                <div class="collection-collapse-block-content">
+                                    <div class="collection-brand-filter">
+                                        <div class="range mt-5">
+                                            <div class="range-slider">
+                                                <span class="range-selected"></span>
+                                            </div>
+                                            <div class="range-input">
+                                                <input type="range" class="min" min="0" max="1000" value="300" step="10">
+                                                <input type="range" class="max" min="0" max="1000" value="700" step="10">
+                                            </div>
+                                            <div class="range-price">
+                                                <label for="min">Min</label>
+                                                <input type="number" name="min" value="300">
+                                                <label for="max">Max</label>
+                                                <input type="number" name="max" value="700">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="col-sm-9 padd-left-0">
+                    <products></products>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 @section scripts{
-	<script>
-		const getCategoryId = () => {
-			var url = window.location.href;
-			return url.substring(url.lastIndexOf('/') + 1);
-		};
+    <script>
+        const getCategoryId = () => {
+            var url = window.location.href;
+            return url.substring(url.lastIndexOf('/') + 1);
+        };
 
-		$(document).ready(function() {
-			loadFilters();
-			loadFilteredProduct();
-		});
+        $(document).ready(function () {
+            loadFilters();
+            loadFilteredProduct();
+        });
 
-		const loadFilteredProduct = function (filters = '') {
-			let url = new URL(window.location.href);
-			let serachParam = url.pathname.split('/');
-			console.log(serachParam)
-			let filterBy = 'category';
-			if(serachParam!=null && serachParam.length>=3){
-				filterBy = serachParam[2];
-			}
-			let param = {
-				filterBy: filterBy,
-				cid: getCategoryId(),
-				sortBy: $('#sortItem').val(),
-				top: $('#productPerPage').val(),
-				filters
-			};
-			$.post("/Products/Filtered", param).done(res => {
-				$('products').html(res);
-			}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-		};
+        const loadFilteredProduct = function (filters = '') {
+            let url = new URL(window.location.href);
+            let serachParam = url.pathname.split('/');
+            console.log(serachParam)
+            let filterBy = 'category';
+            if (serachParam != null && serachParam.length >= 3) {
+                filterBy = serachParam[2];
+            }
+            let param = {
+                filterBy: filterBy,
+                cid: getCategoryId(),
+                sortBy: $('#sortItem').val(),
+                top: $('#productPerPage').val(),
+                filters
+            };
+            $.post("/Products/Filtered", param).done(res => {
+                $('products').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        };
+        const loadFilteredProductAfter = function (__e) {
+            let url = new URL(window.location.href);
+            let serachParam = url.pathname.split('/');
+            let filterBy = 'category';
+            if (serachParam != null && serachParam.length >= 3) {
+                filterBy = serachParam[2];
+            }
+            let param = {
+                filterBy: filterBy,
+                cid: getCategoryId(),
+                sortBy: $('#sortItem').val(),
+                top: $('#productPerPage').val(),
+                filters:{}
+            };
+            param.start = $('.product-box').length;
+            $.post("/Products/Filtered", param).done(res => {
+                $(res).insertBefore(".load-more-sec");
+                if ($('.load-more-sec').length > 1){
+                    $('.load-more-sec:first').remove();
+                }
+                if($('.product-top-filter').length>1){
+                    $('.product-top-filter:last').remove();
+                }
+                $('#range').text($('.product-box').length);
+                if (parseInt($('#recordsTotal').text()) == parseInt($('.product-box').length)) {
+                    $('.load-more-sec').empty().text('No More Data');
+                }
 
-		const loadFilters = function() {
-			let cid = getCategoryId();
-			$.post("/Categoryfilters", { cid: cid }).done(res => {
-				$('#dvfilters').html(res);
-			}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-		};
+                    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        };
+        $(document).on('click', '.loadMore', function(e){
+            e.preventDefault();
+            loadFilteredProductAfter(e);
+        })
+        const loadFilters = function () {
+            let cid = getCategoryId();
+            $.post("/Categoryfilters", { cid: cid }).done(res => {
+                $('#dvfilters').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        };
 
 
-		let rangeMin = 100;
-		const range = document.querySelector(".range-selected");
-		const rangeInput = document.querySelectorAll(".range-input input");
-		const rangePrice = document.querySelectorAll(".range-price input");
+        let rangeMin = 100;
+        const range = document.querySelector(".range-selected");
+        const rangeInput = document.querySelectorAll(".range-input input");
+        const rangePrice = document.querySelectorAll(".range-price input");
 
-		rangeInput.forEach((input) => {
-			input.addEventListener("input", (e) => {
-				let minRange = parseInt(rangeInput[0].value);
-				let maxRange = parseInt(rangeInput[1].value);
-				if (maxRange - minRange < rangeMin) {
-					if (e.target.className === "min") {
-						rangeInput[0].value = maxRange - rangeMin;
-					} else {
-						rangeInput[1].value = minRange + rangeMin;
-					}
-				} else {
-					rangePrice[0].value = minRange;
-					rangePrice[1].value = maxRange;
-					range.style.left = (minRange / rangeInput[0].max) * 100 + "%";
-					range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
-				}
-			});
-		});
+        rangeInput.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minRange = parseInt(rangeInput[0].value);
+                let maxRange = parseInt(rangeInput[1].value);
+                if (maxRange - minRange < rangeMin) {
+                    if (e.target.className === "min") {
+                        rangeInput[0].value = maxRange - rangeMin;
+                    } else {
+                        rangeInput[1].value = minRange + rangeMin;
+                    }
+                } else {
+                    rangePrice[0].value = minRange;
+                    rangePrice[1].value = maxRange;
+                    range.style.left = (minRange / rangeInput[0].max) * 100 + "%";
+                    range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
+                }
+            });
+        });
 
-		rangePrice.forEach((input) => {
-			input.addEventListener("input", (e) => {
-				let minPrice = rangePrice[0].value;
-				let maxPrice = rangePrice[1].value;
-				if (maxPrice - minPrice >= rangeMin && maxPrice <= rangeInput[1].max) {
-					if (e.target.className === "min") {
-						rangeInput[0].value = minPrice;
-						range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
-					} else {
-						rangeInput[1].value = maxPrice;
-						range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
-					}
-				}
-			});
-		});
-	</script>
+        rangePrice.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minPrice = rangePrice[0].value;
+                let maxPrice = rangePrice[1].value;
+                if (maxPrice - minPrice >= rangeMin && maxPrice <= rangeInput[1].max) {
+                    if (e.target.className === "min") {
+                        rangeInput[0].value = minPrice;
+                        range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
+                    } else {
+                        rangeInput[1].value = maxPrice;
+                        range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                    }
+                }
+            });
+        });
+    </script>
 }

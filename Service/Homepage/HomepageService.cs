@@ -37,8 +37,8 @@ namespace Service.Homepage
             try
             {
                 productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
-                productRequest.Start = (productRequest.Start-1)*productRequest.Top;
-                productRequest.Start =productRequest.Start < 0 ? 0 : productRequest.Start;
+                //productRequest.Start = (productRequest.Start-1)*productRequest.Top;
+                //productRequest.Start =productRequest.Start < 0 ? 0 : productRequest.Start;
                 var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByCategory", new
                 {
                     productRequest.Start,
@@ -304,8 +304,9 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
             try
             {
                 productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
-                productRequest.Start = (productRequest.Start - 1) * productRequest.Top;
-                productRequest.Start = productRequest.Start < 0 ? 0 : productRequest.Start;
+                //productRequest.Start = (productRequest.Start - 1) * productRequest.Top;
+                //productRequest.Start = productRequest.Start < 0 ? 0 : productRequest.Start;
+                //productRequest.Start = productRequest.Top == 24 ? 0 : productRequest.Top;
                 var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByBrandId", new
                 {
                     productRequest.Start,
