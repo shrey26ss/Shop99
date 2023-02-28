@@ -1,7 +1,9 @@
-﻿@using Entities.Enums;
-@model Role
+﻿@using AppUtility.Helper
+@using Entities.Enums;
+@using WebApp.Models.ViewModels
+@model Profileviewmodel
 @{
-    if (Model == Role.Admin || Model == Role.Vendor)
+    if (Model.Role == Role.Admin || Model.Role == Role.Vendor)
         Layout = "_AdminLayout";
     else
         Layout = "_Layout";
@@ -28,7 +30,7 @@
 
         .profile-img img {
             /*width: 70%;
-                                height: 100%;*/
+                                        height: 100%;*/
         }
 
         .profile-img .file {
@@ -231,7 +233,7 @@
     }
 </style>
 
-@if (Model == Role.Admin || Model == Role.Vendor)
+@if (Model.Role == Role.Admin || Model.Role == Role.Vendor)
 {
     <div class="content-header clearfix">
         <h1 class="float-left">
@@ -244,10 +246,10 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="/assets/images/user-pic.png" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="profile" class="img-fluid w-50" />
+                    <img src="@Model.profilepic" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="profile" class="img-fluid w-50" />
                     <div class="file btn btn-lg btn-primary">
                         Change Photo
-                        <input type="file" name="file" />
+                        <input type="file" name="file" id="profilepic" onchange="Uploaduserpic()" />
                     </div>
                 </div>
             </div>
@@ -347,6 +349,29 @@
                 })
             })
         })
+        var Uploaduserpic = () => {
+            var fdata = new FormData();
+            var file = $('#profilepic').prop('files')[0];
+            fdata.append("Files", file);
+            $.ajax({
+                type: 'POST',
+                url: '/api/Uploadprofilepic',
+                data: fdata,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    Q.notify(response.statusCode, response.responseText);
+                    if (response.statusCode == 1) {
+                        setTimeout(window.location.reload(),5000);
+                    }
+                },
+                error: function(xhr) {
+                    Q.notify(-1, 'Server Error');
+                    console.log(xhr.responseText);
+                }
+            });
+        }
     </script>
 
 }

@@ -14,9 +14,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using WebApp.AppCode;
 using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
+using WebApp.Models.ViewModels;
 using WebApp.Servcie;
 
 namespace WebApp.Controllers
@@ -29,16 +31,18 @@ namespace WebApp.Controllers
         private IGenericMethods _convert;
         private readonly ICheckOutAPI _checkout;
         private readonly IDDLHelper _ddl;
+        private readonly IHttpRequestInfo _httpInfo;
 
-        public UserHomeController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert, ICheckOutAPI checkOutAPI, IDDLHelper ddl)
+        public UserHomeController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert, ICheckOutAPI checkOutAPI, IDDLHelper ddl, IHttpRequestInfo httpInfo)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _logger = logger;
             _convert = convert;
             _checkout = checkOutAPI;
             _ddl = ddl;
+            _httpInfo = httpInfo;
         }
-        [Authorize(Roles="1")]
+        [Authorize(Roles = "1")]
         [Route("/dashboard")]
         public async Task<IActionResult> Index()
         {
@@ -73,8 +77,11 @@ namespace WebApp.Controllers
         [HttpGet("User/Profile")]
         public IActionResult Profile()
         {
-            Role Roles = (Role)Enum.Parse(typeof(Role), User.GetLoggedInUserRoles());
-            return View(Roles);
+            Profileviewmodel model = new Profileviewmodel();
+            model.Role = (Role)Enum.Parse(typeof(Role), User.GetLoggedInUserRoles());
+            model.loginId = User.GetLoggedInUserId<int>();
+            model.profilepic = _httpInfo.AbsoluteURL() + "/" + FileDirectories.UserpicSuffix + User.GetLoggedInUserId<int>() + ".jpeg";
+            return View(model);
         }
         [HttpPost("User/ProfileDetails")]
         public async Task<IActionResult> ProfileDetails()
@@ -112,9 +119,9 @@ namespace WebApp.Controllers
         public async Task<IActionResult> SaveProfile(UserDetails model)
         {
             Response response = new Response();
-            if(string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Email))
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Email))
             {
-                return Json(new Response { ResponseText = "All Fields Are Mandatory", StatusCode = ResponseStatus.Failed});
+                return Json(new Response { ResponseText = "All Fields Are Mandatory", StatusCode = ResponseStatus.Failed });
             }
             try
             {
@@ -134,7 +141,7 @@ namespace WebApp.Controllers
         [HttpPost("T-B-C")]
         public async Task<IActionResult> TopBoxCounts()
         {
-			return Ok(await _convert.GetItem<DashboardTopBoxCount>(@"Dashboard/GetDashboardTopBoxCount", GetToken()));
+            return Ok(await _convert.GetItem<DashboardTopBoxCount>(@"Dashboard/GetDashboardTopBoxCount", GetToken()));
         }
         [HttpPost("G-O-L")]
         public async Task<IActionResult> OrdersList()
