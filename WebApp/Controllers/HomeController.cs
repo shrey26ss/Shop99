@@ -300,7 +300,7 @@ namespace WebApp.Controllers
                     {
                         var req = new ProductRequest<BrandFilter>()
                         {
-                            Top = 24,
+                            Top = top,
                             OrderBy = sortBy,
                             MoreFilters = new BrandFilter
                             {
