@@ -17,6 +17,7 @@ namespace Entities.Models
         public bool IsSms { get; set; }
         public bool IsEmail { get; set; }
         public bool IsWhatsapp { get; set; }
+        public string Password { get; set; }
     }
     public class AlertReplacementModel
     {
@@ -52,6 +53,7 @@ namespace Entities.Models
         public int SocialAlertType { get; set; }
         public string SocialID { get; set; }
         public string Subject { get; set; }
+        public string Password { get; set; }
         public List<string> bccList { get; set; }
     }
 

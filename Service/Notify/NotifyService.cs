@@ -42,26 +42,25 @@ namespace Service.Notify
                 ResponseText = ResponseStatus.Failed.ToString()
             };
             var res = await GetUserDeatilForAlert(req.UserID);
-            res.OTP=req.OTP==null?"0": req.OTP;
-            res.PhoneNumber = req.PhoneNumber==null? res.PhoneNumber: req.PhoneNumber;
+            res.OTP = req.OTP == null ? "0" : req.OTP;
+            res.PhoneNumber = req.PhoneNumber == null ? res.PhoneNumber : req.PhoneNumber;
             res.WhatsappNo = req.PhoneNumber == null ? res.WhatsappNo : req.PhoneNumber;
-            res.EmailID = req.EmailID == null ? res.EmailID : req
-                
-                .EmailID;
+            res.EmailID = req.EmailID == null ? res.EmailID : req.EmailID;
             res.Name = req.Name == null ? res.Name : req.Name;
-                res.FormatID = req.FormatID;
-                if (req.IsSms)
-                {
-                    await NotifySMS(res);
-                }
-                if (req.IsEmail)
-                {
-                    await NotifyEmail(res);
-                }
-                if (req.IsWhatsapp)
-                {
-                    await NotifySocialALert(res);
-                }
+            res.FormatID = req.FormatID;
+            res.Password = req.Password;
+            if (req.IsSms)
+            {
+                await NotifySMS(res);
+            }
+            if (req.IsEmail)
+            {
+                await NotifyEmail(res);
+            }
+            if (req.IsWhatsapp)
+            {
+                await NotifySocialALert(res);
+            }
             return _res;
         }
 
@@ -71,7 +70,7 @@ namespace Service.Notify
             var dbparams = new DynamicParameters();
             dbparams.Add("LoginID", UserID, DbType.Int32);
             var res = await _dapper.GetAsync<AlertReplacementModel>("Proc_UserDetailForAlert", dbparams, CommandType.StoredProcedure);
-            return res??new AlertReplacementModel();
+            return res ?? new AlertReplacementModel();
         }
 
         #region SendSMS
@@ -189,7 +188,7 @@ namespace Service.Notify
             }
             catch (Exception ex)
             {
-                // _dapper.SaveDBError(ex.Message, this.GetType().Name, nameof(NotifySMS));
+                _logger.LogError(ex, ex.Message);
             }
             _res.StatusCode = ResponseStatus.Success;
             return _res;
@@ -304,7 +303,7 @@ namespace Service.Notify
                     }
                     param.SocialAlertType = int.Parse(ActivatedType[i]);
                     var dbparams = new DynamicParameters();
-                    dbparams.Add("FormatID",(int)param.FormatID, DbType.Int32);
+                    dbparams.Add("FormatID", (int)param.FormatID, DbType.Int32);
                     string selectTemplate = @" select * from MessageTemplate(nolock) where FormatID=@FormatID
                          SELECT 1,id, apitype,transactiontype,name, url, isactive, isdefault, isdeleted,  entryby, entrydate, modifyby,modifydate, apimethod,      
       restype,ismultipleallowed,ApiCode       
@@ -437,9 +436,10 @@ namespace Service.Notify
             sb.Replace("{SupportNumber}", Replacements.SupportNumber);
             sb.Replace("{SupportEmail}", Replacements.SupportEmail);
             sb.Replace("{OTP}", Replacements.OTP);
-            sb.Replace("{LoginID}", Replacements.LoginID.ToString());
+            sb.Replace("{LoginID}", Replacements.PhoneNumber.ToString());
             sb.Replace("{LiveID}", Replacements.LiveID);
             sb.Replace("{TransactionID}", Replacements.TransactionID);
+            sb.Replace("{Password}", Replacements.Password);
             return Convert.ToString(sb);
         }
         private string GetFormatedMessageForSaving(string Template, AlertReplacementModel Replacements)
@@ -532,7 +532,7 @@ namespace Service.Notify
                     MobileNo = item.SendTo,
                     TransactionID = "",
                     SMS = item.Message,
-                    NotifyID=item.ID
+                    NotifyID = item.ID
                 };
                 SaveSMSResponse(_Response);
             }
@@ -550,8 +550,8 @@ namespace Service.Notify
                 EmailSettingswithFormat mailSetting = JsonSerializer.Deserialize<EmailSettingswithFormat>(item.EmailConfiguration);
 
 
-              
-           
+
+
                 var emailresponse = SendEMailAsync(mailSetting, item.SendTo, null, item.Subject, item.Message, 0, "LogoURL", true).Result;
 
                 SendEmail sendEmail = new SendEmail
@@ -707,7 +707,7 @@ namespace Service.Notify
                 dbparams.Add("ReqURL", Response.ReqURL, DbType.String);
                 dbparams.Add("SocialAlertType", Response.SocialAlertType, DbType.String);
                 dbparams.Add("NotifyID", Response.NotifyID, DbType.Int32);
-                        string query = @"insert into SendSMS(APIID, MobileNO,[Message],[Status], TransactionID, ResponseID, Response, EntryDate, IsRead,
+                string query = @"insert into SendSMS(APIID, MobileNO,[Message],[Status], TransactionID, ResponseID, Response, EntryDate, IsRead,
                                           ModifyDate,  Req, SocialAlertType)
                                       values(@SMSID, @MobileNo, @SMS, @Status, dbo.fn_TransactionID(), @ResponseID, Replace(@Response, 'login.js', ''), getDate(),0,
                                         getDate(),  @ReqURL, @SocialAlertType)
@@ -778,7 +778,7 @@ namespace Service.Notify
                 FormatType = FormatType,
                 MobileNo = MobileNo,
                 Tp_ReplaceKeywords = Tp_ReplaceKeywords,
-                
+
             };
             // SMSSendResp smsResponse = (SMSSendResp)SendSMS(procSendSMS);
             //if (WithMail)
@@ -823,7 +823,7 @@ namespace Service.Notify
         #endregion
         public async Task<bool> SendEMailAsync(EmailSettingswithFormat setting, string ToEmail, List<string> bccList, string Subject, string Body, int WID, string Logo, bool IsHTML = true, string MailFooter = "")
         {
-           // System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            // System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
             bool IsSent = false;
             if (setting.FromEmail != null && setting.Port != 0 && setting.Password != null && setting.HostName != null)
@@ -837,7 +837,7 @@ namespace Service.Notify
                 try
                 {
 
-                   // MailMessage mailMessage = new System.Net.Mail.MailMessage(setting.FromEmail, ToEmail.Trim(),setting.Password, "Hello Word");
+                    // MailMessage mailMessage = new System.Net.Mail.MailMessage(setting.FromEmail, ToEmail.Trim(),setting.Password, "Hello Word");
                     MailMessage mailMessage = new MailMessage
                     {
                         From = new MailAddress(setting.FromEmail),
@@ -859,7 +859,7 @@ namespace Service.Notify
                     }
                     SmtpClient smtpClient = new SmtpClient(setting.HostName, setting.Port)
                     {
-                        Credentials = new NetworkCredential(setting.FromEmail,setting.Password)
+                        Credentials = new NetworkCredential(setting.FromEmail, setting.Password)
                     };
                     if (setting.IsSSL)
                     {
@@ -867,30 +867,24 @@ namespace Service.Notify
                     }
                     try
                     {
-
-
-
-
-
-                       // Task.Factory.StartNew(() => smtpClient.Send(mailMessage));
-                            smtpClient.Send(mailMessage);
+                        smtpClient.Send(mailMessage);
                         IsSent = true;
                     }
                     catch (Exception ex)
                     {
-
+                        _logger.LogError(ex, ex.Message);
                     }
                 }
                 catch (Exception ex)
                 {
-
+                    _logger.LogError(ex, ex.Message);
                 }
             }
             return IsSent;
         }
-       
 
 
 
-        }
+
     }
+}
