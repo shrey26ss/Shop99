@@ -372,7 +372,7 @@ namespace WebAPI.Controllers
             var otpverify2 = await _userManager.ConfirmPhoneNumber(model.PhoneNumber, model.OTP, lockoutOnFailure: true);
             if (otpverify2.Succeeded)
             {
-                _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true, IsWhatsapp = true, PhoneNumber = model.PhoneNumber, Name = model.Name }, User.GetLoggedInUserId<int>());
+                _notify.SaveSMSEmailWhatsappNotification(new SMSEmailWhatsappNotification() { FormatID = MessageFormat.Registration, IsSms = true, IsWhatsapp = true, PhoneNumber = model.PhoneNumber, Name = model.Name, Password = model.Password }, User.GetLoggedInUserId<int>());
                 return Ok(new Response { StatusCode = ResponseStatus.Success, ResponseText = "User created successfully!" });
             }
             else
