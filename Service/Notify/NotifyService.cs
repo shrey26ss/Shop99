@@ -440,6 +440,7 @@ namespace Service.Notify
             sb.Replace("{LiveID}", Replacements.LiveID);
             sb.Replace("{TransactionID}", Replacements.TransactionID);
             sb.Replace("{Password}", Replacements.Password);
+            sb.Replace("{PinPassword}", Replacements.Password);
             return Convert.ToString(sb);
         }
         private string GetFormatedMessageForSaving(string Template, AlertReplacementModel Replacements)
