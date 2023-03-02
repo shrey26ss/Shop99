@@ -26,5 +26,9 @@ namespace Entities.Models
         public int ParentId { get; set; }
         public bool IsPublish { get; set; }
     }
+    public class TopCategoryRequest
+    {
+        public int Top { get; set; } = 5;
+    }
 
 }
