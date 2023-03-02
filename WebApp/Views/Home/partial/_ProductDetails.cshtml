@@ -183,7 +183,11 @@
                                                         if (attrinfo.AttributeId == item.AttributeId)
                                                         {
                                                             AttributeValue.Add(attrinfo.AttributeValue);
-                                                            string activeclass = attrinfo.AttributeValue == item.AttributeValue ? "active" : "";
+                                                            string activeclass = attrinfo.GroupId == Model.VariantId ? "active" : "";
+                                                            if(attrinfo.GroupId == item.VariantId)
+                                                            {
+                                                                string soms = "Active";
+                                                            }
                                                             <a data-id="@attrinfo.GroupId" class="changeVariant">
                                                             <li class="@activeclass attributeValue btn btn-sm btn-outline-dark mb-1" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
                                                         }
