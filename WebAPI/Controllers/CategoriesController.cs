@@ -72,9 +72,9 @@ namespace WebAPI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Category/TopCategory")]
-        public async Task<IActionResult> TopCategory()
+        public async Task<IActionResult> TopCategory(TopCategoryRequest request)
         {
-            return Ok(await _category.TopCategories());
+            return Ok(await _category.TopCategories(request));
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("Category/GetList")]
