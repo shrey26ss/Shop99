@@ -49,21 +49,22 @@
                     <h4 class="price">@item.Rate</h4>
                     <span>@item.Attributes</span>|<span>Quntity:@item.Qty</span>
                 </div>
-                <span class="dark-data">
-                    @item.StatusID.ToString()
-
+                <div class="dark-data">
+                    <span>@item.StatusID.ToString()</span>
                     @if (item.StatusID == StatusType.Shipped)
                     {
-                        <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info">Track</a>
-                        <span class="btn btn-sm btn-rounded" title="@item.DocketNo"> <i class="fa fa-solid fa-info"></i> </span>
-                        <button class="btn btn-sm btn-rounded" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')">Share</button>
+                        <span onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')" class="ml-2">
+                            <i class="fa fa-share-alt" aria-hidden="true"></i>
+                        </span>
+                        <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info d-block">Track</a>
                     }
                     @if (item.StatusID == StatusType.Confirmed || item.StatusID == StatusType.Delivered)
                     {
-                        <a class="badge badge-info" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
+                        <a class="badge badge-info" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice">
+                            <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                        </a>
                     }
-
-                </span>
+                </div>
             </td>
             <td>
                 <div class="d-flex justify-content-center">
@@ -71,10 +72,6 @@
                     {
                         <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
                     }
-                    @* @if (item.StatusID != StatusType.Delivered && item.StatusID != StatusType.Cancel && item.StatusID != StatusType.ReturnInitiated && item.StatusID != StatusType.ReturnCompleted && item.StatusID != StatusType.ReturnConfirmred && item.StatusID != StatusType.OrderReplaceInitiated && item.StatusID != StatusType.ReplacementAccepted && item.StatusID != StatusType.OrderReplaced && item.StatusID != StatusType.ReplaceRejected)
-                        {
-                        <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
-                        }*@
                     @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
                     {
                         <a href="#" onclick="ReturnItem('@item.ID')" class="btn btn-sm btn-danger btnCancelOrder" style="color:white">Return</a>
@@ -95,11 +92,10 @@
     var ChangeStatusItemWithRemark = function (ID, StatusID) {
         let btntxt = StatusID == 'InitiateReturn' ? "Procced Your Return" : "Procced Your Cancellation";
         const html = `<div class="form-group">
-            <label for="inputAddress">Reason</label>
-            <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-            </div>
-            <button type="submit"  data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
-            `;
+                            <label for="inputAddress">Reason</label>
+                            <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                            </div>
+                            <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
         Q.alert({
             title: 'Add Reason',
             body: html,
