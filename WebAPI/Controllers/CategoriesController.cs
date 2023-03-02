@@ -74,7 +74,8 @@ namespace WebAPI.Controllers
         [Route("Category/TopCategory")]
         public async Task<IActionResult> TopCategory(TopCategoryRequest request)
         {
-            return Ok(await _category.TopCategories(request));
+            return Ok(await _category.TopCategories(request)); 
+
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("Category/GetList")]
