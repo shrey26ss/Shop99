@@ -40442,7 +40442,7 @@ body.dark {
 
     .xzoom-thumbs div {
         overflow-y: auto;
-        height: calc(100vh - 285px);
+        max-height:450px;
     }
 
 .xzoom {
