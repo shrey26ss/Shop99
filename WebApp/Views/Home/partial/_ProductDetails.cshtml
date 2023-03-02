@@ -83,9 +83,6 @@
     </div>
     <div class="row">
         <div class="col-lg-5">
-
-
-
             <div class="large-5 column">
                 <div class="xzoom-container">
                     @if (Model != null && Model.ProductPictureInfos!=null && Model.ProductPictureInfos.Any())
@@ -93,9 +90,8 @@
                         var defaultimages = Model.ProductPictureInfos.Where(x => x.ImgVariant?.ToLower() == "default");
                         int i = 0;
                         <div class="zoom-box">
-
                             <img class="xzoom" id="xzoom-default" src="@defaultimages.FirstOrDefault()?.ImagePath"
-                             xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" />
+                             xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" style="max-height:500px;object-fit:contain" />
                         </div>
                         <div class="xzoom-thumbs">
                             <div>
@@ -103,12 +99,16 @@
                                 {
                                     @if (i == 0)
                                     {
-                                        <a href="@pictures.ImagePath"><img class="xzoom-gallery" width="80" src="@pictures.ImagePath" xpreview="@pictures.ImagePath"></a>
+                                        <a href="@pictures.ImagePath">
+                                            <img class="xzoom-gallery" src="@pictures.ImagePath" xpreview="@pictures.ImagePath" style="width:80px;height:90px;object-fit:contain">
+                                        </a>
 
                                     }
                                     else
                                     {
-                                        <a href="@pictures.ImagePath"><img class="xzoom-gallery" width="80" src="@pictures.ImagePath"></a>
+                                        <a href="@pictures.ImagePath">
+                                            <img class="xzoom-gallery" src="@pictures.ImagePath" style="width:80px;height:90px;object-fit:contain">
+                                        </a>
                                     }
                                     i = i + 1;
                                 }
@@ -227,37 +227,6 @@
                                     </div>
                                 </li>
                             </ul>
-                            @*        <ul class="offer-sider">
-                            <li>
-                            <span class="code-lable">OFFER25</span>
-                            <div>
-                            <h5>Get extra $25 off on second Orders</h5>
-                            <p>Use code "OFFER25" Min. Cart Value $99 | Max. Discount $25</p>
-                            </div>
-                            </li>
-                            <li>
-                            <span class="code-lable">OFFER40</span>
-                            <div>
-                            <h5>Bank Offer40% Unlimited Cashback on bideal Axis Bank Credit Card</h5>
-                            <p>Use code "OFFER40" Min. Cart Value $99 | Max. Discount $40</p>
-                            </div>
-                            </li>
-                            <li>
-                            <span class="code-lable">OFFER10</span>
-                            <div>
-                            <h5>Bank Offer10% off* with Axis Bank Buzz Credit Card</h5>
-                            <p>Use code "OFFER10" Min. Cart Value $99 | Max. Discount $10</p>
-                            </div>
-                            </li>
-                            <li>
-                            <span class="code-lable">OFFER5</span>
-                            <div>
-                            <h5>Bank Offer5% Unlimited Cashback on bideal sbi banck Credit Card</h5>
-                            <p>Use code "OFFER5" Min. Cart Value $99 | Max. Discount $5</p>
-                            </div>
-                            </li>
-                            </ul>
-                            <h5 class="show-offer"><span class="more-offer">show more offer</span><span class="less-offer">less offer</span></h5>*@
                         </div>
                     </div>
                 </div>
@@ -336,14 +305,6 @@
                                             <div class="col-md-12">
                                                 <label class="mt-3"><b>Rating</b></label>
                                                 <div class="media mt-0">
-                                                    @* <div class="rate">
-                                                    @for (int i = 5; i >= 1; i--)
-                                                    {
-                                                    <input type="checkbox" id="rate_@i" name="rate" value="@i" />
-                                                    <label for="rate_@i" onclick="rate('@i')" class="rating" title="text">@i stars</label>
-                                                    }
-                                                    <input type="hidden" id="hdnrate" value="" />
-                                                    </div>*@
                                                     <fieldset class="star-rating">
                                                         <div class="star-rating__stars">
                                                             <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
@@ -395,11 +356,6 @@
 <script src='../assets/js/xzoom.min.js'></script>
 <script src='../assets/js/hammer.min.js'></script>
 <script>
-    //var rate = (rate) => {
-    //    $('#hdnrate').val(rate);
-    //}
-    //	const variantId = @Model;
-    //getProductAllDetails(variantId);
     (function ($) {
         $(document).ready(function () {
             $('.xzoom, .xzoom-gallery').xzoom({ zoomWidth: 400, title: true, tint: '#333', Xoffset: 15 });
@@ -555,7 +511,6 @@
 <!--for image zoom script end-->
 
 <script>
-
     const readAttributes = () => {
         let attributes = []
         $('#attributeList .attibute').each(function (i, t) {
@@ -684,4 +639,7 @@
             },
         });
     }
+
+    
+    
 </script>
