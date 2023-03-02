@@ -257,41 +257,6 @@ Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup 
             return res;
         }
 
-
-        public async Task<IResponse<IEnumerable<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest)
-        {
-            var res = new Response<IEnumerable<ProductResponse>>();
-            try
-            {
-                string sqlQuery = @"CREATE TABLE #temp (attributes varchar(max)) 
-insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
-  if((select count(*) from #temp)>0)
-  begin
-   with cte as ( Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],Format(vg.SellingCost-vg.SellingCost*isnull(o.AtRate,0)/100,'N2') as SellingCost,vg.Rating  from Products p(nolock) 
-            inner join VariantGroup vg(nolock) on vg.ProductId = p.Id 
-			 inner join CategoryAttributeMapping cam(nolock) on cam.CategoryId=p.CategoryId
-			  inner join AttributeInfo ai(nolock) on ai.AttributeId=cam.AttributeId
- left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
-			 inner join #temp t on t.attributes = ai.AttributeValue and vg.id=ai.GroupId
-
-            where p.Id = @ProductId
-)select * from cte group by 	ProductID,VariantID,PublishedOn,Title,MRP,GroupID,ImagePath,Label,SellingCost,Stars
-  end
-  else
-  begin
-   Select top (@Top) vg.ProductId ProductID,vg.Id VariantID,dbo.fn_DT_FullFormat(vg.PublishedOn) PublishedOn,vg.Title,vg.MRP,vg.Id GroupID,vg.Thumbnail ImagePath,'New' [Label],vg.SellingCost,vg.Rating  from VariantGroup vg(nolock) inner join Products p(nolock) on p.Id = vg.ProductId where vg.ProductId = @ProductId
-  end";
-                res.Result = await _dapper.GetAllAsync<ProductResponse>(sqlQuery, new { productRequest.MoreFilters.ProductId, productRequest.MoreFilters.Attributes, Top = productRequest.Top < 1 ? 10 : productRequest.Top }, CommandType.Text);
-
-                res.StatusCode = ResponseStatus.Success;
-                res.ResponseText = nameof(ResponseStatus.Success);
-            }
-            catch (Exception ex)
-            {
-                res.ResponseText = ex.Message;
-            }
-            return res;
-        }
         public async Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByBrandID(ProductRequest<BrandFilter> productRequest)
         {
             var res = new Response<JDataTableResponse<ProductResponse>>
@@ -313,6 +278,42 @@ insert into #temp select * from  dbo.fn_SplitString(@Attributes,',')
                     length = productRequest.Top,
                     productRequest.OrderBy,
                     productRequest.MoreFilters.BrandId,
+                    productRequest.MoreFilters.Attributes,
+                }, CommandType.StoredProcedure);
+                var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);
+                var jdataTableResponse = (List<JDataTableResponse>)result.GetType().GetProperty("Table2").GetValue(result, null);
+                res.Result.recordsTotal = jdataTableResponse.FirstOrDefault()?.recordsTotal ?? 0;
+                res.Result.start = productRequest.Start;
+                res.Result.OrderBy = productRequest.OrderBy;
+                res.Result.draw = productRequest.Top;
+                res.Result.Data = products;
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                res.ResponseText = ex.Message;
+            }
+            return res;
+        }
+        public async Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest)
+        {
+            var res = new Response<JDataTableResponse<ProductResponse>>
+            {
+                Result = new JDataTableResponse<ProductResponse>
+                {
+                    Data = new List<ProductResponse>()
+                }
+            };
+            try
+            {
+                productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
+                var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByProdID", new
+                {
+                    productRequest.Start,
+                    length = productRequest.Top,
+                    productRequest.OrderBy,
+                    productRequest.MoreFilters.ProductId,
                     productRequest.MoreFilters.Attributes,
                 }, CommandType.StoredProcedure);
                 var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);

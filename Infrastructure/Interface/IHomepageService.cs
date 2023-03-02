@@ -7,7 +7,6 @@ namespace Infrastructure.Interface
     public interface IHomepageService
     {
         Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByCategory(ProductRequest<CategorFilter> productRequest);
-        Task<IResponse<IEnumerable<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest);
         Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByBrandID(ProductRequest<BrandFilter> productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetRandomProduct(ProductRequest productRequest);
         Task<IResponse<IEnumerable<ProductResponse>>> GetNewArrivals(ProductRequest<int> productRequest);
@@ -18,6 +17,7 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<HotDealsResponse>>> GetHotDeals(ProductRequest productRequest);
         Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion(string searchText = "", int Top = 0);
         Task<IResponse> AddNewsLetter(RequestBase<NewsLetter> request);
+        Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest);
 
     }
 }

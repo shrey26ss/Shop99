@@ -488,7 +488,7 @@
                     if (_label) {
                         searchResult.push({
                             label: _label,
-                            url: (a.type === 'C') ? `/products/category/${a.id}` : (a.type === 'P') ? `/Product/${a.id}` : (a.type === 'V') ? `/productdetails/${a.id}` : null
+                            url: (a.type === 'C') ? `/products/category/${a.id}` : (a.type === 'P') ? `/products/prod/${a.id}` : (a.type === 'V') ? `/productdetails/${a.id}` : null
                         })
                     }
                 }

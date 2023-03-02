@@ -313,6 +313,22 @@ namespace WebApp.Controllers
                         res = await _category.GetProductsByCategory(req, @"/api/Home/ByBrandId");
                         break;
                     }
+				case "PROD":
+                    {
+                        var req = new ProductRequest<ProductFilter>()
+                        {
+                            Top = top,
+                            OrderBy = sortBy,
+                            MoreFilters = new ProductFilter
+                            {
+                                Attributes = filters,
+                                ProductId = cid,
+                            },
+                            Start = start
+                        };
+                        res = await _category.GetProductsByCategory(req, @"/api/Home/ByProductId");
+                        break;
+                    }
             }
             return res;
         }
