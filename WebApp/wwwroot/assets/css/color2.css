@@ -40441,9 +40441,25 @@ body.dark {
 }
 
     .xzoom-thumbs div {
-        overflow-y: auto;
-        max-height:450px;
+        overflow-y: hidden;
+        max-height:370px;
     }
+
+
+.thumb-top i, .thumb-bottom i{
+    font-size:25px;
+}
+.thumb-top {
+    background: #fff;
+    border: 2px solid #eee;
+    margin-bottom: 7px;
+}
+
+.thumb-bottom {
+    background: #fff;
+    border: 2px solid #eee;
+    margin-top: 7px;
+}
 
 .xzoom {
     /*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
@@ -40451,6 +40467,9 @@ body.dark {
 		box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);*/
     min-width: 400px;
     width: 100% !important;
+    height: 100%;
+    object-fit: contain;
+    background: #fff;
 }
 
 .xzoom2, .xzoom3, .xzoom4, .xzoom5 {
@@ -40460,7 +40479,7 @@ body.dark {
 
 
 .xzoom-gallery, .xzoom-gallery2, .xzoom-gallery3, .xzoom-gallery4, .xzoom-gallery5 {
-    border: 1px solid #cecece;
+    border: 2px solid #f0f0f0;
     margin-bottom: 10px;
 }
 
