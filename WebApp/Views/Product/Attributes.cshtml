@@ -38,7 +38,6 @@
                 <input type="hidden" id="hdnid" value="@Model.Id" />
                 <select class="form-control" id="ddlstatus" asp-for="@Model.statusid" onchange="loaddata()">
                     <option value="">-- Select Status --</option>
-                    <option value="1">Pending</option>
                     <option value="@StatusType.Confirmed">@StatusType.Confirmed</option>
                     <option value="@StatusType.Rejected">@StatusType.Rejected</option>
                 </select>
@@ -78,7 +77,7 @@
             loaddata();
         });
         var loaddata = () => {
-            $.post('/Product/GetAttributes', { Id: $('#hdnid').val(), s: $('#ddlstatus').val() }).done((result) => {
+            $.post('/Product/GetAttributes', { Id: $('#hdnid').val(), s: $('#ddlstatus').val(), stock: '@Model.stock' }).done((result) => {
                 $('#Grid tbody').html(result);
             }).fail(function() {
                 console.log(xhr.responseText);

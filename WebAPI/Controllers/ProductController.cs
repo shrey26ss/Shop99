@@ -72,7 +72,7 @@ namespace WebAPI.Controllers
             }));
         }
         [Route("Product/GetProductVarAttrDetails")]
-        public async Task<IActionResult> GetProductVarAttrDetails(SearchItem req)
+        public async Task<IActionResult> GetProductVarAttrDetails(ProductVarAttrDetailsReq req)
         {
             req.UserID = User.GetLoggedInUserId<int>();
             return Ok(await _products.GetProductVarAttrDetails(req, Convert.ToInt32(User.GetLoggedInUserRoles())));

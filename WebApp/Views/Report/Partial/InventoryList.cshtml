@@ -6,6 +6,7 @@
     int counter = 0;
     foreach (var item in Model)
     {
+        string isOut = item.IsOut ? "Out" : "In";
         counter++;
         <tr>
             <td>@counter</td>
@@ -25,7 +26,7 @@
             </td>
             <td>@item.ProductName</td>
             <td>@item.VariantTitle</td>
-            <td>@item.IsOut</td>
+            <td>@isOut</td>
             <td class="text-right">@item.OpeningQty</td>
             <td class="text-right">@item.Qty</td>
             <td class="text-right">@item.ClosingQty</td>

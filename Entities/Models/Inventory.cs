@@ -17,7 +17,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public int VarriantId { get; set; }
-        public PurchaseType IsOut { get; set; }
+        public bool IsOut { get; set; }
         public int OpeningQty { get; set; }
         public int Qty { get; set; }
         public int ClosingQty { get; set; }
@@ -28,7 +28,7 @@ namespace Entities.Models
     }
     public class InventoryRequest
     {
-        public InventoryStatus Status { get; set; } = 0;
+        public StatusType Status { get; set; } = 0;
     }
     public class NewsLatter
     {
