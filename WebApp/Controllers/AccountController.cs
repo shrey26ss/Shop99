@@ -25,28 +25,15 @@ namespace WebApp.Controllers
     public class AccountController : Controller
     {
         #region Variables
-        //private readonly JWTConfig _jwtConfig;
-        //private readonly ApplicationUserManager _userManager;
-        //private readonly SignInManager<ApplicationUser> _signInManager;
-        //private IUserService _users;
         private readonly ILogger<AccountController> _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
-
-        //private readonly IRepository<EmailConfig> _emailConfig;
-        //private readonly ITokenService _tokenService;
-        private IMapper _mapper;
         private string _apiBaseURL;
         #endregion
 
-        public AccountController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager) //IRepository<EmailConfig> emailConfig, _emailConfig = emailConfig;
+        public AccountController(ILogger<AccountController> logger, AppSettings appSettings, SignInManager<ApplicationUser> signInManager)
         {
             _logger = logger;
-            _mapper = mapper;
-            //_userManager = userManager;
-            //_roleManager = roleManager;
             _signInManager = signInManager;
-            //_users = users;
-            //_tokenService = tokenService;
             _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
@@ -67,10 +54,6 @@ namespace WebApp.Controllers
             {
                 response = JsonConvert.DeserializeObject<Response>(apiResponse.Result);
             }
-            //if (response.StatusCode == ResponseStatus.Success)
-            //{
-            //    return PartialView();
-            //}
             string ReturnURL = response.StatusCode == ResponseStatus.Success ? "/account/login" : "";
             return Json(new { response.StatusCode, response.ResponseText, ReturnURL });
         }
@@ -124,7 +107,7 @@ namespace WebApp.Controllers
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/" : ReturnUrl;
                             }
-                            else if (applicationUser.Role.Equals("4"))
+                            else if (applicationUser.Role.Equals("4")) // Developer
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Developer/Index" : ReturnUrl;
                             }
