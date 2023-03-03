@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
                 Data = req
             }));
         }
-        [Authorize(AuthenticationSchemes = "Bearer", Roles ="1,2,3")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(GetWishlist))]
         public async Task<IActionResult> GetWishlist()
         {
