@@ -58,7 +58,7 @@ namespace Entities.Models
     }
     public class BrandFilter
     {
-        public int BrandId { get; set; }
+        public int Id { get; set; }
         public string Attributes { get; set; }
     }
 }

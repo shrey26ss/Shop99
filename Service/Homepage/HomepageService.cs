@@ -240,12 +240,16 @@ Union
 Select Distinct Top(50) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'
 Union 
 Select Distinct Top(50) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'
+UNION 
+Select DISTINCT TOP(50) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%'
 else
 Select Distinct Top(@Top) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%'
 Union
 Select Distinct Top(@Top) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'
 Union
-Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'";
+Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'
+Union
+Select DISTINCT TOP(@Top) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%'";
                 res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, new { searchText = searchText ?? "", Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
@@ -269,16 +273,14 @@ Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup 
             try
             {
                 productRequest.Top = productRequest.Top < 1 ? 10 : productRequest.Top;
-                //productRequest.Start = (productRequest.Start - 1) * productRequest.Top;
-                //productRequest.Start = productRequest.Start < 0 ? 0 : productRequest.Start;
-                //productRequest.Start = productRequest.Top == 24 ? 0 : productRequest.Top;
-                var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductByBrandId", new
+                var result = await _dapper.GetMultipleAsync<ProductResponse, JDataTableResponse>("proc_GetProductFromAllScenario", new
                 {
                     productRequest.Start,
                     length = productRequest.Top,
                     productRequest.OrderBy,
-                    productRequest.MoreFilters.BrandId,
+                    productRequest.MoreFilters.Id,
                     productRequest.MoreFilters.Attributes,
+                    productRequest.CalledFrom
                 }, CommandType.StoredProcedure);
                 var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);
                 var jdataTableResponse = (List<JDataTableResponse>)result.GetType().GetProperty("Table2").GetValue(result, null);
