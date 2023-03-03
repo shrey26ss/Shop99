@@ -30,15 +30,7 @@ namespace Service.Dashboard
                 if (req.RoleId == Convert.ToInt32(Role.Admin))
                 {
                     string sp = @"declare @LowStocks int=0
-;with cteRowNumber as (
-    select Id,VarriantId, ClosingQty,
-           row_number() over(partition by VarriantId order by EntryOn desc) as RowNum
-        from inventory
-)
-select @LowStocks=count(Id)
-    from cteRowNumber
-    where RowNum = 1 and ClosingQty<10
-Select (SELECT Count(1) FROM Orders(nolock) where StatusID = 1) TotalOrdersPlaced, (SELECT Count(1) FROM Orders(nolock) WHERE StatusID = 3) ConfirmedOrder,@LowStocks LowStocks, (SELECT Count(1) FROM Users u(nolock) INNER JOIN UserRoles ur(nolock) on ur.UserId = u.Id WHERE ur.RoleId = 2) TotalCustomer,(select Count(Id) from VariantGroup(nolock) where ISNULL(AdminApproveStatus,'') = '') TotalPendingApprovel";
+Select (SELECT Count(1) FROM Orders(nolock) where StatusID = 1) TotalOrdersPlaced, (SELECT Count(1) FROM Orders(nolock) WHERE StatusID = 3) ConfirmedOrder,(Select Distinct Count(Id) from VariantGroup where Quantity <= 10) LowStocks, (SELECT Count(1) FROM Users u(nolock) INNER JOIN UserRoles ur(nolock) on ur.UserId = u.Id WHERE ur.RoleId = 2) TotalCustomer,(select Count(Id) from VariantGroup(nolock) where ISNULL(AdminApproveStatus,'') = '') TotalPendingApprovel";
                     res.Result = await _dapper.GetAsync<DashboardTopBoxCount>(sp, null, CommandType.Text);
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = nameof(ResponseStatus.Success);

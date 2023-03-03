@@ -232,29 +232,51 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             return res;
         }
 
-        public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(SearchItem req, int Role)
+        public async Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(ProductVarAttrDetailsReq req, int Role)
         {
             string sp = string.Empty;
             if (Role == 1)
                 req.UserID = 0;
             if (req.Id != 0)
             {
-                sp = @"Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0)";
+                sp = @"if @Stock = 21 
+	                    Begin
+		                    Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0) Quantity <= 10
+	                    end
+	                    else
+	                    begin
+		                    Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0)
+	                    end ";
             }
             else
             {
-                sp = @"if(@StatusID = 0)begin
-                        select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0)
-                           end
-                        else
-                        begin
-                        select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,1) = @StatusID or (Isnull(AdminApproveStatus,0)=@StatusID)
+                sp = @"if(@StatusID = 0)
+                            begin   
+	                            if @Stock = 21 
+	                            Begin
+		                            select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Quantity <= 10
+	                            end
+	                            else
+	                            begin
+		                            select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) 
+	                            end   
+                            end
+                            else
+                            begin   
+	                            if @Stock = 21
+	                            Begin
+		                            select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,1) = @StatusID or (Isnull(AdminApproveStatus,0)=@StatusID) and Quantity <= 10
+	                            end
+	                            else
+	                            begin
+		                            select * from VariantGroup(nolock) where (EntryBy = @LoginId or @LoginId = 0) and Isnull(AdminApproveStatus,1) = @StatusID or (Isnull(AdminApproveStatus,0)=@StatusID)
+	                            end   
                             end";
             }
             var res = new Response<IEnumerable<ProductVariantAttributeDetails>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id, LoginId = req.UserID,req.StatusID }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<ProductVariantAttributeDetails>(sp, new { req.Id, LoginId = req.UserID,req.StatusID, req.Stock }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }

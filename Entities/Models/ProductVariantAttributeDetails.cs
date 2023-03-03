@@ -26,5 +26,14 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public StatusType statusid { get; set; }
+        public StatusType stock { get; set; }
+    }
+    public class ProductVarAttrDetailsReq
+    {
+        public int Id { get; set; } = 0;
+        public string SearchText { get; set; } = string.Empty;
+        public int UserID { get; set; }
+        public StatusType StatusID { get; set; }
+        public StatusType Stock { get; set; } = 0;
     }
 }

@@ -306,27 +306,29 @@ namespace WebApp.Controllers
                             MoreFilters = new BrandFilter
                             {
                                 Attributes = filters,
-                                BrandId = cid,
+                                Id = cid,
                             },
-                            Start = start
+                            Start = start,
+							CalledFrom = 'B'
                         };
                         res = await _category.GetProductsByCategory(req, @"/api/Home/ByBrandId");
                         break;
                     }
 				case "PROD":
                     {
-                        var req = new ProductRequest<ProductFilter>()
+                        var req = new ProductRequest<BrandFilter>()
                         {
                             Top = top,
                             OrderBy = sortBy,
-                            MoreFilters = new ProductFilter
+                            MoreFilters = new BrandFilter
                             {
                                 Attributes = filters,
-                                ProductId = cid,
+                                Id = cid,
                             },
-                            Start = start
+                            Start = start,
+                            CalledFrom = 'P'
                         };
-                        res = await _category.GetProductsByCategory(req, @"/api/Home/ByProductId");
+                        res = await _category.GetProductsByCategory(req, @"/api/Home/ByBrandId");
                         break;
                     }
             }

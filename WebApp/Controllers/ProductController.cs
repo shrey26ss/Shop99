@@ -71,29 +71,21 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles = "1,3")]
         [HttpGet]
-        public async Task<IActionResult> Attributes(int Id, StatusType s)
+        public async Task<IActionResult> Attributes(int Id, StatusType s, StatusType stock = StatusType.All)
         {
             var response = new AttrinutesViewModel();
             response.Id = Id;
             response.statusid = s;
-            //var response = new List<ProductVariantAttributeDetails>();
-            //string _token = User.GetLoggedInUserToken();
-            //var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id, StatusID = s });
-            //var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductVarAttrDetails", jsonData, _token);
-            //if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
-            //{
-            //    var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductVariantAttributeDetails>>>(apiResponse.Result);
-            //    response = deserializeObject.Result;
-            //}
+            response.stock = stock;
             return View(response);
         }
         [Authorize(Roles = "1,3")]
         [HttpPost]
-        public async Task<IActionResult> GetAttributes(int Id, StatusType s)
+        public async Task<IActionResult> GetAttributes(int Id, StatusType s, StatusType stock = StatusType.All)
         {
             var response = new List<ProductVariantAttributeDetails>();
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new SearchItem { Id = Id, StatusID = s });
+            var jsonData = JsonConvert.SerializeObject(new ProductVarAttrDetailsReq { Id = Id, StatusID = s, Stock = stock });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductVarAttrDetails", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {

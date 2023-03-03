@@ -48,20 +48,8 @@ namespace Entities.Enums
         [Description("Is Approved")]
         IsApproved = 19,
         [Description("Order Initiated")]
-        OrderInitiated = 20
-    }
-    public enum PurchaseType
-    {
-        [Description("Purchase Out")]
-        Out = 1,
-        [Description("Purchase In")]
-        In = 0
-    }
-    public enum InventoryStatus
-    {
-        [Description("All Status")]
-        All = 0,
+        OrderInitiated = 20,
         [Description("Low Stock")]
-        LowStock = 1
+        LowStock = 21
     }
 }

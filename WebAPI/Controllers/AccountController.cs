@@ -66,17 +66,6 @@ namespace WebAPI.Controllers
                 }
                 else if (result.Succeeded)
                 {
-                    //var user = await _userManager.FindByEmailAsync(model.MobileNo);
-                    //var claims = new[] {
-                    //    new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
-                    //    new Claim(ClaimTypesExtension.Role, user.Role??"2"),
-                    //    new Claim(ClaimTypesExtension.UserName, user.UserName),
-                    //};
-                    //var token = _tokenService.GenerateAccessToken(claims);
-                    //var authResponse = new AuthenticateResponse(user, token);
-                    //res.StatusCode = ResponseStatus.Success;
-                    //res.ResponseText = "Login Succussful";
-                    //res.Result = authResponse;
                     res = await GenerateAccessToken(model.MobileNo);
                 }
 

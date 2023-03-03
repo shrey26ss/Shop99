@@ -132,7 +132,10 @@
 <script>
 
     $(function () {
-        $(".col-grid-box").show();        
+        $(".col-grid-box").show();   
+        if (parseInt($('.product-box').length) < parseInt($('#productPerPage').val())) {
+            $('.load-more-sec').empty().text('No More Data');
+        }
     });
     
     $('#sortItem,#productPerPage').change(e => loadFilteredProduct());

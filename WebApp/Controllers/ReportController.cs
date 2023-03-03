@@ -27,7 +27,7 @@ namespace WebApp.Controllers
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
         }
-        public IActionResult _Inventory(InventoryStatus status = InventoryStatus.All)
+        public IActionResult _Inventory(StatusType status = StatusType.All)
         {
             return View(new InventoryRequest { Status = status });
         }
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
             return PartialView("Partial/_InventoryList", res);
         }
         [Route("Report/InventoryLedger")]
-        public IActionResult Inventory(InventoryStatus status = InventoryStatus.All)
+        public IActionResult Inventory(StatusType status = StatusType.All)
         {
             return View(new InventoryRequest {  Status = status});
         }
