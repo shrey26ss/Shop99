@@ -94,25 +94,29 @@
                              xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" style="max-height:500px;object-fit:contain" />
                         </div>
                         <div class="xzoom-thumbs">
-                            <div>
+                            <div class="thumb-top"><a href="#"> <i class="fa fa-angle-up"></i></a> </div>
+                            <div id="thumbnail">
+                                
                                 @foreach (var pictures in defaultimages)
                                 {
                                     @if (i == 0)
                                     {
                                         <a href="@pictures.ImagePath">
-                                            <img class="xzoom-gallery" src="@pictures.ImagePath" xpreview="@pictures.ImagePath" style="width:80px;height:90px;object-fit:contain">
+                                            <img class="xzoom-gallery" src="@pictures.ImagePath" xpreview="@pictures.ImagePath" style="width:85px;height:85px;object-fit:contain">
                                         </a>
 
                                     }
                                     else
                                     {
                                         <a href="@pictures.ImagePath">
-                                            <img class="xzoom-gallery" src="@pictures.ImagePath" style="width:80px;height:90px;object-fit:contain">
+                                            <img class="xzoom-gallery" src="@pictures.ImagePath" style="width:85px;height:85px;object-fit:contain">
                                         </a>
                                     }
                                     i = i + 1;
                                 }
+                                
                             </div>
+                            <div class="thumb-bottom"> <a href="#"><i class="fa fa-angle-down"></i></a> </div>
                         </div>
                     }
                 </div>
@@ -644,6 +648,22 @@
         });
     }
 
-    
-    
+    $('.thumb-top').click(function () {
+        $('.xzoom-gallery').removeClass('xactive');
+        let _html = $('#thumbnail').find('a:eq(0)').clone(true);
+        $('#thumbnail a:last').after(_html);
+        $('#thumbnail').find('a:eq(0)').remove();
+        //$('.xzoom-gallery:eq(0)').addClass('xactive');
+        $('#thumbnail').find('a:eq(0)').click();
+    });
+
+    $('.thumb-bottom').click(function () {
+        $('.xzoom-gallery').removeClass('xactive');
+        let _html = $('#thumbnail').find('a:last').clone(true);
+        $('#thumbnail a:eq(0)').before(_html);
+        $('#thumbnail').find('a:last').remove();
+        $('.xzoom-gallery:eq(0)').addClass('xactive');
+        $('#thumbnail').find('a:eq(0)').click();
+    });
+
 </script>
