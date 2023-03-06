@@ -58,7 +58,7 @@ namespace WebAPI
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["JWT:Issuer"],
                     ValidAudience = Configuration["JWT:Audience"],
@@ -68,12 +68,12 @@ namespace WebAPI
             services.AddSingleton<IAuthorizationHandler, IpCheckHandler>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("sameSession",
-                    policy => policy.Requirements.Add(new IpCheckRequirement { IpClaimRequired = true }));
+                //options.AddPolicy("sameSession",
+                //    policy => policy.Requirements.Add(new IpCheckRequirement { IpClaimRequired = true }));
             });
             services.AddMvc(options =>
             {
-                options.Filters.Add(new AuthorizeFilter("sameSession"));
+                //options.Filters.Add(new AuthorizeFilter("sameSession"));
             });
             //.AddPolicyScheme("JWT_OR_COOKIE", "JWT_OR_COOKIE", options =>
             //{
@@ -186,7 +186,7 @@ namespace WebAPI
                 c.InjectJavascript("/js/swagger-custom-script.js", "text/javascript");
                 c.DefaultModelsExpandDepth(-1);
             });
-            app.UseMiddleware<UserAgentMiddlewareAPI>();
+            //app.UseMiddleware<UserAgentMiddlewareAPI>();
             //app.UseMiddleware<CheckBlackListToken>();
             app.UseAuthentication();
             app.UseAuthorization();
