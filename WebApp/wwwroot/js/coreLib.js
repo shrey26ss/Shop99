@@ -961,11 +961,11 @@ function printDiv(divName) {
             dateFormat: 'dd M yy',
             maxDate: new Date(),
             onSelect: function (dateText, inst) {
-                let date = $(this).val();
+                /*let date = $(this).val();*/
                 let fDate = new Date(fromDateSelector.val()), fm = fDate.getMonth(), fy = fDate.getFullYear();
                 let tDate = new Date(toDateSelector.val()), tm = tDate.getMonth(), ty = tDate.getFullYear();
                 let firstDay_t = new Date(ty, tm, 1);
-                let curDate = new Date(moment(new Date()).format('D MMM YYYY'));
+               /* let curDate = new Date(moment(new Date()).format('D MMM YYYY'));*/
                 //if (curDate.toString() == tDate.toString()) {
                 //    console.log('condition 1 : ', curDate);
                 //    //fromDateSelector.val(moment(curDate).format('D MMM YYYY'));
@@ -975,16 +975,13 @@ function printDiv(divName) {
                 //    fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
                 //}
                 if (fDate > tDate) {
-                    console.log('condition 2 : ', toDateSelector.val());
                     fromDateSelector.val(toDateSelector.val());
                 } else {
                     if (fy == ty) {
                         if (tm > fm) {
-                            console.log('condition 3 : ', firstDay_t);
                             fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
                         }
                     } else if (fy < ty) {
-                        console.log('condition 4 : ', firstDay_t);
                         fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
                     }
                 }
