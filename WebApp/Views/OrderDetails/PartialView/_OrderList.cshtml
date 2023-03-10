@@ -53,7 +53,7 @@
                                 <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.CancelRequestRejected')" class="dropdown-item Edit">Order Cancel Reject</a>
                             }
                         }
-                        @if (item.StatusID != StatusType.Cancel && item.StatusID != StatusType.OrderPlaced)
+                        @if (item.StatusID != StatusType.Cancel && item.StatusID != StatusType.OrderPlaced && item.StatusID != StatusType.OrderInitiated)
                         {
                             <a href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
                         }

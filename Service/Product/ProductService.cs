@@ -241,7 +241,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             {
                 sp = @"if @Stock = 21 
 	                    Begin
-		                    Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0) Quantity <= 10
+		                    Select * from VariantGroup where ProductId = @Id and (EntryBy = @LoginId or @LoginId = 0) and Quantity <= 10
 	                    end
 	                    else
 	                    begin
