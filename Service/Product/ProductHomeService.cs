@@ -87,7 +87,7 @@ namespace Service.Product
             var res = new Response<IEnumerable<AttributeInfo>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<AttributeInfo>(sp, new { VariantId = req.Id }, CommandType.StoredProcedure);
+                res.Result = await _dapper.GetAllAsync<AttributeInfo>(sp, new { VariantId = req.Id,req.UserID }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
