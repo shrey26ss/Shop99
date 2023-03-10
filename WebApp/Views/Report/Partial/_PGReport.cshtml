@@ -1,0 +1,47 @@
+﻿@using Entities.Models;
+@model IEnumerable<InitiatePayment>
+
+@if (Model.Any())
+{
+    int counter = 0;
+    foreach (var item in Model)
+    {
+        counter++;
+        <tr>
+            <td>
+                @counter
+                <div class="btn-group dropup">
+                    <a href="#" id="act_1" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expaned="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="act">
+                        <h6 class="dropdown-header">Action Menu</h6>
+                        <span data-t-id="@item.TID" data-item-status="S" class="dropdown-item btnStatusChange">SUCCESS</span>
+                        <span data-t-id="@item.TID" data-item-status="F" class="dropdown-item btnStatusChange">FAIL</span>
+                        @*<span data-t-id="@item.TID" data-item-status="P"  class="dropdown-item btnStatusChange">STATUS CHECK</span>*@
+                    </div>
+                </div>
+            </td>
+            <td>@item.PGID</td>
+            <td><span class="d-block">@item.Name</span><small>[@item.PhoneNumber]</small></td>
+            <td class="text-right">@item.Amount</td>
+            <td class="align-middle">@item.Status</td>
+            <td class="align-middle">@item.UTR</td>
+            <td class="align-middle text-nowrap">@item.EntryOn</td>
+            <td class="align-middle text-nowrap">@item.ModifyOn</td>
+        </tr>
+    }
+}
+<script>
+    $('.btnStatusChange').unbind().click(e => {
+        let data = $(e.currentTarget).data();
+        console.log(data);
+        let param = {
+            TID: data.tId,
+            Status : data.itemStatus
+        };
+        $.post('/Report/UpdateTransactionStatus', param)
+            .done(result => {
+                Q.notify(result.statusCode, result.responseText);
+                loadData();
+            }).fail(xhr => Q.notify(-1, xhr.responseText))
+    })
+</script>

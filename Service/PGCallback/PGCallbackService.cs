@@ -19,6 +19,7 @@ namespace Service.CartWishList
     public interface IPGCallback
     {
         Task<ResponsePG> PayUnotify(RequestBase<PayUResponse> request);
+        Task<Response> UpadateTransactionStatus(RequestBase<TransactionStatusRequest> request);
     }
     public class PGCallbackService : IPGCallback
     {
@@ -60,6 +61,13 @@ namespace Service.CartWishList
             }
             return res;
         }
-       
+
+        public async Task<Response> UpadateTransactionStatus(RequestBase<TransactionStatusRequest> request)
+        {
+            string sqlQuery = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
+                                SELECT 1 StatusCode,'Status updated successfully!!!' ResponseText";
+            var response = await _dapper.GetAsync<Response>(sqlQuery, new { request.Data.TID, request.Data.Status }, CommandType.Text);
+            return response;
+        }
     }
 }

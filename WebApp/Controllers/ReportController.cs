@@ -70,5 +70,26 @@ namespace WebApp.Controllers
             }
             return View();
         }
+
+        [HttpGet("Report/PGReport")]
+        public async Task<IActionResult> PGReport()
+        {
+            return View();
+        }
+
+
+        [HttpPost("Report/_PGReport")]
+        public async Task<IActionResult> _PGReport(InitiatePaymentRequest request)
+        {
+            var res = await _convert.GetList<InitiatePayment>("Report/GetPGReport", GetToken(), request);
+            return PartialView("Partial/_PGReport", res);
+        }
+
+        [HttpPost("Report/UpdateTransactionStatus")]
+        public async Task<IActionResult> UpdateTransactionStatus(TransactionStatusRequest request)
+        {
+            var res = await _convert.GetAsync<Response>("Report/UpdateTransactionStatus", GetToken(), request);
+            return Json(res);
+        }
     }
 }
