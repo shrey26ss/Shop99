@@ -10,6 +10,7 @@ namespace WebApp.AppCode.Helper
 {
     public interface IGenericMethods
     {
+        Task<T> GetAsync<T>(string URL, string Token, dynamic P = null);
         Task<T> GetItem<T>(string URL, string Token, dynamic P = null);
         Task<IEnumerable<T>> GetList<T>(string URL, string Token, dynamic P = null);
     }
@@ -32,7 +33,21 @@ namespace WebApp.AppCode.Helper
                 return result;
             }
             return result;
-        } 
+        }
+
+        public async Task<T> GetAsync<T>(string URL, string Token, dynamic P = null)
+        {
+            T result = default(T);
+            string data = P == null ? "" : JsonConvert.SerializeObject(P);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/{URL}", data, Token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<T>(apiResponse.Result);
+                result = deserializeObject;
+            }
+            return result;
+        }
+
         public async Task<IEnumerable<T>> GetList<T>(string URL, string Token, dynamic P = null)
         {
             IEnumerable<T> result = default(IEnumerable<T>);

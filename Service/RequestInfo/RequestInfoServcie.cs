@@ -118,22 +118,23 @@ namespace Service.Repos
 
         public string GetDomain()
         {
-            string Domain = _accessor.HttpContext.Request.Host.ToString().Contains("www.") ? _accessor.HttpContext.Request.Host.ToString().Replace("www.", "") : _accessor.HttpContext.Request.Host.ToString();
-            Domain = Domain.Contains(":") ? Domain.Split(':')[0] : Domain;
-            try
-            {
-                if (Domain == "localhost")
-                {
-                    if (_Configuration["DefaultSetting:Website"] != null)
-                    {
-                        Domain = _Configuration["DefaultSetting:Website"];
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            return Domain;
+            var Domain = Convert.ToString(_accessor.HttpContext.Request.Host);
+            //string Domain = _accessor.HttpContext.Request.Host.ToString().Contains("www.") ? _accessor.HttpContext.Request.Host.ToString().Replace("www.", "") : _accessor.HttpContext.Request.Host.ToString();
+            //Domain = Domain.Contains(":") ? Domain.Split(':')[0] : Domain;
+            //try
+            //{
+            //    if (Domain == "localhost")
+            //    {
+            //        if (_Configuration["DefaultSetting:Website"] != null)
+            //        {
+            //            Domain = _Configuration["DefaultSetting:Website"];
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+            return Domain ?? string.Empty;
         }
 
 

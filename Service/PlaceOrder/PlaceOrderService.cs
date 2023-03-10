@@ -72,8 +72,8 @@ namespace Service.CartWishList
                 }, CommandType.StoredProcedure);
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
-                  //  plaeorderRes.Domain = _irinfo.GetDomain();
-                    plaeorderRes.Domain = "http://localhost:52923";
+                    //  plaeorderRes.Domain = _irinfo.GetDomain();
+                    plaeorderRes.Domain =  _irinfo.GetDomain();//"http://localhost:52923";
                     PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
                     //initiate PaymentGateWay
                     var pgInitiate = await p.GeneratePGRequestForWeb(plaeorderRes);

@@ -153,5 +153,31 @@ having SUM(i.Qty) <= 10";
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IResponse<IEnumerable<InitiatePayment>>> GetPGReport(RequestBase<InitiatePaymentRequest> req)
+        {
+            var res = new Response<IEnumerable<InitiatePayment>>();
+            try
+            {
+                if (req.RoleId == Convert.ToInt32(Role.Admin))
+                {
+                    string sp = @"SELECT i.TID,i.PGID,i.Amount,i.UserId,dbo.CustomFormat(i.EntryOn) EntryOn,dbo.CustomFormat(i.ModifyOn) ModifyOn,
+                                         i.[Status],i.UTR,u.[Name],u.PhoneNumber 
+                                  FROM InitiatePayment i(nolock) inner join Users u(nolock) on i.UserId = u.Id order by Id desc";
+                    res.Result = await _dapper.GetAllAsync<InitiatePayment>(sp, new { req.Data.Status }, CommandType.Text);
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = nameof(ResponseStatus.Success);
+                }
+                else
+                {
+                    res.ResponseText = "Unauthorised";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }
