@@ -930,7 +930,6 @@ function printDiv(divName) {
             maxDate: new Date(),
             autoClose: true,
             onSelect: function (dateText, inst) {
-                //let toDateSelector = $('#dtToDate');
                 let date = $(this).val();
                 let fDate = new Date(date), fy = fDate.getFullYear(), fm = fDate.getMonth();
                 let tDate = new Date(toDateSelector.val()), tm = tDate.getMonth(), ty = tDate.getFullYear();
@@ -945,7 +944,7 @@ function printDiv(divName) {
                             if (curDate == fDate && fDate != tDate) {
                                 toDateSelector.val(moment(curDate).format('D MMM YYYY'));
                             } else if (fDate < curDate) {
-                                curDate = curDate.setDate(curDate.getDate() - 1)
+                                curDate = curDate.setDate(curDate.getDate())
                                 toDateSelector.val(moment(curDate).format('D MMM YYYY'));
                             }
                         }
@@ -962,23 +961,30 @@ function printDiv(divName) {
             dateFormat: 'dd M yy',
             maxDate: new Date(),
             onSelect: function (dateText, inst) {
-                //let fromDateSelector = $('#dtFromDate'), toDateSelector = $('#dtToDate');
                 let date = $(this).val();
                 let fDate = new Date(fromDateSelector.val()), fm = fDate.getMonth(), fy = fDate.getFullYear();
                 let tDate = new Date(toDateSelector.val()), tm = tDate.getMonth(), ty = tDate.getFullYear();
                 let firstDay_t = new Date(ty, tm, 1);
                 let curDate = new Date(moment(new Date()).format('D MMM YYYY'));
-                if (curDate.toString() == tDate.toString()) {
-                    fromDateSelector.val(moment(curDate).format('D MMM YYYY'));
-                }
-                else if (fDate > tDate) {
+                //if (curDate.toString() == tDate.toString()) {
+                //    console.log('condition 1 : ', curDate);
+                //    //fromDateSelector.val(moment(curDate).format('D MMM YYYY'));
+                //}
+                //if (tm > fm) {
+                //    console.log('condition 5 : ', toDateSelector.val());
+                //    fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
+                //}
+                if (fDate > tDate) {
+                    console.log('condition 2 : ', toDateSelector.val());
                     fromDateSelector.val(toDateSelector.val());
                 } else {
                     if (fy == ty) {
                         if (tm > fm) {
+                            console.log('condition 3 : ', firstDay_t);
                             fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
                         }
                     } else if (fy < ty) {
+                        console.log('condition 4 : ', firstDay_t);
                         fromDateSelector.val(moment(firstDay_t).format('D MMM YYYY'));
                     }
                 }
