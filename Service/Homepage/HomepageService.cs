@@ -235,21 +235,21 @@ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
             try
             {
                 string sqlQuery = @"if @Top = 0
-Select Distinct Top(50) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%'
+Select Top(50) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%' Group by c.CategoryName ,c.CategoryId 
 Union
-Select Distinct Top(50) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'
-Union 
-Select Distinct Top(50) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'
-UNION 
-Select DISTINCT TOP(50) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%'
+Select Top(50) p.[Name],p.Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%' Group by p.[Name] ,p.Id,p.IsPublished
+Union
+Select Top(50) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%' Group By p.Title,p.Id, p.IsPublished
+Union
+Select TOP(50) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%' Group By b.Name,b.Id,b.IsPublished
 else
-Select Distinct Top(@Top) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%'
+Select Top(@Top) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%' Group by c.CategoryName ,c.CategoryId 
 Union
-Select Distinct Top(@Top) p.[Name] [Name],p.Id Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%'
+Select Top(@Top) p.[Name],p.Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%' Group by p.[Name] ,p.Id,p.IsPublished
 Union
-Select Distinct Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%'
+Select Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%' Group By p.Title,p.Id, p.IsPublished
 Union
-Select DISTINCT TOP(@Top) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%'";
+Select TOP(@Top) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%' Group By b.Name,b.Id,b.IsPublished";
                 res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, new { searchText = searchText ?? "", Top }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
