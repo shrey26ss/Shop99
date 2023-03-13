@@ -3,6 +3,7 @@ using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
@@ -41,5 +42,12 @@ namespace WebAPI.Controllers
         [HttpPost]
         [Route("ProductHome/GetVariantPicture")]
         public async Task<IActionResult> GetVariantPicture(VariantIdByAttributesRequest req) => Ok(await _product.PictureInformation(new RequestBase<VariantIdByAttributesRequest> { Data = req }));
+        [Authorize]
+        [Route("ProductHome/GetAttributeInfo")]
+        public async Task<IActionResult> GetAttributeInfo(SearchItem req)
+        {
+            req.UserID = User.GetLoggedInUserId<int>();
+            return Ok(await _product.GetProductAttributeInfo(req));
+        }
     }
 }

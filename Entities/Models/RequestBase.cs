@@ -17,7 +17,7 @@ namespace Entities.Models
     {
         public int Id { get; set; } = 0;
         public string SearchText { get; set; } = string.Empty;
-        public int UserID { get; set; }
+        public int UserID { get; set; } = 0;
         public StatusType StatusID { get; set; }
     }
     public class ProductSearchItem: SearchItem
