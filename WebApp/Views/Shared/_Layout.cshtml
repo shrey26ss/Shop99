@@ -113,6 +113,17 @@
                                         <div class="cart-count">
                                         </div>
                                     </li>
+
+                                    <li class="for-filter-mobile mobile-setting" onclick="openSetting()">
+                                        <a href="javascript:void(0)">
+
+                                            <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M20.5001 1.59996C9.20011 5.69996 3.50011 20.3 9.00011 31C10.1001 33.1 48.6001 87.8999 94.6001 152.7C140.6 217.4 179.5 272.8 181.2 275.6C182.8 278.5 184.6 282.3 185.3 284.2C186.1 286.6 186.6 314.9 187 391.5C187.6 506.5 187.1 499 194 505.7C198.6 510.2 204.8 512.4 210.8 511.7C217.6 510.8 313.5 473.9 317.8 470.5C319.7 469 322.1 465.9 323.1 463.6C324.9 459.7 325 455.5 325 377.5C325 287.9 325.1 287.1 330.8 276.6C332.4 273.7 371.5 218 417.7 152.9C463.9 87.7999 502.5 33 503.4 31.1C504.4 29.3 505.4 25.5 505.7 22.6C506.4 15.4 502.3 7.69996 495.5 3.49996L490.7 0.49996L257.6 0.29996C55.6001 0.19996 24.0001 0.29996 20.5001 1.59996ZM468.6 36.2C446.1 67.7 313.7 254.5 311.4 258.2C307.2 264.8 304.2 271.2 301.8 279.2C299.6 286.4 299.6 287.4 299 369L298.5 451.5L256 467.7L213.5 483.8L213 384.2C212.4 274.6 212.8 281.7 206.1 267.5C202.3 259.3 209.6 269.8 117.5 140C74.0001 78.6999 38.0001 27.9 37.6001 27.2C37.0001 26.3 81.1001 26 256.4 26H476L468.6 36.2Z" fill="white" />
+                                            </svg>
+
+                                        </a>
+                                    </li>
+
                                 </ul>
                             </div>
                             @if (!Context.User.Identity.IsAuthenticated)
@@ -126,6 +137,22 @@
                                 <span class="toggle-nav">
                                     <i class="fa fa-bars "></i>
                                 </span>
+                            </div>
+
+                            <div id="mySetting" class="add_to_cart right">
+                                <a href="javascript:void(0)" class="overlay" onclick="closeSetting()"></a>
+                                <div class="cart-inner">
+                                    <div class="cart_top">
+                                        <h3>Filter</h3>
+                                        <div class="close-cart">
+                                            <a href="javascript:void(0)" onclick="closeSetting()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="setting-block">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -218,9 +245,6 @@
                                             </a>
                                         </li>
                                     }
-
-
-
                                 </ul>
                             </div>
                             @*<div class="category-right">
@@ -416,7 +440,7 @@
     @RenderSection("Scripts", required: false)
     <script>
 
-        $('#btnNewsLetter').click(function () {
+        $('#btnNewsLetter').click(function() {
             const name = $('#txtname').val();
             const email = $('#textemail').val()
             if (name === '') {
@@ -440,7 +464,7 @@
                     "Email": email
                 }),
             };
-            $.ajax(settings).done(function (response) {
+            $.ajax(settings).done(function(response) {
                 Q.notify(response.statusCode, response.statusCode == 1 ? "News Letter Subscribed Successfull." : response.responseText);
                 if (response.statusCode == 1) {
                     $('#txtname').val('');
@@ -451,7 +475,7 @@
 
 
         var SearchItems = [];
-        var loadAutoSuggestion = async function (searchTerm = '', Top = 0, triggerSuggestion = false) {
+        var loadAutoSuggestion = async function(searchTerm = '', Top = 0, triggerSuggestion = false) {
             await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
                 if (SearchItems.length <= 0) {
                     SearchItems = res.result.filter(x => !SearchItems.includes(x));
@@ -478,7 +502,7 @@
             classes: {
                 "ui-autocomplete": "highlight"
             },
-            source: function (request, response) {
+            source: function(request, response) {
                 var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
                 searchResult = [];
                 let loopCount = SearchItems.length;
@@ -497,7 +521,7 @@
                     response(searchResult);
                 }
             },
-            select: function (event, ui) {
+            select: function(event, ui) {
                 let homePath = ['/', '/home']
                 let u = new URL(window.location.href)
                 if (homePath.includes(u.pathname)) {

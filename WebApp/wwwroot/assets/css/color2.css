@@ -40557,6 +40557,10 @@ body.dark {
         margin: 10px 0;
     }
 
+    .for-filter-mobile {
+        display: block;
+    }
+
     .top-login-btn-mobile {
         color: #ffffff;
         font-weight: 600;
@@ -40613,6 +40617,12 @@ body.dark {
     .for-mob{
         padding-left:0px;
         padding-right:0px;
+    }
+}
+
+@media (min-width:1201px) and (max-width:3450px) {
+    .for-filter-mobile {
+        display: none;
     }
 }
 
