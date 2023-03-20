@@ -6,7 +6,6 @@
         <div class="custom-container">
             <div class="row">
                 <div class="col-sm-3 collection-filter category-side category-page-side padd-right-0">
-
                     <div class="_1KOcBL">
                         <section class="JWMl0H _2hbLCH">
                             <div class="_2ssEMF">
@@ -50,9 +49,6 @@
 
 
                     </div>
-
-
-
                 </div>
                 <div class="col-sm-9 padd-left-0">
                     <products></products>
@@ -69,12 +65,13 @@
             return url.substring(url.lastIndexOf('/') + 1);
         };
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             loadFilters();
+            showfilter();
             loadFilteredProduct();
         });
 
-        const loadFilteredProduct = function (filters = '') {
+        const loadFilteredProduct = function(filters = '') {
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             console.log(serachParam)
@@ -93,7 +90,7 @@
                 $('products').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
-        const loadFilteredProductAfter = function (__e) {
+        const loadFilteredProductAfter = function(__e) {
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             let filterBy = 'category';
@@ -105,15 +102,15 @@
                 cid: getCategoryId(),
                 sortBy: $('#sortItem').val(),
                 top: $('#productPerPage').val(),
-                filters:{}
+                filters: {}
             };
             param.start = $('.product-box').length;
             $.post("/Products/Filtered", param).done(res => {
                 $(res).insertBefore(".load-more-sec");
-                if ($('.load-more-sec').length > 1){
+                if ($('.load-more-sec').length > 1) {
                     $('.load-more-sec:first').remove();
                 }
-                if($('.product-top-filter').length>1){
+                if ($('.product-top-filter').length > 1) {
                     $('.product-top-filter:last').remove();
                 }
                 $('#range').text($('.product-box').length);
@@ -121,13 +118,13 @@
                     $('.load-more-sec').empty().text('No More Data');
                 }
 
-                    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
-        $(document).on('click', '.loadMore', function(e){
+        $(document).on('click', '.loadMore', function(e) {
             e.preventDefault();
             loadFilteredProductAfter(e);
         })
-        const loadFilters = function () {
+        const loadFilters = function() {
             let cid = getCategoryId();
             $.post("/Categoryfilters", { cid: cid }).done(res => {
                 $('#dvfilters').html(res);
@@ -174,5 +171,8 @@
                 }
             });
         });
+        var showfilter = function() {
+            $('#dvfilter').removeClass('d-none');
+        }
     </script>
 }

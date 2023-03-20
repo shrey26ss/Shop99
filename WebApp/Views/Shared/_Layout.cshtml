@@ -151,6 +151,37 @@
                                         </div>
                                     </div>
                                     <div class="setting-block">
+                                        <div class="_1KOcBL d-none" id="dvfilter">
+                                            <div class="_2q_g77">
+                                                <div class="collection-filter-block creative-inner category-side">
+                                                    <div id="dvfilters"></div>
+                                                </div>
+                                            </div>
+                                            <div class="_2q_g77">
+                                                <div class="collection-collapse-block p-3">
+                                                    <h3 class="collapse-block-title mt-0">Price</h3>
+                                                    <div class="collection-collapse-block-content">
+                                                        <div class="collection-brand-filter">
+                                                            <div class="range mt-5">
+                                                                <div class="range-slider">
+                                                                    <span class="range-selected"></span>
+                                                                </div>
+                                                                <div class="range-input">
+                                                                    <input type="range" class="min" min="0" max="1000" value="300" step="10">
+                                                                    <input type="range" class="max" min="0" max="1000" value="700" step="10">
+                                                                </div>
+                                                                <div class="range-price p-2">
+                                                                    <label for="min">Min</label>
+                                                                    <input type="number" name="min" value="300">
+                                                                    <label for="max">Max</label>
+                                                                    <input type="number" name="max" value="700">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -439,7 +470,9 @@
 
     @RenderSection("Scripts", required: false)
     <script>
-
+         $(document).ready(function () {
+            loadFilters();
+        });
         $('#btnNewsLetter').click(function() {
             const name = $('#txtname').val();
             const email = $('#textemail').val()
@@ -535,7 +568,47 @@
         });
 
         loadAutoSuggestion('', 2);
+        $('.showMore').unbind().click(e => {
+            let element = $(e.currentTarget);
+            let divId = element.closest('.collection-collapse-block').attr('id');
+            let showElementCount = $('#' + divId).find('.collection-filter-checkbox :visible').length;
+            let totalElementCount = $('#' + divId).find('.collection-filter-checkbox').length;
+            $('#' + divId).find('.collection-filter-checkbox').slice(showElementCount, showElementCount + 4).toggleClass('d-none');
+            console.log(totalElementCount, showElementCount);
+            if (showElementCount === totalElementCount) {
+                element.hide();
+            }
+        });
 
+        $('.collection-collapse-block .form-check-input').change(function() {
+            let val = [];
+            $(':checkbox:checked').each(function(i) {
+                val[i] = $(this).val();
+            });
+            let filt = val.join(',');
+            loadFilteredProduct(filt);
+        });
+
+        $('.collapse-block-title').on('click', function(e) {
+            e.preventDefault;
+            var speed = 300;
+            var thisItem = $(this).parent(),
+                nextLevel = $(this).next('.collection-collapse-block-content');
+            if (thisItem.hasClass('open')) {
+                thisItem.removeClass('open');
+                nextLevel.slideUp(speed);
+            }
+            else {
+                thisItem.addClass('open');
+                nextLevel.slideDown(speed);
+            }
+        });
+        const loadFilters = function () {
+            let cid = getCategoryId();
+            $.post("/Categoryfilters", { cid: cid }).done(res => {
+                $('#dvfilters').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+        };
     </script>
 </body>
 
