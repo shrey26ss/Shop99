@@ -33287,7 +33287,7 @@ body.rtl {
     }
 
     .footer-title h5 {
-        color: #777;
+        color: #fff;
     }
 
     .hot-deal .hot-deal-contain .hot-deal-subcontain > div:nth-child(3) {
@@ -33878,7 +33878,7 @@ body.rtl {
                 position: absolute;
                 right: 15px;
                 top: 9px;
-                color: #444444;
+                color: #fff;
                 font-size: 20px;
                 line-height: 0;
             }
@@ -40602,7 +40602,7 @@ body.dark {
     }
 
     .xzoom {
-        min-width: 340px;
+        min-width: 325px;
         width: 100% !important;
     }
 
@@ -40938,7 +40938,7 @@ td {
         transform: rotate(270deg);
         overflow: hidden;
         position: absolute;
-        top: 86%;
+        top: 83%;
     }
 
     .thumb-bottom a i {
@@ -40949,7 +40949,7 @@ td {
         transform: rotate(270deg);
         overflow: hidden;
         position: absolute;
-        top: 86%;
+        top: 83%;
     }
 
     .xzoom-container {
@@ -40976,5 +40976,11 @@ td {
 
     .thumb-bottom {
         height: 86px;
+    }
+
+    #thumbnail {
+        overflow: hidden;
+        display: flex;
+        width: 254px;
     }
 }
