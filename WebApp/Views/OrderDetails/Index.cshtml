@@ -67,8 +67,8 @@
             <div class="col-md-12 mt-2 table-responsive">
                 <table class="table table-bordered" id="Grid">
                     <thead>
-                        <tr role="row">
-                            <th>#</th>
+                        <tr>
+                            <th>srNo</th>
                             <th>Action</th>
                             <th>Product</th>
                             <th class="text-nowrap">Product Name</th>
@@ -109,14 +109,15 @@
         }
         $('#basic-addon1').click(() => {
             Q.btnLdr.Start($('#basic-addon1'), '');
-            loadData();
+           loadData();
         });
-        var loadData = () => {
+        var loadData = async () => {
             let param = params();
-            $.post('/OrderDetails/OrderList', param).done(function(result) {
-                $('#Grid tbody').html(result);
+            await $.post('/OrderDetails/OrderList', param).done(function(result) {
+                 $('#Grid tbody').html(result);
                 Q.btnLdr.Stop($('#basic-addon1'), '');
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
+            
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
 

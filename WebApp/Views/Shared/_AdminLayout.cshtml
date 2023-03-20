@@ -453,7 +453,11 @@
             console.log('callDataTable');
             options = $.extend({}, {
                 selector: 'table',
-                searching: true
+                searching: true,
+                destroy: true,
+                language: {
+                    "emptyTable": "My Custom Message On Empty Table"
+                }
             }, options);
             $(options.selector).DataTable({
                 paging: true,
