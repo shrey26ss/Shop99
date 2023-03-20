@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         [Route("ProductHome/GetVariantPicture")]
         public async Task<IActionResult> GetVariantPicture(VariantIdByAttributesRequest req) => Ok(await _product.PictureInformation(new RequestBase<VariantIdByAttributesRequest> { Data = req }));
         [Authorize]
-        [Route("ProductHome/GetAttributeInfo")]
+        [HttpPost("ProductHome/GetAttributeInfo")]
         public async Task<IActionResult> GetAttributeInfo(SearchItem req)
         {
             req.UserID = User.GetLoggedInUserId<int>();

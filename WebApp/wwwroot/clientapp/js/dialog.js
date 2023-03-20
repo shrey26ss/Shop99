@@ -51,6 +51,9 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
+    dialog.DataTable = function (selector, isSearch = true) {
+        
+    };
 })(dialog || (dialog = {}));
 
 var __bind;

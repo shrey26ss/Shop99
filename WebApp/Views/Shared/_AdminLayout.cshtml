@@ -4,6 +4,7 @@
     <title></title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/lib/datatables/dist/css/jquery.datatables.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link href="~/css/productedit.head.styles.css" rel="stylesheet" />
     <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
@@ -401,6 +402,7 @@
     <script src="~/clientapp/js/dialog.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script src="~/lib/datatables/dist/js/jquery.datatables.min.js"></script>
     <script>
         function idleTimeout() {
             let i = 0;
@@ -447,7 +449,23 @@
                 tree.find('.nav-treeview').toggle();
             })
         })
-
+        function callDataTable(options) {
+            console.log('callDataTable');
+            options = $.extend({}, {
+                selector: 'table',
+                searching: true
+            }, options);
+            $(options.selector).DataTable({
+                paging: true,
+                dom: "<'row'<'col-sm-12'Bfrt>>" +
+                    "<'row'<'col-sm-4'l><'col-sm-8'p>>" +
+                    "<'row'<'col-sm-12'i>>",
+                searching: options.searching,
+                bSort: false,
+                destroy: true,
+                scrollY: window.innerHeight - $('.table').offset().top - 155,
+            });
+        }
 
     </script>
     @RenderSection("Scripts", required: false)

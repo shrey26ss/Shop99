@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
         }));
         [ApiExplorerSettings(IgnoreApi = true)]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [Route("Websiteinfo/Delete")]
+        [HttpPost("Websiteinfo/Delete")]
         public async Task<IActionResult> Delete(SearchItem req) => Ok(await _websiteinfo.Delete(new RequestBase<SearchItem>
         {
             Data = req

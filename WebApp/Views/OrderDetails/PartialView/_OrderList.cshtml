@@ -102,6 +102,9 @@ else{
     </tr>
 }
 <script>
+    $(() => {
+        callDataTable({ selector : 'table',  isSearch: false });
+    })
     var MarkasShipped = (Id) => {
         $.get('/OrderDetails/MarkAsShippV', { Id }).done((result) => {
             Q.alert({
@@ -216,4 +219,5 @@ else{
             Q.notify(-1, 'something went wrong.');
         });
     }
+
 </script>
