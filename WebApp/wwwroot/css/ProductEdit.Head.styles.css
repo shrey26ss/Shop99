@@ -30208,7 +30208,7 @@ table.table-bordered.dataTable {
         }
 
     table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
-        border-bottom-width: 0
+        /*border-bottom-width: 0*/
     }
 
 div.dataTables_scrollHead table.table-bordered {
@@ -46037,8 +46037,10 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
             }
 
             .navbar-expand-md .navbar-nav .nav-link {
-                padding-right: 1rem;
-                padding-left: 1rem
+                /*padding-right: 1rem;
+                padding-left: 1rem*/
+                display: flex;
+                align-items: center;
             }
 
         .navbar-expand-md > .container, .navbar-expand-md > .container-fluid, .navbar-expand-md > .container-lg, .navbar-expand-md > .container-md, .navbar-expand-md > .container-sm, .navbar-expand-md > .container-xl {
@@ -46315,7 +46317,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     min-height: 1px;
-    padding: 1.25rem
+    padding: .75rem
 }
 
 .card-title {
@@ -53322,7 +53324,8 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .content-wrapper,
 }
 
 .content-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
+    font-weight: 600;
     margin: 0
 }
 
@@ -71202,11 +71205,11 @@ a.text-muted:hover {
 }
 
 .content, .content-wrapper > .content {
-    padding: 0 10px 55px
+    /*padding: 0 10px 55px*/
 }
 
 .content-header {
-    padding: 15px 1rem
+    padding: 10px 1rem
 }
 
 .content-wrapper {
@@ -71939,7 +71942,7 @@ i.false-icon {
 
 .fa, .far, .fas {
     padding-right: 5px;
-    font-size: .9em
+    font-size: 1rem
 }
 
 .twitter-typeahead {
@@ -72646,7 +72649,7 @@ div.dataTables_wrapper {
 }
 
 .content-header > h1 {
-    margin-bottom: 10px
+    margin-bottom: 0px
 }
 
     .content-header > h1 > small {
@@ -73475,6 +73478,7 @@ div.dataTables_wrapper > div.row.margin-t-5 > div.col-lg-1.col-xs-12 > div > div
 
     .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th {
         border: 1px solid #1c65dd;
+        background: #2874f0;
     }
 
         .table-bordered > thead > tr > th label, .table-bordered > tbody > tr > th label, .table-bordered > tfoot > tr > th label {

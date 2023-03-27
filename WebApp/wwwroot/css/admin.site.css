@@ -1,6 +1,22 @@
 ﻿body:has(.ui-dialog){
     
 }
+
+/* width */
+::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #2874f0;
+}
 .ui-dialog {
     z-index: 1099 !important;
 }
@@ -26,4 +42,25 @@
 
     .loader-wrapper img {
         max-height: 130px;
+    }
+
+.footer-text {
+    position: fixed;
+    bottom: 0;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #1f68df;
+    z-index: 99;
+    transition: .2s ease-in;
+    background: #2874f0;
+}
+
+    .footer-text p {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0;
+        padding: 10px 0;
+        color: #fff;
+        font-size: 14px;
     }
