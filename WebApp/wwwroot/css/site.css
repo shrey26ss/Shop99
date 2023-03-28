@@ -63,7 +63,8 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    margin-bottom: 0px;
+    background: #ecf0f5;
 }
 
 .footer {
@@ -237,4 +238,8 @@ body {
 .input-group .select2-container {
     width: 100% !important;
     flex: 1 1 0%;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.25em .75em;
 }

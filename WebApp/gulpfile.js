@@ -25,6 +25,8 @@ var webpackages = {
     "toastr": { "build/*": "build/" },
     "bootstrap": { "dist/**/*": "dist/" },
     "babel": { "dist/*": "dist/" },
+    "datatables": { "media/**/*": "dist/" },
+    "datatables-bootstrap": { "js/*": "dist/" }
 }
 
 gulp.task("publish:plugins", async function () {

@@ -52,7 +52,11 @@
     "jquery-ui": "^1.13.2",
     "moment": "^2.29.4",
     "popper.js": "^1.16.1",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "datatables": "^1.10.18",
+    "datatables-bootstrap": "^0.0.1",
+    "datatables.net-fixedheader": "^3.3.1",
+    "datatables.net-responsive": "^2.4.0"
   },
   "presets": [
     "@babel/preset-env",

@@ -31,10 +31,23 @@
     </div>
 </div>
 @section scripts{
-    <script>
-        $(() => {
-            UserData();
-        })
-        var UserData=() => $.post('/Customer/CustomerList').done(result=>$('#Grid tbody').html(result)).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
+    <script>     
+
+        $(document).ready(function () {
+            loadData();
+        });
+        function loadData() {       
+            $.ajax({
+                type: 'post',
+                url: '/Customer/CustomerList',
+                success: function (data) {
+                    $('tbody').html(data);
+                },
+                error: function (data) {
+                    console.log('An error occurred.', data);
+                    Q.notify(-1, 'An error occurred.');
+                },
+            });
+        }
     </script>
 }
