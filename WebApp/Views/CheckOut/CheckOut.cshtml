@@ -299,13 +299,16 @@
             loadPlaceOrderCart(buynow.toLowerCase() === 'true' ? true : false);
         });
         const loadAddressDetails = async function () {
+            debugger;
             await $.post("/GetUserAddress").done(res => {
                 $('#dbAddress').html(res);
+                $('#dvshowaddress').removeClass('d-none');
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
         const loadPlaceOrderCart = async function (IsBuyNow = false) {
             await $.post("/_CartPlaceOrder", { IsBuyNow: IsBuyNow }).done(res => {
                 $('#dvPlaceOrderDetails').html(res);
+                loadpaymentmode();
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
         $(document).on('click', '#btnPlaceOrder', (e) => {
@@ -352,6 +355,20 @@
                 alert('something went wrong');
             })
         }
+        var loadpaymentmode = () => {
+        $.post("/GetPaymentMode", { IsCod: $('#IsCod').val() }).done(res => {
+            console.log(res.result);
+            $.each(res.result, async function(i, v) {
+                let current = i == 0 ? "checked" : "";
+                $('#dvPaymentModes').append(`<div class='button '>
+                   <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
+                                   ${v.name}
+
+                                    <img src="${v.icon}" />
+                                </div>`);
+            });
+        }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+    }
     </script>
 }
 
