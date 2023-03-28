@@ -609,6 +609,10 @@
                 $('#dvfilters').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
+        var getCategoryId = () => {
+            var url = window.location.href;
+            return url.substring(url.lastIndexOf('/') + 1);
+        };
     </script>
 </body>
 
