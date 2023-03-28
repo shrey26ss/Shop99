@@ -43,7 +43,8 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> OrderList(OrderDetailsRequest request)
         {
-            return PartialView("PartialView/_OrderList", await GetList(request).ConfigureAwait(false));
+            var res = await GetList(request).ConfigureAwait(false);
+            return PartialView("PartialView/_OrderList", res);
         }
         public async Task<IActionResult> OrderReportExcel(int Top = 50, string FromDate = "", string ToDate = "", StatusType StatusID = 0, string SearchText = "")
         {

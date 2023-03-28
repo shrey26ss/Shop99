@@ -3,6 +3,7 @@
 
 @{
     var json = "";
+    var defaultimages = Model.ProductPictureInfos.Where(x => x.ImgVariant?.ToLower() == "default");
 }
 <style>
     .star-rating__stars {
@@ -85,9 +86,8 @@
         <div class="col-lg-5">
             <div class="large-5 column">
                 <div class="xzoom-container">
-                    @if (Model != null && Model.ProductPictureInfos!=null && Model.ProductPictureInfos.Any())
+                    @if (Model != null && Model.ProductPictureInfos != null && Model.ProductPictureInfos.Any())
                     {
-                        var defaultimages = Model.ProductPictureInfos.Where(x => x.ImgVariant?.ToLower() == "default");
                         int i = 0;
                         <div class="zoom-box">
                             <img class="xzoom" id="xzoom-default" src="@defaultimages.FirstOrDefault()?.ImagePath"
@@ -96,7 +96,7 @@
                         <div class="xzoom-thumbs">
                             <div class="thumb-top"><a href="#" class="mob-sec"> <i class="fa fa-angle-up"></i></a> </div>
                             <div id="thumbnail">
-                                
+
                                 @foreach (var pictures in defaultimages)
                                 {
                                     @if (i == 0)
@@ -114,7 +114,7 @@
                                     }
                                     i = i + 1;
                                 }
-                                
+
                             </div>
                             <div class="thumb-bottom"> <a href="#" class="mob-sec"><i class="fa fa-angle-down"></i></a> </div>
                         </div>
@@ -188,7 +188,7 @@
                                                         {
                                                             AttributeValue.Add(attrinfo.AttributeValue);
                                                             string activeclass = attrinfo.GroupId == Model.VariantId ? "active" : "";
-                                                            if(attrinfo.GroupId == item.VariantId)
+                                                            if (attrinfo.GroupId == item.VariantId)
                                                             {
                                                                 string soms = "Active";
                                                             }
@@ -364,8 +364,8 @@
 <script src='../assets/js/xzoom.min.js'></script>
 @*<script src='~/js/jquery.hammer.js'></script>*@<script src="~/assets/js/hammer.min.js"></script>
 <script>
-    (function ($) {
-        $(document).ready(function () {
+    (function($) {
+        $(document).ready(function() {
             $('.xzoom, .xzoom-gallery').xzoom({ zoomWidth: 400, title: true, tint: '#333', Xoffset: 15 });
             $('.xzoom2, .xzoom-gallery2').xzoom({ position: '#xzoom2-id', tint: '#ffa200' });
             $('.xzoom3, .xzoom-gallery3').xzoom({ position: 'lens', lensShape: 'circle', sourceClass: 'xzoom-hidden' });
@@ -377,7 +377,7 @@
 
             if (isTouchSupported) {
                 //If touch device
-                $('.xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5').each(function () {
+                $('.xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5').each(function() {
                     var xzoom = $(this).data('xzoom');
                     xzoom.eventunbind();
                 });
@@ -407,15 +407,15 @@
                 //    });
                 //});
 
-                $('.xzoom4').each(function () {
+                $('.xzoom4').each(function() {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function (event) {
+                    $(this).hammer().on("tap", function(event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function (element) {
-                            element.hammer().on('drag', function (event) {
+                        xzoom.eventmove = function(element) {
+                            element.hammer().on('drag', function(event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -424,8 +424,8 @@
                         }
 
                         var counter = 0;
-                        xzoom.eventclick = function (element) {
-                            element.hammer().on('tap', function () {
+                        xzoom.eventclick = function(element) {
+                            element.hammer().on('tap', function() {
                                 counter++;
                                 if (counter == 1) setTimeout(openfancy, 300);
                                 event.gesture.preventDefault();
@@ -445,15 +445,15 @@
                     });
                 });
 
-                $('.xzoom5').each(function () {
+                $('.xzoom5').each(function() {
                     var xzoom = $(this).data('xzoom');
-                    $(this).hammer().on("tap", function (event) {
+                    $(this).hammer().on("tap", function(event) {
                         event.pageX = event.gesture.center.pageX;
                         event.pageY = event.gesture.center.pageY;
                         var s = 1, ls;
 
-                        xzoom.eventmove = function (element) {
-                            element.hammer().on('drag', function (event) {
+                        xzoom.eventmove = function(element) {
+                            element.hammer().on('drag', function(event) {
                                 event.pageX = event.gesture.center.pageX;
                                 event.pageY = event.gesture.center.pageY;
                                 xzoom.movezoom(event);
@@ -462,8 +462,8 @@
                         }
 
                         var counter = 0;
-                        xzoom.eventclick = function (element) {
-                            element.hammer().on('tap', function () {
+                        xzoom.eventclick = function(element) {
+                            element.hammer().on('tap', function() {
                                 counter++;
                                 if (counter == 1) setTimeout(openmagnific, 300);
                                 event.gesture.preventDefault();
@@ -492,7 +492,7 @@
                 //If not touch device
 
                 //Integration with fancybox plugin
-                $('#xzoom-fancy').bind('click', function (event) {
+                $('#xzoom-fancy').bind('click', function(event) {
                     var xzoom = $(this).data('xzoom');
                     xzoom.closezoom();
                     $.fancybox.open(xzoom.gallery().cgallery, { padding: 0, helpers: { overlay: { locked: false } } });
@@ -500,7 +500,7 @@
                 });
 
                 //Integration with magnific popup plugin
-                $('#xzoom-magnific').bind('click', function (event) {
+                $('#xzoom-magnific').bind('click', function(event) {
                     var xzoom = $(this).data('xzoom');
                     xzoom.closezoom();
                     var gallery = xzoom.gallery().cgallery;
@@ -521,7 +521,7 @@
 <script>
     const readAttributes = () => {
         let attributes = []
-        $('#attributeList .attibute').each(function (i, t) {
+        $('#attributeList .attibute').each(function(i, t) {
             attributes.push($(t).find('li.attributeValue.active').text());
         });
         return attributes.join(',');
@@ -539,7 +539,7 @@
         let vId = _url.pathname.replace('/productdetails/', '');
         addToWishList(vId);
     });
-    $('.btnBuyNow').click(function () {
+    $('.btnBuyNow').click(function() {
         let _url = new URL(window.location.href)
         let vId = _url.pathname.replace('/productdetails/', '');
         let param = { VariantID: vId };
@@ -558,7 +558,7 @@
         ele.parents('ul').find('.attributeValue').removeClass('active');
         ele.addClass('active');
         let _attr = [];
-        $('#attributeList').find('.attibute').each(function () {
+        $('#attributeList').find('.attibute').each(function() {
             let _attData = $(this).find('li.active').data();
             if (_attData) {
                 _attr.push(_attData.attrVal);
@@ -633,7 +633,7 @@
             data: formData,
             processData: false,
             contentType: false,
-            success: function (response) {
+            success: function(response) {
                 Q.notify(response.statusCode, response.responseText)
                 if (response.statusCode == 1) {
                     $('#txttitle').val('');
@@ -642,13 +642,13 @@
                 }
                 Q.preloader.remove();
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 Q.notify(-1, xhr.responseText)
             },
         });
     }
 
-    $('.thumb-top').click(function () {
+    $('.thumb-top').click(function() {
         $('.xzoom-gallery').removeClass('xactive');
         let _html = $('#thumbnail').find('a:eq(0)').clone(true);
         $('#thumbnail a:last').after(_html);
@@ -657,7 +657,7 @@
         $('#thumbnail').find('a:eq(0)').click();
     });
 
-    $('.thumb-bottom').click(function () {
+    $('.thumb-bottom').click(function() {
         $('.xzoom-gallery').removeClass('xactive');
         let _html = $('#thumbnail').find('a:last').clone(true);
         $('#thumbnail a:eq(0)').before(_html);
@@ -666,4 +666,11 @@
         $('#thumbnail').find('a:eq(0)').click();
     });
 
+</script>
+
+
+<script>
+    $('head').append(`<meta property="og:title" content="@Model.Title" />
+                          <meta property="og:description" content="@Model.Title" />
+                          <meta property="og:image" content="@defaultimages.FirstOrDefault()?.ImagePath" />`)
 </script>
