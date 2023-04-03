@@ -162,7 +162,13 @@ namespace WebApp.Controllers
 		[Route("ProductDetails/{Id}")]
 		public async Task<IActionResult> ProductDetails(int Id)
 		{
-			return View(Id);
+			var model = new SEODetails();
+			model.ID = Id;
+			int UserID = User?.GetLoggedInUserId<int>() ?? 0;
+			var res = await _product.GetProductAllDetails(Id, UserID);
+			model.OGTittle = res.Result.ProductTitle;
+			model.OGImage = res.Result.Thumbnail;
+			return View(model);
 		}
 		[HttpPost]
 		[Route("ProductAllDetails")]
