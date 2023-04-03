@@ -114,10 +114,12 @@
         var loadData = async () => {
             let param = params();
             await $.post('/OrderDetails/OrderList', param).done(function(result) {
-                 $('#Grid tbody').html(result);
+                 $('#Grid tbody').append(result);
+                if (result != null) {
+                    $('.dataTables_empty').remove();
+                }
                 Q.btnLdr.Stop($('#basic-addon1'), '');
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
-            
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
 
@@ -150,6 +152,6 @@
                 });
             })
         }
-
+        callDataTable({ selector: '#Grid', searching: false });
     </script>
 }

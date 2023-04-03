@@ -102,7 +102,7 @@ else{
     </tr>*@
 }
 <script>
-    callDataTable({ selector: '#Grid', searching: false });
+    
     var MarkasShipped = (Id) => {
         $.get('/OrderDetails/MarkAsShippV', { Id }).done((result) => {
             Q.alert({
