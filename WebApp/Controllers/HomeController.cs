@@ -166,8 +166,8 @@ namespace WebApp.Controllers
 			model.ID = Id;
 			int UserID = User?.GetLoggedInUserId<int>() ?? 0;
 			var res = await _product.GetProductAllDetails(Id, UserID);
-			model.OGTittle = res.Result.Title;
-			model.OGImage = res.Result.ProductPictureInfos.FirstOrDefault().ImagePath;
+			model.OGTittle = res.Result.ProductTitle;
+			model.OGImage = res.Result.Thumbnail;
 			return View(model);
 		}
 		[HttpPost]
