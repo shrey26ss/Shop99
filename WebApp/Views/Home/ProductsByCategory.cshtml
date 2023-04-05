@@ -73,13 +73,20 @@
             return url.substring(url.lastIndexOf('/') + 1);
         };
 
-        $(document).ready(function() {
+        const loadFilters = function () {
+            let cid = getCategoryId();
+            $.post("/Categoryfilters", { cid: cid }).done(res => {
+                $('#dvfilters').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+
+        };
+        $(document).ready(function () {
             loadFilters();
             showfilter();
             loadFilteredProduct();
         });
 
-        const loadFilteredProduct = function(filters = '') {
+        const loadFilteredProduct = function (filters = '') {
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             console.log(serachParam)
@@ -98,7 +105,7 @@
                 $('products').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
-        const loadFilteredProductAfter = function(__e) {
+        const loadFilteredProductAfter = function (__e) {
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             let filterBy = 'category';
@@ -128,16 +135,11 @@
 
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
-        $(document).on('click', '.loadMore', function(e) {
+        $(document).on('click', '.loadMore', function (e) {
             e.preventDefault();
             loadFilteredProductAfter(e);
         })
-        const loadFilters = function() {
-            let cid = getCategoryId();
-            $.post("/Categoryfilters", { cid: cid }).done(res => {
-                $('#dvfilters').html(res);
-            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        };
+        
 
 
         let rangeMin = 100;
@@ -179,13 +181,13 @@
                 }
             });
         });
-        var showfilter = function() {
+        var showfilter = function () {
             $('#dvfilter').removeClass('d-none');
         }
     </script>
 
     <script>
-        $(function() {
+        $(function () {
 
             // Initiate Slider
             $('#slider-range').slider({
@@ -197,10 +199,10 @@
             });
             $('.ui-slider-range').append($('.range-wrapper'));
             $('.range').html('<span class="range-value range-value_min"><sup>₹</sup>' + $('#slider-range').slider("values", 0).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span><span class="range-divider"></span><span class="range-value range-value_max"><sup>₹</sup>' + $("#slider-range").slider("values", 1).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span>');
-            $('.ui-slider-handle, .ui-slider-range').on('mousedown', function() {
+            $('.ui-slider-handle, .ui-slider-range').on('mousedown', function () {
                 $('.gear-large').addClass('active');
             });
-            $(document).on('mouseup', function() {
+            $(document).on('mouseup', function () {
                 if ($('.gear-large').hasClass('active')) {
                     $('.gear-large').removeClass('active');
                 }
@@ -211,9 +213,12 @@
 
             $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
             $('.gear-two').css('transform', 'rotate(' + gearTwoAngle + 'deg)');
-
+            
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 100;
+            
             $('#slider-range').slider({
-                slide: function(event, ui) {
+                slide: function (event, ui) {
                     $('.range').html('<span class="range-value range-value_min" onchange="Filterdata()"><sup>₹</sup>' + ui.values[0].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span><span class="range-divider"></span><span class="range-value range-value_max"><sup>₹</sup>' + ui.values[1].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span>');
                     var previousVal = parseInt($(this).data('value'));
                     $(this).data({
@@ -248,15 +253,22 @@
                             $('.range-alert').removeClass('active');
                         }
                     }
-                    getFileterdData($('.range-value_min:eq(0)').text(), $('.range-value_max:eq(0)').text());
+
+
+                    /* Call methos on stop sliding */
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(function () {
+                        getFileterdData($('.range-value_min:eq(0)').text(), $('.range-value_max:eq(0)').text())
+                    }, doneTypingInterval);
+                    /* End -- Call methos on stop sliding */
                 }
             });
-            $('.range, .range-alert').on('mousedown', function(event) {
+            $('.range, .range-alert').on('mousedown', function (event) {
                 event.stopPropagation();
             });
         });
 
-        var getFileterdData = async (min, max) => {
+        var getFileterdData = (min, max) => {
             console.log(min, max);
         }
     </script>
