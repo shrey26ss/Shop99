@@ -61,7 +61,8 @@ namespace WebApp.Controllers
             var response = new List<Products>();
             string _token = User.GetLoggedInUserToken();
             var jsonData = JsonConvert.SerializeObject(new ProductSearchItem { CategoryID = CID, SearchText = SearchText });
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", jsonData, _token);
+            //var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", jsonData, _token);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductsNew", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<Products>>>(apiResponse.Result);

@@ -33,11 +33,6 @@ namespace Entities.Models
         public object param { get; set; }
     }
 
-    //public class jsonAOData<T> : jsonAOData
-    //{
-    //    public T param { get; set; }
-    //}
-
     public class jsonAODataSearch
     {
         public string value { get; set; }
