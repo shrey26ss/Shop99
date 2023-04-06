@@ -27,19 +27,27 @@
                                 <h3 class="collapse-block-title mt-0">Price</h3>
                                 <div class="collection-collapse-block-content">
                                     <div class="collection-brand-filter">
-                                        <div class="range mt-5">
-                                            <div class="range-slider">
-                                                <span class="range-selected"></span>
-                                            </div>
-                                            <div class="range-input">
-                                                <input type="range" class="min" min="0" max="1000" value="300" step="10">
-                                                <input type="range" class="max" min="0" max="1000" value="700" step="10">
-                                            </div>
-                                            <div class="range-price">
-                                                <label for="min">Min</label>
-                                                <input type="number" name="min" value="300">
-                                                <label for="max">Max</label>
-                                                <input type="number" name="max" value="700">
+                                        <div class="slider-wrapper">
+                                            <div id="slider-range"></div>
+                                            <div class="range-wrapper">
+                                                <div class="range"></div>
+                                                <div class="range-alert">+</div>
+
+                                                <div class="gear-wrapper">
+                                                    <div class="gear-large gear-one">
+                                                        <div class="gear-tooth"></div>
+                                                        <div class="gear-tooth"></div>
+                                                        <div class="gear-tooth"></div>
+                                                        <div class="gear-tooth"></div>
+                                                    </div>
+                                                    <div class="gear-large gear-two">
+                                                        <div class="gear-tooth"></div>
+                                                        <div class="gear-tooth"></div>
+                                                        <div class="gear-tooth"></div>
+                                                        <div class="gear-tooth"></div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -65,13 +73,20 @@
             return url.substring(url.lastIndexOf('/') + 1);
         };
 
-        $(document).ready(function() {
+        const loadFilters = function () {
+            let cid = getCategoryId();
+            $.post("/Categoryfilters", { cid: cid }).done(res => {
+                $('#dvfilters').html(res);
+            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+
+        };
+        $(document).ready(function () {
             loadFilters();
             showfilter();
             loadFilteredProduct();
         });
 
-        const loadFilteredProduct = function(filters = '') {
+        const loadFilteredProduct = function (filters = '') {
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             console.log(serachParam)
@@ -90,7 +105,7 @@
                 $('products').html(res);
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
-        const loadFilteredProductAfter = function(__e) {
+        const loadFilteredProductAfter = function (__e) {
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             let filterBy = 'category';
@@ -120,16 +135,11 @@
 
             }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
         };
-        $(document).on('click', '.loadMore', function(e) {
+        $(document).on('click', '.loadMore', function (e) {
             e.preventDefault();
             loadFilteredProductAfter(e);
         })
-        const loadFilters = function() {
-            let cid = getCategoryId();
-            $.post("/Categoryfilters", { cid: cid }).done(res => {
-                $('#dvfilters').html(res);
-            }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        };
+        
 
 
         let rangeMin = 100;
@@ -171,8 +181,95 @@
                 }
             });
         });
-        var showfilter = function() {
+        var showfilter = function () {
             $('#dvfilter').removeClass('d-none');
+        }
+    </script>
+
+    <script>
+        $(function () {
+
+            // Initiate Slider
+            $('#slider-range').slider({
+                range: true,
+                min: 999,
+                max: 99999,
+                step: 1000,
+                values: [999, 99999]
+            });
+            $('.ui-slider-range').append($('.range-wrapper'));
+            $('.range').html('<span class="range-value range-value_min"><sup>₹</sup>' + $('#slider-range').slider("values", 0).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span><span class="range-divider"></span><span class="range-value range-value_max"><sup>₹</sup>' + $("#slider-range").slider("values", 1).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span>');
+            $('.ui-slider-handle, .ui-slider-range').on('mousedown', function () {
+                $('.gear-large').addClass('active');
+            });
+            $(document).on('mouseup', function () {
+                if ($('.gear-large').hasClass('active')) {
+                    $('.gear-large').removeClass('active');
+                }
+            });
+            var gearOneAngle = 0,
+                gearTwoAngle = 0,
+                rangeWidth = $('.ui-slider-range').css('width');
+
+            $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+            $('.gear-two').css('transform', 'rotate(' + gearTwoAngle + 'deg)');
+            
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 100;
+            
+            $('#slider-range').slider({
+                slide: function (event, ui) {
+                    $('.range').html('<span class="range-value range-value_min" onchange="Filterdata()"><sup>₹</sup>' + ui.values[0].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span><span class="range-divider"></span><span class="range-value range-value_max"><sup>₹</sup>' + ui.values[1].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span>');
+                    var previousVal = parseInt($(this).data('value'));
+                    $(this).data({
+                        'value': parseInt(ui.value)
+                    });
+                    if (ui.values[0] == ui.value) {
+                        if (previousVal > parseInt(ui.value)) {
+                            gearOneAngle -= 7;
+                            $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+                        } else {
+                            gearOneAngle += 7;
+                            $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+                        }
+
+                    } else {
+                        if (previousVal > parseInt(ui.value)) {
+                            gearOneAngle -= 7;
+                            $('.gear-two').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+                        } else {
+                            gearOneAngle += 7;
+                            $('.gear-two').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+                        }
+
+                    }
+
+                    if (ui.values[1] === 110000) {
+                        if (!$('.range-alert').hasClass('active')) {
+                            $('.range-alert').addClass('active');
+                        }
+                    } else {
+                        if ($('.range-alert').hasClass('active')) {
+                            $('.range-alert').removeClass('active');
+                        }
+                    }
+
+
+                    /* Call methos on stop sliding */
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(function () {
+                        getFileterdData($('.range-value_min:eq(0)').text(), $('.range-value_max:eq(0)').text())
+                    }, doneTypingInterval);
+                    /* End -- Call methos on stop sliding */
+                }
+            });
+            $('.range, .range-alert').on('mousedown', function (event) {
+                event.stopPropagation();
+            });
+        });
+
+        var getFileterdData = (min, max) => {
+            console.log(min, max);
         }
     </script>
 }
