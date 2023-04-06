@@ -68,6 +68,13 @@
 
 @section scripts{
 	<script>
+		const loadFilters = function () {
+			let cid = getCategoryId();
+			$.post("/Categoryfilters", { cid: cid }).done(res => {
+				$('#dvfilters').html(res);
+			}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+		};
+
 		const getCategoryId = () => {
 			var url = window.location.href;
 			return url.substring(url.lastIndexOf('/') + 1);
@@ -90,13 +97,7 @@
 			}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
 		};
 
-		const loadFilters = function () {
-			let cid = getCategoryId();
-			$.post("/Categoryfilters", { cid: cid }).done(res => {
-				$('#dvfilters').html(res);
-			}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-		};
-
+	
 
 		let rangeMin = 100;
 		const range = document.querySelector(".range-selected");
