@@ -258,7 +258,7 @@
                                         <div>@Model.VendorAddress, @Model.VendorState</div>
                                         <div>@Model.VendorMobile</div>
                                         <div>@Model.VendorEmail</div>
-                                         <div>@Model.GSTN</div>
+                                        <div>@Model.GSTN</div>
                                     </div>
                                 </div>
                             </header>
@@ -285,14 +285,14 @@
                                             <th class="text-left">DESCRIPTION</th>
                                             @*<td>GST</td>*@
                                             <th class="text-right">PRICE </th>
-                                            <th class="text-right">QTY</th>    
-                                           
+                                            <th class="text-right">QTY</th>
+
                                             <th class="text-right">TOTAL </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td >01</td>
+                                            <td>01</td>
                                             <td class="text-left">
                                                 <h3>
                                                     <p>
@@ -301,13 +301,13 @@
                                                     </p>
                                                 </h3>
                                             </td>
-                                             @*<td class="qty">
+                                            @*<td class="qty">
                                                 @{
-                                                    string gst = Model.IGST > 0 ? "IGST ₹ " + Model.IGST*Model.Qty :Model.SGST>0? "CGST/SGST ₹ " + (Model.SGST + Model.CGST)*Model.Qty:"0";
+                                                string gst = Model.IGST > 0 ? "IGST ₹ " + Model.IGST*Model.Qty :Model.SGST>0? "CGST/SGST ₹ " + (Model.SGST + Model.CGST)*Model.Qty:"0";
                                                 }
-                                                 @gst
-                                                 
-                                             </td>*@
+                                                @gst
+
+                                                </td>*@
                                             <td class="text-right">₹ @Model.Rate</td>
                                             <td class="qty">@Model.Qty</td>
                                             <td class="text-right">₹ @((Model.Rate)*Model.Qty)</td>
@@ -318,7 +318,6 @@
                                                 <p><b>CGST</b> </p>
                                             </td>
                                             <td class="text-right">
-                                                
                                             </td>
                                             <td></td>
                                             <td class="text-right">
@@ -331,7 +330,6 @@
                                                 <p><b>SGST</b> </p>
                                             </td>
                                             <td class="text-right">
-                                                
                                             </td>
                                             <td></td>
                                             <td class="text-right">
@@ -344,7 +342,6 @@
                                                 <p><b>IGST</b> </p>
                                             </td>
                                             <td class="text-right">
-                                                
                                             </td>
                                             <td></td>
                                             <td class="text-right">
@@ -353,32 +350,33 @@
                                         </tr>
                                     </tbody>
                                     <tfoot>
-                                      @*  <tr>
+                                        @*  <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">SUBTOTAL</td>
                                             <td>₹@(Model.Rate * Model.Qty)</td>
-                                        </tr>*@
+                                            </tr>*@
                                         @*<tr>
-                                        <td colspan="2"></td>
-                                        <td colspan="2">TAX 25%</td>
-                                        <td>₹1,300.00</td>
-                                        </tr>*@
+                                            <td colspan="2"></td>
+                                            <td colspan="2">TAX 25%</td>
+                                            <td>₹1,300.00</td>
+                                            </tr>*@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">GRAND TOTAL</td>
-                                            <td>₹ @(Convert.ToDouble((Model.Rate)*Model.Qty)+Model.IGST+Model.CGST+Model.SGST)</td>
+                                            <td>₹ @(String.Format("{0:N}",@Model.Rate*@Model.Qty)) </td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                                 <br />
+                                <br />
                                 <br />
                                 <div class="thanks">Thank you!</div>
                                 <div class="notices">
                                     <div>NOTE:</div>
-                                    
-                                    <div class="notice">AFTER COMPLETION OF 7 DAYS RETURN PERIOD, IF ANY PRODUCT IS SENT TO REPAIR IN WARRANTY, ONE SIDE COURIER CHARGES WILL BE BEARED BY CUSTOMER”
-WARRANTY WILL BE VOID IF PRODUCT IS BROKEN, BURNET, OR DAMAGED BY WATER OR BY SHORT CIRCUIT
-</div>
+
+                                    <div class="notice">
+                                        AFTER COMPLETION OF 7 DAYS RETURN PERIOD, IF ANY PRODUCT IS SENT TO REPAIR IN WARRANTY, ONE SIDE COURIER CHARGES WILL BE BEARED BY CUSTOMER”
+                                        WARRANTY WILL BE VOID IF PRODUCT IS BROKEN, BURNET, OR DAMAGED BY WATER OR BY SHORT CIRCUIT
+                                    </div>
                                 </div>
                             </main>
                             <footer>Invoice was created on a computer and is valid without the signature and seal.</footer>

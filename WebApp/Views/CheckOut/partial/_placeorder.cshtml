@@ -4,6 +4,7 @@
 @model Response<CartItemsTotalVM>
 @{
     bool IsCod = Model.Result?.CartItemSlides?.Any(x => x.IsCod) ?? false;
+    string isCodChecked = IsCod ? "checked" : "";
     decimal SubTotal = 0;
     decimal Off = 0;
     decimal Total = 0;
@@ -68,7 +69,7 @@
         <div class="upper-box">
             <div class="payment-options">
                 <div class="main">
-                    <input type="hidden" id="IsCod" value="@IsCod"/>
+                    <input type="checkbox" hidden id="IsCod" @isCodChecked />
                     <h3 class="box-title">Select Payment Method</h3>
                     <div class='payments' id="dvPaymentModes">
 
