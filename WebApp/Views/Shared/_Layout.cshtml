@@ -37,6 +37,16 @@
     <link rel="stylesheet" type="text/css" href="~/assets/css/color2.css" media="screen" id="color" />
     @*<link rel="stylesheet" href="~/lib/jquery-ui/dist/css/jquery-ui.min.css" />*@
     <link href="~/clientapp/css/custom.css" rel="stylesheet" />
+    <style>
+        @@media (min-width: 800px) and (max-width: 2500px) {
+            #main-menu{
+                display: flex;
+            }
+            #ico{
+                display: flex;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -235,14 +245,13 @@
                                         <!--HOME-->
                                         <li>
                                             <a class="dark-menu-item" href="/Home/Index">Home</a>
-
                                         </li>
                                         @(await Component.InvokeAsync("TopMenu"))
                                     </ul>
                                 </nav>
                             </div>
                             <div class="icon-block">
-                                <ul>
+                                <ul id="ico">
                                     <li class="mobile-search">
                                         <a href="javascript:void(0)">
                                             <img src="~/Image/icons/mobile-search.svg" />
@@ -604,19 +613,19 @@
                 nextLevel.slideDown(speed);
             }
         });
-        //const loadFilters = function () {
-        //    let cid = getCategoryId();
-        //    $.post("/Categoryfilters", { cid: cid }).done(res => {
-        //        $('#dvfilters').html(res);
-        //    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        //};
-        //var getCategoryId = () => {
-        //    var url = window.location.href;
-        //    return url.substring(url.lastIndexOf('/') + 1);
-        //};
+                //const loadFilters = function () {
+                //    let cid = getCategoryId();
+                //    $.post("/Categoryfilters", { cid: cid }).done(res => {
+                //        $('#dvfilters').html(res);
+                //    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
+                //};
+                //var getCategoryId = () => {
+                //    var url = window.location.href;
+                //    return url.substring(url.lastIndexOf('/') + 1);
+                //};
 
 
-    
+
 
     </script>
 </body>

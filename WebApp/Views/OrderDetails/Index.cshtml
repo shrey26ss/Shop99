@@ -114,6 +114,7 @@
         var loadData = async () => {
             let param = params();
             await $.post('/OrderDetails/OrderList', param).done(function(result) {
+                $("#Grid tbody").empty();
                  $('#Grid tbody').append(result);
                 if (result != null) {
                     $('.dataTables_empty').remove();

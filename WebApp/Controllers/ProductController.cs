@@ -85,12 +85,14 @@ namespace WebApp.Controllers
         {
             var response = new List<ProductVariantAttributeDetails>();
             string _token = User.GetLoggedInUserToken();
+            string Role = User.GetLoggedInUserRoles();
             var jsonData = JsonConvert.SerializeObject(new ProductVarAttrDetailsReq { Id = Id, StatusID = s, Stock = stock });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductVarAttrDetails", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<ProductVariantAttributeDetails>>>(apiResponse.Result);
                 response = deserializeObject.Result;
+                response.FirstOrDefault().Role = Role;
             }
             return PartialView("Partials/GetAttributes", response);
         }
