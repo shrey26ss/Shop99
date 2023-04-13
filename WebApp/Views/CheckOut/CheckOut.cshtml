@@ -65,8 +65,8 @@
     }
 
     /*
-                                            * SVG Icons
-                                            **********************************************************/
+                                                * SVG Icons
+                                                **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -77,8 +77,8 @@
     }
 
     /*
-                                            * Buttons
-                                            **********************************************************/
+                                                * Buttons
+                                                **********************************************************/
     .button {
         position: relative;
         height: 50px;
@@ -107,7 +107,7 @@
         width: 30px;
         height: 30px;
     }
-    
+
     @@media all and (min-width: 500px) {
         .svg {
             right: 25px;
@@ -127,13 +127,13 @@
                 height: 40px;
             }
         /*.button:after {
-                                    top: 20px;
-                                    left: 23px;
-                                }*/
+                                        top: 20px;
+                                        left: 23px;
+                                    }*/
     }
     /*
-                                            * Breakpoint
-                                            **********************************************************/
+                                                * Breakpoint
+                                                **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -181,14 +181,10 @@
                 margin-right: 0;
             }
         /*.button:after {
-                                    top: 15px;
-                                    left: 55px;
-                                }*/
-    }
-
-    
-
-</style>
+                                        top: 15px;
+                                        left: 55px;
+                                    }*/
+    }</style>
 
 <!-- section start -->
 <section class="section-big-py-space b-g-light pt-4">
@@ -206,7 +202,7 @@
     </div>
 </section>
 @section scripts{
-    <script>
+<script>
         window.addEventListener("storage", e => {
 
             var result = $.parseJSON(event.newValue);
@@ -356,20 +352,19 @@
             })
         }
         var loadpaymentmode = () => {
-        $.post("/GetPaymentMode", { IsCod: $('#IsCod').val() }).done(res => {
-            console.log(res.result);
-            $.each(res.result, async function(i, v) {
-                let current = i == 0 ? "checked" : "";
-                $('#dvPaymentModes').append(`<div class='button '>
-                   <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
-                                   ${v.name}
+            $.post("/GetPaymentMode", { IsCod: $('#IsCod').is(':checked') }).done(res => {
+                $.each(res.result, async function(i, v) {
+                    let current = i == 0 ? "checked" : "";
+                    $('#dvPaymentModes').append(`<div class='button '>
+                       <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
+                                       ${v.name}
 
-                                    <img src="${v.icon}" />
-                                </div>`);
-            });
+                                        <img src="${v.icon}" />
+                                    </div>`);
+                });
         }).fail(xhr => Q.xhrError(xhr)).always(() => "");
     }
-    </script>
+</script>
 }
 
 <!-- section end -->
