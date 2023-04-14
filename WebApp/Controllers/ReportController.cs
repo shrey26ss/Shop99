@@ -91,5 +91,11 @@ namespace WebApp.Controllers
             var res = await _convert.GetAsync<Response>("Report/UpdateTransactionStatus", GetToken(), request);
             return Json(res);
         }
+        [HttpPost("Report/TransactionStatuscheck")]
+        public async Task<IActionResult> TransactionStatuscheck(TransactionStatusRequest request)
+        {
+            var res = await _convert.GetAsync<Response>("Report/TransactionStatuscheck", GetToken(), request);
+            return Json(res);
+        }
     }
 }

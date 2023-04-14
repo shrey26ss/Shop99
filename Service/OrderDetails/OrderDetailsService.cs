@@ -100,7 +100,9 @@ namespace Service.OrderDetails
                 }
                 if (req.StatusID == StatusType.CancelRequest || req.StatusID == StatusType.ReturnCanceled)
                 {
-                    res = await _dapper.GetAsync<Response>("UPdate Orders set PreviousStatusID = StatusID, StatusID = @StatusID, Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Requested Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText", new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" }, CommandType.Text);
+                    res = await _dapper.GetAsync<Response>("UPdate Orders set PreviousStatusID = StatusID, StatusID = @StatusID, Remark = @Remark,@StatusCode = 1,@ResponseText = 'Cancel Requested Successfully!' where ID=@ID; Select @StatusCode StatusCode, @ResponseText ResponseText",
+                        new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, StatusCode = -1, ResponseText = "Failed" },
+                        CommandType.Text);
                 }
                 else if (req.StatusID == StatusType.Cancel)
                 {

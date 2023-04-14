@@ -16,7 +16,7 @@
                         <h6 class="dropdown-header">Action Menu</h6>
                         <span data-t-id="@item.TID" data-item-status="S" class="dropdown-item btnStatusChange">SUCCESS</span>
                         <span data-t-id="@item.TID" data-item-status="F" class="dropdown-item btnStatusChange">FAIL</span>
-                        @*<span data-t-id="@item.TID" data-item-status="P"  class="dropdown-item btnStatusChange">STATUS CHECK</span>*@
+                        <span data-t-id="@item.TID" data-item-status="P" class="dropdown-item btnStatusChange">STATUS CHECK</span>
                     </div>
                 </div>
             </td>
@@ -36,12 +36,30 @@
         console.log(data);
         let param = {
             TID: data.tId,
-            Status : data.itemStatus
+            Status: data.itemStatus
         };
-        $.post('/Report/UpdateTransactionStatus', param)
+        if (param.Status == 'F') {
+            Q.confirm("Are You Sure. You Want To Fail This Payment", () => ChangePaymentStatuc(param))
+        }
+        else if (param.Status == 'P') {
+            PaymentStatuscheck(param);
+        }
+        else {
+            ChangePaymentStatuc(param);
+        }
+    });
+    var ChangePaymentStatuc = (params) => {
+        $.post('/Report/UpdateTransactionStatus', params)
             .done(result => {
                 Q.notify(result.statusCode, result.responseText);
                 loadData();
             }).fail(xhr => Q.notify(-1, xhr.responseText))
-    })
+    }
+    var PaymentStatuscheck = (params) => {
+        $.post('/Report/TransactionStatuscheck', params)
+            .done(result => {
+                Q.notify(result.statusCode, result.responseText);
+                loadData();
+            }).fail(xhr => Q.notify(-1, xhr.responseText))
+    }
 </script>

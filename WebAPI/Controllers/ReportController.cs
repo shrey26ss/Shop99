@@ -37,5 +37,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("Report/UpdateTransactionStatus")]
         public async Task<IActionResult> UpdateTransactionStatus(TransactionStatusRequest req) => Ok(await _pgService.UpadateTransactionStatus(new RequestBase<TransactionStatusRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
+        [HttpPost("Report/TransactionStatuscheck")]
+        public async Task<IActionResult> TransactionStatuscheck(TransactionStatusRequest req) => Ok(await _pgService.TransactionStatuscheck(new RequestBase<TransactionStatusRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
     }
 }

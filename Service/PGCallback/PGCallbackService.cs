@@ -20,6 +20,7 @@ namespace Service.CartWishList
     {
         Task<ResponsePG> PayUnotify(RequestBase<PayUResponse> request);
         Task<Response> UpadateTransactionStatus(RequestBase<TransactionStatusRequest> request);
+        Task<Response> TransactionStatuscheck(RequestBase<TransactionStatusRequest> request);
     }
     public class PGCallbackService : IPGCallback
     {
@@ -67,6 +68,34 @@ namespace Service.CartWishList
             string sqlQuery = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
                                 SELECT 1 StatusCode,'Status updated successfully!!!' ResponseText";
             var response = await _dapper.GetAsync<Response>(sqlQuery, new { request.Data.TID, request.Data.Status }, CommandType.Text);
+            return response;
+        }
+        public async Task<Response> TransactionStatuscheck(RequestBase<TransactionStatusRequest> request)
+        {
+            var response = new Response();
+            var transactiondetails = new PaymentDetails();
+            string sqlQuery = @"SELECT * FROM InitiatePayment where TID = @TID";
+            transactiondetails = await _dapper.GetAsync<PaymentDetails>(sqlQuery, new { request.Data.TID}, CommandType.Text);
+            if (transactiondetails.Status == "P")
+            {
+                if(transactiondetails.PGID == PaymentGatewayType.PayU)
+                {
+                    var req = new StatusCheckRequest()
+                    {
+                        PGID = transactiondetails.PGID,
+                        TID = transactiondetails.TID
+                    };
+                    PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
+                    var statusCheck = await p.StatusCheckPG(req);
+                    if (statusCheck.Result.IsUpdateDb)
+                    {
+                        transactiondetails.Status = statusCheck.Result.OrderStatus;
+                        string sp = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
+                                SELECT 1 StatusCode,'Status updated successfully!!!' ResponseText";
+                        response = await _dapper.GetAsync<Response>(sqlQuery, new { transactiondetails.TID, transactiondetails.Status }, CommandType.Text);
+                    }
+                }
+            }
             return response;
         }
     }
