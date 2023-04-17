@@ -45,7 +45,7 @@
             PaymentStatuscheck(param);
         }
         else {
-            ChangePaymentStatuc(param);
+            Q.confirm("Are You Sure. You Want To Success This Payment", () => ChangePaymentStatuc(param))
         }
     });
     var ChangePaymentStatuc = (params) => {
