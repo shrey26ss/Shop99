@@ -65,9 +65,8 @@ namespace Service.CartWishList
 
         public async Task<Response> UpadateTransactionStatus(RequestBase<TransactionStatusRequest> request)
         {
-            string sqlQuery = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
-                                SELECT 1 StatusCode,'Status updated successfully!!!' ResponseText";
-            var response = await _dapper.GetAsync<Response>(sqlQuery, new { request.Data.TID, request.Data.Status }, CommandType.Text);
+            string sqlQuery = @"Proc_UpdatePaymentStatus";
+            var response = await _dapper.GetAsync<Response>(sqlQuery, new { request.Data.TID, request.Data.Status }, CommandType.StoredProcedure);
             return response;
         }
         public async Task<Response> TransactionStatuscheck(RequestBase<TransactionStatusRequest> request)
