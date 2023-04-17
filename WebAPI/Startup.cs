@@ -22,6 +22,7 @@ using System.Net;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Hangfire;
 
 namespace WebAPI
 {
@@ -191,10 +192,10 @@ namespace WebAPI
             app.UseAuthentication();
             app.UseAuthorization();
             //app.UseMiddleware<JwtMiddleware>();
-            //app.UseHangfireDashboard("/mydashboard", new DashboardOptions
-            //{
-            //    Authorization = new[] { new HangfireAuthorizationFilter() }
-            //});
+            app.UseHangfireDashboard("/mydashboard", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
