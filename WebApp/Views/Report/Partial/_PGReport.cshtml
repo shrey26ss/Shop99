@@ -23,7 +23,20 @@
             <td>@item.PGID</td>
             <td><span class="d-block">@item.Name</span><small>[@item.PhoneNumber]</small></td>
             <td class="text-right">@item.Amount</td>
-            <td class="align-middle">@item.Status</td>
+            <td class="align-middle">
+                @if (item.Status == "S")
+                {
+                    <span class="badge badge-success">Success</span>
+                }
+                else if (item.Status == "P")
+                {
+                    <span class="badge badge-secondary">Pendding</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">Failed</span>
+                }
+            </td>
             <td class="align-middle">@item.UTR</td>
             <td class="align-middle text-nowrap">@item.EntryOn</td>
             <td class="align-middle text-nowrap">@item.ModifyOn</td>
@@ -62,4 +75,9 @@
                 loadData();
             }).fail(xhr => Q.notify(-1, xhr.responseText))
     }
+</script>
+<script>
+    $(() => {
+        callDataTable({ selector : 'table',  isSearch: true });        
+    })
 </script>

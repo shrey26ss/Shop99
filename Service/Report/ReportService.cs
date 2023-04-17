@@ -163,7 +163,7 @@ having SUM(i.Qty) <= 10";
                 {
                     string sp = @"SELECT i.TID,i.PGID,i.Amount,i.UserId,dbo.CustomFormat(i.EntryOn) EntryOn,dbo.CustomFormat(i.ModifyOn) ModifyOn,
                                          i.[Status],i.UTR,u.[Name],u.PhoneNumber 
-                                  FROM InitiatePayment i(nolock) inner join Users u(nolock) on i.UserId = u.Id order by Id desc";
+                                  FROM InitiatePayment i(nolock) inner join Users u(nolock) on i.UserId = u.Id order by i.ModifyOn desc";
                     res.Result = await _dapper.GetAllAsync<InitiatePayment>(sp, new { req.Data.Status }, CommandType.Text);
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = nameof(ResponseStatus.Success);
