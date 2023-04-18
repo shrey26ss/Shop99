@@ -42,6 +42,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Route("Product/GetProductsNew")]
+        public async Task<IActionResult> GetProductsNew(JSONAOData req)
+        {
+            return Ok(await _products.GetProductsNew(new RequestBase<JSONAOData>
+            {
+                Data = req,
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
         [Route("Product/UpdateIsPublishProduct")]
         public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
         {

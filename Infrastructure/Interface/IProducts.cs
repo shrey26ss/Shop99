@@ -10,6 +10,7 @@ namespace Infrastructure.Interface
     {
         Task<IResponse> AddUpdate(RequestBase<Products> request);
         Task<IResponse<IEnumerable<Products>>> GetProducts(RequestBase<ProductSearchItem> request);
+        Task<IResponse<JDataTableResponse<Products>>> GetProductsNew(RequestBase<JSONAOData> request);
         Task<IResponse> AddProductVariant(RequestBase<VariantCombination> request);
         Task<IResponse<IEnumerable<ProductVariantAttributeDetails>>> GetProductVarAttrDetails(ProductVarAttrDetailsReq req, int Role);
         Task<IResponse> VariantQuantityUpdate(RequestBase<VariantQuantity> request);
