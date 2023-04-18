@@ -37,7 +37,7 @@
                 </div>
             </td>
             <td>
-                <h4>@item.Rate</h4>
+                <h4>₹ @(String.Format("{0:N}", @item.Total*item.Qty))</h4>
             </td>
             <td>
                 <span>@item.Attributes</span>

@@ -90,6 +90,7 @@ namespace Entities.Models
         public double IGST { get; set; }
         public double SGST { get; set; }
         public double CGST { get; set; }
+        public double Total { get; set; }
              
     }
     public class OrderReplacedConformReq
