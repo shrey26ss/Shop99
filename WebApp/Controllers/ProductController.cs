@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -57,8 +58,13 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles = "1,3")]
         [HttpPost]
-        public async Task<IActionResult> ProductList(JSONAOData jsonAOData, string SearchVal = "")
+        public async Task<IActionResult> ProductList(JSONAOData jsonAOData, string SearchVal = "", int cid = 0)
         {
+            jsonAOData.draw = 50;
+            jsonAOData.param = new
+            {
+                cid
+            };
             if (!string.IsNullOrEmpty(SearchVal))
                 jsonAOData.search.value = SearchVal;
             var response = new List<Products>();

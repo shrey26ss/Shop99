@@ -1218,7 +1218,7 @@ $.fn.dataTable.pipeline = function (opts) {
         let ajax = false;
         let requestStart = request.start;
         let drawStart = request.start;
-        let requestLength = request.length;
+        let requestLength = request.length || 0;
         let requestEnd = requestStart + requestLength;
 
         if (settings.clearCache) {
@@ -1324,6 +1324,7 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
             scrollY: '',
             scrollX: false,
             fixedHeader: false,
+            pageLength: options.pageLength,
             buttons: [
                 'copyHtml5',
                 'excelHtml5',
@@ -1345,7 +1346,7 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
             /*"<'row'<'col-sm-12'i>>",*/
             searching: options.searching,
             buttons: options.buttons,
-            stateSave: true,
+            stateSave: false,
             ajax: $.fn.dataTable.pipeline({
                 url: options.apiUrl,
                 pages: 5,// number of pages to cache,
@@ -1355,6 +1356,7 @@ $.fn.dataTable.Api.register('clearPipeline()', function () {
             aoColumns: options.columns,
             scrollY: options.scrollY,
             scrollX: options.scrollX,
+            pageLength: options.pageLength,
             /*scroller: true,*/
             /* scrollCollapse: true,*/
             initComplete: function () {
