@@ -14,9 +14,16 @@
                     <a href="#" id="act_1" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expaned="false"></a>
                     <div class="dropdown-menu" aria-labelledby="act">
                         <h6 class="dropdown-header">Action Menu</h6>
-                        <span data-t-id="@item.TID" data-item-status="S" class="dropdown-item btnStatusChange">SUCCESS</span>
-                        <span data-t-id="@item.TID" data-item-status="F" class="dropdown-item btnStatusChange">FAIL</span>
-                        <span data-t-id="@item.TID" data-item-status="P" class="dropdown-item btnStatusChange">STATUS CHECK</span>
+                        @if (item.Status == "F")
+                        {
+                            <span data-t-id="@item.TID" data-item-status="S" class="dropdown-item btnStatusChange">SUCCESS</span>
+                        }
+                        else if (item.Status == "P")
+                        {
+                            <span data-t-id="@item.TID" data-item-status="S" class="dropdown-item btnStatusChange">SUCCESS</span>
+                            <span data-t-id="@item.TID" data-item-status="F" class="dropdown-item btnStatusChange">FAIL</span>
+                            <span data-t-id="@item.TID" data-item-status="P" class="dropdown-item btnStatusChange">STATUS CHECK</span>
+                        }
                     </div>
                 </div>
             </td>
