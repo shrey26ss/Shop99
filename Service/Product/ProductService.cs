@@ -6,6 +6,7 @@ using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using NLog;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Service.Models;
 using System;
 using System.Collections.Generic;

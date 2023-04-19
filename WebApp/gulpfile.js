@@ -47,6 +47,7 @@ gulp.task("bundleJS", async function () {
         'node_modules/jquery-ui/dist/jquery-ui.js',
         'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
         'node_modules/toastr/toastr.js',
+        'wwwroot/lib/datatables/dist/js/jquery.datatables.min.js',
         'wwwroot/js/coreLib.js',
     ])
         .pipe(babel({ compact: false, presets: ['@babel/preset-env'] }))

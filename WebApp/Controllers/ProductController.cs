@@ -2,6 +2,7 @@
 using AppUtility.Helper;
 using Entities.Enums;
 using Entities.Models;
+using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,17 +57,51 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles = "1,3")]
         [HttpPost]
-        public async Task<IActionResult> ProductList(int CID, string SearchText)
+        public async Task<IActionResult> ProductList(JSONAOData jsonAOData, string SearchVal = "")
         {
+            if (!string.IsNullOrEmpty(SearchVal))
+                jsonAOData.search.value = SearchVal;
             var response = new List<Products>();
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new ProductSearchItem { CategoryID = CID, SearchText = SearchText });
-            //var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProducts", jsonData, _token);
+            var jsonData = JsonConvert.SerializeObject(jsonAOData);
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/GetProductsNew", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
-                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Products>>>(apiResponse.Result);
-                response = deserializeObject.Result;
+                var deserializeObject = JsonConvert.DeserializeObject<Response<JDataTableResponse<Products>>>(apiResponse.Result);
+                var entity = new
+                {
+                    draw = deserializeObject.Result.draw,
+                    recordsTotal = deserializeObject.Result.recordsTotal,
+                    recordsFiltered = deserializeObject.Result.recordsFiltered,
+                    PageSetting = deserializeObject.Result.PageSetting,
+                    Data = deserializeObject.Result.Data.Select(x => new
+                    {
+                        x.Id,
+                        x.Name,
+                        x.Description,
+                        x.SKU,
+                        x.BrandId,
+                        x.BrandName,
+                        x.CategoryId,
+                        x.CategoryName,
+                        x.VendorId,
+                        x.VendorName,
+                        x.EntryBy,
+                        x.ModifyBy,
+                        x.EntryOn,
+                        x.ModifyOn,
+                        x.IsPublished,
+                        x.Specification,
+                        x.ShortDescription,
+                        x.IsCod,
+                        x.ShippingDetailId,
+                        x.ProductId,
+                        x.Charges,
+                        x.FreeOnAmount,
+                        x.IsFlat
+                    })
+                };
+                return Json(entity);
             }
             return PartialView("Partials/_ProductList", response);
         }

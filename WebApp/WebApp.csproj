@@ -9,6 +9,7 @@
     <TypeScriptCompile Remove="node_modules\**" />
   </ItemGroup>
 
+
   <ItemGroup>
     <None Include="wwwroot\assets\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\assets\js\bootstrap-notify.min.js" />
@@ -31,6 +32,11 @@
     <None Include="wwwroot\assets\js\timer2.js" />
     <None Include="wwwroot\assets\js\tippy-bundle.iife.min.js" />
     <None Include="wwwroot\assets\js\tippy-popper.min.js" />
+    <None Include="wwwroot\lib\datatables-bootstrap\dist\dataTables.bootstrap.js" />
+    <None Include="wwwroot\lib\datatables-bootstrap\dist\dataTables.bootstrap.min.js" />
+    <None Include="wwwroot\lib\datatables\dist\images\Sorting icons.psd" />
+    <None Include="wwwroot\lib\datatables\dist\js\jquery.dataTables.js" />
+    <None Include="wwwroot\lib\datatables\dist\js\jquery.dataTables.min.js" />
   </ItemGroup>
 
   <ItemGroup>
