@@ -6,6 +6,7 @@ using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using NLog;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,27 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
+        public async Task<IResponse<JDataTableResponse<Products>>> GetProductsNew(RequestBase<JSONAOData> request)
+        {
+            var res = new Response<JDataTableResponse<Products>>();
+            JDataTableResponse<Products> d = new JDataTableResponse<Products>();
+            try
+            {
+                string sp = "Proc_GetProductList";
+                d = await _dapper.GetJDatTableAsync<Products>(sp, request.Data, CommandType.StoredProcedure);
+                d.recordsFiltered = d.PageSetting.TotoalRows;
+                d.recordsTotal = d.PageSetting.TotoalRows; 
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+                res.Result = d;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
             }
             return res;
         }

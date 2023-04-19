@@ -36,21 +36,22 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="Grid">
-                        <thead class="text-nowrap">
-                            <tr role="row">
-                                <th>#</th>
+                    <table id="tbl" class="table table-bordered tblbtn">
+                        <thead class="table-dark p-0">
+                            <tr>
+                                <th></th>
                                 <th>Action</th>
                                 <th>Name</th>
-                                @*<th>Title</th>*@
                                 <th>Category</th>
                                 <th>Brand</th>
                                 <th>SKU</th>
-                                <th>IsPublish</th>
+                                <th>IsPublished</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                        </tbody>
                     </table>
+                    <div class="endTable"></div>
                 </div>
             </div>
         </div>
@@ -58,44 +59,104 @@
 </div>
 
 @section scripts{
-<script>
-    $('#ddlCategory').select2({
-        selectOnClose: true
-    });
+    <script>
+        $('#ddlCategory').select2({
+            selectOnClose: true
+        });
 
-    $(() => {
-        loadData(0,'');
-    })
-    var loadData = (cid,stext) => {
-        $.post('/Product/ProductList',{CID:cid,SearchText:stext }).done(function (result) {
-            $('#Grid tbody').html(result);
-        }).fail(function (xhr) {
-            Q.notify(-1,xhrText[xhr.status])
-            console.log(xhr.responseText);
+        $(() => {
+            loadData(true);
         })
-    };
-    $('#btnSearch').click(function(){
-        loadData($('#ddlCategory').val(),$('#textProductName').val());
-    });
+        $('#btnSearch').click(function () {
+            loadData(true);
+        });
 
-    var UpdateIspublish = function(Id) {
-        let IsPublish = false;
-        if ($('#Ispublish_' + Id).is(":checked")) {
-            IsPublish = true;
-        }
-        let obj = {
-            Id: Id,
-            IsPublish: IsPublish
-        }
-        $.post('/Product/UpdateIsPublishProduct', obj).done(function(result) {
-            Q.notify(result.statusCode, result.responseText);
-            if (result.statusCode == 1) {
-                loadData();
+        var UpdateIspublish = function (Id) {
+            let IsPublish = false;
+            if ($('#Ispublish_' + Id).is(":checked")) {
+                IsPublish = true;
             }
-        }).fail(function(xhr) {
-            console.log(xhr.responseText);
-            Q.notify(-1,xhrTest[xhr.status]);
-        })
-    }
-</script>
+            let obj = {
+                Id: Id,
+                IsPublish: IsPublish
+            }
+            $.post('/Product/UpdateIsPublishProduct', obj).done(function (result) {
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode == 1) {
+                    loadData(true);
+                }
+            }).fail(function (xhr) {
+                console.log(xhr.responseText);
+                Q.notify(-1, xhrTest[xhr.status]);
+            })
+        }
+
+        var loadData = function (customeEvent = false) {
+            let counter = 0;
+            var table = $.renderDataTable2({
+                columns: [
+                    {
+                        data: 'id',
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: function (row) {
+                            counter = counter + 1;
+                            return `<td class="align-middle">
+                        <div class="btn-group dropup">
+                            <a href="#" id="act_${counter}" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expaned="false"></a>
+                            <div class="dropdown-menu" aria-labelledby="act">
+                                <h6 class="dropdown-header">Action Menu</h6>
+                                <a class="dropdown-item Edit" href="/Product/Edit/${row.id}">Edit </a>
+                                <a class="dropdown-item Edit" href="/Product/AddVariant?Id=${row.id}&cId=${row.categoryId}">Add Variant </a>
+                                <a class="dropdown-item Edit" href="/Product/Attributes?Id=${row.id}">View Variant </a>
+                            </div>
+                        </div>
+                    </td>`;
+                        },
+                        orderable: false, class: 'text-nowrap align-middle'
+                    },
+                    { data: "name", orderable: false, class: '' },
+                    { data: "categoryName", orderable: false, class: 'text-nowrap' },
+                    { data: "brandName", orderable: false, class: 'text-nowrap' },
+                    { data: "sku", orderable: false, class: '' },
+                    { data: function(row){
+                        let isChecked = row.isPublished ? "checked" : "";
+                            return `<span class="switch switch-sm">
+                                      <input type="checkbox" class="switch" onclick="UpdateIspublish('${row.id}')" id="Ispublish_${row.id}" ${isChecked}>
+                                    <label for="Ispublish_${row.id}"></label>
+                        </span>`;
+                    },
+                    orderable: false, class: 'text-nowrap' }
+                ],
+                filters: {
+                    SearchVal: $('#textProductName').val(),
+                    cid: $('#ddlCategory').val()
+                },
+                apiUrl: '/Product/ProductList',
+                searching: false,
+                customeEvent: customeEvent,
+                buttons: [],
+                responsive: true,
+                scrollY: window.innerHeight - $('.table').offset().top - 100,
+                scrollX: true,
+                pageLength : 50,
+                afterDrawback: function () {
+                    const ps = document.querySelectorAll('p');
+                    const observer = new ResizeObserver(entries => {
+                        for (let entry of entries) {
+                            entry.target.classList[entry.target.scrollHeight > entry.contentRect.height ? 'add' : 'remove']('truncated');
+                        }
+                    });
+                    ps.forEach(p => {
+                        observer.observe(p);
+                    });
+                }
+            });
+        };
+    </script>
 }

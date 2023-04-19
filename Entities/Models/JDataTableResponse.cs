@@ -29,14 +29,10 @@ namespace Entities.Models
         public int draw { get; set; }
         public int start { get; set; } = 0;
         public int length { get; set; } = 100;
+        //public string search { get; set; }
         public jsonAODataSearch search { get; set; }
         public object param { get; set; }
     }
-
-    //public class jsonAOData<T> : jsonAOData
-    //{
-    //    public T param { get; set; }
-    //}
 
     public class jsonAODataSearch
     {
