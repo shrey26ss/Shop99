@@ -23,6 +23,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
         //*Note : MerchantId --> PayU Salt  & Merchant Key or key --> Alieas
 
         private readonly IMapper _mapper;
+        private IDapperRepository _dapper;
         private readonly IAPILogger _apiLogin;
         private readonly string apiVersion = "2021-05-21";
         private readonly string ContentType = "application/json";
@@ -38,6 +39,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
         {
             _mapper = mapper;
             _apiLogin = aPILogin;
+            _dapper = dapper;
         }
 
         public  async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWeb(PaymentGatewayRequest request)
@@ -157,6 +159,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
             string payuRes = string.Empty;
             var payuVerifyRequest = new PayUVerifyRequest();
             PaymentGatewayModel pgConfig = new PaymentGatewayModel();
+            pgConfig = await _dapper.GetAsync<PaymentGatewayModel>("select * from PaymentGatwaydetails where PGId = @PGID",new { request.PGID},System.Data.CommandType.Text);
             StringBuilder sb = new StringBuilder("key={key}&command={command}&var1={var1}&hash={hash}");
             sb.Replace("{key}", pgConfig.MerchantKey);
             sb.Replace("{command}", "verify_payment");
