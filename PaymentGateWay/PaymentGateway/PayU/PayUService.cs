@@ -1,4 +1,5 @@
 ﻿using AppUtility.APIRequest;
+using AppUtility.Extensions;
 using AppUtility.Helper;
 using AutoMapper;
 using Data;
@@ -13,6 +14,8 @@ using PaymentGateWay.PaymentGateway.PayU;
 using Service.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,8 +62,8 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 key = request.MerchantKey,
                 amount = (double)request.Amount,
                 txnid = "TID" + request.TID,
-                surl = request.Domain + "/PGCallback/PayUnotify",
-                furl = request.Domain + "/PGCallback/PayUnotify",
+                surl = request.AlternateDomain + "/PGCallback/PayUnotify",
+                furl = request.AlternateDomain + "/PGCallback/PayUnotify",
                 firstname = request.UserID.ToString(),
                 email = request.EmailID,
                 phone = request.MobileNo,
@@ -150,8 +153,8 @@ namespace PaymentGateWay.PaymentGateway.PayU
         }
         public async Task<ResponsePG<StatusCheckResponse>> StatusCheckPG(StatusCheckRequest request)
         {
-            var payuResponse = new PayuStatusRes();
-            var Payures = new Payures();
+            var payuResponse = new PayUNewResponse();
+            var Payures = new PostBackParam();
             ResponsePG<StatusCheckResponse> res = new ResponsePG<StatusCheckResponse>
             {
                 StatusCode = ResponseStatus.Failed,
@@ -172,25 +175,30 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 //sb.Replace("{hash}", GenerateCheckSum(this.salt, new List<string> { request.MerchantKEY, "verify_payment", request.TID.ToString() }));
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "Statuscheck";
-                payuRes = AppWebRequest.O.CallUsingHttpWebRequest_POST(pgConfig.StatusCheckURL, sb.ToString());
+                pgConfig.StatusCheckURL = pgConfig.StatusCheckURL.Replace("{TID}", ("TID" + request.TID.ToString())).Replace("{KEY}", pgConfig.MerchantKey);
+                var headers = new Dictionary<string, string>
+                {
+                    {"Authorization", pgConfig.AuthKey}
+                };
+                payuRes = AppWebRequest.O.CallUsingHttpWebRequest_POST(pgConfig.StatusCheckURL, sb.ToString(), headers);
 
                 if (!string.IsNullOrEmpty(payuRes))
                 {
-
-                    payuResponse = JsonConvert.DeserializeObject<PayuStatusRes>(payuRes);
-                    string vall = Convert.ToString(payuResponse.transaction_details);
-                    String newStr = vall.Remove(4, 13);
-                    //string strRes = newStr.Insert(3, "Payuresdata:");
-                    string strRes = newStr.Insert(3, "Payuresdata");
-                    strRes = strRes.Replace("\r\n", "");
-                    Payures = JsonConvert.DeserializeObject<Payures>(strRes);
-                    if (payuResponse.status == 1)
+                    payuResponse = JsonConvert.DeserializeObject<PayUNewResponse>(payuRes);
+                    res.Result.APIResponse = payuResponse;
+                    if (payuResponse.Result != null)
                     {
-                        payuResponse.TranStatus = Payures.Payuresdata.status;
-                        payuResponse.LiveID = Payures.Payuresdata.bank_ref_num;
-                        payuResponse.Amount = Payures.Payuresdata.amt;
-                        payuResponse.PaymentMode = Payures.Payuresdata.mode;
-                    }
+                        Payures = payuResponse.Result.FirstOrDefault().postBackParam;                        
+                        if (Payures.status.ToLower().In("failure", "success"))
+                        {
+                            res.Result.OrderStatus = Payures.status.ToUpper();
+                            res.Result.IsUpdateDb = true;
+                            //payuResponse.TranStatus = Payures.Payuresdata.status;
+                            //payuResponse.LiveID = Payures.Payuresdata.bank_ref_num;
+                            //payuResponse.Amount = Payures.Payuresdata.amt;
+                            //payuResponse.PaymentMode = Payures.Payuresdata.mode;
+                        }
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -201,7 +209,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
             }
             if (pgConfig.IsLoggingTrue)
             {
-                _apiLogin.SaveLog(string.Concat(pgConfig.StatusCheckURL, "|", sb.ToString()), JsonConvert.SerializeObject(payuRes), "PayU-->Statuscheck", payuResponse.LiveID);
+                _apiLogin.SaveLog(string.Concat(pgConfig.StatusCheckURL, "|", sb.ToString()), JsonConvert.SerializeObject(payuRes), "PayU-->Statuscheck", Convert.ToString(Payures.paymentId));
             }
 
             return res;

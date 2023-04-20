@@ -10,6 +10,6 @@ namespace AppUtility.APIRequest
         Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData, IDictionary<string, string> headers);
         Task<string> CallUsingHttpWebRequest_POSTAsync(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded");
         Task<string> PostJsonDataUsingHWRTLS(string URL, object PostData);
-        string CallUsingHttpWebRequest_POST(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded");
+        string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded");
     }
 }

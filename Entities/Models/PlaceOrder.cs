@@ -13,6 +13,7 @@ namespace Entities.Models
         public int PaymentMode { get; set; }
         public bool IsBuyNow { get; set; }
         public string Remark { get; set; }
+        public string AlternateDomain { get; set; }
     }
     public class PlaceOrderResponse
     {
@@ -55,6 +56,7 @@ namespace Entities.Models
         public string VPA { get; set; }
         public bool IsLoggingTrue { get; set; }
         public bool IsPayment { get; set; }
+        public string AlternateDomain { get; set; }
     }
     public class StatusCheckResponse
     {

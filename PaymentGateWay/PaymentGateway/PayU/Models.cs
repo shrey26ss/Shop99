@@ -465,4 +465,5 @@ namespace PaymentGateWay.PaymentGateway.PayU
         public object Merchant_UTR { get; set; }
         public string Settled_At { get; set; }
     }
+
 }

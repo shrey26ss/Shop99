@@ -88,10 +88,10 @@ namespace Service.CartWishList
                     var statusCheck = await p.StatusCheckPG(req);
                     if (statusCheck.Result.IsUpdateDb)
                     {
-                        transactiondetails.Status = statusCheck.Result.OrderStatus;
+                        transactiondetails.Status = statusCheck.Result.OrderStatus.Substring(0, 1);
                         string sp = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
-                                SELECT 1 StatusCode,'Status updated successfully!!!' ResponseText";
-                        response = await _dapper.GetAsync<Response>(sqlQuery, new { transactiondetails.TID, transactiondetails.Status }, CommandType.Text);
+                                SELECT 1 StatusCode,'Updated successfully' ResponseText";
+                        response = await _dapper.GetAsync<Response>(sp, new { transactiondetails.TID, transactiondetails.Status }, CommandType.Text);
                     }
                 }
             }
