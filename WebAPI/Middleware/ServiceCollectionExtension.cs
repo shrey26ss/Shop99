@@ -113,6 +113,9 @@ namespace WebAPI.Middleware
             JWTConfig jwtConfig = new JWTConfig();
             configuration.GetSection("JWT").Bind(jwtConfig);
             services.AddSingleton(jwtConfig);
+            PaymentServiceSetting paymentService = new PaymentServiceSetting();
+            configuration.GetSection("PaymentServiceSetting").Bind(paymentService);
+            services.AddSingleton(paymentService);
             services.AddSingleton<OSInfoAPI>();
             services.AddSwaggerGen(option =>
             {

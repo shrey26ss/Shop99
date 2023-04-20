@@ -81,5 +81,27 @@ namespace WebAPI.Controllers
                 }
             }
         }
+
+
+        [AllowAnonymous]
+        [HttpPost("/statusCheck")]
+        public async Task statusCheck(int tid)
+        {
+            var res = await _dapper.GetAllAsync<PaymentDetails>(@"SELECT TID,PGID,Amount,UserId,EntryOn,ModifyOn,Status,UTR,RefrenceID,DebitedWalletAmount FROM InitiatePayment (nolock) where Status = 'P' and TID = @tid", new { tid}, System.Data.CommandType.Text);
+            if (res != null && res.Count() > 0)
+            {
+                foreach (var item in res)
+                {
+                    await _pgService.TransactionStatuscheck(new RequestBase<TransactionStatusRequest>
+                    {
+                        Data = new TransactionStatusRequest
+                        {
+                            TID = item.TID,
+                            Status = item.Status
+                        }
+                    });
+                }
+            }
+        }
     }
 }

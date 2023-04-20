@@ -74,6 +74,7 @@ namespace Service.CartWishList
                 {
                     //  plaeorderRes.Domain = _irinfo.GetDomain();
                     plaeorderRes.Domain =  _irinfo.GetDomain();//"http://localhost:52923";
+                    plaeorderRes.AlternateDomain = string.IsNullOrEmpty(request.Data.AlternateDomain) ? plaeorderRes.Domain : request.Data.AlternateDomain;
                     PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
                     //initiate PaymentGateWay
                     var pgInitiate = await p.GeneratePGRequestForWeb(plaeorderRes);

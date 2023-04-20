@@ -20,10 +20,12 @@ namespace WebAPI.Controllers
     [Route("/api/PlaceOrder")]
     public class PlaceOrderController : ControllerBase
     {
-        private readonly IPlaceOrder _placeorder;
-        public PlaceOrderController(IPlaceOrder placeorder)
+        private readonly IPlaceOrder _placeorder; 
+        private string _alternateDomain;
+        public PlaceOrderController(IPlaceOrder placeorder, PaymentServiceSetting payService)
         {
             _placeorder = placeorder;
+            _alternateDomain = payService.AlternateDomain;
         }
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(GetPaymentMode))]
@@ -35,6 +37,7 @@ namespace WebAPI.Controllers
         [HttpPost(nameof(PlaceOrder))]
         public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
         {
+            req.AlternateDomain = _alternateDomain;
             return Ok(await _placeorder.PlaceOrder(new RequestBase<PlaceOrderReq>
             {
                 Data = req, LoginId = User.GetLoggedInUserId<int>()

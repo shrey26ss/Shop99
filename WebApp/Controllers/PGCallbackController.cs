@@ -1,6 +1,7 @@
 ﻿
 using AppUtility.APIRequest;
 using Entities.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PaymentGateWay.PaymentGateway.PayU;
@@ -13,6 +14,7 @@ using WebApp.Models;
 namespace WebApp.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Authorize]
     public class PGCallbackController : Controller
     {
         private string _apiBaseURL;

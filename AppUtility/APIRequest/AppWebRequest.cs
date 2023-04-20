@@ -283,7 +283,7 @@ namespace AppUtility.APIRequest
             }
             return result;
         }
-        public string CallUsingHttpWebRequest_POST(string URL, string PostData, string ContentType = "application/x-www-form-urlencoded")
+        public string CallUsingHttpWebRequest_POST(string URL, string PostData, IDictionary<string, string> headers = null, string ContentType = "application/x-www-form-urlencoded")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var http = (HttpWebRequest)System.Net.WebRequest.Create(URL);
@@ -293,6 +293,13 @@ namespace AppUtility.APIRequest
             http.ContentLength = data.Length;
             http.Timeout = 5 * 60 * 1000;
             http.Headers.Add("User-Agent", UserAgent.Name);
+            if (headers != null)
+            {
+                foreach (var item in headers)
+                {
+                    http.Headers.Add(item.Key, item.Value);
+                }
+            }
             using (Stream stream = http.GetRequestStream())
             {
                 stream.Write(data, 0, data.Length);

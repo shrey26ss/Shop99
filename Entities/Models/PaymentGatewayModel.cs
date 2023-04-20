@@ -18,6 +18,7 @@ namespace Entities
         public bool IsLoggingTrue { get; set; }
         public string VPA { get; set; }
         public bool IsActive { get; set; }
+        public string AuthKey { get; set; }
 
     }
     public class PGDisplayModel
