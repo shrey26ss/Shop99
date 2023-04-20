@@ -14,7 +14,6 @@ using WebApp.Models;
 namespace WebApp.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize]
     public class PGCallbackController : Controller
     {
         private string _apiBaseURL;
