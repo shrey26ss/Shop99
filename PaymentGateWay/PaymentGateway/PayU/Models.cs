@@ -322,6 +322,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
         public string hash { get; set; }
         public string enforce_paymethod { get; set; }
         public string udf5 { get; set; }
+        public string service_provider { get; set; }
     }
 
     public class PayUResponse

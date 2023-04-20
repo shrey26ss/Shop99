@@ -65,7 +65,8 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 email = request.EmailID,
                 phone = request.MobileNo,
                 enforce_paymethod = paymentMode,
-                productinfo = "Add Money"
+                productinfo = "Add Money",
+                service_provider = "payu_paisa"
             };
             try
             {
@@ -82,6 +83,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     {"surl", payURequest.surl},
                     {"furl", payURequest.furl},
                     {"enforce_paymethod", payURequest.enforce_paymethod},
+                    {"service_provider", payURequest.service_provider}
                 };
                 payURequest.hash = GenerateHash(request.MerchantID,
                     new List<string> { payURequest.key,
