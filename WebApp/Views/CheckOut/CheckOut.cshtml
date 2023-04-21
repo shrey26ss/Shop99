@@ -3,7 +3,7 @@
     Layout = "_layout";
 
 }
-
+<link href="/lib/jquery-ui/dist/css/jquery-ui.min.css" rel="stylesheet" />
 <style>
     .contact-page .theme-form {
         padding: 20px;
@@ -204,93 +204,32 @@
 @section scripts{
     <script>
         window.addEventListener("storage", e => {
-
-            var result = $.parseJSON(event.newValue);
-            console.log('result', result);
+            let result = $.parseJSON(event.newValue);
             if (result.hasOwnProperty("origin")) {
                 if (result.origin === 'addMoney') {
-                    /* note : In Case of CashFree status :  1 - Pending , 2 - Success , 3- Failed  */
-                    let cashFreePendings = ['', '0', '1', 'pending', 'p'];
-                    let isPending = cashFreePendings.includes(result.paymentStatus?.toString().toLowerCase());
+                    let paymentPendings = ['', '0', '1', 'pending', 'p'];
+                    let isPending = paymentPendings.includes(result.paymentStatus?.toString().toLowerCase());
                     let iconSrc = `/Image/iconMsg/${isPending ? '10' : (result.paymentStatus == 'success' ? '1' : '11')}.png`;
                     let h3Class = `${isPending ? 'text-info' : (result.paymentStatus == 'success' ? 'text-success' : 'text-danger')}`;
                     let statusText = `${isPending ? 'Transaction Pending' : (result.paymentStatus == 'success' ? 'Transaction Successful' : 'Transaction Failed')}`;
-                    if (result.gateway === 'CashFree' && isPending) {
-                        let _html = `<div id="divStatusResult"><div class="text-center"><span class="h4">Waiting....</span></div>
-                                                      <div class="text-center mt-5 mb-4">
-                                                      <div class="mt-5 mb-5"><span class="text-success h1" id="JsTimer">02:00</span> mins</div>
-                                                      <div>Do not press the back button untill the payment is complete</div>
-                                                      <button class="btn btn-outline-primary w-75 mt-4" id="mdlCancel">Close</button>
-                                                  </div></div>`;
-                        Q.alert({
-                            title: 'Test',
-                            body: _html
-                        })
-                        $('#mdlCancel').click(() => $('.ui-dialog-titlebar-close').click());
-                        /* Cashfree Status check*/
-                        function CheckCashFreeStatus(TID, t, showJsTimer, onStopTimer) {
-                            $.post("/PGCallback/CashFreeStatusCheck", { TID }, function (result) {
-                                isPending = cashFreePendings.includes(result.paymentStatus?.toString().toLowerCase());
-                                iconSrc = `${$$host}/Image/iconMsg/${isPending ? '10' : (result.paymentStatus == 'success' == 2 ? '1' : '11')}.png`;
-                                h3Class = `${isPending ? 'text-info' : (result.paymentStatus == 'success' ? 'text-success' : 'text-danger')}`;
-                                statusText = `${isPending ? 'Transaction Pending' : (result.paymentStatus == 'success' ? 'Transaction Successful' : 'Transaction Failed')}`;
-                                if (isPending && t < 7) {
-                                    setTimeout(function () {
-                                        t = t + 1;
-                                        CheckCashFreeStatus(TID, t, showJsTimer, onStopTimer);
-                                    }, 10 * 1000);
-                                } else {
-                                    let _result = `<div class="row">
-                                                       <div class="col-sm-12 text-center">
-                                                           <img src="${iconSrc}" />
-                                                           <h3 class="${h3Class}">${statusText}</h3></div>
-                                                       <div class="col-sm-3"></div><div class="col-sm-3">Amount</div><div class="col-sm-6">${result.amount}</div>
-                                                       <div class="col-sm-3"></div><div class="col-sm-3">Transaction Id</div><div class="col-sm-6">${result.transactionID}</div>
-                                                       <div class="col-sm-3"></div><div class="col-sm-3">TID</div><div class="col-sm-6">${result.tid}</div>
-                                                     </div>`;
-                                    $('#divStatusResult').html(_result);
-                                    if (showJsTimer != undefined)
-                                        showJsTimer.stopTimer();
-                                }
-                            }).catch(function (er) {
-                                console.log(er);
-                            }).fail(function (xhr) {
-                                an.title = 'Oops';
-                                an.content = xhr.status == 0 ? 'Internet Connection was broken' : 'Server error';
-                                an.alert(an.type.failed);
-                            });
-                        }
-                        /* End Cashfree Status check*/
-
-                        let showJsTimer = new ShowJsTimer(JsTimer, 2);
-                        showJsTimer.startTimer();
-                        setTimeout(function () {
-                            CheckCashFreeStatus(result.TID, 0, showJsTimer, function () {
-                                mdlA.dispose();
-                            });
-                        }, 6000);
-                    }
-                    else {
-                        console.log('resul t ka', result, iconSrc, statusText);
-                        let _html = `<div class="row">
-                           <div class="col-sm-12 text-center">
-                             <img src="${iconSrc}" />
-                             <h3 class="${h3Class}">${statusText}<br/>
-                                        <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
-                              </h3>
-                           </div>
-                         </div>`;
-                        Q.alert({
-                            title: 'Transaction Status',
-                            body: _html,
-                            width: 600,
-                            onClose: function () {
-                                if (result?.paymentStatus == 'success') {
-                                    window.location.href = "/UserOrderHistory";
-                                }
+                    let _html = `<div class="row">
+                                   <div class="col-sm-12 text-center">
+                                     <img src="${iconSrc}" />
+                                     <h3 class="${h3Class}">${statusText}<br/>
+                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
+                                      </h3>
+                                   </div>
+                                 </div>`;
+                    Q.alert({
+                        title: 'Transaction Status',
+                        body: _html,
+                        width: 600,
+                        onClose: function () {
+                            if (result?.paymentStatus == 'success') {
+                                window.location.href = "/UserOrderHistory";
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         }, true);
