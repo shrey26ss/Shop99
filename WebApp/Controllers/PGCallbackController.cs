@@ -29,14 +29,14 @@ namespace WebApp.Controllers
             StatusCode=ResponseStatus.Failed,
             ResponseText="Failed"
             };
-            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/PlaceOrder/PayUnotify", JsonConvert.SerializeObject(request), GetToken());
+            var Response = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/PGCallback/PayUnotify", JsonConvert.SerializeObject(request), GetToken());
             if (Response.HttpStatusCode == HttpStatusCode.OK)
             {
               res = JsonConvert.DeserializeObject<ResponsePG>(Response.Result);
             }
             StringBuilder html = new StringBuilder(@"<html><head><script>
                                 (()=>{
-                                        var obj={TID:""{TID}"",Amount:""{Amount}"",TransactionID:""{TransactionID}"",statuscode:""{status}"",reason:""{reason}"",origin:""addMoney"",gateway:""PayU""}
+                                        var obj={TID:""{TID}"",Amount:""{Amount}"",TransactionID:""{TransactionID}"",statuscode:""{status}"",reason:""{reason}"",origin:""addMoney"",gateway:""PayU"", paymentStatus:""{paymentStatus}""}
                                         localStorage.setItem('obj', JSON.stringify(obj));
                                         window.close()
                                    })();</script></head><body><h6>Redirect to site.....</h6></body></html>");
@@ -45,6 +45,7 @@ namespace WebApp.Controllers
             html.Replace("{TransactionID}", request.mihpayid);
             html.Replace("{status}", res.StatusCode.ToString());
             html.Replace("{reason}", request.field9);
+            html.Replace("{paymentStatus}", res.ResponseText?.ToLower());
             return Content(html.ToString(), contentType: "text/html; charset=utf-8");
         }
         private string GetToken()
