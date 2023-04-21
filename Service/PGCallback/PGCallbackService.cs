@@ -88,9 +88,10 @@ namespace Service.CartWishList
                     if (statusCheck.Result.IsUpdateDb)
                     {
                         transactiondetails.Status = statusCheck.Result.OrderStatus.Substring(0, 1);
-                        string sp = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
-                                SELECT 1 StatusCode,'Updated successfully' ResponseText";
-                        response = await _dapper.GetAsync<Response>(sp, new { transactiondetails.TID, transactiondetails.Status }, CommandType.Text);
+                        //string sp = @"UPDATE InitiatePayment SET [Status] = @Status Where TID = @tid;
+                        //        SELECT 1 StatusCode,'Updated successfully' ResponseText";
+                        string sp = @"proc_pgCallBackUpdate";
+                        response = await _dapper.GetAsync<Response>(sp, new { @Status = transactiondetails.Status, TID = transactiondetails.TID,  }, CommandType.StoredProcedure);
                     }
                 }
             }
