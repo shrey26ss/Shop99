@@ -193,6 +193,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
                         {
                             res.Result.OrderStatus = Payures.status.ToUpper();
                             res.Result.IsUpdateDb = true;
+                            res.Result.ReferenceId = request.TID.ToString();
                             //payuResponse.TranStatus = Payures.Payuresdata.status;
                             //payuResponse.LiveID = Payures.Payuresdata.bank_ref_num;
                             //payuResponse.Amount = Payures.Payuresdata.amt;

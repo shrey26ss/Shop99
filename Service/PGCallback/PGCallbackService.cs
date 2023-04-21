@@ -50,11 +50,10 @@ namespace Service.CartWishList
                 var statusCheck = await p.StatusCheckPG(req);
                 res = await _dapper.GetAsync<ResponsePG>(sp, new
                 {
-                    OrderId= statusCheck.Result.OrderId,
-                    OrderStatus=statusCheck.Result.OrderStatus,
-                    OrderAmount=statusCheck.Result.OrderAmount,
-                    ReferenceId=statusCheck.Result.ReferenceId,
+                    Status=statusCheck.Result.OrderStatus,
+                    TID=statusCheck.Result.ReferenceId,
                 },CommandType.StoredProcedure);
+                res.ResponseText = statusCheck.Result.OrderStatus;
             }
             catch (Exception ex)
             {

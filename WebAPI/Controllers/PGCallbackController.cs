@@ -26,7 +26,6 @@ namespace WebAPI.Controllers
         {
             _ipgcallback = ipgcallback;
         }
-        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost(nameof(PayUnotify))]
         public async Task<IActionResult> PayUnotify(PayUResponse req)
         {
