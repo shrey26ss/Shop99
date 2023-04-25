@@ -10,7 +10,9 @@
     {
         int deliveredDays = (int)DateTime.Now.Date.Subtract(item.ReturnTillOn.Date).TotalDays;
         string badge = "";
+        string text = "";
         badge = item.StatusID == StatusType.OrderPlaced ? "badge-warning" : item.StatusID == StatusType.Cancel ? "badge-danger" : item.StatusID == StatusType.Confirmed ? "badge-success" : item.StatusID == StatusType.Delivered ? "badge-info" : "badge-dark";
+        text = item.StatusID == StatusType.OrderPlaced ? "text-warning" : item.StatusID == StatusType.Cancel ? "text-danger" : item.StatusID == StatusType.Confirmed ? "text-success" : item.StatusID == StatusType.Delivered ? "text-info" : "text-dark";
         counter++;
         <tr>
             <td>
@@ -50,7 +52,7 @@
                     <span>@item.Attributes</span>|<span>Quntity:@item.Qty</span>
                 </div>
                 <div class="dark-data">
-                    <span>@item.StatusID.ToString()</span>
+                    <span class="@text">@item.StatusID.ToString()</span>
                     @if (item.StatusID == StatusType.Shipped)
                     {
                         <span onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')" class="ml-2">
