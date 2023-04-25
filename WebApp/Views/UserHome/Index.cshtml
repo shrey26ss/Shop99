@@ -97,7 +97,7 @@
                     </a>
                 </div>
             </div>
-           
+
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-red">
                     <div class="inner">
@@ -115,9 +115,9 @@
             </div>
         </div>
 
-     
 
-       
+
+
 
         <div class="row">
             <div class="col-md-12">
@@ -141,36 +141,8 @@
                                     <th>View</th>
                                 </tr>
                             </thead>
+                            <tbody></tbody>
 
-                            <tbody>
-                                <tr>
-                                    <td>5</td>
-                                    <td><span class="grid-report-item green btn-sm">Complete</span></td>
-                                    <td>Headphone</td>
-                                    <td>03/13/2017 4:20:10 AM</td>
-                                    <td class="button-column">
-                                        <a class="btn btn-default btn-sm" href="/Admin/Order/Edit/5"><i class="far fa-eye"></i>View</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><span class="grid-report-item blue btn-sm">Processing</span></td>
-                                    <td>Jeans</td>
-                                    <td>03/13/2017 4:20:09 AM</td>
-                                    <td class="button-column">
-                                        <a class="btn btn-default btn-sm" href="/Admin/Order/Edit/4"><i class="far fa-eye"></i>View</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><span class="grid-report-item yellow btn-sm">Pending</span></td>
-                                    <td>Mobile</td>
-                                    <td>03/13/2017 4:20:09 AM</td>
-                                    <td class="button-column">
-                                        <a class="btn btn-default btn-sm" href="/Admin/Order/Edit/4"><i class="far fa-eye"></i>View</a>
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
 
@@ -204,22 +176,24 @@
         const fetchOrders = () => {
             $.post(`/G-O-L`).done((result) => {
                 if (result.length > 0) {
-                    console.log('result OrderList :',result);
+                    console.log('result OrderList :', result);
                     let __html = ``;
-                    $.each(result,(i,v)=>{
-                        let count = i + 1;
-                        let statusTxt = v.statusID == 1 ? "Placed" : v.statusID == 2 ? "Canceled" : v.statusID == 3 ? "Confirmed" : v.statusID == 4 ? "Delivered" : v.statusID == 5 ? "Shipped" : "";
-                        let statuscls = v.statusID == 1 ? "yellow" : v.statusID == 2 ? "red" : v.statusID == 3 ? "blue" : v.statusID == 4 ? "green" : v.statusID == 5 ? "green" : "";
-                        
-                        __html = __html + `<tr>
-                            <td>${count}</td>
-                            <td><span class="grid-report-item ${statuscls} btn-sm">${statusTxt}</span></td>
-                            <td>${v.title}</td>
-                            <td>${v.entryOn}</td>
-                            <td class="button-column">
-                            <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}"><i class="far fa-eye"></i>View</a>
-                            </td>
-                        </tr>`;
+                    $.each(result, (i, v) => {
+                        if (v.statusID == 1 || v.statusID == 2 || v.statusID == 3 || v.statusID == 4 || v.statusID == 5) {
+                            let count = i + 1;
+                            let statusTxt = v.statusID == 1 ? "Placed" : v.statusID == 2 ? "Canceled" : v.statusID == 3 ? "Confirmed" : v.statusID == 4 ? "Delivered" : v.statusID == 5 ? "Shipped" : "";
+                            let statuscls = v.statusID == 1 ? "yellow" : v.statusID == 2 ? "red" : v.statusID == 3 ? "blue" : v.statusID == 4 ? "green" : v.statusID == 5 ? "green" : "";
+
+                            __html = __html + `<tr>
+                                    <td>${count}</td>
+                                    <td><span class="grid-report-item ${statuscls} btn-sm">${statusTxt}</span></td>
+                                    <td>${v.title}</td>
+                                    <td>${v.entryOn}</td>
+                                    <td class="button-column">
+                                    <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}"><i class="far fa-eye"></i>View</a>
+                                    </td>
+                                </tr>`;
+                        }
                     })
                     $('#ordertbl tbody').html(__html);
                 }
