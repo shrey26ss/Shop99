@@ -11,7 +11,9 @@ a.navbar-brand {
 a {
     color: #0366d6;
 }
-
+table.dataTable tbody td {
+    padding: 1px 10px;
+}
 
 .btn-primary {
     color: #fff;
