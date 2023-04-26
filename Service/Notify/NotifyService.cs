@@ -275,7 +275,6 @@ namespace Service.Notify
         #region SocialAlert
         public async Task<Response> NotifySocialALert(AlertReplacementModel param)
         {
-
             var _res = new Response
             {
                 StatusCode = ResponseStatus.Failed,

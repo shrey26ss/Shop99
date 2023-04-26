@@ -323,6 +323,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
         public string enforce_paymethod { get; set; }
         public string udf5 { get; set; }
         public string service_provider { get; set; }
+        public bool isProdcution { get; set; }
     }
 
     public class PayUResponse
