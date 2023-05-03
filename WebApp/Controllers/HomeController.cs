@@ -218,9 +218,9 @@ namespace WebApp.Controllers
 				MoreFilters = cid
 			};
 			var res = _category.GetCategoryFilters(req).Result;
-			return PartialView("Partial/_categoryfilters", res);
-		}
-		[Route(nameof(RoundedCategory))]
+			return PartialView("partial/_categoryfilters", res.Result);
+        }
+        [Route(nameof(RoundedCategory))]
 		[HttpPost]
 		public async Task<IActionResult> RoundedCategory()
 		{
