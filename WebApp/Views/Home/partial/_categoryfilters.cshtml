@@ -1,15 +1,15 @@
 ﻿@using Entities.Models
 @using Service.Models
 @using Entities.Enums;
-@model Response<IEnumerable<Filters>>
+@model IEnumerable<Filters>
 @{
-    var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<Filters>();
+    //var result = Model != null && Model.StatusCode == ResponseStatus.Success && Model.Result.Any() ? Model.Result : new List<Filters>();
     int i = 1;
     int count = 0;
     int j = 0;
 }
 
-@foreach (var item in result)
+@foreach (var item in Model)
 {
 
     string cls = count == 0 ? "open" : "mt-3";
@@ -28,7 +28,7 @@
                     {
                         dispalyNone = "d-none";
                     }
-                    <div class="custom-control custom-checkbox  form-check collection-filter-checkbox @dispalyNone">
+                    <div class="custom-control collection-collapse-block custom-checkbox  form-check collection-filter-checkbox @dispalyNone">
                         <input type="checkbox" class="custom-control-input form-check-input" value="@attr.AttributeValue" id="@i">
                         <label class="custom-control-label form-check-label" for="@i">@attr.AttributeValue</label>
                     </div>
