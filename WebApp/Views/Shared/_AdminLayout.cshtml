@@ -1,4 +1,9 @@
 ﻿@using AppUtility.APIRequest
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
+@{
+    string hangFireURL = WebHostEnvironment.EnvironmentName == "Development" ? "http://localhost:7138/mydashboard" : "https://api.shop99.co.in/mydashboard";
+}
+
 <html lang="en" dir="ltr" class="k-webkit k-webkit107" style="height: auto;">
 <head>
     <title></title>
@@ -290,6 +295,12 @@
                                                 <a href="/Websiteinfo/Index" class="nav-link">
                                                     <i class="nav-icon far fa-dot-circle"></i>
                                                     <p> WebsiteInfo & Logo</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@hangFireURL" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Jobs</p>
                                                 </a>
                                             </li>
                                         </ul>

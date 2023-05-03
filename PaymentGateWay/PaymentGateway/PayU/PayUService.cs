@@ -69,7 +69,8 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 phone = request.MobileNo,
                 enforce_paymethod = paymentMode,
                 productinfo = "Add Money",
-                service_provider = "payu_paisa"
+                service_provider = "payu_paisa",
+                isProdcution = true
             };
             try
             {
@@ -78,6 +79,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 Dictionary<string, string> keyValue = new Dictionary<string, string>(){
                     {"key", payURequest.key},
                     {"txnid", payURequest.txnid},
+                    {"isProdcution", payURequest.isProdcution.ToString()},
                     {"amount", payURequest.amount.ToString()},
                     {"firstname", payURequest.firstname},
                     {"email", payURequest.email},
