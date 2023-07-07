@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /WebAPI/ErrorLogs/InnerLog.txt
 /WebApp/wwwroot
+/WebApp/keys/key-183013e3-a601-41b2-9b1a-33a81c681944.xml
+/WebAPI/keys/key-009ad921-3643-488d-b8d7-fc5491ae0ab9.xml
