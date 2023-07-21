@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-   
+
     @RenderSection("Metatags", required: false)
     <link rel="shortcut icon" href="/image/favicon.png" type="image/x-icon">
 
@@ -37,12 +37,12 @@
     <link href="~/clientapp/css/custom.css" rel="stylesheet" />
     <style>
         @@media (min-width: 800px) and (max-width: 2500px) {
-            #main-menu  {
+            #main-menu {
                 display: flex;
             }
 
 
-            #ico  {
+            #ico {
                 display: flex;
             }
         }
@@ -50,10 +50,10 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11161878357"></script>
     <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag()  {  dataLayer.push(arguments);  }
-     gtag('js', new Date());
-     gtag('config', 'AW-11161878357');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-11161878357');
     </script>
 </head>
 
@@ -488,10 +488,7 @@
 
     @RenderSection("Scripts", required: false)
     <script>
-        // $(document).ready(function () {
-        //    loadFilters();
-        //});
-        $('#btnNewsLetter').click(function() {
+        $('#btnNewsLetter').click(function () {
             const name = $('#txtname').val();
             const email = $('#textemail').val()
             if (name === '') {
@@ -515,7 +512,7 @@
                     "Email": email
                 }),
             };
-            $.ajax(settings).done(function(response) {
+            $.ajax(settings).done(function (response) {
                 Q.notify(response.statusCode, response.statusCode == 1 ? "News Letter Subscribed Successfull." : response.responseText);
                 if (response.statusCode == 1) {
                     $('#txtname').val('');
@@ -524,11 +521,11 @@
             });
         })
 
-
         var SearchItems = [];
-        var loadAutoSuggestion = async function(searchTerm = '', Top = 0, triggerSuggestion = false) {
+
+        var loadAutoSuggestion = async function (searchTerm = '', Top = 0, triggerSuggestion = false) {
             await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
-                if (SearchItems.length <= 0) {
+                if (SearchItems.length >= 0) {
                     SearchItems = res.result.filter(x => !SearchItems.includes(x));
                 } else {
                     let objArr = SearchItems.map(x => JSON.stringify(x));
@@ -553,13 +550,17 @@
             classes: {
                 "ui-autocomplete": "highlight"
             },
-            source: function(request, response) {
-                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+            source: function (request, response) {
+                let matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
                 searchResult = [];
                 let loopCount = SearchItems.length;
                 for (let i = 0; i < loopCount; i++) {
                     let a = SearchItems[i];
                     let _label = matcher.test(a.name) ? a.name : null;
+                    if (!_label) {
+                        matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+                        _label = matcher.test(a.name) ? a.name : null;
+                    }
                     if (_label) {
                         searchResult.push({
                             label: _label,
@@ -572,7 +573,7 @@
                     response(searchResult);
                 }
             },
-            select: function(event, ui) {
+            select: function (event, ui) {
                 let homePath = ['/', '/home']
                 let u = new URL(window.location.href)
                 if (homePath.includes(u.pathname)) {
@@ -586,6 +587,7 @@
         });
 
         loadAutoSuggestion('', 2);
+
         $('.showMore').unbind().click(e => {
             let element = $(e.currentTarget);
             let divId = element.closest('.collection-collapse-block').attr('id');
@@ -598,16 +600,16 @@
             }
         });
 
-        $('.collection-collapse-block .form-check-input').change(function() {
+        $('.collection-collapse-block .form-check-input').change(function () {
             let val = [];
-            $(':checkbox:checked').each(function(i) {
+            $(':checkbox:checked').each(function (i) {
                 val[i] = $(this).val();
             });
             let filt = val.join(',');
             loadFilteredProduct(filt);
         });
 
-        $('.collapse-block-title').on('click', function(e) {
+        $('.collapse-block-title').on('click', function (e) {
             e.preventDefault;
             var speed = 300;
             var thisItem = $(this).parent(),
@@ -621,21 +623,6 @@
                 nextLevel.slideDown(speed);
             }
         });
-                                //const loadFilters = function () {
-                                //    let cid = getCategoryId();
-                                //    $.post("/Categoryfilters", { cid: cid }).done(res => {
-                                //        $('#dvfilters').html(res);
-                                //    }).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-                                //};
-                                //var getCategoryId = () => {
-                                //    var url = window.location.href;
-                                //    return url.substring(url.lastIndexOf('/') + 1);
-                                //};
-
-
-
-
     </script>
 </body>
-
 </html>

@@ -11,7 +11,7 @@
         <li class="mega">
             @{
                 string href = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "/products/category/"+@item.CategoryId;
-                string target = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "target='_blank'";
+                string target = @item.ChildNode != null && @item.ChildNode.Any() ? "javascript:void(0)" : "target='_self'";
             }
             <a class="dark-menu-item" @target  href="@href">@item.CategoryName</a>
             @if (@item.ChildNode != null && @item.ChildNode.Any())
@@ -25,13 +25,14 @@
                                     <div class="col mega-box for-mob">
                                         <div class="link-section">
                                             <div class="menu-title">
-                                               <a target="_blank" href="/products/category/@child.CategoryId"> <h5><img src="@child.Icon" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" style="width:20px; margin:0 10px 0 0;"> @child.CategoryName </h5></a>
+                                                <a @target href="/products/category/@child.CategoryId"> <h5><img src="@child.Icon" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" style="width:20px; margin:0 10px 0 0;"> @child.CategoryName </h5></a>
                                             </div>
                                             <div class="menu-content">
                                                 <ul>
                                                     @foreach (var child2 in child.ChildNode)
                                                     {
-                                                        <li><a target="_blank" href="/products/category/@child2.CategoryId">@child2.CategoryName</a>
+                                                        <li>
+                                                            <a @target href="/products/category/@child2.CategoryId">@child2.CategoryName</a>
                                                           @*   <ul>
                                                             <li><a target="_blank" href="/products/category/@child2.CategoryId"></a></li>
                                                         </ul>*@
