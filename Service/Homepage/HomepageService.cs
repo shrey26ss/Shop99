@@ -1,4 +1,5 @@
 ﻿using AppUtility.Helper;
+using Dapper;
 using Data;
 using Entities.Enums;
 using Entities.Models;
@@ -229,34 +230,28 @@ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
             }
             return res;
         }
+
+
         public async Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion(string searchText = "", int Top = 0)
         {
             var res = new Response<IEnumerable<AutoSuggest>>();
-            try
+            var result = await _dapper.GetAllAsync<AutoSuggest>("proc_GetAutoSuggetion", new
             {
-                string sqlQuery = @"if @Top = 0
-Select Top(50) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%' Group by c.CategoryName ,c.CategoryId 
-Union
-Select Top(50) p.[Name],p.Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%' Group by p.[Name] ,p.Id,p.IsPublished
-Union
-Select Top(50) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%' Group By p.Title,p.Id, p.IsPublished
-Union
-Select TOP(50) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%' Group By b.Name,b.Id,b.IsPublished
-else
-Select Top(@Top) c.CategoryName [Name],c.CategoryId Id,'C' [Type] from Category c(nolock)  where c.IsPublish = 1 and c.[CategoryName] Like '%'+ @searchText +'%' Group by c.CategoryName ,c.CategoryId 
-Union
-Select Top(@Top) p.[Name],p.Id,'P' [Type] from Products p(nolock) where p.IsPublished = 1 and p.Name Like '%'+ @searchText +'%' Group by p.[Name] ,p.Id,p.IsPublished
-Union
-Select Top(@Top) p.[Title] [Name],p.Id Id,'V' [Type] from VariantGroup p(nolock) where p.IsPublished = 1 and p.Title Like '%'+ @searchText +'%' Group By p.Title,p.Id, p.IsPublished
-Union
-Select TOP(@Top) b.[Name] [Name],b.Id Id,'B' [Type] from Brands b(nolock) where b.IsPublished = 1 and b.[Name] Like '%'+ @searchText +'%' Group By b.Name,b.Id,b.IsPublished";
-                res.Result = await _dapper.GetAllAsync<AutoSuggest>(sqlQuery, new { searchText = searchText ?? "", Top }, CommandType.Text);
+                searchText,
+                Top
+            }, CommandType.StoredProcedure);
+            if (result != null && result.Count() > 0)
+            {
                 res.StatusCode = ResponseStatus.Success;
-                res.ResponseText = nameof(ResponseStatus.Success);
+                res.ResponseText = ResponseStatus.Success.ToString();
+                res.Result = result;
             }
-            catch (Exception ex)
+
+            else
             {
-                res.ResponseText = ex.Message;
+                res.StatusCode = ResponseStatus.Failed;
+                res.ResponseText = ResponseStatus.Failed.ToString();
+                res.Result = null;
             }
             return res;
         }
