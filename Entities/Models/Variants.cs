@@ -29,6 +29,9 @@ namespace Entities.Models
         public string WarrantyUnit { get; set; }
         public string Images { get; set; }
         public string Thumbnail { get; set; }
+        public decimal DiscountRate { get; set; }
+        public decimal DisplayCost { get; set; }
+
     }
     public class AttributeInfo
     {
@@ -106,6 +109,8 @@ namespace Entities.Models
         public bool IsShowOnHome { get; set; }
         public bool IsPublished { get; set; }
         public int CategoryId { get; set; }
+        public decimal DiscountRate { get; set; }
+        public decimal DisplayRate { get; set; }
     }
     public class DeleteVariantReq
     {
