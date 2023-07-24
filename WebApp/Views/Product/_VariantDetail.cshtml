@@ -58,6 +58,11 @@
                         <input id="GTIN" class="form-control" value="@Model.variantDetailsByAttributes.GTIN" />
                     </div>
                     <div class="form-group">
+                        <label>Discount Rate</label>
+                        <input id="Discountrate" class="form-control" value="@Model.variantDetailsByAttributes.DiscountRate" />
+                    </div>
+
+                    <div class="form-group">
                         <div class="row">
                             <div class="col-sm-4 input-group">
                                 <div class="input-group-prepend" style="height: 38px;">
@@ -376,6 +381,7 @@
                     GTIN: $('#GTIN').val(),
                     Title: $('#Titles').val(),
                     SellingCost: $('#SellingCost').val(),
+                    DiscountRate: $('#Discountrate').val(),
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0
                 };
