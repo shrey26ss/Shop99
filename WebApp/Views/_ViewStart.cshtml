@@ -1,8 +1,10 @@
-﻿@inject AppSettings appSettings;
+﻿@using WebApp.Middleware;
+@inject AppSettings appSettings;
 @{
     Layout = "_AdminLayout";
 }
 <script>
+    const userId = '@(User?.GetLoggedInUserId<int>() ?? 0)';
     var url = new URL(window.location.href);
     //const baseURL = "http://localhost:7138/api";
     const baseURL = "@appSettings.WebAPIBaseUrl/api";

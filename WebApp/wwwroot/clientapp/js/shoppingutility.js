@@ -115,27 +115,29 @@ const loadCartDetails = async function () {
 }
 
 const cartWishListCount = function () {
-    $.post("/CartWishListCount").done(res => {
-        if (res.statusCode == 1) {
-            $.each(res.result, async function (i, v) {
-                if (v.type == 'C') {
-                    $('.cart-count').html(v.items == 0 ? "" : v.items);
-                    $('.cart-count').addClass(v.items == 0 ? "" : 'item-count-contain');
+    if (parseInt(userId) > 0) {
+        $.post("/CartWishListCount").done(res => {
+            if (res.statusCode == 1) {
+                $.each(res.result, async function (i, v) {
+                    if (v.type == 'C') {
+                        $('.cart-count').html(v.items == 0 ? "" : v.items);
+                        $('.cart-count').addClass(v.items == 0 ? "" : 'item-count-contain');
 
-                }
-                if (v.type == 'W') {
+                    }
+                    if (v.type == 'W') {
 
-                    $('.wishlist-count').html(v.items == 0 ? "" : v.items);
-                    $('.wishlist-count').addClass(v.items == 0 ? "" : 'item-count-contain');
-                }
-            });
-        }
-        else {
-            $('.cart-count').removeClass('item-count-contain');
-            $('.wishlist-count').removeClass('item-count-contain');
-        }
+                        $('.wishlist-count').html(v.items == 0 ? "" : v.items);
+                        $('.wishlist-count').addClass(v.items == 0 ? "" : 'item-count-contain');
+                    }
+                });
+            }
+            else {
+                $('.cart-count').removeClass('item-count-contain');
+                $('.wishlist-count').removeClass('item-count-contain');
+            }
 
-    }).fail(xhr => Q.xhrError(xhr, false)).always(() => "");
+        }).fail(xhr => Q.xhrError(xhr, false)).always(() => "");
+    }
 };
 
 const loadWishListSlide = function () {

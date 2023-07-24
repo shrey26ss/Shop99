@@ -1,13 +1,13 @@
 ﻿$(document).ready(function () {
     loadTopBrands();
-   // loadRoundCategory();
+    // loadRoundCategory();
     loadTopBannerSec();
     loadofferBanner();
 
     loadHotDeals();
     loadHotDealsNewProduct();
     loadMainCategory();
-    loadTabs();    
+    loadTabs();
 });
 
 
@@ -36,7 +36,7 @@ const loadTopBrands = function () {
             else {
                 $('.topBrandPanel').addClass('d-none');
             }
-            
+
         },
         error: result => {
 
@@ -44,7 +44,20 @@ const loadTopBrands = function () {
     });
 }
 const loadMainCategory = function () {
-    $.post(baseURL + "/Category/TopCategory").done(res => {
+
+    var settings = {
+        "url": baseURL + "/Category/TopCategory",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "Top": 5
+        }),
+    };
+
+    $.ajax(settings).done(function (res) {
         if (res.statusCode === 1) {
             let TopCategory = $('#secTopCategory');
             TopCategory.html('');
@@ -63,7 +76,7 @@ const loadMainCategory = function () {
         }
     });
 }
-const loadTopCategoryProduct = function (cId, i,calledFrom = 'A') {
+const loadTopCategoryProduct = function (cId, i, calledFrom = 'A') {
     let item = {
         CalledFrom: calledFrom,
         OrderBy: 0,
@@ -124,10 +137,10 @@ const loadTopCategoryProduct = function (cId, i,calledFrom = 'A') {
                 for (var i = 0; i < v.rating; i++) {
                     htmlbody = htmlbody + `<i class="fa fa-star"></i>`;
                 }
-                for (var i = 0; i < 5-v.rating; i++) {
+                for (var i = 0; i < 5 - v.rating; i++) {
                     htmlbody = htmlbody + `<i class="fa fa-star-o"></i>`;
                 }
-                htmlbody = htmlbody+`
+                htmlbody = htmlbody + `
                           </div>
                           <a href="/productdetails/${v.variantID}">
                             <h6 class="price-title">
@@ -238,7 +251,7 @@ const loadofferBanner = function () {
         }
     })
 }
-const loadNewProducts = async function loadNewProducts () {
+const loadNewProducts = async function loadNewProducts() {
     await $.post("/ProductSection", { id: 1 }).done(res => {
         $('#secDvProduct').append(res);
     });
@@ -326,7 +339,7 @@ const loadTabs = async () => {
     });
 
     $('.tab-content.active.default').css("display", "block");
-    
+
     $(".tabs li a").on('click', function () {
         event.preventDefault();
         //$('.tab_product_slider').slick('unslick');
@@ -383,4 +396,3 @@ const loadTabs = async () => {
         });
     });
 }
-    
