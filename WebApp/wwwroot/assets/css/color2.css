@@ -41056,7 +41056,7 @@ td {
     }
 
 .ui-state-active {
-    width: 22px;
+    width: fit-content;
 }
 
 .range-wrapper {

@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/css/themify.css" />
 
-    <link rel="stylesheet" type="text/css" href="~/css/flash.css" />
+@*    <link rel="stylesheet" type="text/css" href="~/css/flash.css" />*@
     <!--Slick slider css-->
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick-theme.css" />
@@ -459,7 +459,7 @@
     <script src="~/assets/js/menu.js"></script>
 
     <!-- timer js -->
-    <script src="~/assets/js/timer2.js"></script>
+   @* <script src="~/assets/js/timer2.js"></script>*@
 
     <!-- Bootstrap js-->
     <script src="~/assets/js/bootstrap.js"></script>
@@ -525,16 +525,20 @@
 
         var loadAutoSuggestion = async function (searchTerm = '', Top = 0, triggerSuggestion = false) {
             await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
-                if (SearchItems.length >= 0) {
-                    SearchItems = res.result.filter(x => !SearchItems.includes(x));
-                } else {
-                    let objArr = SearchItems.map(x => JSON.stringify(x));
-                    res.result.map(x => {
-                        if (!objArr.includes(JSON.stringify(x))) {
-                            SearchItems.push(x);
-                        }
-                    });
+                if (res.statusCode!=-1)
+                {
+                    if (SearchItems.length >= 0) {
+                        SearchItems = res.result.filter(x => !SearchItems.includes(x));
+                    } else {
+                        let objArr = SearchItems.map(x => JSON.stringify(x));
+                        res.result.map(x => {
+                            if (!objArr.includes(JSON.stringify(x))) {
+                                SearchItems.push(x);
+                            }
+                        });
+                    }
                 }
+            
             });
             if (triggerSuggestion) {
                 $(".SearchProduct").trigger("input");
