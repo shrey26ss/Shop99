@@ -1370,13 +1370,12 @@ body .ui-tooltip {
 @media (min-width:200px) and (max-width:900px) {
     .ui-dialog {
         width: 100% !important;
-        top:35%!important;
+        top: 35% !important;
     }
 
         .ui-dialog .ui-dialog-title {
             width: 89.5%;
         }
-
 }
 
 .ui-widget-content {
@@ -1395,6 +1394,7 @@ body .ui-tooltip {
     color: #fff;
     border: none;
 }
+
 .ui-widget-header {
     /*border: 1px solid #ddd;*/
     background: #e9e9e9;
@@ -41595,8 +41595,8 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
     margin: 0;
-    font-family: source sans pro,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
-    font-size: 1rem;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: .85rem;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -41927,8 +41927,8 @@ template {
 }
 
 hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
     border: 0;
     border-top: 1px solid rgba(0,0,0,.1)
 }
@@ -51990,7 +51990,7 @@ html.scroll-smooth {
 }
 
     .wrapper .content-wrapper {
-        min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px))!important;
+        min-height: calc(100vh - calc(3.5rem + 1px) - calc(3.5rem + 1px)) !important;
     }
 
 .layout-boxed .wrapper {
@@ -53177,7 +53177,9 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .content-wrapper,
 @media(min-width:768px) {
     body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-footer, body:not(.sidebar-mini-md) .main-header {
         transition: margin-left .3s ease-in-out;
-        margin-left: 250px
+        margin-left: 250px;
+        position: sticky;
+        top: 0;
     }
 }
 
@@ -68404,8 +68406,7 @@ blockquote.quote-gray-dark {
         }
 
         .bg-lightblue.btn.active, .bg-lightblue.btn:active, .bg-lightblue.btn:not(:disabled):not(.disabled).active, .bg-lightblue.btn:not(:disabled):not(.disabled):active {
-             background-color: #307095 !important;
-            
+            background-color: #307095 !important;
             border-color: #2d698c;
             color: #fff
         }
@@ -73524,6 +73525,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     box-shadow: none !important;
     border: 1px solid #eaeaea
 }
+
 .required:after {
     content: " *";
     color: red;
@@ -76698,4 +76700,137 @@ thead tr {
 
 .ion-xbox:before {
     content: ""
+}
+
+
+/* Component Needs */
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700);
+@import url(https://fonts.googleapis.com/css?family=Raleway:100,400,700);
+
+.pc-tab > input,
+.pc-tab section > div {
+    display: none;
+}
+
+#tab1:checked ~ section .tab1,
+#tab2:checked ~ section .tab2,
+#tab3:checked ~ section .tab3 {
+    display: block;
+}
+
+#tab1:checked ~ nav .tab1,
+#tab2:checked ~ nav .tab2,
+#tab3:checked ~ nav .tab3 {
+    color: red;
+}
+
+/* Visual Styles */
+*, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*body {
+    -webkit-font-smoothing: antialiased;
+    background: #ecf0f1;
+    font-family: "Raleway";
+}
+
+h1 {
+    text-align: center;
+    font-weight: 100;
+    font-size: 60px;
+    color: #e74c3c;
+}*/
+
+.pc-tab {
+    width: 100%;
+    /*max-width: 700px;*/
+    margin: 0 auto 20px;
+}
+
+    .pc-tab ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .pc-tab ul li label {
+            font-family: "Raleway";
+            float: left;
+            padding: 10px 25px;
+            /*border: 1px solid #ddd;*/
+            border-bottom: 0;
+            /*background: #eeeeee;*/
+            color: #444;
+            margin-bottom: 0;
+        }
+
+            .pc-tab ul li label:hover {
+                background: #dddddd;
+            }
+
+            .pc-tab ul li label:active {
+                background: #ffffff;
+            }
+
+        .pc-tab ul li:not(:last-child) label {
+            border-right-width: 0;
+        }
+
+    .pc-tab section {
+        /*font-family: "Droid Serif";*/
+        clear: both;
+    }
+
+        .pc-tab section .div {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            background: #fff;
+            line-height: 1.5em;
+            letter-spacing: 0.3px;
+            color: #444;
+        }
+
+            .pc-tab section .div h2 {
+                margin: 0;
+                /*font-family: "Raleway";*/
+                letter-spacing: 1px;
+                color: #34495e;
+            }
+
+#tab1:checked ~ nav .tab1 label,
+#tab2:checked ~ nav .tab2 label,
+#tab3:checked ~ nav .tab3 label {
+    background: white;
+    color: #111;
+    position: relative;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+}
+
+    #tab1:checked ~ nav .tab1 label:after,
+    #tab2:checked ~ nav .tab2 label:after,
+    #tab3:checked ~ nav .tab3 label:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: #ffffff;
+        left: 0;
+        bottom: -1px;
+    }
+
+.sticky-head {
+    position: sticky;
+    top: 64px;
+    z-index: 999;
+}
+
+
+.form-horizontal h4{
+    font-size:16px;
 }
