@@ -27,10 +27,11 @@
     </h1>
     <div class="float-right">
          <button class="btn btn-primary" id="SaveProduct">Save</button>
-        <button type="submit" name="new-attr-group" class="btn btn-primary btnCloneAttrGroup">
+    @*    <button type="submit" name="new-attr-group" class="btn btn-primary btnCloneAttrGroup">
             <i class="far fa-save"></i>
             Add Attribute Group
-        </button>
+        </button>*@
+            <button type="button" class="btn btn-sm btn-info mb-2" onclick="recordsintable()">Add Attribute Group</button>
         <span id="product-delete" class="btn btn-danger" data-toggle="modal" data-target="#productmodel-Delete-delete-confirmation">
             <i class="far fa-trash-alt"></i>
             Delete
@@ -78,11 +79,11 @@
                     <div>
                         <attrGroup>
                             <div class="row">
-                                <h4 class="col-sm-12">
+                               @* <h4 class="col-sm-12">
                                     Combination-1
-                                    @*<button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>*@
+                                    <button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>
                                     <hr />
-                                </h4>
+                                </h4>*@
                                 @Html.Partial("Partials/_AddAttributeGroup")
                             </div>
                         </attrGroup>
@@ -233,25 +234,42 @@
                 }
 
             });
-            var returnindays=currentGroup.find('[name="ReturnInDays"]').val();
-            var warranty=currentGroup.find('[name="Warranty"]').val();
-              var warrantyUnit=currentGroup.find('[name="WarrantyUnit"]').val();
-            let groupDetail = {
-                Id: groupId,
-                HSN: currentGroup.find('[name="HSN"]').val(),
-                MRP: currentGroup.find('[name="MRP"]').val(),
-                Quantity: currentGroup.find('[name="Quantity"]').val(),
-                ReturnInDays: returnindays==''?0:returnindays,
-                Warranty: warranty==''?0:warranty,
-                WarrantyUnit:warrantyUnit,
-                GTIN: currentGroup.find('[name="GTIN"]').val(),
-                Title: currentGroup.find('[name="Title"]').val(),
-                SellingCost: currentGroup.find('[name="SellingCost"]').val(),
-                    DiscountRate: currentGroup.find('[name="Discountrate"]').val(),
-                IsFeatured: currentGroup.find('[name="IsFeatured"]').is(':checked'),
-                IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
-            };
-            groupInfo.push(groupDetail);
+            //var returnindays=currentGroup.find('[name="ReturnInDays"]').val();
+            //var warranty=currentGroup.find('[name="Warranty"]').val();
+            //  var warrantyUnit=currentGroup.find('[name="WarrantyUnit"]').val();
+            //let groupDetail = {
+            //    Id: groupId,
+            //    HSN: currentGroup.find('[name="HSN"]').val(),
+            //    MRP: currentGroup.find('[name="MRP"]').val(),
+            //    Quantity: currentGroup.find('[name="Quantity"]').val(),
+            //    ReturnInDays: returnindays==''?0:returnindays,
+            //    Warranty: warranty==''?0:warranty,
+            //    WarrantyUnit:warrantyUnit,
+            //    GTIN: currentGroup.find('[name="GTIN"]').val(),
+            //    Title: currentGroup.find('[name="Title"]').val(),
+            //    SellingCost: currentGroup.find('[name="SellingCost"]').val(),
+            //        DiscountRate: currentGroup.find('[name="Discountrate"]').val(),
+            //    IsFeatured: currentGroup.find('[name="IsFeatured"]').is(':checked'),
+            //    IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
+            //};
+            //groupInfo.push(groupDetail);
+
+                var groupDetail = {
+                    id: groupId,
+                    HSN: currentGroup.find("td:eq(10)").text(),
+                    MRP: currentGroup.find("td:eq(6)").text(),
+                    Quantity: currentGroup.find("td:eq(8)").text(),
+                    ReturnInDays: currentGroup.find("td:eq(9)").text(),
+                    Warranty: currentGroup.find("td:eq(12)").text(),
+                    WarrantyUnit: currentGroup.find("td:eq(13)").text(),
+                    GTIN: currentGroup.find("td:eq(11)").text(),
+                    Title: currentGroup.find("td:eq(5)").text(),
+                    SellingCost: currentGroup.find("td:eq(7)").text(),
+                    DiscountRate: currentGroup.find("td:eq(14)").text(),
+                    IsFeatured: currentGroup.find("td:eq(15)").text(),
+                  IsShowOnHome: currentGroup.find("td:eq(16)").text(),
+                };
+                groupInfo.push(groupDetail);
         });
 
         $('.pictureGrid tbody tr').each(function (i) {

@@ -141,7 +141,7 @@ namespace WebApp
                 .AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMiddleware<UserAgentMiddleware>();
+            //app.UseMiddleware<UserAgentMiddleware>();
             app.UseMiddleware<WebsiteinfoMiddleware>();
             app.UseEndpoints(endpoints =>
             {
