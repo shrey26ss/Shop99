@@ -15,7 +15,9 @@
         height: 0px
     }
 </style>
-<div class="content-header clearfix">
+
+<div class="card card-secondary p-2 sticky-head ">
+    <div class="content-header clearfix p-0">
     <h1 class="float-left">
         Edit product variant
         <small>
@@ -35,6 +37,8 @@
         </span>
     </div>
 </div>
+</div>
+
 <div class="validation-summary-valid" data-valmsg-summary="true">
     <ul>
         <li style="display:none"></li>
@@ -47,9 +51,70 @@
     </div>
 </div>
 <section class="content">
-    <div class="container-fluid">
+
+    <div class="pc-tab">
+<input checked="checked" id="tab1" type="radio" name="pct" />
+<input id="tab2" type="radio" name="pct" />
+<input id="tab3" type="radio" name="pct" />
+  <nav>
+    <ul>
+      <li class="tab1">
+        <label for="tab1"><i class="fas fa-info"></i>Variant Combination</label>
+      </li>
+      <li class="tab2">
+        <label for="tab2"><i class="fas fa-info"></i>Pictures</label>
+      </li>
+      
+    </ul>
+  </nav>
+  <section>
+      <input type="hidden" id="ProductId" asp-for="ProductId" />
+    <div class="tab1 div">
+    <div class="form-horizontal">
+            
+            <div id="AttributeView">
+                <div class="" data-card-name="product-info" id="product-info">
+                    
+                    <div>
+                        <attrGroup>
+                            <div class="row">
+                                <h4 class="col-sm-12">
+                                    Combination-1
+                                    @*<button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>*@
+                                    <hr />
+                                </h4>
+                                @Html.Partial("Partials/_AddAttributeGroup")
+                            </div>
+                        </attrGroup>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+    <div class="tab2 div">
+      
+    <div class="form-horizontal">
+            
+            <div id="AttributeView">
+                <div class="" data-card-name="product-info" id="product-info">
+                    
+                    <div id="pictureSection">
+                        <div class="row">
+                            @Html.Partial("Partials/_AddPictures")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  </section>
+</div>
+
+
+    @*<div class="container-fluid">
         <div class="form-horizontal">
-            <input type="hidden" id="ProductId" asp-for="ProductId" />
+            
             <div id="AttributeView">
                 <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
                     <div class="card-header with-border clearfix">
@@ -67,7 +132,7 @@
                             <div class="row">
                                 <h4 class="col-sm-12">
                                     Combination-1
-                                    @*<button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>*@
+                                    
                                     <hr />
                                 </h4>
                                 @Html.Partial("Partials/_AddAttributeGroup")
@@ -77,12 +142,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </section>
 
 
 
-<section class="content">
+@*<section class="content">
     <div class="container-fluid">
         <div class="form-horizontal">
             <input type="hidden" id="ProductId" asp-for="ProductId" />
@@ -107,7 +172,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>*@
 
 @section Scripts{
 <script>
