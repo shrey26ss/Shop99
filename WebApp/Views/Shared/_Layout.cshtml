@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/css/themify.css" />
 
-@*    <link rel="stylesheet" type="text/css" href="~/css/flash.css" />*@
+    @*    <link rel="stylesheet" type="text/css" href="~/css/flash.css" />*@
     <!--Slick slider css-->
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick-theme.css" />
@@ -46,6 +46,32 @@
                 display: flex;
             }
         }
+
+        #resultsList {
+            position: absolute;
+            top: 37px;
+            z-index: 99999;
+            background: #fff;
+            width: 100%;
+            overflow-y: auto;
+            max-height: 500px;
+            height: auto;
+        }
+
+            #resultsList li {
+                display: block;
+                padding: 5px;
+                border-bottom: 1px solid #eee;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+                #resultsList li a {
+                    color: #000;
+                }
+
+      
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11161878357"></script>
@@ -76,10 +102,12 @@
                                 <form class="big-deal-form ">
                                     <div class="input-group ">
 
-                                        <input type="search" class="form-control SearchProduct" id="SearchProduct" placeholder="Search a Product">
+                                        <input type="search" class="form-control SearchProduct" id="searchproduct" placeholder="Search a Product">
                                         <div class="input-group-text">
                                             <span class="search"><i class="fa fa-search"></i></span>
+                                           
                                         </div>
+                                        <ul id="resultsList"></ul>
                                     </div>
                                 </form>
                                 @if (!Context.User.Identity.IsAuthenticated)
@@ -211,7 +239,7 @@
                         <form class="big-deal-form ">
                             <div class="input-group ">
 
-                                <input type="search" class="form-control SearchProduct" id="SearchProduct" placeholder="Search a Product">
+                                <input type="search" class="form-control SearchProduct" id="SearchProduct" onkeyup="searchproduct1(this)" placeholder="Search a Product">
 
                             </div>
                         </form>
@@ -459,7 +487,7 @@
     <script src="~/assets/js/menu.js"></script>
 
     <!-- timer js -->
-   @* <script src="~/assets/js/timer2.js"></script>*@
+    @* <script src="~/assets/js/timer2.js"></script>*@
 
     <!-- Bootstrap js-->
     <script src="~/assets/js/bootstrap.js"></script>
@@ -523,12 +551,29 @@
 
         var SearchItems = [];
 
-        var loadAutoSuggestion = async function (searchTerm = '', Top = 0, triggerSuggestion = false) {
-            await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
-                if (res.statusCode!=-1)
-                {
+        function searchproduct1(inputElement) {
+            // Get the search term from the input element
+            var searchText = inputElement.value;
+
+            $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchText}&Top=${0}`).done(res => {
+                if (res.statusCode != -1) {
                     if (SearchItems.length >= 0) {
                         SearchItems = res.result.filter(x => !SearchItems.includes(x));
+                        //let loopCount = SearchItems.length;
+
+                        $("#resultsList").empty();
+                        let path = {
+                            'P': 'products/prod/',
+                            'C': 'products/category/',
+                            'V': 'productdetails/',
+                            'B': 'products/brand/'
+                        };
+                        SearchItems.forEach(SearchItem => {
+                            const listItem = $("<li>");
+                            const anchorTag = $("<a>").attr("href", `${url}${path[SearchItem.type]}${SearchItem.id}`).text(SearchItem.name);
+                            anchorTag.appendTo(listItem);
+                            listItem.appendTo("#resultsList");
+                        });
                     } else {
                         let objArr = SearchItems.map(x => JSON.stringify(x));
                         res.result.map(x => {
@@ -538,59 +583,108 @@
                         });
                     }
                 }
-            
+
             });
-            if (triggerSuggestion) {
-                $(".SearchProduct").trigger("input");
-            }
+
         }
+
+        function debounce(func, delay) {
+            let timeoutId;
+
+            return function (...args) {
+                clearTimeout(timeoutId);
+
+                timeoutId = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            };
+        }
+        const debouncedSearch = debounce(searchproduct1, 1000); // Adjust the delay (in milliseconds) as needed
+
+        // Event listener for search input changes
+        document.querySelector("#searchproduct").addEventListener("input", function (event) {
+            $(".clear-search").show();
+            if ($("#searchproduct").val()=="")
+            {
+                $("#resultsList").hide();
+            }
+            else
+            {
+                $("#resultsList").show();
+            }
+            debouncedSearch(event.target);
+        });
+
+       
+
+
+        //var loadAutoSuggestion = async function (searchTerm = '', Top = 0) {
+        //    await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
+        //        if (res.statusCode != -1) {
+        //            if (SearchItems.length >= 0) {
+        //                SearchItems = res.result.filter(x => !SearchItems.includes(x));
+        //            } else {
+        //                let objArr = SearchItems.map(x => JSON.stringify(x));
+        //                res.result.map(x => {
+        //                    if (!objArr.includes(JSON.stringify(x))) {
+        //                        SearchItems.push(x);
+        //                    }
+        //                });
+        //            }
+        //        }
+
+        //    });
+        //    //if (triggerSuggestion) {
+        //    //    $(".SearchProduct").trigger("input");
+        //    //}
+        //}
 
         $(document).on('click', '.openMenu', (e) => {
             $('#Menu_side')?.addClass('open-side');
         });
 
-        $(".SearchProduct").unbind().autocomplete({
-            autoFocus: true,
-            classes: {
-                "ui-autocomplete": "highlight"
-            },
-            source: function (request, response) {
-                let matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
-                searchResult = [];
-                let loopCount = SearchItems.length;
-                for (let i = 0; i < loopCount; i++) {
-                    let a = SearchItems[i];
-                    let _label = matcher.test(a.name) ? a.name : null;
-                    if (!_label) {
-                        matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-                        _label = matcher.test(a.name) ? a.name : null;
-                    }
-                    if (_label) {
-                        searchResult.push({
-                            label: _label,
-                            url: (a.type === 'C') ? `/products/category/${a.id}` : (a.type === 'P') ? `/products/prod/${a.id}` : (a.type === 'V') ? `/productdetails/${a.id}` : (a.type === 'B') ? `/products/brand/${a.id}` : null
-                        })
-                    }
-                }
-                loadAutoSuggestion(request.term, 0, true);
-                if (searchResult.length > 0) {
-                    response(searchResult);
-                }
-            },
-            select: function (event, ui) {
-                let homePath = ['/', '/home']
-                let u = new URL(window.location.href)
-                if (homePath.includes(u.pathname)) {
-                    window.open(ui.item.url, '_blank');
-                }
-                else {
-                    window.location.href = ui.item.url
-                }
-            },
-            minLength: 3
-        });
+        //$(".SearchProduct123").unbind().autocomplete({
+        //    autoFocus: true,
+        //    classes: {
+        //        "ui-autocomplete": "highlight"
+        //    },
+        //    source: function (request, response) {
+        //        let matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+        //        searchResult = [];
+        //        let loopCount = SearchItems.length;
+        //        for (let i = 0; i < loopCount; i++) {
+        //            let a = SearchItems[i];
+        //            let _label = matcher.test(a.name) ? a.name : null;
+        //            if (!_label) {
+        //                matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+        //                _label = matcher.test(a.name) ? a.name : null;
+        //            }
+        //            if (_label) {
+        //                searchResult.push({
+        //                    label: _label,
+        //                    url: (a.type === 'C') ? `/products/category/${a.id}` : (a.type === 'P') ? `/products/prod/${a.id}` : (a.type === 'V') ? `/productdetails/${a.id}` : (a.type === 'B') ? `/products/brand/${a.id}` : null
+        //                })
+        //            }
+        //        }
+        //        loadAutoSuggestion(request.term, 0, /*true*/);
+        //        if (searchResult.length > 0) {
+        //            response(searchResult);
+        //        }
+        //    },
+        //    select: function (event, ui) {
+        //        let homePath = ['/', '/home']
+        //        let u = new URL(window.location.href)
+        //        if (homePath.includes(u.pathname)) {
+        //            window.open(ui.item.url, '_blank');
+        //        }
+        //        else {
+        //            window.location.href = ui.item.url
+        //        }
+        //    },
+        //    minLength: 3
+        //});
 
-        loadAutoSuggestion('', 2);
+        //loadAutoSuggestion('', 0,true);
 
         $('.showMore').unbind().click(e => {
             let element = $(e.currentTarget);
