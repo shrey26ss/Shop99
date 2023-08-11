@@ -36,6 +36,9 @@ namespace Entities.Models
         public string SGST { get; set; }
         public string CGST { get; set; }
         public string ImagePaths { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {

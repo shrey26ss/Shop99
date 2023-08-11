@@ -30,7 +30,8 @@ namespace Service.Categories
             var res = new Response<IEnumerable<Filters>>();
             try
             {
-                sp = @"select a.AttributeId,ab.Name,ab.Id,	a.AttributeValue from AttributeValue a inner join Attributes ab on ab.Id=a.AttributeId inner join CategoryAttributeMapping cam on a.AttributeId=cam.AttributeId where cam.CategoryId=@CategoryId and cam.IsActive=1";
+                sp = @"select a.AttributeId,ab.Name,ab.Id,	a.AttributeValue from AttributeValue a inner join Attributes ab on ab.Id=a.AttributeId inner join CategoryAttributeMapping cam on a.AttributeId=cam.AttributeId inner join Category c on c.CategoryId = cam.CategoryId where cam.CategoryId=@CategoryId and cam.IsActive=1 and c.IsPublish = 1"
+                    /*@"select a.AttributeId,ab.Name,ab.Id,	a.AttributeValue from AttributeValue a inner join Attributes ab on ab.Id=a.AttributeId inner join CategoryAttributeMapping cam on a.AttributeId=cam.AttributeId where cam.CategoryId=@CategoryId and cam.IsActive=1"*/;
                 var Result = await _dapper.GetAllAsync<Filters>(sp, new { CategoryId }, CommandType.Text);
                 var distinctfilter = Result
                         .Select(m => new { m.Name, m.AttributeId })
@@ -49,8 +50,16 @@ namespace Service.Categories
                     fls.Add(filters);
                 }
                 res.Result = fls;
-                res.StatusCode = ResponseStatus.Success;
-                res.ResponseText = ResponseStatus.Success.ToString();
+                if (res.Result.Count()== 0)
+                {
+                    res.StatusCode = ResponseStatus.Failed;
+                    res.ResponseText = ResponseStatus.Failed.ToString();
+                }
+                else
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = ResponseStatus.Success.ToString();
+                }
             }
             catch (Exception ex)
             {

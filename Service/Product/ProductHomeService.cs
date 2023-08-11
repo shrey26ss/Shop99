@@ -57,8 +57,17 @@ namespace Service.Product
                 productdetails.AttributeInfo = AttributeInfo.ToList();
                 productdetails.ProductAttributes = AttributDetails.ToList();
                 res.Result = productdetails;
-                res.StatusCode = ResponseStatus.Success;
-                res.ResponseText = nameof(ResponseStatus.Success);
+                if(res.Result.ProductId == 0)
+                {
+                    res.StatusCode = ResponseStatus.Failed;
+                    res.ResponseText = nameof(ResponseStatus.Failed);
+                }
+                else
+                {
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = nameof(ResponseStatus.Success);
+                }
+                
             }
             catch (Exception ex)
             {
