@@ -11,11 +11,10 @@
         badge = item.StatusID == StatusType.OrderPlaced ? "badge-warning" : item.StatusID == StatusType.Cancel ? "badge-danger" : item.StatusID == StatusType.Confirmed ? "badge-success" : item.StatusID == StatusType.Delivered ? "badge-info" : "badge-dark";
         counter++;
         <tr>
-            <td>@counter</td>
-            <td class="align-middle">
-                <div class="btn-group dropup">
+            <td>
+                @counter   <div class="btn-group dropup">
                     <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expaned="false"></a>
+                       aria-haspopup="true" aria-expaned="false"></a>
                     <div class="dropdown-menu" aria-labelledby="act">
                         <h6 class="dropdown-header">Action Menu</h6>
                         @if (item.StatusID == StatusType.OrderPlaced)
@@ -60,15 +59,16 @@
                     </div>
                 </div>
             </td>
-            <td>
-                <div class="card">
-                    <div class="valign-wrapper pr12ImgNameDiv">
-                        <img src="@item.Thumbnail" class="img-fluid rounded-circle" style="width:50px" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
+           <td>@item.Name</td>
+            <td>@item.PhoneNumber</td>
+            <td style="min-width:200px">
+                <div class="valign-wrapper pr12ImgNameDiv" style="text-align: justify;">
+                    <img src="@item.Thumbnail" class="img-fluid rounded-circle" style="width: 75px; float: left; margin-right: 10px; border-radius: 0px!important;" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
+                    @item.Product
                     </div>
-                </div>
+              
             </td>
-            <td>@item.Product</td>
-            <td>@item.Title</td>
+           
             <td>
                 @if (item.StatusID == StatusType.ReturnInitiated || item.StatusID == StatusType.ReturnCompleted || item.StatusID == StatusType.ReturnReceived || item.StatusID == StatusType.ReturnConfirmred)
                 {
@@ -85,11 +85,11 @@
             </td>
             <td>@item.Qty</td>
             <td>@item.Attributes</td>
-            <td>@item.Rate</td>
-            <td>@item.MRP</td>
-            <td>@item.IGST</td>
-            <td>@item.CGST</td>
-            <td>@item.SGST</td>
+            <td class="text-nowrap">@("₹ " + item.Rate)</td>
+            <td class="text-nowrap">@("₹ " + item.MRP)</td>
+            <td class="text-nowrap">@("₹ " + item.IGST)</td>
+            <td class="text-nowrap">@("₹ " + item.CGST)</td>
+            <td class="text-nowrap">@("₹ " + item.SGST)</td>
             <td>@item.PaymentMode</td>
             <td>@item.EntryOn</td>
             <td>@item.ShopName</td>
