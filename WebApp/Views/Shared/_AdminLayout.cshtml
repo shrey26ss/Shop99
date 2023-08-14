@@ -465,10 +465,10 @@
             })
         })
         function callDataTable(options) {
-            console.log('callDataTable');
             options = $.extend({}, {
                 selector: 'table',
                 searching: true,
+                scrollY: window.innerHeight - $('.table').offset().top - 155,
                 destroy: true,
                 language: {
                     "emptyTable": "My Custom Message On Empty Table"
@@ -480,8 +480,8 @@
                     "<'row'<'col-sm-3'l><'col-sm-4'i><'col-sm-5'p>>" ,
                 searching: options.searching,
                 bSort: false,
-                destroy: true,
-                scrollY: window.innerHeight - $('.table').offset().top - 155,
+                destroy: options.destroy,
+                scrollY: options.scrollY,
                 scrollX:100
             });
         }

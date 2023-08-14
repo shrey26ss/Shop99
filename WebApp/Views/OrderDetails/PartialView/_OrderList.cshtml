@@ -12,63 +12,67 @@
         counter++;
         <tr>
             <td>
-                @counter   <div class="btn-group dropup">
-                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expaned="false"></a>
-                    <div class="dropdown-menu" aria-labelledby="act">
-                        <h6 class="dropdown-header">Action Menu</h6>
-                        @if (item.StatusID == StatusType.OrderPlaced)
-                        {
-                            <a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>
-                            <a href="#" onclick="Confirm('@item.ID','@StatusType.Confirmed')" class="dropdown-item Edit">Confirm</a>
-                        }
-                        @if (item.StatusID == StatusType.Shipped)
-                        {
-                            <a href="#" onclick="MarkasDilivered('@item.ID','@StatusType.Delivered','')" class="dropdown-item Edit">Mark Deliver</a>
-                        }
-                        @if (item.StatusID == StatusType.Confirmed)
-                        {
-                            <a href="#" onclick="MarkasShipped('@item.ID')" class="dropdown-item Edit">Mark as Shipped</a>
-                        }
-                        @if (item.StatusID == StatusType.ReturnInitiated)
-                        {
-                            <a href="#" onclick="IsReturnCancelConform('@item.ID','@StatusType.ReturnCanceled')" class="dropdown-item Edit">Return Cancel</a>
-                            <a href="#" onclick="IsReturnCancelConform('@item.ID','@StatusType.ReturnConfirmred')" class="dropdown-item Edit">Return Conform</a>
-                        }
-                        @if (item.StatusID == StatusType.OrderReplaceInitiated)
-                        {
-                            <a href="#" onclick="IsReplaceCancelConform('@item.ID','@StatusType.ReplaceRejected')" class="dropdown-item Edit">Replace Cancel</a>
-                            <a href="#" onclick="IsReplaceCancelConform('@item.ID','@StatusType.ReplacementAccepted')" class="dropdown-item Edit">Replace Conform</a>
-                        }
-                        @if (item.StatusID == StatusType.ReplacementAccepted)
-                        {
-                            <a href="#" onclick="OrderReplaced('@item.ID','@StatusType.OrderReplaced')" class="dropdown-item Edit">Order Replaced</a>
-                        }
-                        @if (item.StatusID == StatusType.CancelRequest || item.StatusID == StatusType.CancelRequestRejected)
-                        {
-                            <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Order Cancel Approved</a>
-                            @if (item.StatusID != StatusType.CancelRequestRejected)
+                @counter    @if (item.StatusID!=StatusType.OrderInitiated)
+                {
+                    <div class="btn-group dropup">
+                        <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expaned="false"></a>
+                        <div class="dropdown-menu" aria-labelledby="act">
+
+                            <h6 class="dropdown-header">Action Menu</h6>
+                            @if (item.StatusID == StatusType.OrderPlaced)
                             {
-                                <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.CancelRequestRejected')" class="dropdown-item Edit">Order Cancel Reject</a>
+                                <a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>
+                                <a href="#" onclick="Confirm('@item.ID','@StatusType.Confirmed')" class="dropdown-item Edit">Confirm</a>
                             }
-                        }
-                        @if (item.StatusID != StatusType.Cancel && item.StatusID != StatusType.OrderPlaced && item.StatusID != StatusType.OrderInitiated)
-                        {
-                            <a href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
-                        }
+                            @if (item.StatusID == StatusType.Shipped)
+                            {
+                                <a href="#" onclick="MarkasDilivered('@item.ID','@StatusType.Delivered','')" class="dropdown-item Edit">Mark Deliver</a>
+                            }
+                            @if (item.StatusID == StatusType.Confirmed)
+                            {
+                                <a href="#" onclick="MarkasShipped('@item.ID')" class="dropdown-item Edit">Mark as Shipped</a>
+                            }
+                            @if (item.StatusID == StatusType.ReturnInitiated)
+                            {
+                                <a href="#" onclick="IsReturnCancelConform('@item.ID','@StatusType.ReturnCanceled')" class="dropdown-item Edit">Return Cancel</a>
+                                <a href="#" onclick="IsReturnCancelConform('@item.ID','@StatusType.ReturnConfirmred')" class="dropdown-item Edit">Return Conform</a>
+                            }
+                            @if (item.StatusID == StatusType.OrderReplaceInitiated)
+                            {
+                                <a href="#" onclick="IsReplaceCancelConform('@item.ID','@StatusType.ReplaceRejected')" class="dropdown-item Edit">Replace Cancel</a>
+                                <a href="#" onclick="IsReplaceCancelConform('@item.ID','@StatusType.ReplacementAccepted')" class="dropdown-item Edit">Replace Conform</a>
+                            }
+                            @if (item.StatusID == StatusType.ReplacementAccepted)
+                            {
+                                <a href="#" onclick="OrderReplaced('@item.ID','@StatusType.OrderReplaced')" class="dropdown-item Edit">Order Replaced</a>
+                            }
+                            @if (item.StatusID == StatusType.CancelRequest || item.StatusID == StatusType.CancelRequestRejected)
+                            {
+                                <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Order Cancel Approved</a>
+                                @if (item.StatusID != StatusType.CancelRequestRejected)
+                                {
+                                    <a href="#" onclick="IsCancelConfAndRej('@item.ID','@StatusType.CancelRequestRejected')" class="dropdown-item Edit">Order Cancel Reject</a>
+                                }
+                            }
+                            @if (item.StatusID != StatusType.Cancel && item.StatusID != StatusType.OrderPlaced && item.StatusID != StatusType.OrderInitiated)
+                            {
+                                <a href="/OrderDetails/Invoice?OrderId=@item.ID" class="dropdown-item Edit" target="_blank" title="Download Invoice">Download Invoice</a>
+                            }
+
+                        </div>
                     </div>
-                </div>
+                }
             </td>
-           <td>@item.Name</td>
-            <td>@item.PhoneNumber</td>
+            <td>@item.Name [@item.PhoneNumber]</td>
             <td style="min-width:200px">
                 <div class="valign-wrapper pr12ImgNameDiv" style="text-align: justify;">
                     <img src="@item.Thumbnail" class="img-fluid rounded-circle" style="width: 75px; float: left; margin-right: 10px; border-radius: 0px!important;" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
                     @item.Product
-                    </div>
-              
+                </div>
+
             </td>
-           
+
             <td>
                 @if (item.StatusID == StatusType.ReturnInitiated || item.StatusID == StatusType.ReturnCompleted || item.StatusID == StatusType.ReturnReceived || item.StatusID == StatusType.ReturnConfirmred)
                 {
@@ -96,13 +100,14 @@
         </tr>
     }
 }
-else{
-   @* <tr>
+else
+{
+    @* <tr>
         <td colspan=16></td>
     </tr>*@
 }
 <script>
-    
+
     var MarkasShipped = (Id) => {
         $.get('/OrderDetails/MarkAsShippV', { Id }).done((result) => {
             Q.alert({
@@ -124,11 +129,11 @@ else{
         if (StatusID == 'ReturnCanceled') {
             let btntxt = StatusID == 'ReturnCanceled' ? "Procced Cancel Request" : "Procced Replacement Accepted";
             const html = `<div class="form-group">
-                     <label for="inputAddress">Reason</label>
-                     <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                     </div>
-                     <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
-                     `;
+                         <label for="inputAddress">Reason</label>
+                         <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                         </div>
+                         <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                         `;
             Q.alert({
                 title: 'Add Reason',
                 body: html,
@@ -173,11 +178,11 @@ else{
         if (StatusID == 'ReplaceRejected') {
             let btntxt = StatusID == 'ReplaceRejected' ? "Procced Cancel Replacement" : "Procced Replacement Accepted";
             const html = `<div class="form-group">
-                                                                                   <label for="inputAddress">Reason</label>
-                                                                                   <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                                                                                   </div>
-                                                                                   <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
-                                                                                   `;
+                                                                                       <label for="inputAddress">Reason</label>
+                                                                                       <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                                                                       </div>
+                                                                                       <button type="submit"  data-id="${Id}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity " id="btnSubmitRemark">${btntxt}</button>
+                                                                                       `;
             Q.alert({
                 title: 'Add Reason',
                 body: html,
@@ -218,5 +223,5 @@ else{
         });
     }
 
-   
+
 </script>
