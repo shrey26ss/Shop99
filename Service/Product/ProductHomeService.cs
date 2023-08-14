@@ -1,5 +1,4 @@
 ﻿using Data;
-using Data.Models;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -10,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Product
@@ -37,7 +35,7 @@ namespace Service.Product
             }
             catch (Exception ex)
             {
-
+                
             }
             return res;
         }

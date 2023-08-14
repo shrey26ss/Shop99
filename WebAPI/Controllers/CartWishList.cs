@@ -1,20 +1,13 @@
-﻿using AutoMapper;
-using Entities.Models;
+﻿using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Service.API;
-using Service.Identity;
-using Service.Models;
-using System.Net;
 using System.Threading.Tasks;
 using WebAPI.Middleware;
 
 namespace WebAPI.Controllers
 {
-   
+
     [Authorize(AuthenticationSchemes = "Bearer",Roles ="2")]
     [ApiController]
     [Route("/api/CartWishList")]
