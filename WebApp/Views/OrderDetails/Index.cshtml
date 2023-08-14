@@ -15,7 +15,7 @@
             </div>
             <div class="row w-100">
                 <div class="col-sm-1">
-                    <label>Top</label>
+                    <span class="text-bold">Top</span>
                     <select id="Top" class="form-control">
                         <option value="50">50</option>
                         <option value="100">100</option>
@@ -28,15 +28,15 @@
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-2 float-end">
-                    <label>From Date</label>
+                    <span class="text-bold">From</span>
                     <input aria-describedby="dtFromDate" class="form-control" id="dtFromDate" tabindex="5" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")" />
                 </div>
                 <div class="col-sm-2 float-end">
-                    <label>To Date</label>
+                    <span class="text-bold">To</span>
                     <input aria-describedby="dtToDate" class="form-control" id="dtToDate" tabindex="6" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")">
                 </div>
                 <div class="col-sm-2 float-end">
-                    <label>Status</label>
+                    <span class="text-bold">Status</span>
                     <select class="form-control" id="status">
                         <option value="0">All</option>
                         <option value="@StatusType.OrderPlaced">@StatusType.OrderPlaced.ToString()</option>
@@ -49,15 +49,15 @@
                     </select>
                 </div>
                 <div class="col-sm-3 float-end">
-                    <label>Search Order</label>
+                    <span class="text-bold">Search Order</span>
                     <div class="input-group">
                         <input type="text" class="form-control" id="SearchText" />
                         <div class="input-group-append" style="cursor:pointer">
-                            <span class="input-group-text btn-primary" id="basic-addon1">
-                                <div class="fa-3x">
+                            <div class="input-group-text btn-primary" id="basic-addon1">
+                                <span class="fa-3x">
                                     <i class="fa fa-search" style="font-size: 22px;"></i>
-                                </div>
-                            </span>
+                                </span>
+                            </div>
                             <span class="input-group-text btn-success" title="Download Order Report" onclick="downloadExcel()" id="basic-addon1"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
                             <span class="input-group-text btn-success" title="Download GST Exel" onclick="downloadGSTExcel()" id="basic-addon2"><i class=" fa fa-sharp fa-solid fa-file-excel" style="font-size: 22px;"></i></span>
                         </div>
@@ -69,8 +69,7 @@
                     <thead>
                         <tr>
                             <th>srNo</th>
-                            <th>User Name</th>
-                            <th>Phone Number</th>
+                            <th>Customer</th>
                             <th style="width:200px">Product</th>
                             <th>Status</th>
                             <th>Qty</th>
@@ -152,6 +151,6 @@
                 });
             })
         }
-        callDataTable({ selector: '#Grid', searching: false });
+        callDataTable({ selector: '#Grid', searching: false, scrollY: window.innerHeight - $('.table').offset().top - 100 });
     </script>
 }
