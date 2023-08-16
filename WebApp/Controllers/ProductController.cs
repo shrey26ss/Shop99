@@ -335,6 +335,20 @@ namespace WebApp.Controllers
             };
             return PartialView("Partials/_AddAttributes", model);
         }
+
+        [Authorize(Roles = "1,3")]
+        [HttpPost]
+        public async Task<IActionResult> AddAttributess(string combinationId, int CategoryId)
+        {
+            var model = new ViewVariantCombinationModel
+            {
+                CombinationId = combinationId,
+                CategoryId = CategoryId,
+                Attributes = await _ddl.GetCategoryMappedAttributeDDL(GetToken(), _apiBaseURL, CategoryId)
+            };
+            return Json(model);
+        }
+
         [Authorize(Roles = "1,3")]
         [HttpPost]
         [ValidateAjax]

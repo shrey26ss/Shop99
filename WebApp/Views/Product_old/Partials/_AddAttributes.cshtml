@@ -37,7 +37,7 @@
     </div>
 
     <script>
-        $('#btnAttributeSubmit').click(function() {
+        $('#btnAttributeSubmit').click(function () {
             let param = {
                 AttributeId: $('#AttributeId').val(),
                 AttributeText: $("#AttributeId option:selected").text(),
@@ -61,19 +61,18 @@
                 return false;
             }
             let _html = `<tr data-attr-Id="${param.AttributeId}" data-attr-Name="${attributeName}" data-attr-value="${param.AttrValue}" >
-                                         <td>${attributeGrid.find('tr').length}</td>
-                                         <td>${param.AttributeText}</td>
-                                         <td>${param.AttrValue}</td>
-                                         <td><span class="btn btn-danger rmRow"><i class="fa fa-times"></i><span></td>
-                                      </tr>`;
+                                 <td>${attributeGrid.find('tr').length}</td>
+                                 <td>${param.AttributeText}</td>
+                                 <td>${param.AttrValue}</td>
+                                 <td><span class="btn btn-danger rmRow"><i class="fa fa-times"></i><span></td>
+                              </tr>`;
             attributeGrid.append(_html);
-
-        if (param.AttributeId == "1" || param.AttributeText == "Color") {
-            $('#attrColor option[value="Default"]').remove();
-            $('tr[data-color-value="Default"]').remove();
-            groupId = $('.attrCombination').length;
-            let _option = `<option value="${param.AttrValue}" data-group-Id="${groupId}">${param.AttrValue}</option>`;
-            $('#attrColor').append(_option);
+            if (param.AttributeId == "1" || param.AttributeText == "Color") {
+                $('#attrColor option[value="Default"]').remove();
+                $('tr[data-color-value="Default"]').remove();
+                groupId = $('.attrCombination').length;
+                let _option = `<option value="${param.AttrValue}" data-group-Id="${groupId}">${param.AttrValue}</option>`;
+                $('#attrColor').append(_option);
             }
         });
     </script>

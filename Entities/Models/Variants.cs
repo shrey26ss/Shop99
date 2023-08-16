@@ -7,8 +7,8 @@ namespace Entities.Models
     public class VariantGroup
     {
         public int Id { get; set; }
-        [MaxLength(12, ErrorMessage = "Allowed Only 12 Character")]
-        public string HSN { get; set; }
+        //[MaxLength(12, ErrorMessage = "Allowed Only 12 Character")]
+        //public string HSN { get; set; }
         [Required(ErrorMessage = "Price is required.")]
         public decimal? MRP { get; set; }
         [Required(ErrorMessage = "Quantity is required.")]
@@ -16,8 +16,8 @@ namespace Entities.Models
         public int? ReturnInDays { get; set; }
       
 
-        [MaxLength(30, ErrorMessage = "Allowed Only 30 Character")]
-        public string GTIN { get; set; }
+        //[MaxLength(30, ErrorMessage = "Allowed Only 30 Character")]
+        //public string GTIN { get; set; }
         public bool? IsShowOnHome { get; set; }
         [Required(ErrorMessage = "Please Enter Title")]
         [MaxLength(320, ErrorMessage = "Allowed Only 320 Character")]
@@ -29,8 +29,9 @@ namespace Entities.Models
         public string WarrantyUnit { get; set; }
         public string Images { get; set; }
         public string Thumbnail { get; set; }
-        public decimal DiscountRate { get; set; }
-        public decimal DisplayCost { get; set; }
+        //public decimal DiscountRate { get; set; }
+        //public decimal DisplayCost { get; set; }
+        public string Specification { get; set; }
 
     }
     public class AttributeInfo

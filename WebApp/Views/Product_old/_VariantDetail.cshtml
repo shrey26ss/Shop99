@@ -1,12 +1,4 @@
-﻿@if (User.IsInRole("1"))
-{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-else
-{
-    Layout = "~/Views/Shared/_VendorsLayout.cshtml";
-}
-@model WebApp.Models.ViewModels.VariantDetailVM
+﻿@model WebApp.Models.ViewModels.VariantDetailVM
 <div class="content-header clearfix">
     <h1 class="float-left">
         Variant details

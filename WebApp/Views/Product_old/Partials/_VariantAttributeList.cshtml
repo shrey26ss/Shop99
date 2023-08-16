@@ -1,0 +1,31 @@
+﻿@using Entities.Models;
+@model IEnumerable<ProductAttributes>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered" id="Grid">
+            <thead>
+                <tr role="row">
+                    <th>#</th>
+                    <th>Attribute Name</th>
+                    <th>Attribute Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    int counter = 0;
+                    foreach (var item in Model)
+                    {
+                        counter++;
+                        <tr>
+                            <td>@counter</td>
+                            <td>@item.AttributeName</td>
+                            <td>@item.AttributeValue</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
