@@ -33,18 +33,18 @@ $(document).on('click', '#SaveProduct', () => {
     let attrInfo = [];
     let pictureInfo = [];
     
-    //let isImgUploaded = true;
-    //$('#attrColor').find('option').each(function () {
-    //    let tdCounts = $(".pictureGrid tbody").find("td:contains('" + $(this).text() + "')").length;
-    //    if (tdCounts == 0) {
-    //        isImgUploaded = false;
-    //        return;
-    //    }
-    //});
-    //if (!isImgUploaded) {
-    //    Q.notify(-1, 'Images are still pending for some colors');
-    //    return
-    //}
+    let isImgUploaded = true;
+    $('#attrColor').find('option').each(function () {
+        let tdCounts = $(".pictureGrid tbody").find("td:contains('" + $(this).text() + "')").length;
+        if (tdCounts == 0) {
+            isImgUploaded = false;
+            return;
+        }
+    });
+    if (!isImgUploaded) {
+        Q.notify(-1, 'Images are still pending for some colors');
+        return
+    }
 
     __attributes.map(x => x.attributes.map((y, i) => attrInfo.push({
         Id: i,
