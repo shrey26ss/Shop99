@@ -29,7 +29,7 @@ namespace Entities.Models
         public string WarrantyUnit { get; set; }
         public string Images { get; set; }
         public string Thumbnail { get; set; }
-        //public decimal DiscountRate { get; set; }
+        public decimal DiscountRate { get; set; }
         //public decimal DisplayCost { get; set; }
         public string Specification { get; set; }
 
@@ -99,11 +99,11 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
-        public string HSN { get; set; }
+       // public string HSN { get; set; }
         public decimal MRP { get; set; }
         public decimal SellingCost { get; set; }
         public int Quantity { get; set; }
-        public string GTIN { get; set; }
+       // public string GTIN { get; set; }
         public string Title { get; set; }
         public string Thumbnail { get; set; }
         public bool IsFeatured { get; set; }
@@ -112,6 +112,7 @@ namespace Entities.Models
         public int CategoryId { get; set; }
         public decimal DiscountRate { get; set; }
         public decimal DisplayRate { get; set; }
+        public string Specification { get; set; }
     }
     public class DeleteVariantReq
     {

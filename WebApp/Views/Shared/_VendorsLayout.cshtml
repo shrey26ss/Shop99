@@ -1,0 +1,307 @@
+﻿@using AppUtility.APIRequest
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
+@{
+      string hangFireURL = WebHostEnvironment.EnvironmentName == "Development" ? "http://localhost:7138/mydashboard" : "https://api.KartValues.in.in/mydashboard";
+    
+}
+
+<html lang="en" dir="ltr" class="k-webkit k-webkit107" style="height: auto;">
+<head>
+    <title></title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/lib/datatables/dist/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="~/css/productedit.head.styles.css" rel="stylesheet" />
+    <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/admin.site.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/themify.css" />
+    <link rel="shortcut icon" href="~/assets/images/favicon/favicon.png" type="image/x-icon" />
+</head>
+<body class="sidebar-mini layout-fixed control-sidebar-slide-open basic-settings-mode">
+    <div class="throbber">
+        <div class="curtain">
+        </div>
+        <div class="curtain-content">
+            <div>
+                <h1 class="throbber-header">Wait...</h1>
+                <p>
+                    <img src="/css/admin/images/throbber-synchronizing.gif" alt="">
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="ajaxBusy" style="display: none;">
+        <span>&nbsp;</span>
+    </div>
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand-md navbar-dark bg-dark">
+            <ul class="navbar-nav pl-2 pl-md-0">
+                <li class="nav-item">
+                    <a class="nav-link" id="nopSideBarPusher" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                </li>
+            </ul>
+            <a href="/dashboard" class="brand-link navbar-dark">
+                <img src="@Websiteinfomation.Whitelogo" alt="logo.png" class="brand-image logo d-block d-md-none d-sm-block d-sm-none">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav ml-auto pl-2">
+                    <li class="nav-item">
+                    </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link disabled">Vendors</a>
+                        </li>
+                    <li class="nav-item">
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" data-toggle="dropdown">
+                            <i class="fas fa-cogs"></i>
+                        </a>
+                        <ul class="maintenance-menu dropdown-menu dropdown-menu-right" role="menu">
+                            <li class="dropdown-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-eraser"></i>  Clear cache
+                                </a>
+                            </li>
+
+                            <li class="dropdown-item">
+                                <a href="/user/profile">
+                                    <i class="fa fa-user" aria-hidden="true"></i>  Profile
+                                </a>
+
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="/Account/Logout"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <a href="/dashboard" class="brand-link navbar-dark logo-switch">
+                <img src="@Websiteinfomation.Whitelogo" alt="logo.png" class="brand-image-xl logo-xl">
+                <img src="@Websiteinfomation.Whitelogo" alt="logo.png" class="brand-image-xs logo-xs">
+            </a>
+            <div class="sidebar os-host os-host-scrollbar-horizontal-hidden os-host-transition os-host-overflow os-host-overflow-y">
+                <div class="os-padding">
+                    <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                        <div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
+                            <nav class="mt-2">
+                                <ul class="nav nav-pills nav-sidebar flex-column nav-legacy" data-widget="treeview" role="menu">
+                                    <li class="nav-item">
+                                        <a href="/Vendor/Index" class="nav-link">
+                                            <i class="nav-icon fas fa-desktop"></i>
+                                            <p> Dashboard</p>
+                                        </a>
+                                    </li>
+                                   
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link active">
+                                            <i class="nav-icon fas fa-list"></i>
+                                            <p>
+                                                Catalog
+                                                <i class="right fas fa-angle-left "></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview" style="display: none;">
+                                            <li class="nav-item">
+                                                <a href="/Product" class="nav-link active">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Products</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Category" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Categories</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Brand" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Brand</p>
+                                                </a>
+                                            </li>
+                                           
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fas fa-shopping-cart"></i>
+                                            <p>
+                                                Sales
+                                                <i class="right fas fa-angle-left "></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview" style="display: none;">
+                                            <li class="nav-item">
+                                                <a href="/OrderDetails/Index" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Orders</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/OrderDetails/ReturnRequest" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Return requests</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link active">
+                                            <i class="nav-icon fas fa-chart-line"></i>
+                                            <p>
+                                                Report
+                                                <i class="right fas fa-angle-left "></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview" style="display: none;">
+                                            <li class="nav-item">
+                                                <a href="/Report/InventoryLedger" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Inventory Ledger</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Report/PGReport" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p> Payments</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Report/NewsLetter" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p>News Letter</p>
+                                                </a>
+                                            </li> 
+                                            <li class="nav-item">
+                                                <a href="/Report/GetAllLedger" class="nav-link">
+                                                    <i class="nav-icon far fa-dot-circle"></i>
+                                                    <p>Ledger</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                 
+                                </ul>
+
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-text">
+                <p>2023 POWERED BY KartValues</p>
+            </div>
+        </aside>
+        <div class="content-wrapper" style="min-height: 142px;">
+            <div class="content pt-2">
+                @RenderBody()
+            </div>
+        </div>
+        @*<div class="main-footer">
+        <div class="container-fluid">
+        <div class="col-md-12">
+        <div class="row">
+        <div class="col-md-4 col-xs-12 text-md-left text-center">
+        </div>
+        <div class="col-md-4 col-xs-12 text-center">
+        <p>@Websiteinfomation.Footerdescription</p>
+        </div>
+        <div class="col-md-4 col-xs-12 text-md-right text-center">
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>*@
+        <div id="sidebar-overlay"></div>
+    </div>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/lib/datatables/dist/js/jquery.datatables.min.js"></script>
+    <script src="~/build/bundlejs.js"></script>
+    <script src="~/clientapp/js/dialog.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script>
+        function idleTimeout() {
+            let i = 0;
+            var t;
+            window.onload = resetTimer;
+            window.onmousemove = resetTimer;
+            window.onmousedown = resetTimer;  // catches touchscreen presses as well
+            window.ontouchstart = resetTimer; // catches touchscreen swipes as well
+            window.ontouchmove = resetTimer;  // required by some devices
+            window.onclick = resetTimer;      // catches touchpad clicks as well
+            window.onkeydown = resetTimer;
+            window.addEventListener('scroll', resetTimer, true); // improved; see comments
+            $(document).ajaxStart(function () {
+                resetTimer();
+            });
+            function yourFunction() {
+                console.log(i)
+                i += 1;
+                if (i % 5 === 0) {
+                    location.reload();
+                }
+            }
+            function resetTimer() {
+                i = 0;
+                clearTimeout(t);
+                t = setInterval(function () {
+                    yourFunction()
+                }, 5 * 60 * 1000);  // time is in milliseconds
+            }
+        }
+
+        $(document).ready(function () {
+            idleTimeout();
+            $('#nopSideBarPusher').click(() => $('body').toggleClass("sidebar-collapse sidebar-open"));
+            $(document).on('click', '[data-card-widget="collapse"]', e => {
+                let ele = $(e.currentTarget);
+                ele.parents('.card').toggleClass('collapsed-card');
+                ele.find('i.fa').toggleClass('fa-minus fa-plus')
+            })
+            //$('.select2').select2();
+            $('.has-treeview').click(e => {
+                let tree = $(e.currentTarget);
+                tree.toggleClass('.menu-open');
+                tree.find('.nav-treeview').toggle();
+            })
+        })
+        function callDataTable(options) {
+            console.log('callDataTable');
+            options = $.extend({}, {
+                selector: 'table',
+                searching: true,
+                destroy: true,
+                language: {
+                    "emptyTable": "My Custom Message On Empty Table"
+                }
+            }, options);
+            $(options.selector).DataTable({
+                paging: true,
+                dom: "<'row'<'col-sm-12'Bfrt>>" +
+                    "<'row'<'col-sm-3'l><'col-sm-4'i><'col-sm-5'p>>",
+                //+
+                //"<'row'<'col-sm-4'i>>",
+                searching: options.searching,
+                bSort: false,
+                destroy: true,
+                scrollY: window.innerHeight - $('.table').offset().top - 155,
+            });
+        }
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
