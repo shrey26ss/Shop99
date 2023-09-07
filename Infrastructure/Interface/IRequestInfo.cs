@@ -17,5 +17,6 @@ namespace Infrastructure.Interface
         string GetDomain();
         string GetUserAgentMD5();
         string GetAbsoluteURI();
+        string GetBaseURI();
     }
 }

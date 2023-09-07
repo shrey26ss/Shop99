@@ -297,17 +297,29 @@ let recordsintable = () => {
     $("#dataTable1 tbody tr").each(function () {
         let _currentEle = $(this);
         let attrName = _currentEle.data().attributeName?.toUpperCase();
+        let inputEle = _currentEle.find("input");
+        let attrValue = inputEle.val();
+        inputEle.addClass('is-valid');
+        inputEle.removeClass('is-invalid');
+        if (attrValue == null || attrValue == undefined || attrValue == '') {
+            inputEle.addClass('is-invalid');
+            Q.notify(-1, 'Please Fill Attribute Value!');
+            _isReturn = false;
+            return false;
+        }
         __attr.push({
             id: _currentEle.data().attributeId,
             name: attrName,
-            value: _currentEle.find("input").val()
+            value: attrValue
         });
         if (attrName === 'COLOR' || attrName === 'COLOUR') {
             $('tr[data-color-value="Default"]').remove();
             loadColorAttr();
         }
     });
-
+    if (!_isReturn) {
+        return false;
+    }
     __attributes.push({
         groupId: __attributes.length + 1,
         attributes: __attr
@@ -331,6 +343,7 @@ let recordsintable = () => {
         ReturnInDays: $("#returnhere").val(),
         Warranty: $("#warranty").val(),
         WarrantyUnit: $("#yearmonth").val(),
+        DiscountRate: $("#Discountrate").val(),
         Specification: tinymce.get("specification").getContent(),
         IsFeatured: $("#IsFeatured").prop("checked"),
         IsShowOnHome: $("#IsShowOnHome").prop("checked")
@@ -345,8 +358,9 @@ let recordsintable = () => {
         "<td>" + dataObj.ReturnInDays + "</td>" +
         "<td>" + dataObj.Warranty + "</td>" +
         "<td>" + dataObj.WarrantyUnit + "</td>" +
+        "<td>" + dataObj.DiscountRate + "</td>" +
         "<td>" + dataObj.IsFeatured + "</td>" +
-        "<td>" + dataObj.IsShowOnHome + "</td>" +
+        "<td> <div>" + dataObj.IsShowOnHome + "</div></td>" +
         "<td>" + dataObj.Specification + "</td>" +
         "<td>" + __attributes[count - 1].attributes.map(x => x.value).join() + "</td>" +
         `<td class='text-nowrap'><i class='fa fa-trash text-danger deleteVariantRow' style="cursor: pointer"></i></td>` +

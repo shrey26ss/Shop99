@@ -149,7 +149,11 @@ namespace Service.Repos
             }
             return userAgent ?? string.Empty;
         }
-
+        public string GetBaseURI()
+        {
+            var request = _accessor.HttpContext.Request;
+            return request.Scheme + "://" + request.Host;
+        }
         public string GetAbsoluteURI()
         {
             var request = _accessor.HttpContext.Request;
