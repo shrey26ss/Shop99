@@ -53,7 +53,7 @@ namespace Service.CartWishList
         }
         public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
         {
-            string sp = "proc_Order";
+            string sp = "proc_Order_Test";
             var res = new PlaceOrderResponse()
             { 
             StatusCode=ResponseStatus.Failed,

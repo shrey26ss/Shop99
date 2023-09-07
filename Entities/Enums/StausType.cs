@@ -50,6 +50,8 @@ namespace Entities.Enums
         [Description("Order Initiated")]
         OrderInitiated = 20,
         [Description("Low Stock")]
-        LowStock = 21
+        LowStock = 21,
+        [Description("Order Completed")]
+        OrderCompleted = 22,
     }
 }
