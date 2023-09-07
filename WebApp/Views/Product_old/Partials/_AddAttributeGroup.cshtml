@@ -7,52 +7,52 @@
     <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
-                <label class="col-form-label" for="Title">Title</label>
+                <label class="col-form-label required" for="Title">Title</label>
             </div>
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" id="titlewords" type="text" name="Title" required>
+                <input class="form-control text-box single-line" type="text" name="Title">
             </div>
         </div>
     </div>
     <div class="form-group row">
         <div class="col-md-3 label-wrapper">
-            <label class="col-form-label" for="Price">MRP</label>
+            <label class="col-form-label required" for="Price">MRP</label>
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" id="MRP" name="MRP" value="0" required>
+                <input class="form-control text-box single-line" type="text" id="MRP" name="MRP" value="0">
             </div>
         </div>
     </div>
     <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
-                <label class="col-form-label" for="SellingCost" id="sellingcost">Selling Cost</label>
+                <label class="col-form-label required" for="SellingCost">Selling Cost</label>
             </div>
         </div>
         <div class="col-md-9">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" id="SellingCst" name="SellingCost" value="0" required>
+                <input class="form-control text-box single-line" type="text" id="SellingCost" name="SellingCost" value="0">
             </div>
         </div>
     </div>
     <div class="form-group row">
         <div class="col-md-3 label-wrapper">
-            <label class="col-form-label" for="Quantity">Quantity</label>
+            <label class="col-form-label required" for="Quantity">Quantity</label>
         </div>
         <div class="col-md-4">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" name="Quantity" value="1" id="quantity" required>
+                <input class="form-control text-box single-line" type="text" name="Quantity" value="1">
             </div>
         </div>
         <div class="col-md-1 label-wrapper">
-            <label class="col-form-label" for="Quantity">Return In Days</label>
+            <label class="col-form-label required" for="Quantity">Return</label>
         </div>
-        <div class="col-md-4">
+          <div class="col-md-4">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" name="ReturnInDays" value="0" placeholder="Return In Days" id="returnhere">
+                <input class="form-control text-box single-line" type="text" name="ReturnInDays" value="0" placeholder="Return In Days">
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>*@
-    <div class="form-group row">
+     <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
                 <label class="col-form-label" for="HSN">Warranty</label>
@@ -84,7 +84,7 @@
         </div>
         <div class="col-md-4">
             <div class="input-group input-group-required">
-                <input class="form-control text-box single-line" type="text" name="Warranty" value="0" placeholder="Warrent in Numbers" id="warranty">
+                <input class="form-control text-box single-line" type="text" name="Warranty" value="0" placeholder="Warrent in Numbers">
             </div>
         </div>
         <div class="col-md-1 label-wrapper">
@@ -92,16 +92,16 @@
         </div>
         <div class="col-md-4">
             <div class="input-group input-group-required">
-                <select class="form-control" name="WarrantyUnit" id="yearmonth">
+                <select class="form-control" name="WarrantyUnit">
                     <option value="YEAR"> YEAR </option>
                     <option value="MONTH"> MONTH </option>
-                </select>
+                    </select>
             </div>
         </div>
-    </div>
+     </div>
 
 
-    <div class="form-group row">
+   @* <div class="form-group row">
         <div class="col-md-3">
             <div class="label-wrapper">
                 <label class="col-form-label" for="HSN">Discount Rate</label>
@@ -112,8 +112,8 @@
                 <input class="form-control text-box single-line" type="text" id="Discountrate" name="Discountrate" value="0" placeholder="Discount Rate">
             </div>
         </div>
-
-    </div>
+       
+    </div>*@
 
     <div class="form-group row">
         <div class="col-md-3">
@@ -146,64 +146,30 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <input type="checkbox" class="mb-2" name="IsShowOnHome" id="IsShowOnHome">
+                        <input type="radio" name="IsShowOnHome" id="IsShowOnHome">
                     </div>
                 </div>
                 <label class="form-control" for="IsShowOnHome">Is Show On Home</label>
             </div>
         </div>
     </div>
-    <span class="text-red" id="alertText"></span>
+
+    
+    
+    <button type="button" class="btn btn-sm btn-info btnAddNewAttribute mb-2 float-right">Add Attribute</button>
     <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped attributeGrid" id="dataTable1">
+        <table class="table table-bordered table-hover table-striped attributeGrid">
             <thead>
                 <tr>
                     <th>#</th>
                     <th class="text-nowrap">Attribute</th>
                     <th class="text-nowrap">Attribute Value</th>
+                    <th class="text-nowrap">Action</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
     </div>
-
-    <div class="form-group row">
-        <div class="col-md-12 text-right">
-            <button type="button" class="btn btn-lg btn-info mb-2 btn-primary" onclick="recordsintable()">Add</button>
-        </div>
-    </div>
-
-    <span class="text-danger" id="alertexists"></span>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped d-none" id="dataTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th class="text-nowrap">Title</th>
-                    <th class="text-nowrap">MRP</th>
-                    <th class="text-nowrap">Selling Cost</th>
-                    <th class="text-nowrap">Quantity</th>
-                    <th class="text-nowrap">Return</th>
-                   @* <th class="text-nowrap">HSN</th>
-                    <th class="text-nowrap">GTIN</th>*@
-                    <th class="text-nowrap">Warranty</th>
-                    <th class="text-nowrap">Warranty Unit</th>
-                    <th class="text-nowrap">Discount Rate</th>
-                    <th class="text-nowrap">IsFeatured</th>
-                    <th class="text-nowrap">Is Show On Home</th>
-                    <th class="text-nowrap">Specification</th>
-                    <th class="text-nowrap">Attribute</th>
-                    <th class="text-nowrap">Action</th>
-
-                </tr>
-            </thead>
-            <tbody class="tblgroupinfo"></tbody>
-        </table>
-    </div>
-    <div class="row d-none" style="justify-content: right;" id="btnProceed">
-        <div class="col-sm-3 d-flex" style="justify-content: flex-end;">
-            <button class="btn btn-sm btn-success">Proceed</button>
-        </div>
-    </div>
 </div>
+

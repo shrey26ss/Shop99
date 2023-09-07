@@ -1,12 +1,4 @@
-﻿@if (User.IsInRole("1"))
-{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-else
-{
-    Layout = "~/Views/Shared/_VendorsLayout.cshtml";
-}
-@using WebApp.Models.ViewModels;
+﻿@using WebApp.Models.ViewModels;
 @model ProductViewModel
 @{
     var catDDl = new SelectList(Model.Categories, "CategoryId", "CategoryName");
@@ -15,15 +7,12 @@ else
     <h1 class="float-left" style="margin-top: 6px;">
         Products
     </h1>
-    @if (User.IsInRole("1"))
-    {
-        <div class="float-right">
-            <a class="btn btn-primary" href="/Product/Edit/0">
-                <i class="fas fa-plus-square"></i>
-                Add Product
-            </a>
-        </div>
-    }
+    <div class="float-right">
+        <a class="btn btn-primary" href="/Product/Edit/0">
+            <i class="fas fa-plus-square"></i>
+            Add Product
+        </a>
+    </div>
 </div>
 <div class="card">
     <div class="card-body">
@@ -47,10 +36,8 @@ else
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table id="tbl" class="table table-bordered tblbtn m-0 w-100">
+                    <table id="tbl" class="table table-bordered tblbtn">
                         <thead class="table-dark p-0">
-
-
                             <tr>
                                 <th></th>
                                 <th>Action</th>
@@ -58,12 +45,8 @@ else
                                 <th>Category</th>
                                 <th>Brand</th>
                                 <th>SKU</th>
-                                @if (User.IsInRole("1"))
-                                {
-                                    <th>IsPublished</th>
-                                }
+                                <th>IsPublished</th>
                             </tr>
-
                         </thead>
                         <tbody>
                         </tbody>
@@ -109,40 +92,9 @@ else
         }
 
         var loadData = function (customeEvent = false) {
-            let isAdmin = '@User.IsInRole("1")';
-            console.log('isAdmin : ', isAdmin)
             let counter = 0;
-            let column = [
-                {
-                    data: 'id',
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    },
-                    orderable: false
-                },
-                {
-                    data: function (row) {
-                        counter = counter + 1;
-                        return `<td class="align-middle">
-                                    <div class="btn-group dropup">
-                                        <a href="#" id="act_${counter}" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expaned="false"></a>
-                                        <div class="dropdown-menu" aria-labelledby="act">
-                                            <h6 class="dropdown-header">Action Menu</h6>
-                                            <a class="dropdown-item Edit" href="/Product/AddVariant?Id=${row.id}&cId=${row.categoryId}">Add Variant </a>
-                                            <a class="dropdown-item Edit" href="/Product/Attributes?Id=${row.id}">View Variant </a>
-                                         </div>
-                                      </div>
-                                 </td>`;
-                    },
-                    orderable: false, class: 'text-nowrap align-middle'
-                },
-                { data: "name", orderable: false, class: '' },
-                { data: "categoryName", orderable: false, class: 'text-nowrap' },
-                { data: "brandName", orderable: false, class: 'text-nowrap' },
-                { data: "sku", orderable: false, class: '' }
-            ]
-            if (isAdmin === 'True') {
-                column = [
+            var table = $.renderDataTable2({
+                columns: [
                     {
                         data: 'id',
                         render: function (data, type, row, meta) {
@@ -154,16 +106,17 @@ else
                         data: function (row) {
                             counter = counter + 1;
                             return `<td class="align-middle">
-                                       <div class="btn-group dropup">
-                                          <a href = "#" id="act_${counter}" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expaned="false"></a>
-                                          <div class="dropdown-menu" aria-labelledby="act">
-                                            <h6 class="dropdown-header">Action Menu</h6>
-                                                <a class="dropdown-item Edit" href="/Product/Edit/${row.id}">Edit</a>
-                                            <a class="dropdown-item Edit" href="/Product/AddVariant?Id=${row.id}&cId=${row.categoryId}">Add Variant</a>
-                                            <a class="dropdown-item Edit" href="/Product/Attributes?Id=${row.id}">View Variant</a>
-                                         </div>
-                                      </div>
-                            </td>`;
+                        <div class="btn-group dropup">
+                            <a href="#" id="act_${counter}" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expaned="false"></a>
+                            <div class="dropdown-menu" aria-labelledby="act">
+                                <h6 class="dropdown-header">Action Menu</h6>
+                                <a class="dropdown-item Edit" href="/Product/Edit/${row.id}">Edit </a>
+                                <a class="dropdown-item Edit" href="/Product/AddVariant?Id=${row.id}&cId=${row.categoryId}">Add Variant </a>
+                                <a class="dropdown-item Edit" href="/Product/Attributes?Id=${row.id}">View Variant </a>
+                            </div>
+                        </div>
+                    </td>`;
                         },
                         orderable: false, class: 'text-nowrap align-middle'
                     },
@@ -171,21 +124,15 @@ else
                     { data: "categoryName", orderable: false, class: 'text-nowrap' },
                     { data: "brandName", orderable: false, class: 'text-nowrap' },
                     { data: "sku", orderable: false, class: '' },
-                    {
-                        data: function (row) {
-                            let isChecked = row.isPublished ? "checked" : "";
-                            return `<span class= "switch switch-sm">
-                                        <input type = "checkbox" class= "switch" onclick = "UpdateIspublish('${row.id}')" id = "Ispublish_${row.id}" ${isChecked}>
-                                        <label for= "Ispublish_${row.id}" ></label>
-                            </span >`;
-                        },
-                        orderable: false, class: 'text-nowrap'
-                    }
-                ]
-            }
-
-            var table = $.renderDataTable2({
-                columns: column,
+                    { data: function(row){
+                        let isChecked = row.isPublished ? "checked" : "";
+                            return `<span class="switch switch-sm">
+                                      <input type="checkbox" class="switch" onclick="UpdateIspublish('${row.id}')" id="Ispublish_${row.id}" ${isChecked}>
+                                    <label for="Ispublish_${row.id}"></label>
+                        </span>`;
+                    },
+                    orderable: false, class: 'text-nowrap' }
+                ],
                 filters: {
                     SearchVal: $('#textProductName').val(),
                     cid: $('#ddlCategory').val()
@@ -197,7 +144,7 @@ else
                 responsive: true,
                 scrollY: window.innerHeight - $('.table').offset().top - 100,
                 scrollX: true,
-                pageLength: 50,
+                pageLength : 50,
                 afterDrawback: function () {
                     const ps = document.querySelectorAll('p');
                     const observer = new ResizeObserver(entries => {
