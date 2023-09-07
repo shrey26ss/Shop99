@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using WebApp.AppCode;
 using WebApp.AppCode.Attributes;
 using WebApp.AppCode.Helper;
+using WebApp.AppCode.UploadImageService;
 using WebApp.Middleware;
 using WebApp.Models;
 using WebApp.Models.ViewModels;
@@ -36,14 +37,16 @@ namespace WebApp.Controllers
         private readonly Dictionary<string, string> _ImageSize;
         private readonly IHttpRequestInfo _httpInfo;
         private readonly IDDLHelper _ddl;
+        private readonly IUploadImageService _uploadimage;
         private readonly ILogger<ProductController> _logger;
-        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo, IDDLHelper ddl, ILogger<ProductController> logger)
+        public ProductController(AppSettings appSettings, IOptions<ImageSize> imageSize, IHttpRequestInfo httpInfo, IDDLHelper ddl, ILogger<ProductController> logger, IUploadImageService imageService)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _ImageSize = imageSize.Value;
             _httpInfo = httpInfo;
             _ddl = ddl;
             _logger = logger;
+            _uploadimage = imageService;
         }
 
         #region Add Product
@@ -367,13 +370,19 @@ namespace WebApp.Controllers
             var response = new Response();
             try
             {
-                model.PictureInfo = UploadProductImage(req);
+                var uploadRes = UploadProductImage(req);
+                if (uploadRes.StatusCode != ResponseStatus.Success)
+                {
+                    response.ResponseText = uploadRes.ResponseText;
+                    return Json(response);
+                }
+                model.PictureInfo = uploadRes.Result;
                 if (model.PictureInfo.Count() > 0)
                 {
                     foreach(var item in model.GroupInfo)
                     {
                         item.Images = JsonConvert.SerializeObject(model.PictureInfo.Where(a => a.GroupId == item.Id));
-                        item.Thumbnail = model.PictureInfo.Where(a => a.ImgVariant.Equals("default")).Where(a => a.GroupId== item.Id).FirstOrDefault().ImagePath;
+                        item.Thumbnail = model.PictureInfo.Where(a => a.ImgVariant.Equals("200_200")).Where(a => a.GroupId== item.Id).FirstOrDefault().ImagePath;
                     }
                     string _token = User.GetLoggedInUserToken();
                     var jsonData = JsonConvert.SerializeObject(model);
@@ -477,8 +486,87 @@ namespace WebApp.Controllers
         #endregion
 
         #region Private Method
-        private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)
+        //private List<PictureInformation> UploadProductImage(List<PictureInformationReq> req)
+        //{
+        //    List<PictureInformation> ImageInfo = new List<PictureInformation>();
+        //    Regex reg = new Regex("[*'\",_&#^@]");
+        //    if (req != null && req.Any())
+        //    {
+        //        int counter = 0;
+        //        foreach (var item in req)
+        //        {
+        //            item.Alt = reg.Replace(item.Alt.Replace("\\", "|").Replace("/", "|"), " ");
+        //            item.Title = reg.Replace(item.Title.Replace("\\", "|").Replace("/", "|"), " ");
+        //            counter++;
+        //            string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
+        //            Utility.O.UploadFile(new FileUploadModel
+        //            {
+        //                file = item.file,
+        //                FileName = fileName,
+        //                FilePath = FileDirectories.ProductVariant.Replace("/{0}", string.Empty),
+        //                IsThumbnailRequired = false,
+        //            });
+        //            ImageInfo.Add(new PictureInformation
+        //            {
+        //                Title = item.Title,
+        //                Alt = item.Alt,
+        //                Color = item.Color,
+        //                DisplayOrder = item.DisplayOrder,
+        //                GroupId = item.GroupId,
+        //                ImgVariant = "default",
+        //                ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffixDefault, fileName)
+        //            });
+        //            foreach (var iSize in _ImageSize)
+        //            {
+        //                bool isExists = _ImageSize.TryGetValue(iSize.Key, out string sValue);
+        //                if (isExists)
+        //                {
+        //                    var dimension = sValue.Split("_");
+        //                    ImageResizer resizer = new ImageResizer();
+        //                    var resizedImg = resizer.ResizeImage(item.file, Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+        //                    if (resizedImg == null)
+        //                    {
+        //                        ImageInfo = new List<PictureInformation>();
+        //                        goto Finish;
+        //                    }
+        //                    using (var stream = new MemoryStream())
+        //                    {
+        //                        resizedImg.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+        //                        var formFile = new FormFile(stream, 0, stream.Length, "req[0].file", fileName)
+        //                        {
+        //                            Headers = new HeaderDictionary(),
+        //                            ContentDisposition = "form-data;FileName=" + fileName,
+        //                            ContentType = "image/jpeg"
+        //                        };
+        //                        string Paths = FileDirectories.ProductVariant.Replace("{0}", sValue);
+        //                        Utility.O.UploadFile(new FileUploadModel
+        //                        {
+        //                            file = formFile,
+        //                            FileName = fileName,
+        //                            FilePath = FileDirectories.ProductVariant.Replace("{0}", sValue),
+        //                            IsThumbnailRequired = false,
+        //                        });
+        //                        ImageInfo.Add(new PictureInformation
+        //                        {
+        //                            Title = item.Title,
+        //                            Alt = item.Alt,
+        //                            Color = item.Color,
+        //                            DisplayOrder = item.DisplayOrder,
+        //                            GroupId = item.GroupId,
+        //                            ImgVariant = sValue,
+        //                            ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
+        //                        });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //Finish:
+        //    return ImageInfo;
+        //}
+        private Response<List<PictureInformation>> UploadProductImage(List<PictureInformationReq> req)
         {
+            var response = new Response<List<PictureInformation>>();
             List<PictureInformation> ImageInfo = new List<PictureInformation>();
             Regex reg = new Regex("[*'\",_&#^@]");
             if (req != null && req.Any())
@@ -490,13 +578,19 @@ namespace WebApp.Controllers
                     item.Title = reg.Replace(item.Title.Replace("\\", "|").Replace("/", "|"), " ");
                     counter++;
                     string fileName = $"{counter.ToString() + DateTime.Now.ToString("ddMMyyyyhhmmssmmm")}.jpeg";
-                    Utility.O.UploadFile(new FileUploadModel
+                    var uploadRes = _uploadimage.Upload(new FileUploadModel
                     {
                         file = item.file,
                         FileName = fileName,
                         FilePath = FileDirectories.ProductVariant.Replace("/{0}", string.Empty),
                         IsThumbnailRequired = false,
                     });
+                    if (uploadRes.StatusCode != ResponseStatus.Success)
+                    {
+                        response.StatusCode = ResponseStatus.Failed;
+                        response.ResponseText = uploadRes.ResponseText;
+                        return response;
+                    }
                     ImageInfo.Add(new PictureInformation
                     {
                         Title = item.Title,
@@ -505,7 +599,7 @@ namespace WebApp.Controllers
                         DisplayOrder = item.DisplayOrder,
                         GroupId = item.GroupId,
                         ImgVariant = "default",
-                        ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffixDefault, fileName)
+                        ImagePath = uploadRes.ResponseText
                     });
                     foreach (var iSize in _ImageSize)
                     {
@@ -530,13 +624,19 @@ namespace WebApp.Controllers
                                     ContentType = "image/jpeg"
                                 };
                                 string Paths = FileDirectories.ProductVariant.Replace("{0}", sValue);
-                                Utility.O.UploadFile(new FileUploadModel
+                                uploadRes = _uploadimage.Upload(new FileUploadModel
                                 {
                                     file = formFile,
                                     FileName = fileName,
                                     FilePath = FileDirectories.ProductVariant.Replace("{0}", sValue),
                                     IsThumbnailRequired = false,
                                 });
+                                if (uploadRes.StatusCode != ResponseStatus.Success)
+                                {
+                                    response.StatusCode = ResponseStatus.Failed;
+                                    response.ResponseText = uploadRes.ResponseText;
+                                    return response;
+                                }
                                 ImageInfo.Add(new PictureInformation
                                 {
                                     Title = item.Title,
@@ -545,15 +645,18 @@ namespace WebApp.Controllers
                                     DisplayOrder = item.DisplayOrder,
                                     GroupId = item.GroupId,
                                     ImgVariant = sValue,
-                                    ImagePath = string.Concat(_httpInfo.AbsoluteURL(), "/", FileDirectories.ProductSuffix.Replace("{0}", sValue), fileName)
+                                    ImagePath = uploadRes.ResponseText
                                 });
+                                response.StatusCode = ResponseStatus.Success;
+                                response.ResponseText = ResponseStatus.Success.ToString();
                             }
                         }
                     }
                 }
             }
         Finish:
-            return ImageInfo;
+            response.Result = ImageInfo;
+            return response;
         }
         [Authorize(Roles = "1,2,3")]
         private string GetToken()
@@ -636,7 +739,13 @@ namespace WebApp.Controllers
             var response = new Response();
             try
             {
-                model.PictureInfo = UploadProductImage(req);
+                var uploadRes = UploadProductImage(req);
+                if (uploadRes.StatusCode != ResponseStatus.Success)
+                {
+                    response.ResponseText = uploadRes.ResponseText;
+                    return Json(response);
+                }
+                model.PictureInfo = uploadRes.Result;
                 if (model.PictureInfo.Count() > 0)
                 {
                     model.GroupInfo.FirstOrDefault().Images = JsonConvert.SerializeObject(model.PictureInfo);

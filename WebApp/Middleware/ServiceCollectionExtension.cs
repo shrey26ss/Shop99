@@ -15,6 +15,7 @@ using WebApp.Servcie;
 using WebApp.AppCode.Helper;
 using AppUtility.Helper;
 using AppUtility.AppCode;
+using WebApp.AppCode.UploadImageService;
 
 namespace WebApp.Middleware
 {
@@ -40,6 +41,8 @@ namespace WebApp.Middleware
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IDDLHelper, DDLHelper>();
             services.AddSingleton<IGenericMethods, GenericMethods>();
+            services.AddScoped<IUploadImageService, UploadImageService>();
+            services.AddScoped<IRequestInfo, RequestInfoServcie>();
             services.AddScoped<Data.Migrations.Database>();
             //services.AddProgressiveWebApp();
             services.AddAutoMapper(typeof(Startup));
