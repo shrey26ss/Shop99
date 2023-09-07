@@ -33,7 +33,7 @@ namespace Service.Product
             var res = new Response();
             try
             {
-                string sqlQuery = "Proc_AddUpdateProductAndShippingDetails";
+                string sqlQuery = "Proc_AddUpdateProductAndShippingDetails_Test";
                 res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     request.LoginId,
@@ -48,8 +48,9 @@ namespace Service.Product
                     request.Data.Charges,
                     request.Data.FreeOnAmount,
                     request.Data.ShippingDetailId,
-                    Specification = request.Data.Specification ?? String.Empty,
+                   // Specification = request.Data.Specification ?? String.Empty,
                     request.Data.ShortDescription,
+                    request.Data.HSN,
                     request.Data.IsCod,
                 }, CommandType.StoredProcedure);
             }
@@ -185,23 +186,23 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
             {
                 var VariantGroup = ConvertToDataTable.ToDataTable(request.Data.GroupInfo);
                 var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
-                var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
+                //var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
                 var picturejson = request.Data.PictureInfo.ToString();
-                string sqlQuery = "Proc_AddVariant";
+                string sqlQuery = "Proc_AddVariant_Test";
                 int i = -5;
                 DynamicParameters param = new DynamicParameters();
                 param.Add("VariantGroup", VariantGroup, DbType.Object);
                 param.Add("AttributeInfo", AttributeInfo, DbType.Object);
-                param.Add("PictureInfo", PictureInfo, DbType.Object);
+               // param.Add("PictureInfo", PictureInfo, DbType.Object);
                 param.Add("ProductId", request.Data.ProductId, DbType.Int32);
                 param.Add("EntryBy", request.LoginId, DbType.Int32);
                 param.Add("PictureInfojson", picturejson, DbType.String);
-                i = await _dapper.GetByDynamicParamAsync<int>(sqlQuery, param, CommandType.StoredProcedure);
-                if (i > -1 && i < 100)
-                {
-                    res.StatusCode = ResponseStatus.Success;
-                    res.ResponseText = ResponseStatus.Success.ToString();
-                }
+                res = await _dapper.GetByDynamicParamAsync<Response>(sqlQuery, param, CommandType.StoredProcedure);
+                //if (i > -1 && i < 100)
+                //{
+                //    res.StatusCode = ResponseStatus.Success;
+                //    res.ResponseText = ResponseStatus.Success.ToString();
+                //}
             }
             catch (Exception ex)
             {
@@ -415,7 +416,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
                 var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
                 var picturejson = request.Data.PictureInfo.ToString();
-                string sqlQuery = "Proc_UpdateVariant";
+                string sqlQuery = "Proc_UpdateVariant_Test";
                 DynamicParameters param = new DynamicParameters();
                 param.Add("VariantGroup", VariantGroup, DbType.Object);
                 param.Add("AttributeInfo", AttributeInfo, DbType.Object);

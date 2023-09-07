@@ -37,6 +37,8 @@ namespace Entities.Models
         [MaxLength(1000, ErrorMessage = "Allowed Maximum 1000 Characters For Short Description")]
         public string ShortDescription { get; set; }
         public bool IsCod { get; set; }
+        [MaxLength(12, ErrorMessage = "Allowed Only 12 Character")]
+        public string HSN { get; set; }
     }
     public class ProductShippingDetail
     {

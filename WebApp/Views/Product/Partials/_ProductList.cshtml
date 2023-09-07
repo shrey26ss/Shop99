@@ -1,38 +1,52 @@
 ﻿@using Entities.Models;
 @model IEnumerable<Products>
 
+@*@if (User.IsInRole("1"))
+{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+else
+{
+    Layout = "~/Views/Shared/_VendorsLayout.cshtml";
+}*@
 @if (Model.Any())
 {
     int counter = 0;
     foreach (var item in Model)
     {
         counter++;
-
-        <tr>
-            <td>@counter</td>
-            <td class="align-middle">
-                <div class="btn-group dropup">
-                    <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expaned="false"></a>
-                    <div class="dropdown-menu" aria-labelledby="act">
-                        <h6 class="dropdown-header">Action Menu</h6>
-                        <a class="dropdown-item Edit" href="/Product/Edit/@item.Id">Edit </a>
-                        <a class="dropdown-item Edit" href="/Product/AddVariant?Id=@item.Id&cId=@item.CategoryId">Add Variant </a>
-                        <a class="dropdown-item Edit" href="/Product/Attributes?Id=@item.Id">View Variant </a>
+        
+            <tr>
+                <td>@counter</td>
+                <td class="align-middle">
+                    <div class="btn-group dropup">
+                        <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expaned="false"></a>
+                        <div class="dropdown-menu" aria-labelledby="act">
+                            <h6 class="dropdown-header">Action Menu</h6>
+                           
+                                <a class="dropdown-item Edit" href="/Product/Edit/@item.Id">Edit </a>
+                            
+                            <a class="dropdown-item Edit" href="/Product/AddVariant?Id=@item.Id&cId=@item.CategoryId">Add Variant </a>
+                            <a class="dropdown-item Edit" href="/Product/Attributes?Id=@item.Id">View Variant </a>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td> <a class="btn btn-link" href="/Product/Edit/@item.Id">    @item.Name</a> </td>
-            @*<td>@item.Title</td>*@
-            <td>@item.CategoryName</td>
-            <td>@item.BrandName</td>
-            <td>@item.SKU</td>
+                </td>
+                <td> <a class="btn btn-link" href="/Product/Edit/@item.Id">    @item.Name</a> </td>
+                @*<td>@item.Title</td>*@
+                <td>@item.CategoryName</td>
+                <td>@item.BrandName</td>
+                <td>@item.SKU</td>
+            @if (User.IsInRole("1"))
+            {
             <td>
-                <span class="switch switch-sm">
-                    <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
-                    <label for="Ispublish_@item.Id"></label>
-                </span>
-            </td>
-        </tr>
+                    <span class="switch switch-sm">
+                        <input type="checkbox" class="switch" onclick="UpdateIspublish('@item.Id')" id="Ispublish_@item.Id" @Html.Raw(item.IsPublished ? "checked='checked'" : "")>
+                        <label for="Ispublish_@item.Id"></label>
+                    </span>
+                </td>
+            }
+            </tr>
+       
     }
 }

@@ -1,12 +1,4 @@
-﻿@if (User.IsInRole("1"))
-{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-else
-{
-    Layout = "~/Views/Shared/_VendorsLayout.cshtml";
-}
-@using Entities.Enums
+﻿@using Entities.Enums
 @using Entities.Models;
 <input type="hidden" id="ID" value="@Model" />
 @model AttrinutesViewModel

@@ -1,0 +1,441 @@
+﻿@using WebApp.Models.ViewModels;
+@model VariantViewModel
+<style>
+    .custOne {
+        height: 0px;
+        overflow: hidden;
+    }
+
+    .custTwo {
+        width: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        height: 0px
+    }
+</style>
+
+<div class="card card-secondary p-2 sticky-head ">
+    <div class="content-header clearfix p-0">
+    <h1 class="float-left">
+        Edit product variant
+        <small>
+            <i class="fas fa-arrow-circle-left"></i>
+            <a href="/Product">back to product list</a>
+        </small>
+    </h1>
+    <div class="float-right">
+         <button class="btn btn-primary" id="SaveProduct">Save</button>
+        <button type="submit" name="new-attr-group" class="btn btn-primary btnCloneAttrGroup">
+            <i class="far fa-save"></i>
+            Add Attribute Group
+        </button>
+        <span id="product-delete" class="btn btn-danger" data-toggle="modal" data-target="#productmodel-Delete-delete-confirmation">
+            <i class="far fa-trash-alt"></i>
+            Delete
+        </span>
+    </div>
+</div>
+</div>
+
+<div class="validation-summary-valid" data-valmsg-summary="true">
+    <ul>
+        <li style="display:none"></li>
+    </ul>
+</div>
+<input type="hidden" data-val="true" data-val-required="The Id field is required." id="Id" name="Id" value="1">
+<div class="row text-center">
+    <div class="col-10">
+        <span id="GroupinfoErr" class="d-none"></span>
+    </div>
+</div>
+<section class="content">
+
+    <div class="pc-tab">
+<input checked="checked" id="tab1" type="radio" name="pct" />
+<input id="tab2" type="radio" name="pct" />
+<input id="tab3" type="radio" name="pct" />
+  <nav>
+    <ul>
+      <li class="tab1">
+        <label for="tab1"><i class="fas fa-info"></i>Variant Combination</label>
+      </li>
+      <li class="tab2">
+        <label for="tab2"><i class="fas fa-info"></i>Pictures</label>
+      </li>
+      
+    </ul>
+  </nav>
+  <section>
+      <input type="hidden" id="ProductId" asp-for="ProductId" />
+    <div class="tab1 div">
+    <div class="form-horizontal">
+            
+            <div id="AttributeView">
+                <div class="" data-card-name="product-info" id="product-info">
+                    
+                    <div>
+                        <attrGroup>
+                            <div class="row">
+                                <h4 class="col-sm-12">
+                                    Combination-1
+                                    @*<button class="btn btn-sm btn-primary float-right btnCloneAttrGroup">Clone Group</button>*@
+                                    <hr />
+                                </h4>
+                                @Html.Partial("Partials/_AddAttributeGroup")
+                            </div>
+                        </attrGroup>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+    <div class="tab2 div">
+      
+    <div class="form-horizontal">
+            
+            <div id="AttributeView">
+                <div class="" data-card-name="product-info" id="product-info">
+                    
+                    <div id="pictureSection">
+                        <div class="row">
+                            @Html.Partial("Partials/_AddPictures")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  </section>
+</div>
+
+
+    @*<div class="container-fluid">
+        <div class="form-horizontal">
+            
+            <div id="AttributeView">
+                <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
+                    <div class="card-header with-border clearfix">
+                        <div class="card-title">
+                            <i class="fas fa-info"></i>Variant Combination
+                        </div>
+                        <div class="card-tools float-right">
+                            <button class="btn btn-tool" data-card-widget="collapse" type="button">
+                                <i class="fa toggle-icon fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <attrGroup>
+                            <div class="row">
+                                <h4 class="col-sm-12">
+                                    Combination-1
+                                    
+                                    <hr />
+                                </h4>
+                                @Html.Partial("Partials/_AddAttributeGroup")
+                            </div>
+                        </attrGroup>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</section>
+
+
+
+@*<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <input type="hidden" id="ProductId" asp-for="ProductId" />
+            <div id="AttributeView">
+                <div class="card card-secondary card-outline" data-card-name="product-info" id="product-info">
+                    <div class="card-header with-border clearfix">
+                        <div class="card-title">
+                            <i class="fas fa-info"></i>Pictures
+                        </div>
+                        <div class="card-tools float-right">
+                            <button class="btn btn-tool" data-card-widget="collapse" type="button">
+                                <i class="fa toggle-icon fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" id="pictureSection">
+                        <div class="row">
+                            @Html.Partial("Partials/_AddPictures")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@
+
+@section Scripts{
+<script>
+    variantImages = [];
+    const removeDuplicates = function(arr) {
+        return arr.filter((item, index) => arr.indexOf(item) === index);
+    }
+    const isPartOfArray = (a, b) => {
+        a = a.sort();
+        b = b.sort();
+        console.log('a',a.join().toLocaleLowerCase());
+        console.log('b',b.join().toLocaleLowerCase());
+        return a.join().toLocaleLowerCase().includes(b.join().toLocaleLowerCase())
+    };
+    $(document).on('change', 'input', e => {
+        let ele = $(e.currentTarget);
+        ele.attr('value', ele.val())
+    });
+    const selectedColors = () => {
+        let colorList = [];
+        $('.attributeGrid').each(function () {
+            colorList.push($(this).find('[data-attr-name="color"]').data()?.attrValue)
+        })
+        return removeDuplicates(colorList);
+    }
+    $(document).on('click', '.btnAddNewAttribute', e => {
+        let combinationId = $(e.currentTarget).parents('.attrCombination').attr('id')
+        let __top = $(e.currentTarget).offset().top - 100;
+        $.post('/Product/AddAttributes', { combinationId, CategoryId: '@Model.CategoryId' }).done((result) => {
+            Q.alert({
+                title: 'Add Attribute',
+                body: result,
+                width: 900,
+                top: __top
+            });
+        })
+    })
+
+    $(document).on('click', '#SaveProduct', () => {
+        let groupInfo = [];
+        let attrInfo = [];
+        let pictureInfo = [];
+        let valCount = 0;
+        $('.attrCombination').each(function (i) {
+            let groupId = i + 1;
+            let currentGroup = $(this);
+            let attributes = currentGroup.find('.attributeGrid tr').each(function (j) {
+                let cAttr = $(this).data();
+                let cAttrs = $(this).closest('.attributeGrid');
+                if (!$.isEmptyObject(cAttr)) {
+                    let attributes = {
+                        Id: j,
+                        AttributeId: cAttr.attrId,
+                        AttributeValue: cAttr.attrValue,
+                        GroupId: groupId
+                    };
+                    attrInfo.push(attributes);
+                }
+
+            });
+            var returnindays=currentGroup.find('[name="ReturnInDays"]').val();
+            var warranty=currentGroup.find('[name="Warranty"]').val();
+              var warrantyUnit=currentGroup.find('[name="WarrantyUnit"]').val();
+            let groupDetail = {
+                Id: groupId,
+               // HSN: currentGroup.find('[name="HSN"]').val(),
+                MRP: currentGroup.find('[name="MRP"]').val(),
+                Quantity: currentGroup.find('[name="Quantity"]').val(),
+                ReturnInDays: returnindays==''?0:returnindays,
+                Warranty: warranty==''?0:warranty,
+                WarrantyUnit:warrantyUnit,
+               // GTIN: currentGroup.find('[name="GTIN"]').val(),
+                Title: currentGroup.find('[name="Title"]').val(),
+                SellingCost: currentGroup.find('[name="SellingCost"]').val(),
+                    //DiscountRate: currentGroup.find('[name="Discountrate"]').val(),
+                    Specification: currentGroup.find('[name="specification"]').val(),
+                IsFeatured: currentGroup.find('[name="IsFeatured"]').is(':checked'),
+                IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
+            };
+            groupInfo.push(groupDetail);
+        });
+
+        $('.pictureGrid tbody tr').each(function (i) {
+            let pictureGroup = $(this).data();
+            let pic = {
+                Alt: pictureGroup.altValue,
+                Title: pictureGroup.titleValue,
+                DisplayOrder: pictureGroup.displayValue,
+                AttrColor: pictureGroup.colorValue,
+                GroupId: pictureGroup.groupId
+            };
+            pictureInfo.push(pic);
+        });
+
+
+
+
+
+        if (!isPartOfArray(pictureInfo.map(x => x.AttrColor), selectedColors())) {
+            Q.notify(-1, 'Some Images of selected colores are missing.');
+            return false;
+        }
+
+        let param = {
+            ProductId: parseInt($('#ProductId').val()),
+            AttributeInfo: attrInfo,
+            GroupInfo: groupInfo,
+            PictureInfo: pictureInfo
+        };
+        formData = new FormData();
+        for (let i = 0; i < variantImages.length; i++) {
+            formData.append(`req[${i}].file`, variantImages[i].File);
+            formData.append(`req[${i}].Color`, variantImages[i].AttrColor);
+            formData.append(`req[${i}].GroupId`, variantImages[i].GroupId);
+            formData.append(`req[${i}].DisplayOrder`, variantImages[i].DisplayOrder);
+            formData.append(`req[${i}].Title`, variantImages[i].Title);
+            formData.append(`req[${i}].Alt`, variantImages[i].Alt);
+        }
+        formData.append('jsonObj', JSON.stringify(param));
+        Q.btnLdr.Start($('#SaveProduct'));
+        $.ajax({
+            url: '/Product/SaveVariants',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (response) {
+                Q.notify(response.statusCode, response.responseText)
+                Q.btnLdr.Stop($('#SaveProduct'));
+                location.reload();
+            },
+            error: function (xhr) {
+                Q.renderError(xhr);
+                let errors = [];
+                let keys = Object.keys(xhr.responseJSON);
+                for(let i=0;i<keys.length;i++){
+                    let isErrorsExists = 'errors' in xhr.responseJSON[keys[i]]
+                    if (isErrorsExists){
+                        let e = xhr.responseJSON.map(x=>x.errors);
+                        errors = [...e];
+                    }
+                    else{
+                        errors.push(xhr.responseJSON[keys[i]]);
+                    }
+                }
+                Q.btnLdr.Stop($('#SaveProduct'));
+                Q.notify(-1, errors.join('<br/>'))
+            },
+        });
+    })
+
+    $(document).on('click', '.rmComb', e => $(e.currentTarget).parents('div.row').remove());
+    $(document).on('click', '.rmRow', (e) => {
+        let data = $(e.currentTarget).closest('tr').data();
+        if (data) {
+            let param = {
+                AttributeId: data.attrId,
+                AttributeText: data.attrValue,
+                AttributeName: data.attrName
+            };
+            $(e.currentTarget).closest('tr').remove();
+            if (param.AttributeName == "color") {
+                let _colors = selectedColors();
+                if (!_colors.includes(param.AttributeText)) {
+                    $(`#attrColor option[value="${param.AttributeText}"]`).remove();
+                }
+            }
+            if ($('#attrColor option').length <= 0) {
+                let _option = `<option value="Default" data-group-id="1">Default</option>`;
+                $('#attrColor').append(_option);
+            }
+        }
+    });
+    $(document).on('click', '.btnCloneAttrGroup', e => {
+        //let __html = $(e.currentTarget).parents('.row').find('.attrCombination').html();
+        let _count = $('.attrCombination').length;
+        let __html = $('.attrCombination:eq(0)').html();
+        __html = __html.replaceAll('id="IsFeatured"', 'id="IsFeatured' + _count + '"')
+            .replaceAll('for="IsFeatured"', 'for="IsFeatured' + _count + '"')
+            .replaceAll('id="IsShowOnHome"', 'id="IsShowOnHome' + _count + '"')
+            .replaceAll('for="IsShowOnHome"', 'for="IsShowOnHome' + _count + '"');
+        $('attrGroup')
+            .append(`<div class="row"><h4 class="col-sm-12">Combination-${_count + 1}<span class="float-right text-danger fa fa-times rmComb"></span>  <hr /></h4><div class="col-md-12 attrCombination" id="clone_${_count}">${__html}</div></div>`);
+    });
+
+    $(document).on('click', '#AddProductImg', () => {
+        let __files = $('#PictureFile')[0].files;
+        let totalFiles = __files.length;
+        for (let i = 0; i < totalFiles;i++){
+
+            //HightWidthValidatio
+            var k=0;
+            var _URL = window.URL || window.webkitURL;
+            var file, img;
+             if ((file =__files[i])) {
+                    img = new Image();
+                    img.onload = function() {
+                        //if(this.width<400 || this.height<400){
+                        //     Q.notify(-1, 'Image width must be 400 and above and height must be 400 and above');
+                        //     $('.pictureGrid').find('tr:last').remove();
+                        //      variantImages.splice(-1);
+                        //      return false;
+                        //}
+                    };
+                    img.src = _URL.createObjectURL(file);
+                }
+               //HightWidthValidatio
+            let param = {
+                File: __files[i],
+                //File: $('#PictureFile')[0].files[0],
+                Alt: $('#Alt').val(),
+                Title: $('#Title').val(),
+                DisplayOrder: $('#DisplayOrder').val(),
+                AttrColor: $("#attrColor option:selected").text(),
+                GroupId: $("#attrColor option:selected").data()?.groupId
+            };
+            if (!param.File || !param.Alt || !param.Title || !param.AttrColor) {
+                Q.notify(-1, 'All Image fileds are required');
+                return false;
+            }
+
+
+            let pictureGrid = $(`.pictureGrid`);
+            let count = pictureGrid.find('tr').length;
+            variantImages.push(param);
+            let _src = URL.createObjectURL(param.File);
+            param.DisplayOrder = $('.pictureGrid tr').length;
+            let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
+                                  <td>${count}</td>
+                                  <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                  <td>${param.DisplayOrder}</td>
+                                  <td>${param.Alt}</td>
+                                  <td>${param.Title}</td>
+                                  <td>${param.AttrColor}</td>
+                                  <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                             </tr>`;
+            pictureGrid.append(_html);
+            Q.notify(1, 'Image Added Successfully');
+            $('.rmImage').unbind().click(e => {
+                let _ele = $(e.currentTarget).closest('tr');
+                let __index = _ele.index();
+                variantImages.splice(__index, 1);
+                _ele.remove();
+            });
+        }
+    });
+    $('[name="SellingCost"], [name="MRP"]').numeric({ numericType: 'decimal', maxLength: '7' });
+    $(document).on('change', '[name="SellingCost"],[name="MRP"]',e=>{
+        let __parent = $(e.currentTarget).parents('.attrCombination');
+        let sellingPrice = __parent.find('[name="SellingCost"]').val() === '' ? 0 : __parent.find('[name="SellingCost"]').val()
+        let mrp = __parent.find('[name="MRP"]').val() === '' ? 0 : __parent.find('[name="MRP"]').val();
+
+        if (parseFloat(sellingPrice) > parseFloat(mrp)) {
+            __parent.find('[name="SellingCost"]').val(mrp).change();
+            Q.notify('Selling Price cannot be greater than MRP');
+        }
+    });
+
+    $(document).on('change', '[name="Title"]', e=> {
+        let _title = $(e.currentTarget).val();
+        $('[name="Alt"]').val(_title);
+        $('#pictureSection').find('[name="Title"]').val(_title);
+    });
+    $('[name="Quantity"], [name="DisplayOrder"]').numeric({ numericType: 'number', maxLength: '7' });
+</script>
+ }
