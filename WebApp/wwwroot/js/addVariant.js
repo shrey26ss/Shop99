@@ -32,19 +32,19 @@ $(document).on('click', '#SaveProduct', () => {
     let groupInfo = [];
     let attrInfo = [];
     let pictureInfo = [];
-    
-    let isImgUploaded = true;
-    $('#attrColor').find('option').each(function () {
-        let tdCounts = $(".pictureGrid tbody").find("td:contains('" + $(this).text() + "')").length;
-        if (tdCounts == 0) {
-            isImgUploaded = false;
-            return;
-        }
-    });
-    if (!isImgUploaded) {
-        Q.notify(-1, 'Images are still pending for some colors');
-        return
-    }
+
+    //let isImgUploaded = true;
+    //$('#attrColor').find('option').each(function () {
+    //    let tdCounts = $(".pictureGrid tbody").find("td:contains('" + $(this).text() + "')").length;
+    //    if (tdCounts == 0) {
+    //        isImgUploaded = false;
+    //        return;
+    //    }
+    //});
+    //if (!isImgUploaded) {
+    //    Q.notify(-1, 'Images are still pending for some colors');
+    //    return
+    //}
 
     __attributes.map(x => x.attributes.map((y, i) => attrInfo.push({
         Id: i,
@@ -54,23 +54,23 @@ $(document).on('click', '#SaveProduct', () => {
     })));
 
 
-    $('.tblgroupinfo tr').each(function (i) {
+    $('.tblgroupinfo tr.itemDetail').each(function (i) {
         let currentGrouptbl = $(this);
-        var groupDetail = {
-            id: i + 1,
-            Title: currentGrouptbl.find("td:eq(1)").text(),
-            MRP: parseInt(currentGrouptbl.find("td:eq(2)").text()),
-            SellingCost: parseInt(currentGrouptbl.find("td:eq(3)").text()),
-            Quantity: parseInt(currentGrouptbl.find("td:eq(4)").text()),
-            ReturnInDays: parseInt(currentGrouptbl.find("td:eq(5)").text()),
-            Warranty: parseInt(currentGrouptbl.find("td:eq(6)").text()),
-            WarrantyUnit: currentGrouptbl.find("td:eq(7)").text(),
-            IsFeatured: currentGrouptbl.find("td:eq(9)").text(),
-            IsShowOnHome: currentGrouptbl.find("td:eq(10)").text(),
-            Specification: currentGrouptbl.find("td:eq(11)").html(),
-            DiscountRate: currentGrouptbl.find("td:eq(8)").html()
-        };
-        groupInfo.push(groupDetail);
+        groupInfo.push(currentGrouptbl.data().itemDetail);
+        //var groupDetail = {
+        //    id: i + 1,
+        //    Title: currentGrouptbl.find("td:eq(1)").text(),
+        //    MRP: parseInt(currentGrouptbl.find("td:eq(2)").text()),
+        //    SellingCost: parseInt(currentGrouptbl.find("td:eq(3)").text()),
+        //    Quantity: parseInt(currentGrouptbl.find("td:eq(4)").text()),
+        //    ReturnInDays: parseInt(currentGrouptbl.find("td:eq(5)").text()),
+        //    Warranty: parseInt(currentGrouptbl.find("td:eq(6)").text()),
+        //    WarrantyUnit: currentGrouptbl.find("td:eq(7)").text(),
+        //    IsFeatured: currentGrouptbl.find("td:eq(8)").text(),
+        //    IsShowOnHome: currentGrouptbl.find("td:eq(9)").text(),
+        //    Specification: currentGrouptbl.find("td:eq(10)").html()
+        //};
+        //groupInfo.push(groupDetail);
     });
     $('.pictureGrid tbody tr').each(function (i) {
         let pictureGroup = $(this).data();
@@ -323,28 +323,28 @@ let recordsintable = () => {
     let pictureGrid = $(`#dataTable`);
     let count = pictureGrid.find('tr').length;
     let dataObj = {
+        id: count,
         Title: $("#titlewords").val(),
         MRP: $("#MRP").val(),
-        SellingPrice: $("#SellingCst").val(),
+        SellingCost: $("#SellingCst").val(),
         Quantity: $("#quantity").val(),
-        Return: $("#returnhere").val(),
+        ReturnInDays: $("#returnhere").val(),
         Warranty: $("#warranty").val(),
         WarrantyUnit: $("#yearmonth").val(),
-        Discountrate: $("#Discountrate").val(),
         Specification: tinymce.get("specification").getContent(),
         IsFeatured: $("#IsFeatured").prop("checked"),
         IsShowOnHome: $("#IsShowOnHome").prop("checked")
     };
-    var newRow = "<tr>" +
+    let itemDetail = JSON.stringify(dataObj);
+    var newRow = "<tr data-item-detail='" + itemDetail + "' class='itemDetail'>" +
         "<td>" + count + "</td>" +
         "<td>" + dataObj.Title + "</td>" +
         "<td>" + dataObj.MRP + "</td>" +
-        "<td>" + dataObj.SellingPrice + "</td>" +
+        "<td>" + dataObj.SellingCost + "</td>" +
         "<td>" + dataObj.Quantity + "</td>" +
-        "<td>" + dataObj.Return + "</td>" +
+        "<td>" + dataObj.ReturnInDays + "</td>" +
         "<td>" + dataObj.Warranty + "</td>" +
         "<td>" + dataObj.WarrantyUnit + "</td>" +
-        "<td>" + dataObj.Discountrate + "</td>" +
         "<td>" + dataObj.IsFeatured + "</td>" +
         "<td>" + dataObj.IsShowOnHome + "</td>" +
         "<td>" + dataObj.Specification + "</td>" +
