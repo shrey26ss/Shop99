@@ -398,7 +398,7 @@ else
                     Title: $('#Titles').val(),
                     SellingCost: $('#SellingCost').val(),
                     DiscountRate: $('#Discountrate').val(),
-                    Specification: $('#specification').val(),
+                    Specification: tinymce.get("specification").getContent(),//$('#specification').val(),
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0
                 };
