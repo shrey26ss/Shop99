@@ -72,7 +72,7 @@ else
                     </div>
                     <div class="form-group">
                         <label>Specification</label>
-                      <textarea class="form-control input-group input-group-required" id="specification" name="specification" value="@Model.variantDetailsByAttributes.Specification"></textarea>
+                      <textarea class="form-control input-group input-group-required" id="specification" name="specification" value="@Model.variantDetailsByAttributes.Specification">@Model.variantDetailsByAttributes.Specification</textarea>
                     </div>
 
                     <div class="form-group">
@@ -398,6 +398,7 @@ else
                     Title: $('#Titles').val(),
                     SellingCost: $('#SellingCost').val(),
                     DiscountRate: $('#Discountrate').val(),
+                    Specification: $('#specification').val(),
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0
                 };
