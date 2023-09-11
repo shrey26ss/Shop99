@@ -90,8 +90,8 @@
                     {
                         int i = 0;
                         <div class="zoom-box">
-                            <img class="xzoom" id="xzoom-default" src="@defaultimages.FirstOrDefault()?.ImagePath"
-                             xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" style="max-height:500px;object-fit:contain" />
+                            <img class="xzoom" id="xzoom-default" src="@(defaultimages.FirstOrDefault()?.ImagePath)"
+                                 xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" style="max-height:500px;object-fit:contain" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" />
                         </div>
                         <div class="xzoom-thumbs">
                             <div class="thumb-top"><a href="#" class="mob-sec"> <i class="fa fa-angle-up"></i></a> </div>
@@ -102,14 +102,14 @@
                                     @if (i == 0)
                                     {
                                         <a href="@pictures.ImagePath">
-                                            <img class="xzoom-gallery" src="@pictures.ImagePath" xpreview="@pictures.ImagePath" style="width:85px;height:85px;object-fit:contain">
+                                            <img class="xzoom-gallery" src="@pictures.ImagePath" xpreview="@pictures.ImagePath" style="width:85px;height:85px;object-fit:contain" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'">
                                         </a>
 
                                     }
                                     else
                                     {
                                         <a href="@pictures.ImagePath">
-                                            <img class="xzoom-gallery" src="@pictures.ImagePath" style="width:85px;height:85px;object-fit:contain">
+                                            <img class="xzoom-gallery" src="@pictures.ImagePath" style="width:85px;height:85px;object-fit:contain" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'">
                                         </a>
                                     }
                                     i = i + 1;
