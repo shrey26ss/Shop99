@@ -16,6 +16,7 @@ namespace WebApp.Controllers
     {
         private readonly ICategoryAPI _category;
         private readonly IProductsAPI _product;
+
         public HomeController(ICategoryAPI category, IProductsAPI product)
         {
             _category = category;
@@ -224,6 +225,14 @@ namespace WebApp.Controllers
 
         [HttpPost("products/" + nameof(Filtered))]
         public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy, int top = 24, int start = 0) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top, start));
+        
+        [HttpPost]
+        public async Task<IActionResult> CategoryProductPartial(ProductRequest<CategorFilter> productRequest)
+        {
+            var res = await _category.GetProductsByCategory(productRequest, @"/api/Home/ByCategoryProduct");
+
+            return PartialView("Partial/_ByCategoryProduct",res);
+        }
 
 
         [Route(nameof(Categoryfilters))]
