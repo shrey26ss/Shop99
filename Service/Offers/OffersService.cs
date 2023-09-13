@@ -154,5 +154,34 @@ namespace Service.Offers
             }
             return res;
         }
+
+        public async Task<IResponse<IEnumerable<Coupon>>> GetCoupons(RequestBase<SearchItem> request)
+        {
+            string sp = string.Empty;
+            if (request.Data == null)
+                request.Data = new SearchItem();
+            var res = new Response<IEnumerable<Coupon>>();
+            try
+            {
+                if (request.Data.Id != 0 && request.Data.Id > 0)
+                {
+                    sp = @"select * from Coupon where CouponId = @Id";
+                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.Data.Id }, CommandType.Text);
+                }
+                else
+                {
+                    //sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
+                    sp = @"select * from Coupon";
+                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { }, CommandType.Text);
+                }
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }
