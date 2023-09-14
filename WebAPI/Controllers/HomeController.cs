@@ -3,7 +3,6 @@ using Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Service.ProductWithCategory;
 using System.Linq;
 
 namespace WebAPI.Controllers
@@ -20,9 +19,8 @@ namespace WebAPI.Controllers
         private readonly IBrands _brands;
         private readonly IFiltersService _filters;
         private readonly IOrderDetailsService _orderRepo;
-        private readonly IProductwithCategory _productwithCategory;
         public HomeController(
-            IHomepageService homepageService, ITopLowerBanner topLowerBanner, ITopBanner topBanner, IBrands brands, IFiltersService filters, IOrderDetailsService orderRepo, IProductwithCategory productwithCategory)
+            IHomepageService homepageService, ITopLowerBanner topLowerBanner, ITopBanner topBanner, IBrands brands, IFiltersService filters, IOrderDetailsService orderRepo)
         {
             _topBanner = topBanner;
             _topLowerBanner = topLowerBanner;
@@ -30,7 +28,6 @@ namespace WebAPI.Controllers
             _brands = brands;
             _filters = filters;
             _orderRepo = orderRepo;
-            _productwithCategory = productwithCategory;
         }
         [HttpGet(nameof(TopBanners))]
         public async Task<ActionResult> TopBanners() => Ok(await _topBanner.GetDetails(new RequestBase<SearchItem>()));
@@ -84,13 +81,13 @@ namespace WebAPI.Controllers
         [HttpPost(nameof(GetProductWithCategory))]
         public async Task<IActionResult> GetProductWithCategory()
         {
-            var reslist = await _productwithCategory.ProductWithCategoryList();
+            var reslist = await _homepageService.ProductWithCategoryList();
             var response = reslist.Category.Select(category => new
               {
                 Category = category,
-                Products = reslist.Products.Where(product => product.CategoryId == category.CategoryId).ToList()
+                Products = reslist.Products.Where(product => product.CategoryId == category.CategoryId).Take(10).ToList()
               }).ToList();
-            response = response.Where(x => x.Products.Count() > 0).Take(5).ToList();
+            response = response.Where(x => x.Products.Count() > 0).ToList();
             return Ok(response);
         }
     }

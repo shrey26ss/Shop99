@@ -18,6 +18,7 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<AutoSuggest>>> GetAutoSuggetion(string searchText = "", int Top = 0);
         Task<IResponse> AddNewsLetter(RequestBase<NewsLetter> request);
         Task<IResponse<JDataTableResponse<ProductResponse>>> GetProductByPID(ProductRequest<ProductFilter> productRequest);
+        Task<ProductWithCategoryVW> ProductWithCategoryList(int categoryCount = 5, int productCount = 10);
 
     }
 }

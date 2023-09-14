@@ -367,6 +367,28 @@ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
             }
             return res;
         }
+        public async Task<ProductWithCategoryVW> ProductWithCategoryList(int categoryCount = 5, int productCount = 10)
+        {
+            var response = new ProductWithCategoryVW
+            {
+                Products = new List<ProductsColumn>(),
+                Category = new List<Category>(),
+            };
+            try
+            {
+                var ProductandCategory = await _dapper.GetMultipleAsync<Category, ProductsColumn>("proc_CategoryWithProduct", new
+                {
+                    categoryCount,
+                    productCount
+                }, CommandType.StoredProcedure);
+                response.Category = (List<Category>)ProductandCategory.GetType().GetProperty("Table1").GetValue(ProductandCategory, null);
+                response.Products = (List<ProductsColumn>)ProductandCategory.GetType().GetProperty("Table2").GetValue(ProductandCategory, null);
+            }
+            catch (Exception ex)
+            {
 
+            }
+            return response;
+        }
     }
 }
