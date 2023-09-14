@@ -2,6 +2,7 @@
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Service.Models;
 using System.Globalization;
 using System.Linq;
@@ -178,8 +179,7 @@ namespace WebApp.Controllers
             var res = await _product.GetProductAllDetails(Id, UserID);
             if (res.StatusCode == ResponseStatus.Failed)
             {
-                bool IsLayoutRemove = true;
-                return PartialView("404", IsLayoutRemove);
+                return Ok(false);
             }
             return PartialView("partial/_ProductDetails", res.Result ?? new ProductDetails());
         }
