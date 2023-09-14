@@ -9,5 +9,6 @@ namespace Entities.Models
         public string ProductImage { get; set; }
         public decimal MRP { get; set; }
         public decimal SellingCost { get; set; }
+        public int VariantId { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace Service.ProductWithCategory
                 Products = new List<ProductsColumn>(),
                 Category = new List<Category>(),
             };
-            string query = @"select Top(10)* from Category Where IsPublish = 1;
-                            select Top(15)p.*,v.Thumbnail ProductImage,v.MRP,v.SellingCost From Products p inner join VariantGroup v on p.Id = v.ProductId Where p.IsPublished = 1";
+            string query = @"select * from Category Where IsPublish = 1;
+                            select Top(15)p.*,v.Thumbnail ProductImage,v.MRP,v.SellingCost,v.Id VariantId From Products p inner join VariantGroup v on p.Id = v.ProductId Where p.IsPublished = 1";
             try
             {
                 var ProductandCategory = await _dapper.GetMultipleAsync<Category, ProductsColumn>(query, null, CommandType.Text);
