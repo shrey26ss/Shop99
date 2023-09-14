@@ -1,12 +1,17 @@
-﻿using Entities.Enums;
+﻿using AppUtility.APIRequest;
+using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Models;
-using System.Globalization;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
+using WebApp.Models;
 using WebApp.Models.ViewModels;
 using WebApp.Servcie;
 
@@ -16,10 +21,13 @@ namespace WebApp.Controllers
     {
         private readonly ICategoryAPI _category;
         private readonly IProductsAPI _product;
-        public HomeController(ICategoryAPI category, IProductsAPI product)
+        private string _apiBaseURL;
+
+        public HomeController(ICategoryAPI category, IProductsAPI product, AppSettings appSettings)
         {
             _category = category;
             _product = product;
+            _apiBaseURL = appSettings.WebAPIBaseUrl;
         }
 
         #region Wesbite terms and privacy and refund pages
@@ -224,6 +232,14 @@ namespace WebApp.Controllers
 
         [HttpPost("products/" + nameof(Filtered))]
         public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy, int top = 24, int start = 0) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top, start));
+        
+        [HttpPost]
+        public async Task<IActionResult> CategoryProductPartial(ProductRequest<CategorFilter> productRequest)
+        {
+            var res = await _category.GetProductsByCategory(productRequest, @"/api/Home/ByCategoryProduct");
+
+            return PartialView("Partial/_ByCategoryProduct",res);
+        }
 
 
         [Route(nameof(Categoryfilters))]
@@ -289,6 +305,23 @@ namespace WebApp.Controllers
         }
 
         #endregion
+        [HttpPost]
+        public async Task<IActionResult> ProductWithCategory()
+        {
+            var response = new List<ProductWithCategoryHome>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Home/GetProductWithCategory", string.Empty);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    response = JsonConvert.DeserializeObject<List<ProductWithCategoryHome>>(apiResponse.Result);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            return PartialView(response);
+        }
 
         public IActionResult Test()
         {
