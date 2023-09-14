@@ -4,6 +4,7 @@ using Data.Models;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Models;
 using System;
@@ -176,6 +177,40 @@ namespace Service.Offers
                 }
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
+        public async Task<IResponse> AddUpdateCoupon(RequestBase<Coupon> coupon)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                if (coupon.Data.CouponId != 0 && coupon.Data.CouponId > 0)
+                {
+                    sqlQuery = @"update Coupon set CouponCode=@CouponCode,DiscountAmount=@DiscountAmount,PaymentModes=@PaymentModes,IsFixed=@IsFixed,Description=@Description,IsWelcomeCoupon=@IsWelcomeCoupon,IsActive=@IsActive where CouponId=@CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText ";
+                }
+                else
+                {
+                    sqlQuery = @"insert into Coupon(CouponCode,DiscountAmount,PaymentModes,IsFixed,Description,IsWelcomeCoupon,IsActive,EntryOn,ExpiryOn)values(@CouponCode,@DiscountAmount,@PaymentModes,@IsFixed,@Description,@IsWelcomeCoupon,@IsActive,GETDATE(),GETDATE());select 1 StatusCode,'Coupon Inserted successfully' ResponseText";
+                }
+                res = await _dapper.GetAsync<Response>(sqlQuery, new 
+                {
+                    coupon.Data.CouponId,
+                    CouponCode = coupon.Data.CouponCode ?? String.Empty,
+                    coupon.Data.IsFixed,
+                    coupon.Data.DiscountAmount,
+                    coupon.Data.IsActive,
+                    Description = coupon.Data.Description ?? string.Empty,
+                    coupon.Data.PaymentModes,
+                    coupon.Data.IsWelcomeCoupon
+                },
+                CommandType.Text);
             }
             catch (Exception ex)
             {

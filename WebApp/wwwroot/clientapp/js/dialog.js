@@ -51,6 +51,16 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
+    dialog.coupon = function (Id) {
+        $.get('/Coupon/CreateCoupon', { Id: Id })
+            .done(result => {
+                Q.alert({
+                    title: 'Coupon',
+                    body: result,
+                    onClose: () => { __bind.dropDown.category(0, "#CategoryId") }
+                });
+            }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
+    };
     dialog.DataTable = function (selector, isSearch = true) {
         
     };

@@ -4,6 +4,7 @@ using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.Logging;
 using Service.API;
 using Service.Identity;
@@ -72,6 +73,16 @@ namespace WebAPI.Controllers
             {
                 Data = req,
                 LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
+        [HttpPost]
+        [Route("Offers/AddUpdateCoupon")]
+        public async Task<IActionResult> AddUpdateCoupon(Coupon coupon)
+        {
+            return Ok( await _offers.AddUpdateCoupon(new RequestBase<Coupon>
+            {
+                Data = coupon,
+                LoginId= User.GetLoggedInUserId<int>()
             }));
         }
     }
