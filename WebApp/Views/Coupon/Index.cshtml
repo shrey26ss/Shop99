@@ -3,7 +3,7 @@
         Coupon list
     </h1>
     <div class="float-right">
-        <a class="btn btn-primary" href="javascript:void(0)" id="btnNew">
+        <a class="btn btn-primary" href="javascript:void(0)" id="btnsNew">
             <i class="fas fa-plus-square"></i>
             Add new
         </a>
@@ -38,7 +38,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('#btnNew').click(() => dialog.offer());//AddCategory());
+            $('#btnsNew').click(() => dialog.coupon());//AddCategory());
             loadData();
         })
         var loadData = function () {

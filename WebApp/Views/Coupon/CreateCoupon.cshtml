@@ -1,0 +1,102 @@
+﻿@using Entities.Models;
+
+
+@model Coupon
+
+<form asp-action="CreateCoupon" method="Post">
+
+    <div class="card-body">
+        <input type="hidden" asp-for="CouponId">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div id="product-details-area">
+            <div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label required" for="Name">CouponCode</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required">
+                            <input class="form-control text-box single-line" asp-for="CouponCode" type="text" required="Please fill tittle Name">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label">Description</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" asp-for="Description" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label" for="Name">Discount AMT</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required">
+                            <input class="form-control text-box single-line" asp-for="DiscountAmount" max="70" type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" asp-for="PaymentModes" style="width: 100%">
+                            <option value="0"> --Choose Payment -- </option>
+                            <option value="Cash"> Cash </option>
+                            <option value="Prepaid"> Prepaid </option>
+                            <option value="All"> All </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-4 input-group mt-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" asp-for="IsActive" checked>
+                    </div>
+                </div>
+                <label class="form-control" for="IsActive">IsActive</label>
+            </div>
+            <div class="col-sm-4 input-group mt-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" asp-for="IsFixed" checked>
+                    </div>
+                </div>
+                <label class="form-control" for="IsActive">IsFixed</label>
+            </div>
+            <div class="col-sm-4 input-group mt-4">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="checkbox" asp-for="IsWelcomeCoupon" checked>
+                </div>
+            </div>
+                    <label class="form-control" for="IsActive">IsWelcomeCoupon</label>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <input class="btn btn-primary float-right" type="submit">
+    </div>
+</form>
+<script>
+    $('#OfferTypeId').select2({
+        selectOnClose: true,
+        dropdownParent: $(".ui-dialog")
+    });
+</script>
