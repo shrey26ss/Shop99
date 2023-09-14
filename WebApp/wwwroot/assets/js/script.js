@@ -1355,38 +1355,6 @@
         $(".cat-tab-content").css("display", "none");
         var currunt_href = $(this).attr("href");
         $('#' + currunt_href).show();
-
-        //$(".product-4").slick({
-        //    arrows: true,
-        //    dots: false,
-        //    infinite: false,
-        //    speed: 300,
-        //    slidesToShow: 4,
-        //    slidesToScroll: 1,
-        //    responsive: [
-        //        {
-        //            breakpoint: 1200,
-        //            settings: {
-        //                slidesToShow: 3,
-        //                slidesToScroll: 3
-        //            }
-        //        },
-        //        {
-        //            breakpoint: 991,
-        //            settings: {
-        //                slidesToShow: 2,
-        //                slidesToScroll: 2
-        //            }
-        //        },
-        //        {
-        //            breakpoint: 420,
-        //            settings: {
-        //                slidesToShow: 1,
-        //                slidesToScroll: 1
-        //            }
-        //        }
-        //    ]
-        //});
     });
 
 

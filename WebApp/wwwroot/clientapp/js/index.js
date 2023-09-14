@@ -6,7 +6,8 @@
 
     loadHotDeals();
     loadHotDealsNewProduct();
-    loadMainCategory();
+    /*loadMainCategory();*/
+    loadProductWithCategory();
     loadTabs();
 });
 
@@ -76,6 +77,21 @@ const loadMainCategory = function () {
         }
     });
 }
+const loadProductWithCategory = function () {
+
+    var settings = {
+        "url": "/Home/ProductWithCategory",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    };
+
+    $.ajax(settings).done(function (res) {
+        $('#divProductWithCategory').html(res);
+    });
+}
 const loadTopCategoryProduct = function (cId, i, calledFrom = 'A') {
     let item = {
         CalledFrom: calledFrom,
@@ -88,53 +104,7 @@ const loadTopCategoryProduct = function (cId, i, calledFrom = 'A') {
     $.post('/Home/CategoryProductPartial', item).done(result => {
         $('#secDvPRodByCat').append(result);
 
-        $(`#tab${i}`).css({ 'display': 'block' });
-
-        if ($(`.cat-product-slide-${i}`).hasClass('slick-initialized')) {
-            $(`.cat-product-slide-${i}`).slick('unslick')
-        }
-
-        $(`.cat-product-slide-${i}`).slick({
-            arrows: true,
-            dots: false,
-            infinite: false,
-            speed: 300,
-            slidesToShow: 6,
-            slidesToScroll: 6,
-            responsive: [
-                {
-                    breakpoint: 1700,
-                    settings: {
-                        slidesToShow: 5,
-                        slidesToScroll: 5,
-                        infinite: true
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                        infinite: true
-                    }
-                },
-                {
-                    breakpoint: 991,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        infinite: true
-                    }
-                },
-                {
-                    breakpoint: 576,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                }
-            ]
-        });
+       
     }).fail(xhr => {
 
     });

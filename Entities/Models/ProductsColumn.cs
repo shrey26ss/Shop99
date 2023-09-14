@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Entities.Models
+{
+    public class ProductsColumn: Products
+    {
+        public string ProductImage { get; set; }
+        public decimal MRP { get; set; }
+        public decimal SellingCost { get; set; }
+    }
+}
