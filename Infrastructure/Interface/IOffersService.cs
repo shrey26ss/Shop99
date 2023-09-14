@@ -13,5 +13,6 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<GetOffers>>> Getoffers(RequestBase<SearchItem> request);
         Task<IResponse<IEnumerable<offerstype>>> GetOfferDDL();
         Task<IResponse> UpdateIsActiveOffer(RequestBase<OfferUpdateIsActive> Offer);
+        Task<IResponse<IEnumerable<Coupon>>> GetCoupons(RequestBase<SearchItem> request);
     }
 }

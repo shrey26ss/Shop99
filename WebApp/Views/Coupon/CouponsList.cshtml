@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Entities.Models.Coupon>
+
+@if (Model != null && Model.Any())
+{
+    int i = 0;
+    foreach (var item in Model)
+    {
+        i++;
+        <tr data-item-id="@item.CouponId">
+            <td>@i</td>
+            <td>@item.CouponCode</td>
+           @* <td>@item.IsFixed</td>*@
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" onclick="UpdateIsFixed('@item.CouponId')" id="IsFixed_@item.CouponId" @Html.Raw(item.IsFixed ? "checked='checked'" : "")>
+                    <label for="IsFixed_@item.CouponId"></label>
+                </span>
+            </td>
+            <td>@item.DiscountAmount</td>
+            <td>@item.ExpiryOn</td>
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" onclick="UpdateIsActive('@item.CouponId')" id="IsActive_@item.CouponId" @Html.Raw(item.IsActive ? "checked='checked'" : "")>
+                    <label for="IsActive_@item.CouponId"></label>
+                </span>
+            </td>
+            <td>@item.PaymentModes</td>
+            @*<td>@item.IsWelcomeCoupon</td>*@
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" onclick="UpdateIsWelcomeCoupon('@item.CouponId')" id="IsWelcomeCoupon_@item.CouponId" @Html.Raw(item.IsWelcomeCoupon ? "checked='checked'" : "")>
+                    <label for="IsWelcomeCoupon_@item.CouponId"></label>
+                </span>
+            </td>
+            <td><input type="button" value="Edit" onclick="dialog.offer('@item.CouponId')" class="btn btn-sm btn-success"></td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="4">No Data Found</td>
+    </tr>
+}
