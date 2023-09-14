@@ -1,5 +1,10 @@
-﻿@{
+﻿@*@{
     Layout = "_layout"; 
+}*@
+
+@model bool;
+@{
+    Layout = @Model ? null : "_layout";
 }
 @section Metatags{
     <link rel="canonical" href="https://shop99.co.in/">
@@ -18,8 +23,6 @@
     <meta property="og:image:height" content="630" />
    
 }
-
-
 
 
 <!--top brand panel start-->
@@ -171,4 +174,3 @@
 @section scripts{
     <script src="~/clientapp/js/index.js"></script>
 }
- 

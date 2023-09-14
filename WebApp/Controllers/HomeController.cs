@@ -3,7 +3,11 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
+using Microsoft.AspNetCore.Routing;
+
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -186,8 +190,7 @@ namespace WebApp.Controllers
             var res = await _product.GetProductAllDetails(Id, UserID);
             if (res.StatusCode == ResponseStatus.Failed)
             {
-                bool IsLayoutRemove = true;
-                return PartialView("404", IsLayoutRemove);
+                return Ok(false);
             }
             return PartialView("partial/_ProductDetails", res.Result ?? new ProductDetails());
         }
