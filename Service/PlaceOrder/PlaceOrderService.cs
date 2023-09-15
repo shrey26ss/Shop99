@@ -67,6 +67,7 @@ namespace Service.CartWishList
                 var plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
                 {
                     UserID = request.LoginId,
+                    Amount=0,
                     request.Data.AddressID,
                     request.Data.PaymentMode,
                     request.Data.IsBuyNow,
