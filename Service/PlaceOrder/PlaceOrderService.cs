@@ -53,7 +53,9 @@ namespace Service.CartWishList
         }
         public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
         {
-            string sp = "proc_Order_Test";
+            string sp = string.Empty;
+            if (request.Data.PaymentMode == PaymentModes.CASH) {  sp = "proc_Order_Test"; }
+            else { sp = "proc_Initiatepayment"; }
             var res = new PlaceOrderResponse()
             { 
             StatusCode=ResponseStatus.Failed,
@@ -68,7 +70,8 @@ namespace Service.CartWishList
                     request.Data.AddressID,
                     request.Data.PaymentMode,
                     request.Data.IsBuyNow,
-                    request.Data.Remark
+                    request.Data.Remark,
+                    ServiceId = ServiceTypes.Order
                 }, CommandType.StoredProcedure);
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
