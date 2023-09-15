@@ -46294,11 +46294,16 @@ td {
     line-height: 1;
     font-weight: bold;
 }
-.pull-right::after {
+.pull-right::before {
     content: "+";
 
     position: relative;
-    left: 2px;
+    right: 2px;
+}
+.lessMore:before {
+    content: "-";
+    position: relative;
+    right: 2px;
 }
 #Color {
     border-bottom: 1px solid #f0f0f0;
@@ -46306,4 +46311,12 @@ td {
 .search-count h5 {
     font-family: sans-serif;
     font-weight: normal;
+}
+.col-grid-box
+{
+/*    padding: 0;*/
+}
+.product-filter-content
+{
+    padding: 5px 0px;
 }
