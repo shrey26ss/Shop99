@@ -94,7 +94,7 @@ namespace Entities.Models
         public double SGST { get; set; }
         public double CGST { get; set; }
         public double Total { get; set; }
-             
+        public double TaxableValue { get; set; }
     }
     public class OrderReplacedConformReq
     {

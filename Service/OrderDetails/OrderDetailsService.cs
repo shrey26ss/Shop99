@@ -244,32 +244,11 @@ namespace Service.OrderDetails
         }
         public async Task<IResponse<OrderInvoice>> GetInvoiceDetails(int Id)
         {
-            string sp = @"
-declare @CompanyName varchar(50),@CompanyMobile varchar(10),@CompanyEmailID varchar(120),@CompanyAddress varchar(500),@GSTN varchar(20)
-
-select @CompanyName=CompanyName,@CompanyMobile=CompanyMobile,@CompanyEmailID=CompanyEmailID,@CompanyAddress=CompanyAddress,@GSTN=GSTN from CompanyProfile
-
-Select @CompanyName ShopName,@CompanyMobile VendorMobile,@CompanyEmailID VendorEmail,@CompanyAddress VendorAddress,@GSTN GSTN,o.InvoiceNo,ua.FullName,u.Email,ua.MobileNo, (ua.HouseNo + ' '+ ua.Area + ' ' + ua.Landmark + ' ' + ua.TownCity  + ' , ' + s.StateName + ' , ' + ua.Pincode) ShippingAddress,o.InvoiceNo,o.InvoiceDate,o.EntryOn OrderDate, vg.Title,o.Rate,o.MRP,o.DocketNo,o.Qty,o.Total,
-vp.ContactNo,vp.ShopName,vp.[Address] VendorAddress,vs.StateName VendorState,vu.Email EmailID,o.IGST,o.CGST,o.SGST,
-stuff((    
-  select ',' + aiu.AttributeValue    
-  from AttributeInfo aiu    
-  where aiu.GroupId = vg.Id    
-  for xml path('')    
- ),1,1,'') Attributes  
-from Orders o(nolock) 
-inner join UserAddress ua(nolock) on ua.Id = o.ShippingAddressID
-inner join VariantGroup vg(nolock) on vg.Id = o.VarriantID
-inner join Users u(nolock) on u.Id = o.UserID
-inner join States s(nolock) on s.Id = ua.StateId
-left join VendorProfile vp(nolock) on vp.Id = vg.EntryBy
-left join States vs(nolock) on vs.Id = vp.StateId
-inner join Users vu(nolock) on vu.Id = vg.EntryBy
-where o.ID = @Id";
+            string sp = "ProcGetOrderInvoice";
             var res = new Response<OrderInvoice>();
             try
             {
-                res.Result = await _dapper.GetAsync<OrderInvoice>(sp, new { Id }, CommandType.Text);
+                res.Result = await _dapper.GetAsync<OrderInvoice>(sp, new { Id }, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "";
             }
