@@ -301,17 +301,10 @@
                                                     </p>
                                                 </h3>
                                             </td>
-                                            @*<td class="qty">
-                                                @{
-                                                string gst = Model.IGST > 0 ? "IGST ₹ " + Model.IGST*Model.Qty :Model.SGST>0? "CGST/SGST ₹ " + (Model.SGST + Model.CGST)*Model.Qty:"0";
-                                                }
-                                                @gst
-
-                                                </td>*@
-                                            <td class="text-right">₹ @Model.Rate</td>
+                                            <td class="text-right">₹ @Model.TaxableValue</td>
                                             <td class="qty">@Model.Qty</td>
-                                            @*<td class="text-right">₹ @((Model.Rate)*Model.Qty)</td>*@
-                                            <td class="text-right">₹ @(Model.TaxableValue)</td>
+
+                                            <td class="text-right">₹ @(Model.TaxableValue*Model.Qty)</td>
                                         </tr>
                                         <tr>
                                             <td></td>
@@ -322,7 +315,7 @@
                                             </td>
                                             <td></td>
                                             <td class="text-right">
-                                                <p>₹ @(String.Format("{0:N}",@Model.CGST*@Model.Qty))</p>
+                                                <p>₹ @(String.Format("{0:N}", @Model.CGST*@Model.Qty))</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -334,7 +327,7 @@
                                             </td>
                                             <td></td>
                                             <td class="text-right">
-                                                <p>₹ @(String.Format("{0:N}",@Model.SGST*@Model.Qty))</p>
+                                                <p>₹ @(String.Format("{0:N}", @Model.SGST*@Model.Qty))</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -346,25 +339,15 @@
                                             </td>
                                             <td></td>
                                             <td class="text-right">
-                                                <p>₹ @(String.Format("{0:N}",@Model.IGST*@Model.Qty))</p>
+                                                <p>₹ @(String.Format("{0:N}", @Model.IGST*@Model.Qty))</p>
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
-                                        @*  <tr>
-                                            <td colspan="2"></td>
-                                            <td colspan="2">SUBTOTAL</td>
-                                            <td>₹@(Model.Rate * Model.Qty)</td>
-                                            </tr>*@
-                                        @*<tr>
-                                            <td colspan="2"></td>
-                                            <td colspan="2">TAX 25%</td>
-                                            <td>₹1,300.00</td>
-                                            </tr>*@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">GRAND TOTAL</td>
-                                            <td>₹ @(String.Format("{0:N}",@Model.Total*@Model.Qty)) </td>
+                                            <td>₹ @(String.Format("{0:N}", @Model.Total*@Model.Qty)) </td>
                                         </tr>
                                     </tfoot>
                                 </table>
