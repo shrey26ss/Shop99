@@ -55,7 +55,7 @@ namespace Service.CartWishList
         {
             string sp = string.Empty;
             if (request.Data.PaymentMode == PaymentModes.CASH) {  sp = "proc_Order_Test"; }
-            else { sp = "proc_Initiatepaymentfirst"; }
+            else { sp = "proc_Initiatepayment"; }
             var res = new PlaceOrderResponse()
             { 
             StatusCode=ResponseStatus.Failed,
@@ -67,6 +67,7 @@ namespace Service.CartWishList
                 var plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
                 {
                     UserID = request.LoginId,
+                    Amount=0,
                     request.Data.AddressID,
                     request.Data.PaymentMode,
                     request.Data.IsBuyNow,
