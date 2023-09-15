@@ -1,8 +1,4 @@
-﻿@*@{
-    Layout = "_layout"; 
-}*@
-
-@model bool;
+﻿@model bool;
 @{
     Layout = @Model ? null : "_layout";
 }
@@ -23,7 +19,11 @@
     <meta property="og:image:height" content="630" />
    
 }
-
+ <!--Slick slider css-->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/slick.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/slick-theme.css" />
+       <!--Animate css-->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/animate.css" />
 
 <!--top brand panel start-->
 <section class="brand-panel">
