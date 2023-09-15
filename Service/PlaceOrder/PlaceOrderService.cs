@@ -55,7 +55,7 @@ namespace Service.CartWishList
         {
             string sp = string.Empty;
             if (request.Data.PaymentMode == PaymentModes.CASH) {  sp = "proc_Order_Test"; }
-            else { sp = "proc_Initiatepaymentfirst"; }
+            else { sp = "proc_Initiatepayment"; }
             var res = new PlaceOrderResponse()
             { 
             StatusCode=ResponseStatus.Failed,

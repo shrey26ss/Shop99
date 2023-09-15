@@ -37,7 +37,7 @@ namespace Service.CartWishList
         }
         public async Task<ResponsePG> PayUnotify(RequestBase<PayUResponse> request)
         {
-            string sp = "proc_pgCallBackUpdate";
+            string sp = "proc_pgCallBackUpdate_Bilal";
             var res = new ResponsePG();
             try
             {
