@@ -310,7 +310,8 @@
                                                 </td>*@
                                             <td class="text-right">₹ @Model.Rate</td>
                                             <td class="qty">@Model.Qty</td>
-                                            <td class="text-right">₹ @((Model.Rate)*Model.Qty)</td>
+                                            @*<td class="text-right">₹ @((Model.Rate)*Model.Qty)</td>*@
+                                            <td class="text-right">₹ @(Model.TaxableValue)</td>
                                         </tr>
                                         <tr>
                                             <td></td>

@@ -54,7 +54,7 @@ namespace Service.CartWishList
         public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
         {
             string sp = string.Empty;
-            if (request.Data.PaymentMode == PaymentModes.CASH) {  sp = "proc_Order_Test"; }
+            if (request.Data.PaymentMode == PaymentModes.CASH){  sp = "proc_Order_Bilal"; }
             else { sp = "proc_Initiatepayment"; }
             var res = new PlaceOrderResponse()
             { 
@@ -63,17 +63,35 @@ namespace Service.CartWishList
             };
             try
             {
-                //PlaceOrder 
-                var plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
+                var plaeorderRes = new PaymentGatewayRequest();
+                if (request.Data.PaymentMode == PaymentModes.CASH) 
                 {
-                    UserID = request.LoginId,
-                    Amount=0,
-                    request.Data.AddressID,
-                    request.Data.PaymentMode,
-                    request.Data.IsBuyNow,
-                    request.Data.Remark,
-                    ServiceId = ServiceTypes.Order
-                }, CommandType.StoredProcedure);
+                     plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
+                    {
+                        UserID = request.LoginId,
+                        Amount = 0,
+                        request.Data.AddressID,
+                        request.Data.PaymentMode,
+                        request.Data.Remark,
+                         request.Data.IsBuyNow,
+                         ServiceId = ServiceTypes.Order,
+                         TID =0,
+                         IsCallFromTrg=false
+                     }, CommandType.StoredProcedure);
+                }
+                else {
+                     plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
+                    {
+                        UserID = request.LoginId,
+                        Amount = 0,
+                        request.Data.AddressID,
+                        request.Data.PaymentMode,
+                        request.Data.IsBuyNow,
+                        request.Data.Remark,
+                        ServiceId = ServiceTypes.Order
+                    }, CommandType.StoredProcedure);
+                }
+                
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
                     //  plaeorderRes.Domain = _irinfo.GetDomain();
