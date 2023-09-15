@@ -1700,7 +1700,7 @@ button {
 }
 
     .brand-panel .brand-panel-box .brand-panel-contain {
-        padding: 30px 0;
+        padding: 18px 0;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -4564,7 +4564,7 @@ button {
     }
 
 .product .product-box:hover .product-detail.detail-center .detail-title {
-    opacity: 0;
+    opacity: 0.3;
 }
 
 .product .product-box:hover .product-detail.detail-center .icon-detail {
@@ -4887,6 +4887,7 @@ button {
         width: 100%;
         display: flex;
         justify-content: space-between;
+        margin-top: 8px;
     }
 
         .product .product-box .product-detail .detail-title .detail-right .check-price {
@@ -10912,8 +10913,8 @@ ul.sosiyal {
         }
 
 .subfooter {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 13px;
+    padding-bottom: 9px;
     background-color: #ffffff;
 }
 
@@ -13969,7 +13970,7 @@ li {
         .collection-product-wrapper .product-top-filter .popup-filter .search-count,
         .collection-product-wrapper .product-top-filter .popup-filter .sidebar-popup {
             border-right: 1px solid #f0f0f0;
-            padding: 10px;
+            padding: 12px;
             text-transform: capitalize;
             width: 35%;
             font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
@@ -14596,6 +14597,8 @@ li {
         .price-title {
             font-size: calc(12px + (16 - 12) * ((100vw - 320px) / (1920 - 320)));
             padding-top: 5px;
+            font-size: 13px;
+            line-height: 19px;
         }
 
 .collection-product-wrapper .product-wrapper-grid .product-five {
@@ -32134,8 +32137,8 @@ body.rtl {
     .product-filter-content
     .search-count {
         width: 100%;
-        border-left: 1px solid #f0f0f0;
-        border-bottom: 1px solid #f0f0f0;
+       /* border-left: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;*/
         text-align: center;
     }
 
@@ -32171,14 +32174,14 @@ body.rtl {
     .product-filter-content
     .product-page-filter {
         border-right: 1px solid #f0f0f0;
-        width: 30%;
+        width: 100%;
     }
 
     .collection-product-wrapper
     .product-top-filter
     .product-filter-content
     .product-page-per-view {
-        width: 30%;
+        width: 100%;
     }
 
     .collection-product-wrapper
@@ -46296,4 +46299,11 @@ td {
 
     position: relative;
     left: 2px;
+}
+#Color {
+    border-bottom: 1px solid #f0f0f0;
+}
+.search-count h5 {
+    font-family: sans-serif;
+    font-weight: normal;
 }

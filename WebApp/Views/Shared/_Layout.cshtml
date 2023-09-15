@@ -664,17 +664,7 @@
 
         //loadAutoSuggestion('', 0,true);
 
-        $('.showMore').unbind().click(e => {
-            let element = $(e.currentTarget);
-            let divId = element.closest('.collection-collapse-block').attr('id');
-            let showElementCount = $('#' + divId).find('.collection-filter-checkbox :visible').length;
-            let totalElementCount = $('#' + divId).find('.collection-filter-checkbox').length;
-            $('#' + divId).find('.collection-filter-checkbox').slice(showElementCount, showElementCount + 4).toggleClass('d-none');
-            console.log(totalElementCount, showElementCount);
-            if (showElementCount === totalElementCount) {
-                element.hide();
-            }
-        });
+       
 
         $('.collection-collapse-block .form-check-input').change(function () {
             let val = [];
