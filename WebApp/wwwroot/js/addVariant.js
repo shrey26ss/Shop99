@@ -344,7 +344,7 @@ let recordsintable = () => {
         Warranty: $("#warranty").val(),
         WarrantyUnit: $("#yearmonth").val(),
         DiscountRate: $("#Discountrate").val(),
-        SpecialDiscount: $('#specialDiscount').val(),
+        SpecialDiscount: $('#SpecialDiscount').val(),
         SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
         Specification: tinymce.get("specification").getContent(),
         IsFeatured: $("#IsFeatured").prop("checked"),
