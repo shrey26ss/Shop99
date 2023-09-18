@@ -38,6 +38,8 @@ namespace Entities.Models
         public string ImagePath { get; set; }
         public string Attributes { get; set; }
         public bool IsCod { get; set; }
+        public decimal SpecialDiscount { get; set; }
+        public string Discounttype { get; set; }
     }
     public class CartWishlistCount
     {

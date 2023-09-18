@@ -8,6 +8,8 @@
     decimal SubTotal = 0;
     decimal Off = 0;
     decimal Total = 0;
+    decimal spdis = 0;
+    string distp = string.Empty;
 }
 
 <style>
@@ -35,9 +37,17 @@
                 {
                     @*  <li><span>mrp <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span></li>*@
                     <li> <div class="row"> <div class="col-md-7">@item.Title × @item.Qty</div><div class="col-md-5 text-right"><span class="cart-pro-price"> <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span> <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost*item.Qty)</span></div></div>  </li>
-
+                    distp = item.Discounttype;
+                    spdis = item.SpecialDiscount;
                     SubTotal = (SubTotal + item.SellingCost * item.Qty);
                     Off = Off + ((item.MRP * item.Qty) - (item.SellingCost * item.Qty));
+                    if (distp == "F") 
+                    { SubTotal = SubTotal - spdis; }
+                    else 
+                    {
+                        decimal discountAmount = (SubTotal * spdis) / 100;
+                        SubTotal = SubTotal - discountAmount;
+                    }
                 }
                 Total = SubTotal;
             }
@@ -45,8 +55,17 @@
         <ul class="sub-total">
             <li><div class="row"><div class="col-md-7">Off</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Off</span></div></div></li>
             <li><div class="row"><div class="col-md-7">Subtotal</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal</span></div></div></li>
+            @if (distp == "F")
+            {
+                <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @spdis</span></div></div></li>
+            }
+            else
+            {
+                <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @spdis %</span></div></div></li>
+            }
+            <li><div class="row"><div class="col-md-7">Shipping</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> - 50</span></div></div></li>
 
-            <li>
+           @* <li>
                 Shipping
                 <div class="shipping">
                     <div class="shopping-option">
@@ -54,11 +73,10 @@
                         <label for="free-shipping">Free Shipping</label>
                     </div>
                     <div class="shopping-option">
-                        @*  <input type="checkbox" name="local-pickup" id="local-pickup">*@
-                        @*  <label for="local-pickup">Local Pickup</label>*@
+                       
                     </div>
                 </div>
-            </li>
+            </li>*@
         </ul>
         <ul class="total">
             <li><div class="row"><div class="col-md-7">Total</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Total</span></div></div></li>
