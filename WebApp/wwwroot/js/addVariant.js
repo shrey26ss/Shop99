@@ -364,7 +364,6 @@ let recordsintable = () => {
         "<td>" + dataObj.DiscountRate + "</td>" +
         "<td>" + dataObj.SpecialDiscount + "</td>" +
         "<td>" + dataObj.SpecialDiscType + "</td>" +
-        "<td>" + dataObj.DiscountRate + "</td>" +
         "<td>" + dataObj.IsFeatured + "</td>" +
         "<td> <div>" + dataObj.IsShowOnHome + "</div></td>" +
         "<td>" + dataObj.Specification + "</td>" +
