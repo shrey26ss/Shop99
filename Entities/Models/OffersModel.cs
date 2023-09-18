@@ -19,6 +19,7 @@ namespace Entities.Models
         public int UserID { get; set; }
         public string CouponCode { get; set; }
         public bool IsActive { get; set; }
+        
     }
     public class offerstype
     {
@@ -34,5 +35,10 @@ namespace Entities.Models
     {
         public int OfferID { get; set; }
         public bool IsActive { get; set; }
+    }
+    public class specialoffer
+    {
+        public decimal AtRate { get; set; }
+        public string Discounttype { get; set; }
     }
 }

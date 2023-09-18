@@ -11345,7 +11345,7 @@ ul.sosiyal {
         }
 
         .theme-slider .slider-banner.slide-banner-1 .slider-img {
-            height: 427px;
+            height: 500px;
             background-color: #ffffff;
             overflow: hidden;
         }
@@ -32552,7 +32552,7 @@ body.rtl {
     }
 
     .theme-slider .slider-banner.slide-banner-1 .slider-img {
-        height: 400px;
+        height: 500px!important;
     }
 
     .theme-slider .slider-banner.slide-banner-4 .slider-img {

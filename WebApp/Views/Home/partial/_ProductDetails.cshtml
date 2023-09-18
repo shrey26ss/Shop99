@@ -222,6 +222,35 @@
                         </div>
                     </div>
                 </div>
+                @*Special offer available*@
+                @if (Model != null && Model.sepcialoffer.Any(x => x.AtRate!=0 && x.Discounttype!=null))
+                {
+                    <div class="pro-group">
+                        <div class="product-offer">
+                            <h6 class="product-title"><i class="fa fa-tags"></i>Special offer</h6>
+                            <div class="offer-contain">
+                                <ul>
+                                    <li>
+                                        @foreach (var so in Model.sepcialoffer)
+                                        {
+                                            if (so.Discounttype == 'F'.ToString() && so.Discounttype != null)
+                                            {
+                                                <span class="code-lable">FLAT  @so.AtRate ₹ off</span>
+                                            }
+                                            else @*if (so.Discounttype == 'P'.ToString() && so.Discounttype != null)*@
+                                            {
+                                                <span class="code-lable">UPTO  @so.AtRate % Off</span>
+                                            }
+                                        }
+                                        <div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                }
                 <div class="pro-group">
                     <div class="product-offer">
                         <h6 class="product-title"><i class="fa fa-tags"></i>1 offer Available </h6>
