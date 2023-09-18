@@ -248,9 +248,11 @@
                 Title: currentGroup.find('[name="Title"]').val(),
                 SellingCost: currentGroup.find('[name="SellingCost"]').val(),
                     //DiscountRate: currentGroup.find('[name="Discountrate"]').val(),
-                    Specification: currentGroup.find('[name="specification"]').val(),
+                Specification: currentGroup.find('[name="specification"]').val(),
                 IsFeatured: currentGroup.find('[name="IsFeatured"]').is(':checked'),
                 IsShowOnHome: currentGroup.find('[name="IsShowOnHome"]').is(':checked') ? 1 : 0,
+                SpecialDiscount: currentGroup.find('#specialDiscount').val(),
+                SpecialDiscType: currentGroup.find('[name="spcldisctype"]:radio:checked').val(),
             };
             groupInfo.push(groupDetail);
         });

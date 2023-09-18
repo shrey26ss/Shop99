@@ -32,6 +32,8 @@ namespace Entities.Models
         public decimal DiscountRate { get; set; }
         //public decimal DisplayCost { get; set; }
         public string Specification { get; set; }
+        public decimal SpecialDiscount { get; set; }
+        public string SpecialDiscType { get; set; }
 
     }
     public class AttributeInfo
@@ -111,8 +113,11 @@ namespace Entities.Models
         public bool IsPublished { get; set; }
         public int CategoryId { get; set; }
         public decimal DiscountRate { get; set; }
+        public decimal SpecialDiscount { get; set; }
         public decimal DisplayRate { get; set; }
         public string Specification { get; set; }
+        public string SpecialDiscType { get; set; }
+
     }
     public class DeleteVariantReq
     {

@@ -344,9 +344,12 @@ let recordsintable = () => {
         Warranty: $("#warranty").val(),
         WarrantyUnit: $("#yearmonth").val(),
         DiscountRate: $("#Discountrate").val(),
+        SpecialDiscount: $('#specialDiscount').val(),
+        SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
         Specification: tinymce.get("specification").getContent(),
         IsFeatured: $("#IsFeatured").prop("checked"),
-        IsShowOnHome: $("#IsShowOnHome").prop("checked")
+        IsShowOnHome: $("#IsShowOnHome").prop("checked"),
+       
     };
     let itemDetail = JSON.stringify(dataObj);
     var newRow = "<tr data-item-detail='" + itemDetail + "' class='itemDetail'>" +
@@ -359,6 +362,8 @@ let recordsintable = () => {
         "<td>" + dataObj.Warranty + "</td>" +
         "<td>" + dataObj.WarrantyUnit + "</td>" +
         "<td>" + dataObj.DiscountRate + "</td>" +
+        "<td>" + dataObj.SpecialDiscount + "</td>" +
+        "<td>" + dataObj.SpecialDiscType + "</td>" +
         "<td>" + dataObj.IsFeatured + "</td>" +
         "<td> <div>" + dataObj.IsShowOnHome + "</div></td>" +
         "<td>" + dataObj.Specification + "</td>" +
