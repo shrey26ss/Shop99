@@ -5554,7 +5554,7 @@ button {
         }
 
     .hot-deal .hot-deal-contain .slick-slider .slick-arrow {
-        display: none !important;
+        background: transparent;
     }
 
 .hot-deal .slick-prev {
