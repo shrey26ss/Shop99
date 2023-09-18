@@ -30,6 +30,7 @@ namespace Entities.Models
         public List<ProductAttributes> ProductAttributes { get; set; }
         public List<ProductPictureInfo> ProductPictureInfos { get; set; }
         public List<AttributeInfo> AttributeInfo { get; set; }
+        public List<specialoffer> sepcialoffer { get; set; }
     }
     public class ProductAttributes
     {

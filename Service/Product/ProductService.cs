@@ -188,7 +188,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
                 //var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
                 var picturejson = request.Data.PictureInfo.ToString();
-                string sqlQuery = "Proc_AddVariant_Test";
+                string sqlQuery = "Proc_AddVariant";
                 int i = -5;
                 DynamicParameters param = new DynamicParameters();
                 param.Add("VariantGroup", VariantGroup, DbType.Object);
@@ -416,7 +416,7 @@ inner join ProductShippingDetail s on s.ProductId = p.Id where (@CategoryID=0 or
                 var AttributeInfo = ConvertToDataTable.ToDataTable(request.Data.AttributeInfo);
                 var PictureInfo = ConvertToDataTable.ToDataTable(request.Data.PictureInfo);
                 var picturejson = request.Data.PictureInfo.ToString();
-                string sqlQuery = "Proc_UpdateVariant_Test";
+                string sqlQuery = "Proc_UpdateVariant";
                 DynamicParameters param = new DynamicParameters();
                 param.Add("VariantGroup", VariantGroup, DbType.Object);
                 param.Add("AttributeInfo", AttributeInfo, DbType.Object);
