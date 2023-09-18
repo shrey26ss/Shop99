@@ -70,37 +70,25 @@ else
                         <label>Discount Rate</label>
                         <input id="Discountrate" class="form-control" value="@Model.variantDetailsByAttributes.DiscountRate" />
                     </div>
-                    <div class="form-group">
-                        <label>Special Discount</label>
-                        <input id="specialDiscount" class="form-control" value="@Model.variantDetailsByAttributes.SpecialDiscount" />
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label>Special Discount</label>
+                                <input id="specialDiscount" class="form-control" value="@Model.variantDetailsByAttributes.SpecialDiscount" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6 col-md-3">
+                            <label id="sdt">Special Discount Type</label>
+                            <div class="form-group form-control">
+                                <input type="radio" name="spcldisctype" value="P" id="Percentage" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="Percentage" class="mr-5" style="font-weight:300">Percentage</label>
+                                <input type="radio" name="spcldisctype" value="F" id="FixedAmount" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="FixedAmount" style="font-weight:300">FixedAmount</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Specification</label>
                         <textarea class="form-control input-group input-group-required" id="specification" name="specification" value="@Model.variantDetailsByAttributes.Specification">@Model.variantDetailsByAttributes.Specification</textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-4">
-                            <label>Special Discount Type</label>
-                            <div class="col-sm-2 input-group">
-                                <div class="input-group-prepend" style="height: 38px;">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="Percentage" id="Percentage" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.Percentage ? "checked='checked'" : "")>
-                                    </div>
-                                </div>
-                                <label class="form-control" for="IsFeatured">Percentage</label>
-                            </div>
-
-                            <div class="col-sm-2 input-group">
-                                <div class="input-group-prepend" style="height: 38px;">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="FixedAmount" id="FixedAmount" class="mt-0" @Html.Raw(Model.variantDetailsByAttributes.FixedAmount ? "checked='checked'" : "")>
-                                    </div>
-                                </div>
-                                <label class="form-control" for="IsShowOnHome">Fixed Amount</label>
-                            </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -358,14 +346,14 @@ else
                 let _src = URL.createObjectURL(param.File);
                 param.DisplayOrder = $('.pictureGrid tr').length;
                 let _html = `<tr data-group-Id="${param.GroupId}" data-alt-value="${param.Alt}" data-title-value="${param.Title}" data-display-value="${param.DisplayOrder}" data-color-value="${param.AttrColor}">
-                                   <td>${count}</td>
-                                   <td><img src="${_src}" alt="image" style="width:100px"/></td>
-                                   <td>${param.DisplayOrder}</td>
-                                   <td>${param.Alt}</td>
-                                   <td>${param.Title}</td>
-                                   <td>${param.AttrColor}</td>
-                                   <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
-                              </tr>`;
+                                                   <td>${count}</td>
+                                                   <td><img src="${_src}" alt="image" style="width:100px"/></td>
+                                                   <td>${param.DisplayOrder}</td>
+                                                   <td>${param.Alt}</td>
+                                                   <td>${param.Title}</td>
+                                                   <td>${param.AttrColor}</td>
+                                                   <td><span class="btn btn-danger rmImage" ><i class="fa fa-times"> </i><span></td>
+                                              </tr>`;
                 pictureGrid.append(_html);
                 Q.notify(1, 'Image Added Successfully');
                 $('.rmImage').unbind().click(e => {
@@ -427,7 +415,9 @@ else
                     DiscountRate: $('#Discountrate').val(),
                     Specification: tinymce.get("specification").getContent(),//$('#specification').val(),
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
-                    IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0
+                    IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
+                    SpecialDiscount: $('#specialDiscount').val(),
+                    SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
                 };
                 groupInfo.push(groupDetail);
             });
