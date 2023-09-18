@@ -10,6 +10,8 @@
     decimal Total = 0;
     decimal spdis = 0;
     string distp = string.Empty;
+    decimal discountAmount = 0;
+    decimal totaldiscountAmount = 0;
 }
 
 <style>
@@ -42,12 +44,16 @@
                     SubTotal = (SubTotal + item.SellingCost * item.Qty);
                     Off = Off + ((item.MRP * item.Qty) - (item.SellingCost * item.Qty));
                     if (distp == "F") 
-                    { SubTotal = SubTotal - spdis; }
+                    {
+                        discountAmount = spdis;
+                        SubTotal = SubTotal - spdis;
+                    }
                     else 
                     {
-                        decimal discountAmount = (SubTotal * spdis) / 100;
+                         discountAmount = (SubTotal * spdis) / 100;
                         SubTotal = SubTotal - discountAmount;
                     }
+                    totaldiscountAmount = totaldiscountAmount + discountAmount;
                 }
                 Total = SubTotal;
             }
@@ -59,14 +65,7 @@
             }
             @if (spdis > 0)
             {
-                if (distp == "F")
-                {
-                    <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @spdis</span></div></div></li>
-                }
-                else
-                {
-                    <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count">@spdis %</span></div></div></li>
-                }
+                <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @totaldiscountAmount.ToString("0.00")</span></div></div></li>
             }
            
             <li><div class="row"><div class="col-md-7">Subtotal</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal.ToString("0.00")</span></div></div></li>
