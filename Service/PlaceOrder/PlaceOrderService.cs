@@ -76,7 +76,8 @@ namespace Service.CartWishList
                         request.Data.IsBuyNow,
                         ServiceId = ServiceTypes.Order,
                         TID = 0,
-                        IsCallFromTrg = false
+                        IsCallFromTrg = false,
+                        request.Data.Coupon
                     }, CommandType.StoredProcedure);
                 }
                 else
@@ -89,7 +90,8 @@ namespace Service.CartWishList
                         request.Data.PaymentMode,
                         request.Data.IsBuyNow,
                         request.Data.Remark,
-                        ServiceId = ServiceTypes.Order
+                        ServiceId = ServiceTypes.Order,
+                        request.Data.Coupon
                     }, CommandType.StoredProcedure);
                 }
 

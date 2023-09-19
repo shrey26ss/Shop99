@@ -14,6 +14,7 @@ namespace Entities.Models
         public bool IsBuyNow { get; set; }
         public string Remark { get; set; }
         public string AlternateDomain { get; set; }
+        public string Coupon { get; set; }
     }
     public class PlaceOrderResponse
     {
