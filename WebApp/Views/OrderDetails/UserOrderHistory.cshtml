@@ -3,34 +3,104 @@
 }
 
 <style>
- .mrl{
-     margin:0 10px;
- }
- 
+    .sc-list-item-content {
+        position: relative;
+        margin-top: 12px;
+        border-top: 1px solid #ddd;
+        padding: 30px 0;
+    }
 
+    .sc-list-item-content-inner {
+        display: flex !important;
+        flex-direction: row;
+    }
+
+    .sc-list-item-content-inner {
+        width: 83%;
+    }
+
+    .a-spacing-mini, .a-ws .a-ws-spacing-mini {
+        margin-bottom: 4px !important;
+    }
+
+    .sc-grid-view.sc-grid-full-width .sc-list-body .sc-item-content-group {
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+
+    .a-unordered-list, ul {
+        margin: 0 0 0 18px;
+        color: #0F1111;
+    }
+
+    .a-ordered-list, .a-unordered-list, ol, ul {
+        padding: 0;
+        list-style: none;
+    }
+
+        .a-ordered-list.a-nostyle, .a-unordered-list.a-nostyle, ol.a-nostyle, ul.a-nostyle {
+            margin-left: 0;
+            color: #0F1111;
+        }
+
+        .a-unordered-list li a {
+            color: #000;
+            font-size: 18px !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+    .a-text-bold {
+        font-weight: 700 !important;
+    }
+
+    .a-size-medium {
+        font-size: 18px !important;
+        line-height: 24px !important;
+    }
+
+    .a-size-medium {
+        text-rendering: optimizeLegibility;
+    }
+
+    .a-color-base {
+        color: #0F1111 !important;
+    }
+
+    .sc-white-space-nowrap {
+        white-space: nowrap;
+    }
+
+    .fnt-small, .a-size-small {
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: .5px;
+    }
+
+    .a-size-small-1 {
+        color: #4f4d4d;
+        font-weight: 500;
+        font-size: 11px;
+        padding: 8px 10px;
+        background-color: #f8f9fa;
+    }
+
+    .sc-list-item-content:first-child {
+        border-top: 1px solid transparent;
+        padding: 0;
+    }
+    .a-unordered-list li{
+        display:block;
+    }
+
+    .mr-4{
+        margin-right:2rem;
+    }
 </style>
 <!--section start-->
-<section class="cart-section order-history section-big-py-space">
-    <div class="custom-container">
-        <div class="row">
-            <div class="col-sm-12 table-responsive">
-                <table class="table cart-table table-responsive-xs">
-                    <thead>
-                        <tr class="table-head">
-                            <th scope="col">product</th>
-                            <th scope="col">description</th>
-                            <th scope="col">price</th>
-                            <th scope="col">detail</th>
-                            <th scope="col">status</th>
-                            <th scope="col">action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="UserOrderHistory">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<section id="UserOrderHistory">
 </section>
 
 @section scripts{

@@ -47,6 +47,5 @@ namespace WebAPI.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("OrderDetails/GetOrderGSTDetails")]
         public async Task<IActionResult> GetOrderGSTDetails(OrderDetailsRequest req) => Ok(await _orderRepo.GetOrderGST(User.GetLoggedInUserId<int>(),req));
-
     }
 }

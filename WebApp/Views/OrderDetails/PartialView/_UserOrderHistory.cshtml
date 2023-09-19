@@ -14,78 +14,107 @@
         badge = item.StatusID == StatusType.OrderPlaced ? "badge-warning" : item.StatusID == StatusType.Cancel ? "badge-danger" : item.StatusID == StatusType.Confirmed ? "badge-success" : item.StatusID == StatusType.Delivered ? "badge-info" : "badge-dark";
         text = item.StatusID == StatusType.OrderPlaced ? "text-warning" : item.StatusID == StatusType.Cancel ? "text-danger" : item.StatusID == StatusType.Confirmed ? "text-success" : item.StatusID == StatusType.Delivered ? "text-info" : "text-dark";
         counter++;
-        <tr>
-            <td>
-                <a href="/productdetails/@item.VarriantID">
-                    <img src="@item.Thumbnail" alt="product" class="img-fluid" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
-                </a>
-            </td>
-            <td>
-                <a href="/UserOrderDetails/?OrderId=@item.ID">order no: <span class="dark-data">@item.OrderID.ToString().ToUpper()</span> <br>@item.Title</a>
-                <div class="mobile-cart-content row">
-                    <div class="col-xs-3">
-                        <div class="qty-box">
-                            <div class="input-group">
-                                <input type="text" name="quantity" class="form-control input-number" value="1">
-                            </div>
+
+    }
+ 
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4>Shopping Cart</h4>
+                        </div>
+                        <div class="card-body sc-grid-view sc-grid-full-width">
+                            @foreach (var item in Model)
+                            {
+                                <div class="sc-list-item-content">
+                                    <div class="a-row a-grid-vertical-align a-grid-top sc-list-item-content-inner">
+                                        <div class="a-spacing-mini sc-item-content-group mr-4">
+                                            <img src="@item.Thumbnail" width="180" height="180">
+                                        </div>
+
+                                        <div class="sc-item-content-group">
+                                            <ul class="a-unordered-list a-nostyle a-vertical a-spacing-base">
+                                                <li class="a-spacing-mini">
+                                                    <span class="a-list-item">
+                                                        <a href="">
+                                                            <span class="Text-Text">@item.Title</span>
+                                                        </a>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <div class="badge badge-light a-size-small-1">Order No : @item.OrderID.ToString().ToUpper()</div>
+                                                </li>
+                                                <li>
+                                                    <div class="sc-badge-price-to-pay">
+                                                        <p class="a-spacing-mini mt-2">
+                                                            <span class="a-size-medium a-color-base sc-price sc-white-space-nowrap sc-product-price a-text-bold"><i class="fa fa-inr fnt-small">&nbsp;&nbsp;</i>@item.Total</span>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="sc-product-variation">
+                                                    <span class="a-list-item">
+                                                        @*                                                     @item.Attributes.ToUpper()
+                                                <span class="a-size-small a-text-bold">
+                                                Colour:
+                                                </span> *@
+                                                        <span class="a-size-small a-text-bold">
+                                                            @item.Attributes |
+                                                        </span>
+                                                    </span>
+
+                                                    <span class="a-list-item ml-4">
+                                                        <span class="a-size-small a-text-bold">
+                                                            Quantity:
+                                                        </span>
+                                                        <span class="a-size-small">
+                                                            @item.Qty
+                                                        </span>
+                                                    </span>
+                                                </li>
+                                            </ul>
+
+                                            <div class="a-row sc-action-links mt-2">
+                                                <span style="color: @(item.StatusID == StatusType.Confirmed ? "green" : item.StatusID == StatusType.CancelRequest ? "red" : "inherit" );">
+                                                    @item.StatusID.ToString()
+                                                </span>
+                                                <span style="color:#ddd">|</span>
+                                                @if (item.StatusID == StatusType.Shipped)
+                                                {
+                                                    <span>
+                                                        <a href="https://shiprocket.co/tracking/@item.DocketNo" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')" class="a-size-small"></a>
+                                                    </span>
+
+                                                }
+                                                @if (item.StatusID.In(StatusType.OrderPlaced, StatusType.Confirmed, StatusType.Shipped))
+                                                {
+                                                    <span>
+                                                        <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="a-size-small">Cancel</a>
+                                                    </span>
+                                                    <span style="color:#ddd">|</span>
+                                                }
+                                                @if (item.StatusID == StatusType.Confirmed || item.StatusID == StatusType.Delivered)
+                                                {
+                                                    <span>
+                                                        <a href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice" class="a-size-small">
+                                                            Download
+                                                        </a>
+                                                    </span>
+
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                     </div>
-                    <div class="col-xs-3">
-                        <h4 class="td-color">@item.Rate</h4>
-                    </div>
-                    <div class="col-xs-3">
-                        <h2 class="td-color"><a href="javascript:void(0)" class="icon"><i class="ti-close"></i></a></h2>
-                    </div>
                 </div>
-            </td>
-            <td>
-                <h4>₹ @(String.Format("{0:N}", @item.Total*item.Qty))</h4>
-            </td>
-            <td>
-                <span>@item.Attributes</span>
-                <br>
-                <span>Quntity:@item.Qty</span>
-            </td>
-            <td>
-                <div class="responsive-data">
-                    <h4 class="price">@item.Rate</h4>
-                    <span>@item.Attributes</span>|<span>Quntity:@item.Qty</span>
-                </div>
-                <div class="dark-data">
-                    <span class="@text">@item.StatusID.ToString()</span>
-                    @if (item.StatusID == StatusType.Shipped)
-                    {
-                        <span onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')" class="ml-2">
-                            <i class="fa fa-share-alt" aria-hidden="true"></i>
-                        </span>
-                        <a href="https://shiprocket.co/tracking/@item.DocketNo" target="_blank" class="btn btn-sm btn-info d-block">Track</a>
-                    }
-                    @if (item.StatusID == StatusType.Confirmed || item.StatusID == StatusType.Delivered)
-                    {
-                        <a class="badge badge-info" href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice">
-                            <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-                        </a>
-                    }
-                </div>
-            </td>
-            <td>
-                <div class="d-flex justify-content-center">
-                    @if (item.StatusID.In(StatusType.OrderPlaced, StatusType.Confirmed, StatusType.Shipped))
-                    {
-                        <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="btn btn-sm btn-info btnCancelOrder">Cancel</a>
-                    }
-                    @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
-                    {
-                        <a href="#" onclick="ReturnItem('@item.ID')" class="btn btn-sm btn-danger btnCancelOrder" style="color:white">Return</a>
-                    }
-                    @if (item.StatusID == StatusType.Delivered && deliveredDays <= 10)
-                    {
-                        <a href="#" onclick="ReplaceItem('@item.ID','@StatusType.OrderReplaceInitiated')" class="btn btn-sm btn-info btnCancelOrder mrl">Replace</a>
-                    }
-                </div>
-            </td>
-        </tr>
-    }
+            </div>
+        </div>
+
 }
 <script>
     var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
@@ -94,10 +123,10 @@
     var ChangeStatusItemWithRemark = function (ID, StatusID) {
         let btntxt = StatusID == 'InitiateReturn' ? "Procced Your Return" : "Procced Your Cancellation";
         const html = `<div class="form-group">
-                            <label for="inputAddress">Reason</label>
-                            <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                            </div>
-                            <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
+                                        <label for="inputAddress">Reason</label>
+                                        <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                        </div>
+                                        <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
         Q.alert({
             title: 'Add Reason',
             body: html,

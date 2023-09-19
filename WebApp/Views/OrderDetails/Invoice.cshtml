@@ -88,7 +88,7 @@
                 }
 
                     .invoice main .notices .notice {
-                        font-size: 1.2em
+                        font-size: 1rem
                     }
 
             .invoice table {
@@ -100,29 +100,36 @@
 
                 .invoice table td,
                 .invoice table th {
-                    padding: 15px;
+                    padding: 10px;
                     background: #eee;
-                    border-bottom: 1px solid #fff
+                    border-bottom: 1px solid #ddd;
                 }
 
                 .invoice table th {
                     white-space: nowrap;
-                    font-weight: 400;
-                    font-size: 16px
+                    font-weight: 600;
+                    font-size: 14px
+                }
+
+                .invoice table td h3 p {
+                    margin: 0;
+                    font-weight: 600;
+                    color: #2874f0;
+                    font-size: 1rem
                 }
 
                 .invoice table td h3 {
                     margin: 0;
                     font-weight: 400;
                     color: #2874f0;
-                    font-size: 1.2em
+                    font-size: 1rem
                 }
 
                 .invoice table .qty,
                 .invoice table .total,
                 .invoice table .unit {
                     text-align: right;
-                    font-size: 1.2em
+                    font-size: 1rem
                 }
 
                 .invoice table .no {
@@ -141,7 +148,7 @@
                 }
 
                 .invoice table tbody tr:last-child td {
-                    border: none
+                    /* border: none */
                 }
 
                 .invoice table tfoot td {
@@ -149,8 +156,8 @@
                     border-bottom: none;
                     white-space: nowrap;
                     text-align: right;
-                    padding: 10px 20px;
-                    font-size: 1.2em;
+                    padding: 10px 10px;
+                    font-size: 1em;
                     border-top: 1px solid #aaa
                 }
 
@@ -174,7 +181,8 @@
 
         .invoice table tfoot tr:last-child td {
             color: #2874f0;
-            font-size: 1.4em;
+            font-size: 1rem;
+            font-weight: 600;
             border-top: 1px solid #2874f0
         }
 
@@ -214,6 +222,14 @@
             padding: 10px;
         }
 
+        .company-details p{
+        margin-bottom:3px
+        }
+
+            .company-details p.address {
+            max-width:350px;
+        }
+
         @@media print {
             .noPrint {
                 display: none;
@@ -227,9 +243,7 @@
         }
 
     </style>
-
 </head>
-
 <body>
     <div class="container">
         <div class="card">
@@ -251,14 +265,14 @@
                                             <img src="https://shop99.co.in/assets/images/layout-2/logo/logo.png" alt="">
                                         </a>
                                     </div>
-                                    <div class="col company-details">
+                                    <div class="company-details pr-3">
                                         <h4 class="name">
                                             @Model.ShopName
                                         </h4>
-                                        <div>@Model.VendorAddress, @Model.VendorState</div>
-                                        <div>@Model.VendorMobile</div>
-                                        <div>@Model.VendorEmail</div>
-                                        <div>@Model.GSTN</div>
+                                        <p class="address">@Model.VendorAddress, @Model.VendorState</p>
+                                        <p>@Model.VendorMobile</p>
+                                        <p>@Model.VendorEmail</p>
+                                        <p>@Model.GSTN</p>
                                     </div>
                                 </div>
                             </header>
@@ -304,42 +318,18 @@
                                             <td class="text-right">₹ @Model.TaxableValue</td>
                                             <td class="qty">@Model.Qty</td>
 
-                                            <td class="text-right">₹ @(Model.TaxableValue*Model.Qty)</td>
+                                            <td class="text-right">₹ @(Model.TaxableValue * Model.Qty)</td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td class="text-right">
-                                                <p><b>CGST</b> </p>
+                                            <td colspan="3" style="text-align:center" class="text-right">
+                                                <div><b>SGST</b></div>
+                                                <div><b>CGST</b></div>
+                                                <div><b>IGST</b></div>
+                                            <td colspan="3" style="text-align:center" class="text-right">
+                                                <div colspan="3">₹ @(String.Format("{0:N}", @Model.SGST * @Model.Qty))</div>
+                                                <div colspan="3">₹ @(String.Format("{0:N}", @Model.CGST * @Model.Qty))</div>
+                                                <div colspan="3">₹ @(String.Format("{0:N}", @Model.IGST * @Model.Qty))</div>
                                             </td>
-                                            <td class="text-right">
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">
-                                                <p>₹ @(String.Format("{0:N}", @Model.CGST*@Model.Qty))</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td class="text-right">
-                                                <p><b>SGST</b> </p>
-                                            </td>
-                                            <td class="text-right">
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">
-                                                <p>₹ @(String.Format("{0:N}", @Model.SGST*@Model.Qty))</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td class="text-right">
-                                                <p><b>IGST</b> </p>
-                                            </td>
-                                            <td class="text-right">
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">
-                                                <p>₹ @(String.Format("{0:N}", @Model.IGST*@Model.Qty))</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -347,7 +337,7 @@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">GRAND TOTAL</td>
-                                            <td>₹ @(String.Format("{0:N}", @Model.Total*@Model.Qty)) </td>
+                                            <td>₹ @(String.Format("{0:N}", @Model.Total * @Model.Qty)) </td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -355,7 +345,7 @@
                                 <br />
                                 <div class="thanks">Thank you!</div>
                                 <div class="notices">
-                                    <div>NOTE:</div>
+                                    <div><b>NOTE:</b></div>
 
                                     <div class="notice">
                                         AFTER COMPLETION OF 7 DAYS RETURN PERIOD, IF ANY PRODUCT IS SENT TO REPAIR IN WARRANTY, ONE SIDE COURIER CHARGES WILL BE BEARED BY CUSTOMER”
@@ -370,7 +360,5 @@
             </div>
         </div>
     </div>
-
 </body>
-
 </html>
