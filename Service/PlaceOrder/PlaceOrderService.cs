@@ -41,7 +41,7 @@ namespace Service.CartWishList
             var res = new Response<IEnumerable<PaymentMode>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<PaymentMode>(sp,new { IsCod }, CommandType.Text);
+                res.Result = await _dapper.GetAllAsync<PaymentMode>(sp, new { IsCod }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }
@@ -57,30 +57,31 @@ namespace Service.CartWishList
             if (request.Data.PaymentMode == PaymentModes.CASH){  sp = "proc_Order"; }
             else { sp = "proc_Initiatepayment"; }
             var res = new PlaceOrderResponse()
-            { 
-            StatusCode=ResponseStatus.Failed,
-            ResponseText=nameof(ResponseStatus.Failed),
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = nameof(ResponseStatus.Failed),
             };
             try
             {
                 var plaeorderRes = new PaymentGatewayRequest();
-                if (request.Data.PaymentMode == PaymentModes.CASH) 
+                if (request.Data.PaymentMode == PaymentModes.CASH)
                 {
-                     plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
+                    plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
                     {
                         UserID = request.LoginId,
                         Amount = 0,
                         request.Data.AddressID,
                         request.Data.PaymentMode,
                         request.Data.Remark,
-                         request.Data.IsBuyNow,
-                         ServiceId = ServiceTypes.Order,
-                         TID =0,
-                         IsCallFromTrg=false
-                     }, CommandType.StoredProcedure);
+                        request.Data.IsBuyNow,
+                        ServiceId = ServiceTypes.Order,
+                        TID = 0,
+                        IsCallFromTrg = false
+                    }, CommandType.StoredProcedure);
                 }
-                else {
-                     plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
+                else
+                {
+                    plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
                     {
                         UserID = request.LoginId,
                         Amount = 0,
@@ -91,11 +92,11 @@ namespace Service.CartWishList
                         ServiceId = ServiceTypes.Order
                     }, CommandType.StoredProcedure);
                 }
-                
+
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
                     //  plaeorderRes.Domain = _irinfo.GetDomain();
-                    plaeorderRes.Domain =  _irinfo.GetDomain();//"http://localhost:52923";
+                    plaeorderRes.Domain = _irinfo.GetDomain();//"http://localhost:52923";
                     plaeorderRes.AlternateDomain = string.IsNullOrEmpty(request.Data.AlternateDomain) ? plaeorderRes.Domain : request.Data.AlternateDomain;
                     PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
                     //initiate PaymentGateWay
@@ -126,6 +127,27 @@ namespace Service.CartWishList
             }
             return res;
         }
-       
+        public async Task<CouponApplyResponse> ApplyCoupon(CouponApplyRequest req)
+        {
+            string sp = "dbo.Proc_ApplyCoupon";
+            var res = new CouponApplyResponse();
+            try
+            {
+                res = await _dapper.GetAsync<CouponApplyResponse>(sp,
+                    new
+                    {
+                        UserID = req.UserID,
+                        Coupons = req.Coupons,
+                        IsRemove = req.IsRemove,
+                    }, CommandType.StoredProcedure);
+                res.StatusCode = res.StatusCode;
+                res.ResponseText = res.ResponseText;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }

@@ -12,6 +12,11 @@
     string distp = string.Empty;
     decimal discountAmount = 0;
     decimal totaldiscountAmount = 0;
+
+    decimal CouponDiscountAmount = Model.Result.CartItemSlides?.FirstOrDefault().CouponDiscountAmount ?? 0M;
+    string CouponCode = Model.Result.CartItemSlides?.FirstOrDefault().CouponCode ?? "";
+    bool IsFixed = Model.Result.CartItemSlides?.FirstOrDefault().IsFixed ?? false;
+    bool IsCouponApplied = Model.Result.CartItemSlides?.FirstOrDefault().IsCouponApplied ?? false;
 }
 
 <style>
@@ -38,19 +43,19 @@
                 @foreach (var item in Model.Result.CartItemSlides)
                 {
                     @*  <li><span>mrp <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span></li>*@
-                    <li> <div class="row"> <div class="col-md-7">@item.Title × @item.Qty</div><div class="col-md-5 text-right"><span class="cart-pro-price"> <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span> <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost*item.Qty)</span></div></div>  </li>
+                    <li> <div class="row"> <div class="col-md-7">@item.Title × @item.Qty</div><div class="col-md-5 text-right"><span class="cart-pro-price"> <i class="fa fa-inr"></i> @(item.MRP * item.Qty)</span> <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost * item.Qty)</span></div></div>  </li>
                     distp = item.Discounttype;
                     spdis = item.SpecialDiscount;
                     SubTotal = (SubTotal + item.SellingCost * item.Qty);
                     Off = Off + ((item.MRP * item.Qty) - (item.SellingCost * item.Qty));
-                    if (distp == "F") 
+                    if (distp == "F")
                     {
                         discountAmount = spdis;
                         SubTotal = SubTotal - spdis;
                     }
-                    else 
+                    else
                     {
-                         discountAmount = (SubTotal * spdis) / 100;
+                        discountAmount = (SubTotal * spdis) / 100;
                         SubTotal = SubTotal - discountAmount;
                     }
                     totaldiscountAmount = totaldiscountAmount + discountAmount;
@@ -67,23 +72,124 @@
             {
                 <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @totaldiscountAmount.ToString("0.00")</span></div></div></li>
             }
-           
-            <li><div class="row"><div class="col-md-7">Subtotal</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal.ToString("0.00")</span></div></div></li>
-           
-            <li><div class="row"><div class="col-md-7">Shipping</div><div class="col-md-5 text-right"><span class="count"><i class="fa fa-inr" aria-hidden="true"></i> <del>50</del></span></div></div></li>
 
-           @* <li>
-                Shipping
-                <div class="shipping">
-                    <div class="shopping-option">
-                        <input type="checkbox" name="free-shipping" id="free-shipping" checked disabled>
-                        <label for="free-shipping">Free Shipping</label>
+            <li><div class="row"><div class="col-md-7">Subtotal</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal.ToString("0.00")</span></div></div></li>
+
+            <li><div class="row"><div class="col-md-7">Shipping</div><div class="col-md-5 text-right"><span class="count"><i class="fa fa-inr" aria-hidden="true"></i> <del>50</del></span></div></div></li>
+            @if (IsCouponApplied)
+            {
+                <li>
+                    <div class="row">
+                        <div class="col-md-7">Coupon Discount</div><div class="col-md-5 text-right">
+                            <span class="count">
+                                <i class="fa fa-inr" aria-hidden="true"></i>
+                                <del>
+                                    @{
+                                        decimal calCouponDis = 0M;
+                                        @if (IsFixed)
+                                        {
+                                            calCouponDis = CouponDiscountAmount;
+                                        }
+                                        else
+                                        {
+                                            calCouponDis = Total * CouponDiscountAmount / 100M;
+                                        }
+                                        Total = Total - calCouponDis;
+                                    }
+                                    @calCouponDis.ToString("0.##")
+                                </del>
+                            </span>
+                        </div>
                     </div>
-                    <div class="shopping-option">
-                       
-                    </div>
-                </div>
+                </li>
+            }
+            @* <li>
+            Shipping
+            <div class="shipping">
+            <div class="shopping-option">
+            <input type="checkbox" name="free-shipping" id="free-shipping" checked disabled>
+            <label for="free-shipping">Free Shipping</label>
+            </div>
+            <div class="shopping-option">
+
+            </div>
+            </div>
             </li>*@
+            @if (!string.IsNullOrEmpty(CouponCode))
+            {
+                <li>
+                    <div class="box p-3">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="pro-group">
+                                    <div class="product-offer">
+                                        @if (!IsCouponApplied)
+                                        {
+                                            <p>
+                                                <i class="fa fa-tags"></i>
+                                                @if (IsFixed)
+                                                {
+                                                    <span>
+                                                        Extra <i class="fa fa-inr" aria-hidden="true"></i>
+                                                        @CouponDiscountAmount
+                                                        OFF
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span>
+                                                        @CouponDiscountAmount <per>%</per>OFF
+                                                    </span>
+                                                }
+                                            </p>
+                                        }
+                                        <div class="offer-contain">
+                                            <ul>
+                                                <li>
+                                                    <span class="code-lable cc">
+                                                        @CouponCode
+                                                    </span>
+                                                    @if (IsCouponApplied)
+                                                    {
+                                                        if (IsFixed)
+                                                        {
+                                                            <span>
+                                                                You Saved <i class="fa fa-inr" aria-hidden="true"></i>
+                                                                @CouponDiscountAmount
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>
+                                                                You Saved @CouponDiscountAmount <percentage>%</percentage>
+                                                            </span>
+                                                        }
+                                                    }
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <a href="javascript:void(0);" id="btnallcoupon">All Coupon</a>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                @if (!IsCouponApplied)
+                                {
+                                    <div class="text-right"><a href="javascript:void(0)" class="btn-normal btn " id="btnApplycoupon">Apply Coupon</a></div>
+                                }
+                                else
+                                {
+                                    <div class="text-right"><a href="javascript:void(0)" class="btn-normal-danger btn " id="btnRemovecoupon">Remove</a></div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
         </ul>
         <ul class="total">
             <li><div class="row"><div class="col-md-7">Total</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Total.ToString("0.00")</span></div></div></li>

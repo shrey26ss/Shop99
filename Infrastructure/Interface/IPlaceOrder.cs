@@ -11,5 +11,6 @@ namespace Infrastructure.Interface
     {
         Task<IResponse<IEnumerable<PaymentMode>>> GetPaymentMode(bool IsCod);
         Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request);
+        Task<CouponApplyResponse> ApplyCoupon(CouponApplyRequest request);
     }
 }

@@ -133,6 +133,19 @@
                 <input type="radio" name="spcldisctype" value="F" id="FixedAmount"><label for="FixedAmount" style="font-weight:300">FixedAmount</label>
             </div>
         </div>
+        <div class="col-md-1 label-wrapper">
+            <label class="col-form-label">Coupons</label>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group input-group-required">
+               @{
+                    var list1 = new SelectList(@ViewBag.Coupons, "CouponId", "CouponCode");
+                    <select title="Select Circle" aria-describedby="helpBL" class="form-control" id="ddlCoupon" tabindex="4" asp-items="@list1">
+                        <option value="0"> :: Select :: </option>
+                    </select>
+                }
+            </div>
+        </div>
     </div>
     
     <div class="form-group row">

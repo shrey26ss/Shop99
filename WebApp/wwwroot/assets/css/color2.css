@@ -46320,3 +46320,17 @@ td {
 {
     padding: 5px 0px;
 }
+.btn-normal-danger {
+    font-size: 14px;
+    padding: 14px 27px;
+    font-weight: 700;
+    color: #ffffff !important;
+    background-color: #f02828;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    display: inline-block;
+    line-height: 1;
+    border-radius: 0;
+    letter-spacing: 0.05em;
+}

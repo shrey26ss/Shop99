@@ -71,18 +71,29 @@ else
                         <input id="Discountrate" class="form-control" value="@Model.variantDetailsByAttributes.DiscountRate" />
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-4 col-md-4">
                             <div class="form-group">
                                 <label>Special Discount</label>
                                 <input id="specialDiscount" class="form-control" value="@Model.variantDetailsByAttributes.SpecialDiscount" />
                             </div>
                         </div>
                         
-                        <div class="col-sm-6 col-md-3">
+                        <div class="col-sm-4 col-md-4">
                             <label id="sdt">Special Discount Type</label>
                             <div class="form-group form-control">
                                 <input type="radio" name="spcldisctype" value="P" id="Percentage" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="Percentage" class="mr-5" style="font-weight:300">Percentage</label>
                                 <input type="radio" name="spcldisctype" value="F" id="FixedAmount" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="FixedAmount" style="font-weight:300">FixedAmount</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <label id="sdt">Coupon</label>
+                            <div class="form-group">
+                                @{
+                                    var list1 = new SelectList(Model.Coupons, "CouponId", "CouponCode");
+                                    <select title="Select Circle" aria-describedby="helpBL" class="form-control" id="ddlCoupon" tabindex="4" asp-items="@list1" asp-for="@Model.variantDetailsByAttributes.CouponId">
+                                        <option value="0"> :: Select :: </option>
+                                    </select>
+                                }
                             </div>
                         </div>
                     </div>
@@ -418,6 +429,7 @@ else
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
                     SpecialDiscount: $('#specialDiscount').val(),
                     SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
+                    CouponId: $('#ddlCouponId').val(),
                 };
                 groupInfo.push(groupDetail);
             });

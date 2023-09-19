@@ -78,6 +78,9 @@ else
                             <div>
                                 <attrGroup>
                                     <div class="row">
+                                        @{
+                                            ViewBag.Coupons = Model.Coupons;
+                                        }
                                         @Html.Partial("Partials/_AddAttributeGroup")
                                     </div>
                                 </attrGroup>
@@ -116,10 +119,10 @@ else
                 let _attributeHtml = result.attributes.map((v, i) => {
                     let srNo = i + 1;
                     return `<tr data-cId=${result.categoryId} data-id=${v.id} data-attribute-id="${v.id}" data-attribute-name="${v.name}">
-                                    <td>${srNo}</td>
-                                    <td>${v.name}</td>
-                                    <td><input type="text" class="form-control" id="attrValue" ></td>
-                                    </tr>`;
+                                            <td>${srNo}</td>
+                                            <td>${v.name}</td>
+                                            <td><input type="text" class="form-control" id="attrValue" ></td>
+                                            </tr>`;
                 });
                 $('#dataTable1 tbody').html(_attributeHtml.join(''));
 

@@ -193,11 +193,22 @@ namespace Service.Offers
                 string sqlQuery = "";
                 if (coupon.Data.CouponId != 0 && coupon.Data.CouponId > 0)
                 {
-                    sqlQuery = @"update Coupon set CouponCode=@CouponCode,DiscountAmount=@DiscountAmount,PaymentModes=@PaymentModes,IsFixed=@IsFixed,Description=@Description,IsWelcomeCoupon=@IsWelcomeCoupon,IsActive=@IsActive where CouponId=@CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText ";
+                    sqlQuery = @"IF EXISTS(Select 1 FROM Coupon Where CouponCode=@CouponCode AND CouponId<>@CouponId)
+                                 BEGIN
+                                   SELECT -1 StatusCode,'Coupon Already Exists !' ResponseText
+                                 END
+                                update Coupon set CouponCode=@CouponCode,DiscountAmount=@DiscountAmount,PaymentModes=@PaymentModes,IsFixed=@IsFixed,
+                                Description=@Description,IsWelcomeCoupon=@IsWelcomeCoupon,IsActive=@IsActive,ExpiryOn=@ExpiryOn 
+                                where CouponId=@CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText ";
                 }
                 else
                 {
-                    sqlQuery = @"insert into Coupon(CouponCode,DiscountAmount,PaymentModes,IsFixed,Description,IsWelcomeCoupon,IsActive,EntryOn,ExpiryOn)values(@CouponCode,@DiscountAmount,@PaymentModes,@IsFixed,@Description,@IsWelcomeCoupon,@IsActive,GETDATE(),GETDATE());select 1 StatusCode,'Coupon Inserted successfully' ResponseText";
+                    sqlQuery = @"IF EXISTS(Select 1 FROM Coupon Where CouponCode=@CouponCode)
+                                 BEGIN
+                                   SELECT -1 StatusCode,'Coupon Already Exists !' ResponseText
+                                 END
+                                 insert into Coupon(CouponCode,DiscountAmount,PaymentModes,IsFixed,Description,IsWelcomeCoupon,IsActive,EntryOn,ExpiryOn)
+                                 values(@CouponCode,@DiscountAmount,@PaymentModes,@IsFixed,@Description,@IsWelcomeCoupon,@IsActive,GETDATE(),@ExpiryOn);select 1 StatusCode,'Coupon Inserted successfully' ResponseText";
                 }
                 res = await _dapper.GetAsync<Response>(sqlQuery, new 
                 {
@@ -208,7 +219,8 @@ namespace Service.Offers
                     coupon.Data.IsActive,
                     Description = coupon.Data.Description ?? string.Empty,
                     coupon.Data.PaymentModes,
-                    coupon.Data.IsWelcomeCoupon
+                    coupon.Data.IsWelcomeCoupon,
+                    coupon.Data.ExpiryOn
                 },
                 CommandType.Text);
             }
