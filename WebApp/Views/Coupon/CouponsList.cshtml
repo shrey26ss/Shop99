@@ -32,7 +32,7 @@
                     <label for="IsWelcomeCoupon_@item.CouponId"></label>
                 </span>
             </td>
-            <td><input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success"></td>
+            <td><div class="row"><input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success">&nbsp;<input type="button" value="Delete" onclick="deletes('@item.CouponId')" class="btn btn-sm btn-danger"></div></td>
         </tr>
     }
 }

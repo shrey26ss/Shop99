@@ -15,5 +15,6 @@ namespace Infrastructure.Interface
         Task<IResponse> UpdateIsActiveOffer(RequestBase<OfferUpdateIsActive> Offer);
         Task<IResponse<IEnumerable<Coupon>>> GetCoupons(RequestBase<SearchItem> request);
         Task<IResponse> AddUpdateCoupon(RequestBase<Coupon> coupon);
+        Task<IResponse> DelCoupon(RequestBase<Coupon> coupon);
     }
 }

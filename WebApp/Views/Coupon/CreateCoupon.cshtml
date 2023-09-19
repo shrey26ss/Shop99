@@ -49,7 +49,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label"></label>
+                            <label class="col-form-label">Payment Mode</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -59,6 +59,16 @@
                             <option value="Prepaid"> Prepaid </option>
                             <option value="All"> All </option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label asp-for="ExpiryOn" class="col-form-label">ExpiryOn</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" asp-for="ExpiryOn" type="date">
                     </div>
                 </div>
             </div>
@@ -85,7 +95,7 @@
                     <input type="checkbox" asp-for="IsWelcomeCoupon" checked>
                 </div>
             </div>
-                    <label class="form-control" for="IsActive">IsWelcomeCoupon</label>
+                    <label class="form-control" for="IsActive">IsCoupon</label>
             </div>
             </div>
         </div>

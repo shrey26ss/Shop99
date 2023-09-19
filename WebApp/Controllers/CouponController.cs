@@ -87,5 +87,25 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
+        [Authorize(Roles = "1")]
+        [HttpPost]
+        public async Task<IActionResult> DelCoupon(Coupon coupon)
+        {
+            Response response = new Response();
+            try
+            {
+                var copn = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/DelCoupon", JsonConvert.SerializeObject(coupon), User.GetLoggedInUserToken());
+                if (copn.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    response = JsonConvert.DeserializeObject<Response>(copn.Result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Json(response);
+        }
+
     }
 }

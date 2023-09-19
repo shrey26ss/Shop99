@@ -73,5 +73,16 @@
                 alert('something went wrong');
             })
         }
+
+        var deletes = (CouponId) => Q.confirm("Are You Sure. You Want To Delete Coupon", () => delCoupon(CouponId));
+
+        var delCoupon = function (CouponId = 0) {
+            $.post('/Coupon/DelCoupon', { CouponId }).done((res) => {
+                Q.notify(res.statusCode, res.responseText);
+                if (res.statusCode) {
+                    loadData();
+                }
+            })
+        }
     </script>
 }
