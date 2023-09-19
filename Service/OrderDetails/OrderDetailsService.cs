@@ -106,7 +106,7 @@ namespace Service.OrderDetails
                 }
                 else if (req.StatusID == StatusType.Cancel)
                 {
-                    string sp = "proc_OrderCancel_Test";
+                    string sp = "proc_OrderCancel";
                     res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
                 }
                 else if (req.StatusID == StatusType.OrderCompleted)
