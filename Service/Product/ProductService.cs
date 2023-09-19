@@ -33,7 +33,7 @@ namespace Service.Product
             var res = new Response();
             try
             {
-                string sqlQuery = "Proc_AddUpdateProductAndShippingDetails_Test";
+                string sqlQuery = "Proc_AddUpdateProductAndShippingDetails";
                 res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     request.LoginId,
