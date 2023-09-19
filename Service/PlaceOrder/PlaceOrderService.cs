@@ -54,7 +54,7 @@ namespace Service.CartWishList
         public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
         {
             string sp = string.Empty;
-            if (request.Data.PaymentMode == PaymentModes.CASH) { sp = "proc_Order_Bilal"; }
+            if (request.Data.PaymentMode == PaymentModes.CASH) { sp = "proc_Order"; }
             else { sp = "proc_Initiatepayment"; }
             var res = new PlaceOrderResponse()
             {
