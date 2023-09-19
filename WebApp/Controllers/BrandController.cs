@@ -125,7 +125,6 @@ namespace WebApp.Controllers
                 response.ResponseText = ex.Message;
             }
             return Ok(response);
-
         }
 
         [HttpPost("Brand/BrandJSON")]

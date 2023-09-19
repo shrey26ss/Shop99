@@ -177,7 +177,6 @@ namespace Service.OrderDetails
             }
             return res;
         }
-
         public async Task<IResponse<IEnumerable<OrderDetailsColumn>>> GetAsync<OrderDetailsColumn>(int loginId = 0, Expression<Func<OrderDetailsColumn, bool>> predicate = null)
         {
             var res = new Response<IEnumerable<OrderDetailsColumn>>();
@@ -190,7 +189,6 @@ namespace Service.OrderDetails
                 var param = whereClasue.ToString().Split(" AND ");
                 foreach (var item in param)
                 {
-
                 }
                 string sp = $"Select * from Order Where {translator.Translate(predicate)}";
                 try

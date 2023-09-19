@@ -13,7 +13,6 @@ namespace WebApp.Components
 {
     public class SlideMenu : ViewComponent
     {
-
         public SlideMenu()
         {
 
@@ -42,9 +41,7 @@ namespace WebApp.Components
             }
             catch (Exception ex)
             {
-
             }
-
             return await Task.FromResult((IViewComponentResult)View("slidemenu", ui));
         }
     }
