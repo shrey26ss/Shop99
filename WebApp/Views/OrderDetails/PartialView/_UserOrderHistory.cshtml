@@ -2,7 +2,43 @@
 @using Entities.Enums;
 @using Entities.Models;
 @model IEnumerable<OrderDetailsColumn>
+<style>
+    .ui-widget.ui-widget-content {
+        z-index: 999;
+        background: #fff;
+        color: #000;
+        padding: 15px 20px;
+        border-radius: 3px;
+        text-align: center;
+        border: ipx solid #ccc;
+        border: 1px solid #ddd;
+    }
 
+    .ui-widget-header{
+        position:relative;
+        text-align:left;
+        padding:5px;
+       
+    }
+
+    .ui-widget-header span{
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+    }
+
+        .ui-widget-header button {
+            position: absolute;
+            right: 0;
+            background: transparent;
+            border: 0;
+            color: #fff;
+        }
+
+    .ui-dialog-buttonset button{
+     margin-left:10px;
+    }
+</style>
 @if (Model.Any())
 {
     int counter = 0;
@@ -126,7 +162,7 @@
                                         <label for="inputAddress">Reason</label>
                                         <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
                                         </div>
-                                        <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
+                                        <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary mr-2 addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
         Q.alert({
             title: 'Add Reason',
             body: html,
