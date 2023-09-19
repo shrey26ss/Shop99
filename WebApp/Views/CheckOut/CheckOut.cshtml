@@ -65,8 +65,8 @@
     }
 
     /*
-                                                    * SVG Icons
-                                                    **********************************************************/
+                                                                    * SVG Icons
+                                                                    **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -77,8 +77,8 @@
     }
 
     /*
-                                                    * Buttons
-                                                    **********************************************************/
+                                                                    * Buttons
+                                                                    **********************************************************/
     .button {
         position: relative;
         height: 50px;
@@ -127,13 +127,13 @@
                 height: 40px;
             }
         /*.button:after {
-                                            top: 20px;
-                                            left: 23px;
-                                        }*/
+                                                            top: 20px;
+                                                            left: 23px;
+                                                        }*/
     }
     /*
-                                                    * Breakpoint
-                                                    **********************************************************/
+                                                                    * Breakpoint
+                                                                    **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -181,9 +181,9 @@
                 margin-right: 0;
             }
         /*.button:after {
-                                            top: 15px;
-                                            left: 55px;
-                                        }*/
+                                                            top: 15px;
+                                                            left: 55px;
+                                                        }*/
     }</style>
 
 <!-- section start -->
@@ -202,6 +202,7 @@
     </div>
 </section>
 @section scripts{
+    <script src="~/clientapp/js/dialog.js"></script>
     <script>
         window.addEventListener("storage", e => {
             let result = $.parseJSON(event.newValue);
@@ -213,13 +214,13 @@
                     let h3Class = `${isPending ? 'text-info' : (result.paymentStatus == 'success' ? 'text-success' : 'text-danger')}`;
                     let statusText = `${isPending ? 'Transaction Pending' : (result.paymentStatus == 'success' ? 'Transaction Successful' : 'Transaction Failed')}`;
                     let _html = `<div class="row">
-                                   <div class="col-sm-12 text-center">
-                                     <img src="${iconSrc}" />
-                                     <h3 class="${h3Class}">${statusText}<br/>
-                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
-                                      </h3>
-                                   </div>
-                                 </div>`;
+                                                                   <div class="col-sm-12 text-center">
+                                                                     <img src="${iconSrc}" />
+                                                                     <h3 class="${h3Class}">${statusText}<br/>
+                                                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
+                                                                      </h3>
+                                                                   </div>
+                                                                 </div>`;
                     Q.alert({
                         title: 'Transaction Status',
                         body: _html,
@@ -300,14 +301,40 @@
                 $.each(res.result, async function (i, v) {
                     let current = i == 0 ? "checked" : "";
                     $('#dvPaymentModes').append(`<div class='button '>
-                               <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
-                                               ${v.name}
+                                                               <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}>
+                                                                               ${v.name}
 
-                                                <img src="${v.icon}" />
-                                            </div>`);
+                                                                                <img src="${v.icon}" />
+                                                                            </div>`);
                 });
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
+        $(document).on('click', '#btnApplycoupon,#btnRemovecoupon,#btnBulkcoupon', (e) => {
+            let isRemove = e.target.id[3] == 'R' ? true : false;
+            debugger;
+            let item = {
+                Coupons: $(".code-lable.cc").text().trim(),
+                IsRemove: isRemove
+            };
+            if (e.target.id[3] == 'B') {
+                var spanDetails = [];
+                //$('ul.couponslist').each(function () {
+                //    debugger;
+                //    if ($(this).find('[type="checkbox"]').prop("checked") == true)
+                //        spanDetails.push($(this).find('li span.code-lable.ccp').text().trim());
+                //});
+                item.Coupons = spanDetails.join(",");
+            }
+            $.post("/ApplyCoupon", item).done(res => {
+                if (typeof res === 'object') {
+                    Q.notify(res.statusCode, res.responseText)
+                    loadPlaceOrderCart();
+                }
+            }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+        });
+        $(document).on('click', '#btnallcoupon', (e) => {
+            dialog.geallcoupon();
+        });
     </script>
 }
 

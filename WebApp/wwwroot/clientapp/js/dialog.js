@@ -37,7 +37,7 @@
                     title: 'Category Attribute Mapping',
                     body: result,
                     onClose: () => { $('.ui-dialog-titlebar-close').click(); $('.btnAddNewAttribute').click(); }
-                }); 
+                });
                 $('.ui-dialog-titlebar-max:last').click();
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
@@ -62,14 +62,24 @@
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
     dialog.DataTable = function (selector, isSearch = true) {
-        
+
+    };
+    dialog.geallcoupon = function (Id) {
+        $.post('/GetAllCoupon')
+            .done(result => {
+                Q.alert({
+                    title: 'COUPONS',
+                    body: result,
+                    onClose: () => { loadPlaceOrderCart() }
+                });
+            }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
 })(dialog || (dialog = {}));
 
 var __bind;
 ((__bind) => {
     __bind.dropDown = {
-        category : function (id, selector) {
+        category: function (id, selector) {
             $.post('/Category/CategoryJSON', { Id: id }).done(function (result) {
                 if (selector) {
                     $(selector).html(`<option> Select Category </option>`).append(result.map(x => { return `<option value="${x.categoryId}"> ${x.categoryName} </option>` }))

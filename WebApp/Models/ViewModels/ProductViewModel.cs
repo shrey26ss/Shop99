@@ -16,6 +16,7 @@ namespace WebApp.Models.ViewModels
         public List<AttributeInfo> ProductVariants { get; set; }
         public List<VariantGroup> ProductVariantGroups { get; set; }
         public List<AttributesDDL> AttributesDDLs { get; set; }
+        public IEnumerable<Coupon> Coupons { get; set; }
     }
     public class ProductSection
     {

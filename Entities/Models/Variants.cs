@@ -34,6 +34,7 @@ namespace Entities.Models
         public string Specification { get; set; }
         public decimal SpecialDiscount { get; set; }
         public string SpecialDiscType { get; set; }
+        public string CouponId { get; set; }
 
     }
     public class AttributeInfo
@@ -117,6 +118,7 @@ namespace Entities.Models
         public decimal DisplayRate { get; set; }
         public string Specification { get; set; }
         public string SpecialDiscType { get; set; }
+        public int CouponId { get; set; }
 
     }
     public class DeleteVariantReq
