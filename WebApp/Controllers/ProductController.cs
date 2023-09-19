@@ -216,6 +216,12 @@ namespace WebApp.Controllers
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<PictureInformation>>>(Responseapi.Result);
                 response.PictureInformation = deserializeObject.Result;
             }
+            var ResponseCoupon = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem { Id = 0 }), _token);
+            if (ResponseCoupon.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObject = JsonConvert.DeserializeObject<Response<List<Coupon>>>(ResponseCoupon.Result);
+                response.Coupons = deserializeObject.Result;
+            }
             return View("_VariantDetail", response);
         }
         [Authorize(Roles = "1")]
@@ -313,6 +319,12 @@ namespace WebApp.Controllers
                 ProductId = Id,
                 CategoryId = cId
             };
+            var couponres = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem { Id = 0 }));
+            if (couponres.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var deserializeObj = JsonConvert.DeserializeObject<Response<List<Coupon>>>(couponres.Result);
+                model.Coupons = deserializeObj.Result;
+            }
             return View(model);
         }
         [Authorize(Roles = "1,3")]

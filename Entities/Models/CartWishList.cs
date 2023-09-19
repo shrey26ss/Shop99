@@ -40,6 +40,10 @@ namespace Entities.Models
         public bool IsCod { get; set; }
         public decimal SpecialDiscount { get; set; }
         public string Discounttype { get; set; }
+        public string CouponCode { get; set; }
+        public decimal CouponDiscountAmount { get; set; }
+        public bool IsFixed { get; set; }
+        public bool IsCouponApplied { get; set; }
     }
     public class CartWishlistCount
     {

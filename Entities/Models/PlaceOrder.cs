@@ -74,5 +74,16 @@ namespace Entities.Models
         public PaymentGatewayType PGID { get; set; }
         public int TID { get; set; }
     }
+    public class CouponApplyRequest
+    {
+        public int UserID { get; set; }
+        public string Coupons { get; set; }
+        public bool IsRemove { get; set; }
+    }
+    public class CouponApplyResponse
+    {
+        public ResponseStatus StatusCode { get; set; }
+        public string ResponseText { get; set; }
+    }
 
 }

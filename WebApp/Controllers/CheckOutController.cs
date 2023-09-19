@@ -1,6 +1,11 @@
-﻿using Entities.Models;
+﻿using AppUtility.APIRequest;
+using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Service.Models;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
 using WebApp.Servcie;
@@ -64,10 +69,21 @@ namespace WebApp.Controllers
                 return Json(ModelState);
             }
         }
-
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
+        }
+        [HttpPost("ApplyCoupon")]
+        public async Task<IActionResult> ApplyCoupon(CouponApplyRequest req)
+        {
+            var res = await _checkout.ApplyCoupon(req, GetToken());
+            return Json(res);
+        }
+        [HttpPost("GetAllCoupon")]
+        public async Task<IActionResult> GetAllCoupon()
+        {
+            var res = await _checkout.GetAllCoupon(0, GetToken());
+            return PartialView("Partial/_getallcoupons", res);
         }
     }
 }

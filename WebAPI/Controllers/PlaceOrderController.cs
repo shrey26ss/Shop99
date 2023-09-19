@@ -43,5 +43,12 @@ namespace WebAPI.Controllers
                 Data = req, LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost(nameof(ApplyCoupon))]
+        public async Task<IActionResult> ApplyCoupon(CouponApplyRequest req)
+        {
+            req.UserID = User.GetLoggedInUserId<int>();
+            return Ok(await _placeorder.ApplyCoupon(req));
+        }
     }
 }

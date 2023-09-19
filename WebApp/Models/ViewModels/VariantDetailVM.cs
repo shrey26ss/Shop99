@@ -7,5 +7,6 @@ namespace WebApp.Models.ViewModels
         public IEnumerable<ProductAttributes> Attributes { get; set; }
         public VariantDetailsByAttributesResponse variantDetailsByAttributes { get; set; }
         public IEnumerable<PictureInformation> PictureInformation { get; set; }
+        public IEnumerable<Coupon> Coupons { get; set; }
     }
 }
