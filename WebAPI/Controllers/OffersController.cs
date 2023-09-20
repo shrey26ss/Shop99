@@ -98,5 +98,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Offers/GetCartProductCoupons")]
+        public async Task<IActionResult> GetCartProductCoupons()
+        {
+            return Ok(await _offers.GetCartProductCoupons(new RequestBase<SearchItem>
+            {
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
     }
 }

@@ -259,5 +259,34 @@ namespace Service.Offers
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<Coupon>>> GetCartProductCoupons(RequestBase<SearchItem> request)
+        {
+            string sp = string.Empty;
+            if (request.Data == null)
+                request.Data = new SearchItem();
+            var res = new Response<IEnumerable<Coupon>>();
+            try
+            {
+                if (request.LoginId > 0)
+                {
+                    sp = @"Select * from (
+                   Select tempc.* FROM coupon tempc
+				   LEFT JOIN  VariantGroup  vg on VG.CouponId=tempc.CouponId
+				   LEFT JOIN  CartItem  c on VG.Id=c.VariantID
+				   AND C.UserID=@LoginId) tt Where 
+				   tt.ExpiryOn > GETDATE()
+				   AND ISNULL(tt.IsActive,0)=1";
+                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.LoginId}, CommandType.Text);
+                }
+
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }

@@ -120,7 +120,7 @@
                 <li>
                     <div class="box p-3">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-12">
                                 <div class="pro-group">
                                     <div class="product-offer">
                                         @if (!IsCouponApplied)
@@ -144,11 +144,9 @@
                                             </p>
                                         }
                                         <div class="offer-contain">
-                                            <ul>
+                                            <ul id="appliedCoupons">
                                                 <li>
-                                                    <span class="code-lable cc">
-                                                        @CouponCode
-                                                    </span>
+                                                    <span class="code-lable cc">@CouponCode</span>
                                                     @if (IsCouponApplied)
                                                     {
                                                         if (IsFixed)
@@ -165,27 +163,27 @@
                                                             </span>
                                                         }
                                                     }
-                                                </li>
-                                                <li>
-                                                    <span>
-                                                        <a href="javascript:void(0);" id="btnallcoupon">All Coupon</a>
-                                                    </span>
+
+                                                    @if (!IsCouponApplied)
+                                                    {
+                                                        <div class="text-right"><a href="javascript:void(0)" class="btn-normal btn " id="btnApplycoupon">Apply Coupon</a></div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-right cus-remove-coupon">
+                                                            <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
+                                                        </div>
+                                                    }
                                                 </li>
                                             </ul>
+                                            <span>
+                                                <a href="javascript:void(0);" id="btnallcoupon">All Coupon</a>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                @if (!IsCouponApplied)
-                                {
-                                    <div class="text-right"><a href="javascript:void(0)" class="btn-normal btn " id="btnApplycoupon">Apply Coupon</a></div>
-                                }
-                                else
-                                {
-                                    <div class="text-right"><a href="javascript:void(0)" class="btn-normal-danger btn " id="btnRemovecoupon">Remove</a></div>
-                                }
-                            </div>
+
                         </div>
                     </div>
                 </li>

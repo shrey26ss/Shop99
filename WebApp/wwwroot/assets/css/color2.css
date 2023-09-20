@@ -5616,6 +5616,10 @@ button {
     -ms-flex-align: center;
     align-items: center;
 }
+.cus-remove-coupon {
+    position: absolute;
+    right: 0;
+}
 
     .hotdeal-second .hotdeal-box .img-wrapper {
         width: 50%;
