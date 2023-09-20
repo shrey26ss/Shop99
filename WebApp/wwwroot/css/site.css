@@ -245,3 +245,8 @@ body {
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0.25em .75em;
 }
+.cus-remove-coupon
+{
+    position: absolute;
+    right:0;
+}

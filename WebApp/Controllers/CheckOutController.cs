@@ -82,7 +82,7 @@ namespace WebApp.Controllers
         [HttpPost("GetAllCoupon")]
         public async Task<IActionResult> GetAllCoupon()
         {
-            var res = await _checkout.GetAllCoupon(0, GetToken());
+            var res = await _checkout.GetAllCoupon(GetToken());
             return PartialView("Partial/_getallcoupons", res);
         }
     }
