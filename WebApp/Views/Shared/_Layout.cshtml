@@ -6,11 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-
     @RenderSection("Metatags", required: false)
     <link rel="shortcut icon" href="/image/favicon.png" type="image/x-icon">
     <!--icon css-->
-    <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+  @*  <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />*@
+
     <!--Slick slider css-->
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/css/slick-theme.css" />
@@ -20,7 +21,9 @@
     <!-- Bootstrap css -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" />
 
-    <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" async />
+   @* <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" async />*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" async />
+
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/color2.css" media="screen" id="color" />
     <style>
@@ -85,7 +88,7 @@
                         </div>
                         <div class="input-block">
                             <div class="input-box">
-                                <form class="big-deal-form ">
+                                <form class="big-deal-form">
                                     <div class="input-group ">
 
                                         <input type="search" class="form-control SearchProduct" id="searchproduct" placeholder="Search a Product">
@@ -135,9 +138,7 @@
 
                                     <li class="for-filter-mobile mobile-setting" onclick="openSetting()">
                                         <a href="javascript:void(0)">
-
                                             <img src="/Image/icons/m-1.svg" />
-
                                         </a>
                                     </li>
 
