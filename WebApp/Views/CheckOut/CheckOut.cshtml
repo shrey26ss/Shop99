@@ -311,20 +311,23 @@
         }
         $(document).on('click', '#btnApplycoupon,#btnRemovecoupon,#btnBulkcoupon', (e) => {
             let isRemove = e.target.id[3] == 'R' ? true : false;
-            debugger;
+            let __coupons = [];
+            $('.couponslist li').each(function (i) {
+                __coupons.push($(this).find('input[type="checkbox"]:checked').val())
+            });
             let item = {
-                Coupons: $(".code-lable.cc").text().trim(),
+                Coupons: __coupons.join(','),
                 IsRemove: isRemove
             };
-            if (e.target.id[3] == 'B') {
-                var spanDetails = [];
-                //$('ul.couponslist').each(function () {
-                //    debugger;
-                //    if ($(this).find('[type="checkbox"]').prop("checked") == true)
-                //        spanDetails.push($(this).find('li span.code-lable.ccp').text().trim());
-                //});
-                item.Coupons = spanDetails.join(",");
-            }
+            //if (e.target.id[3] == 'B') {
+            //    var spanDetails = [];
+            //    //$('ul.couponslist').each(function () {
+            //    //    debugger;
+            //    //    if ($(this).find('[type="checkbox"]').prop("checked") == true)
+            //    //        spanDetails.push($(this).find('li span.code-lable.ccp').text().trim());
+            //    //});
+            //    item.Coupons = spanDetails.join(",");
+            //}
             $.post("/ApplyCoupon", item).done(res => {
                 if (typeof res === 'object') {
                     Q.notify(res.statusCode, res.responseText)
