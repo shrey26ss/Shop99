@@ -85,6 +85,7 @@ namespace Entities.Models
     {
         public ResponseStatus StatusCode { get; set; }
         public string ResponseText { get; set; }
+        public decimal TotalDisCountAmount { get; set; }
     }
 
 }

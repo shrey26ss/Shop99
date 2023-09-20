@@ -61,16 +61,16 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
-    dialog.DataTable = function (selector, isSearch = true) {
 
-    };
-    dialog.geallcoupon = function (Id) {
+    dialog.getAllcoupon = () => {
         $.post('/GetAllCoupon')
             .done(result => {
                 Q.alert({
                     title: 'COUPONS',
                     body: result,
-                    onClose: () => { loadPlaceOrderCart() }
+                    //onClose: () => {
+                    //    loadPlaceOrderCart();
+                    //}
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };

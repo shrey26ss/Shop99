@@ -23,7 +23,7 @@ namespace WebApp.Servcie
         Task<PlaceOrderResponse> PlaceOrder(PlaceOrderReq req, string _token);
         Task<Response> AddAddress(UserAddress model, string _token);
         Task<CouponApplyResponse> ApplyCoupon(CouponApplyRequest req, string _token);
-        Task<List<Coupon>> GetAllCoupon(int Id, string _token);
+        Task<List<Coupon>> GetAllCoupon(string _token);
     }
     public class CheckOutAPI : ICheckOutAPI
     {
@@ -149,10 +149,10 @@ namespace WebApp.Servcie
             }
             return res;
         }
-        public async Task<List<Coupon>> GetAllCoupon(int Id, string _token)
+        public async Task<List<Coupon>> GetAllCoupon(string _token)
         {
             List<Coupon> coupon = new List<Coupon>();
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem { Id = Id }), _token);
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCartProductCoupons", null, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<Coupon>>>(apiResponse.Result);
