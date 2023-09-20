@@ -46100,7 +46100,8 @@ td {
     }
 }
 
-.slider-wrapper {
+.slider-wrapper 
+{
     width: 100%;
     display: inline-block;
     position: relative;
