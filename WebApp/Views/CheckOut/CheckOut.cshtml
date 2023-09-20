@@ -65,8 +65,8 @@
     }
 
     /*
-                                                                            * SVG Icons
-                                                                            **********************************************************/
+                                                                                    * SVG Icons
+                                                                                    **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -77,8 +77,8 @@
     }
 
     /*
-                                                                            * Buttons
-                                                                            **********************************************************/
+                                                                                    * Buttons
+                                                                                    **********************************************************/
     .button {
         position: relative;
         height: 50px;
@@ -127,13 +127,13 @@
                 height: 40px;
             }
         /*.button:after {
-                                                                    top: 20px;
-                                                                    left: 23px;
-                                                                }*/
+                                                                            top: 20px;
+                                                                            left: 23px;
+                                                                        }*/
     }
     /*
-                                                                            * Breakpoint
-                                                                            **********************************************************/
+                                                                                    * Breakpoint
+                                                                                    **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -181,9 +181,9 @@
                 margin-right: 0;
             }
         /*.button:after {
-                                                                    top: 15px;
-                                                                    left: 55px;
-                                                                }*/
+                                                                            top: 15px;
+                                                                            left: 55px;
+                                                                        }*/
     }</style>
 
 <!-- section start -->
@@ -214,13 +214,13 @@
                     let h3Class = `${isPending ? 'text-info' : (result.paymentStatus == 'success' ? 'text-success' : 'text-danger')}`;
                     let statusText = `${isPending ? 'Transaction Pending' : (result.paymentStatus == 'success' ? 'Transaction Successful' : 'Transaction Failed')}`;
                     let _html = `<div class="row">
-                                        <div class="col-sm-12 text-center">
-                                                                                     <img src="${iconSrc}" />
-                                                                                     <h3 class="${h3Class}">${statusText}<br/>
-                                                                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
-                                                                                      </h3>
-                                                                                   </div>
-                                                                                 </div>`;
+                                                        <div class="col-sm-12 text-center">
+                                                                                                     <img src="${iconSrc}" />
+                                                                                                     <h3 class="${h3Class}">${statusText}<br/>
+                                                                                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
+                                                                                                      </h3>
+                                                                                                   </div>
+                                                                                                 </div>`;
                     Q.alert({
                         title: 'Transaction Status',
                         body: _html,
@@ -234,7 +234,7 @@
                 }
             }
         }, true);
-        
+
         $(document).ready(function () {
             loadAddressDetails();
             const buynow = '@Model';
@@ -252,15 +252,23 @@
                 await loadpaymentmode();
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
+
         $(document).on('click', '#btnPlaceOrder', (e) => {
             const url = new URL(window.location);
             const isbuynow = url.pathname.replace('/checkout/', '');
 
             let _parent = $(e.currentTarget).parents('#checkoutSection');
+            let __coupons = [];
+            $('ul#appliedCoupons').find('li').each(function () {
+                __coupons.push($(this).data())
+            });
+            let couponStr = __coupons.map(x => x.couponCode).join(',');
+
             let item = {
                 AddressID: _parent.find('[name="address"]:checked').data().addressId,
                 PaymentMode: _parent.find('[name="paymentMode"]:checked').data().paymentMode,
                 IsBuyNow: isbuynow?.toLowerCase(),
+                Coupon: couponStr,
                 Remark: ""
             };
             $.post("/PlaceOrder", item).done(res => {
@@ -284,9 +292,9 @@
                 }
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         });
+
         var loadStateDDL = (selector) => {
             $.post(baseURL + "/State/GetStateDDL").done(function (result) {
-                console.log('State result :', result);
                 if (selector) {
                     $(selector).html(`<option value=""> Select State </option>`).append(result.map(x => { return `<option value="${x.id}"> ${x.stateName} </option>` }))
                 }
@@ -300,30 +308,40 @@
                 $.each(res.result, async function (i, v) {
                     let current = i == 0 ? "checked" : "";
                     $('#dvPaymentModes').append(`<div class='button '>
-                                                    <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}> ${v.name}
-                                                    <img src="${v.icon}" />
-                                                 </div>`);
+                                                                    <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}> ${v.name}
+                                                                    <img src="${v.icon}" />
+                                                                 </div>`);
                 });
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
-        
+
         $(document).on('click', '.btnRemovecoupon', async (e) => {
             let currentLi = $(e.currentTarget).closest('li');
-            let __coupons = currentLi.find('span.cc').text().trim();
-            var res = await applyCoupon(__coupons, true)
-            if(res){
-                currentLi.remove();
+            let __coupons = [];
+            $('ul#appliedCoupons').find('li').not(currentLi).each(function () {
+                __coupons.push($(this).data())
+            });
+            let couponStr = __coupons.map(x => x.couponCode).join(',');
+            if (couponStr !== '') {
+                var res = await applyCoupon(couponStr, true);
+                if (res.status) {
+                    currentLi.remove();
+                    appendCoupons(__coupons, res.discount);
+                }
+            }
+            else {
+                appendCoupons(__coupons, 0);
             }
         });
 
         $(document).on('click', '#btnApplycoupon,#btnBulkcoupon', async (e) => {
             let __coupons = [];
-            $('.couponslist li').each(function (i) {
-                __coupons.push($(this).find('input[type="checkbox"]:checked').val())
+            $('.couponslist').find('input[type="checkbox"]:checked').each(function (i) {
+                __coupons.push($(this).closest('li').data())
             });
-            let res = await applyCoupon(__coupons.join(','), false)
-            if(res){
-                appendCoupons(__coupons);
+            let res = await applyCoupon(__coupons.map(x => x.couponCode).join(','), false)
+            if (res.status) {
+                appendCoupons(__coupons, res.discount);
             }
         });
 
@@ -332,7 +350,7 @@
         });
 
         var applyCoupon = async (coupons, isRemove) => {
-            try{
+            try {
                 let item = {
                     Coupons: coupons,
                     IsRemove: isRemove
@@ -341,31 +359,49 @@
                 if (typeof res === 'object') {
                     Q.notify(res.statusCode, res.responseText)
                     if (res.statusCode === 1) {
-                        await loadPlaceOrderCart();
-                        return true;
+                        return { status: true, discount: res.totalDisCountAmount };
                     }
                 }
                 return false;
             }
-            catch(error){
+            catch (error) {
                 Q.xhrError(error);
                 console.error(error);
             }
         };
 
-        var appendCoupons = (coupons) => {
-            let _html='';
-            for(let i=0;i<coupons.length;i++){
-                _html = _html + `<li>
-                                    <span class="code-lable cc">${coupons[i]}</span>
-                                    <span>You Saved <i class="fa fa-inr" aria-hidden="true"></i> 40.00 </span>
-                                    <div class="text-right cus-remove-coupon">
-                                        <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
-                                    </div>
-                                 </li>`;
+        var appendCoupons = (coupons, totalDiscount) => {
+            let _html = '';
+            for (let i = 0; i < coupons.length; i++) {
+                let c = coupons[i];
+                let _saveTxt = ` <span>You Saved <i class="fa fa-inr" aria-hidden="true"></i> ${c.couponValue} </span>`;
+                if (c.isFixed == 'False') {
+                    _saveTxt = ` <span>You Saved ${c.couponValue}% </span>`;
+                }
+                _html = _html + `<li data-coupon-code="${c.couponCode}" data-is-fixed="${c.isFixed}" data-coupon-value=${c.couponValue}>
+                                                    <span class="code-lable cc">${c.couponCode}</span>
+                                                    ${_saveTxt}
+                                                    <div class="text-right cus-remove-coupon">
+                                                        <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
+                                                    </div>
+                                                 </li>`;
             }
             $("ul#appliedCoupons").html(_html);
-            
+            $('ul#totalDiscount').remove();
+            if (totalDiscount > 0) {
+                $('ul.sub-total').after(`<ul id="totalDiscount">
+                                                             <li>
+                                                                <div class="row">
+                                                                   <div class="col-md-7">Total Coupon Discount</div>
+                                                                   <div class="col-md-5 text-right">
+                                                                       <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> ${totalDiscount}</span>
+                                                                   </div>
+                                                                </div>
+                                                             </li></ul>`);
+            }
+            let _payable = parseFloat($('#totalPayable').data().totalPayable);
+            _payable = _payable - totalDiscount;
+            $('#totalPayable').text(_payable);
         };
     </script>
 }

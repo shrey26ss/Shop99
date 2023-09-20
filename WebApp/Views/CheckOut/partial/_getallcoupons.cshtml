@@ -11,9 +11,9 @@
                             @foreach (var item in Model)
                             {
                                 i++;
-                                <li>
+                                <li data-coupon-code="@item.CouponCode" data-is-fixed="@item.IsFixed" data-coupon-value="@item.DiscountAmount">
                                     <span class="chk p-1">
-                                        <input type="checkbox" @(i == 1 ? "checked" : "") value="@item.CouponCode">
+                                        <input type="checkbox" @(i == 1 ? "checked" : "") />
                                     </span>
                                     <span class="code-lable ccp">
                                         @item.CouponCode

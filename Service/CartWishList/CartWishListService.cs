@@ -166,10 +166,10 @@ namespace Service.CartWishList
         public async Task<IResponse<CartItemsTotalVM>> GetCartItemlist(Request req, bool  IsBuyNow=false)
         {
             string sp = @"Select * from vw_CartItems(nolock) where CustomerUserId = @LoginId";
-            if(IsBuyNow)
-            {
-                sp = "Select top(1) * from vw_CartItems(nolock) where CustomerUserId = @LoginId order by CartItemId desc ";
-            }
+            //if(IsBuyNow)
+            //{
+            //    sp = "Select top(1) * from vw_CartItems(nolock) where CustomerUserId = @LoginId order by CartItemId desc ";
+            //}
 
             var res = new Response<CartItemsTotalVM>();
             res.Result = new CartItemsTotalVM();
@@ -181,9 +181,10 @@ namespace Service.CartWishList
                     res.Result.CartItemSlides = list.ToList();
                     if(res.Result.CartItemSlides != null && res.Result.CartItemSlides.Count() > 0)
                     {
-                        res.Result.PayableAmount = res.Result.CartItemSlides.Sum(a => (a.SellingCost * a.Qty));
-                        res.Result.TotalPrice = res.Result.CartItemSlides.Sum(a => (a.SellingCost * a.Qty));
-                        res.Result.TotalMRP = res.Result.CartItemSlides.Sum(a => (a.MRP * a.Qty));
+                        res.Result.PayableAmount = res.Result.CartItemSlides.Sum(a => a.SellingCost * a.Qty);
+                        res.Result.TotalPrice = res.Result.CartItemSlides.Sum(a => a.SellingCost * a.Qty);
+                        res.Result.TotalMRP = res.Result.CartItemSlides.Sum(a => a.MRP * a.Qty);
+                        res.Result.SpecialDiscount = res.Result.CartItemSlides.Sum(a => a.SpecialDiscount * a.Qty);
                         res.Result.TotalDiscount = res.Result.TotalMRP - res.Result.PayableAmount;
                     }                    
                     res.StatusCode = ResponseStatus.Success;

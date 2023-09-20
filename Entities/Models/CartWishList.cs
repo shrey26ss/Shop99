@@ -57,5 +57,7 @@ namespace Entities.Models
         public decimal TotalPrice { get; set; }
         public decimal TotalMRP { get; set; }
         public decimal TotalDiscount { get; set; }
+        public decimal SpecialDiscount { get; set; }
+        public IEnumerable<Coupon> Coupons { get; set; }
     }
 }

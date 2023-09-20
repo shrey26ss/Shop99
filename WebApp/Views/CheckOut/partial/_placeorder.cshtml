@@ -12,9 +12,6 @@
     string distp = string.Empty;
     decimal discountAmount = 0;
     decimal totaldiscountAmount = 0;
-
-    decimal CouponDiscountAmount = Model.Result.CartItemSlides?.FirstOrDefault().CouponDiscountAmount ?? 0M;
-    string CouponCode = Model.Result.CartItemSlides?.FirstOrDefault().CouponCode ?? "";
     bool IsFixed = Model.Result.CartItemSlides?.FirstOrDefault().IsFixed ?? false;
     bool IsCouponApplied = Model.Result.CartItemSlides?.FirstOrDefault().IsCouponApplied ?? false;
 }
@@ -75,123 +72,76 @@
 
             <li><div class="row"><div class="col-md-7">Subtotal</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @SubTotal.ToString("0.00")</span></div></div></li>
 
-            <li><div class="row"><div class="col-md-7">Shipping</div><div class="col-md-5 text-right"><span class="count"><i class="fa fa-inr" aria-hidden="true"></i> <del>50</del></span></div></div></li>
-            @if (IsCouponApplied)
-            {
-                <li>
+            <li>
+                <div class="row">
+                    <div class="col-md-7">Shipping</div>
+                    <div class="col-md-5 text-right"><span class="count"><i class="fa fa-inr" aria-hidden="true"></i> <del>50</del></span></div>
+                </div>
+            </li>
+            <!-- Coupon Section -->
+            <li>
+                <div class="box p-3">
                     <div class="row">
-                        <div class="col-md-7">Coupon Discount</div><div class="col-md-5 text-right">
-                            <span class="count">
-                                <i class="fa fa-inr" aria-hidden="true"></i>
-                                <del>
-                                    @{
-                                        decimal calCouponDis = 0M;
-                                        @if (IsFixed)
-                                        {
-                                            calCouponDis = CouponDiscountAmount;
-                                        }
-                                        else
-                                        {
-                                            calCouponDis = Total * CouponDiscountAmount / 100M;
-                                        }
-                                        Total = Total - calCouponDis;
-                                    }
-                                    @calCouponDis.ToString("0.##")
-                                </del>
-                            </span>
-                        </div>
-                    </div>
-                </li>
-            }
-            @* <li>
-            Shipping
-            <div class="shipping">
-            <div class="shopping-option">
-            <input type="checkbox" name="free-shipping" id="free-shipping" checked disabled>
-            <label for="free-shipping">Free Shipping</label>
-            </div>
-            <div class="shopping-option">
-
-            </div>
-            </div>
-            </li>*@
-            @if (!string.IsNullOrEmpty(CouponCode))
-            {
-                <li>
-                    <div class="box p-3">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="pro-group">
-                                    <div class="product-offer">
-                                        @if (!IsCouponApplied)
-                                        {
-                                            <p>
-                                                <i class="fa fa-tags"></i>
-                                                @if (IsFixed)
+                        <div class="col-md-12">
+                            <div class="pro-group">
+                                <div class="product-offer">
+                                    <div class="offer-contain">
+                                        <ul id="appliedCoupons">
+                                            @* @if (Model.Result.Coupons.Any())
+                                            {
+                                                foreach (var item in Model.Result.Coupons)
                                                 {
-                                                    <span>
-                                                        Extra <i class="fa fa-inr" aria-hidden="true"></i>
-                                                        @CouponDiscountAmount
-                                                        OFF
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span>
-                                                        @CouponDiscountAmount <per>%</per>OFF
-                                                    </span>
-                                                }
-                                            </p>
-                                        }
-                                        <div class="offer-contain">
-                                            <ul id="appliedCoupons">
-                                                <li>
-                                                    <span class="code-lable cc">@CouponCode</span>
-                                                    @if (IsCouponApplied)
-                                                    {
-                                                        if (IsFixed)
+                                                    <li>
+                                                        <span class="code-lable cc">@item.CouponCode</span>
+                                                        @if (IsCouponApplied)
                                                         {
-                                                            <span>
-                                                                You Saved <i class="fa fa-inr" aria-hidden="true"></i>
-                                                                @CouponDiscountAmount
-                                                            </span>
+                                                            if (IsFixed)
+                                                            {
+                                                                <span>
+                                                                    You Saved <i class="fa fa-inr" aria-hidden="true"></i>
+                                                                    @item.DiscountAmount
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>
+                                                                    You Saved @item.DiscountAmount <percentage>%</percentage>
+                                                                </span>
+                                                            }
                                                         }
-                                                        else
-                                                        {
-                                                            <span>
-                                                                You Saved @CouponDiscountAmount <percentage>%</percentage>
-                                                            </span>
-                                                        }
-                                                    }
-
-                                                    @if (!IsCouponApplied)
-                                                    {
-                                                        <div class="text-right"><a href="javascript:void(0)" class="btn-normal btn " id="btnApplycoupon">Apply Coupon</a></div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="text-right cus-remove-coupon">
-                                                            <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
+                                                        <div class="pull-right">
+                                                            <span class="btn-normal btn btnApplycoupon">Apply</span>
                                                         </div>
-                                                    }
-                                                </li>
-                                            </ul>
-                                            <span>
-                                                <a href="javascript:void(0);" id="btnallcoupon">All Coupon</a>
-                                            </span>
-                                        </div>
+                                                    </li>
+                                                    break;
+                                                }
+                                            } *@
+                                        </ul>
+                                        <span>
+                                            <a href="javascript:void(0);" id="btnallcoupon">All Coupon</a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
                     </div>
-                </li>
-            }
+                </div>
+            </li>
+            <!-- End Coupon Section -->
         </ul>
         <ul class="total">
-            <li><div class="row"><div class="col-md-7">Total</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Total.ToString("0.00")</span></div></div></li>
-
+            <li>
+                <div class="row">
+                    <div class="col-md-7">Total</div>
+                    <div class="col-md-5 text-right">
+                        <span class="count">
+                            <i class="fa fa-inr" aria-hidden="true"></i> 
+                            <label id="totalPayable" data-total-payable="@Total.ToString("0.00")">@Total.ToString("0.00")</label>
+                        </span>
+                    </div>
+                </div>
+            </li>
         </ul>
     </div>
     <div class="payment-box">
@@ -200,14 +150,7 @@
                 <div class="main">
                     <input type="checkbox" hidden id="IsCod" @isCodChecked />
                     <h3 class="box-title">Select Payment Method</h3>
-                    <div class='payments' id="dvPaymentModes">
-
-                        @*  <div class='button '>
-                        CADH
-                        <br />
-                        <img src="Image/icons/debit.svg" height="55px" />
-                        </div>*@
-                    </div>
+                    <div class='payments' id="dvPaymentModes"></div>
                 </div>
             </div>
         </div>
