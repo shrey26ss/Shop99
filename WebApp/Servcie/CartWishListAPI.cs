@@ -8,6 +8,7 @@ using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using WebApp.Models;
 
@@ -25,6 +26,7 @@ namespace WebApp.Servcie
         Task<IResponse> MoveItemWishListToCart(int Id, string _token);
         Task<IResponse> DeleteWishListItem(int Id, string _token);
         Task<IResponse> MoveAllItemWishListToCart(string _token);
+        Task<IResponse<IEnumerable<Coupon>>> GetCoupons(string _token);
     }
     public class CartWishListAPI : ICartWishListAPI
     {
@@ -126,7 +128,7 @@ namespace WebApp.Servcie
             return res;
 
         }
-        public async Task<IResponse<CartItemsTotalVM>> GetCartListSlide(string _token,bool IsBuyNow = false)
+        public async Task<IResponse<CartItemsTotalVM>> GetCartListSlide(string _token, bool IsBuyNow = false)
         {
             var res = new Response<CartItemsTotalVM>
             {
@@ -140,6 +142,31 @@ namespace WebApp.Servcie
                 try
                 {
                     var deserializeObject = JsonConvert.DeserializeObject<Response<CartItemsTotalVM>>(Response.Result);
+                    return deserializeObject;
+                }
+                catch (Exception e)
+                {
+                    res.ResponseText = e.Message;
+                }
+            }
+            return res;
+        }
+
+        public async Task<IResponse<IEnumerable<Coupon>>> GetCoupons(string _token)
+        {
+            var res = new Response<IEnumerable<Coupon>>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = "Somthing Went Wrong",
+                Result = new List<Coupon>()
+            };
+            string url = $"{_apiBaseURL}/api/Offers/GetCoupons";
+            var Response = await AppWebRequest.O.PostAsync(url.ToLower(), JsonConvert.SerializeObject(new SearchItem { SearchText="" }), _token);
+            if (Response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var deserializeObject = JsonConvert.DeserializeObject<Response<IEnumerable<Coupon>>>(Response.Result);
                     return deserializeObject;
                 }
                 catch (Exception e)
@@ -168,7 +195,7 @@ namespace WebApp.Servcie
                 catch (Exception e)
                 {
                     res.ResponseText = e.Message;
-                }   
+                }
             }
             return res;
 

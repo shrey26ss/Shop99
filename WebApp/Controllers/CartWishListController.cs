@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -11,108 +12,111 @@ namespace WebApp.Controllers
     public class CartWishListController : Controller
     {
         private readonly ICartWishListAPI _cartwishlist;
+        
         public CartWishListController(ICartWishListAPI cartwishlist)
         {
             _cartwishlist = cartwishlist;
-           
         }
-        [Route("AddWishList")]
-        [HttpPost]
+        
+        [HttpPost(nameof(AddWishList))]
         public async Task<IActionResult> AddWishList(WishList req)
         {
             var res = _cartwishlist.AddWishList(req, GetToken()).Result;
             return Json(res);
         }
-        [Route("MoveItemWishListToCart")]
-        [HttpPost]
+        
+        [HttpPost(nameof(MoveItemWishListToCart))]
         public async Task<IActionResult> MoveItemWishListToCart(int Id)
         {
             var res = _cartwishlist.MoveItemWishListToCart(Id, GetToken()).Result;
             return Json(res);
         }
-        [Route("AddToCart")]
-        [HttpPost]
+        
+        [HttpPost(nameof(AddToCart))]
         public async Task<IActionResult> AddToCart(CartItem req)
         {
             req.Qty = req.Qty==0?1:req.Qty;
             var res = _cartwishlist.AddToCart(req, GetToken()).Result;
             return Json(res);
         }
-        [Route("DeleteCart")]
-        [HttpPost]
+        
+        [HttpPost(nameof(DeleteCart))]
         public async Task<IActionResult> DeleteCart(CartItem req)
         {
             var res = _cartwishlist.DeleteCart(req, GetToken()).Result;
             return Json(res);
         }
-        [Route("WishListSlide")]
-        [HttpPost]
+        
+        [HttpPost(nameof(WishListSlide))]
         public async Task<IActionResult> WishListSlide()
         {
             var res = _cartwishlist.GetWishListSlide(GetToken()).Result;
             return View("Partial/_wishListSlide", res);
         }
-        [Route("CartSlide")]    
-        [HttpPost]
+        
+        [HttpPost(nameof(CartSlide))]
         public async Task<IActionResult> CartSlide()
         {
             var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
             return View("Partial/_cartSlide", res);
         }
-        [Route("CartWishListCount")]
-        [HttpPost]
+        
+        [HttpPost(nameof(CartWishListCount))]
         public async Task<IActionResult> CartWishListCount()
         {
             var res = _cartwishlist.GetCartwishListCount(GetToken()).Result;
             return Json(res);
         }
-        [Route("CartDetails")]
-        [HttpGet]
+        
+        [HttpGet(nameof(CartDetails))]
         public async Task<IActionResult> CartDetails()
         {
             return View();
         }
-        [Route("_CartDetails")]
-        [HttpPost]
+        
+        [HttpPost(nameof(_CartDetails))]
         public async Task<IActionResult> _CartDetails()
         {
             var res = _cartwishlist.GetCartListSlide(GetToken()).Result;
             return PartialView("Partial/_cartDetails", res);
         }
-        [Route("_CartPlaceOrder")]
-        [HttpPost]
+
+        [HttpPost(nameof(_CartPlaceOrder))]
         public async Task<IActionResult> _CartPlaceOrder(bool IsBuyNow = false)
         {
-            var res = _cartwishlist.GetCartListSlide(GetToken(), IsBuyNow).Result;
+            var res = await _cartwishlist.GetCartListSlide(GetToken(), IsBuyNow);
+            var offerRes = await _cartwishlist.GetCoupons(GetToken());
+            res.Result.Coupons = offerRes.Result;
             return PartialView("~/Views/CheckOut/partial/_placeorder.cshtml", res);
         }
-        [Route("WishListToCart")]
-        [HttpPost]
+        
+        [HttpPost(nameof(WishListToCart))]
         public async Task<IActionResult> WishListToCart(int id)
         {
             var res = _cartwishlist.MoveItemWishListToCart(id,GetToken()).Result;
             return Json(res);
         }
-        [Route("DeleteWishList")]
-        [HttpPost]
+
+        [HttpPost(nameof(DeleteWishList))]
         public async Task<IActionResult> DeleteWishList(int id)
         {
             var res = _cartwishlist.DeleteWishListItem(id, GetToken()).Result;
             return Json(res);
         }
+        
         private string GetToken()
         {
             return User.GetLoggedInUserToken();
         }
-        [Route("wishlist")]
-        [HttpGet]
+
+        [HttpGet(nameof(Wishlist))]
         public async Task<IActionResult> Wishlist()
         {
             var res = _cartwishlist.GetWishListSlide(GetToken()).Result;
             return View(res);
         }
-        [Route("MoveAllToCart")]
-        [HttpPost]
+        
+        [HttpPost(nameof(MoveAllToCart))]
         public async Task<IActionResult> MoveAllToCart()
         {
             var res = _cartwishlist.MoveAllItemWishListToCart(User.GetLoggedInUserToken()).Result;

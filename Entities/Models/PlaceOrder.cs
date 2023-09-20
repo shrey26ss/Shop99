@@ -87,5 +87,4 @@ namespace Entities.Models
         public string ResponseText { get; set; }
         public decimal TotalDisCountAmount { get; set; }
     }
-
 }
