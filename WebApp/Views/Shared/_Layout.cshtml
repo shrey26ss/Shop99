@@ -8,7 +8,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     @RenderSection("Metatags", required: false)
     <link rel="shortcut icon" href="/image/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />
+   @* <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />*@
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" async />
     <!-- Theme css -->
@@ -421,40 +424,35 @@
     <!-- Add to cart bar -->
     <div id="cart_side" class="add_to_cart top ">
     </div>
-    <!-- Add to cart bar end-->
-    <!-- wishlistbar bar -->
+    
     <div id="wishlist_side" class="add_to_cart right">
     </div>
-    <!-- wishlistbar bar end-->
-    <!-- Menu bar -->
+   
     @(await Component.InvokeAsync("SlideMenu"))
 
-    <!--Menulistbar bar end-->
+    
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- latest jquery-->
-    @*<script src="~/assets/js/jquery-3.3.1.min.js"></script>*@
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 
-    <!-- slick js-->
+   
     <script src="~/assets/js/slick.js"></script>
 
-    <!-- popper js-->
+   
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap-notify.min.js"></script>
 
-    <!-- menu js-->
+  
     <script src="~/assets/js/menu.js"></script>
 
-    <!-- timer js -->
-    @* <script src="~/assets/js/timer2.js"></script>*@
+   
 
-    <!-- Bootstrap js-->
-    @*<script src="~/assets/js/bootstrap.js"></script>*@
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js"></script>
 
 
@@ -464,22 +462,18 @@
 
     @*<>Pace</>*@
     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+   
 
-    <!-- father icon -->
-    @*<script src="~/assets/js/feather.min.js"></script>
-    <script src="~/assets/js/feather-icon.js"></script>*@
-    @* <script src="~/lib/jquery-ui/dist/jquery-ui.min.js"></script>*@
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 
     <script src="~/assets/js/jquery.elevatezoom.js"></script>
-    <!-- Theme js-->
+   
     <script src="~/assets/js/modal.js"></script>
     <script src="~/assets/js/script.js"></script>
     <script src="~/lib/toastr/build/toastr.min.js"></script>
     <script src="~/js/corelib.js"></script>
-    @*<script src="~/select2/js/select2.min.js"></script>*@
+   
     <script src="~/clientapp/js/shoppingutility.js"></script>
 
     @RenderSection("Scripts", required: false)
