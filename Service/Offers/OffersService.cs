@@ -256,15 +256,15 @@ namespace Service.Offers
             return res;
         }
 
-        public async Task<IResponse> DelCoupon(RequestBase<Coupon> coupon)
+        public async Task<IResponse> DelCoupon(int couponId)
         {
             var res = new Response();
             try
             {
-                if (coupon.Data.CouponId != null && coupon.Data.CouponId > 0)
+                if (couponId > 0)
                 {
                     string sqlQuery = @"Delete from Coupon where CouponId=@CouponId";
-                    var res1 = await _dapper.ExecuteAsync(sqlQuery, new { coupon.Data.CouponId }, CommandType.Text);
+                    var res1 = await _dapper.ExecuteAsync(sqlQuery, new { couponId }, CommandType.Text);
                     if (res1 != null)
                     {
                         res.StatusCode = ResponseStatus.Success;
