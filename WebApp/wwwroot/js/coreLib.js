@@ -919,7 +919,16 @@ function printDiv(divName) {
             currentElement.focus();
         }
     }
-
+    Q.calender = (selector = "datepicker") => {
+        selector = $('#' + selector);
+        selector.datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'dd M yy',
+            maxDate: new Date(),
+            autoClose: true
+        });
+    }
     Q.dateRangeFilter = (fromDateSelector = "dtFromDate", toDateSelector = "dtToDate") => {
         fromDateSelector = $('#' + fromDateSelector);
         toDateSelector = $('#' + toDateSelector);
@@ -1141,10 +1150,11 @@ function ajaxFormSubmit(form) {
                 /*$(form).trigger("reset");*/
                 if (response.returnURL)
                     window.location.href = `${response.returnURL}`;
-                $('.ui-dialog-titlebar-close:last').click();
                 Q.reset();
-                if (typeof loadData !== 'undefined' && $.isFunction(loadData))
+                $('.ui-dialog-titlebar-close:last').click();
+                if (typeof loadData !== 'undefined' && $.isFunction(loadData)) {
                     loadData();
+                }
             }
         }).fail(xhr => Q.renderError(xhr)).always(() => { Q.preloader.remove(); });
     }

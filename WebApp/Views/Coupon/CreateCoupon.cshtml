@@ -3,8 +3,7 @@
 
 @model Coupon
 
-<form asp-action="CreateCoupon" method="Post">
-
+<form asp-action="CreateCoupon" method="Post" ajaxDisabled="true">
     <div class="card-body">
         <input type="hidden" asp-for="CouponId">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -104,7 +103,7 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text" required>
+                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text" readonly required>
                     </div>
                 </div>
             </div>
@@ -145,21 +144,28 @@
         </div>
     </div>
     <div class="col-md-12">
-        <input class="btn btn-primary float-right" type="submit">
+        <input class="btn btn-primary float-right" type="submit" id="btnSubmitCoupon">
     </div>
 </form>
 <script>
-    //Q.dateRangeFilter('DtExpiredOn');
-    try {
-        $('#DtExpiredOn').datepicker({
-            changeYear: true,
-            changeMonth: true,
-            dateFormat: 'dd M yy',
-            autoClose: true
-        });
-    }
-    catch (error) {
-        console.error(error);
-    }
+    // $('#btnSubmitCoupon').click(() => {
+    //     let param = {
 
+    //     };
+    //     $.post('/CreateCoupon',).done(result => {
+    //         Q.notify(result.statusCode, result.responseText);
+    //         if (result.statusCode == 1) {
+    //             loadData()
+    //         }
+    //     }).fail(xhr => {
+    //         Q.notify(-1, xhr.responseText);
+    //     })
+    // });
+
+    $('#DtExpiredOn').datepicker({
+        changeYear: true,
+        changeMonth: true,
+        dateFormat: 'dd M yy',
+        autoClose: true
+    });
 </script>

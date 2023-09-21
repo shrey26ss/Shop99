@@ -56,7 +56,7 @@
             .done(result => {
                 Q.alert({
                     title: 'Coupon',
-                    body: result,
+                    body: result
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
