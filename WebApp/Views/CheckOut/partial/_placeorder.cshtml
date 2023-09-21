@@ -10,7 +10,6 @@
     decimal Total = 0;
     decimal spdis = 0;
     string distp = string.Empty;
-    decimal discountAmount = 0;
     decimal totaldiscountAmount = 0;
     bool IsFixed = Model.Result.CartItemSlides?.FirstOrDefault().IsFixed ?? false;
     bool IsCouponApplied = Model.Result.CartItemSlides?.FirstOrDefault().IsCouponApplied ?? false;
@@ -39,6 +38,7 @@
             {
                 @foreach (var item in Model.Result.CartItemSlides)
                 {
+                    decimal discountAmount = 0M;
                     @*  <li><span>mrp <i class="fa fa-inr"></i> @(item.MRP*item.Qty)</span></li>*@
                     <li> <div class="row"> <div class="col-md-7">@item.Title × @item.Qty</div><div class="col-md-5 text-right"><span class="cart-pro-price"> <i class="fa fa-inr"></i> @(item.MRP * item.Qty)</span> <span>  <i class="fa fa-inr" aria-hidden="true"></i> @(item.SellingCost * item.Qty)</span></div></div>  </li>
                     distp = item.Discounttype;
@@ -65,7 +65,7 @@
             {
                 <li><div class="row"><div class="col-md-7">Off</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @Off</span></div></div></li>
             }
-            @if (spdis > 0)
+            @if (totaldiscountAmount > 0)
             {
                 <li><div class="row"><div class="col-md-7">Special Discount</div><div class="col-md-5 text-right"> <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> @totaldiscountAmount.ToString("0.00")</span></div></div></li>
             }
