@@ -20,7 +20,7 @@
             </td>
             <td>@item.ExpiryOn</td>
             <td>
-                <span class="switch switch-sm">Update
+                <span class="switch switch-sm">
                     <input type="checkbox" class="switch" onclick="Update('@item.CouponId')" id="IsActive_@item.CouponId" @Html.Raw(item.IsActive ? "checked='checked'" : "")>
                     <label for="IsActive_@item.CouponId"></label>
                 </span>

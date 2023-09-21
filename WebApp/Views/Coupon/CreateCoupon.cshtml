@@ -13,7 +13,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label required" for="Name">CouponCode</label>
+                            <label class="col-form-label required" for="Name">Code</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -37,48 +37,48 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">Discount AMT</label>
+                            <label class="col-form-label" for="Name">Value</label>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="input-group input-group-required">
-                            <input class="form-control text-box single-line" asp-for="DiscountAmount" max="70" type="number">
+                            <input class="form-control text-box single-line" asp-for="DiscountAmount" type="number">
                         </div>
                     </div>
-                </div>  
+                </div>
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">MaxBenefit</label>
+                            <label class="col-form-label" for="Name">Max Benefit</label>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="input-group input-group-required">
-                            <input class="form-control text-box single-line" asp-for="MaxBenefit" max="70" type="number">
+                            <input class="form-control text-box single-line" asp-for="MaxBenefit" type="number">
                         </div>
                     </div>
-                </div>   
+                </div>
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">MinPurchaseForRedeem</label>
+                            <label class="col-form-label" for="Name">Minimum Purchase For Redeem</label>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="input-group input-group-required">
-                            <input class="form-control text-box single-line" asp-for="MinPurchaseForRedeem" max="70" type="number">
+                            <input class="form-control text-box single-line" asp-for="MinPurchaseForRedeem" type="number">
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">UseCount</label>
+                            <label class="col-form-label" for="Name">Use Count</label>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="input-group input-group-required">
-                            <input class="form-control text-box single-line" asp-for="UseCount" max="70" type="number">
+                            <input class="form-control text-box single-line" asp-for="UseCount" min="1" max="10" type="number">
                         </div>
                     </div>
                 </div>
@@ -104,43 +104,43 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text">
+                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text" required>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4 input-group mt-4">
+                <div class="col-sm-6 input-group mt-4">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="checkbox" asp-for="IsProductDependent" checked>
+                            <input type="checkbox" asp-for="IsProductDependent">
                         </div>
                     </div>
-                    <label class="form-control" for="IsActive">IsProductDependent</label>
+                    <label class="form-control" for="IsActive">Product Dependent</label>
                 </div>
-            <div class="col-sm-4 input-group mt-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                            <input type="checkbox" asp-for="IsProductDependent" checked>
+                <div class="col-sm-6 input-group mt-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" asp-for="IsActive">
+                        </div>
                     </div>
+                    <label class="form-control" for="IsActive">Active</label>
                 </div>
-                <label class="form-control" for="IsActive">IsActive</label>
-            </div>
-            <div class="col-sm-4 input-group mt-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <input type="checkbox" asp-for="IsFixed" checked>
+                <div class="col-sm-6 input-group mt-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" asp-for="IsFixed" checked>
+                        </div>
                     </div>
+                    <label class="form-control" for="IsActive">Fixed</label>
                 </div>
-                <label class="form-control" for="IsActive">IsFixed</label>
-            </div>
-            <div class="col-sm-4 input-group mt-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <input type="checkbox" asp-for="IsWelcomeCoupon" checked>
+                <div class="col-sm-6 input-group mt-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" asp-for="IsWelcomeCoupon">
+                        </div>
+                    </div>
+                    <label class="form-control" for="IsActive">Welcome Coupon</label>
                 </div>
-            </div>
-                    <label class="form-control" for="IsActive">IsCoupon</label>
-            </div>
             </div>
         </div>
     </div>
@@ -150,10 +150,16 @@
 </form>
 <script>
     //Q.dateRangeFilter('DtExpiredOn');
-    $('#DtExpiredOn').datepicker({
-        changeYear: true,
-        changeMonth: true,
-        dateFormat: 'dd M yy',
-        autoClose: true
-    });
+    try {
+        $('#DtExpiredOn').datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'dd M yy',
+            autoClose: true
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+
 </script>
