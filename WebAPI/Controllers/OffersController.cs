@@ -1,17 +1,8 @@
-﻿using AppUtility.APIRequest;
-using AutoMapper;
-using Entities.Models;
+﻿using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Service.API;
-using Service.Identity;
 using Service.Models;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using WebAPI.Middleware;
@@ -98,9 +89,9 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        
         [AllowAnonymous]
-        [HttpPost]
-        [Route("Offers/GetCartProductCoupons")]
+        [HttpPost("Offers/GetCartProductCoupons")]
         public async Task<IActionResult> GetCartProductCoupons()
         {
             return Ok(await _offers.GetCartProductCoupons(new RequestBase<SearchItem>

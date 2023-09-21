@@ -1,11 +1,6 @@
-﻿using AppUtility.APIRequest;
-using Entities.Models;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Service.Models;
-using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using WebApp.Middleware;
 using WebApp.Servcie;
@@ -28,21 +23,21 @@ namespace WebApp.Controllers
             return View(IsBuyNow);
         }
 
-        [HttpPost("GetUserAddress")]
+        [HttpPost(nameof(GetUserAddress))]
         public async Task<IActionResult> GetUserAddress()
         {
             var res = _checkout.GetUserGetAddress(GetToken()).Result;
             return PartialView("Partial/_address", res);
         }
 
-        [HttpPost("GetPaymentMode")]
+        [HttpPost(nameof(GetPaymentMode))]
         public async Task<IActionResult> GetPaymentMode(bool IsCod)
         {
             var res = _checkout.GetPaymentMode(IsCod, GetToken()).Result;
             return Json(res);
         }
 
-        [HttpPost("PlaceOrder")]
+        [HttpPost(nameof(PlaceOrder))]
         public async Task<IActionResult> PlaceOrder(PlaceOrderReq req)
         {
             var res = await _checkout.PlaceOrder(req, GetToken());
@@ -56,7 +51,7 @@ namespace WebApp.Controllers
             }
         }
 
-        [HttpPost("SaveAddress")]
+        [HttpPost(nameof(SaveAddress))]
         public async Task<IActionResult> SaveAddress(UserAddress model)
         {
             if (ModelState.IsValid)
@@ -73,13 +68,15 @@ namespace WebApp.Controllers
         {
             return User.GetLoggedInUserToken();
         }
-        [HttpPost("ApplyCoupon")]
+        
+        [HttpPost(nameof(ApplyCoupon))]
         public async Task<IActionResult> ApplyCoupon(CouponApplyRequest req)
         {
             var res = await _checkout.ApplyCoupon(req, GetToken());
             return Json(res);
         }
-        [HttpPost("GetAllCoupon")]
+
+        [HttpPost(nameof(GetAllCoupon))]
         public async Task<IActionResult> GetAllCoupon()
         {
             var res = await _checkout.GetAllCoupon(GetToken());
