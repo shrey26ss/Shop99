@@ -1,220 +1,5 @@
-
-
-
 (function ($) {
     "use strict";
-    /*=====================
-     01. Slick slider
-     ==========================*/
-
-    $('.center-product-4').slick({
-        dots: false,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 767,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 2,
-                    infinite: true
-                }
-            },
-
-        ]
-    });
-    $('.team-4').slick({
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 991,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 586,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
-    $('.blog-slide').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        responsive: [
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-
-        ]
-    });
-    $('.blog-slide-4').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        responsive: [
-            {
-                breakpoint: 1700,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            },
-            {
-                breakpoint: 0,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-
-        ]
-    });
-    $('.media-slide').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 577,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true
-                }
-            },
-
-        ]
-    });
-    if ($(window).width() > 768) {
-    } else {
-        $('.hotdeal-right-nav').slick({
-            vertical: false,
-            verticalSwiping: false,
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            asNavFor: '.hotdeal-right-slick',
-            arrows: false,
-            infinite: true,
-            centerMode: false,
-            dots: false,
-            focusOnSelect: true,
-            responsive: [
-                {
-                    breakpoint: 576,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        });
-    }
-    /*=====================
-     02. header js
-     ==========================*/
-
-    // language  block//
-    $('.language-dropdown-open').slideUp();
-    $('.language-dropdown-click').on('click', function () {
-        $('.language-dropdown-open').slideToggle()
-    });
-    $('.curroncy-dropdown-open').slideUp();
-    $('.curroncy-dropdown-click').on('click', function () {
-        $('.curroncy-dropdown-open').slideToggle()
-    })
-    $('.pro-up').hide();
-    $('.mor-slide-open').slideUp();
-    $('.mor-slide-click').on('click', function () {
-        $('.mor-slide-open').slideToggle();
-        $('.pro-up').toggle();
-        $('.pro-down').toggle();
-    })
-
     $('.category-toggle').on('click', function (e) {
         $('.show').slideToggle()
         $('.category-heandle').toggleClass('open')
@@ -314,18 +99,6 @@
         jQuery('.footer-contant').show();
     }
 
-
-
-
-
-    /*=====================
-     04. Image to background js
-     ==========================*/
-    $(".bg-top").parent().addClass('b-top');
-    $(".bg-bottom").parent().addClass('b-bottom');
-    $(".bg-center").parent().addClass('b-center');
-    $(".bg_size_content").parent().addClass('b_size_content');
-    $(".bg-img").parent().addClass('bg-size');
     /*=====================
      05 toggle nav
      ==========================*/
@@ -452,17 +225,17 @@
 
 
 
-    $('#cartEffect').on('click', function (e) {
-        if ($("#selectSize .size-box ul").hasClass('selected')) {
-            $('#cartEffect').text("Added to bag ");
-            $('.added-notification').addClass("show");
-            setTimeout(function () {
-                $('.added-notification').removeClass("show");
-            }, 5000);
-        } else {
-            $('#selectSize').addClass('cartMove');
-        }
-    });
+    //$('#cartEffect').on('click', function (e) {
+    //    if ($("#selectSize .size-box ul").hasClass('selected')) {
+    //        $('#cartEffect').text("Added to bag ");
+    //        $('.added-notification').addClass("show");
+    //        setTimeout(function () {
+    //            $('.added-notification').removeClass("show");
+    //        }, 5000);
+    //    } else {
+    //        $('#selectSize').addClass('cartMove');
+    //    }
+    //});
     
     /*=====================
      10. Product page Quantity Counter
@@ -556,8 +329,8 @@
     /*=====================
       13. Tab js
      ==========================*/
-    $("#tab1").css("display", "Block");
-    $(".default").css("display", "Block");
+/*    $("#tab1").css("display", "Block");*/
+   /* $(".default").css("display", "Block");*/
     $(document).on('click', "#secTopCategory.tabs li a", function () {
         event.preventDefault();
         $(this).parent().parent().find("li").removeClass("current");
@@ -568,200 +341,198 @@
     });
 
 
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-        $(".product-slide").slick({
-            arrows: true,
-            dots: false,
-            infinite: false,
-            speed: 300,
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            responsive: [
-                {
-                    breakpoint: 991,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-                {
-                    breakpoint: 420,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        });
-    });
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //    $(".product-slide").slick({
+    //        arrows: true,
+    //        dots: false,
+    //        infinite: false,
+    //        speed: 300,
+    //        slidesToShow: 3,
+    //        slidesToScroll: 1,
+    //        responsive: [
+    //            {
+    //                breakpoint: 991,
+    //                settings: {
+    //                    slidesToShow: 2,
+    //                    slidesToScroll: 2
+    //                }
+    //            },
+    //            {
+    //                breakpoint: 420,
+    //                settings: {
+    //                    slidesToShow: 1,
+    //                    slidesToScroll: 1
+    //                }
+    //            }
+    //        ]
+    //    });
+    //});
 
-    // new tab
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        /* $('.tab_product_slider').slick('unslick');*/
-        /*$('.product-slide-6').slick('unslick');*/
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-    });
+    //// new tab
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //});
 
-    // product-4
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        /*    $('.tab_product_slider').slick('unslick');*/
-        /* $('.product-slide-4').slick('unslick');*/
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-    });
+    //// product-4
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    /*    $('.tab_product_slider').slick('unslick');*/
+    //    /* $('.product-slide-4').slick('unslick');*/
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //});
 
 
-    // product-5
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        //$('.tab_product_slider').slick('unslick');
-        //$('.slide-5').slick('unslick');
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-        $('.slide-5').slick({
-            dots: false,
-            infinite: true,
-            speed: 300,
-            slidesToShow: 5,
-            centerPadding: '15px',
-            responsive: [
-                {
-                    breakpoint: 1470,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                        infinite: true
-                    }
-                },
-                {
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        infinite: true
-                    }
-                },
-                {
-                    breakpoint: 820,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        infinite: true
-                    }
-                },
-                {
-                    breakpoint: 420,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        infinite: true
-                    }
-                }
-            ]
-        });
-    });
+    //// product-5
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    //$('.tab_product_slider').slick('unslick');
+    //    //$('.slide-5').slick('unslick');
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //    $('.slide-5').slick({
+    //        dots: false,
+    //        infinite: true,
+    //        speed: 300,
+    //        slidesToShow: 5,
+    //        centerPadding: '15px',
+    //        responsive: [
+    //            {
+    //                breakpoint: 1470,
+    //                settings: {
+    //                    slidesToShow: 4,
+    //                    slidesToScroll: 4,
+    //                    infinite: true
+    //                }
+    //            },
+    //            {
+    //                breakpoint: 992,
+    //                settings: {
+    //                    slidesToShow: 3,
+    //                    slidesToScroll: 3,
+    //                    infinite: true
+    //                }
+    //            },
+    //            {
+    //                breakpoint: 820,
+    //                settings: {
+    //                    slidesToShow: 2,
+    //                    slidesToScroll: 2,
+    //                    infinite: true
+    //                }
+    //            },
+    //            {
+    //                breakpoint: 420,
+    //                settings: {
+    //                    slidesToShow: 1,
+    //                    slidesToScroll: 1,
+    //                    infinite: true
+    //                }
+    //            }
+    //        ]
+    //    });
+    //});
 
 
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        /*$('.tab_product_slider').slick('unslick');*/
-        /* $('.product-slide-5').slick('unslick');*/
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-    });
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    /*$('.tab_product_slider').slick('unslick');*/
+    //    /* $('.product-slide-5').slick('unslick');*/
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //});
 
 
 
 
     // product-3
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        /*$('.tab_product_slider').slick('unslick');*/
-        /* $('.product-slide-3').slick('unslick');*/
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    /*$('.tab_product_slider').slick('unslick');*/
+    //    /* $('.product-slide-3').slick('unslick');*/
         
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-    });
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //});
 
 
     // gallery slide //
-    $("#tab-1").css("display", "Block");
-    $(".default").css("display", "Block");
-    $(".tabs li a").on('click', function () {
-        event.preventDefault();
-        //$('.tab_product_slider').slick('unslick');
-        //$('.gallery-slide').slick('unslick');
-        $(this).parent().parent().find("li").removeClass("current");
-        $(this).parent().addClass("current");
-        var currunt_href = $(this).attr("href");
-        $('#' + currunt_href).show();
-        $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-        $('.gallery-slide').slick({
-            dots: false,
-            infinite: true,
-            speed: 300,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            responsive: [
-                {
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 567,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-            ]
-        });
-    });
+    //$("#tab-1").css("display", "Block");
+    //$(".default").css("display", "Block");
+    //$(".tabs li a").on('click', function () {
+    //    event.preventDefault();
+    //    //$('.tab_product_slider').slick('unslick');
+    //    //$('.gallery-slide').slick('unslick');
+    //    $(this).parent().parent().find("li").removeClass("current");
+    //    $(this).parent().addClass("current");
+    //    var currunt_href = $(this).attr("href");
+    //    $('#' + currunt_href).show();
+    //    $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
+    //    $('.gallery-slide').slick({
+    //        dots: false,
+    //        infinite: true,
+    //        speed: 300,
+    //        slidesToShow: 4,
+    //        slidesToScroll: 4,
+    //        responsive: [
+    //            {
+    //                breakpoint: 992,
+    //                settings: {
+    //                    slidesToShow: 3,
+    //                    slidesToScroll: 3
+    //                }
+    //            },
+    //            {
+    //                breakpoint: 567,
+    //                settings: {
+    //                    slidesToShow: 2,
+    //                    slidesToScroll: 2
+    //                }
+    //            },
+    //        ]
+    //    });
+    //});
 
 
-    // media product slide 5
+    //// media product slide 5
 
-    $("#tab-7").css("display", "Block");
-    $(".default").css("display", "Block");
+    //$("#tab-7").css("display", "Block");
+    //$(".default").css("display", "Block");
     //$(".tabs li a").on('click', function () {
     //    event.preventDefault();
     //    //$('.tab_product_slider').slick('unslick');
@@ -1037,89 +808,6 @@
         }
     });
 
-
-
-
-
-    /*=====================
-    20. Color Picker
-     ==========================*/
-    var body_event = $("body");
-    body_event.on("click", ".color1", function () {
-        $("#color").attr("href", "assets/css/color1.css");
-        return false;
-
-    });
-    body_event.on("click", ".color2", function () {
-        $("#color").attr("href", "assets/css/color2.css");
-        return false;
-    });
-    body_event.on("click", ".color3", function () {
-        $("#color").attr("href", "assets/css/color3.css");
-        return false;
-    });
-    body_event.on("click", ".color4", function () {
-        $("#color").attr("href", "assets/css/color4.css");
-        return false;
-    });
-    body_event.on("click", ".color5", function () {
-        $("#color").attr("href", "assets/css/color5.css");
-        return false;
-    });
-    body_event.on("click", ".color6", function () {
-        $("#color").attr("href", "assets/css/color6.css");
-        return false;
-    });
-    body_event.on("click", ".color7", function () {
-        $("#color").attr("href", "assets/css/color7.css");
-        return false;
-    });
-    body_event.on("click", ".color8", function () {
-        $("#color").attr("href", "assets/css/color8.css");
-        return false;
-    });
-    body_event.on("click", ".color9", function () {
-        $("#color").attr("href", "assets/css/color9.css");
-        return false;
-    });
-    body_event.on("click", ".color10", function () {
-        $("#color").attr("href", "assets/css/color10.css");
-        return false;
-    });
-    body_event.on("click", ".color11", function () {
-        $("#color").attr("href", "assets/css/color11.css");
-        return false;
-    });
-    body_event.on("click", ".color12", function () {
-        $("#color").attr("href", "assets/css/color12.css");
-        return false;
-    });
-    body_event.on("click", ".color13", function () {
-        $("#color").attr("href", "assets/css/color13.css");
-        return false;
-    });
-    body_event.on("click", ".color14", function () {
-        $("#color").attr("href", "assets/css/color14.css");
-        return false;
-    });
-    body_event.on("click", ".color15", function () {
-        $("#color").attr("href", "assets/css/color15.css");
-        return false;
-    });
-
-    $('.color-picker').animate({ right: '-150px' });
-
-    body_event.on("click", ".color-picker a.handle", function (e) {
-        e.preventDefault();
-        var div = $('.color-picker');
-        if (div.css('right') === '-150px') {
-            $('.color-picker').animate({ right: '0px' });
-        }
-        else {
-            $('.color-picker').animate({ right: '-150px' });
-        }
-    });
-
     /*=====================
     21. Add to cart quantity Counter
      ==========================*/
@@ -1154,45 +842,45 @@
      22. counter js
     ===================================*/
 
-    $('.counter-count').each(function () {
-        $(this).prop('Counter', 0).animate({
-            Counter: $(this).text()
-        }, {
+    //$('.counter-count').each(function () {
+    //    $(this).prop('Counter', 0).animate({
+    //        Counter: $(this).text()
+    //    }, {
 
-            //chnage count up speed here
-            duration: 4000,
-            easing: 'swing',
-            step: function (now) {
-                $(this).text(Math.ceil(now));
-            }
-        });
-    });
-
-
+    //        //chnage count up speed here
+    //        duration: 4000,
+    //        easing: 'swing',
+    //        step: function (now) {
+    //            $(this).text(Math.ceil(now));
+    //        }
+    //    });
+    //});
 
 
-    /*=============
-     23. Tooltip js
-    ===============*/
-    tippy('.tooltip-top', {
-        content: 'Click to add product in  cart',
-        placement: 'top',
-    });
 
-    tippy('.tooltip-left', {
-        content: 'My tooltip!',
-        placement: 'left',
-    });
 
-    tippy('.tooltip-right', {
-        content: 'My tooltip!',
-        placement: 'right',
-    });
+    ///*=============
+    // 23. Tooltip js
+    //===============*/
+    //tippy('.tooltip-top', {
+    //    content: 'Click to add product in  cart',
+    //    placement: 'top',
+    //});
 
-    tippy('.tooltip-bottom', {
-        content: 'My tooltip!',
-        placement: 'bottom',
-    });
+    //tippy('.tooltip-left', {
+    //    content: 'My tooltip!',
+    //    placement: 'left',
+    //});
+
+    //tippy('.tooltip-right', {
+    //    content: 'My tooltip!',
+    //    placement: 'right',
+    //});
+
+    //tippy('.tooltip-bottom', {
+    //    content: 'My tooltip!',
+    //    placement: 'bottom',
+    //});
 
 
     /*=====================
@@ -1242,3 +930,130 @@ function openSetting() {
 function closeSetting() {
     document.getElementById("mySetting").classList.remove('open-side');
 }
+
+/* Layout's script */
+$('#btnNewsLetter').click(function () {
+    const name = $('#txtname').val();
+    const email = $('#textemail').val()
+    if (name === '') {
+        Q.notify(-1, 'Name Required');
+        return;
+    }
+    if (email === '') {
+        Q.notify(-1, 'Email Reuired');
+        return;
+    }
+
+    var settings = {
+        "url": baseURL + "/Home/AddNewsLetter",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "Name": name,
+            "Email": email
+        }),
+    };
+    $.ajax(settings).done(function (response) {
+        Q.notify(response.statusCode, response.statusCode == 1 ? "News Letter Subscribed Successfull." : response.responseText);
+        if (response.statusCode == 1) {
+            $('#txtname').val('');
+            $('#textemail').val('');
+        }
+    });
+})
+
+var SearchItems = [];
+
+function searchproduct1(inputElement) {
+    // Get the search term from the input element
+    var searchText = inputElement.value;
+
+    $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchText}&Top=${0}`).done(res => {
+        if (res.statusCode != -1) {
+            if (SearchItems.length >= 0) {
+                SearchItems = res.result.filter(x => !SearchItems.includes(x));
+                //let loopCount = SearchItems.length;
+
+                $("#resultsList").empty();
+                let path = {
+                    'P': 'products/prod/',
+                    'C': 'products/category/',
+                    'V': 'productdetails/',
+                    'B': 'products/brand/'
+                };
+                SearchItems.forEach(SearchItem => {
+                    const listItem = $("<li>");
+                    const anchorTag = $("<a>").attr("href", `${url}${path[SearchItem.type]}${SearchItem.id}`).text(SearchItem.name);
+                    anchorTag.appendTo(listItem);
+                    listItem.appendTo("#resultsList");
+                });
+            } else {
+                let objArr = SearchItems.map(x => JSON.stringify(x));
+                res.result.map(x => {
+                    if (!objArr.includes(JSON.stringify(x))) {
+                        SearchItems.push(x);
+                    }
+                });
+            }
+        }
+
+    });
+
+}
+
+function debounce(func, delay) {
+    let timeoutId;
+
+    return function (...args) {
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+const debouncedSearch = debounce(searchproduct1, 1000); // Adjust the delay (in milliseconds) as needed
+
+// Event listener for search input changes
+document.querySelector("#searchproduct").addEventListener("input", function (event) {
+    $(".clear-search").show();
+    if ($("#searchproduct").val() == "") {
+        $("#resultsList").hide();
+    }
+    else {
+        $("#resultsList").show();
+    }
+    debouncedSearch(event.target);
+});
+
+$(document).on('click', '.openMenu', e => $('#Menu_side')?.addClass('open-side'));
+$('.collection-collapse-block .form-check-input').change(function () {
+    let val = [];
+    $(':checkbox:checked').each(function (i) {
+        val[i] = $(this).val();
+    });
+    let filt = val.join(',');
+    loadFilteredProduct(filt);
+});
+
+$('.collapse-block-title').on('click', function (e) {
+    e.preventDefault;
+    var speed = 300;
+    var thisItem = $(this).parent(),
+        nextLevel = $(this).next('.collection-collapse-block-content');
+    if (thisItem.hasClass('open')) {
+        thisItem.removeClass('open');
+        nextLevel.slideUp(speed);
+    }
+    else {
+        thisItem.addClass('open');
+        nextLevel.slideDown(speed);
+    }
+});
+$(".rotate").click(function () {
+    $(this).toggleClass("down");
+})
+/* End */

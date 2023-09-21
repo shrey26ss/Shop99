@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     @RenderSection("Metatags", required: false)
     <link rel="shortcut icon" href="/image/favicon.png" type="image/x-icon">
-   @* <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css" />*@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@latest/pace-theme-default.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" async />
+
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/color2.css" media="screen" id="color" />
     <style>
@@ -125,13 +125,11 @@
                                         <div class="cart-count">
                                         </div>
                                     </li>
-
                                     <li class="for-filter-mobile mobile-setting" onclick="openSetting()">
                                         <a href="javascript:void(0)">
                                             <img src="/Image/icons/m-1.svg" />
                                         </a>
                                     </li>
-
                                 </ul>
                             </div>
                             @if (!Context.User.Identity.IsAuthenticated)
@@ -211,12 +209,12 @@
                 <div class="input-group">
                     <span class="input-group-text">
                         <img src="/Image/icons/m-3.svg" />
-                       
+
                     </span>
                     <input type="text" class="form-control SearchProduct" placeholder="search your product">
                     <span class="input-group-text close-searchbar">
                         <img src="/Image/icons/cross.svg" />
-                       
+
                     </span>
                 </div>
             </div>
@@ -424,257 +422,32 @@
     <!-- Add to cart bar -->
     <div id="cart_side" class="add_to_cart top ">
     </div>
-    
+
     <div id="wishlist_side" class="add_to_cart right">
     </div>
-   
+
     @(await Component.InvokeAsync("SlideMenu"))
-
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-   
+    @* <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-
-   
     <script src="~/assets/js/slick.js"></script>
-
-   
     <script src="~/assets/js/popper.min.js"></script>
-    <script src="~/assets/js/bootstrap-notify.min.js"></script>
-
-  
+    @* <script src="~/assets/js/bootstrap-notify.min.js"></script> *@
     <script src="~/assets/js/menu.js"></script>
-
-   
-
-   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js"></script>
-
-
     <!-- tool tip js -->
     <script src="~/assets/js/tippy-popper.min.js"></script>
     <script src="~/assets/js/tippy-bundle.iife.min.js"></script>
-
-    @*<>Pace</>*@
-    <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
-   
-
     
+    <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-
     <script src="~/assets/js/jquery.elevatezoom.js"></script>
-   
-    <script src="~/assets/js/modal.js"></script>
+  @*   <script src="~/assets/js/modal.js"></script> *@
     <script src="~/assets/js/script.js"></script>
-    <script src="~/lib/toastr/build/toastr.min.js"></script>
+ @*    <script src="~/lib/toastr/build/toastr.min.js"></script> *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/corelib.js"></script>
-   
     <script src="~/clientapp/js/shoppingutility.js"></script>
-
     @RenderSection("Scripts", required: false)
-    <script>
-        $('#btnNewsLetter').click(function () {
-            const name = $('#txtname').val();
-            const email = $('#textemail').val()
-            if (name === '') {
-                Q.notify(-1, 'Name Required');
-                return;
-            }
-            if (email === '') {
-                Q.notify(-1, 'Email Reuired');
-                return;
-            }
-
-            var settings = {
-                "url": baseURL + "/Home/AddNewsLetter",
-                "method": "POST",
-                "timeout": 0,
-                "headers": {
-                    "Content-Type": "application/json"
-                },
-                "data": JSON.stringify({
-                    "Name": name,
-                    "Email": email
-                }),
-            };
-            $.ajax(settings).done(function (response) {
-                Q.notify(response.statusCode, response.statusCode == 1 ? "News Letter Subscribed Successfull." : response.responseText);
-                if (response.statusCode == 1) {
-                    $('#txtname').val('');
-                    $('#textemail').val('');
-                }
-            });
-        })
-
-        var SearchItems = [];
-
-        function searchproduct1(inputElement) {
-            // Get the search term from the input element
-            var searchText = inputElement.value;
-
-            $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchText}&Top=${0}`).done(res => {
-                if (res.statusCode != -1) {
-                    if (SearchItems.length >= 0) {
-                        SearchItems = res.result.filter(x => !SearchItems.includes(x));
-                        //let loopCount = SearchItems.length;
-
-                        $("#resultsList").empty();
-                        let path = {
-                            'P': 'products/prod/',
-                            'C': 'products/category/',
-                            'V': 'productdetails/',
-                            'B': 'products/brand/'
-                        };
-                        SearchItems.forEach(SearchItem => {
-                            const listItem = $("<li>");
-                            const anchorTag = $("<a>").attr("href", `${url}${path[SearchItem.type]}${SearchItem.id}`).text(SearchItem.name);
-                            anchorTag.appendTo(listItem);
-                            listItem.appendTo("#resultsList");
-                        });
-                    } else {
-                        let objArr = SearchItems.map(x => JSON.stringify(x));
-                        res.result.map(x => {
-                            if (!objArr.includes(JSON.stringify(x))) {
-                                SearchItems.push(x);
-                            }
-                        });
-                    }
-                }
-
-            });
-
-        }
-
-        function debounce(func, delay) {
-            let timeoutId;
-
-            return function (...args) {
-                clearTimeout(timeoutId);
-
-                timeoutId = setTimeout(() => {
-                    func.apply(this, args);
-                }, delay);
-            };
-        }
-        const debouncedSearch = debounce(searchproduct1, 1000); // Adjust the delay (in milliseconds) as needed
-
-        // Event listener for search input changes
-        document.querySelector("#searchproduct").addEventListener("input", function (event) {
-            $(".clear-search").show();
-            if ($("#searchproduct").val() == "") {
-                $("#resultsList").hide();
-            }
-            else {
-                $("#resultsList").show();
-            }
-            debouncedSearch(event.target);
-        });
-
-
-
-
-        //var loadAutoSuggestion = async function (searchTerm = '', Top = 0) {
-        //    await $.post(baseURL + `/Home/GetAutoSuggetion?searchText=${searchTerm}&Top=${Top}`).done(res => {
-        //        if (res.statusCode != -1) {
-        //            if (SearchItems.length >= 0) {
-        //                SearchItems = res.result.filter(x => !SearchItems.includes(x));
-        //            } else {
-        //                let objArr = SearchItems.map(x => JSON.stringify(x));
-        //                res.result.map(x => {
-        //                    if (!objArr.includes(JSON.stringify(x))) {
-        //                        SearchItems.push(x);
-        //                    }
-        //                });
-        //            }
-        //        }
-
-        //    });
-        //    //if (triggerSuggestion) {
-        //    //    $(".SearchProduct").trigger("input");
-        //    //}
-        //}
-
-        $(document).on('click', '.openMenu', (e) => {
-            $('#Menu_side')?.addClass('open-side');
-        });
-
-        //$(".SearchProduct123").unbind().autocomplete({
-        //    autoFocus: true,
-        //    classes: {
-        //        "ui-autocomplete": "highlight"
-        //    },
-        //    source: function (request, response) {
-        //        let matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
-        //        searchResult = [];
-        //        let loopCount = SearchItems.length;
-        //        for (let i = 0; i < loopCount; i++) {
-        //            let a = SearchItems[i];
-        //            let _label = matcher.test(a.name) ? a.name : null;
-        //            if (!_label) {
-        //                matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-        //                _label = matcher.test(a.name) ? a.name : null;
-        //            }
-        //            if (_label) {
-        //                searchResult.push({
-        //                    label: _label,
-        //                    url: (a.type === 'C') ? `/products/category/${a.id}` : (a.type === 'P') ? `/products/prod/${a.id}` : (a.type === 'V') ? `/productdetails/${a.id}` : (a.type === 'B') ? `/products/brand/${a.id}` : null
-        //                })
-        //            }
-        //        }
-        //        loadAutoSuggestion(request.term, 0, /*true*/);
-        //        if (searchResult.length > 0) {
-        //            response(searchResult);
-        //        }
-        //    },
-        //    select: function (event, ui) {
-        //        let homePath = ['/', '/home']
-        //        let u = new URL(window.location.href)
-        //        if (homePath.includes(u.pathname)) {
-        //            window.open(ui.item.url, '_blank');
-        //        }
-        //        else {
-        //            window.location.href = ui.item.url
-        //        }
-        //    },
-        //    minLength: 3
-        //});
-
-        //loadAutoSuggestion('', 0,true);
-
-       
-
-        $('.collection-collapse-block .form-check-input').change(function () {
-            let val = [];
-            $(':checkbox:checked').each(function (i) {
-                val[i] = $(this).val();
-            });
-            let filt = val.join(',');
-            loadFilteredProduct(filt);
-        });
-
-        $('.collapse-block-title').on('click', function (e) {
-            e.preventDefault;
-            var speed = 300;
-            var thisItem = $(this).parent(),
-                nextLevel = $(this).next('.collection-collapse-block-content');
-            if (thisItem.hasClass('open')) {
-                thisItem.removeClass('open');
-                nextLevel.slideUp(speed);
-            }
-            else {
-                thisItem.addClass('open');
-                nextLevel.slideDown(speed);
-            }
-        });
-        $(".rotate").click(function () {
-            $(this).toggleClass("down");
-        })
-    </script>
-
 </body>
 </html>
