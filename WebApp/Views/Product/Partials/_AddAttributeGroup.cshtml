@@ -2,6 +2,52 @@
     .input-group-text {
         height: 38px;
     }
+    /*style for multiple checkbox select*/
+    .multiselect {
+        width: 100%;
+    }
+
+    .multiselect #checkboxes {
+        position: absolute;
+        z-index: 11;
+        background: rgb(255, 255, 255);
+        width: 100%;
+        padding: 10px;
+    }
+
+            .multiselect #checkboxes input {
+            margin-right:5px
+        }
+    
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
 </style>
 <div class="col-md-12 attrCombination" id="@DateTime.Now.ToString("ddMMyyyyhhmmssmmm")">
     <div class="form-group row">
@@ -140,9 +186,25 @@
             <div class="input-group input-group-required">
                @{
                     var list1 = new SelectList(@ViewBag.Coupons, "CouponId", "CouponCode");
-                    <select title="Select Circle" aria-describedby="helpBL" class="form-control" id="ddlCoupon" tabindex="4" asp-items="@list1">
-                        <option value="0"> :: Select :: </option>
-                    </select>
+                    //<select title="Select Circle" aria-describedby="helpBL" class="form-control" id="ddlCoupon" tabindex="4" asp-items="@list1">
+                    //    <option value="0"> :: Select :: </option>
+                    //</select>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes()">
+                            <select class="form-control">
+                                <option>:: Select :: </option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div id="checkboxes">
+                            @foreach (var item in list1)
+                            {
+                                <label for="@item.Value">
+                                    <input type="checkbox" id="@item.Value" value="@item.Text" />@item.Text
+                            </label>
+                            }
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -228,6 +290,7 @@
                     <th class="text-nowrap">IsFeatured</th>
                     <th class="text-nowrap">Is Show On Home</th>
                     <th class="text-nowrap">Specification</th>
+                    <th class="text-nowrap">Coupons</th>
                     <th class="text-nowrap">Attribute</th>
                     <th class="text-nowrap">Action</th>
 
@@ -242,3 +305,21 @@
         </div>
     </div>
 </div>
+
+
+@*@section script{
+<script>
+        var expanded = false;
+
+        function showCheckboxes() {
+            var checkboxes = document.getElementById("checkboxes");
+            if (!expanded) {
+                checkboxes.style.display = "block";
+                expanded = true;
+            } else {
+                checkboxes.style.display = "none";
+                expanded = false;
+            }
+        }
+</script>
+}*@

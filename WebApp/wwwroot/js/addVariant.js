@@ -334,6 +334,11 @@ let recordsintable = () => {
     $('#alertText').text('');
     let pictureGrid = $(`#dataTable`);
     let count = pictureGrid.find('tr').length;
+    var selectedValues = [];
+    $('#checkboxes input[type=checkbox]:checked').each(function () {
+        selectedValues.push($(this).val());
+    });
+    var commaSeparatedString = selectedValues.join(', ');
     let dataObj = {
         id: count,
         Title: $("#titlewords").val(),
@@ -345,8 +350,9 @@ let recordsintable = () => {
         WarrantyUnit: $("#yearmonth").val(),
         DiscountRate: $("#Discountrate").val(),
         SpecialDiscount: $('#SpecialDiscount').val(),
-        SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
+        SpecialDiscType: typeof $('input[name="spcldisctype"]:radio:checked').val() == 'undefined' ? 'N' : $('input[name="spcldisctype"]:radio:checked').val(),
         Specification: tinymce.get("specification").getContent(),
+        CouponCode: commaSeparatedString,
         IsFeatured: $("#IsFeatured").prop("checked"),
         IsShowOnHome: $("#IsShowOnHome").prop("checked"),
        
@@ -367,6 +373,7 @@ let recordsintable = () => {
         "<td>" + dataObj.IsFeatured + "</td>" +
         "<td> <div>" + dataObj.IsShowOnHome + "</div></td>" +
         "<td>" + dataObj.Specification + "</td>" +
+        "<td>" + dataObj.CouponCode + "</td>" + 
         "<td>" + __attributes[count - 1].attributes.map(x => x.value).join() + "</td>" +
         `<td class='text-nowrap'><i class='fa fa-trash text-danger deleteVariantRow' style="cursor: pointer"></i></td>` +
         "</tr>";
