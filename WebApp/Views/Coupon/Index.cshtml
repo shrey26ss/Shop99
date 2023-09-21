@@ -18,13 +18,18 @@
                         <thead>
                             <tr role="row" style="" class="">
                                 <th>#</th>
-                                <th>Coupon Code</th>
+                                <th>Coupon</th>
                                 <th>IsFixed</th>
-                                <th>Discount Amount</th>
-                                <th>Coupon Expiry</th>
-                                <th>Is Active</th>
+                                <th>Value</th>
+                                <th>Expiry On</th>
+                                <th>Active</th>
                                 <th>Payment Mode</th>
-                                <th>IsWelcomeCoupon</th>
+                                <th>WelCoupon</th>
+                                <th>EntryOn</th>
+                                <th>MaxBenefit</th>
+                                <th>UseCount</th>
+                                <th>ProductDep</th>
+                                <th>MinPurchaseForRedeem</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,29 +58,8 @@
             })
         };
 
-        var UpdateIsActive = function (Id) {
-            let IsActive = false;
-            if ($('#IsActive_' + Id).is(":checked")) {
-                IsActive = true;
-            }
-            let obj = {
-                OfferID: Id,
-                IsActive: IsActive
-            }
-            $.post('/Coupon/UpdateIsActiveOffer', obj).done(function (result) {
-                console.log(result);
-                Q.notify(result.statusCode, result.responseText);
-                if (result.statusCode == 1) {
-                    loadData();
-                }
-            }).fail(function (xhr) {
-                console.log(xhr.responseText);
-                alert('something went wrong');
-            })
-        }
 
         var deletes = (CouponId) => Q.confirm("Are You Sure. You Want To Delete Coupon", () => delCoupon(CouponId));
-
         var delCoupon = function (CouponId = 0) {
             $.post('/Coupon/DelCoupon', { CouponId }).done((res) => {
                 Q.notify(res.statusCode, res.responseText);
@@ -84,5 +68,41 @@
                 }
             })
         }
+        var Update = function (CouponId) {
+            let IsActive = false;
+            let IsWelcomeCoupon = false;
+            let IsFixed = false;
+            let IsProductDependent = false;
+            if ($('#IsActive_' + CouponId).is(":checked")) {
+                IsActive = true;
+            }
+            if ($('#IsWelcomeCoupon_' + CouponId).is(":checked")) {
+                IsWelcomeCoupon = true;
+            }
+            if ($('#IsFixed_' + CouponId).is(":checked")) {
+                IsFixed = true;
+            }
+            if ($('#IsProductDependent_' + CouponId).is(":checked")) {
+                IsProductDependent = true;
+            }
+            let obj = {
+                CouponId: CouponId,
+                IsActive: IsActive,
+                IsWelcomeCoupon: IsWelcomeCoupon,
+                IsFixed: IsFixed,
+                IsProductDependent :IsProductDependent
+            };
+            $.post('/Coupon/UpdateIsActive', obj).done(function (result) {
+                console.log(result);
+                Q.notify(result.statusCode, result.responseText);
+                if (result.statusCode == 1) {
+                    loadData();
+                }
+            }).fail(function (xhr) {
+                console.log(xhr.responseText);
+                alert('Something went wrong');
+            });
+        };
+
     </script>
 }

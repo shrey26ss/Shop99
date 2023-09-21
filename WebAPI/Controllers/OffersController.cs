@@ -19,14 +19,14 @@ using WebAPI.Middleware;
 namespace WebAPI.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [ApiController] 
+    [ApiController]
     [Route("/api/")]
     public class OffersController : ControllerBase
     {
         private readonly IOffersService _offers;
-       public OffersController(IOffersService offers)
+        public OffersController(IOffersService offers)
         {
-            _offers = offers; 
+            _offers = offers;
         }
         [HttpPost]
         [Route("Offers/GetOffers")]
@@ -78,14 +78,15 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
+        [AllowAnonymous]
         [HttpPost]
         [Route("Offers/AddUpdateCoupon")]
         public async Task<IActionResult> AddUpdateCoupon(Coupon coupon)
         {
-            return Ok( await _offers.AddUpdateCoupon(new RequestBase<Coupon>
+            return Ok(await _offers.AddUpdateCoupon(new RequestBase<Coupon>
             {
                 Data = coupon,
-                LoginId= User.GetLoggedInUserId<int>()
+                LoginId = User.GetLoggedInUserId<int>()
             }));
         }
         [HttpPost]
@@ -105,6 +106,16 @@ namespace WebAPI.Controllers
         {
             return Ok(await _offers.GetCartProductCoupons(new RequestBase<SearchItem>
             {
+                LoginId = User.GetLoggedInUserId<int>()
+            }));
+        }
+        [HttpPost]
+        [Route("Offers/UpdateIsActiveCoupon")]
+        public async Task<IActionResult> UpdateIsActiveCoupon(CouponUpdateIsActive req)
+        {
+            return Ok(await _offers.UpdateIsActiveCoupon(new RequestBase<CouponUpdateIsActive>
+            {
+                Data = req,
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }

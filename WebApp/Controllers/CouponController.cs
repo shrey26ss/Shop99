@@ -52,13 +52,13 @@ namespace WebApp.Controllers
             return coupon;
         }
         [Authorize(Roles ="1")]
-        public async Task<IActionResult> CreateCoupon(int Id =0)
+        public async Task<IActionResult> CreateCoupon(int CouponId = 0)
         {
             var cpn = new Coupon();
-            if(Id != 0)
+            if(CouponId != 0)
             {
                 string tokens = User.GetLoggedInUserToken();
-                var couponres = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem { Id = Id }), tokens);
+                var couponres = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem {Id = CouponId }), tokens);
                 if(couponres.HttpStatusCode== HttpStatusCode.OK)
                 {
                     var deserializeObj = JsonConvert.DeserializeObject<Response<List<Coupon>>>(couponres.Result);
@@ -70,12 +70,12 @@ namespace WebApp.Controllers
         [Authorize(Roles = "1")]
         [HttpPost]
         [ValidateAjax]
-        public async Task<ActionResult> CreateCoupon(Coupon offers)
+        public async Task<ActionResult> CreateCoupon(Coupon cop)
         {
             Response response = new Response();
             try
             {
-                var couponRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/AddUpdateCoupon", JsonConvert.SerializeObject(offers), User.GetLoggedInUserToken());
+                var couponRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/AddUpdateCoupon", JsonConvert.SerializeObject(cop), User.GetLoggedInUserToken());
                 if (couponRes.HttpStatusCode == HttpStatusCode.OK)
                 {
                     response = JsonConvert.DeserializeObject<Response>(couponRes.Result);
@@ -103,6 +103,22 @@ namespace WebApp.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+            return Json(response);
+        }
+        [Authorize(Roles = "1")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateIsActive(CouponUpdateIsActive req)
+        {
+            var response = new Response();
+            if (req.CouponId >= 1)
+            {
+                string _token = User.GetLoggedInUserToken();
+                var categoryrRes = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/UpdateIsActiveCoupon", JsonConvert.SerializeObject(req), _token);
+                if (categoryrRes.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    response = JsonConvert.DeserializeObject<Response>(categoryrRes.Result);
+                }
             }
             return Json(response);
         }

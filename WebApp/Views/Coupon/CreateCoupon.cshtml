@@ -45,6 +45,42 @@
                             <input class="form-control text-box single-line" asp-for="DiscountAmount" max="70" type="number">
                         </div>
                     </div>
+                </div>  
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label" for="Name">MaxBenefit</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required">
+                            <input class="form-control text-box single-line" asp-for="MaxBenefit" max="70" type="number">
+                        </div>
+                    </div>
+                </div>   
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label" for="Name">MinPurchaseForRedeem</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required">
+                            <input class="form-control text-box single-line" asp-for="MinPurchaseForRedeem" max="70" type="number">
+                        </div>
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="col-form-label" for="Name">UseCount</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-required">
+                            <input class="form-control text-box single-line" asp-for="UseCount" max="70" type="number">
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3">
@@ -68,15 +104,23 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <input class="form-control text-box single-line" asp-for="ExpiryOn" type="date">
+                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text">
                     </div>
                 </div>
             </div>
             <div class="row">
+                <div class="col-sm-4 input-group mt-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" asp-for="IsProductDependent" checked>
+                        </div>
+                    </div>
+                    <label class="form-control" for="IsActive">IsProductDependent</label>
+                </div>
             <div class="col-sm-4 input-group mt-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <input type="checkbox" asp-for="IsActive" checked>
+                            <input type="checkbox" asp-for="IsProductDependent" checked>
                     </div>
                 </div>
                 <label class="form-control" for="IsActive">IsActive</label>
@@ -105,8 +149,11 @@
     </div>
 </form>
 <script>
-    $('#OfferTypeId').select2({
-        selectOnClose: true,
-        dropdownParent: $(".ui-dialog")
+    //Q.dateRangeFilter('DtExpiredOn');
+    $('#DtExpiredOn').datepicker({
+        changeYear: true,
+        changeMonth: true,
+        dateFormat: 'dd M yy',
+        autoClose: true
     });
 </script>

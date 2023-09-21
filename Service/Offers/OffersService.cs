@@ -38,12 +38,12 @@ namespace Service.Offers
                     sqlQuery = @"Insert into Offers (OfferTypeId,OfferTitle,OfferDescription,OfferBeginOn,OfferEndOn,IsFlat,AtRate,DiscountUpToAmount,MinEligibleAmount,IsActive,	UserID,IsAutoApply,CouponCode) values(@OfferTypeId,@OfferTitle,@OfferDescription,GETDATE(),GETDATE(),@Isflat,@AtRate,@DiscountUpToAmount,@MinEligibleAmount,@IsActive,@LoginId,@IsAutoApply,@CouponCode);Select 1 StatusCode,'Offer Inserted successfully' ResponseText";
                 }
                 res = await _dapper.GetAsync<Response>(sqlQuery, new
-                { 
+                {
                     offers.Data.OfferId,
                     offers.Data.OfferTypeId,
                     OfferTitle = offers.Data.OfferTitle ?? String.Empty,
                     OfferDescription = offers.Data.OfferDescription ?? String.Empty,
-                    Isflat= true,
+                    Isflat = true,
                     offers.Data.AtRate,
                     offers.Data.DiscountUpToAmount,
                     offers.Data.MinEligibleAmount,
@@ -166,13 +166,13 @@ namespace Service.Offers
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"select * from Coupon where CouponId = @Id";
-                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.Data.Id }, CommandType.Text);
+                    sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive	,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn, MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem from Coupon where CouponId = @CouponId";
+                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new {CouponId = request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
-                    //sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
-                    sp = @"select * from Coupon";
+                    
+                    sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem from Coupon order by CouponId";
                     res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;
@@ -197,9 +197,11 @@ namespace Service.Offers
                                  BEGIN
                                    SELECT -1 StatusCode,'Coupon Already Exists !' ResponseText
                                  END
-                                update Coupon set CouponCode=@CouponCode,DiscountAmount=@DiscountAmount,PaymentModes=@PaymentModes,IsFixed=@IsFixed,
-                                Description=@Description,IsWelcomeCoupon=@IsWelcomeCoupon,IsActive=@IsActive,ExpiryOn=@ExpiryOn 
-                                where CouponId=@CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText ";
+
+
+
+                              update Coupon Set CouponCode=@CouponCode , IsFixed =@IsFixed , DiscountAmount=@DiscountAmount ,ExpiryOn=@ExpiryOn , IsActive=@IsActive,PaymentModes=@PaymentModes,IsWelcomeCoupon =@IsWelcomeCoupon,Description=@Description,MaxBenefit=@MaxBenefit,UseCount=@UseCount,IsProductDependent=@IsProductDependent,MinPurchaseForRedeem=@MinPurchaseForRedeem
+                        where CouponId = @CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText";
                 }
                 else
                 {
@@ -207,22 +209,48 @@ namespace Service.Offers
                                  BEGIN
                                    SELECT -1 StatusCode,'Coupon Already Exists !' ResponseText
                                  END
-                                 insert into Coupon(CouponCode,DiscountAmount,PaymentModes,IsFixed,Description,IsWelcomeCoupon,IsActive,EntryOn,ExpiryOn)
-                                 values(@CouponCode,@DiscountAmount,@PaymentModes,@IsFixed,@Description,@IsWelcomeCoupon,@IsActive,GETDATE(),@ExpiryOn);select 1 StatusCode,'Coupon Inserted successfully' ResponseText";
+                        Insert into Coupon(CouponCode , IsFixed , DiscountAmount , EntryOn, IsActive,PaymentModes,IsWelcomeCoupon,Description,ExpiryOn ,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem)
+                                       Values(@CouponCode , @IsFixed , @DiscountAmount , Getdate(),@IsActive,@PaymentModes,@IsWelcomeCoupon,@Description,@ExpiryOn,@MaxBenefit,@UseCount,@IsProductDependent,@MinPurchaseForRedeem);select 1 StatusCode,'Coupon Inserted successfully' ResponseText";
                 }
-                res = await _dapper.GetAsync<Response>(sqlQuery, new 
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
                 {
                     coupon.Data.CouponId,
-                    CouponCode = coupon.Data.CouponCode ?? String.Empty,
+                    coupon.Data.CouponCode,
                     coupon.Data.IsFixed,
                     coupon.Data.DiscountAmount,
                     coupon.Data.IsActive,
-                    Description = coupon.Data.Description ?? string.Empty,
+                    coupon.Data.Description,
                     coupon.Data.PaymentModes,
                     coupon.Data.IsWelcomeCoupon,
-                    coupon.Data.ExpiryOn
+                    coupon.Data.ExpiryOn,
+                    coupon.Data.IsProductDependent,
+                    coupon.Data.MaxBenefit,
+                    coupon.Data.MinPurchaseForRedeem,
+                    coupon.Data.UseCount
                 },
                 CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse> UpdateIsActiveCoupon(RequestBase<CouponUpdateIsActive> coupon)
+        {
+            var res = new Response();
+            try
+            {
+                string sqlQuery = "";
+                sqlQuery = @"update Coupon set IsActive = @IsActive ,IsFixed = @IsFixed, IsWelcomeCoupon= @IsWelcomeCoupon ,IsProductDependent = @IsProductDependent  where CouponId = @CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText";
+                res = await _dapper.GetAsync<Response>(sqlQuery, new
+                {
+                    coupon.Data.CouponId,
+                    coupon.Data.IsActive,
+                    coupon.Data.IsWelcomeCoupon,
+                    coupon.Data.IsFixed,
+                    coupon.Data.IsProductDependent
+                }, CommandType.Text);
             }
             catch (Exception ex)
             {
@@ -276,7 +304,7 @@ namespace Service.Offers
 				   AND C.UserID=@LoginId) tt Where 
 				   tt.ExpiryOn > GETDATE()
 				   AND ISNULL(tt.IsActive,0)=1";
-                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.LoginId}, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.LoginId }, CommandType.Text);
                 }
 
                 res.StatusCode = ResponseStatus.Success;
