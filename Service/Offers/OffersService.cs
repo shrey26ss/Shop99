@@ -197,9 +197,6 @@ namespace Service.Offers
                                  BEGIN
                                    SELECT -1 StatusCode,'Coupon Already Exists !' ResponseText
                                  END
-
-
-
                               update Coupon Set CouponCode=@CouponCode , IsFixed =@IsFixed , DiscountAmount=@DiscountAmount ,ExpiryOn=@ExpiryOn , IsActive=@IsActive,PaymentModes=@PaymentModes,IsWelcomeCoupon =@IsWelcomeCoupon,Description=@Description,MaxBenefit=@MaxBenefit,UseCount=@UseCount,IsProductDependent=@IsProductDependent,MinPurchaseForRedeem=@MinPurchaseForRedeem
                         where CouponId = @CouponId;Select 1 StatusCode,'Coupon Updated successfully' ResponseText";
                 }

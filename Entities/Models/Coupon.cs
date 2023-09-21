@@ -7,17 +7,21 @@ namespace Entities.Models
         public int CouponId { get; set; }
         public string CouponCode { get; set; }
         public bool IsFixed { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0.")]
         public decimal DiscountAmount { get; set; }
         public string EntryOn { get; set; }
         public string ExpiryOn { get; set; }
         public bool IsActive { get; set; }
         public string PaymentModes { get; set; }
         public bool IsWelcomeCoupon { get; set; }
-        [MaxLength(20)]
+        [MaxLength(150)]
         public string Description { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0.")]
         public decimal MaxBenefit { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0.")]
         public int UseCount { get; set; }
         public bool IsProductDependent { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0.")]
         public decimal MinPurchaseForRedeem { get; set; }
     }
     public class CouponUpdateIsActive
