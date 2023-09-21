@@ -9,36 +9,51 @@
         <tr data-item-id="@item.CouponId">
             <td>@i</td>
             <td>@item.CouponCode</td>
-           @* <td>@item.IsFixed</td>*@
             <td>
                 <span class="switch switch-sm">
-                    <input type="checkbox" class="switch" onclick="UpdateIsFixed('@item.CouponId')" id="IsFixed_@item.CouponId" @Html.Raw(item.IsFixed ? "checked='checked'" : "")>
+                    <input type="checkbox" class="switch" onclick="Update('@item.CouponId')" id="IsFixed_@item.CouponId" @Html.Raw(item.IsFixed ? "checked='checked'" : "")>
                     <label for="IsFixed_@item.CouponId"></label>
                 </span>
             </td>
-            <td>@item.DiscountAmount</td>
+            <td>
+                @(item.IsFixed ? item.DiscountAmount + "%" : "₹" + item.DiscountAmount)
+            </td>
             <td>@item.ExpiryOn</td>
             <td>
-                <span class="switch switch-sm">
-                    <input type="checkbox" class="switch" onclick="UpdateIsActive('@item.CouponId')" id="IsActive_@item.CouponId" @Html.Raw(item.IsActive ? "checked='checked'" : "")>
+                <span class="switch switch-sm">Update
+                    <input type="checkbox" class="switch" onclick="Update('@item.CouponId')" id="IsActive_@item.CouponId" @Html.Raw(item.IsActive ? "checked='checked'" : "")>
                     <label for="IsActive_@item.CouponId"></label>
                 </span>
             </td>
             <td>@item.PaymentModes</td>
-            @*<td>@item.IsWelcomeCoupon</td>*@
             <td>
                 <span class="switch switch-sm">
-                    <input type="checkbox" class="switch" onclick="UpdateIsWelcomeCoupon('@item.CouponId')" id="IsWelcomeCoupon_@item.CouponId" @Html.Raw(item.IsWelcomeCoupon ? "checked='checked'" : "")>
+                    <input type="checkbox" class="switch" onclick="Update('@item.CouponId')" id="IsWelcomeCoupon_@item.CouponId" @Html.Raw(item.IsWelcomeCoupon ? "checked='checked'" : "")>
                     <label for="IsWelcomeCoupon_@item.CouponId"></label>
                 </span>
             </td>
-            <td><div class="row"><input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success">&nbsp;<input type="button" value="Delete" onclick="deletes('@item.CouponId')" class="btn btn-sm btn-danger"></div></td>
+            <td>@item.EntryOn</td>
+            <td>@item.MaxBenefit</td>
+            <td>@item.UseCount</td>
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" onclick="Update('@item.CouponId')" id="IsProductDependent_@item.CouponId" @Html.Raw(item.IsProductDependent ? "checked='checked'" : "")>
+                    <label for="IsProductDependent_@item.CouponId"></label>
+                </span>
+            </td>
+            <td>@item.MinPurchaseForRedeem</td>
+            <td>
+                <div class="row"><input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success">
+                    &nbsp;
+                    <input type="button" value="Delete" onclick="deletes('@item.CouponId')" class="btn btn-sm btn-danger">
+                </div>
+                </td>
         </tr>
     }
 }
 else
 {
     <tr>
-        <td colspan="4">No Data Found</td>
+        <td colspan="6">No Data Found</td>
     </tr>
 }
