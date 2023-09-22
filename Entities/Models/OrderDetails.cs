@@ -38,7 +38,7 @@ namespace Entities.Models
         public string ImagePaths { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
-
+        public int VendorID { get; set; }
     }
     public class OrderDetailsColumn : OrderDetailsRow
     {

@@ -44,6 +44,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> OrderList(OrderDetailsRequest request)
         {
             var res = await GetList(request).ConfigureAwait(false);
+            ViewBag.loginid = User.GetLoggedInUserId<int>();
             return PartialView("PartialView/_OrderList", res);
         }
         public async Task<IActionResult> OrderReportExcel(int Top = 50, string FromDate = "", string ToDate = "", StatusType StatusID = 0, string SearchText = "")
