@@ -184,28 +184,18 @@
         </div>
         <div class="col-md-4">
             <div class="input-group input-group-required">
-               @{
+                @{
                     var list1 = new SelectList(@ViewBag.Coupons, "CouponId", "CouponCode");
-                    //<select title="Select Circle" aria-describedby="helpBL" class="form-control" id="ddlCoupon" tabindex="4" asp-items="@list1">
-                    //    <option value="0"> :: Select :: </option>
-                    //</select>
-                    <div class="multiselect">
-                        <div class="selectBox" onclick="showCheckboxes()">
-                            <select class="form-control">
-                                <option>:: Select :: </option>
-                            </select>
-                            <div class="overSelect"></div>
-                        </div>
-                        <div id="checkboxes">
-                            @foreach (var item in list1)
-                            {
-                                <label for="@item.Value">
-                                    <input type="checkbox" id="@item.Value" value="@item.Text" />@item.Text
-                            </label>
-                            }
-                        </div>
-                    </div>
                 }
+
+                <select class="form-control" id="ddlCoupon" tabindex="4" multiple="multiple">
+                  
+                    @foreach (var item in list1)
+                    {
+                              <!-- if want to get couponid the use text.Value -->
+                        <option value="@item.Text">@item.Text</option>
+                    }
+                </select>
             </div>
         </div>
     </div>
@@ -306,20 +296,3 @@
     </div>
 </div>
 
-
-@*@section script{
-<script>
-        var expanded = false;
-
-        function showCheckboxes() {
-            var checkboxes = document.getElementById("checkboxes");
-            if (!expanded) {
-                checkboxes.style.display = "block";
-                expanded = true;
-            } else {
-                checkboxes.style.display = "none";
-                expanded = false;
-            }
-        }
-</script>
-}*@
