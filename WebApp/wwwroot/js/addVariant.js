@@ -334,10 +334,7 @@ let recordsintable = () => {
     $('#alertText').text('');
     let pictureGrid = $(`#dataTable`);
     let count = pictureGrid.find('tr').length;
-    var selectedValues = [];
-    $('#checkboxes input[type=checkbox]:checked').each(function () {
-        selectedValues.push($(this).val());
-    });
+    var selectedValues = $('#ddlCoupon').val();
     var commaSeparatedString = selectedValues.join(', ');
     let dataObj = {
         id: count,

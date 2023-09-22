@@ -85,15 +85,21 @@ else
                                 <input type="radio" name="spcldisctype" value="F" id="FixedAmount" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="FixedAmount" style="font-weight:300">FixedAmount</label>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                         <div class="col-sm-4 col-md-4">
                             <label id="sdt">Coupon</label>
-                            <div class="form-group">
+                            <div class="input-group input-group-required form-group">
                                 @{
-                                    var list1 = new SelectList(Model.Coupons, "CouponId", "CouponCode");
-                                    <select title="Select Circle" aria-describedby="helpBL" class="form-control" id="ddlCoupon" tabindex="4" asp-items="@list1" asp-for="@Model.variantDetailsByAttributes.CouponId">
-                                        <option value="0"> :: Select :: </option>
-                                    </select>
+                                    var list1 = new SelectList(@Model.Coupons, "CouponId", "CouponCode");
                                 }
+
+                                <select class="form-control" id="ddlCoupon" tabindex="4" multiple="multiple">
+
+                                    @foreach (var item in list1)
+                                    {
+                                        <!-- if want to get couponid the use text.Value -->
+                                        <option value="@item.Text">@item.Text</option>
+                                    }
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -415,6 +421,8 @@ else
                 var returnindays = currentGroup.find('[name="ReturnInDays"]').val();
                 var warranty = currentGroup.find('[name="Warranty"]').val();
                 var warrantyUnit = currentGroup.find('[name="WarrantyUnit"]').val();
+                var selectedValues = $('#ddlCoupon').val();
+                var commaSeparatedString = selectedValues.join(', ');
                 let groupDetail = {
                     Id: '@Model.variantDetailsByAttributes.Id',
                     HSN: $('#HSN').val(),
@@ -429,7 +437,7 @@ else
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
                     SpecialDiscount: $('#specialDiscount').val(),
                     SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
-                    CouponId: $('#ddlCouponId').val(),
+                    CouponCode: commaSeparatedString,
                 };
                 groupInfo.push(groupDetail);
             });
@@ -483,5 +491,11 @@ else
                 },
             });
         })
+        $(document).ready(function () {
+            $('#ddlCoupon').select2({
+                placeholder: 'Select or search...',
+                width: '100%',
+            });
+        });
     </script>
 }
