@@ -109,6 +109,11 @@ namespace Service.OrderDetails
                     string sp = "proc_OrderCancel";
                     res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
                 }
+                else if (req.StatusID == StatusType.Delivered)
+                {
+                    string sp = "proc_OrderShipped";
+                    res = await _dapper.GetAsync<Response>(sp, new { req.ID, req.StatusID, Remark = req.Remark ?? string.Empty, LoginID = loginId }, CommandType.StoredProcedure);
+                }
                 else if (req.StatusID == StatusType.OrderCompleted)
                 {
                     string sp = "proc_OrderCompleted";
