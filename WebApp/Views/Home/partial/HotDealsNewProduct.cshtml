@@ -5,7 +5,7 @@
     var Products = Model.ProductsData.Result.ToArray();
     int ProductLength = Products.Count();
 }
-<div class="hotdeal-slide-1-section no-arrow">
+<div class="hotdeal-slide-1-section">
     @if (Model != null && Model.ProductsData != null && Model.ProductsData.StatusCode == ResponseStatus.Success && Model.ProductsData.Result.Any())
     {
         @for (int j = 0; j < ProductLength; j = j + 3)
