@@ -23,7 +23,7 @@
     line-height: 0px;
     font-size: 0px;
     cursor: pointer;
-    background: #fff;
+    background: #fff0;
     color: black;
     top: 50%;
     -webkit-transform: translate(0, -50%);
@@ -39,7 +39,7 @@
         outline: none;
         /*background: #2874f0;
         color: #fff;*/
-        background: #fff;
+        background: #fff0;
         color: black;
     }
 
@@ -78,6 +78,8 @@
 .slick-prev:before {
     font: normal normal normal 30px/1 FontAwesome;
     content: '\f104';
+    color: #fff;
+    font-weight: bold;
 }
 
 [dir="rtl"] .slick-prev:before {
@@ -97,6 +99,8 @@
 .slick-next:before {
     content: '\f105';
     font: normal normal normal 30px/1 FontAwesome;
+    color: #fff;
+    font-weight: bold;
 }
 
 [dir="rtl"] .slick-next:before {

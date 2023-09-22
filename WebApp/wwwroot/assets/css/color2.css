@@ -10703,7 +10703,7 @@ ul.sosiyal {
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        background-color: #2874f0;
+        background-color: #16366b;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
     }
@@ -10905,7 +10905,7 @@ ul.sosiyal {
 
 .footer1 {
     padding-top: calc(30px + (60 - 30) * ((100vw - 320px) / (1920 - 320)));
-    padding-bottom: calc(30px + (60 - 30) * ((100vw - 320px) / (1920 - 320)));
+    padding-bottom: calc(-21px + (60 - 30) * ((100vw - 320px) / (1920 - 320)));
     background-color: #2874f0;
 }
 
@@ -32939,7 +32939,7 @@ body.rtl {
     }
 
         .layout-header2 .main-menu-block .icon-block ul li {
-            display: inline-block;
+            /*display: inline-block;*/
         }
 
             .layout-header2 .main-menu-block .icon-block ul li svg {
@@ -39435,9 +39435,9 @@ body.rtl {
         bottom: 0;
         left: 0;
         width: 100vw;
-        height: 45px;
+        height: 52px;
         z-index: 9;
-        background-color: #000000;
+        background-color: #194da2;
     }
 
     .icon-block .mobile-search,
@@ -40753,6 +40753,7 @@ body.rtl {
 
     .hot-deal.space-abjust .hot-deal-contain {
         padding: 20px;
+        height: 630px;
     }
 
     .hot-deal.hotdeal-first
@@ -41699,7 +41700,7 @@ body.rtl {
     }
 
         .theme-tab .tab-title.media-tab li {
-            display: block;
+           /* display: block;*/
             width: -webkit-fit-content;
             width: -moz-fit-content;
             width: fit-content;
@@ -46377,4 +46378,64 @@ td {
 .slick-slide {
     -webkit-animation: zoomIn 300ms ease-in-out;
     animation: zoomIn 300ms ease-in-out;
+}
+.slick-next
+{
+    display: none;
+}
+
+@media screen and (max-width : 500px) {
+    .brand-panel {
+        display: none;
+    }
+
+    .theme-slider .slider-banner.slide-banner-1 .layout1-slide-2 li img {
+        width: 100%;
+        height: 13.9vh !important;
+        margin-top: 6px;
+    }
+
+    .theme-slider .slider-banner.slide-banner-1 .slider-img {
+        height: 15.4vh !important;
+    }
+
+    .slick-prev, .slick-next {
+        height: 34px;
+        width: 25px;
+    }
+
+    .cat-tabs li:nth-last-child(2)
+    {
+        display: none;
+    }
+
+    .cat-tabs li:nth-last-child(3) {
+        display: none;
+    }
+    .media-tab li span
+    {
+        display: none;
+    }
+    .hot-deal.hotdeal-first .hot-deal-contain .hotdeal-right-slick .img-wrraper > div {
+     
+        min-height: 170px;
+    }
+    .section-pt-space
+    {
+        display: none;
+    }
+    .for-filter-mobile
+    {
+        display: none;
+    }
+}
+
+
+
+.slick-initialized button {
+    display: none;
+}
+
+.for-filter-mobile {
+    display: none;
 }
