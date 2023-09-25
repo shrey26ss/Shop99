@@ -16,7 +16,7 @@
                 </span>
             </td>
             <td>
-                @(item.IsFixed ? item.DiscountAmount + "%" : "₹" + item.DiscountAmount)
+                @(item.IsFixed ? item.DiscountAmount + "₹" : "%" + item.DiscountAmount)
             </td>
             <td>@item.ExpiryOn</td>
             <td>
@@ -54,6 +54,6 @@
 else
 {
     <tr>
-        <td colspan="6">No Data Found</td>
+        <td colspan="14"><Center>No Data Found</Center></td>
     </tr>
 }
