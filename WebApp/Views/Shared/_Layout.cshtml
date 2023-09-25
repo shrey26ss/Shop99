@@ -51,6 +51,9 @@
                     color: #000;
                 }
 
+
+       
+   
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5M9KYWPJSP"></script>
@@ -64,7 +67,45 @@
 
 <body class="bg-light">
     <header id="stickyheader">
-        <div class="mobile-fix-option"></div>
+        <div class="mobile-fix-option">
+
+            <div class="bottom-icon-block">
+                <ul class="cus-mobile-menu">
+                    <li class="mobile-user openMenu">
+                        <a href="javascript:void(0)">
+                            <img src="/Image/icons/1.svg" />
+                            
+                        </a>
+                    </li>
+
+                    <li class="mobile-wishlist item-count openWishList">
+                        <a href="javascript:void(0)">
+                            <img src="/Image/icons/2.svg" />
+                            <div class="wishlist-count">
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mobile-cart item-count openCartSlide">
+                        <a href="javascript:void(0)">
+                            <div class="cart-block">
+                                <div class="cart-icon">
+                                    <img src="/Image/icons/3.svg" />
+                                </div>
+                            </div>
+                        </a>
+                        <div class="cart-count">
+                        </div>
+                    </li>
+
+                    <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
+                        <a href="javascript:void(0)">
+                            <img src="/Image/icons/m-1.svg" />
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
         <div class="layout-header2">
             <div class="custom-container">
                 <div class="col-md-12">
@@ -99,6 +140,7 @@
                         </div>
                         <div id="dvAutoSuggestion"></div>
                         <div class="header-right d-flex">
+
                             <div class="icon-block">
                                 <ul>
                                     <li class="mobile-user openMenu">
@@ -132,11 +174,12 @@
                                     </li>
                                 </ul>
                             </div>
+                            
                             @if (!Context.User.Identity.IsAuthenticated)
                             {
-                                <div>
+                               @* <div>
                                     <a class="top-login-btn-mobile" href="/account/login">Login</a>
-                                </div>
+                                </div>*@
                             }
 
                             <div class="menu-nav">
@@ -237,7 +280,9 @@
                                     <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
                                     <ul id="main-menu" class="sm pixelstrap sm-horizontal">
                                         <li>
-                                            <div class="mobile-back text-right">Back<i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                                            <div class="mobile-back text-right">Back<i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
+                                                <a class="top-login-btn-mobile" href="/account/login">Login</a>
+                                            </div>
                                         </li>
                                         <!--HOME-->
                                         <li>

@@ -5564,9 +5564,9 @@ button {
 
 .hot-deal .slick-prev {
     top: 35px;
-    right: 50px;
+    right: 23px;
     left: unset;
-    z-index: 9;
+    z-index: 1;
 }
 
     .hot-deal .slick-prev:before {
@@ -5578,8 +5578,8 @@ button {
 
 .hot-deal .slick-next {
     top: 35px;
-    right: 25px;
-    z-index: 9;
+    right: 5px;
+    z-index: 1;
 }
 
     .hot-deal .slick-next:before {
@@ -6722,7 +6722,7 @@ button {
 
             .layout-header2 .main-menu-block .icon-block ul li {
                 position: relative;
-                margin-right: 14px;
+                margin-right: 0vh;
             }
 
                 .layout-header2 .main-menu-block .icon-block ul li svg,
@@ -10359,10 +10359,10 @@ header {
 }
 
 .media-banner {
-    padding: 20px;
+    padding: 14px;
     background-color: #f2f8f9;
     border-right: 1px solid #dddddd;
-    
+    height: 440px;
 }
 
     .media-banner .media-banner-box {
@@ -13971,6 +13971,7 @@ li {
         justify-content: space-between;
         background: #fff;
         box-shadow: 0 1px 8px 0 rgb(0 0 0 / 10%);
+        padding: 5px;
     }
 
         .collection-product-wrapper
@@ -18535,8 +18536,10 @@ li {
 }
 
 .load-more-sec {
-    margin-top: 40px;
     text-align: center;
+    background: #2874f0;
+    width: 140px;
+    margin: auto;
 }
 
     .load-more-sec a {
@@ -18547,7 +18550,7 @@ li {
         border-top: 1px solid #f0f0f0;
         border-bottom: 1px solid #f0f0f0;
         width: 100%;
-        color: #2874f0;
+        color: #ffffff;
     }
 
 .product_image_4 > div:nth-last-child(-n + 2) {
@@ -26098,8 +26101,9 @@ a,
         .pixelstrap a:active {
             font-size: 14px;
         }
+   
 }
-
+    
 @media (max-width: 1199px) {
     .pixelstrap .full-mega-menu {
         width: unset !important;
@@ -26110,7 +26114,7 @@ a,
         -webkit-transform: unset;
         transform: unset;
     }
-
+   
     .menu-banner {
         margin-top: 0px;
     }
@@ -26151,7 +26155,7 @@ a,
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
             flex-direction: row;
         }
 
@@ -34262,6 +34266,8 @@ body.rtl {
         width: 100%;
         border-left: 1px solid #dddddd;
         border-bottom: 1px solid #dddddd;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     .collection-product-wrapper
@@ -35451,7 +35457,7 @@ body.rtl {
 
     .hot-deal .slick-prev,
     .hot-deal .slick-next {
-        top: 48px;
+        top: 19px;
     }
 
     .hot-deal .hot-deal-contain .hotdeal-right-nav img {
@@ -36601,7 +36607,11 @@ body.rtl {
         padding: 20px;
     }
 }
-
+@media (min-width:651px) and (max-width:2500px) {
+    .for-filter-mobile a {
+        display: none
+    }
+}
 @media (max-width: 768px) {
     .brand-panel .brand-panel-box .brand-panel-contain ul > li:not(first-child) {
         margin: 2px 1px;
@@ -38839,7 +38849,7 @@ body.rtl {
     .product-top-filter
     .product-filter-content
     .search-count {
-        padding: 10px 20px 10px 20px;
+        padding: 9px 53px 10px 4px;
     }
 
         .collection-product-wrapper
@@ -38873,7 +38883,21 @@ body.rtl {
         .product-page-filter
         select {
             padding: 10px 20px 10px 20px;
+            width: 60px;
         }
+        .collection-product-wrapper
+        .product-top-filter
+        .product-filter-content
+        .product-page-per-view
+        select,
+        .collection-product-wrapper
+        .product-top-filter
+        .product-filter-content
+        .cus-filter select {
+            
+            width: 60px;
+        }
+
 
         .collection-product-wrapper
         .product-top-filter
@@ -46424,11 +46448,35 @@ td {
     {
         display: none;
     }
-    .for-filter-mobile
-    {
+    .cus-mobile-login a {
+        display: block;
+    }
+    .cus-p-perpage {
         display: none;
     }
+    .search-count-1 {
+        width: 63%;
+    }
+    .cus-filter select {
+        width: 60px;
+    }
+
 }
+
+.bottom-icon-block {
+    line-height: 50px;
+}
+
+
+    .bottom-icon-block ul {
+        gap: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+
 
 
 
@@ -46439,3 +46487,6 @@ td {
 .for-filter-mobile {
     display: none;
 }
+
+
+    
