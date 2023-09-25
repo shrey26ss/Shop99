@@ -18,9 +18,11 @@
 }
 
 <style>
-    .for-filter-mobile{
-        display:block!important;
+    .for-filter-mobile {
+        display: block !important;
     }
+
+}
 </style>
 <div class="collection-content">
     <div class="page-main-content">
@@ -41,19 +43,19 @@
                                     <div class="col-md-4">
                                         <div class="product-page-per-view">
                                             <select id="productPerPage" asp-for="@Model.Result.draw">
-                                                <option value="24">24 Products Par Page</option>
-                                                <option value="50">50 Products Par Page</option>
-                                                <option value="100">100 Products Par Page</option>
+                                                <option value="24">24 Products Par Page</> </option>
+                                                <option value="50"> 50 Products Par Page </option>
+                                                <option value="100"> 100 Products Par Page</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 search-count-1">
                                         <div class="search-count">
                                             <h5>Showing Products 1-<span id="range">@range</span> of <span id="recordsTotal">@recordsTotal</span> Result</h5>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="product-page-filter">
+                                        <div class="product-page-filter cus-filter">
                                             <select asp-items="Html.GetEnumSelectList<SortingOption>()" id="sortItem" asp-for="@Model.Result.OrderBy"></select>
                                         </div>
                                     </div>
