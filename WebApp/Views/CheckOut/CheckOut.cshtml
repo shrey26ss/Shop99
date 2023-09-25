@@ -349,7 +349,6 @@
             $('#appliedCoupons').find('li').each(function (i) {
                 __coupons.push($(this).closest('li').data())
             });
-            debugger;
             __coupons = __coupons.filter(item => item.isWelcome === true);
             if (__coupons.length > 0) {
                 let res = await applyCoupon(__coupons.map(x => x.couponCode).join(','), false)
