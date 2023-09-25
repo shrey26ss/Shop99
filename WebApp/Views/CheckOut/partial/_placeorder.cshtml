@@ -95,7 +95,7 @@
                                                 var coupon = Model.Result.Coupons.FirstOrDefault();
                                                 @if (coupon.IsWelcomeCoupon)
                                                 {
-                                                    <li data-coupon-code="@coupon.CouponCode" data-is-fixed="@coupon.IsFixed" data-coupon-value="@coupon.DiscountAmount" data-is-welcome="@Convert.ToString(coupon.IsWelcomeCoupon).ToLower()" style="display:none;">
+                                                    <li data-coupon-code="@coupon.CouponCode" data-is-fixed="@coupon.IsFixed" data-coupon-value="@coupon.DiscountAmount" data-is-autoapply="@Convert.ToString(coupon.IsAutoApply).ToLower()" style="display:none;">
                                                     </li>
                                                 }
                                             }
