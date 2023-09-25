@@ -217,20 +217,7 @@ namespace WebApp.Controllers
         [HttpGet("/products/{filterby}/{id}")]
         public async Task<IActionResult> ProductsByCategory(int id)
         {
-            var req = new ProductRequest<int>()
-            {
-                Top = 24,
-                MoreFilters = id
-            };
-            var res = _category.GetCategoryFilters(req).Result;
-            if (res.StatusCode == ResponseStatus.Failed)
-            {
-                return PartialView("404");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         [HttpPost("products/" + nameof(Filtered))]
