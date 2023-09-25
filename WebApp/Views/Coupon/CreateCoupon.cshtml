@@ -21,8 +21,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
@@ -36,7 +34,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">Value</label>
+                            <label class="col-form-label required" for="Name">Value</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -48,7 +46,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">Max Benefit</label>
+                            <label class="col-form-label required" for="Name">Max Benefit</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -60,7 +58,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">Minimum Purchase For Redeem</label>
+                            <label class="col-form-label required" for="Name">Minimum Purchase For Redeem</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -72,7 +70,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label" for="Name">Use Count</label>
+                            <label class="col-form-label required" for="Name">Use Count</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -84,7 +82,7 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label class="col-form-label">Payment Mode</label>
+                            <label class="col-form-label required">Payment Mode</label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -99,11 +97,11 @@
                 <div class="form-group row">
                     <div class="col-md-3">
                         <div class="label-wrapper">
-                            <label asp-for="ExpiryOn" class="col-form-label">ExpiryOn</label>
+                            <label asp-for="ExpiryOn" class="col-form-label required">ExpiryOn</label>
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text" readonly required>
+                        <input class="form-control text-box single-line" id="DtExpiredOn" asp-for="ExpiryOn" type="text" readonly >
                     </div>
                 </div>
             </div>

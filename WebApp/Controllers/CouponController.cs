@@ -52,6 +52,7 @@ namespace WebApp.Controllers
             return coupon;
         }
         [Authorize(Roles ="1")]
+
         public async Task<IActionResult> CreateCoupon(int CouponId = 0)
         {
             var cpn = new Coupon();

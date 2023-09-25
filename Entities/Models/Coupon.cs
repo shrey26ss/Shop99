@@ -10,6 +10,7 @@ namespace Entities.Models
         [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0.")]
         public decimal DiscountAmount { get; set; }
         public string EntryOn { get; set; }
+        [Required(ErrorMessage = "{0} is mandetory")]
         public string ExpiryOn { get; set; }
         public bool IsActive { get; set; }
         public string PaymentModes { get; set; }
