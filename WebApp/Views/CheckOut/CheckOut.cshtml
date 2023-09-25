@@ -65,8 +65,8 @@
     }
 
     /*
-                                                                                    * SVG Icons
-                                                                                    **********************************************************/
+                                                                                            * SVG Icons
+                                                                                            **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -77,8 +77,8 @@
     }
 
     /*
-                                                                                    * Buttons
-                                                                                    **********************************************************/
+                                                                                            * Buttons
+                                                                                            **********************************************************/
     .button {
         position: relative;
         height: 50px;
@@ -127,13 +127,13 @@
                 height: 40px;
             }
         /*.button:after {
-                                                                            top: 20px;
-                                                                            left: 23px;
-                                                                        }*/
+                                                                                    top: 20px;
+                                                                                    left: 23px;
+                                                                                }*/
     }
     /*
-                                                                                    * Breakpoint
-                                                                                    **********************************************************/
+                                                                                            * Breakpoint
+                                                                                            **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -181,9 +181,9 @@
                 margin-right: 0;
             }
         /*.button:after {
-                                                                            top: 15px;
-                                                                            left: 55px;
-                                                                        }*/
+                                                                                    top: 15px;
+                                                                                    left: 55px;
+                                                                                }*/
     }</style>
 
 <!-- section start -->
@@ -214,13 +214,13 @@
                     let h3Class = `${isPending ? 'text-info' : (result.paymentStatus == 'success' ? 'text-success' : 'text-danger')}`;
                     let statusText = `${isPending ? 'Transaction Pending' : (result.paymentStatus == 'success' ? 'Transaction Successful' : 'Transaction Failed')}`;
                     let _html = `<div class="row">
-                                                        <div class="col-sm-12 text-center">
-                                                                                                     <img src="${iconSrc}" />
-                                                                                                     <h3 class="${h3Class}">${statusText}<br/>
-                                                                                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
-                                                                                                      </h3>
-                                                                                                   </div>
-                                                                                                 </div>`;
+                                                                        <div class="col-sm-12 text-center">
+                                                                                                                     <img src="${iconSrc}" />
+                                                                                                                     <h3 class="${h3Class}">${statusText}<br/>
+                                                                                                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
+                                                                                                                      </h3>
+                                                                                                                   </div>
+                                                                                                                 </div>`;
                     Q.alert({
                         title: 'Transaction Status',
                         body: _html,
@@ -250,7 +250,7 @@
             await $.post("/_CartPlaceOrder", { IsBuyNow: IsBuyNow }).done(async res => {
                 $('#dvPlaceOrderDetails').html(res);
                 await loadpaymentmode();
-            }).fail(xhr => Q.xhrError(xhr)).always(() => "");
+            }).fail(xhr => Q.xhrError(xhr)).always(() => $("#btnAutocoupon").click());
         }
 
         $(document).on('click', '#btnPlaceOrder', (e) => {
@@ -308,9 +308,9 @@
                 $.each(res.result, async function (i, v) {
                     let current = i == 0 ? "checked" : "";
                     $('#dvPaymentModes').append(`<div class='button '>
-                                                                    <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}> ${v.name}
-                                                                    <img src="${v.icon}" />
-                                                                 </div>`);
+                                                                                    <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}> ${v.name}
+                                                                                    <img src="${v.icon}" />
+                                                                                 </div>`);
                 });
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
@@ -342,6 +342,19 @@
             let res = await applyCoupon(__coupons.map(x => x.couponCode).join(','), false)
             if (res.status) {
                 appendCoupons(__coupons, res.discount);
+            }
+        });
+        $(document).on('click', '#btnAutocoupon', async (e) => {
+            let __coupons = [];
+            $('#appliedCoupons').find('li').each(function (i) {
+                __coupons.push($(this).closest('li').data())
+            });
+            __coupons = __coupons.filter(item => item.isWelcome === true);
+            if (__coupons.length > 0) {
+                let res = await applyCoupon(__coupons.map(x => x.couponCode).join(','), false)
+                if (res.status) {
+                    appendCoupons(__coupons, res.discount);
+                }
             }
         });
 
@@ -379,25 +392,25 @@
                     _saveTxt = ` <span>You Saved ${c.couponValue}% </span>`;
                 }
                 _html = _html + `<li data-coupon-code="${c.couponCode}" data-is-fixed="${c.isFixed}" data-coupon-value=${c.couponValue}>
-                                                    <span class="code-lable cc">${c.couponCode}</span>
-                                                    ${_saveTxt}
-                                                    <div class="text-right cus-remove-coupon">
-                                                        <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
-                                                    </div>
-                                                 </li>`;
+                                                                    <span class="code-lable cc">${c.couponCode}</span>
+                                                                    ${_saveTxt}
+                                                                    <div class="text-right cus-remove-coupon">
+                                                                        <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
+                                                                    </div>
+                                                                 </li>`;
             }
             $("ul#appliedCoupons").html(_html);
             $('ul#totalDiscount').remove();
             if (totalDiscount > 0) {
                 $('ul.sub-total').after(`<ul id="totalDiscount">
-                                                             <li>
-                                                                <div class="row">
-                                                                   <div class="col-md-7">Total Coupon Discount</div>
-                                                                   <div class="col-md-5 text-right">
-                                                                       <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> ${totalDiscount}</span>
-                                                                   </div>
-                                                                </div>
-                                                             </li></ul>`);
+                                                                             <li>
+                                                                                <div class="row">
+                                                                                   <div class="col-md-7">Total Coupon Discount</div>
+                                                                                   <div class="col-md-5 text-right">
+                                                                                       <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> ${totalDiscount}</span>
+                                                                                   </div>
+                                                                                </div>
+                                                                             </li></ul>`);
             }
             let _payable = parseFloat($('#totalPayable').data().totalPayable);
             _payable = _payable - totalDiscount;

@@ -86,35 +86,47 @@
                             <div class="pro-group">
                                 <div class="product-offer">
                                     <div class="offer-contain">
+                                        <div class="pull-right" style="display:none;">
+                                            <span class="btn-normal btn" id="btnAutocoupon">Apply</span>
+                                        </div>
                                         <ul id="appliedCoupons">
+                                            @if (Model.Result.Coupons.Any())
+                                            {
+                                                var coupon = Model.Result.Coupons.FirstOrDefault();
+                                                @if (coupon.IsWelcomeCoupon)
+                                                {
+                                                    <li data-coupon-code="@coupon.CouponCode" data-is-fixed="@coupon.IsFixed" data-coupon-value="@coupon.DiscountAmount" data-is-welcome="@Convert.ToString(coupon.IsWelcomeCoupon).ToLower()" style="display:none;">
+                                                    </li>
+                                                }
+                                            }
                                             @* @if (Model.Result.Coupons.Any())
                                             {
-                                                foreach (var item in Model.Result.Coupons)
-                                                {
-                                                    <li>
-                                                        <span class="code-lable cc">@item.CouponCode</span>
-                                                        @if (IsCouponApplied)
-                                                        {
-                                                            if (IsFixed)
-                                                            {
-                                                                <span>
-                                                                    You Saved <i class="fa fa-inr" aria-hidden="true"></i>
-                                                                    @item.DiscountAmount
-                                                                </span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>
-                                                                    You Saved @item.DiscountAmount <percentage>%</percentage>
-                                                                </span>
-                                                            }
-                                                        }
-                                                        <div class="pull-right">
-                                                            <span class="btn-normal btn btnApplycoupon">Apply</span>
-                                                        </div>
-                                                    </li>
-                                                    break;
-                                                }
+                                            foreach (var item in Model.Result.Coupons)
+                                            {
+                                            <li>
+                                            <span class="code-lable cc">@item.CouponCode</span>
+                                            @if (IsCouponApplied)
+                                            {
+                                            if (IsFixed)
+                                            {
+                                            <span>
+                                            You Saved <i class="fa fa-inr" aria-hidden="true"></i>
+                                            @item.DiscountAmount
+                                            </span>
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                            You Saved @item.DiscountAmount <percentage>%</percentage>
+                                            </span>
+                                            }
+                                            }
+                                            <div class="pull-right">
+                                            <span class="btn-normal btn btnApplycoupon">Apply</span>
+                                            </div>
+                                            </li>
+                                            break;
+                                            }
                                             } *@
                                         </ul>
                                         <span>
@@ -136,7 +148,7 @@
                     <div class="col-md-7">Total</div>
                     <div class="col-md-5 text-right">
                         <span class="count">
-                            <i class="fa fa-inr" aria-hidden="true"></i> 
+                            <i class="fa fa-inr" aria-hidden="true"></i>
                             <label id="totalPayable" data-total-payable="@Total.ToString("0.00")">@Total.ToString("0.00")</label>
                         </span>
                     </div>

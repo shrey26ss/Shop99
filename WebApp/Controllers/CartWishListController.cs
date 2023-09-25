@@ -12,10 +12,13 @@ namespace WebApp.Controllers
     public class CartWishListController : Controller
     {
         private readonly ICartWishListAPI _cartwishlist;
-        
-        public CartWishListController(ICartWishListAPI cartwishlist)
+        private readonly ICheckOutAPI _checkout;
+
+
+        public CartWishListController(ICartWishListAPI cartwishlist, ICheckOutAPI checkout)
         {
             _cartwishlist = cartwishlist;
+            _checkout=  checkout;
         }
         
         [HttpPost(nameof(AddWishList))]
@@ -85,8 +88,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> _CartPlaceOrder(bool IsBuyNow = false)
         {
             var res = await _cartwishlist.GetCartListSlide(GetToken(), IsBuyNow);
-            var offerRes = await _cartwishlist.GetCoupons(GetToken());
-            res.Result.Coupons = offerRes.Result;
+            var offerRes = await _checkout.GetAllCoupon(GetToken());
+            res.Result.Coupons = offerRes;
             return PartialView("~/Views/CheckOut/partial/_placeorder.cshtml", res);
         }
         
