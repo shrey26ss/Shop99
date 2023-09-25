@@ -74,7 +74,6 @@ namespace Service.Offers
                 }
                 else
                 {
-                    //sp = @"Select c.*, p.CategoryName as ParentName from Category(nolock) c inner join Category p on p.CategoryId = c.ParentId Order by c.Ind";
                     sp = @"select * from Offers";
                     res.Result = await _dapper.GetAllAsync<GetOffers>(sp, new { }, CommandType.Text);
                 }
@@ -103,38 +102,6 @@ namespace Service.Offers
             }
             return res;
         }
-        //public async Task<IResponse> UpdateIsActiveOffer(RequestBase<OfferUpdateIsActive> offer)
-        //{
-        //    var res = new Response();
-        //    try
-        //    {
-        //        string sqlQuery = "";
-        //        int i = -5;
-
-        //        sqlQuery = @"update offers set IsActive = @IsActive where OfferID = @OfferID;";
-
-        //        i = await _dapper.ExecuteAsync(sqlQuery, new
-        //        {
-        //            offer.Data.OfferID,
-        //            offer.Data.IsActive
-        //        }, CommandType.Text);
-        //        var description = Utility.O.GetErrorDescription(i);
-        //        if (i > 0 && i < 10)
-        //        {
-        //            res.StatusCode = ResponseStatus.Success;
-        //            res.ResponseText = "Offer Updated successfully";
-        //        }
-        //        else
-        //        {
-        //            res.ResponseText = description;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //    }
-        //    return res;
-        //}
         public async Task<IResponse> UpdateIsActiveOffer(RequestBase<OfferUpdateIsActive> offer)
         {
             var res = new Response();

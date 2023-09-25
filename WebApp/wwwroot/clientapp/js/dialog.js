@@ -6,7 +6,7 @@
                 Q.alert({
                     title: 'Category',
                     body: result,
-                    onClose: () => { __bind.dropDown.category(0, "#CategoryId") }
+                    onClose: () => { __bind.dropDown.category(0, "#CategoryId")}
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
@@ -60,7 +60,6 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
-
     dialog.getAllcoupon = () => {
         $.post('/GetAllCoupon')
             .done(result => {
