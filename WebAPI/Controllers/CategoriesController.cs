@@ -65,6 +65,7 @@ namespace WebAPI.Controllers
         {
             Request request = new Request
             {
+
                 LoginId= User.GetLoggedInUserId<int>()
             };
             return Ok(await _category.GetMenu(request));
