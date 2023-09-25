@@ -21,7 +21,6 @@ namespace WebAPI.Controllers
         {
             _attr = attr;            
         }
-
         [Route("Attribute/AddUpdate")]
         [ProducesResponseType(typeof(Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddUpdateBrand(Attributes req)
