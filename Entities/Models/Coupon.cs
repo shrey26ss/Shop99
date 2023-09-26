@@ -25,6 +25,7 @@ namespace Entities.Models
         [Range(1, int.MaxValue, ErrorMessage = "Value must be greater than 0.")]
         public decimal MinPurchaseForRedeem { get; set; }
         public bool IsAutoApply { get; set; }
+
     }
     public class CouponUpdateIsActive
     {
@@ -32,6 +33,7 @@ namespace Entities.Models
         public bool IsActive { get; set; }
         public bool IsFixed { get; set; }
         public bool IsWelcomeCoupon { get; set; }
+        public bool IsAutoApply { get; set; }
         public bool IsProductDependent { get; set; }
     }
 }
