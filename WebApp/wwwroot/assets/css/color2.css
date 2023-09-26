@@ -729,12 +729,12 @@ button:focus {
 }
 
 .section-big-pb-space {
-    padding-bottom: 50px;
+    padding-bottom: 15px;
 }
 
 .section-big-py-space {
     padding-top: 25px;
-    padding-bottom: 90px;
+    padding-bottom: 20px;
 }
 
 .section-mb-space {
@@ -6758,7 +6758,7 @@ button {
                 .layout-header2 .main-menu-block .icon-block ul li .item-count-contain {
                     position: absolute;
                     top: -10px;
-                    left: 22px;
+                    left: 13px;
                 }
 
                 .layout-header2 .main-menu-block .icon-block ul li:nth-child(n + 5) {
@@ -12606,8 +12606,8 @@ ul.sosiyal {
 
 .title3 {
     text-align: center;
-    padding-top: 50px;
-    padding-bottom: 30px;
+    padding-top: 13px;
+    padding-bottom: 20px;
 }
 
     .title3 h4 {
@@ -26144,7 +26144,7 @@ a,
             font-size: 18px;
             color: #444444;
             font-weight: 700;
-            text-transform: uppercase;
+            text-transform: capitalize;
             border-bottom: 1px solid #dddddd;
             cursor: pointer;
             display: -webkit-box;
@@ -26155,7 +26155,7 @@ a,
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
-            justify-content: space-between;
+            /*justify-content: space-between;*/
             flex-direction: row;
         }
 
@@ -26265,6 +26265,14 @@ a,
     .pixelstrap li a {
         padding: 10px 15px;
         font-size: 14px;
+    }
+    .mobile-back .top-login-btn-mobile {
+        font-size: 18px;
+        color: #444444;
+        font-weight: 700;
+        text-transform: capitalize;
+        position: relative;
+        left: 7em;
     }
 
         .pixelstrap li a:hover {
@@ -33936,6 +33944,10 @@ body.rtl {
     .hot-deal.hotdeal-first .hot-deal-contain h5,
     .hot-deal.hotdeal-third .hot-deal-contain h5 {
         margin-bottom: 5px;
+        white-space: nowrap;
+        width: 294px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .hot-deal.hotdeal-first .hot-deal-contain .rating,
@@ -40777,7 +40789,7 @@ body.rtl {
 
     .hot-deal.space-abjust .hot-deal-contain {
         padding: 20px;
-        height: 630px;
+        height: 553px;
     }
 
     .hot-deal.hotdeal-first
@@ -46521,4 +46533,3 @@ td {
 }
 
 
-    
