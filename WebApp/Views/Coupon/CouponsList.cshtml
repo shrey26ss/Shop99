@@ -34,6 +34,7 @@
             </td>
             <td><span class="text-nowrap">@item.EntryOn</span></td>
             <td>@item.MaxBenefit</td>
+            
             <td>@item.UseCount</td>
             <td>
                 <span class="switch switch-sm">
@@ -42,6 +43,12 @@
                 </span>
             </td>
             <td>@item.MinPurchaseForRedeem</td>
+            <td>
+                <span class="switch switch-sm">
+                    <input type="checkbox" class="switch" onclick="Update('@item.CouponId')" id="IsAutoApply_@item.CouponId" @Html.Raw(item.IsAutoApply ? "checked='checked'" : "")>
+                    <label for="IsAutoApply_@item.CouponId"></label>
+                </span>
+            </td>
             <td>
                 <div class="row"><input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success">
                     &nbsp;
@@ -54,6 +61,6 @@
 else
 {
     <tr>
-        <td colspan="14"><Center>No Data Found</Center></td>
+        <td colspan="15"><Center>No Data Found</Center></td>
     </tr>
 }

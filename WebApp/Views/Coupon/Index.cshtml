@@ -28,6 +28,7 @@
                                 <th class="text-nowrap">UseCount</th>
                                 <th class="text-nowrap">ProductDep</th>
                                 <th class="text-nowrap">MinPurchaseForRedeem</th>
+                                <th class="text-nowrap">IsAutoApply</th>
                                 <th class="text-nowrap">Action</th>
                             </tr>
                         </thead>
@@ -68,6 +69,7 @@
             let IsActive = false;
             let IsWelcomeCoupon = false;
             let IsFixed = false;
+            let IsAutoApply = false;
             let IsProductDependent = false;
             if ($('#IsActive_' + CouponId).is(":checked")) {
                 IsActive = true;
@@ -78,15 +80,20 @@
             if ($('#IsFixed_' + CouponId).is(":checked")) {
                 IsFixed = true;
             }
+            if ($('#IsAutoApply_' + CouponId).is(":checked")) {
+                IsAutoApply = true;
+            }
             if ($('#IsProductDependent_' + CouponId).is(":checked")) {
                 IsProductDependent = true;
             }
+        
             let obj = {
                 CouponId: CouponId,
                 IsActive: IsActive,
                 IsWelcomeCoupon: IsWelcomeCoupon,
                 IsFixed: IsFixed,
-                IsProductDependent :IsProductDependent
+                IsAutoApply: IsAutoApply,
+                IsProductDependent: IsProductDependent
             };
             $.post('/Coupon/UpdateIsActive', obj).done(function (result) {
                 console.log(result);
