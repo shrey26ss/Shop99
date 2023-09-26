@@ -58,7 +58,7 @@
                                 <th class="text-nowrap">MaxBenefit</th>
                                 <th class="text-nowrap">UseCount</th>
                                 <th class="text-nowrap">ProductDep</th>
-                                <th class="text-nowrap " data-tooltip="Tooltip for Header 1">MPR</th>
+                                <th class="text-nowrap "><span style="cursor:pointer" data-tooltip="" title="Minimum purchase for redeem" data-placement="top">MPR</span></th>
                                 <th class="text-nowrap">AutoApply</th>
                                 <th class="text-nowrap">Action</th>
                             </tr>
@@ -73,6 +73,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
             $('#btnsNew').click(() => dialog.coupon())
             loadData();
         })
