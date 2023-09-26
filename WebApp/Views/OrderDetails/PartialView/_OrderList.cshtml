@@ -15,7 +15,8 @@
             <td>
                 @counter    @if (item.StatusID!=StatusType.OrderInitiated)
                 {
-                    <div class="btn-group dropup">
+                    <div class="btn-group dropup .cus-counter-cs" style="    width: 10px;
+    margin: 4px 4px;">
                         <a href="#" id="act_@counter" class="btn btn-outline-dark btn-block dropdown-toggle" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expaned="false"></a>
                         <div class="dropdown-menu" aria-labelledby="act">
@@ -74,8 +75,8 @@
                 }
             </td>
             <td>@item.Name [@item.PhoneNumber]</td>
-            <td style="min-width:200px">
-                <div class="valign-wrapper pr12ImgNameDiv" style="text-align: justify;">
+            <td style="min-width:286px">
+                <div class="valign-wrapper pr12ImgNameDiv">
                     <img src="@item.Thumbnail" class="img-fluid rounded-circle" style="width: 75px; float: left; margin-right: 10px; border-radius: 0px!important;" onerror="this.onerror=null;this.src='/image/static/no-image.png'">
                     @item.Title
                 </div>

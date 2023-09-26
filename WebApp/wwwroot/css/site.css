@@ -12,9 +12,25 @@ a {
     color: #0366d6;
 }
 table.dataTable tbody td {
-    padding: 1px 10px;
+    padding: 6px 14px;
+}
+.valign-wrapper {
+    /*text-align: justify;*/
+    */ display: flex;
+    align-items: center;
+    /* white-space: nowrap; */
+    /* width: 266px; */
+    overflow: hidden;
+    line-height: 20px;
+}
+.no-footer td
+{
+    line-height: 20px;
 }
 
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > thead > tr > td, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > th, .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody > table > tbody > tr > td {
+    line-height: 19px !mportant;
+}
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
