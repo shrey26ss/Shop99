@@ -125,24 +125,19 @@ namespace Service.Offers
 
         public async Task<IResponse<IEnumerable<Coupon>>> GetCoupons(RequestBase<SearchItem> request)
         {
-            string sp = string.Empty;
+            string sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon(nolock) order by CouponId";
             if (request.Data == null)
                 request.Data = new SearchItem();
             var res = new Response<IEnumerable<Coupon>>();
             try
             {
-                if (request.Data.Id != 0 && request.Data.Id > 0)
+                if (request.Data.Id > 0)
                 {
-                    sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive	,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn, MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon where CouponId = @CouponId";
-                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new {CouponId = request.Data.Id }, CommandType.Text);
+                    sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive	,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn, MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon(nolock) where CouponId = @CouponId";
                 }
-                else
-                {
-                    sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon order by CouponId";
-                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { }, CommandType.Text);
-                }
+                res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { CouponId = request.Data.Id }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
-                res.ResponseText = "";
+                res.ResponseText = ResponseStatus.Success.ToString();
             }
             catch (Exception ex)
             {
