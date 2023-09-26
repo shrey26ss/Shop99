@@ -99,35 +99,6 @@
                                                     </li>
                                                 }
                                             }
-                                            @* @if (Model.Result.Coupons.Any())
-                                            {
-                                            foreach (var item in Model.Result.Coupons)
-                                            {
-                                            <li>
-                                            <span class="code-lable cc">@item.CouponCode</span>
-                                            @if (IsCouponApplied)
-                                            {
-                                            if (IsFixed)
-                                            {
-                                            <span>
-                                            You Saved <i class="fa fa-inr" aria-hidden="true"></i>
-                                            @item.DiscountAmount
-                                            </span>
-                                            }
-                                            else
-                                            {
-                                            <span>
-                                            You Saved @item.DiscountAmount <percentage>%</percentage>
-                                            </span>
-                                            }
-                                            }
-                                            <div class="pull-right">
-                                            <span class="btn-normal btn btnApplycoupon">Apply</span>
-                                            </div>
-                                            </li>
-                                            break;
-                                            }
-                                            } *@
                                         </ul>
                                         <span>
                                             <a href="javascript:void(0);" id="btnallcoupon">All Coupon</a>
