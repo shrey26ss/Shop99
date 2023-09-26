@@ -76847,6 +76847,7 @@ h1 {
 }
 .content-header span {
     float: right;
+    cursor: pointer;
 }
 .cus-details-for-order
 {
