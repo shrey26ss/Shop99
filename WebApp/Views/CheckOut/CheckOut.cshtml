@@ -349,7 +349,7 @@
             $('#appliedCoupons').find('li').each(function (i) {
                 __coupons.push($(this).closest('li').data())
             });
-            __coupons = __coupons.filter(item => item.isWelcome === true);
+            __coupons = __coupons.filter(item => item.isAutoapply === true);
             if (__coupons.length > 0) {
                 let res = await applyCoupon(__coupons.map(x => x.couponCode).join(','), false)
                 if (res.status) {
