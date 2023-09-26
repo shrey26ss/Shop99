@@ -90,7 +90,6 @@
         </div>
     </div>
 </div>
-
 @section scripts{
     <script>
         $(() => {
@@ -123,8 +122,6 @@
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
 
         var Confirm = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Confirm This Order", () => ChangeStatusItem(ID, StatusID));
-
-
         var ChangeStatusItem = function(ID, StatusID) {
             $.post('/OrderDetails/ChangeStatus', { ID, StatusID }).done((result) => {
                 Q.notify(result.statusCode, result.responseText);
@@ -141,7 +138,6 @@
             let param = params();
             window.location = '/OrderDetails/OrderGSTExcel?' + $.param(param);
         }
-
         var ShowReason = (Id) => {
             $.get('/OrderDetails/GetReturnRequestByOrderId', { Id }).done((result) => {
                 Q.alert({
