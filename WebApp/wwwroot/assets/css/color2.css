@@ -46532,4 +46532,17 @@ td {
     display: none;
 }
 
-
+.img-hov {
+    display: flex;
+    position: absolute;
+    background: #ffffffbd;
+    height: 90px;
+    left: 0px;
+    width: 100%;
+    color: #f00;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 16px;
+}
