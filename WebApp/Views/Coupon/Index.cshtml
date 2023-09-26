@@ -1,4 +1,35 @@
-﻿<div class="content-header clearfix">
+﻿<style>
+    /* Style for the tooltip */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 150px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+</style>
+<div class="content-header clearfix">
     <h1 class="float-left">Coupons</h1>
     <div class="float-right">
         <a class="btn btn-primary" href="javascript:void(0)" id="btnsNew">
@@ -17,7 +48,7 @@
                             <tr role="row" style="" class="">
                                 <th>#</th>
                                 <th class="text-nowrap">Coupon</th>
-                                <th class="text-nowrap">IsFixed</th>
+                                <th class="text-nowrap">Fixed</th>
                                 <th class="text-nowrap">Value</th>
                                 <th class="text-nowrap">Expiry On</th>
                                 <th class="text-nowrap">Active</th>
@@ -27,8 +58,8 @@
                                 <th class="text-nowrap">MaxBenefit</th>
                                 <th class="text-nowrap">UseCount</th>
                                 <th class="text-nowrap">ProductDep</th>
-                                <th class="text-nowrap">MinPurchaseForRedeem</th>
-                                <th class="text-nowrap">IsAutoApply</th>
+                                <th class="text-nowrap " data-tooltip="Tooltip for Header 1">MPR</th>
+                                <th class="text-nowrap">AutoApply</th>
                                 <th class="text-nowrap">Action</th>
                             </tr>
                         </thead>
@@ -106,6 +137,18 @@
                 alert('Something went wrong');
             });
         };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const tooltips = document.querySelectorAll("[data-tooltip]");
+
+            tooltips.forEach(function (tooltip) {
+                const tooltipText = tooltip.getAttribute("data-tooltip");
+                const tooltipElement = document.createElement("span");
+                tooltipElement.className = "tooltiptext";
+                tooltipElement.textContent = tooltipText;
+                tooltip.appendChild(tooltipElement);
+            });
+        });
 
     </script>
 }
