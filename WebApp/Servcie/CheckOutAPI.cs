@@ -156,7 +156,7 @@ namespace WebApp.Servcie
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<Coupon>>>(apiResponse.Result);
-                coupon = deserializeObject.Result.Where(x => x.IsActive == true && Convert.ToDateTime(x.ExpiryOn) > System.DateTime.Now).ToList();
+                coupon = deserializeObject.Result;
             }
             return coupon;
         }
