@@ -50,11 +50,13 @@
                 </span>
             </td>
             <td>
-                <div class="row"><input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success">
-                    &nbsp;
-                    <input type="button" value="Delete" onclick="deletes('@item.CouponId')" class="btn btn-sm btn-danger">
+                <div class="row">
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="button" value="Edit" onclick="dialog.coupon('@item.CouponId')" class="btn btn-sm btn-success">
+                        <input type="button" value="Delete" onclick="deletes('@item.CouponId')" class="btn btn-sm btn-danger">
+                    </div>
                 </div>
-                </td>
+            </td>
         </tr>
     }
 }

@@ -80,14 +80,12 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-        
         [HttpPost("Offers/DelCoupon")]
         [Authorize(Roles = "1")]
         public async Task<IActionResult> DelCoupon(int couponId)
         {
             return Ok(await _offers.DelCoupon(couponId));
         }
-        
         [AllowAnonymous]
         [HttpPost("Offers/GetCartProductCoupons")]
         public async Task<IActionResult> GetCartProductCoupons()
