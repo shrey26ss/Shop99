@@ -31,7 +31,6 @@ namespace WebAPI.Controllers
                 LoginId = User.GetLoggedInUserId<int>()
             }));
         }
-
         [Route("Attribute/GetAttributes")]
         public async Task<IActionResult> GetAttributes(SearchItem req)
         {

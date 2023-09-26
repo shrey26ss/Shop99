@@ -13,8 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" async />
-
-    <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/color2.css" media="screen" id="color" />
     <style>
         @@media (min-width: 800px) and (max-width: 2500px) {
@@ -51,9 +49,6 @@
                     color: #000;
                 }
 
-
-       
-   
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5M9KYWPJSP"></script>
@@ -73,10 +68,8 @@
                     <li class="mobile-user openMenu">
                         <a href="javascript:void(0)">
                             <img src="/Image/icons/1.svg" />
-
                         </a>
                     </li>
-
                     <li class="mobile-wishlist item-count openWishList">
                         <a href="javascript:void(0)">
                             <img src="/Image/icons/2.svg" />
@@ -92,19 +85,15 @@
                                 </div>
                             </div>
                         </a>
-                        <div class="cart-count">
-                        </div>
+                        <div class="cart-count"></div>
                     </li>
-
                     <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
                         <a href="javascript:void(0)">
                             <img src="/Image/icons/m-1.svg" />
                         </a>
                     </li>
-
                 </ul>
             </div>
-           
         </div>
         <div class="layout-header2">
             <div class="custom-container">
@@ -121,11 +110,9 @@
                             <div class="input-box">
                                 <form class="big-deal-form">
                                     <div class="input-group ">
-
                                         <input type="search" class="form-control SearchProduct" id="searchproduct" placeholder="Search a Product">
                                         <div class="input-group-text">
                                             <span class="search"><i class="fa fa-search"></i></span>
-
                                         </div>
                                         <ul id="resultsList"></ul>
                                     </div>
@@ -145,10 +132,8 @@
                                     <li class="mobile-user openMenu">
                                         <a href="javascript:void(0)">
                                             <img src="/Image/icons/1.svg" />
-
                                         </a>
                                     </li>
-
                                     <li class="mobile-wishlist item-count openWishList">
                                         <a href="javascript:void(0)">
                                             <img src="/Image/icons/2.svg" />
@@ -164,31 +149,20 @@
                                                 </div>
                                             </div>
                                         </a>
-                                        <div class="cart-count">
-                                        </div>
+                                        <div class="cart-count"></div>
                                     </li>
-
                                     <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
                                         <a href="javascript:void(0)">
                                             <img src="/Image/icons/m-1.svg" />
                                         </a>
                                     </li>
-
                                 </ul>
                             </div>
-                            @if (!Context.User.Identity.IsAuthenticated)
-                            {
-                               @* <div>
-                                    <a class="top-login-btn-mobile" href="/account/login">Login</a>
-                                </div>*@
-                            }
-
                             <div class="menu-nav">
                                 <span class="toggle-nav">
                                     <i class="fa fa-bars "></i>
                                 </span>
                             </div>
-
                             <div id="mySetting" class="add_to_cart right">
                                 <a href="javascript:void(0)" class="overlay" onclick="closeSetting()"></a>
                                 <div class="cart-inner">
@@ -241,9 +215,7 @@
                     <div class="for-mobile">
                         <form class="big-deal-form ">
                             <div class="input-group ">
-
                                 <input type="search" class="form-control SearchProduct" id="SearchProduct" onkeyup="searchproduct1(this)" placeholder="Search a Product">
-
                             </div>
                         </form>
                     </div>
@@ -253,12 +225,10 @@
                 <div class="input-group">
                     <span class="input-group-text">
                         <img src="/Image/icons/m-3.svg" />
-
                     </span>
                     <input type="text" class="form-control SearchProduct" placeholder="search your product">
                     <span class="input-group-text close-searchbar">
                         <img src="/Image/icons/cross.svg" />
-
                     </span>
                 </div>
             </div>
@@ -275,17 +245,15 @@
                                     </a>
                                 </div>
                             </div>
-
                             <div class="menu-block">
                                 <nav id="main-nav">
                                     <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
                                     <ul id="main-menu" class="sm pixelstrap sm-horizontal">
                                         <li>
                                             <div class="mobile-back text-right">Back<i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
-                                                <a class="top-login-btn-mobile" href="/account/login"><i class="fa fa-sign-in"></i> Login</a>
+                                                <a class="top-login-btn-mobile" href="/account/login">Login</a>
                                             </div>
                                         </li>
-                                        <!--HOME-->
                                         <li>
                                             <a class="dark-menu-item" href="/Home/Index">Home</a>
                                         </li>
@@ -305,7 +273,6 @@
                                             <img src="~/Image/icons/profile.svg" />
                                         </a>
                                     </li>
-
                                     <li class="mobile-wishlist item-count openWishList">
                                         <a href="javascript:void(0)">
                                             <img src="~/Image/icons/wishlist-b.svg" />
@@ -331,14 +298,6 @@
                                     }
                                 </ul>
                             </div>
-                            @*<div class="category-right">
-                            <div class="contact-block">
-                            <div>
-                            <i class="fa fa-volume-control-phone"></i>
-                            <span>call us<span>123-456-76890</span></span>
-                            </div>
-                            </div>
-                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -356,9 +315,7 @@
             </div>
         </div>
     </header>
-    <!--header end-->
     @RenderBody()
-
     <footer>
         <div class="footer1">
             <div class="custom-container">
@@ -411,7 +368,6 @@
                                         <li><i class="fa fa-map-marker"></i>@Websiteinfomation.Companyaddress, <span> </span></li>
                                         <li><i class="fa fa-phone"></i>call us: <span>@Websiteinfomation.Companymobile</span></li>
                                         <li><i class="fa fa-envelope-o"></i>email us: <span>@Websiteinfomation.CompanyemailID</span></li>
-                                        @*<li><i class="fa fa-fax"></i>fax <span>123456</span></li>*@
                                     </ul>
                                 </div>
                             </div>
@@ -422,7 +378,6 @@
                                 <div class="footer-contant">
                                     <div class="newsletter-second">
                                         <div class="form-group">
-                                            
                                         </div>
                                         <div class="form-group ">
                                             <div class="input-group">
@@ -432,15 +387,15 @@
                                         </div>
                                         <div class="footer-right">
                                             <ul class="sosiyal">
-                                                <li><a href="https://www.facebook.com/Shop99.co?mibextid=ZbWKwL" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                                <li><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li>
+                                                <li>
+                                                    <a href="https://www.facebook.com/Shop99.co?mibextid=ZbWKwL" target="_blank">
+                                                        <i class="fa fa-facebook"></i>
+                                                    </a>
+                                                </li>
                                                 <li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
                                                 <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
-                                                <li><a href="javascript:void(0)"><i class="fa fa-rss"></i></a></li>
                                             </ul>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -449,56 +404,24 @@
                 </div>
             </div>
         </div>
- @*       <div class="subfooter dark-footer ">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-md-8 col-sm-12">
-                        <div class="footer-left">
-                            <p>@Websiteinfomation.Footerdescription</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-md-4 col-sm-12">
-                        <div class="footer-right">
-                            <ul class="sosiyal">
-                                <li><a href="https://www.facebook.com/Shop99.co?mibextid=ZbWKwL" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-rss"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
     </footer>
 
     <!-- Add to cart bar -->
-    <div id="cart_side" class="add_to_cart top ">
-    </div>
-
-    <div id="wishlist_side" class="add_to_cart right">
-    </div>
+    <div id="cart_side" class="add_to_cart top "></div>
+    <div id="wishlist_side" class="add_to_cart right"></div>
 
     @(await Component.InvokeAsync("SlideMenu"))
-    @* <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/assets/js/slick.js"></script>
     <script src="~/assets/js/popper.min.js"></script>
-    @* <script src="~/assets/js/bootstrap-notify.min.js"></script> *@
     <script src="~/assets/js/menu.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js"></script>
-    <!-- tool tip js -->
     <script src="~/assets/js/tippy-popper.min.js"></script>
     <script src="~/assets/js/tippy-bundle.iife.min.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="~/assets/js/jquery.elevatezoom.js"></script>
-  @*   <script src="~/assets/js/modal.js"></script> *@
     <script src="~/assets/js/script.js"></script>
- @*    <script src="~/lib/toastr/build/toastr.min.js"></script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/corelib.js"></script>
     <script src="~/clientapp/js/shoppingutility.js"></script>

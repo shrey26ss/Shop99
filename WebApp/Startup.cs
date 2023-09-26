@@ -1,35 +1,22 @@
-using AppUtility.APIRequest;
-using AppUtility.AppCode;
 using Entities.Models;
-using Hangfire;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
-using Service.Identity;
 using Services.Identity;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
+using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using WebApp.AppCode.Extension;
 using WebApp.Middleware;
-using WebApp.Models;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace WebApp
 {
@@ -118,6 +105,19 @@ namespace WebApp
                 options.AddPolicy("AllowAll",
                     builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
             });
+
+            // Add response compression middleware
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true; // Enable compression for HTTPS requests
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "text/html" }); // Compress HTML files
+            });
+
+            // Add Brotli compression
+            services.Configure<BrotliCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest; // Adjust compression level as needed
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Infrastructure.Interface.ILog logger)
@@ -131,6 +131,7 @@ namespace WebApp
                 app.UseExceptionHandler("/Error/Status404");
                 app.UseHsts();
             }
+            app.UseResponseCompression();
             app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             app.UseSession();
             app.UseStaticFiles();
