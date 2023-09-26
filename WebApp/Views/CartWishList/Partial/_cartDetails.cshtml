@@ -16,7 +16,7 @@
                         <th scope="col">product name</th>
                         <th scope="col">price</th>
                         <th scope="col">quantity</th>
-                        <th scope="col">action</th>
+                       @* <th scope="col">action</th>*@
                         <th scope="col">total</th>
                     </tr>
                 </thead>
@@ -29,7 +29,13 @@
 
                             <tr>
                                 <td>
-                                    <a href="/productdetails/@item.VariantID">
+                                    <a href="/productdetails/@item.VariantID" style="position:relative;">
+                                        @if (item.AvailableQuantity == 0) 
+                                        { 
+                                        <div class="img-hov">
+                                            Out of Stock
+                                        </div>
+                                        }
                                         <img src="@item.ImagePath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" alt="cart">
                                     </a>
                                 </td>
@@ -71,7 +77,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><a href="javascript:void(0)" class="icon delete-cart" data-variant-id="@item.VariantID"><i class="ti-close" title="Remove Cart"></i></a></td>
+                                @*<td><a href="javascript:void(0)" class="icon delete-cart" data-variant-id="@item.VariantID"><i class="ti-close" title="Remove Cart"></i></a></td>*@
                                 <td>
                                     <h2>@(item.SellingCost * item.Qty)</h2>
                                 </td>

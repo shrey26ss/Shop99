@@ -273,7 +273,10 @@
             };
             $.post("/PlaceOrder", item).done(res => {
                 if (typeof res === 'object') {
-                    if (res.statusCode != 1) {
+                    if (res.statusCode != 1 && res.statusCode == 2) {
+                        window.location.href = '/CartDetails';;
+                    }
+                    if (res.statusCode != 1 ) {
                         Q.notify(res.statusCode, res.responseText)
                     }
                     else {
