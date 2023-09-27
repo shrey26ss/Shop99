@@ -74,25 +74,19 @@
         outline: 0.25rem solid lightblue;
     }
 </style>
-<div class="">
-    @*<div class="row">
-    <div class="col-xl-12">
-    <div class="filter-main-btn mb-2">
-    <span class="filter-btn"><i class="fa fa-filter" aria-hidden="true"></i> filter</span>
-    </div>
-    </div>
-    </div>*@
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="large-5 column">
-                <div class="xzoom-container">
-                    @if (Model != null && Model.ProductPictureInfos != null && Model.ProductPictureInfos.Any())
+<div class="row">
+    <div class="col-lg-5">
+        <div class="large-5 column">
+            <div class="xzoom-container">
+                @if (Model != null && Model.ProductPictureInfos != null && Model.ProductPictureInfos.Any())
+                {
+                    int i = 0;
+                    <div class="zoom-box">
+                        <img class="xzoom" id="xzoom-default" src="@(defaultimages.FirstOrDefault()?.ImagePath)"
+                             xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" style="max-height:500px;object-fit:contain" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" />
+                    </div>
+                    @if (defaultimages.Count()>1)
                     {
-                        int i = 0;
-                        <div class="zoom-box">
-                            <img class="xzoom" id="xzoom-default" src="@(defaultimages.FirstOrDefault()?.ImagePath)"
-                                 xoriginal="@defaultimages.FirstOrDefault()?.ImagePath" style="max-height:500px;object-fit:contain" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" />
-                        </div>
                         <div class="xzoom-thumbs">
                             <div class="thumb-top"><a href="#" class="mob-sec"> <i class="fa fa-angle-up"></i></a> </div>
                             <div id="thumbnail">
@@ -119,262 +113,262 @@
                             <div class="thumb-bottom"> <a href="#" class="mob-sec"><i class="fa fa-angle-down"></i></a> </div>
                         </div>
                     }
-                </div>
-
-                <div class="product-buttons">
-                    <button class="btn cart-btn btn-normal tooltip-top btnAddtocart">
-                        <i class="fa fa-shopping-cart"></i>Add to cart
-                    </button>
-                    <button class="btn cart-btn btn-normal btnBuyNow">Buy Now</button>
-                    <button class="btn btn-normal  btnaddtowishlist">
-                        @{
-                            string wishlist = @Model.WishListID > 0 ? "text-danger" : string.Empty;
-                        }
-                        <i class="fa fa-heart @wishlist" aria-hidden="true"></i>
-                    </button>
-                </div>
+                }
             </div>
-            <div class="large-7 column"></div>
 
-
+            <div class="product-buttons">
+                <button class="btn cart-btn btn-normal tooltip-top btnAddtocart">
+                    <i class="fa fa-shopping-cart"></i>Add to cart
+                </button>
+                <button class="btn cart-btn btn-normal btnBuyNow">Buy Now</button>
+                <button class="btn btn-normal  btnaddtowishlist">
+                    @{
+                        string wishlist = @Model.WishListID > 0 ? "text-danger" : string.Empty;
+                    }
+                    <i class="fa fa-heart @wishlist" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
-        <div class="col-lg-7 rtl-text">
-            <div class="product-right ">
-                <div class="pro-group">
-                    <h2>@Model.Title</h2>
-                    <div class="revieu-box">
-                        <ul>
-                            @for (var i = 0; i < Model.Rating; i++)
-                            {
-                                <li><i class="fa fa-star"></i></li>
-                            }
-                            @for (var i = 0; i < 5 - Model.Rating; i++)
-                            {
-                                <li><i class="fa fa-star-o"></i></li>
-                            }
+        <div class="large-7 column"></div>
 
 
-                        </ul>
-                        <a href="#"><span>(@Model.TotalReviews reviews)</span></a>
-                    </div>
-                    <ul class="pro-price">
-                        <li><i class="fa fa-inr" style="color:green"></i> @Model.SellingCost</li>
-                        <li><span>mrp <i class="fa fa-inr"></i> <b>@Model.MRP</b></span></li>
-
-                        <li> @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100))  % off</li>
-                    </ul>
-                </div>
-                <div id="selectSize" class="pro-group addeffect-section product-description border-product">
-                    @if (Model != null && Model.ProductAttributes.Any())
-                    {
-                        var attributeNames = new List<string>();
-                        @foreach (var item in Model.ProductAttributes)
+    </div>
+    <div class="col-lg-7 rtl-text">
+        <div class="product-right ">
+            <div class="pro-group">
+                <h2>@Model.Title</h2>
+                <div class="revieu-box">
+                    <ul>
+                        @for (var i = 0; i < Model.Rating; i++)
                         {
-                            if (!attributeNames.Any(x => x == item.AttributeName))
-                            {
-                                attributeNames.Add(item.AttributeName);
-                                <div id="attributeList">
-                                    <div class="attibute mb-2" data-attribute-id="@item.AttributeId" data-attribute-name="@item.AttributeName">
-                                        <h6 class="product-title size-text">@item.AttributeName</h6>
-                                        <ul>
-                                            @if (Model != null && Model.AttributeInfo.Any())
+                            <li><i class="fa fa-star"></i></li>
+                        }
+                        @for (var i = 0; i < 5 - Model.Rating; i++)
+                        {
+                            <li><i class="fa fa-star-o"></i></li>
+                        }
+
+
+                    </ul>
+                    <a href="#"><span>(@Model.TotalReviews reviews)</span></a>
+                </div>
+                <ul class="pro-price">
+                    <li><i class="fa fa-inr" style="color:green"></i> @Model.SellingCost</li>
+                    <li><span>mrp <i class="fa fa-inr"></i> <b>@Model.MRP</b></span></li>
+
+                    <li> @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100))  % off</li>
+                </ul>
+            </div>
+            <div id="selectSize" class="pro-group addeffect-section product-description border-product">
+                @if (Model != null && Model.ProductAttributes.Any())
+                {
+                    var attributeNames = new List<string>();
+                    @foreach (var item in Model.ProductAttributes)
+                    {
+                        if (!attributeNames.Any(x => x == item.AttributeName))
+                        {
+                            attributeNames.Add(item.AttributeName);
+                            <div id="attributeList">
+                                <div class="attibute mb-2" data-attribute-id="@item.AttributeId" data-attribute-name="@item.AttributeName">
+                                    <h6 class="product-title size-text">@item.AttributeName</h6>
+                                    <ul>
+                                        @if (Model != null && Model.AttributeInfo.Any())
+                                        {
+                                            var AttributeValue = new List<string>();
+                                            foreach (var attrinfo in Model.AttributeInfo)
                                             {
-                                                var AttributeValue = new List<string>();
-                                                foreach (var attrinfo in Model.AttributeInfo)
+                                                if (!AttributeValue.Any(x => x == attrinfo.AttributeValue))
                                                 {
-                                                    if (!AttributeValue.Any(x => x == attrinfo.AttributeValue))
+                                                    if (attrinfo.AttributeId == item.AttributeId)
                                                     {
-                                                        if (attrinfo.AttributeId == item.AttributeId)
+                                                        AttributeValue.Add(attrinfo.AttributeValue);
+                                                        string activeclass = attrinfo.GroupId == Model.VariantId ? "active" : "";
+                                                        if (attrinfo.GroupId == item.VariantId)
                                                         {
-                                                            AttributeValue.Add(attrinfo.AttributeValue);
-                                                            string activeclass = attrinfo.GroupId == Model.VariantId ? "active" : "";
-                                                            if (attrinfo.GroupId == item.VariantId)
-                                                            {
-                                                                string soms = "Active";
-                                                            }
-                                                            <a data-id="@attrinfo.GroupId" class="changeVariant">
-                                                            <li class="@activeclass attributeValue btn btn-sm btn-outline-dark mb-1" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
+                                                            string soms = "Active";
                                                         }
+                                                        <a data-id="@attrinfo.GroupId" class="changeVariant">
+                                                        <li class="@activeclass attributeValue btn btn-sm btn-outline-dark mb-1" data-attr-val="@attrinfo.AttributeValue">@attrinfo.AttributeValue</li></a>
                                                     }
                                                 }
                                             }
-                                        </ul>
-                                    </div>
+                                        }
+                                    </ul>
                                 </div>
-                            }
+                            </div>
                         }
                     }
-                </div>
-                <div class="lblmsg" style="display:none"><label class="text-danger h5" id="lblmsg"></label></div>
-                <div class="pro-group d-none">
-                    <h6 class="product-title">delivery location</h6>
-                    <div class="delivery-detail">
-                        <div class="delivery-detail-contian">
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="ti-location-pin"></i></span>
-                                <input type="text" class="form-control" placeholder="Enter Pincode for delivery">
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-solid btn-md ">check</a>
+                }
+            </div>
+            <div class="lblmsg" style="display:none"><label class="text-danger h5" id="lblmsg"></label></div>
+            <div class="pro-group d-none">
+                <h6 class="product-title">delivery location</h6>
+                <div class="delivery-detail">
+                    <div class="delivery-detail-contian">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="ti-location-pin"></i></span>
+                            <input type="text" class="form-control" placeholder="Enter Pincode for delivery">
                         </div>
-                        <div class="delivery-lable">
-                            <img src="~/Image/icons/oreder_in_12_hours.svg" class="svg" />
-                            Order within 12 hrs
-                        </div>
+                        <a href="javascript:void(0)" class="btn btn-solid btn-md ">check</a>
+                    </div>
+                    <div class="delivery-lable">
+                        <img src="~/Image/icons/oreder_in_12_hours.svg" class="svg" />
+                        Order within 12 hrs
                     </div>
                 </div>
-              
-                <div class="pro-group">
-                    <div class="product-offer">
-                        <h6 class="product-title"><i class="fa fa-tags"></i>offers Available </h6>
-                        <div class="offer-contain">
-                            <ul>
-                                <li>
-                                    @*Special offer available*@
-                                    @if (Model != null && Model.sepcialoffer.Any(x => x.AtRate != 0 && x.Discounttype != null))
+            </div>
+
+            <div class="pro-group">
+                <div class="product-offer">
+                    <h6 class="product-title"><i class="fa fa-tags"></i>offers Available </h6>
+                    <div class="offer-contain">
+                        <ul>
+                            <li>
+                                @*Special offer available*@
+                                @if (Model != null && Model.sepcialoffer.Any(x => x.AtRate != 0 && x.Discounttype != null))
+                                {
+                                    @foreach (var so in Model.sepcialoffer)
                                     {
-                                        @foreach (var so in Model.sepcialoffer)
+                                        if (so.Discounttype == 'F'.ToString() && so.Discounttype != null)
                                         {
-                                            if (so.Discounttype == 'F'.ToString() && so.Discounttype != null)
-                                            {
-                                                <span class="code-lable">SPECIAL - FLAT ₹ @so.AtRate off</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="code-lable">SPECIAL - UPTO  @so.AtRate % Off</span>
-                                            }
+                                            <span class="code-lable">SPECIAL - FLAT ₹ @so.AtRate off</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="code-lable">SPECIAL - UPTO  @so.AtRate % Off</span>
                                         }
                                     }
-                                    @if (@Math.Floor((((Model.MRP - Model.SellingCost) / Model.MRP) * 100)) > 0)
-                                    {
-                                      <span class="code-lable">OFFER  @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) % Off</span>
-                                    }
-                                    
-                                    <div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                }
+                                @if (@Math.Floor((((Model.MRP - Model.SellingCost) / Model.MRP) * 100)) > 0)
+                                {
+                                    <span class="code-lable">OFFER  @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) % Off</span>
+                                }
+
+                                <div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="pro-group">
-                    <h6 class="product-title">product infomation</h6>
-                    <p>@Model.ShortDescription</p>
-                </div>
-                <div class="pro-group">
-                    <h6 class="product-title">Delivery option</h6>
-                    <ul class="delivery-services">
+            </div>
+            <div class="pro-group">
+                <h6 class="product-title">product infomation</h6>
+                <p>@Model.ShortDescription</p>
+            </div>
+            <div class="pro-group">
+                <h6 class="product-title">Delivery option</h6>
+                <ul class="delivery-services">
+                    <li>
+                        <img src="~/Image/icons/shipping.svg" class="svg" />
+                        free shipping
+                    </li>
+                    @if (Model.ReturnInDays > 0)
+                    {
                         <li>
-                            <img src="~/Image/icons/shipping.svg" class="svg" />
-                            free shipping
+                            <img src="~/Image/icons/Return.svg" class="svg" />
+                            @Model.ReturnInDays Days Returnable
                         </li>
-                        @if (Model.ReturnInDays > 0)
-                        {
-                            <li>
-                                <img src="~/Image/icons/Return.svg" class="svg" />
-                                @Model.ReturnInDays Days Returnable
+                    }
+                    @if (Model.Warranty > 0)
+                    {
+                        <li>
+                            <img src="~/Image/icons/warrenty.svg" class="svg" />
+                            @Model.Warranty  @Model.WarrantyUnit Warranty
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="pro-group pb-0">
+                <h6 class="product-title">share</h6>
+                <ul class="product-social">
+                    <li><a href="http://www.facebook.com/share.php?u=<url>" onclick="return fbs_click()" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#" onclick="return whs_click()" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                    <li><a href="#" onclick="return twit_click()"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#" onclick="return insta_click()"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+            </div>
+            <section class="tab-product tab-exes creative-card creative-inner">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-selected="true"><i class="icofont icofont-ui-home"></i>Description</a>
+                                <div class="material-border"></div>
                             </li>
-                        }
-                        @if (Model.Warranty > 0)
-                        {
-                            <li>
-                                <img src="~/Image/icons/warrenty.svg" class="svg" />
-                                @Model.Warranty  @Model.WarrantyUnit Warranty
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-selected="false"><i class="icofont icofont-man-in-glasses"></i>Specification</a>
+                                <div class="material-border"></div>
                             </li>
-                        }
-                    </ul>
-                </div>
-                <div class="pro-group pb-0">
-                    <h6 class="product-title">share</h6>
-                    <ul class="product-social">
-                        <li><a href="http://www.facebook.com/share.php?u=<url>" onclick="return fbs_click()" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#" onclick="return whs_click()" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
-                        <li><a href="#" onclick="return twit_click()"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#" onclick="return insta_click()"><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-                <section class="tab-product tab-exes creative-card creative-inner">
-                    <div class="row">
-                        <div class="col-sm-12 col-lg-12">
-                            <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-selected="true"><i class="icofont icofont-ui-home"></i>Description</a>
-                                    <div class="material-border"></div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-selected="false"><i class="icofont icofont-man-in-glasses"></i>Specification</a>
-                                    <div class="material-border"></div>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" id="review-top-tab" data-bs-toggle="tab" href="#top-review" role="tab" aria-selected="false"><i class="icofont icofont-contacts"></i>Write Review</a>
-                                    <div class="material-border"></div>
-                                </li>
-                            </ul>
-                            <div class="tab-content nav-material" id="top-tabContent">
-                                <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
-                                    <p>@Html.Raw(Model.Description)</p>
+                            <li class="nav-item">
+                                <a class="nav-link" id="review-top-tab" data-bs-toggle="tab" href="#top-review" role="tab" aria-selected="false"><i class="icofont icofont-contacts"></i>Write Review</a>
+                                <div class="material-border"></div>
+                            </li>
+                        </ul>
+                        <div class="tab-content nav-material" id="top-tabContent">
+                            <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+                                <p>@Html.Raw(Model.Description)</p>
+                            </div>
+                            <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
+                                <p class="pl-0"> @Html.Raw(Model.Specification)</p>
+                                <div class="single-product-tables">
+                                    <table>
+                                        <tbody id="">
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
-                                    <p class="pl-0"> @Html.Raw(Model.Specification)</p>
-                                    <div class="single-product-tables">
-                                        <table>
-                                            <tbody id="">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                            </div>
 
-                                <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
-                                    <div class="theme-form">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label class="mt-3"><b>Rating</b></label>
-                                                <div class="media mt-0">
-                                                    <fieldset class="star-rating">
-                                                        <div class="star-rating__stars">
-                                                            <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
-                                                            <label class="star-rating__label" for="rating-1" aria-label="One"></label>
-                                                            <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
-                                                            <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
-                                                            <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
-                                                            <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
-                                                            <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
-                                                            <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
-                                                            <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
-                                                            <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
+                            <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
+                                <div class="theme-form">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="mt-3"><b>Rating</b></label>
+                                            <div class="media mt-0">
+                                                <fieldset class="star-rating">
+                                                    <div class="star-rating__stars">
+                                                        <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
+                                                        <label class="star-rating__label" for="rating-1" aria-label="One"></label>
+                                                        <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
+                                                        <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
+                                                        <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
+                                                        <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
+                                                        <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
+                                                        <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
+                                                        <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
+                                                        <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
 
-                                                        </div>
-                                                    </fieldset>
-                                                </div>
-                                                <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
+                                                    </div>
+                                                </fieldset>
                                             </div>
-                                            <div class="col-md-12">
-                                                <label>Title (Optional)</label>
-                                                <input type="text" class="form-control" id="txttitle" placeholder="Enter your Review Subjects">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label>Review</label>
-                                                <textarea class="form-control" id="txtreview" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
-                                                <span class="text-danger d-none" id="txtreviewsm">Please Enter Review</span>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label>Images (Optional)</label>
-                                                <input type="file" accept=".jpg,jpeg" class="form-control" id="fileimg" placeholder="Photo" multiple>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <button class="btn btn-normal" type="submit" onclick="SaveReview('@Model.VariantId')">Submit Your Review</button>
-                                            </div>
+                                            <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Title (Optional)</label>
+                                            <input type="text" class="form-control" id="txttitle" placeholder="Enter your Review Subjects">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Review</label>
+                                            <textarea class="form-control" id="txtreview" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
+                                            <span class="text-danger d-none" id="txtreviewsm">Please Enter Review</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Images (Optional)</label>
+                                            <input type="file" accept=".jpg,jpeg" class="form-control" id="fileimg" placeholder="Photo" multiple>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button class="btn btn-normal" type="submit" onclick="SaveReview('@Model.VariantId')">Submit Your Review</button>
                                         </div>
                                     </div>
-
-
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
-                </section>
-                <div id="divrate"></div>
-            </div>
+                </div>
+            </section>
+            <div id="divrate"></div>
         </div>
     </div>
 </div>
