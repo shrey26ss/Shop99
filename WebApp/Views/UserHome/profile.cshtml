@@ -3,7 +3,7 @@
 @using WebApp.Models.ViewModels
 @model Profileviewmodel
 @{
-    if (Model.Role == Role.Admin || Model.Role == Role.Vendor)
+    if (Model.Role == Role.ADMIN || Model.Role == Role.VENDOR)
         Layout = "_AdminLayout";
     else
         Layout = "_Layout";
@@ -233,7 +233,7 @@
     }
 </style>
 
-@if (Model.Role == Role.Admin || Model.Role == Role.Vendor)
+@if (Model.Role == Role.ADMIN || Model.Role == Role.VENDOR)
 {
     <div class="content-header clearfix">
         <h1 class="float-left">

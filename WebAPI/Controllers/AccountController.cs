@@ -205,7 +205,7 @@ namespace WebAPI.Controllers
                 string mergeToken = EncodeString(IP + UserAgent);
                 var claims = new[] {
                         new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
-                        new Claim(ClaimTypesExtension.Role, user.Role??"2"),
+                        new Claim(ClaimTypesExtension.Role, user.Role??"CUSTOMER"),
                         new Claim(ClaimTypesExtension.UserName, user.UserName),
                         new Claim(ClaimTypesExtension.Name, user.Name),
                         new Claim(ClaimTypesExtension.SameSession, mergeToken)
@@ -331,7 +331,7 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { StatusCode = ResponseStatus.Failed, ResponseText = "User already exists!" });
             }
-            else if(userExists?.Id > 0 && !userExists.PhoneNumberConfirmed)
+            else if (userExists?.Id > 0 && !userExists.PhoneNumberConfirmed)
             {
                 var otpverify = await _userManager.ConfirmPhoneNumber(model.PhoneNumber, model.OTP, lockoutOnFailure: true);
                 if (otpverify.Succeeded)
@@ -368,9 +368,9 @@ namespace WebAPI.Controllers
             {
                 return Ok(new Response { StatusCode = ResponseStatus.Failed, ResponseText = "Invalid OTP!" });
             }
-         
+
             #endregion
-            
+
         }
     }
 }

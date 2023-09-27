@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         public UserController(IUserRepo userservice) => _userservice = userservice;
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("User/CustomerList")]
-        public async Task<IActionResult> CustomerList() => Ok(await _userservice.GetUserListByRole(Role.Customer));
+        public async Task<IActionResult> CustomerList() => Ok(await _userservice.GetUserListByRole(Role.CUSTOMER));
         [ApiExplorerSettings(IgnoreApi = true)]
         [Route("User/VendorList")]
         public async Task<IActionResult> VendorList(VendorProfileRequest req = null) => Ok(await _userservice.GetVendorList(req));
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
         {
             Data = req,
             LoginId = User.GetLoggedInUserId<int>(),
-            RoleId = Convert.ToInt32(User.GetLoggedInUserRoles())
+            RoleId = User.GetLoggedInUserRole<int>()
         }));
 
     }

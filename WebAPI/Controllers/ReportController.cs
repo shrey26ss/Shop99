@@ -23,9 +23,9 @@ namespace WebAPI.Controllers
             _pgService = pgService;
         }
         [Route("Report/GetInventoryLadgerReport")]
-        public async Task<IActionResult> GetInventoryLadgerReport(InventoryRequest req) => Ok(await _report.GetInventoryLadgerReport(new RequestBase<InventoryRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
+        public async Task<IActionResult> GetInventoryLadgerReport(InventoryRequest req) => Ok(await _report.GetInventoryLadgerReport(new RequestBase<InventoryRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
         [Route("Report/GetInventoryReport")]
-        public async Task<IActionResult> GetInventoryReport(InventoryRequest req) => Ok(await _report.GetInventoryReport(new RequestBase<InventoryRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
+        public async Task<IActionResult> GetInventoryReport(InventoryRequest req) => Ok(await _report.GetInventoryReport(new RequestBase<InventoryRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
         [Route("Report/ReviewReport")]
         public async Task<IActionResult> ReviewReport(SearchItem req) => Ok(await _report.ReviewReport(req));
 
@@ -33,11 +33,11 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetNewslatter() => Ok(await _report.GetNewslatter());
 
         [HttpPost("Report/GetPGReport")]
-        public async Task<IActionResult> GetPGReport(InitiatePaymentRequest req) => Ok(await _report.GetPGReport(new RequestBase<InitiatePaymentRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
+        public async Task<IActionResult> GetPGReport(InitiatePaymentRequest req) => Ok(await _report.GetPGReport(new RequestBase<InitiatePaymentRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
 
         [HttpPost("Report/UpdateTransactionStatus")]
-        public async Task<IActionResult> UpdateTransactionStatus(TransactionStatusRequest req) => Ok(await _pgService.UpadateTransactionStatus(new RequestBase<TransactionStatusRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
+        public async Task<IActionResult> UpdateTransactionStatus(TransactionStatusRequest req) => Ok(await _pgService.UpadateTransactionStatus(new RequestBase<TransactionStatusRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
         [HttpPost("Report/TransactionStatuscheck")]
-        public async Task<IActionResult> TransactionStatuscheck(TransactionStatusRequest req) => Ok(await _pgService.TransactionStatuscheck(new RequestBase<TransactionStatusRequest> { RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()), Data = req }));
+        public async Task<IActionResult> TransactionStatuscheck(TransactionStatusRequest req) => Ok(await _pgService.TransactionStatuscheck(new RequestBase<TransactionStatusRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
     }
 }

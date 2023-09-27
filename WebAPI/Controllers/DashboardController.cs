@@ -20,6 +20,6 @@ namespace WebAPI.Controllers
             _dashboard = dashboard;
         }
         [Route("Dashboard/GetDashboardTopBoxCount")]
-        public async Task<IActionResult> GetDashboardTopBoxCount() => Ok(await _dashboard.GetDashboardTopBoxCount(new Request { LoginId = User.GetLoggedInUserId<int>(), RoleId = Convert.ToInt32(User.GetLoggedInUserRoles()) }));
+        public async Task<IActionResult> GetDashboardTopBoxCount() => Ok(await _dashboard.GetDashboardTopBoxCount(new Request { LoginId = User.GetLoggedInUserId<int>(), RoleId = User.GetLoggedInUserRole<int>() }));
     }
 }

@@ -55,7 +55,7 @@ namespace WebApp.Controllers
             }
             return offers;
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         // GET: CategoryController/Create
         public async Task<IActionResult> OfferCreate(int Id = 0)
         {
@@ -75,7 +75,7 @@ namespace WebApp.Controllers
             offer.offerstypeDDLs = await _ddl.GetOfferDDL(GetToken(), _apiBaseURL);
             return PartialView(offer);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAjax]
         public async Task<ActionResult> OfferCreate(GetOffers offers)
@@ -99,7 +99,7 @@ namespace WebApp.Controllers
         {
             return User.GetLoggedInUserToken();
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> UpdateIsActiveOffer(OfferUpdateIsActive req)
         {
             var res = new Response();

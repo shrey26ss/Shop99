@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Entities.Enums
+﻿namespace Entities.Enums
 {
     public enum Role
     {
-        Admin = 1,
-        Customer = 2,
-        Vendor = 3,
-        Developer = 4
+        ADMIN = 1,
+        CUSTOMER = 2,
+        VENDOR = 3,
+        DEVELOPER = 4
     }
 }

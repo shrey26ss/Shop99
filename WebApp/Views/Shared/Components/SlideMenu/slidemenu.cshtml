@@ -31,7 +31,7 @@
         </div> @if (Model != null && Model.Id > 0)
         {
             <div class="side_menu list-group list-group-flush">
-                @if (Model.role==Role.Admin)
+                @if (Model.role==Role.ADMIN)
                 {
                     <a href="/dashboard" class="list-group-item list-group-item-action py-2 ripple active">Dashboard</a>
                     <a href="/user/profile" class="list-group-item list-group-item-action py-2 ripple">Profile</a>

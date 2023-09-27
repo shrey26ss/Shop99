@@ -68,7 +68,7 @@ namespace WebApp.Controllers
             }
             return PartialView(cpn);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAjax]
         public async Task<ActionResult> CreateCoupon(Coupon cop)
@@ -88,7 +88,7 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult> DelCoupon(int CouponId)
         {
@@ -107,7 +107,7 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult> UpdateIsActive(CouponUpdateIsActive req)
         {
