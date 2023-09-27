@@ -59,40 +59,45 @@
         gtag('config', 'G-5M9KYWPJSP');
     </script>
 </head>
-
 <body class="bg-light">
     <header id="stickyheader">
         <div class="mobile-fix-option">
             <div class="bottom-icon-block">
+
                 <ul class="cus-mobile-menu">
                     <li class="mobile-user openMenu">
                         <a href="javascript:void(0)">
                             <img src="/Image/icons/1.svg" />
                         </a>
                     </li>
-                    <li class="mobile-wishlist item-count openWishList">
-                        <a href="javascript:void(0)">
-                            <img src="/Image/icons/2.svg" />
-                            <div class="wishlist-count">
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mobile-cart item-count openCartSlide">
-                        <a href="javascript:void(0)">
-                            <div class="cart-block">
-                                <div class="cart-icon">
-                                    <img src="/Image/icons/3.svg" />
+                    @if (!User.IsInRole(nameof(RoleEnum.ADMIN)))
+                    {
+                        <li class="mobile-wishlist item-count openWishList">
+                            <a href="javascript:void(0)">
+                                <img src="/Image/icons/2.svg" />
+                                <div class="wishlist-count">
                                 </div>
-                            </div>
-                        </a>
-                        <div class="cart-count"></div>
-                    </li>
-                    <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
-                        <a href="javascript:void(0)">
-                            <img src="/Image/icons/m-1.svg" />
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                        <li class="mobile-cart item-count openCartSlide">
+                            <a href="javascript:void(0)">
+                                <div class="cart-block">
+                                    <div class="cart-icon">
+                                        <img src="/Image/icons/3.svg" />
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="cart-count"></div>
+                        </li>
+                        <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
+                            <a href="javascript:void(0)">
+                                <img src="/Image/icons/m-1.svg" />
+                            </a>
+                        </li>
+                    }
+
                 </ul>
+
             </div>
         </div>
         <div class="layout-header2">
@@ -127,6 +132,7 @@
                         </div>
                         <div id="dvAutoSuggestion"></div>
                         <div class="header-right d-flex">
+
                             <div class="icon-block">
                                 <ul class="cus-mobile-menu">
                                     <li class="mobile-user openMenu">
@@ -134,30 +140,34 @@
                                             <img src="/Image/icons/1.svg" />
                                         </a>
                                     </li>
-                                    <li class="mobile-wishlist item-count openWishList">
-                                        <a href="javascript:void(0)">
-                                            <img src="/Image/icons/2.svg" />
-                                            <div class="wishlist-count">
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="mobile-cart item-count openCartSlide">
-                                        <a href="javascript:void(0)">
-                                            <div class="cart-block">
-                                                <div class="cart-icon">
-                                                    <img src="/Image/icons/3.svg" />
+                                    @if (!User.IsInRole(nameof(RoleEnum.ADMIN)))
+                                    {
+                                        <li class="mobile-wishlist item-count openWishList">
+                                            <a href="javascript:void(0)">
+                                                <img src="/Image/icons/2.svg" />
+                                                <div class="wishlist-count">
                                                 </div>
-                                            </div>
-                                        </a>
-                                        <div class="cart-count"></div>
-                                    </li>
-                                    <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
-                                        <a href="javascript:void(0)">
-                                            <img src="/Image/icons/m-1.svg" />
-                                        </a>
-                                    </li>
+                                            </a>
+                                        </li>
+                                        <li class="mobile-cart item-count openCartSlide">
+                                            <a href="javascript:void(0)">
+                                                <div class="cart-block">
+                                                    <div class="cart-icon">
+                                                        <img src="/Image/icons/3.svg" />
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <div class="cart-count"></div>
+                                        </li>
+                                        <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
+                                            <a href="javascript:void(0)">
+                                                <img src="/Image/icons/m-1.svg" />
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
+
                             <div class="menu-nav">
                                 <span class="toggle-nav">
                                     <i class="fa fa-bars "></i>
@@ -250,7 +260,8 @@
                                     <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
                                     <ul id="main-menu" class="sm pixelstrap sm-horizontal">
                                         <li>
-                                            <div class="mobile-back text-right">Back<i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
+                                            <div class="mobile-back text-right">
+                                                Back<i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
                                                 <a class="top-login-btn-mobile" href="/account/login">Login</a>
                                             </div>
                                         </li>
