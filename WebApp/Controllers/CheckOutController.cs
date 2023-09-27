@@ -10,7 +10,7 @@ namespace WebApp.Controllers
     [Authorize]
     public class CheckOutController : Controller
     {
-        
+
         private readonly ICheckOutAPI _checkout;
         public CheckOutController(ICheckOutAPI checkout)
         {
@@ -68,7 +68,7 @@ namespace WebApp.Controllers
         {
             return User.GetLoggedInUserToken();
         }
-        
+
         [HttpPost(nameof(ApplyCoupon))]
         public async Task<IActionResult> ApplyCoupon(CouponApplyRequest req)
         {
@@ -77,9 +77,9 @@ namespace WebApp.Controllers
         }
 
         [HttpPost(nameof(GetAllCoupon))]
-        public async Task<IActionResult> GetAllCoupon()
+        public async Task<IActionResult> GetAllCoupon(int paymentmode = 1)
         {
-            var res = await _checkout.GetAllCoupon(GetToken());
+            var res = await _checkout.GetAllCoupon(paymentmode, GetToken());
             return PartialView("Partial/_getallcoupons", res);
         }
     }

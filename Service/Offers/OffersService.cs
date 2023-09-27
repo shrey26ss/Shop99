@@ -1,4 +1,5 @@
-﻿using AppUtility.Helper;
+﻿using AppUtility.Extensions;
+using AppUtility.Helper;
 using Data;
 using Data.Models;
 using Entities.Enums;
@@ -126,8 +127,13 @@ namespace Service.Offers
         public async Task<IResponse<IEnumerable<Coupon>>> GetCoupons(RequestBase<SearchItem> request)
         {
             string sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon(nolock) order by CouponId";
+
             if (request.Data == null)
                 request.Data = new SearchItem();
+
+            if (request.Data.IsProductDependent)
+                sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon(nolock) Where ISNULL(IsProductDependent,0)=1 order by CouponId";
+
             var res = new Response<IEnumerable<Coupon>>();
             try
             {
@@ -186,7 +192,7 @@ namespace Service.Offers
                     coupon.Data.MaxBenefit,
                     coupon.Data.MinPurchaseForRedeem,
                     coupon.Data.UseCount
-            
+
                 },
                 CommandType.Text);
             }
@@ -251,21 +257,38 @@ namespace Service.Offers
         public async Task<IResponse<IEnumerable<Coupon>>> GetCartProductCoupons(RequestBase<SearchItem> request)
         {
             string sp = string.Empty;
+            string paymentmode = string.Empty;
             if (request.Data == null)
+            {
                 request.Data = new SearchItem();
+            }
+            else
+            {
+
+                if (request.Data.paymentModes == (int)PaymentModes.CASH)
+                    paymentmode = "Cash";
+                else if (request.Data.paymentModes.In((int)PaymentModes.DEBIT, (int)PaymentModes.CREDIT, (int)PaymentModes.UPI))
+                    paymentmode = "Prepaid";
+            }
+
             var res = new Response<IEnumerable<Coupon>>();
             try
             {
                 if (request.LoginId > 0)
                 {
                     sp = @"Select * from (
-                   Select tempc.* FROM coupon tempc
-				   LEFT JOIN  VariantGroup  vg on VG.CouponId=tempc.CouponId
-				   LEFT JOIN  CartItem  c on VG.Id=c.VariantID
-				   AND C.UserID=@LoginId) tt Where 
-				   tt.ExpiryOn > GETDATE()
+                   Select tempc.* FROM coupon(NOLOCK)  tempc
+				   LEFT JOIN  VariantGroup(NOLOCK)   vg on VG.CouponId=tempc.CouponId
+				   LEFT JOIN  CartItem(NOLOCK)  c on VG.Id=c.VariantID
+				   AND C.UserID=189) tt
+				   Where 
+				   (LOWER(PaymentModes)=LOWER(@PaymentModes)
+				     OR
+					 LOWER(PaymentModes)='all'
+				   )
+				   AND tt.ExpiryOn > GETDATE()
 				   AND ISNULL(tt.IsActive,0)=1";
-                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.LoginId }, CommandType.Text);
+                    res.Result = await _dapper.GetAllAsync<Coupon>(sp, new { request.LoginId, PaymentModes = paymentmode }, CommandType.Text);
                 }
 
                 res.StatusCode = ResponseStatus.Success;

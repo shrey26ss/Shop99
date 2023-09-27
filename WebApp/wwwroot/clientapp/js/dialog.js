@@ -60,8 +60,8 @@
                 });
             }).fail(xhr => Q.renderError(xhr)).always(() => Q.preloader.remove());
     };
-    dialog.getAllcoupon = () => {
-        $.post('/GetAllCoupon')
+    dialog.getAllcoupon = (paymentmode) => {
+        $.post('/GetAllCoupon', { paymentmode: paymentmode })
             .done(result => {
                 Q.alert({
                     title: 'COUPONS',

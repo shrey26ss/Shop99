@@ -143,11 +143,11 @@ namespace WebApp.Controllers
         }
         [Authorize(Roles = "1")]
         [HttpPost]
-        public async Task<IActionResult> UpdateAdminApprovelStatus(int Id, StatusType StatusID,string Remark = "")
+        public async Task<IActionResult> UpdateAdminApprovelStatus(int Id, StatusType StatusID, string Remark = "")
         {
             var response = new Response();
             string _token = User.GetLoggedInUserToken();
-            var jsonData = JsonConvert.SerializeObject(new UpdateAdminApprovelStatus { Id = Id,Remark = Remark,StatusID = StatusID });
+            var jsonData = JsonConvert.SerializeObject(new UpdateAdminApprovelStatus { Id = Id, Remark = Remark, StatusID = StatusID });
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Product/UpdateAdminApprovelStatus", jsonData, _token);
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -216,7 +216,7 @@ namespace WebApp.Controllers
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<PictureInformation>>>(Responseapi.Result);
                 response.PictureInformation = deserializeObject.Result;
             }
-            var ResponseCoupon = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem { Id = 0 }), _token);
+            var ResponseCoupon = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Offers/GetCoupons", JsonConvert.SerializeObject(new SearchItem { Id = 0, IsProductDependent = true }), _token);
             if (ResponseCoupon.HttpStatusCode == HttpStatusCode.OK)
             {
                 var deserializeObject = JsonConvert.DeserializeObject<Response<List<Coupon>>>(ResponseCoupon.Result);
@@ -304,7 +304,7 @@ namespace WebApp.Controllers
             {
 
             }
-            return Json(new  { response.ResponseText, response.StatusCode, ReturnURL = "/Product" });
+            return Json(new { response.ResponseText, response.StatusCode, ReturnURL = "/Product" });
         }
         #endregion
 
@@ -391,10 +391,10 @@ namespace WebApp.Controllers
                 model.PictureInfo = uploadRes.Result;
                 if (model.PictureInfo.Count() > 0)
                 {
-                    foreach(var item in model.GroupInfo)
+                    foreach (var item in model.GroupInfo)
                     {
                         item.Images = JsonConvert.SerializeObject(model.PictureInfo.Where(a => a.GroupId == item.Id));
-                        item.Thumbnail = model.PictureInfo.Where(a => a.ImgVariant.Equals("200_200")).Where(a => a.GroupId== item.Id).FirstOrDefault().ImagePath;
+                        item.Thumbnail = model.PictureInfo.Where(a => a.ImgVariant.Equals("200_200")).Where(a => a.GroupId == item.Id).FirstOrDefault().ImagePath;
                     }
                     string _token = User.GetLoggedInUserToken();
                     var jsonData = JsonConvert.SerializeObject(model);
@@ -666,7 +666,7 @@ namespace WebApp.Controllers
                     }
                 }
             }
-        Finish:
+            Finish:
             response.Result = ImageInfo;
             return response;
         }
@@ -683,7 +683,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ProductRating(ProductRating req)
         {
             if (string.IsNullOrEmpty(req.Review))
-                return Json(new Response { ResponseText="Please Enter Review", StatusCode = ResponseStatus.Failed});
+                return Json(new Response { ResponseText = "Please Enter Review", StatusCode = ResponseStatus.Failed });
             var request = new ProductRating
             {
                 VariantID = req.VariantID,
@@ -730,7 +730,7 @@ namespace WebApp.Controllers
                     ImagePath.Add(string.Concat(absoluteURL + "/", FileDirectories.ProductRateSuffixDefault.Replace("{0}", req.VariantID.ToString()), fileName));
                 }
             }
-            return string.Join(',',ImagePath);
+            return string.Join(',', ImagePath);
         }
         #endregion
 
