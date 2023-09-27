@@ -1,7 +1,7 @@
 ﻿@using Entities.Models;
 @model IEnumerable<Products>
 
-@*@if (User.IsInRole("1"))
+@*@if (User.IsInRole("ADMIN"))
 {
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -37,7 +37,7 @@ else
                 <td>@item.CategoryName</td>
                 <td>@item.BrandName</td>
                 <td>@item.SKU</td>
-            @if (User.IsInRole("1"))
+            @if (User.IsInRole("ADMIN"))
             {
             <td>
                     <span class="switch switch-sm">

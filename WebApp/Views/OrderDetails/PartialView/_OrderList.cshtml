@@ -27,7 +27,7 @@
                                 <a href="#" onclick="Cancel('@item.ID','@StatusType.Cancel')" class="dropdown-item Edit">Cancel</a>
                                 <a href="#" onclick="Confirm('@item.ID','@StatusType.Confirmed')" class="dropdown-item Edit">Confirm</a>
                             }
-                            @if (item.StatusID == StatusType.Shipped && !User.IsInRole("1") || item.VendorID == loginid)
+                            @if (item.StatusID == StatusType.Shipped && !User.IsInRole("ADMIN") || item.VendorID == loginid)
                             {
                                 <a href="#" onclick="MarkasDilivered('@item.ID','@StatusType.Delivered','')" class="dropdown-item Edit">Mark Deliver</a>
                             }
@@ -35,7 +35,7 @@
                             {
                                 <a href="#" onclick="MarkasDilivered('@item.ID','@StatusType.Delivered','')" class="dropdown-item Edit">Mark Deliver</a>
                             }*@
-                            @if (item.StatusID == StatusType.Delivered && User.IsInRole("1"))
+                            @if (item.StatusID == StatusType.Delivered && User.IsInRole("ADMIN"))
                             {
                                 <a href="#" onclick="MarkasDilivered('@item.ID','@StatusType.OrderCompleted','')" class="dropdown-item Edit">Order Completed</a>
                             }
