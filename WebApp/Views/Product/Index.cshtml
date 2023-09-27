@@ -1,4 +1,4 @@
-﻿@if (User.IsInRole("1"))
+﻿@if (User.IsInRole("ADMIN"))
 {
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -15,7 +15,7 @@ else
     <h1 class="float-left" style="margin-top: 6px;">
         Products
     </h1>
-    @if (User.IsInRole("1"))
+    @if (User.IsInRole("ADMIN"))
     {
         <div class="float-right">
             <a class="btn btn-primary" href="/Product/Edit/0">
@@ -58,7 +58,7 @@ else
                                 <th>Category</th>
                                 <th>Brand</th>
                                 <th>SKU</th>
-                                @if (User.IsInRole("1"))
+                                @if (User.IsInRole("ADMIN"))
                                 {
                                     <th>IsPublished</th>
                                 }
@@ -109,7 +109,7 @@ else
         }
 
         var loadData = function (customeEvent = false) {
-            let isAdmin = '@User.IsInRole("1")';
+            let isAdmin = '@User.IsInRole("ADMIN")';
             console.log('isAdmin : ', isAdmin)
             let counter = 0;
             let column = [
