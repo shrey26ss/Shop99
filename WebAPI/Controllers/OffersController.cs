@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
             }));
         }
         [HttpPost("Offers/DelCoupon")]
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DelCoupon(int couponId)
         {
             return Ok(await _offers.DelCoupon(couponId));

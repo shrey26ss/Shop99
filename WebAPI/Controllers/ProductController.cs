@@ -11,7 +11,7 @@ using WebAPI.Middleware;
 namespace WebAPI.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles ="1,3,4")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,VENDOR,DEVELOPER")]
     [ApiController]
     [Route("/api/")]
     public class ProductController : ControllerBase
@@ -84,7 +84,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetProductVarAttrDetails(ProductVarAttrDetailsReq req)
         {
             req.UserID = User.GetLoggedInUserId<int>();
-            return Ok(await _products.GetProductVarAttrDetails(req, Convert.ToInt32(User.GetLoggedInUserRoles())));
+            return Ok(await _products.GetProductVarAttrDetails(req, User.GetLoggedInUserRole<int>()));
         }
         [Route("Product/UpdateIsPublishVarAttr")]
         public async Task<IActionResult> UpdateIsPublishVarAttr(UpdateIsPublishProduct req)

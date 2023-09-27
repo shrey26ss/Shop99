@@ -2,14 +2,12 @@
 using AppUtility.Helper;
 using Entities.Enums;
 using Entities.Models;
-using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Service.Models;
 using System;
 using System.Collections.Generic;
@@ -51,7 +49,7 @@ namespace WebApp.Controllers
 
         #region Add Product
         // GET: ProductController
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpGet("/Product")]
         public IActionResult Index()
         {
@@ -59,7 +57,7 @@ namespace WebApp.Controllers
             model.Categories = _ddl.GetCategoryDDL(GetToken(), _apiBaseURL).Result;
             return View(model);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> ProductList(JSONAOData jsonAOData, string SearchVal = "", int cid = 0)
         {
@@ -114,7 +112,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_ProductList", response);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpGet]
         public async Task<IActionResult> Attributes(int Id, StatusType s, StatusType stock = StatusType.All)
         {
@@ -124,7 +122,7 @@ namespace WebApp.Controllers
             response.stock = stock;
             return View(response);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> GetAttributes(int Id, StatusType s, StatusType stock = StatusType.All)
         {
@@ -141,7 +139,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/GetAttributes", response);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult> UpdateAdminApprovelStatus(int Id, StatusType StatusID, string Remark = "")
         {
@@ -155,7 +153,7 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishVariant(UpdateIsPublishProduct req)
         {
@@ -171,7 +169,7 @@ namespace WebApp.Controllers
             }
             return Json(res);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> VariantAttributeList(int Id)
         {
@@ -186,7 +184,7 @@ namespace WebApp.Controllers
             }
             return PartialView("Partials/_VariantAttributeList", response);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpGet]
         public async Task<IActionResult> VariantDetail(int Id, string Color = "")
         {
@@ -224,7 +222,7 @@ namespace WebApp.Controllers
             }
             return View("_VariantDetail", response);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult> UpdateIsPublishProduct(UpdateIsPublishProduct req)
         {
@@ -246,7 +244,7 @@ namespace WebApp.Controllers
         {
             return Json(await _ddl.GetBrandsDDL(GetToken(), _apiBaseURL));
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpGet("Product/Edit/{Id}")]
         public async Task<IActionResult> Edit(int Id = 0)
         {
@@ -283,7 +281,7 @@ namespace WebApp.Controllers
             }
             return View("Partials/_Edit", model);
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAjax]
         public async Task<IActionResult> AddProduct(Products model)
@@ -311,7 +309,7 @@ namespace WebApp.Controllers
         #region Add Variants
 
         // GET: ProductController/Create
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         public async Task<IActionResult> AddVariant(int Id = 0, int cId = 0)
         {
             VariantViewModel model = new VariantViewModel()
@@ -327,18 +325,18 @@ namespace WebApp.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> GetAttributeSectionView(int Id = 0)
         {
             return PartialView("Partials/_Variants");
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         public async Task<IActionResult> AddAttributeGroup()
         {
             return PartialView("Partials/_AddAttributeGroup");
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> AddAttributes(string combinationId, int CategoryId)
         {
@@ -351,7 +349,7 @@ namespace WebApp.Controllers
             return PartialView("Partials/_AddAttributes", model);
         }
 
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> AddAttributess(string combinationId, int CategoryId)
         {
@@ -364,7 +362,7 @@ namespace WebApp.Controllers
             return Json(model);
         }
 
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         [ValidateAjax]
         public async Task<IActionResult> SaveVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)
@@ -427,7 +425,7 @@ namespace WebApp.Controllers
         //    };
         //    return PartialView("Partials/_AddAttributes", model);
         //}
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<ActionResult> VariantQuantityUpdate(int v, int q, bool IsReduce, string Remark)
         {
@@ -461,7 +459,7 @@ namespace WebApp.Controllers
             }
             return Ok(response);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> DeleteVariantImage(int VariantId, int ImgId, string ImgPath)
         {
@@ -483,7 +481,7 @@ namespace WebApp.Controllers
             }
             return Json(response);
         }
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         public async Task<IActionResult> UploadVariantImage(int VariantId, string VariantColor, string ImgAlt)
         {
@@ -677,7 +675,7 @@ namespace WebApp.Controllers
         }
         #endregion
         #region Rating
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "CUSTOMER")]
         [Route("ProductRating")]
         [HttpPost]
         public async Task<IActionResult> ProductRating(ProductRating req)
@@ -708,7 +706,7 @@ namespace WebApp.Controllers
             var res = JsonConvert.DeserializeObject<Response<List<ProductWiseRating>>>(apiResponse.Result);
             return PartialView("Partials/_ProductWiseRating", res.Result);
         }
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "CUSTOMER")]
         private string UploadRatingImage(ProductRating req)
         {
             var ImagePath = new List<string>();
@@ -734,7 +732,7 @@ namespace WebApp.Controllers
         }
         #endregion
 
-        [Authorize(Roles = "1,3")]
+        [Authorize(Roles = "ADMIN,VENDOR")]
         [HttpPost]
         [ValidateAjax]
         public async Task<IActionResult> UpdateVariants([MinLength(1, ErrorMessage = "Add atleast one Image")] List<PictureInformationReq> req, string jsonObj)

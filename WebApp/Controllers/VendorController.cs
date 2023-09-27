@@ -1,15 +1,12 @@
 ﻿using AppUtility.APIRequest;
 using AppUtility.Helper;
-using AutoMapper;
 using Entities.Enums;
 using Entities.Models;
-using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Service.Models;
 using System;
@@ -17,7 +14,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WebApp.AppCode.Attributes;
 using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
@@ -32,13 +28,14 @@ namespace WebApp.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private IDDLHelper _ddl;
         private readonly IGenericMethods _convert;
-        public VendorController(ILogger<AccountController> logger, IMapper mapper, AppSettings appSettings, SignInManager<ApplicationUser> signInManager,IDDLHelper ddl, IGenericMethods convert)
+        public VendorController(AppSettings appSettings, SignInManager<ApplicationUser> signInManager,IDDLHelper ddl, IGenericMethods convert)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _signInManager = signInManager;
             _ddl = ddl;
             _convert = convert;
         }
+
         // GET: VendorController
         [Authorize(Roles = "0,3")]
         public async Task<IActionResult> Index()
@@ -66,7 +63,7 @@ namespace WebApp.Controllers
             }
             return RedirectToAction(nameof(Onboard), "Vendor", new { IsApproved, IsOnboard });
         }
-        [Authorize(Roles ="0")]
+        [Authorize]
         public async Task<IActionResult> Onboard(bool IsApproved = false, bool IsOnboard = false)
         {
             var model = new VendorVM
@@ -77,7 +74,7 @@ namespace WebApp.Controllers
             };
             return View(model);
         }
-        [Authorize(Roles ="0")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Onboard(VendorVM model)
         {
@@ -113,14 +110,14 @@ namespace WebApp.Controllers
             
         }
         // GET: VendorController/Create
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "VENDOR")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: VendorController/Create
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "VENDOR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -136,14 +133,14 @@ namespace WebApp.Controllers
         }
 
         // GET: VendorController/Delete/5
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "VENDOR")]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
         // POST: VendorController/Delete/5
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "VENDOR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -157,14 +154,14 @@ namespace WebApp.Controllers
                 return View();
             }
         }
-        [Authorize(Roles ="1")]
+        [Authorize(Roles ="ADMIN")]
         [HttpGet]
         [Route("/VendorList")]
         public async Task<IActionResult> Vendors()
         {
             return View();
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult>VendorList(VendorProfileRequest model)
         {
@@ -179,7 +176,7 @@ namespace WebApp.Controllers
             }
             return PartialView("PartialView/_vendorList", list);
         }
-        [Authorize(Roles ="1")]
+        [Authorize(Roles ="ADMIN")]
         [HttpPost]
         public async Task<IActionResult> ApproveVendorProfile(int VendorId)
         {

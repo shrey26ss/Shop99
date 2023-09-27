@@ -43,7 +43,7 @@ namespace WebApp.Controllers
             _ddl = ddl;
             _httpInfo = httpInfo;
         }
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [Route("/dashboard")]
         public async Task<IActionResult> Index()
         {

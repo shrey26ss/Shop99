@@ -45,8 +45,8 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <label class="control-label">Signup As</label><span class="text-danger">*</span><br />
-                                <input asp-for="Role" type="radio" value="@Role.Customer" checked /> Customer Signup
-                                <input asp-for="Role" type="radio" value="@Role.Vendor" /> Vendor Signup
+                                <input asp-for="Role" type="radio" value="@Role.CUSTOMER" checked /> Customer Signup
+                                <input asp-for="Role" type="radio" value="@Role.VENDOR" /> Vendor Signup
                                 <span asp-validation-for="Role" class="text-danger"></span>
                             </div>
                         }

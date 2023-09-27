@@ -28,7 +28,7 @@ namespace Service.Report
             var res = new Response<IEnumerable<Inventory>>();
             try
             {
-                if (req.RoleId == Convert.ToInt32(Role.Admin))
+                if (req.RoleId == Convert.ToInt32(Role.ADMIN))
                 {
                     string sp = @"if(@Status = 0)
 Select i.*,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
@@ -68,7 +68,7 @@ inner join Products p(nolock) on p.Id = vg.ProductId
             var res = new Response<IEnumerable<Inventory>>();
             try
             {
-                if (req.RoleId == Convert.ToInt32(Role.Admin))
+                if (req.RoleId == Convert.ToInt32(Role.ADMIN))
                 {
                     string sp = @"if(@Status = 0)
 Select SUM(i.Qty) Qty,i.VarriantId,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
@@ -159,7 +159,7 @@ having SUM(i.Qty) <= 10";
             var res = new Response<IEnumerable<InitiatePayment>>();
             try
             {
-                if (req.RoleId == Convert.ToInt32(Role.Admin))
+                if (req.RoleId == Convert.ToInt32(Role.ADMIN))
                 {
                     string sp = @"SELECT i.TID,i.PGID,i.Amount,i.UserId,dbo.CustomFormat(i.EntryOn) EntryOn,dbo.CustomFormat(i.ModifyOn) ModifyOn,
                                          i.[Status],i.UTR,u.[Name],u.PhoneNumber 

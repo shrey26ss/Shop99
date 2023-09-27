@@ -76,7 +76,7 @@ namespace WebApp.Controllers
             return categories;
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         // GET: CategoryController/Create
         public async Task<IActionResult> Create(int Id = 0)
         {
@@ -95,7 +95,7 @@ namespace WebApp.Controllers
             return PartialView(category);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> UpdateIsPublishCategory(CategoryIsPublishUpdate req)
         {
             var res = new Response();
@@ -113,7 +113,7 @@ namespace WebApp.Controllers
 
 
         // POST: CategoryController/Create
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAjax]
         public async Task<ActionResult> Create(Category category, IFormFile Icon)

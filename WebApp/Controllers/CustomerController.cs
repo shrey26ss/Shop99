@@ -18,7 +18,7 @@ using WebApp.Middleware;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles = "1,2")]
+    [Authorize(Roles = "ADMIN,CUSTOMER")]
     public class CustomerController : Controller
     {
 
