@@ -26,7 +26,7 @@ namespace Service.Identity
             var user = new ApplicationUser();
             try
             {
-                string sqlQuery = @"SELECT u.Id,u.UserName,u.RefreshToken,u.[Name], r.[RoleId] as [Role], u.Email ,u.PhoneNumberConfirmed
+                string sqlQuery = @"SELECT u.Id,u.UserName,u.RefreshToken,u.[Name], r.[RoleId], ar.NormalizedName [Role], u.Email ,u.PhoneNumberConfirmed
                                 FROM Users u(nolock) 
                                      LEFT join UserRoles r(nolock) on r.UserId = u.Id 
                                      LEFT join ApplicationRole ar(nolock) on ar.Id = r.RoleId 

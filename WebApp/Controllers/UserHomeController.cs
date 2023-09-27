@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WebApp.AppCode;
+using WebApp.AppCode.Enums;
 using WebApp.AppCode.Helper;
 using WebApp.Middleware;
 using WebApp.Models;
@@ -78,7 +79,7 @@ namespace WebApp.Controllers
         public IActionResult Profile()
         {
             Profileviewmodel model = new Profileviewmodel();
-            model.Role = (Role)Enum.Parse(typeof(Role), User.GetLoggedInUserRoles());
+            model.Role = (Role)Enum.Parse(typeof(RoleEnum), User.GetLoggedInUserRoles());
             model.loginId = User.GetLoggedInUserId<int>();
             model.profilepic = _httpInfo.AbsoluteURL() + "/" + FileDirectories.UserpicSuffix + User.GetLoggedInUserId<int>() + ".jpeg";
             return View(model);

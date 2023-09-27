@@ -18,6 +18,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Service.Models;
 using WebApp.AppCode.Attributes;
+using WebApp.AppCode.Enums;
 
 namespace WebApp.Controllers
 {
@@ -94,20 +95,19 @@ namespace WebApp.Controllers
                                 Role = applicationUser.Role,
                                 Token = applicationUser.Token
                             };
-                            if (applicationUser.Role.Equals("3"))// Vendor
+                            if (applicationUser.Role == nameof(RoleEnum.VENDOR))
                             {
-                                user.Role = "0";
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Vendor/Index" : ReturnUrl;
                             }
-                            else if (applicationUser.Role.Equals("1")) // Admin
+                            else if (applicationUser.Role == nameof(RoleEnum.ADMIN))
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/dashboard" : ReturnUrl;
                             }
-                            else if (applicationUser.Role.Equals("2")) // Customer
+                            else if (applicationUser.Role == nameof(RoleEnum.CUSTOMER)) 
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/" : ReturnUrl;
                             }
-                            else if (applicationUser.Role.Equals("4")) // Developer
+                            else if (applicationUser.Role == nameof(RoleEnum.DEVELOPER)) 
                             {
                                 ReturnUrl = ReturnUrl?.Trim() == "/" ? "/Developer/Index" : ReturnUrl;
                             }
