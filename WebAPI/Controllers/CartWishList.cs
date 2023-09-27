@@ -8,7 +8,7 @@ using WebAPI.Middleware;
 namespace WebAPI.Controllers
 {
 
-    [Authorize(AuthenticationSchemes = "Bearer",Roles ="2")]
+    [Authorize(AuthenticationSchemes = "Bearer",Roles ="CUSTOMER")]
     [ApiController]
     [Route("/api/CartWishList")]
     public class CartWishList : ControllerBase
