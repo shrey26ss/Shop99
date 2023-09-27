@@ -65,8 +65,8 @@
     }
 
     /*
-                                                                                            * SVG Icons
-                                                                                            **********************************************************/
+                                                                                                                                * SVG Icons
+                                                                                                                                **********************************************************/
     .svg {
         display: block;
         position: absolute;
@@ -77,8 +77,8 @@
     }
 
     /*
-                                                                                            * Buttons
-                                                                                            **********************************************************/
+                                                                                                                                * Buttons
+                                                                                                                                **********************************************************/
     .button {
         position: relative;
         height: 50px;
@@ -127,13 +127,13 @@
                 height: 40px;
             }
         /*.button:after {
-                                                                                    top: 20px;
-                                                                                    left: 23px;
-                                                                                }*/
+                                                                                                                        top: 20px;
+                                                                                                                        left: 23px;
+                                                                                                                    }*/
     }
     /*
-                                                                                            * Breakpoint
-                                                                                            **********************************************************/
+                                                                                                                                * Breakpoint
+                                                                                                                                **********************************************************/
     @@media all and (min-width: 700px) {
         .svg {
             top: auto !important;
@@ -153,6 +153,7 @@
             padding: 0px;
             overflow: hidden;
             display: flex;
+            min-height: 150px;
         }
 
         .button {
@@ -181,9 +182,9 @@
                 margin-right: 0;
             }
         /*.button:after {
-                                                                                    top: 15px;
-                                                                                    left: 55px;
-                                                                                }*/
+                                                                                                                        top: 15px;
+                                                                                                                        left: 55px;
+                                                                                                                    }*/
     }</style>
 
 <!-- section start -->
@@ -214,13 +215,13 @@
                     let h3Class = `${isPending ? 'text-info' : (result.paymentStatus == 'success' ? 'text-success' : 'text-danger')}`;
                     let statusText = `${isPending ? 'Transaction Pending' : (result.paymentStatus == 'success' ? 'Transaction Successful' : 'Transaction Failed')}`;
                     let _html = `<div class="row">
-                                                                        <div class="col-sm-12 text-center">
-                                                                                                                     <img src="${iconSrc}" />
-                                                                                                                     <h3 class="${h3Class}">${statusText}<br/>
-                                                                                                                                <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
-                                                                                                                      </h3>
-                                                                                                                   </div>
-                                                                                                                 </div>`;
+                                                                                                                                                <div class="col-sm-12 text-center">
+                                                                                                                                                                                             <img src="${iconSrc}" />
+                                                                                                                                                                                             <h3 class="${h3Class}">${statusText}<br/>
+                                                                                                                                                                                                        <small>${result.statuscode == -1 ? result.paymentStatus : ''}</small>
+                                                                                                                                                                                              </h3>
+                                                                                                                                                                                           </div>
+                                                                                                                                                                                         </div>`;
                     Q.alert({
                         title: 'Transaction Status',
                         body: _html,
@@ -246,12 +247,18 @@
                 $('#dvshowaddress').removeClass('d-none');
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
-        const loadPlaceOrderCart = async function (IsBuyNow = false) {
-            await $.post("/_CartPlaceOrder", { IsBuyNow: IsBuyNow }).done(async res => {
+        const loadPlaceOrderCart = async function (IsBuyNow = false, PaymentMode = 1) {
+            await $.post("/_CartPlaceOrder", { IsBuyNow: IsBuyNow, PaymentMode: PaymentMode }).done(async res => {
                 $('#dvPlaceOrderDetails').html(res);
-                await loadpaymentmode();
+                await loadpaymentmode(PaymentMode);
             }).fail(xhr => Q.xhrError(xhr)).always(() => $("#btnAutocoupon").click());
         }
+        $(document).on('click', '[name="paymentMode"]', (e) => {
+            const buynow = '@Model';
+            let _parent = $(e.currentTarget).parents('#checkoutSection');
+            var paymentMode = _parent.find('[name="paymentMode"]:checked').data().paymentMode;
+            loadPlaceOrderCart(buynow.toLowerCase() === 'true' ? true : false, paymentMode)
+        });
 
         $(document).on('click', '#btnPlaceOrder', (e) => {
             const url = new URL(window.location);
@@ -276,7 +283,7 @@
                     if (res.statusCode != 1 && res.statusCode == 2) {
                         window.location.href = '/CartDetails';;
                     }
-                    if (res.statusCode != 1 ) {
+                    if (res.statusCode != 1) {
                         Q.notify(res.statusCode, res.responseText)
                     }
                     else {
@@ -306,14 +313,15 @@
                 alert('something went wrong');
             })
         }
-        var loadpaymentmode = async () => {
+        var loadpaymentmode = async (PaymentMode) => {
             await $.post("/GetPaymentMode", { IsCod: $('#IsCod').is(':checked') }).done(res => {
                 $.each(res.result, async function (i, v) {
-                    let current = i == 0 ? "checked" : "";
+                    //let current = i == 0 ? "checked" : "";
+                    let current = (PaymentMode == v.id || i == 0) ? "checked" : "";
                     $('#dvPaymentModes').append(`<div class='button '>
-                                                                                    <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}> ${v.name}
-                                                                                    <img src="${v.icon}" />
-                                                                                 </div>`);
+                                                                                                                                                            <input type="radio" name="paymentMode" data-payment-Mode="${v.id}" ${current}> ${v.name}
+                                                                                                                                                            <img src="${v.icon}" />
+                                                                                                                                                         </div>`);
                 });
             }).fail(xhr => Q.xhrError(xhr)).always(() => "");
         }
@@ -362,7 +370,8 @@
         });
 
         $(document).on('click', '#btnallcoupon', (e) => {
-            dialog.getAllcoupon();
+            var paymentmode = $("#dvPaymentModes").find('[name="paymentMode"]:checked').data().paymentMode;
+            dialog.getAllcoupon(paymentmode);
         });
 
         var applyCoupon = async (coupons, isRemove) => {
@@ -395,25 +404,25 @@
                     _saveTxt = ` <span>You Saved ${c.couponValue}% </span>`;
                 }
                 _html = _html + `<li data-coupon-code="${c.couponCode}" data-is-fixed="${c.isFixed}" data-coupon-value=${c.couponValue}>
-                                                                    <span class="code-lable cc">${c.couponCode}</span>
-                                                                    ${_saveTxt}
-                                                                    <div class="text-right cus-remove-coupon">
-                                                                        <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
-                                                                    </div>
-                                                                 </li>`;
+                                                                                                                                            <span class="code-lable cc">${c.couponCode}</span>
+                                                                                                                                            ${_saveTxt}
+                                                                                                                                            <div class="text-right cus-remove-coupon">
+                                                                                                                                                <a href="javascript:void(0)" class="btn-normal-danger btn btnRemovecoupon">Remove</a>
+                                                                                                                                            </div>
+                                                                                                                                         </li>`;
             }
             $("ul#appliedCoupons").html(_html);
             $('ul#totalDiscount').remove();
             if (totalDiscount > 0) {
                 $('ul.sub-total').after(`<ul id="totalDiscount">
-                                                                             <li>
-                                                                                <div class="row">
-                                                                                   <div class="col-md-7">Total Coupon Discount</div>
-                                                                                   <div class="col-md-5 text-right">
-                                                                                       <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> ${totalDiscount}</span>
-                                                                                   </div>
-                                                                                </div>
-                                                                             </li></ul>`);
+                                                                                                                                                     <li>
+                                                                                                                                                        <div class="row">
+                                                                                                                                                           <div class="col-md-7">Total Coupon Discount</div>
+                                                                                                                                                           <div class="col-md-5 text-right">
+                                                                                                                                                               <span class="count"><i class="fa fa-inr" aria-hidden="true"></i> ${totalDiscount}</span>
+                                                                                                                                                           </div>
+                                                                                                                                                        </div>
+                                                                                                                                                     </li></ul>`);
             }
             let _payable = parseFloat($('#totalPayable').data().totalPayable);
             _payable = _payable - totalDiscount;

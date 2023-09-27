@@ -85,10 +85,10 @@ namespace WebApp.Controllers
         }
 
         [HttpPost(nameof(_CartPlaceOrder))]
-        public async Task<IActionResult> _CartPlaceOrder(bool IsBuyNow = false)
+        public async Task<IActionResult> _CartPlaceOrder(bool IsBuyNow = false, int PaymentMode=1)
         {
             var res = await _cartwishlist.GetCartListSlide(GetToken(), IsBuyNow);
-            var offerRes = await _checkout.GetAllCoupon(GetToken());
+            var offerRes = await _checkout.GetAllCoupon(PaymentMode, GetToken());
             res.Result.Coupons = offerRes;
             return PartialView("~/Views/CheckOut/partial/_placeorder.cshtml", res);
         }

@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Enums;
+using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -88,11 +89,15 @@ namespace WebAPI.Controllers
         }
         [AllowAnonymous]
         [HttpPost("Offers/GetCartProductCoupons")]
-        public async Task<IActionResult> GetCartProductCoupons()
+        public async Task<IActionResult> GetCartProductCoupons(int PaymentMode)
         {
             return Ok(await _offers.GetCartProductCoupons(new RequestBase<SearchItem>
             {
-                LoginId = User.GetLoggedInUserId<int>()
+                LoginId = User.GetLoggedInUserId<int>(),
+                Data= new SearchItem
+                {
+                    paymentModes= PaymentMode
+                }
             }));
         }
         [HttpPost]
