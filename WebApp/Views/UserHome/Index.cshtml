@@ -44,17 +44,22 @@
 
 
     .content-header span .fa-refresh {
- 
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
 
-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
+    webkit-keyframes spin {
+        0%
 
+    {
+        -webkit-transform: rotate(0deg);
+    }
 
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+
+    }
 </style>
 
 <div class="content-header">
@@ -152,7 +157,7 @@ webkit-keyframes spin {
                                         <th>Order #</th>
                                         <th>Order status</th>
                                         <th>Customer</th>
-                                        <th>Created on</th>
+                                        <th>Order on</th>
                                         <th>View</th>
                                     </tr>
                                 </thead>
@@ -202,14 +207,14 @@ webkit-keyframes spin {
                             let statuscls = v.statusID == 1 ? "yellow" : v.statusID == 2 ? "red" : v.statusID == 3 ? "blue" : v.statusID == 4 ? "green" : v.statusID == 5 ? "green" : "";
 
                             __html = __html + `<tr>
-                                            <td>${count}</td>
-                                            <td><span class="grid-report-item ${statuscls} btn-sm">${statusTxt}</span></td>
-                                            <td>${v.title}</td>
-                                            <td>${v.entryOn}</td>
-                                            <td class="button-column">
-                                                                    <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}&orderid=${v.id}"><i class="far fa-eye cus-fa-eye"></i>View</a>
-                                            </td>
-                                        </tr>`;
+                                                    <td>${count}</td>
+                                                    <td><span class="grid-report-item ${statuscls} btn-sm">${statusTxt}</span></td>
+                                                    <td>${v.title}</td>
+                                                    <td>${v.entryOn}</td>
+                                                    <td class="button-column">
+                                                                                    <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}&orderid=${v.id}&date=${v.entryOn}"><i class="far fa-eye cus-fa-eye"></i>View</a>
+                                                    </td>
+                                                </tr>`;
                         }
                     })
                     $('#ordertbl tbody').html(__html);
