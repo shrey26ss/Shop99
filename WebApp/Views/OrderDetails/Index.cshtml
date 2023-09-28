@@ -103,10 +103,8 @@
 </div>
 @section scripts{
     <script>
-        $(() => {
-            loadData();
-            setOrderIdInInput();
-        })
+        
+        
         var params = () => {
             return {
                 Top: $('#Top').val(),
@@ -117,17 +115,18 @@
             };
         }
         function setOrderIdInInput() {
-            debugger;
-            const qs = Q.getQueryString();
-            const type = qs.type;
-            const orderId = qs.orderid;
-            const date = decodeURIComponent(qs.date.replace(/\+/g, ' '));
-            const dateObject = new Date(date);
-            const day = dateObject.getDate();
-            const month = dateObject.toLocaleString('default', { month: 'short' });
-            const year = dateObject.getFullYear();
-            const formattedDate = `${day} ${month} ${year}`;
-            $("#dtFromDate").val(formattedDate);
+            let qs = Q.getQueryString();
+            let type = qs.type;
+            let orderId = qs.orderid;
+            if(qs.date){
+                let date = decodeURIComponent(qs.date?.replace(/\+/g, ' '));
+                let dateObject = new Date(date);
+                let day = dateObject.getDate();
+                let month = dateObject.toLocaleString('default', { month: 'short' });
+                let year = dateObject.getFullYear();
+                let formattedDate = `${day} ${month} ${year}`;
+                $("#dtFromDate").val(formattedDate);
+            }
             if (type == 1 || type == 2 || type == 3 || type == 4 || type == 5) {
                 let statusTxt = type == 1 ? "OrderPlaced" : type == 2 ? "Cancel" : type == 3 ? "Confirmed" : type == 4 ? "Delivered" : type == 5 ? "Shipped" : "";
                 const selectElement = $("#status");
@@ -139,10 +138,10 @@
             }
             if (orderId !== null) {
                 $("#SearchText").val(orderId);
-                $("#basic-addon1").click();
             } else {
                 console.log("Order ID parameter not found in the URL.");
             }
+            $("#basic-addon1").click();
         }
         $('#basic-addon1').click(() => {
             Q.btnLdr.Start($('#basic-addon1'), '');
@@ -187,6 +186,10 @@
                 });
             })
         }
+
+        (() => setOrderIdInInput())();
+
         callDataTable({ selector: '#Grid', searching: false, scrollY: window.innerHeight - $('.table').offset().top - 100 });
+
     </script>
 }
