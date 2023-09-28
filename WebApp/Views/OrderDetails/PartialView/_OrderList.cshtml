@@ -11,7 +11,7 @@
         string badge = "";
         badge = item.StatusID == StatusType.OrderPlaced ? "badge-warning" : item.StatusID == StatusType.Cancel ? "badge-danger" : item.StatusID == StatusType.Confirmed ? "badge-success" : item.StatusID == StatusType.Delivered ? "badge-info" : "badge-dark";
         counter++;
-        <tr>
+        <tr data-item-id="@item.ID">
             <td>
                 @counter    @if (item.StatusID!=StatusType.OrderInitiated)
                 {
