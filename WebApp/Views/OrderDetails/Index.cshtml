@@ -103,8 +103,8 @@
 </div>
 @section scripts{
     <script>
-        
-        
+
+
         var params = () => {
             return {
                 Top: $('#Top').val(),
@@ -118,7 +118,7 @@
             let qs = Q.getQueryString();
             let type = qs.type;
             let orderId = qs.orderid;
-            if(qs.date){
+            if (qs.date) {
                 let date = decodeURIComponent(qs.date?.replace(/\+/g, ' '));
                 let dateObject = new Date(date);
                 let day = dateObject.getDate();
@@ -143,12 +143,10 @@
             }
             $("#basic-addon1").click();
         }
-        $('#basic-addon1').click(() => {
-            Q.btnLdr.Start($('#basic-addon1'), '');
-            loadData();
-        });
+        $('#basic-addon1').click(() => loadData());
         var loadData = async () => {
             let param = params();
+            Q.btnLdr.Start($('#basic-addon1'), '');
             await $.post('/OrderDetails/OrderList', param).done(function (result) {
                 $("#Grid tbody").empty();
                 $('#Grid tbody').append(result);
@@ -156,6 +154,10 @@
                     $('.dataTables_empty').remove();
                 }
                 Q.btnLdr.Stop($('#basic-addon1'), '');
+                let qs = Q.getQueryString();
+                if (qs) {
+                    $(`[data-item-id="${qs.orderid}"]`).addClass("bg-light");
+                }
             }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
         };
         var Cancel = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItem(ID, StatusID));
