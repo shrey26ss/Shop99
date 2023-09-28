@@ -3,6 +3,7 @@
     ViewData["Title"] = "Home Page";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 
 
@@ -41,11 +42,24 @@
         margin-bottom: 0px;
     }
 
+
+    .content-header span .fa-refresh {
+ 
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+
 </style>
 
 <div class="content-header">
     <h1>
-        Dashboard <span><i class="fa fa-refresh"></i></span>
+        Dashboard <span><i class="fa fa-refresh spin"></i></span>
     </h1>
 </div>
 
