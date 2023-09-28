@@ -2329,9 +2329,9 @@ body .ui-tooltip {
     .fa-4x {
         font-size: 4em
     }
-.input-group-text .fa-sharp
-{
-    font-size: 16px!important;
+.input-group-text .fa-sharp {
+    font-size: 16px !important;
+    padding: 0;
 }
 
 .fa-5x {
@@ -54578,7 +54578,8 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .content-wrapper,
         animation-duration: .3s;
         -webkit-animation-fill-mode: both;
         animation-fill-mode: both;
-        visibility: visible
+        visibility: visible;
+        width: 60px;
     }
 
     .sidebar-mini.sidebar-collapse .main-sidebar {
@@ -54594,9 +54595,9 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .content-wrapper,
                 float: none
             }
 
-            .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused, .sidebar-mini.sidebar-collapse .main-sidebar:hover {
+           /* .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused, .sidebar-mini.sidebar-collapse .main-sidebar:hover {
                 width: 250px
-            }
+            }*/
 
                 .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused .brand-link, .sidebar-mini.sidebar-collapse .main-sidebar:hover .brand-link {
                     width: 250px
@@ -76904,4 +76905,36 @@ h1 {
 .cus-fa-eye
 {
     font-size: 12px;
+}
+.cus-nav-closebtn {
+    position: absolute;
+    right: 16px;
+    color: #fff;
+    font-size: 26px;
+    top: 5px;
+}
+@media screen and (min-width : 768px) and (max-width: 1800px)
+{
+    .openbtn{
+        display: none;
+    }
+}
+
+
+
+.fa-sharp {
+    padding-right: none;
+}
+.openbtn {
+    position: absolute;
+    border: none;
+    background: none;
+    right: 12px;
+    color: #fff;
+    font-size: 14px;
+    background: #194da2;
+    border-radius: 20px;
+    outline: 1px solid #fff;
+    outline-offset: 3px;
+    top: 18px;
 }
