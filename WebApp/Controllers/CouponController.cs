@@ -3,7 +3,6 @@ using AppUtility.Helper;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
 using Newtonsoft.Json;
 using Service.Models;
 using System;
@@ -36,7 +35,7 @@ namespace WebApp.Controllers
         [HttpPost("Coupon/CouponsList")]
         public async Task<ActionResult> CouponsList(int Id)
         {
-            List<Coupon> coupons = await GetCoupons(Id);
+            List<Coupon>coupons = await GetCoupons(Id);
             return PartialView(coupons);
         }
         private async Task<List<Coupon>> GetCoupons(int Id)
