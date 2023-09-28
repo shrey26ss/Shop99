@@ -52,7 +52,6 @@ else
             </div>
         </div>
         <div class="row">
-
             <div class="col-md-12 table-responsive">
                 <table class="table table-bordered" id="Grid">
                     <thead class="text-nowrap">
@@ -86,8 +85,10 @@ else
             loaddata();
         });
         var loaddata = () => {
+            Q.preloader.load()
             $.post('/Product/GetAttributes', { Id: $('#hdnid').val(), s: $('#ddlstatus').val(), stock: '@Model.stock' }).done((result) => {
                 $('#Grid tbody').html(result);
+                Q.preloader.remove()
             }).fail(function() {
                 console.log(xhr.responseText);
                 Q.notify(-1, 'something went wrong.');
