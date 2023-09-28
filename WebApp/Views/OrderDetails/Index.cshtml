@@ -79,6 +79,7 @@
                     <thead>
                         <tr>
                             <th>srNo</th>
+                            <th class="text-nowrap">Order Id</th>
                             <th>Customer</th>
                             <th style="width:200px">Product</th>
                             <th>Status</th>
@@ -116,9 +117,17 @@
             };
         }
         function setOrderIdInInput() {
+            debugger;
             const qs = Q.getQueryString();
             const type = qs.type;
             const orderId = qs.orderid;
+            const date = decodeURIComponent(qs.date.replace(/\+/g, ' '));
+            const dateObject = new Date(date);
+            const day = dateObject.getDate();
+            const month = dateObject.toLocaleString('default', { month: 'short' });
+            const year = dateObject.getFullYear();
+            const formattedDate = `${day} ${month} ${year}`;
+            $("#dtFromDate").val(formattedDate);
             if (type == 1 || type == 2 || type == 3 || type == 4 || type == 5) {
                 let statusTxt = type == 1 ? "OrderPlaced" : type == 2 ? "Cancel" : type == 3 ? "Confirmed" : type == 4 ? "Delivered" : type == 5 ? "Shipped" : "";
                 const selectElement = $("#status");
