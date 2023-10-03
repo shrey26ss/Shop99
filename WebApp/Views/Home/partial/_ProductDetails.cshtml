@@ -147,13 +147,11 @@
                         {
                             <li><i class="fa fa-star-o"></i></li>
                         }
-
-
                     </ul>
                     <a href="#"><span>(@Model.TotalReviews reviews)</span></a>
                 </div>
                 <ul class="pro-price">
-                    <li><i class="fa fa-inr" style="color:green"></i> @Model.SellingCost</li>
+                    <li><i class="fa fa-inr text-success"></i> <label class="mb-0" style="font-size:31px">@Model.SellingCost</label></li>
                     <li><span>mrp <i class="fa fa-inr"></i> <b>@Model.MRP</b></span></li>
 
                     <li> @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100))  % off</li>
