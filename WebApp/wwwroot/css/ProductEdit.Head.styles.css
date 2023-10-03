@@ -45253,9 +45253,11 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .input-group-append {
-    margin-left: -1px
+    margin-left: -5px;
 }
-
+.input-group label.form-control {
+    font-size: 13px;
+}
 .input-group-text {
     display: -ms-flexbox;
     display: flex;
@@ -76937,4 +76939,7 @@ h1 {
     outline: 1px solid #fff;
     outline-offset: 3px;
     top: 18px;
+}
+#textProductName {
+    height: 38px;
 }
