@@ -10,7 +10,7 @@ using Service.CartWishList;
 namespace WebAPI.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "1,3,4")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,VENDOR,DEVELOPER")]
     [ApiController]
     [Route("/api/")]
     public class ReportController : ControllerBase

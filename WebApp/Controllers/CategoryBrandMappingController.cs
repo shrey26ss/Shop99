@@ -17,7 +17,7 @@ using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers
 {
-    [Authorize(Roles ="1")]
+    [Authorize(Roles = "ADMIN")]
     public class CategoryBrandMappingController : Controller
     {
         private string _apiBaseURL;

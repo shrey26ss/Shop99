@@ -70,14 +70,11 @@ namespace WebApp.Controllers
             }
             return View();
         }
-
         [HttpGet("Report/PGReport")]
         public async Task<IActionResult> PGReport()
         {
             return View();
         }
-
-
         [HttpPost("Report/_PGReport")]
         public async Task<IActionResult> _PGReport(InitiatePaymentRequest request)
         {

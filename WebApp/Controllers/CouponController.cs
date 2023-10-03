@@ -50,7 +50,7 @@ namespace WebApp.Controllers
             }
             return coupon;
         }
-        [Authorize(Roles ="1")]
+        [Authorize(Roles = "ADMIN")]
 
         public async Task<IActionResult> CreateCoupon(int CouponId = 0)
         {
