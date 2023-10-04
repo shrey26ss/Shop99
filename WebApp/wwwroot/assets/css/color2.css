@@ -46119,7 +46119,7 @@ td {
         transform: rotate(270deg);
         overflow: hidden;
         position: absolute;
-        top: 83%;
+        top: 88%;
     }
 
     .thumb-bottom a i {
@@ -46130,7 +46130,7 @@ td {
         transform: rotate(270deg);
         overflow: hidden;
         position: absolute;
-        top: 83%;
+        top: 88%;
     }
 
     .xzoom-container {
@@ -46153,7 +46153,7 @@ td {
     }
     .xzoom {
         width: 100%;
-        margin-left: 8px;
+        margin-left: -1px;
     }
 
     .thumb-bottom {
@@ -46174,6 +46174,7 @@ td {
     position: relative;
     margin-top: 60px;
 }
+
 
 .ui-slider {
     background: #efefef;
@@ -46566,6 +46567,10 @@ td {
 {
     .product-title {
         float: none;
+    }
+
+    .product-right .product-offer .offer-contain {
+        width: 100%;
     }
 }
 
