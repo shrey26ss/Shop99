@@ -126,7 +126,7 @@ namespace Service.Offers
 
         public async Task<IResponse<IEnumerable<Coupon>>> GetCoupons(RequestBase<SearchItem> request)
         {
-            string sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon(nolock) order by CouponId";
+            string sp = @"select CouponId,CouponCode	,IsFixed	,DiscountAmount	,convert(varchar,EntryOn,106) EntryOn	,IsActive,PaymentModes	,IsWelcomeCoupon	,[Description]	,convert(varchar,ExpiryOn,106) ExpiryOn,MaxBenefit,UseCount,IsProductDependent,MinPurchaseForRedeem,IsAutoApply from Coupon(nolock) Where ISNULL(IsProductDependent,0)=1 order by CouponId";
 
             if (request.Data == null)
                 request.Data = new SearchItem();

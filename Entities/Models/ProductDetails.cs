@@ -31,6 +31,7 @@ namespace Entities.Models
         public List<ProductPictureInfo> ProductPictureInfos { get; set; }
         public List<AttributeInfo> AttributeInfo { get; set; }
         public List<specialoffer> sepcialoffer { get; set; }
+        public List<Coupon> Coupons { get; set; }
     }
     public class ProductAttributes
     {

@@ -11,7 +11,7 @@ using WebAPI.Middleware;
 namespace WebAPI.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,VENDOR,DEVELOPER")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,VENDOR,DEVELOPER,CUSTOMER")]
     [ApiController]
     [Route("/api/")]
     public class ProductController : ControllerBase
