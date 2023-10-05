@@ -104,112 +104,113 @@
             <div class="custom-container">
                 <div class="row">
                     <div class="col-md-12">
-                    <div class="main-menu-block">
-                        <div class="header-left">
-                            <div class="brand-logo logo-sm-center">
-                                <a href="/">
-                                    <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="logo">
-                                </a>
+                        <div class="main-menu-block">
+                            <div class="header-left">
+                                <div class="brand-logo logo-sm-center">
+                                    <a href="/">
+                                        <img src="@Websiteinfomation.Whitelogo" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid  " alt="logo">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="input-block">
-                            <div class="input-box">
-                                <form class="big-deal-form">
-                                    <div class="input-group ">
-                                        <input type="search" class="form-control SearchProduct" id="searchproduct" placeholder="Search a Product">
-                                        <div class="input-group-text">
-                                            <span class="search"><i class="fa fa-search"></i></span>
+                            <div class="input-block">
+                                <div class="input-box">
+                                    <form class="big-deal-form">
+                                        <div class="input-group ">
+                                            <input type="search" class="form-control SearchProduct" id="searchproduct" placeholder="Search a Product">
+                                            <div class="input-group-text">
+                                                <span class="search"><i class="fa fa-search"></i></span>
+                                            </div>
+                                            <ul id="resultsList"></ul>
                                         </div>
-                                        <ul id="resultsList"></ul>
-                                    </div>
-                                </form>
-                                @if (!Context.User.Identity.IsAuthenticated)
-                                {
-                                    <div>
-                                        <a class="top-login-btn" href="/account/login">Login</a>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div id="dvAutoSuggestion"></div>
-                        <div class="header-right d-flex">
-
-                            <div class="icon-block">
-                                <ul class="cus-mobile-menu">
-                                    <li class="mobile-user openMenu">
-                                        <a href="javascript:void(0)">
-                                            <img src="/Image/icons/1.svg" />
-                                        </a>
-                                    </li>
-                                    @if (!User.IsInRole(nameof(RoleEnum.ADMIN)))
+                                    </form>
+                                    @if (!Context.User.Identity.IsAuthenticated)
                                     {
-                                        <li class="mobile-wishlist item-count openWishList">
+                                        <div>
+                                            <a class="top-login-btn" href="/account/login">Login</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div id="dvAutoSuggestion"></div>
+                            <div class="header-right d-flex">
+
+                                <div class="icon-block">
+                                    <ul class="cus-mobile-menu">
+                                        <li class="mobile-user openMenu">
                                             <a href="javascript:void(0)">
-                                                <img src="/Image/icons/2.svg" />
-                                                <div class="wishlist-count">
-                                                </div>
+                                                <img src="/Image/icons/1.svg" />
                                             </a>
                                         </li>
-                                        <li class="mobile-cart item-count openCartSlide">
-                                            <a href="javascript:void(0)">
-                                                <div class="cart-block">
-                                                    <div class="cart-icon">
-                                                        <img src="/Image/icons/3.svg" />
+                                        @if (!User.IsInRole(nameof(RoleEnum.ADMIN)))
+                                        {
+                                            <li class="mobile-wishlist item-count openWishList">
+                                                <a href="javascript:void(0)">
+                                                    <img src="/Image/icons/2.svg" />
+                                                    <div class="wishlist-count">
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="mobile-cart item-count openCartSlide">
+                                                <a href="javascript:void(0)">
+                                                    <div class="cart-block">
+                                                        <div class="cart-icon">
+                                                            <img src="/Image/icons/3.svg" />
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div class="cart-count"></div>
+                                            </li>
+                                            <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
+                                                <a href="javascript:void(0)">
+                                                    <img src="/Image/icons/m-1.svg" />
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
+                                <div class="menu-nav">
+                                    <span class="toggle-nav">
+                                        <i class="fa fa-bars "></i>
+                                    </span>
+                                </div>
+                                <div id="mySetting" class="add_to_cart right">
+                                    <a href="javascript:void(0)" class="overlay" onclick="closeSetting()"></a>
+                                    <div class="cart-inner">
+                                        <div class="cart_top">
+                                            <h3>Filter</h3>
+                                            <div class="close-cart">
+                                                <a href="javascript:void(0)" onclick="closeSetting()">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="setting-block">
+                                            <div class="_1KOcBL d-none" id="dvfilter">
+                                                <div class="_2q_g77">
+                                                    <div class="collection-filter-block creative-inner category-side">
+                                                        <div id="dvfilters"></div>
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <div class="cart-count"></div>
-                                        </li>
-                                        <li class="for-filter-mobile  mobile-setting" onclick="openSetting()">
-                                            <a href="javascript:void(0)">
-                                                <img src="/Image/icons/m-1.svg" />
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-
-                            <div class="menu-nav">
-                                <span class="toggle-nav">
-                                    <i class="fa fa-bars "></i>
-                                </span>
-                            </div>
-                            <div id="mySetting" class="add_to_cart right">
-                                <a href="javascript:void(0)" class="overlay" onclick="closeSetting()"></a>
-                                <div class="cart-inner">
-                                    <div class="cart_top">
-                                        <h3>Filter</h3>
-                                        <div class="close-cart">
-                                            <a href="javascript:void(0)" onclick="closeSetting()">
-                                                <i class="fa fa-times" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="setting-block">
-                                        <div class="_1KOcBL d-none" id="dvfilter">
-                                            <div class="_2q_g77">
-                                                <div class="collection-filter-block creative-inner category-side">
-                                                    <div id="dvfilters"></div>
-                                                </div>
-                                            </div>
-                                            <div class="_2q_g77">
-                                                <div class="collection-collapse-block p-3">
-                                                    <h3 class="collapse-block-title mt-0">Price</h3>
-                                                    <div class="collection-collapse-block-content">
-                                                        <div class="collection-brand-filter">
-                                                            <div class="range mt-5">
-                                                                <div class="range-slider">
-                                                                    <span class="range-selected"></span>
-                                                                </div>
-                                                                <div class="range-input">
-                                                                    <input type="range" class="min" min="0" max="1000" value="300" step="10">
-                                                                    <input type="range" class="max" min="0" max="1000" value="700" step="10">
-                                                                </div>
-                                                                <div class="range-price p-2">
-                                                                    <label for="min">Min</label>
-                                                                    <input type="number" name="min" value="300">
-                                                                    <label for="max">Max</label>
-                                                                    <input type="number" name="max" value="700">
+                                                <div class="_2q_g77">
+                                                    <div class="collection-collapse-block p-3">
+                                                        <h3 class="collapse-block-title mt-0">Price</h3>
+                                                        <div class="collection-collapse-block-content">
+                                                            <div class="collection-brand-filter">
+                                                                <div class="range mt-5">
+                                                                    <div class="range-slider">
+                                                                        <span class="range-selected"></span>
+                                                                    </div>
+                                                                    <div class="range-input">
+                                                                        <input type="range" class="min" min="0" max="1000" value="300" step="10">
+                                                                        <input type="range" class="max" min="0" max="1000" value="700" step="10">
+                                                                    </div>
+                                                                    <div class="range-price p-2">
+                                                                        <label for="min">Min</label>
+                                                                        <input type="number" name="min" value="300">
+                                                                        <label for="max">Max</label>
+                                                                        <input type="number" name="max" value="700">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -221,16 +222,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="for-mobile">
-                        <form class="big-deal-form ">
-                            <div class="input-group ">
-                                <input type="search" class="form-control SearchProduct" id="SearchProduct" onkeyup="searchproduct1(this)" placeholder="Search a Product">
-                            </div>
-                        </form>
+                        <div class="for-mobile">
+                            <form class="big-deal-form ">
+                                <div class="input-group ">
+                                    <input type="search" class="form-control SearchProduct" id="SearchProduct" onkeyup="searchproduct1(this)" placeholder="Search a Product">
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 </div>
                 
             </div>
