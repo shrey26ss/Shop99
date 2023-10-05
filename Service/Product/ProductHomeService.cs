@@ -50,8 +50,10 @@ namespace Service.Product
                 var AttributeInfo = await _dapper.GetAllAsync<AttributeInfo>("Proc_ProductAttrInfo", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 var AttributDetails = await _dapper.GetAllAsync<ProductAttributes>("Proc_ProductAttrDetails", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 var offer = await _dapper.GetAllAsync<specialoffer>("Proc_GetOffers", new { VariantId = req.Id }, CommandType.StoredProcedure);
+                var coupons = await _dapper.GetAllAsync<Coupon>("Proc_GetCouponForVariant", new { VariantId = req.Id }, CommandType.StoredProcedure);
                 productdetails = productdetails ?? new ProductDetails();
                 productdetails.sepcialoffer = offer.ToList();
+                productdetails.Coupons = coupons.ToList();
                 productdetails.ProductPictureInfos = picInfoList;
                 productdetails.AttributeInfo = AttributeInfo.ToList();
                 productdetails.ProductAttributes = AttributDetails.ToList();

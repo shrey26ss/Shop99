@@ -148,7 +148,7 @@
                             <li><i class="fa fa-star-o"></i></li>
                         }
                     </ul>
-                    <a href="#"><span>(@Model.TotalReviews reviews)</span></a>
+                    <a href="#divrate"><span>(@Model.TotalReviews reviews)</span></a>
                 </div>
                 <ul class="pro-price">
                     <li><i class="fa fa-inr text-success"></i> <label class="mb-0" style="font-size:31px">@Model.SellingCost</label></li>
@@ -241,7 +241,7 @@
                                 {
                                     <span class="code-lable">OFFER  @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) % Off</span>
                                 }
-
+                                
                                 <div>
                                 </div>
                             </li>
@@ -249,6 +249,39 @@
                     </div>
                 </div>
             </div>
+
+            @*coupons div start*@
+            <div class="pro-group">
+                <div class="product-offer">
+                    <h6 class="product-title"><i class="fa fa-tags"></i>Coupons Available </h6>
+                    <div class="offer-contain">
+                        <ul>
+                            <li>
+                                @*Special offer available*@
+                                @if (Model != null && Model.Coupons.Any())
+                                {
+                                    @foreach (var so in Model.Coupons)
+                                    {
+                                        if (so.IsFixed == true)
+                                        {
+                                            <span class="code-lable">@so.CouponCode - FLAT ₹ @so.DiscountAmount off</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="code-lable">@so.CouponCode - UPTO  @so.DiscountAmount % Off</span>
+                                        }
+                                    }
+                                }
+                               
+                                <div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @*coupons div end*@
+
             <div class="pro-group">
                 <h6 class="product-title">product infomation</h6>
                 <p>@Model.ShortDescription</p>
