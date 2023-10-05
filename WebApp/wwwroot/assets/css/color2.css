@@ -10363,7 +10363,7 @@ header {
     padding: 14px;
     background-color: #f2f8f9;
     border-right: 1px solid #dddddd;
-    height: 440px;
+    height: 380px;
 }
 
     .media-banner .media-banner-box {
@@ -45519,7 +45519,7 @@ h4 {
 .media-banner .media-banner-box .media a {
     position: relative;
     width: 30%;
-    background: #fff;
+    background: #fff0;
 }
 
 .media-banner .media-banner-box .media .media-body .media-contant {
