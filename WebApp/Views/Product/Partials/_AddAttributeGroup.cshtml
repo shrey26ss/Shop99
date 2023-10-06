@@ -161,9 +161,7 @@
                 @{
                     var list1 = new SelectList(@ViewBag.Coupons, "CouponId", "CouponCode");
                 }
-
                 <select class="form-control" id="ddlCoupon" tabindex="4" multiple="multiple">
-
                     @foreach (var item in list1)
                     {
                         <!-- if want to get couponid the use text.Value -->
@@ -212,7 +210,7 @@
 
     </div>
 
-  
+
     <span class="text-red" id="alertText"></span>
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped attributeGrid" id="dataTable1">
