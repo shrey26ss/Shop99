@@ -3,7 +3,7 @@
 @model UsersOrderTrakingViewModel
 @{
     Layout = "_layout";
-    bool isDelivered = false; 
+    bool isDelivered = false;
     if (Model.OrderTimeline != null)
     {
         isDelivered = Model.OrderTimeline.Any(otl => otl.StatusType == "Delivered");
@@ -349,7 +349,7 @@
 
                                     <i class="fa fa-file-text" aria-hidden="true" style="margin-right:7px"></i>
 
-                              
+
                                     <i class="fa fa-file-text" aria-hidden="true" style="margin-right:7px"></i>
 
                                     <span class="invoice-download">Download Invoice</span>
@@ -411,17 +411,17 @@
                                         <div class="item_details_txt">
                                             <div class="">
                                                 <span class="">Your item has been @Model.usersOrderTrakingRes.StatusID</span>
-                                            
+
                                                 <div class="mt-2">
                                                     @if (isDelivered)
                                                     {
-                                                        <button class="btn btn-sm btn-success">Return</button>
+                                                        <button class="btn btn-sm btn-success" onclick="ReturnOrder()" id="btnreturn">Return</button>
                                                     }
                                                     else
                                                     {
                                                         <button class="btn btn-sm btn-danger">Cancel</button>
                                                     }
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -460,3 +460,16 @@
         </div>
     </div>
 </section>
+@section scripts{
+   <script>
+        var ReturnOrder = () => {
+        $.post('/OrderDetails/ReturnOrder').done((result) => {
+            Q.alert({
+                title: 'Return Order',
+                body: result,
+                width: 900
+            });
+        })
+    }
+   </script>
+}

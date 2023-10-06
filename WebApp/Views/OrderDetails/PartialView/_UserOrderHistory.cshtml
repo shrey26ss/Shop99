@@ -155,6 +155,7 @@
 
 }
 <script>
+    
     var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ReturnItem = (ID) => Q.confirm("Are You Sure. You Want To Return This Order", () => ReturnOrder(ID));
     var ReplaceItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Replace This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
@@ -171,15 +172,6 @@
             width: 500
         });
     };
-    var ReturnOrder = (ID) => {
-        $.post('/OrderDetails/ReturnOrder', { ID }).done((result) => {
-            Q.alert({
-                title: 'Return Order',
-                body: result,
-                width: 900
-            });
-        })
-    }
     $(document).on('click', '#btnSubmitRemark', (e) => {
         const Remark = $('#txtRemark').val();
         const ID = $(e.currentTarget).data()?.id ?? 0;

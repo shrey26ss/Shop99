@@ -197,10 +197,12 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult ReturnOrder(OrderDetailsVM req)
+        public IActionResult ReturnOrder()
         {
+            var req = new OrderDetailsVM();
             return PartialView("PartialView/_ReturnOrder", req);
         }
+
         [HttpPost("PlaceReturnOrder")]
         public async Task<IActionResult> PlaceReturnOrder(OrderDetailsVM model)
         {
