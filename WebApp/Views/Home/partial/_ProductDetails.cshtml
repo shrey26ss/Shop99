@@ -180,7 +180,7 @@
                                                     if (attrinfo.AttributeId == item.AttributeId)
                                                     {
                                                         AttributeValue.Add(attrinfo.AttributeValue);
-                                                        string activeclass = attrinfo.GroupId == Model.VariantId ? "active" : "";
+                                                        string activeclass = attrinfo.AttributeId == item.AttributeId && attrinfo.AttributeValue == item.AttributeValue ? "active" : "";
                                                         if (attrinfo.GroupId == item.VariantId)
                                                         {
                                                             string soms = "Active";
@@ -192,6 +192,8 @@
                                             }
                                         }
                                     </ul>
+
+
                                 </div>
                             </div>
                         }
@@ -588,7 +590,7 @@
 <!--for image zoom script end-->
 
 <script>
-    const readAttributes = () => {
+    var readAttributes = () => {
         let attributes = []
         $('#attributeList .attibute').each(function (i, t) {
             attributes.push($(t).find('li.attributeValue.active').text());
@@ -641,7 +643,7 @@
         getVariantId();
     })
 
-    const getVariantId = async () => {
+    var getVariantId = async () => {
         let _u = new URL(window.location);
         let qs = _u.pathname.split('/');
         let vId = 0;
