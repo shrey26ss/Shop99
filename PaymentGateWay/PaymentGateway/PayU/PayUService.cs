@@ -132,7 +132,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
         private string GenerateHashPayUApp(string salt, List<string> keyValuePairs)
         {
             var sb = new StringBuilder();
-            sb.Append(salt);
+            
             if (keyValuePairs != null)
             {
                 foreach (var item in keyValuePairs)
@@ -141,8 +141,9 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     sb.Append("|");
                 }
             }
-            string str = sb.ToString();
 
+            sb.Append(salt);
+            string str = sb.ToString();
             string str1 = str.Remove(str.Length - 1, 1);
 
             return HashEncryption.O.SHA512Hash(str1);
