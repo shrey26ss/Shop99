@@ -49,6 +49,82 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 StatusCode = ResponseStatus.Failed,
                 ResponseText = ResponseStatus.Failed.ToString()
             };
+            if (!request.IsForAPP)
+            {
+                string paymentMode = string.Empty;
+                if (paymentModes.ContainsKey(request.PaymentModeShortName))
+                {
+                    paymentMode = paymentModes[request.PaymentModeShortName];
+                }
+                var payURequest = new PayURequest
+                {
+                    key = request.MerchantKey,
+                    amount = (double)request.Amount,
+                    txnid = "TID" + request.TID,
+                    surl = request.AlternateDomain + "/PGCallback/PayUnotify",
+                    furl = request.AlternateDomain + "/PGCallback/PayUnotify",
+                    firstname = request.UserID.ToString(),
+                    email = request.EmailID,
+                    phone = request.MobileNo,
+                    enforce_paymethod = paymentMode,
+                    productinfo = "Add Money",
+                    service_provider = "payu_paisa", //New key : 1
+                    isProdcution = true //New Key : 2
+                };
+                try
+                {
+                    Dictionary<string, string> keyValue = new Dictionary<string, string>(){
+                    {"key", payURequest.key},
+                    {"txnid", payURequest.txnid},
+                    {"isProdcution", payURequest.isProdcution.ToString()},
+                    {"amount", payURequest.amount.ToString()},
+                    {"firstname", payURequest.firstname},
+                    {"email", payURequest.email},
+                    {"phone", payURequest.phone},
+                    {"productinfo", payURequest.productinfo},
+                    {"surl", payURequest.surl},
+                    {"furl", payURequest.furl},
+                    {"enforce_paymethod", payURequest.enforce_paymethod},
+                    {"service_provider", payURequest.service_provider}
+                };
+                    payURequest.hash = GenerateHash(request.MerchantID,
+                         new List<string> { payURequest.key,
+                        payURequest.txnid,
+                        payURequest.amount.ToString(),
+                        payURequest.productinfo,
+                        payURequest.firstname,
+                        payURequest.email,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
+                    keyValue.Add("hash", payURequest.hash.ToLower());
+                    res.KeyVals = keyValue;
+                    res.StatusCode = ResponseStatus.Success;
+                    res.ResponseText = "Transaction intiated";
+                }
+                catch (Exception ex)
+                {
+                    res.StatusCode = ResponseStatus.Failed;
+                    res.ResponseText = ex.Message;
+                    string errorMsg = string.Concat(ex.Message, " | request : ", JsonConvert.SerializeObject(payURequest), " | response : ", JsonConvert.SerializeObject(res));
+                    LogError(errorMsg, this.GetType().Name, nameof(this.GeneratePGRequestForWeb));
+                }
+                if (request.IsLoggingTrue)
+                {
+                    _apiLogin.SaveLog(JsonConvert.SerializeObject(payURequest), JsonConvert.SerializeObject(res), "PayU", request.TID);
+                }
+            }
+            else
+            {
+                res = await GeneratePGRequestForAPP(request);
+            }
+            return res;
+        }
+
+        private async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForAPP(PaymentGatewayRequest request)
+        {
+            ResponsePG<PaymentGatewayResponse> res = new ResponsePG<PaymentGatewayResponse>
+            {
+                StatusCode = ResponseStatus.Failed,
+                ResponseText = ResponseStatus.Failed.ToString()
+            };
             string paymentMode = string.Empty;
             if (paymentModes.ContainsKey(request.PaymentModeShortName))
             {
@@ -65,14 +141,10 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 email = request.EmailID,
                 phone = request.MobileNo,
                 enforce_paymethod = paymentMode,
-                productinfo = "Add Money",
-                service_provider = "payu_paisa", //New key : 1
-                isProdcution = true //New Key : 2
+                productinfo = "Add Money"
             };
             try
             {
-
-
                 Dictionary<string, string> keyValue = new Dictionary<string, string>(){
                     {"key", payURequest.key},
                     {"txnid", payURequest.txnid},
@@ -84,35 +156,21 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     {"productinfo", payURequest.productinfo},
                     {"surl", payURequest.surl},
                     {"furl", payURequest.furl},
-                    {"enforce_paymethod", payURequest.enforce_paymethod},
-                    {"service_provider", payURequest.service_provider}
+                    {"enforce_paymethod", payURequest.enforce_paymethod}
                 };
-                if (request.IsForAPP)
-                {
-                    payURequest.hash = GenerateHashPayUApp(request.MerchantID,
+
+                payURequest.hash = GenerateHashPayUApp(request.MerchantID,
                     new List<string> { payURequest.key,
                         payURequest.txnid,
                         payURequest.amount.ToString(),
                         payURequest.productinfo,
                         payURequest.firstname,
-                        payURequest.email,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
-                }
-                else
-                {
-                    payURequest.hash = GenerateHash(request.MerchantID,
-                    new List<string> { payURequest.key,
-                        payURequest.txnid,
-                        payURequest.amount.ToString(),
-                        payURequest.productinfo,
-                        payURequest.firstname,
-                        payURequest.email,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
-                }
-                //keyValue
+                        payURequest.email,
+                        payURequest.phone,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
                 keyValue.Add("hash", payURequest.hash.ToLower());
                 res.KeyVals = keyValue;
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = "Transaction intiated";
-                //savePGTransactionLog(request.PGID, request.TID, JsonConvert.SerializeObject(res), request.TransactionID, payURequest.hash, RequestMode.PANEL, true, request.Amount, string.Empty);
             }
             catch (Exception ex)
             {
@@ -128,11 +186,10 @@ namespace PaymentGateWay.PaymentGateway.PayU
             return res;
         }
 
-
         private string GenerateHashPayUApp(string salt, List<string> keyValuePairs)
         {
             var sb = new StringBuilder();
-            
+            sb.Append(salt);
             if (keyValuePairs != null)
             {
                 foreach (var item in keyValuePairs)
@@ -141,9 +198,8 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     sb.Append("|");
                 }
             }
-
-            sb.Append(salt);
             string str = sb.ToString();
+
             string str1 = str.Remove(str.Length - 1, 1);
 
             return HashEncryption.O.SHA512Hash(str1);
@@ -244,6 +300,17 @@ namespace PaymentGateWay.PaymentGateway.PayU
             sb.Append(salt);
             string str = sb.ToString();
             return HashEncryption.O.SHA512Hash(str);
+        }
+
+
+        public static string GenerateSHA512Hash(string inputString)
+        {
+            using (var sha512 = System.Security.Cryptography.SHA512.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(inputString);
+                byte[] hash = sha512.ComputeHash(bytes);
+                return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
+            }
         }
     }
 }
