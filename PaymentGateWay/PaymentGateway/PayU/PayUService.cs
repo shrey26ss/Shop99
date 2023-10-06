@@ -9,19 +9,16 @@ using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using PaymentGateWay.PaymentGateway.MitraUPI;
-using PaymentGateWay.PaymentGateway.PayU;
 using Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PaymentGateWay.PaymentGateway.PayU
 {
-    public class PayUService: PaymentGatewayBase
+    public class PayUService : PaymentGatewayBase
     {
         //*Note : MerchantId --> PayU Salt  & Merchant Key or key --> Alieas
 
@@ -45,7 +42,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
             _dapper = dapper;
         }
 
-        public  async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWeb(PaymentGatewayRequest request)
+        public async Task<ResponsePG<PaymentGatewayResponse>> GeneratePGRequestForWeb(PaymentGatewayRequest request)
         {
             ResponsePG<PaymentGatewayResponse> res = new ResponsePG<PaymentGatewayResponse>
             {
@@ -69,13 +66,13 @@ namespace PaymentGateWay.PaymentGateway.PayU
                 phone = request.MobileNo,
                 enforce_paymethod = paymentMode,
                 productinfo = "Add Money",
-                service_provider = "payu_paisa",
-                isProdcution = true
+                service_provider = "payu_paisa", //New key : 1
+                isProdcution = true //New Key : 2
             };
             try
             {
 
-               
+
                 Dictionary<string, string> keyValue = new Dictionary<string, string>(){
                     {"key", payURequest.key},
                     {"txnid", payURequest.txnid},
@@ -90,13 +87,27 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     {"enforce_paymethod", payURequest.enforce_paymethod},
                     {"service_provider", payURequest.service_provider}
                 };
-                payURequest.hash = GenerateHash(request.MerchantID,
+                if (request.IsForAPP)
+                {
+                    payURequest.hash = GenerateHashPayUApp(request.MerchantID,
                     new List<string> { payURequest.key,
                         payURequest.txnid,
                         payURequest.amount.ToString(),
                         payURequest.productinfo,
                         payURequest.firstname,
-                        payURequest.email,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });//keyValue
+                        payURequest.email,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
+                }
+                else
+                {
+                    payURequest.hash = GenerateHash(request.MerchantID,
+                    new List<string> { payURequest.key,
+                        payURequest.txnid,
+                        payURequest.amount.ToString(),
+                        payURequest.productinfo,
+                        payURequest.firstname,
+                        payURequest.email,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
+                }
+                //keyValue
                 keyValue.Add("hash", payURequest.hash.ToLower());
                 res.KeyVals = keyValue;
                 res.StatusCode = ResponseStatus.Success;
@@ -116,7 +127,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
             }
             return res;
         }
-      
+
 
         private string GenerateHashPayUApp(string salt, List<string> keyValuePairs)
         {
@@ -136,7 +147,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
 
             return HashEncryption.O.SHA512Hash(str1);
         }
-        
+
         private string GenerateHash(string salt, List<string> keyValuePairs)
         {
             var sb = new StringBuilder();
@@ -166,7 +177,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
             string payuRes = string.Empty;
             var payuVerifyRequest = new PayUVerifyRequest();
             PaymentGatewayModel pgConfig = new PaymentGatewayModel();
-            pgConfig = await _dapper.GetAsync<PaymentGatewayModel>("select * from PaymentGatwaydetails where PGId = @PGID",new { request.PGID},System.Data.CommandType.Text);
+            pgConfig = await _dapper.GetAsync<PaymentGatewayModel>("select * from PaymentGatwaydetails where PGId = @PGID", new { request.PGID }, System.Data.CommandType.Text);
             StringBuilder sb = new StringBuilder("key={key}&command={command}&var1={var1}&hash={hash}");
             sb.Replace("{key}", pgConfig.MerchantKey);
             sb.Replace("{command}", "verify_payment");
@@ -190,7 +201,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     res.Result.APIResponse = payuResponse;
                     if (payuResponse.Result != null)
                     {
-                        Payures = payuResponse.Result.FirstOrDefault().postBackParam;                        
+                        Payures = payuResponse.Result.FirstOrDefault().postBackParam;
                         if (Payures.status.ToLower().In("failure", "success"))
                         {
                             res.Result.OrderStatus = Payures.status.ToUpper();
@@ -201,7 +212,7 @@ namespace PaymentGateWay.PaymentGateway.PayU
                             //payuResponse.Amount = Payures.Payuresdata.amt;
                             //payuResponse.PaymentMode = Payures.Payuresdata.mode;
                         }
-                    }                    
+                    }
                 }
             }
             catch (Exception ex)

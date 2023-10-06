@@ -1,7 +1,5 @@
-﻿using AppUtility.Helper;
-using AutoMapper;
+﻿using AutoMapper;
 using Data;
-using Data.Models;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -9,9 +7,7 @@ using Microsoft.Extensions.Logging;
 using PaymentGateWay.PaymentGateway.PayU;
 using Service.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Service.CartWishList
