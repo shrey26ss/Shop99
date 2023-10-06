@@ -137,6 +137,7 @@ namespace Entities.Models
         public StatusType StatusID { get; set; }
         public int Pincode { get; set; }
         public string HouseNo { get; set; }
+        public int ReturnInDays { get; set; }
     }
     public class OrderTimeline
     {

@@ -285,19 +285,23 @@ namespace Service.OrderDetails
             var res = new UsersOrderTrakingViewModel();
             try
             {
-                string sqlQuery = @"select o.ID,u.Name as VendorName,CONVERT(varchar,otl.CreatedOn,106) CreatedOn,o.StatusID,v.Thumbnail,u.Email,v.Title,v.MRP,v.SellingCost,ua.FullName,ua.MobileNo,ua.Pincode,ua.HouseNo,ua.Area,ua.Landmark,ua.TownCity,s.StateName from Orders o inner join VariantGroup v on o.VarriantID = v.Id 
-                   inner join UserAddress ua on o.ShippingAddressID = ua.Id
-                   inner join States s on ua.StateID = s.Id 
-                   left join VendorProfile vp on  o.VendorID = vp.Id
-                   left join Users u on vp.UserId = u.Id 
-                   inner join OrderTimeline otl  on o.ID = otl.OrderID where o.ID = @ID;";
+                string sqlQuery = "proc_GetOrderTrackingVariantDetails";
                 res.usersOrderTrakingRes = await _dapper.GetAsync<UsersOrderTrakingRes>(sqlQuery, new
                 {
                     req.ID
-                }, CommandType.Text);
+                }, CommandType.StoredProcedure);
 
-                string Query = @"SELECT st.Id, st.StatusType,Convert(varchar(11),ot.CreatedOn,106) EntryOn FROM StatusTypes st(nolock) 
-left Join OrderTimeline ot(nolock) on ot.StatusID = st.Id Where OrderID = @ID and st.IsShowTimeLine = 1 order by st.Id";
+                string Query = @"WITH CTE AS (
+                                            SELECT DISTINCT st.StatusType, MAX(CONVERT(varchar(11), ot.CreatedOn, 106)) EntryOn
+                                            FROM StatusTypes st (NOLOCK)
+                                            LEFT JOIN OrderTimeline ot (NOLOCK) ON ot.StatusID = st.Id
+                                            WHERE OrderID = @ID AND st.IsShowTimeLine = 1
+                                            GROUP BY st.StatusType
+                                        )
+                                        SELECT st.Id, c.StatusType, c.EntryOn
+                                        FROM CTE c
+                                        LEFT JOIN StatusTypes st (NOLOCK) ON c.StatusType = st.StatusType
+                                        ORDER BY c.EntryOn";
                 res.OrderTimeline = await _dapper.GetAllAsync<OrderTimeline>(Query, new
                 {
                     req.ID

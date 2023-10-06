@@ -3,6 +3,11 @@
 @model UsersOrderTrakingViewModel
 @{
     Layout = "_layout";
+    bool isDelivered = false; 
+    if (Model.OrderTimeline != null)
+    {
+        isDelivered = Model.OrderTimeline.Any(otl => otl.StatusType == "Delivered");
+    }
 }
 <style>
     .order-details {
@@ -341,7 +346,8 @@
                             <div class="title"><span class="title">More actions</span></div>
                             <div class="row more-details">
                                 <div class="invoice-img">
-                                    <img src="~/assets/images/download_Invoice.png" class="invoice-image" />
+                                    @*<img src="~/assets/images/download_Invoice.png" class="invoice-image" />*@
+                                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right:7px"></i>
                                     <span class="invoice-download">Download Invoice</span>
                                 </div>
                                 <a href="/OrderDetails/Invoice?OrderId=@Model.usersOrderTrakingRes.ID" target="_blank" class="invoice-btn text-center"><span>Download</span></a>
@@ -379,6 +385,7 @@
                                                     </div>
                                                     <div class="status">
                                                         <h4> @item.StatusType</h4>
+
                                                     </div>
                                                 </li>
                                             }
@@ -396,11 +403,22 @@
                                         }
                                     </ul>
 
-                                    <div class="item_details">
+                                    <div class="item_details ">
                                         <div class="item_details_txt">
                                             <div class="">
                                                 <span class="">Your item has been @Model.usersOrderTrakingRes.StatusID</span>
                                                 @*<span> Ekart Logistics - FMPP1476285578</span>*@
+                                                <div class="mt-2">
+                                                    @if (isDelivered)
+                                                    {
+                                                        <button class="btn btn-sm btn-success">Return</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn btn-sm btn-danger">Cancel</button>
+                                                    }
+                                                    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
