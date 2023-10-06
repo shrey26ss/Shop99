@@ -291,12 +291,12 @@ namespace Service.OrderDetails
                     req.ID
                 }, CommandType.StoredProcedure);
 
-                string Query = @"WITH CTE AS (
-                                            SELECT DISTINCT st.StatusType, MAX(CONVERT(varchar(11), ot.CreatedOn, 106)) EntryOn
+                string Query = @";WITH CTE AS (
+                                            SELECT DISTINCT st.StatusType, dbo.CustomFormat(ot.CreatedOn) EntryOn
                                             FROM StatusTypes st (NOLOCK)
                                             LEFT JOIN OrderTimeline ot (NOLOCK) ON ot.StatusID = st.Id
                                             WHERE OrderID = @ID AND st.IsShowTimeLine = 1
-                                            GROUP BY st.StatusType
+                                            GROUP BY st.StatusType,ot.CreatedOn
                                         )
                                         SELECT st.Id, c.StatusType, c.EntryOn
                                         FROM CTE c
