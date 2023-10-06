@@ -98,6 +98,7 @@ namespace Service.CartWishList
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
                     //  plaeorderRes.Domain = _irinfo.GetDomain();
+                    plaeorderRes.IsForAPP = request.Data.IsForApp;
                     plaeorderRes.Domain = _irinfo.GetDomain();//"http://localhost:52923";
                     plaeorderRes.AlternateDomain = string.IsNullOrEmpty(request.Data.AlternateDomain) ? plaeorderRes.Domain : request.Data.AlternateDomain;
                     PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);

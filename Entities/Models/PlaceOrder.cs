@@ -12,6 +12,7 @@ namespace Entities.Models
         public string Remark { get; set; }
         public string AlternateDomain { get; set; }
         public string Coupon { get; set; }
+        public bool IsForApp { get; set; }
     }
     public class PlaceOrderResponse
     {
@@ -36,6 +37,7 @@ namespace Entities.Models
     }
     public class PaymentGatewayRequest
     {
+        public bool IsForAPP { get; set; }
         public ResponseStatus StatusCode { get; set; }
         public string ResponseText { get; set; }
         public int UserID { get; set; }
