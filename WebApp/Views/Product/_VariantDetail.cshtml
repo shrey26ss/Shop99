@@ -436,7 +436,7 @@ else
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
                     SpecialDiscount: $('#specialDiscount').val(),
-                    SpecialDiscType: $('input[name="spcldisctype"]:radio:checked').val(),
+                    SpecialDiscType: $('#spcldisctype').val(),
                     CouponCode: commaSeparatedString,
                 };
                 groupInfo.push(groupDetail);
