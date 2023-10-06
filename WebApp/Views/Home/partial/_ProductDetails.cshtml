@@ -4,6 +4,7 @@
 @{
     var json = "";
     var defaultimages = Model.ProductPictureInfos.Where(x => x.ImgVariant?.ToLower() == "default");
+    var userrole = User.IsInRole("CUSTOMER");
 }
 <style>
     .star-rating__stars {
@@ -74,6 +75,7 @@
         outline: 0.25rem solid lightblue;
     }
 </style>
+<hidden style="display:none;" id="userroleval">@userrole</hidden>
 <div class="row">
     <div class="col-lg-5">
         <div class="large-5 column">
@@ -332,11 +334,13 @@
                                 <a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-selected="false"><i class="icofont icofont-man-in-glasses"></i>Specification</a>
                                 <div class="material-border"></div>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" id="review-top-tab" data-bs-toggle="tab" href="#top-review" role="tab" aria-selected="false"><i class="icofont icofont-contacts"></i>Write <span>Review</span></a>
-                                <div class="material-border"></div>
-                            </li>
+                            @if (User.IsInRole("CUSTOMER"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" id="review-top-tab" data-bs-toggle="tab" href="#top-review" role="tab" aria-selected="false"><i class="icofont icofont-contacts"></i>Write <span>Review</span></a>
+                                    <div class="material-border"></div>
+                                </li>
+                            }
                         </ul>
                         <div class="tab-content nav-material" id="top-tabContent">
                             <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
@@ -351,53 +355,56 @@
                                     </table>
                                 </div>
                             </div>
+                            @if (User.IsInRole("CUSTOMER"))
+                            {
+                                <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
+                                    <div class="theme-form">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="mt-3"><b>Rating</b></label>
+                                                <div class="media mt-0">
+                                                    <fieldset class="star-rating">
+                                                        <div class="star-rating__stars">
+                                                            <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
+                                                            <label class="star-rating__label" for="rating-1" aria-label="One"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
+                                                            <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
+                                                            <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
+                                                            <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
+                                                            <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
+                                                            <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
 
-                            <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
-                                <div class="theme-form">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label class="mt-3"><b>Rating</b></label>
-                                            <div class="media mt-0">
-                                                <fieldset class="star-rating">
-                                                    <div class="star-rating__stars">
-                                                        <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" />
-                                                        <label class="star-rating__label" for="rating-1" aria-label="One"></label>
-                                                        <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
-                                                        <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
-                                                        <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
-                                                        <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
-                                                        <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
-                                                        <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
-                                                        <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
-                                                        <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
-
-                                                    </div>
-                                                </fieldset>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
                                             </div>
-                                            <span class="text-danger d-none" id="hdnratesm">Please Select Star</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>Title (Optional)</label>
-                                            <input type="text" class="form-control" id="txttitle" placeholder="Enter your Review Subjects">
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>Review</label>
-                                            <textarea class="form-control" id="txtreview" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
-                                            <span class="text-danger d-none" id="txtreviewsm">Please Enter Review</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>Images (Optional)</label>
-                                            <input type="file" accept=".jpg,jpeg" class="form-control" id="fileimg" placeholder="Photo" multiple>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="btn btn-normal" type="submit" onclick="SaveReview('@Model.VariantId')">Submit Your Review</button>
+                                            <div class="col-md-12">
+                                                <label>Title (Optional)</label>
+                                                <input type="text" class="form-control" id="txttitle" placeholder="Enter your Review Subjects">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Review</label>
+                                                <textarea class="form-control" id="txtreview" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
+                                                <span class="text-danger d-none" id="txtreviewsm">Please Enter Review</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Images (Optional)</label>
+                                                <input type="file" accept=".jpg,jpeg" class="form-control" id="fileimg" placeholder="Photo" multiple>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="btn btn-normal" type="submit" onclick="SaveReview('@Model.VariantId')">Submit Your Review</button>
+                                            </div>
                                         </div>
                                     </div>
+
+
+
                                 </div>
-
-
-
-                            </div>
+                            }
+                            
                         </div>
                     </div>
                 </div>
@@ -672,6 +679,15 @@
 
 
     var SaveReview = (variantid) => {
+        debugger;
+        let userRoleValue = $("#userroleval").text();
+        if (userRoleValue == "False") {
+            Q.notify(-1, "You have to login first");
+            $('#txttitle').val('');
+            $('#txtreview').val('');
+            $('#fileimg').val('');
+            return ;
+        }
         let obj = {
             VariantID: variantid,
             Rating: $('.star-rating__input:checked')?.val() ?? '1',
