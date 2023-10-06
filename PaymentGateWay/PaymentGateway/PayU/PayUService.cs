@@ -141,7 +141,6 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     sb.Append("|");
                 }
             }
-
             sb.Append(salt);
             string str = sb.ToString();
             string str1 = str.Remove(str.Length - 1, 1);
