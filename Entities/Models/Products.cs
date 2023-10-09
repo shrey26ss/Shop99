@@ -11,7 +11,7 @@ namespace Entities.Models
         public string Name { get; set; }
         //[Required(ErrorMessage ="Please Enter Title")]
         //public string Title { get; set; }
-        [MaxLength(3000, ErrorMessage ="Allowed Maximum 3000 Characters For Description")]
+        [MaxLength(4000, ErrorMessage ="Allowed Maximum 3000 Characters For Description")]
         public string Description { get; set; }
         [MaxLength(50, ErrorMessage = "Allowed Maximum 50 Characters For SKU")]
         public string SKU { get; set; }
