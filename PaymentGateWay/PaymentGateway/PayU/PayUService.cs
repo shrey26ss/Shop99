@@ -159,14 +159,23 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     {"enforce_paymethod", payURequest.enforce_paymethod}
                 };
 
-                payURequest.hash = GenerateHashPayUApp(request.MerchantID,
+                //payURequest.hash = GenerateHashPayUApp(request.MerchantID,
+                //    new List<string> { payURequest.key,
+                //        payURequest.txnid,
+                //        payURequest.amount.ToString(),
+                //        payURequest.productinfo,
+                //        payURequest.firstname,
+                //        payURequest.email,
+                //        string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });  
+                
+                payURequest.hash = GenerateHash(request.MerchantID,
                     new List<string> { payURequest.key,
                         payURequest.txnid,
                         payURequest.amount.ToString(),
                         payURequest.productinfo,
                         payURequest.firstname,
                         payURequest.email,
-                        payURequest.phone,string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
+                        string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
                 keyValue.Add("hash", payURequest.hash.ToLower());
                 res.KeyVals = keyValue;
                 res.StatusCode = ResponseStatus.Success;
