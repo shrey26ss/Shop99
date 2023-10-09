@@ -53,9 +53,11 @@ namespace Service.CartWishList
         }
         public async Task<PlaceOrderResponse> PlaceOrder(RequestBase<PlaceOrderReq> request)
         {
-            string sp = string.Empty;
-            if (request.Data.PaymentMode == PaymentModes.CASH){  sp = "proc_Order"; }
-            else { sp = "proc_Initiatepayment"; }
+            string sp = "proc_Order";
+            if (request.Data.PaymentMode != PaymentModes.CASH)
+            {
+                sp = "proc_Initiatepayment";
+            }
             var res = new PlaceOrderResponse()
             {
                 StatusCode = ResponseStatus.Failed,
@@ -63,49 +65,28 @@ namespace Service.CartWishList
             };
             try
             {
-                var plaeorderRes = new PaymentGatewayRequest();
-                if (request.Data.PaymentMode == PaymentModes.CASH)
+                //var plaeorderRes = new PaymentGatewayRequest();
+                var plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
                 {
-                    plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
-                    {
-                        UserID = request.LoginId,
-                        Amount = 0,
-                        request.Data.AddressID,
-                        request.Data.PaymentMode,
-                        request.Data.Remark,
-                        request.Data.IsBuyNow,
-                        ServiceId = ServiceTypes.Order,
-                        TID = 0,
-                        IsCallFromTrg = false,
-                        request.Data.Coupon
-                    }, CommandType.StoredProcedure);
-                }
-                else
-                {
-                    plaeorderRes = await _dapper.GetAsync<PaymentGatewayRequest>(sp, new
-                    {
-                        UserID = request.LoginId,
-                        Amount = 0,
-                        request.Data.AddressID,
-                        request.Data.PaymentMode,
-                        request.Data.IsBuyNow,
-                        request.Data.Remark,
-                        ServiceId = ServiceTypes.Order,
-                        request.Data.Coupon
-                    }, CommandType.StoredProcedure);
-                }
-
+                    UserID = request.LoginId,
+                    Amount = 0,
+                    request.Data.AddressID,
+                    request.Data.PaymentMode,
+                    request.Data.Remark,
+                    request.Data.IsBuyNow,
+                    ServiceId = ServiceTypes.Order,
+                    TID = 0,
+                    IsCallFromTrg = false,
+                    request.Data.Coupon
+                }, CommandType.StoredProcedure);
                 if (plaeorderRes.StatusCode == ResponseStatus.Success && plaeorderRes.IsPayment)
                 {
-                    //  plaeorderRes.Domain = _irinfo.GetDomain();
                     plaeorderRes.IsForAPP = request.Data.IsForApp;
-                    plaeorderRes.Domain = _irinfo.GetDomain();//"http://localhost:52923";
+                    plaeorderRes.Domain = _irinfo.GetDomain();
                     plaeorderRes.AlternateDomain = string.IsNullOrEmpty(request.Data.AlternateDomain) ? plaeorderRes.Domain : request.Data.AlternateDomain;
                     PayUService p = new PayUService(_logger, _dapper, _mapper, _apiLogin);
-                    //initiate PaymentGateWay
+                 
                     var pgInitiate = await p.GeneratePGRequestForWeb(plaeorderRes);
-
-                    //return pramCreate
                     res.pgResponse = new PaymentGatewayResponse()
                     {
                         TID = "TID" + plaeorderRes.TID,

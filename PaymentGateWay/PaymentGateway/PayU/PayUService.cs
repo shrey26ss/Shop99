@@ -159,23 +159,15 @@ namespace PaymentGateWay.PaymentGateway.PayU
                     {"enforce_paymethod", payURequest.enforce_paymethod}
                 };
 
-                //payURequest.hash = GenerateHashPayUApp(request.MerchantID,
+                payURequest.hash = GenerateHashPayUApp(request.MerchantID,request.HashString);
+                //payURequest.hash = GenerateHash(request.MerchantID,
                 //    new List<string> { payURequest.key,
                 //        payURequest.txnid,
                 //        payURequest.amount.ToString(),
                 //        payURequest.productinfo,
                 //        payURequest.firstname,
                 //        payURequest.email,
-                //        string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });  
-                
-                payURequest.hash = GenerateHash(request.MerchantID,
-                    new List<string> { payURequest.key,
-                        payURequest.txnid,
-                        payURequest.amount.ToString(),
-                        payURequest.productinfo,
-                        payURequest.firstname,
-                        payURequest.email,
-                        string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
+                //        string.Empty,string.Empty,string.Empty,string.Empty,string.Empty });
                 keyValue.Add("hash", payURequest.hash.ToLower());
                 res.KeyVals = keyValue;
                 res.StatusCode = ResponseStatus.Success;
@@ -212,6 +204,13 @@ namespace PaymentGateWay.PaymentGateway.PayU
             string str1 = str.Remove(str.Length - 1, 1);
 
             return HashEncryption.O.SHA512Hash(str1);
+        }
+
+        private string GenerateHashPayUApp(string salt, string preHash)
+        {
+            var sb = new StringBuilder(preHash);
+            sb.Append(salt);
+            return HashEncryption.O.SHA512Hash(sb.ToString());
         }
 
         private string GenerateHash(string salt, List<string> keyValuePairs)
