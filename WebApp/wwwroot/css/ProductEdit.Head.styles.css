@@ -76875,6 +76875,7 @@ h1 {
 .cus-details-for-order {
     font-size: 19px;
     font-family: revert;
+    padding: 7px 0px 0px 2px;
 }
 .btn-group.dropup.  .cus-counter-cs {
     width: 15px;
@@ -76941,5 +76942,9 @@ h1 {
     top: 18px;
 }
 #textProductName {
-    height: 38px;
+    height: 31px;
 }
+.cus-order-details {
+    width: 100%;
+}
+

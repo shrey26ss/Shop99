@@ -6,7 +6,8 @@
     int ProductLength = Products.Count();
     string acts = Model.TabID == 1 ? "active default" : "";
 }
-<div id="tab-@Model.TabID" class="tab-content @acts"  >
+<div id="tab-@Model.TabID" class="tab-content @acts">
+
     <div class="row d-flex" style="margin:0 10px; overflow:hidden; flex-wrap: nowrap;">
         @if (Model != null && Model.ProductsData != null && Model.ProductsData.StatusCode == ResponseStatus.Success && Model.ProductsData.Result.Any())
         {
