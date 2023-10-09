@@ -45630,7 +45630,7 @@ h4 {
     flex: 1;
     position: relative;
     border: 1px solid #f0f0f0;
-    padding: 10px;
+    padding: 8px;
 }
 
 .zoom-box {
@@ -46186,7 +46186,7 @@ td {
 .ui-slider-range {
     background: #2874f0 !important;
     height: 12px !important;
-    position: absolute !important;
+   /* position: absolute !important;*/
     border-top: 1px solid #5d99c8 !important;
     border-bottom: 1px solid #5d99c8 !important;
     transform: translateY(-1px) !important;
@@ -46239,8 +46239,8 @@ td {
 .range-wrapper {
     position: absolute;
     top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
+   /* left: 50%;
+    transform: translateX(-50%);*/
 }
 
 .range {
@@ -46508,6 +46508,10 @@ td {
     }
 }
 
+.tab-product table
+{
+    width: 100%;
+}
 
 
 
@@ -46584,6 +46588,7 @@ td {
     }
 }
 
+
 .fa-refresh {
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
@@ -46603,3 +46608,6 @@ td {
     padding: 20px;
     font-size: 16px;
 }
+
+
+
