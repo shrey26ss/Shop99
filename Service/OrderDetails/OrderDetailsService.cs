@@ -290,7 +290,10 @@ namespace Service.OrderDetails
                 {
                     req.ID
                 }, CommandType.StoredProcedure);
-
+                if (res.usersOrderTrakingRes == null)
+                {
+                    res.usersOrderTrakingRes= new UsersOrderTrakingRes();
+                }
                 string Query = @";WITH CTE AS (
                                             SELECT DISTINCT st.StatusType, dbo.CustomFormat(ot.CreatedOn) EntryOn
                                             FROM StatusTypes st (NOLOCK)
