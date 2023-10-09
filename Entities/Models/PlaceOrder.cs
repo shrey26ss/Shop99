@@ -13,6 +13,7 @@ namespace Entities.Models
         public string AlternateDomain { get; set; }
         public string Coupon { get; set; }
         public bool IsForApp { get; set; }
+        public string HashString { get; set; }
     }
     public class PlaceOrderResponse
     {
