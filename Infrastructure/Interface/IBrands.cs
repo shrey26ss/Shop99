@@ -1,6 +1,8 @@
-﻿using Entities.Models;
+﻿using Entities.Enums;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,5 +15,6 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDL();
         Task<IResponse<IEnumerable<Brands>>> GetTopBrands(int Top);
         Task<IResponse> UpdateIspublishBrands(RequestBase<UpdateIspublishBrands> request);
+        Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDLBYCategory(int CategoryId);
     }
 }

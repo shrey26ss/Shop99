@@ -145,5 +145,23 @@ namespace Service.Brand
             }
             return res;
         }
+        public async Task<IResponse<IEnumerable<BrandsDDL>>> GetBrandDDLBYCategory(int CategoryId)
+        {
+            string sp = @"select b.Name from Brands b inner join BrandCategoryMapping m on b.Id=m.BrandId where CategoryId=@CategoryId";
+            var res = new Response<IEnumerable<BrandsDDL>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<BrandsDDL>(sp, new {
+                    CategoryId=CategoryId
+                }, CommandType.Text);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = "";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
     }
 }
