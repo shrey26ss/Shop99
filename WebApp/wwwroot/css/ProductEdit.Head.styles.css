@@ -43677,7 +43677,7 @@ pre {
 .form-control {
     display: block;
     width: 100%;
-    height: calc(1.7rem + 0px);
+    height: calc(38px + 0px);
     padding: 0.2rem 0.3rem;
     font-size: 14px;
     font-weight: 400;
@@ -76944,7 +76944,26 @@ h1 {
 #textProductName {
     height: 31px;
 }
-.cus-order-details {
+#cus-order-details {
     width: 100%;
 }
 
+    #cus-order-details .form-control {
+        height: calc(28px + 0px);
+    }
+.cus-paginetion-view li a {
+    color: #0062cc;
+}
+.cus-add-btn {
+    padding: 2px 13px 2px 12px;
+    font-size: 15px;
+}
+.cus-featired-more {
+    padding: 0.5rem 0.3rem;
+}
+.cus-precentage-mode input {
+    margin-top: 7px;
+}
+.cus-isfeatured-new {
+    margin: 5px 0px 6px 0px;
+}

@@ -46187,7 +46187,7 @@ td {
 .ui-slider-range {
     background: #2874f0 !important;
     height: 12px !important;
-    position: absolute !important;
+   /* position: absolute !important;*/
     border-top: 1px solid #5d99c8 !important;
     border-bottom: 1px solid #5d99c8 !important;
     transform: translateY(-1px) !important;
