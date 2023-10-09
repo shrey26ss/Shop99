@@ -145,12 +145,20 @@
         <div class="col-md-4">
             <div class="input-group input-group-required">
                 <input class="form-control text-box single-line" type="text" name="SpecialDiscount" value="0" id="SpecialDiscount">
-                <div class="input-group-append">
-                    <select id="spcldisctype" class="form-control">
-                        <option value="P">Percentage</option>
-                        <option value="F">FixedAmount</option>
-                    </select>
-                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="col-form-label">Special Discount Type</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group form-control cus-precentage-mode">
+                <input type="radio" name="spcldisctype" value="P" id="Percentage">
+                <label for="Percentage" class="mr-5" style="font-weight:300">Percentage</label>
+                <input type="radio" name="spcldisctype" value="F" id="FixedAmount"><label for="FixedAmount" style="font-weight:300; margin-left: 7px;">FixedAmount</label>
             </div>
         </div>
         <div class="col-md-1 label-wrapper">
@@ -175,24 +183,24 @@
     <div class="form-group row">
         <div class="col-md-3"></div>
         <div class="col-md-4">
-            <div class="input-group">
+            <div class="input-group cus-isfeatured-new">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <input type="checkbox" name="IsFeatured" id="IsFeatured" class="mt-0">
                     </div>
                 </div>
-                <label class="form-control" for="IsFeatured">IsFeatured</label>
+                <label class="form-control cus-featired-more" for="IsFeatured">IsFeatured</label>
             </div>
         </div>
         <div class="col-sm-1"></div>
         <div class="col-md-4">
-            <div class="input-group">
-                <div class="input-group-prepend">
+            <div class="input-group cus-isfeatured-new">
+                <div class="input-group-prepend ">
                     <div class="input-group-text">
-                        <input type="checkbox" class="mb-2" name="IsShowOnHome" id="IsShowOnHome">
+                        <input type="checkbox" class="mb-2 mt-2" name="IsShowOnHome" id="IsShowOnHome">
                     </div>
                 </div>
-                <label class="form-control" for="IsShowOnHome">Is Show On Home</label>
+                <label class="form-control cus-featired-more" for="IsShowOnHome">Is Show On Home</label>
             </div>
         </div>
     </div>
@@ -228,7 +236,7 @@
 
     <div class="form-group row">
         <div class="col-md-12 text-right">
-            <button type="button" class="btn btn-lg btn-info mb-2 btn-primary" onclick="recordsintable()">Add</button>
+            <button type="button" class="btn btn-lg cus-add-btn btn-info mb-2 btn-primary" onclick="recordsintable()">Add</button>
         </div>
     </div>
 
