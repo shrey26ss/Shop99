@@ -47,6 +47,12 @@ namespace WebAPI.Controllers
         {
             return Ok(await _brand.GetBrandDDL());
         }
+        [AllowAnonymous]
+        [Route("Brand/GetBrandDDLBYCategory")]
+        public async Task<IActionResult> GetBrandDDLBYCategory(int CategoryId)
+        {
+            return Ok(await _brand.GetBrandDDLBYCategory(CategoryId));
+        }
         [Route("Brand/UpdateIsPublishBrand")]
         public async Task<IActionResult> UpdateIsPublishBrand(UpdateIspublishBrands req)
         {

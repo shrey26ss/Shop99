@@ -47,7 +47,7 @@
                                     <div class="form-group">
                                         <label>Category</label>
                                         <div class="input-group">
-                                            <select asp-for="CategoryId" class="form-control select2" asp-items="@catDDl">
+                                            <select asp-for="CategoryId" onchange="brandsByCategory()" class="form-control select2" asp-items="@catDDl">
                                                 <option value="0">Select Category</option>
                                             </select>
                                             <div class="input-group-append" onclick="dialog.category()">
@@ -90,18 +90,18 @@
 
 
                                 @*<div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                    <label>Title</label>
-                                    <input class="form-control text-box single-line" asp-for="Title" type="text">
-                                    </div>
-                                    </div>*@
+                                <div class="form-group">
+                                <label>Title</label>
+                                <input class="form-control text-box single-line" asp-for="Title" type="text">
+                                </div>
+                                </div>*@
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>ShortDescription</label>
                                         <input class="form-control text-box single-line" asp-for="ShortDescription" type="text" maxlength="300">
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>HSN</label>
@@ -125,11 +125,11 @@
                                     </div>
                                 </div>
 
-                               @* <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Specification</label>
-                                        <textarea asp-for="Specification" class="form-control"></textarea>
-                                    </div>
+                                @* <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                <label>Specification</label>
+                                <textarea asp-for="Specification" class="form-control"></textarea>
+                                </div>
                                 </div>*@
 
                             </div>
@@ -173,13 +173,13 @@
                                 </div>
                                 @*                                <div class="form-group col-sm-8 mt-3">
 
-                                    <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                    <input class="" asp-for="IsFlat" type="checkbox">
-                                    <label class="ml-2">IsFlat</label>
-                                    </div>
-                                    </div>
-                                    </div>*@
+                                <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                <input class="" asp-for="IsFlat" type="checkbox">
+                                <label class="ml-2">IsFlat</label>
+                                </div>
+                                </div>
+                                </div>*@
                             </div>
                         </div>
                     </div>
@@ -190,14 +190,22 @@
 </form>
 
 @section scripts{
-<script>
-    Q.initEditor('#Description');
-    Q.initEditor('#Specification');
-    //$('#Charges, #FreeOnAmount').numeric({
-    //    numericType: "numeric",
-    //    maxLength: 9
-    //});
+    <script>
+        Q.initEditor('#Description');
+        Q.initEditor('#Specification');
+        //$('#Charges, #FreeOnAmount').numeric({
+        //    numericType: "numeric",
+        //    maxLength: 9
+        //});
 
-    $('#CategoryId,#BrandId').select2();
-</script>
+        $('#CategoryId,#BrandId').select2();
+        function brandsByCategory() {
+            var Id = $("#CategoryId").val();
+            $.post(`/Brand/BrandByCatJSON/${Id}`).done(result => {
+                const dropdown = $("#BrandId").empty();
+                result.forEach(item => dropdown.append($('<option>', { value: item.id, text: item.name })));
+            });
+        };
+
+    </script>
 }

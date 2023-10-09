@@ -21,6 +21,7 @@ namespace AppUtility.Helper
         Task<List<AttributesDDL>> GetCategoryMappedAttributeDDL(string _token, string _apiBaseURL, int CatId);
         Task<List<BrandsDDL>> GetBrandsDDL(string _token, string _apiBaseURL);
         Task<List<StateDDL>> GetStateDDL(string _apiBaseURL);
+        Task<List<BrandsDDL>> GetBarandMappedCategoryDDL(string _token, string _apiBaseURL, int CatId);
     }
     public class DDLHelper : IDDLHelper
     {
@@ -87,6 +88,17 @@ namespace AppUtility.Helper
             {
                 var _ = JsonConvert.DeserializeObject<IEnumerable<StateDDL>>(apiResponse.Result);
                 list = _.ToList();
+            }
+            return list;
+        }
+        public async Task<List<BrandsDDL>> GetBarandMappedCategoryDDL(string _token, string _apiBaseURL, int CatId)
+        {
+            var list = new List<BrandsDDL>();
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Brand/GetBrandDDLBYCategory?CategoryId={CatId}", null, _token);
+            if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+            {
+                var _ = JsonConvert.DeserializeObject<Response<IEnumerable<BrandsDDL>>>(apiResponse.Result);
+                list = _.Result.ToList();
             }
             return list;
         }

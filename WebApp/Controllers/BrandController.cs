@@ -22,7 +22,7 @@ namespace WebApp.Controllers
 {
 
 
-    [Authorize]
+    //[Authorize]
     public class BrandController : Controller
     {
 
@@ -153,6 +153,12 @@ namespace WebApp.Controllers
             {
                 return View();
             }
+        }
+        [HttpPost("Brand/BrandByCatJSON/{Id}")]
+        public async Task<ActionResult> BrandByCatJSON(int Id)
+        {
+            var brands = await _ddl.GetBarandMappedCategoryDDL(User.GetLoggedInUserToken(), _apiBaseURL, Id);
+            return Json(brands);
         }
     }
 }
