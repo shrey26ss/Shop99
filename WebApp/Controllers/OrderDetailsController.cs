@@ -197,18 +197,18 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult ReturnOrder()
+        public IActionResult ReturnOrder(int ID=1)
         {
-            var req = new OrderDetailsVM();
-            return PartialView("PartialView/_ReturnOrder", req);
+            OrderDetailsVM model = new OrderDetailsVM();
+         
+            model.ID = ID;
+            return PartialView("PartialView/_ReturnOrder",  model);
         }
 
         [HttpPost("PlaceReturnOrder")]
         public async Task<IActionResult> PlaceReturnOrder(OrderDetailsVM model)
         {
             var res = new Response();
-            if (model.Files.Count == 0 || model.Files.Count >= 5)
-                return Json(new Response { ResponseText = "Please Select Minimum 1 Image and Maximum 4 Images", StatusCode = ResponseStatus.Failed});
             if (String.IsNullOrEmpty(model.Remark))
                 return Json(new Response { ResponseText = "Please Enter Reason", StatusCode = ResponseStatus.Failed });
             model.ImagePaths = UploadImage(model.Files, model.ID);
