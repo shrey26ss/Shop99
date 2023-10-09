@@ -13,6 +13,7 @@ namespace Entities.Models
         public string AlternateDomain { get; set; }
         public string Coupon { get; set; }
         public bool IsForApp { get; set; }
+        public string HashString { get; set; }
     }
     public class PlaceOrderResponse
     {
@@ -57,6 +58,7 @@ namespace Entities.Models
         public bool IsLoggingTrue { get; set; }
         public bool IsPayment { get; set; }
         public string AlternateDomain { get; set; }
+        public string HashString { get; set; }
     }
     public class StatusCheckResponse
     {
