@@ -14,18 +14,17 @@
         border: 1px solid #ddd;
     }
 
-    .ui-widget-header{
-        position:relative;
-        text-align:left;
-        padding:5px;
-       
+    .ui-widget-header {
+        position: relative;
+        text-align: left;
+        padding: 5px;
     }
 
-    .ui-widget-header span{
+        .ui-widget-header span {
             font-size: 18px;
             font-weight: 600;
             letter-spacing: 1px;
-    }
+        }
 
         .ui-widget-header button {
             position: absolute;
@@ -35,8 +34,8 @@
             color: #fff;
         }
 
-    .ui-dialog-buttonset button{
-     margin-left:10px;
+    .ui-dialog-buttonset button {
+        margin-left: 10px;
     }
 </style>
 @if (Model.Any())
@@ -52,120 +51,116 @@
         counter++;
 
     }
- 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <h4>Shopping Cart</h4>
-                        </div>
-                        <div class="card-body sc-grid-view sc-grid-full-width">
-                            @foreach (var item in Model)
-                            {
-                                <div class="sc-list-item-content">
-                                    <div class="a-row a-grid-vertical-align a-grid-top sc-list-item-content-inner">
-                                        <div class="a-spacing-mini sc-item-content-group mr-4">
-                                            <img src="@item.Thumbnail" width="180" height="180">
-                                        </div>
 
-                                        <div class="sc-item-content-group">
-                                            <ul class="a-unordered-list a-nostyle a-vertical a-spacing-base">
-                                                <li class="a-spacing-mini">
-                                                    <span class="a-list-item">
-                                                        <a href="">
-                                                            <span class="Text-Text">@item.Title</span>
-                                                        </a>
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <div class="badge badge-light a-size-small-1">Order No : @item.OrderID.ToString().ToUpper()</div>
-                                                </li>
-                                                <li>
-                                                    <div class="sc-badge-price-to-pay">
-                                                        <p class="a-spacing-mini mt-2">
-                                                            <span class="a-size-medium a-color-base sc-price sc-white-space-nowrap sc-product-price a-text-bold"><i class="fa fa-inr fnt-small">&nbsp;&nbsp;</i>@item.Total</span>
-                                                        </p>
-                                                    </div>
-                                                </li>
-                                                <li class="sc-product-variation">
-                                                    <span class="a-list-item">
-                                                        @*                                                     @item.Attributes.ToUpper()
-                                                <span class="a-size-small a-text-bold">
-                                                Colour:
-                                                </span> *@
-                                                        <span class="a-size-small a-text-bold">
-                                                            @item.Attributes |
-                                                        </span>
-                                                    </span>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4>Shopping Cart</h4>
+                    </div>
+                    <div class="card-body sc-grid-view sc-grid-full-width">
+                        @foreach (var item in Model)
+                        {
+                            <div class="sc-list-item-content">
+                                <div class="a-row a-grid-vertical-align a-grid-top sc-list-item-content-inner">
+                                    <div class="a-spacing-mini sc-item-content-group mr-4">
+                                        <img src="@item.Thumbnail" width="180" height="180">
+                                    </div>
 
-                                                    <span class="a-list-item ml-4">
-                                                        <span class="a-size-small a-text-bold">
-                                                            Quantity:
-                                                        </span>
-                                                        <span class="a-size-small">
-                                                            @item.Qty
-                                                        </span>
+                                    <div class="sc-item-content-group">
+                                        <ul class="a-unordered-list a-nostyle a-vertical a-spacing-base">
+                                            <li class="a-spacing-mini">
+                                                <span class="a-list-item">
+                                                    <a href="">
+                                                        <span class="Text-Text">@item.Title</span>
+                                                    </a>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <div class="badge badge-light a-size-small-1">Order No : @item.OrderID.ToString().ToUpper()</div>
+                                            </li>
+                                            <li>
+                                                <div class="sc-badge-price-to-pay">
+                                                    <p class="a-spacing-mini mt-2">
+                                                        <span class="a-size-medium a-color-base sc-price sc-white-space-nowrap sc-product-price a-text-bold"><i class="fa fa-inr fnt-small">&nbsp;&nbsp;</i>@item.Total</span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li class="sc-product-variation">
+                                                <span class="a-list-item">
+                                                    <span class="a-size-small a-text-bold">
+                                                        @item.Attributes |
                                                     </span>
-                                                </li>
-                                            </ul>
+                                                </span>
 
-                                            <div class="a-row sc-action-links mt-2">
-                                                <span style="color: @(item.StatusID == StatusType.Confirmed ? "green" : item.StatusID == StatusType.CancelRequest ? "red" : "inherit" );">
-                                                    @item.StatusID.ToString()
+                                                <span class="a-list-item ml-4">
+                                                    <span class="a-size-small a-text-bold">
+                                                        Quantity:
+                                                    </span>
+                                                    <span class="a-size-small">
+                                                        @item.Qty
+                                                    </span>
+                                                </span>
+                                            </li>
+                                        </ul>
+
+                                        <div class="a-row sc-action-links mt-2">
+                                            <span style="color: @(item.StatusID == StatusType.Confirmed ? "green" : item.StatusID == StatusType.CancelRequest ? "red" : "inherit" );">
+                                                @item.StatusID.ToString()
+                                            </span>
+                                            <span style="color:#ddd">|</span>
+                                            @if (item.StatusID == StatusType.Shipped)
+                                            {
+                                                <span>
+                                                    <a href="https://shiprocket.co/tracking/@item.DocketNo" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')" class="a-size-small"></a>
+                                                </span>
+
+                                            }
+                                            @if (item.StatusID.In(StatusType.OrderPlaced, StatusType.Confirmed, StatusType.Shipped))
+                                            {
+                                                <span>
+                                                    <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="a-size-small">Cancel</a>
                                                 </span>
                                                 <span style="color:#ddd">|</span>
-                                                @if (item.StatusID == StatusType.Shipped)
-                                                {
-                                                    <span>
-                                                        <a href="https://shiprocket.co/tracking/@item.DocketNo" onclick="ShareTrackingDetails('@item.DocketNo','https://shiprocket.co/tracking/@item.DocketNo')" class="a-size-small"></a>
-                                                    </span>
-
-                                                }
-                                                @if (item.StatusID.In(StatusType.OrderPlaced, StatusType.Confirmed, StatusType.Shipped))
-                                                {
-                                                    <span>
-                                                        <a href="#" onclick="CancelUser('@item.ID','@StatusType.CancelRequest')" class="a-size-small">Cancel</a>
-                                                    </span>
-                                                    <span style="color:#ddd">|</span>
-                                                }
-                                                @if (item.StatusID == StatusType.Confirmed || item.StatusID == StatusType.Delivered)
-                                                {
-                                                    <span>
-                                                        <a href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice" class="a-size-small">
-                                                            Download
-                                                        </a>
-                                                    </span>
+                                            }
+                                            @if (item.StatusID == StatusType.Confirmed || item.StatusID == StatusType.Delivered)
+                                            {
+                                                <span>
+                                                    <a href="/OrderDetails/Invoice?OrderId=@item.ID" target="_blank" title="Download Invoice" class="a-size-small">
+                                                        Download
+                                                    </a>
+                                                </span>
 
 
-                                                }
-                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             <div style="display: flex; justify-content: flex-end;">
                                 <a href="/UserOrderDetails?OrderId=@item.ID" class="a-size-small">Track Your Order</a>
                             </div>
-                            }
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 }
 <script>
-    
+
     var CancelUser = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ReturnItem = (ID) => Q.confirm("Are You Sure. You Want To Return This Order", () => ReturnOrder(ID));
     var ReplaceItem = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Replace This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
     var ChangeStatusItemWithRemark = function (ID, StatusID) {
         let btntxt = StatusID == 'InitiateReturn' ? "Procced Your Return" : "Procced Your Cancellation";
         const html = `<div class="form-group">
-                                        <label for="inputAddress">Reason</label>
-                                        <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
-                                        </div>
-                                        <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary mr-2 addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
+                                            <label for="inputAddress">Reason</label>
+                                            <textarea  id="txtRemark" class="form-control" rows="2"></textarea>
+                                            </div>
+                                            <button type="submit" data-id="${ID}" data-status="${StatusID}" class="btn btn-outline-primary mr-2 addQuantity" id="btnSubmitRemark">${btntxt}</button>`;
         Q.alert({
             title: 'Add Reason',
             body: html,

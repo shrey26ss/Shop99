@@ -295,13 +295,13 @@ namespace Service.OrderDetails
                     res.usersOrderTrakingRes= new UsersOrderTrakingRes();
                 }
                 string Query = @";WITH CTE AS (
-                                            SELECT DISTINCT st.StatusType, dbo.CustomFormat(ot.CreatedOn) EntryOn
+                                            SELECT DISTINCT st.StatusType, dbo.CustomFormat(ot.CreatedOn) EntryOn,StatusID
                                             FROM StatusTypes st (NOLOCK)
                                             LEFT JOIN OrderTimeline ot (NOLOCK) ON ot.StatusID = st.Id
                                             WHERE OrderID = @ID AND st.IsShowTimeLine = 1
-                                            GROUP BY st.StatusType,ot.CreatedOn
+                                            GROUP BY st.StatusType,ot.CreatedOn,StatusID
                                         )
-                                        SELECT st.Id, c.StatusType, c.EntryOn
+                                        SELECT st.Id, c.StatusType, c.EntryOn,StatusID
                                         FROM CTE c
                                         LEFT JOIN StatusTypes st (NOLOCK) ON c.StatusType = st.StatusType
                                         ORDER BY c.EntryOn";
