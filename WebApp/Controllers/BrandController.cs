@@ -22,7 +22,7 @@ namespace WebApp.Controllers
 {
 
 
-    //[Authorize]
+    [Authorize]
     public class BrandController : Controller
     {
 
