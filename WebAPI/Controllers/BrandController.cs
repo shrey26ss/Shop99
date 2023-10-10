@@ -47,7 +47,6 @@ namespace WebAPI.Controllers
         {
             return Ok(await _brand.GetBrandDDL());
         }
-        [AllowAnonymous]
         [Route("Brand/GetBrandDDLBYCategory")]
         public async Task<IActionResult> GetBrandDDLBYCategory(int CategoryId)
         {
