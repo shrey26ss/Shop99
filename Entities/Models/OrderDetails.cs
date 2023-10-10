@@ -143,6 +143,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string StatusType { get; set; }
+        public StatusType StatusId { get; set; }
         public string EntryOn { get; set; }
     }
     public class UsersOrderTrakingViewModel

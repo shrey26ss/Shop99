@@ -1,13 +1,10 @@
-﻿@using Entities.Models
+﻿@using AppUtility.Extensions;
+@using Entities.Models
 @using Entities.Enums
 @model UsersOrderTrakingViewModel
 @{
     Layout = "_layout";
-    bool isDelivered = false;
-    if (Model.OrderTimeline != null)
-    {
-        isDelivered = Model.OrderTimeline.Any(otl => otl.StatusType == "Delivered");
-    }
+    StatusType _status = Model.OrderTimeline.LastOrDefault().StatusId;
 }
 <style>
     .order-details {
@@ -411,18 +408,17 @@
                                         <div class="item_details_txt">
                                             <div class="">
                                                 <span class="">Your item has been @Model.usersOrderTrakingRes.StatusID</span>
-
                                                 <div class="mt-2">
-                                                    @if (isDelivered)
+                                                    @if (_status.In(StatusType.Delivered))
                                                     {
                                                         <button class="btn btn-sm btn-success" onclick="ReturnOrder()" id="btnreturn">Return</button>
                                                     }
-                                                    else
+                                                    @if (_status.In(StatusType.OrderPlaced, StatusType.Confirmed, StatusType.Shipped))
                                                     {
-                         
-                                                        <button class="btn btn-sm btn-danger" onclick=" ChangeStatusItemWithRemark()">Cancel</button>
+                                                        <button class="btn btn-sm btn-danger" onclick="cancelOrder('@Model.usersOrderTrakingRes.ID','@StatusType.CancelRequest')">
+                                                            Cancel
+                                                        </button>
                                                     }
-
                                                 </div>
                                             </div>
                                         </div>
@@ -472,6 +468,9 @@
                 });
             })
         }
+
+        var cancelOrder = (ID, StatusID) => Q.confirm("Are You Sure. You Want To Cancel This Order", () => ChangeStatusItemWithRemark(ID, StatusID));
+
         var ChangeStatusItemWithRemark = (ID, StatusID) => {
             $.post('/OrderDetails/ChangeStatus').done((result) => {
                 console.log('result :', result);
