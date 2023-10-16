@@ -33,137 +33,151 @@
             padding: 15px
         }
 
-            .invoice header {
-                padding: 10px 0;
-                margin-bottom: 20px;
-                border-bottom: 1px solid #2874f0
+        .table th {
+            border: 1px solid #000;
+        }
+
+        .table tbody td {
+            border: 1px solid #000;
+        }
+
+        .cus-border-left {
+            border-left: 1px solid #000 !important;
+        }
+
+        .cus-border-right {
+            border-right: 1px solid #000 !important;
+        }
+
+        .cus-border-bottom {
+            border-bottom: 1px solid #000 !important;
+        }
+
+        .invoice header {
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2874f0
+        }
+
+        .invoice .company-details {
+            text-align: right;
+            font-size: 13px;
+        }
+
+            .invoice .company-details .name {
+                margin-top: 0;
+                margin-bottom: 0
             }
 
-            .invoice .company-details {
-                text-align: right
+        .invoice .contacts {
+            margin-bottom: 20px
+        }
+
+        .invoice .invoice-to {
+            text-align: left
+        }
+
+            .invoice .invoice-to .to {
+                margin-top: 0;
+                margin-bottom: 0
             }
 
-                .invoice .company-details .name {
-                    margin-top: 0;
-                    margin-bottom: 0
-                }
+        .invoice .invoice-details {
+            text-align: right
+        }
 
-            .invoice .contacts {
-                margin-bottom: 20px
+            .invoice .invoice-details .invoice-id {
+                margin-top: 0;
+                color: #2874f0;
             }
 
-            .invoice .invoice-to {
-                text-align: left
+        .invoice main {
+            padding-bottom: 50px
+        }
+
+            .invoice main .thanks {
+                margin-top: -100px;
+                font-size: 2em;
+                margin-bottom: 50px
             }
 
-                .invoice .invoice-to .to {
-                    margin-top: 0;
-                    margin-bottom: 0
-                }
-
-            .invoice .invoice-details {
-                text-align: right
+            .invoice main .notices {
+                padding-left: 6px;
+                border-left: 6px solid #2874f0;
+                background: #e7f2ff;
+                padding: 10px;
             }
 
-                .invoice .invoice-details .invoice-id {
-                    margin-top: 0;
-                    color: #2874f0;
+                .invoice main .notices .notice {
+                    font-size: 1.2em
                 }
 
-            .invoice main {
-                padding-bottom: 50px
+        .invoice table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px
+        }
+
+            .invoice table td,
+            .invoice table th {
+                padding: 15px;
+                background: #eee;
+                border-bottom: 1px solid #000
             }
 
-                .invoice main .thanks {
-                    margin-top: -100px;
-                    font-size: 2em;
-                    margin-bottom: 50px
-                }
-
-                .invoice main .notices {
-                    padding-left: 6px;
-                    border-left: 6px solid #2874f0;
-                    background: #e7f2ff;
-                    padding: 10px;
-                }
-
-                    .invoice main .notices .notice {
-                        font-size: 1rem
-                    }
-
-            .invoice table {
-                width: 100%;
-                border-collapse: collapse;
-                border-spacing: 0;
-                margin-bottom: 20px
+            .invoice table th {
+                white-space: nowrap;
+                font-weight: 400;
+                font-size: 16px
             }
 
-                .invoice table td,
-                .invoice table th {
-                    padding: 10px;
-                    background: #eee;
-                    border-bottom: 1px solid #ddd;
-                }
+            .invoice table td h3 {
+                margin: 0;
+                font-weight: 400;
+                color: #2874f0;
+                font-size: 1.2em
+            }
 
-                .invoice table th {
-                    white-space: nowrap;
-                    font-weight: 600;
-                    font-size: 14px
-                }
+            .invoice table .qty,
+            .invoice table .total,
+            .invoice table .unit {
+                text-align: right;
+                font-size: 1.2em
+            }
 
-                .invoice table td h3 p {
-                    margin: 0;
-                    font-weight: 600;
-                    color: #2874f0;
-                    font-size: 1rem
-                }
+            .invoice table .no {
+                color: #fff;
+                font-size: 1.6em;
+                background: #2874f0
+            }
 
-                .invoice table td h3 {
-                    margin: 0;
-                    font-weight: 400;
-                    color: #2874f0;
-                    font-size: 1rem
-                }
+            .invoice table .unit {
+                background: #ddd
+            }
 
-                .invoice table .qty,
-                .invoice table .total,
-                .invoice table .unit {
-                    text-align: right;
-                    font-size: 1rem
-                }
+            .invoice table .total {
+                background: #2874f0;
+                color: #fff
+            }
 
-                .invoice table .no {
-                    color: #fff;
-                    font-size: 1.6em;
-                    background: #2874f0
-                }
+            .invoice table tbody tr:last-child td {
+                border: none
+            }
 
-                .invoice table .unit {
-                    background: #ddd
-                }
+            .invoice table tfoot td {
+                background: 0 0;
+                border-bottom: none;
+                white-space: nowrap;
+                text-align: right;
+                padding: 10px 20px;
+                font-size: 1.2em;
+                border-top: 1px solid #aaa
+            }
 
-                .invoice table .total {
-                    background: #2874f0;
-                    color: #fff
-                }
-
-                .invoice table tbody tr:last-child td {
-                    /* border: none */
-                }
-
-                .invoice table tfoot td {
-                    background: 0 0;
-                    border-bottom: none;
-                    white-space: nowrap;
-                    text-align: right;
-                    padding: 10px 10px;
-                    font-size: 1em;
-                    border-top: 1px solid #aaa
-                }
-
-                .invoice table tfoot tr:first-child td {
-                    border-top: none
-                }
+            .invoice table tfoot tr:first-child td {
+                border-top: none
+            }
 
         .card {
             position: relative;
@@ -181,9 +195,8 @@
 
         .invoice table tfoot tr:last-child td {
             color: #2874f0;
-            font-size: 1rem;
-            font-weight: 600;
-            border-top: 1px solid #2874f0
+            font-size: 1.4em;
+            /*border-top: 1px solid #2874f0*/
         }
 
         .invoice table tfoot tr td:first-child {
@@ -198,36 +211,75 @@
             padding: 8px 0
         }
 
+        /* @@media print {
+                    .invoice {
+                        font-size: 11px !important;
+                        overflow: hidden !important
+                    }
+
+                        .invoice footer {
+                            position: absolute;
+                            bottom: 10px;
+                            page-break-after: always
+                        }
+
+                        .invoice > div:last-child {
+                            page-break-before: always
+                        }
+                }*/
+
         @@media print {
-            .invoice {
-                font-size: 11px !important;
-                overflow: hidden !important
+
+
+            .invoice table th,
+            .invoice table td {
+                border: 1px solid #000; /* Add border to table cells for printing */
+                padding: 15px;
+                background: #eee;
             }
 
-                .invoice footer {
-                    position: absolute;
-                    bottom: 10px;
-                    page-break-after: always
-                }
+            .invoice table th {
+                background: #000; /* Background color for table headers for printing */
+                color: #fff; /* Text color for table headers for printing */
+            }
 
-                .invoice > div:last-child {
-                    page-break-before: always
-                }
+            .invoice table .no {
+                background: #000; /* Background color for row number for printing */
+                color: #fff; /* Text color for row number for printing */
+            }
+
+            .invoice table .total {
+                background: #000; /* Background color for the total column for printing */
+                color: #fff; /* Text color for the total column for printing */
+            }
+
+            .invoice table tfoot tr td {
+                border: none;
+            }
+
+            .invoice table tfoot tr:last-child td {
+                color: #000;
+                font-size: 1.4em;
+                border-top: 1px solid #000;
+            }
+
+            .invoice table tbody tr {
+                border-left: 1px solid #000;
+                border-right: 1px solid #000;
+            }
+
+            .invoice table th {
+                background: #eee !important;
+                color: #000;
+            }
         }
+
 
         .invoice main .notices {
             padding-left: 6px;
             border-left: 6px solid #2874f0;
             background: #e7f2ff;
             padding: 10px;
-        }
-
-        .company-details p{
-        margin-bottom:3px
-        }
-
-            .company-details p.address {
-            max-width:350px;
         }
 
         @@media print {
@@ -243,7 +295,9 @@
         }
 
     </style>
+
 </head>
+
 <body>
     <div class="container">
         <div class="card">
@@ -260,19 +314,19 @@
                         <div style="min-width: 600px">
                             <header>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col" style="display: flex;    align-items: center;">
                                         <a href="javascript:;">
-                                            <img src="https://shop99.co.in/assets/images/layout-2/logo/logo.png" alt="">
+                                            <img src="@Model.LogoImage" alt="" style="width:158px;">
                                         </a>
                                     </div>
-                                    <div class="company-details pr-3">
+                                    <div class="col company-details">
                                         <h4 class="name">
                                             @Model.ShopName
                                         </h4>
-                                        <p class="address">@Model.VendorAddress, @Model.VendorState</p>
-                                        <p>@Model.VendorMobile</p>
-                                        <p>@Model.VendorEmail</p>
-                                        <p>@Model.GSTN</p>
+                                        <div>@Model.VendorAddress, @Model.VendorState</div>
+                                        <div>@Model.VendorMobile</div>
+                                        <div>@Model.VendorEmail</div>
+                                        <div>@Model.GSTN</div>
                                     </div>
                                 </div>
                             </header>
@@ -283,7 +337,10 @@
                                         <h4 class="to">@Model.FullName</h4>
                                         <div class="address">@Model.ShippingAddress</div>
                                         <div class="email">
-                                            <a href="mailto:@Model.Email">@Model.Email</a>
+                                            @if (Model.Email != "youremail@kartvalues.com")
+                                            {
+                                                <a href="mailto:@Model.Email">@Model.Email</a>
+                                            }
                                         </div>
                                     </div>
                                     <div class="col invoice-details">
@@ -292,7 +349,7 @@
                                         <div class="date">order Date: @Model.OrderDate.ToString("dddd, dd MMMM yyyy")</div>
                                     </div>
                                 </div>
-                                <table>
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -315,25 +372,79 @@
                                                     </p>
                                                 </h3>
                                             </td>
+                                            @*<td class="qty">
+                                            @{
+                                            string gst = Model.IGST > 0 ? "IGST ₹ " + Model.IGST*Model.Qty :Model.SGST>0? "CGST/SGST ₹ " + (Model.SGST + Model.CGST)*Model.Qty:"0";
+                                            }
+                                            @gst
+
+                                            </td>*@
                                             <td class="text-right">₹ @Model.TaxableValue</td>
                                             <td class="qty">@Model.Qty</td>
-
-                                            <td class="text-right">₹ @(Model.TaxableValue * Model.Qty)</td>
+                                            <td class="text-right">₹ @((Model.TaxableValue) * Model.Qty)</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" style="text-align:center" class="text-right">
-                                                <div><b>SGST</b></div>
-                                                <div><b>CGST</b></div>
-                                                <div><b>IGST</b></div>
-                                            <td colspan="3" style="text-align:center" class="text-right">
-                                                <div colspan="3">₹ @(String.Format("{0:N}", @Model.SGST * @Model.Qty))</div>
-                                                <div colspan="3">₹ @(String.Format("{0:N}", @Model.CGST * @Model.Qty))</div>
-                                                <div colspan="3">₹ @(String.Format("{0:N}", @Model.IGST * @Model.Qty))</div>
+                                            <td>
+                                                02
                                             </td>
+                                            <td class="text-left">
+                                                <h3>
+                                                    <p>
+                                                        Promotinal Discount
+
+                                                    </p>
+                                                </h3>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">₹ @Model.SpecialDiscount</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                03
+                                            </td>
+                                            <td class="text-left">
+                                                <h3>
+                                                    <p>
+                                                        Coupan
+
+                                                    </p>
+                                                </h3>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">₹ @Model.CouponApplicableValue</td>
+                                        </tr>
+                                        <tr class="cus-border-bottom">
+                                            <td class="cus-border-left "></td>
+                                            <td class="text-right">
+                                            </td>
+                                            <td class="text-right">
+                                                <p style="margin-bottom:3px;"><b>CGST</b> </p>
+                                                <p style="margin-bottom:3px;"><b>SGST</b> </p>
+                                                <p style="margin-bottom:3px;"><b>IGST</b> </p>
+                                            </td>
+
+                                            <td class=""></td>
+                                            <td class="text-right  cus-border-right">
+                                                <p style="margin-bottom:3px;">₹ @(String.Format("{0:N}", @Model.CGST * @Model.Qty))</p>
+                                                <p style="margin-bottom:3px;">₹ @(String.Format("{0:N}", @Model.SGST * @Model.Qty))</p>
+                                                <p style="margin-bottom:3px;">₹ @(String.Format("{0:N}", @Model.IGST * @Model.Qty))</p>
                                             </td>
                                         </tr>
+
                                     </tbody>
                                     <tfoot>
+                                        @*  <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">SUBTOTAL</td>
+                                        <td>₹@(Model.Rate * Model.Qty)</td>
+                                        </tr>*@
+                                        @*<tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">TAX 25%</td>
+                                        <td>₹1,300.00</td>
+                                        </tr>*@
                                         <tr>
                                             <td colspan="2"></td>
                                             <td colspan="2">GRAND TOTAL</td>
@@ -360,5 +471,7 @@
             </div>
         </div>
     </div>
+
 </body>
+
 </html>
