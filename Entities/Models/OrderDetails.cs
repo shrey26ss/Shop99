@@ -96,10 +96,9 @@ namespace Entities.Models
         public double Total { get; set; }
         public double TaxableValue { get; set; }
         public string LogoImage { get; set; }
-
         public double CouponApplicableValue { get; set; }
-
         public double SpecialDiscount { get; set; }
+        public double SellingCost { get; set; }
     }
     public class OrderReplacedConformReq
     {
