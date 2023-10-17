@@ -2,6 +2,8 @@
 @model OrderInvoice
 @{
     Layout = null;
+    var prodis = Model.SpecialDiscount;
+    var Cdis = Model.CouponApplicableValue;
 }
 
 
@@ -62,6 +64,9 @@
         .invoice .company-details {
             text-align: right;
             font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
             .invoice .company-details .name {
@@ -323,7 +328,7 @@
                                         <h4 class="name">
                                             @Model.ShopName
                                         </h4>
-                                        <div>@Model.VendorAddress, @Model.VendorState</div>
+                                        <div class="w-50">@Model.VendorAddress, @Model.VendorState</div>
                                         <div>@Model.VendorMobile</div>
                                         <div>@Model.VendorEmail</div>
                                         <div>@Model.GSTN</div>
@@ -382,35 +387,45 @@
                                             <td class="qty">@Model.Qty</td>
                                             <td class="text-right">₹ @((Model.SellingCost) * Model.Qty)</td>
                                         </tr>
-                                        <tr>
-                                            <td> 02 </td>
-                                            <td class="text-left">
-                                                <h3> <p>Special Discount </p> </h3>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-right">₹ @Model.SpecialDiscount</td>
-                                        </tr>
-                                        <tr>
-                                            <td> 03</td>
-                                            <td class="text-left">
-                                                <h3> <p> Coupan </p> </h3>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="text-right">₹ @Model.CouponApplicableValue</td>
-                                        </tr>
+                                        @if (prodis > 0 || Cdis > 0)
+                                        {
+                                            <tr>
+                                                <td class="text-right " colspan="4">
+                                                    @if (prodis > 0)
+                                                    { 
+                                                        <h3> <p>Promotional Discount </p> </h3> 
+                                                    }
+                                                    @if (Cdis > 0)
+                                                    {
+                                                        <h3> <p> Coupon Discount </p> </h3>
+                                                    }
+                                                </td>
+
+                                                <td class="text-right">
+                                                    @if (prodis > 0)
+                                                    {
+                                                        <p>- ₹ @Model.SpecialDiscount</p>
+                                                       
+                                                    }
+                                                    @if (Cdis > 0)
+                                                    {
+                                                        <p>- ₹ @Model.CouponApplicableValue</p>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
                                         <tr class="cus-border-bottom">
                                             <td class="cus-border-left "></td>
                                             <td class="text-right">
                                             </td>
+                                            <td class=""></td>
                                             <td class="text-right">
                                                 <p style="margin-bottom:3px;"><b>CGST</b> </p>
                                                 <p style="margin-bottom:3px;"><b>SGST</b> </p>
                                                 <p style="margin-bottom:3px;"><b>IGST</b> </p>
                                             </td>
 
-                                            <td class=""></td>
+                                            
                                             <td class="text-right  cus-border-right">
                                                 <p style="margin-bottom:3px;">₹ @(String.Format("{0:N}", @Model.CGST * @Model.Qty))</p>
                                                 <p style="margin-bottom:3px;">₹ @(String.Format("{0:N}", @Model.SGST * @Model.Qty))</p>
