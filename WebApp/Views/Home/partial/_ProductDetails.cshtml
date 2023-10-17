@@ -220,40 +220,7 @@
                 </div>
             </div>
 
-            <div class="pro-group">
-                <div class="product-offer">
-                    <h6 class="product-title"><i class="fa fa-tags"></i>offers Available </h6>
-                    <div class="offer-contain">
-                        <ul>
-                            <li>
-                                @*Special offer available*@
-                                @if (Model != null && Model.sepcialoffer.Any(x => x.AtRate != 0 && x.Discounttype != null))
-                                {
-                                    @foreach (var so in Model.sepcialoffer)
-                                    {
-                                        if (so.Discounttype == 'F'.ToString() && so.Discounttype != null)
-                                        {
-                                            <span class="code-lable">SPECIAL - FLAT ₹ @so.AtRate off</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="code-lable">SPECIAL - UPTO  @so.AtRate % Off</span>
-                                        }
-                                    }
-                                }
-                                @if (@Math.Floor((((Model.MRP - Model.SellingCost) / Model.MRP) * 100)) > 0)
-                                {
-                                    <span class="code-lable">OFFER  @Math.Floor((((Model.MRP-Model.SellingCost)/Model.MRP)*100)) % Off</span>
-                                }
-                                
-                                <div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
+           
             @*coupons div start*@
             <div class="pro-group">
                 <div class="product-offer">
