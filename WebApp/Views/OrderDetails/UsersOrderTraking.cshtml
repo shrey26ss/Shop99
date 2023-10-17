@@ -5,6 +5,7 @@
 @{
     Layout = "_layout";
     StatusType _status = Model.OrderTimeline.LastOrDefault().StatusId;
+    var ordertimelinecount = Model.OrderTimeline.Count();
 }
 <style>
     .order-details {
@@ -338,22 +339,22 @@
                                 </div>
                             </div>
                         </div>
+                        @if (ordertimelinecount >= 2)
+                        {
+                            <div class="col-md-6 border-left p-3">
+                                <div class="title"><span class="title">More actions</span></div>
+                                <div class="row more-details">
+                                    <div class="invoice-img">
 
-                        <div class="col-md-6 border-left p-3">
-                            <div class="title"><span class="title">More actions</span></div>
-                            <div class="row more-details">
-                                <div class="invoice-img">
+                                        <i class="fa fa-file-text" aria-hidden="true" style="margin-right:7px"></i>
 
-                                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right:7px"></i>
-
-
-                                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right:7px"></i>
-
-                                    <span class="invoice-download">Download Invoice</span>
+                                        <span class="invoice-download">Download Invoice</span>
+                                    </div>
+                                    <a href="/OrderDetails/Invoice?OrderId=@Model.usersOrderTrakingRes.ID" target="_blank" class="invoice-btn text-center"><span>Download</span></a>
                                 </div>
-                                <a href="/OrderDetails/Invoice?OrderId=@Model.usersOrderTrakingRes.ID" target="_blank" class="invoice-btn text-center"><span>Download</span></a>
                             </div>
-                        </div>
+                        }
+                        
                     </div>
                 </div>
                 <div class="col-lg-12 col-sm-12 col-xs-12">
