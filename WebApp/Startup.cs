@@ -17,7 +17,6 @@ using System.Text;
 using WebApp.Middleware;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
-
 namespace WebApp
 {
     public class Startup

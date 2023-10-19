@@ -15,8 +15,72 @@
 
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>
+    <style>
 
+
+        .price-range-slider {
+            width: 100%;
+            /* float: left;
+                    padding: 10px 20px;*/
+        }
+
+            .price-range-slider .range-value {
+                margin: 0;
+            }
+
+                .price-range-slider .range-value input {
+                    width: 100%;
+                    background: none;
+                    color: #000;
+                    font-size: 16px;
+                    font-weight: initial;
+                    box-shadow: none;
+                    border: none;
+                    margin: 20px 0 20px 0;
+                }
+
+            .price-range-slider .range-bar {
+                border: none;
+                background: #000;
+                height: 3px;
+                width: 100%;
+                margin-left: 0px;
+                position: relative;
+            }
+
+                .price-range-slider .range-bar .ui-slider-range {
+                    background: #2874f0;
+                }
+
+                .price-range-slider .range-bar .ui-slider-handle {
+                    border: none;
+                    border-radius: 25px;
+                    background: #fff;
+                    border: 2px solid #2874f0;
+                    height: 17px;
+                    width: 17px;
+                    top: -0.52em;
+                    cursor: pointer;
+                }
+
+                    .price-range-slider .range-bar .ui-slider-handle + span {
+                        background: #ffffff;
+                    }
+
+        #amount {
+            background: #f6f2f2;
+            border: 1px dotted grey;
+            padding: 7px;
+            text-align: center;
+            outline: 1px solid #2874f0;
+            outline-offset: 3px;
+        }
+
+        /*--- /.price-range-slider ---*/
+    </style>
 }
+
 <section class="section-big-py-space ratio_asos b-g-light pt-2">
     <div class="collection-wrapper">
         <div class="custom-container">
@@ -41,33 +105,16 @@
                         <div class="_2q_g77">
                             <div class="collection-collapse-block cus-block-collapse">
                                 <h3 class="cus-collapse-title mt-0">Price</h3>
-                                <div class="collection-collapse-block-content">
-                                    <div class="collection-brand-filter">
-                                        <div class="slider-wrapper">
-                                            <div id="slider-range"></div>
-                                            <div class="range-wrapper">
-                                                <div class="range"></div>
-                                                <div class="range-alert">+</div>
 
-                                                <div class="gear-wrapper">
-                                                    <div class="gear-large gear-one">
-                                                        <div class="gear-tooth"></div>
-                                                        <div class="gear-tooth"></div>
-                                                        <div class="gear-tooth"></div>
-                                                        <div class="gear-tooth"></div>
-                                                    </div>
-                                                    <div class="gear-large gear-two">
-                                                        <div class="gear-tooth"></div>
-                                                        <div class="gear-tooth"></div>
-                                                        <div class="gear-tooth"></div>
-                                                        <div class="gear-tooth"></div>
-                                                    </div>
-                                                </div>
+                                <div class="price-range-slider">
 
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <p class="range-value">
+                                        <input type="text" id="amount" readonly>
+                                    </p>
+                                    <div id="slider-range" class="range-bar"></div>
+
                                 </div>
+
                             </div>
                         </div>
 
@@ -83,6 +130,28 @@
 </section>
 
 @section scripts{
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js'></script>
+    <script id="rendered-js">
+        //-----JS for Price Range slider-----
+
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 130,
+                max: 500,
+                values: [130, 250],
+                slide: function (event, ui) {
+                    $("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
+                }
+            });
+
+            $("#amount").val("₹" + $("#slider-range").slider("values", 0) +
+                " - ₹" + $("#slider-range").slider("values", 1));
+        });
+        //# sourceURL=pen.js
+    </script>
+
     <script>
         $(document).ready(function () {
             loadFilters();
@@ -94,11 +163,11 @@
             return url.substring(url.lastIndexOf('/') + 1);
         };
 
-        var loadFilters = function() {
+        var loadFilters = function () {
             let cid = getCategoryId();
-            $.post("/Categoryfilters", { cid: cid }).done(function(result) {
+            $.post("/Categoryfilters", { cid: cid }).done(function (result) {
                 $('#filters').html(result);
-            }).fail(function(xhr) {
+            }).fail(function (xhr) {
                 Q.notify(-1, xhr.responseText);
             });
         };
@@ -155,54 +224,23 @@
             e.preventDefault();
             loadFilteredProductAfter(e);
         })
-        
 
 
-        let rangeMin = 100;
-        const range = document.querySelector(".range-selected");
-        const rangeInput = document.querySelectorAll(".range-input input");
-        const rangePrice = document.querySelectorAll(".range-price input");
 
-        rangeInput.forEach((input) => {
-            input.addEventListener("input", (e) => {
-                let minRange = parseInt(rangeInput[0].value);
-                let maxRange = parseInt(rangeInput[1].value);
-                if (maxRange - minRange < rangeMin) {
-                    if (e.target.className === "min") {
-                        rangeInput[0].value = maxRange - rangeMin;
-                    } else {
-                        rangeInput[1].value = minRange + rangeMin;
-                    }
-                } else {
-                    rangePrice[0].value = minRange;
-                    rangePrice[1].value = maxRange;
-                    range.style.left = (minRange / rangeInput[0].max) * 100 + "%";
-                    range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
-                }
-            });
-        });
 
-        rangePrice.forEach((input) => {
-            input.addEventListener("input", (e) => {
-                let minPrice = rangePrice[0].value;
-                let maxPrice = rangePrice[1].value;
-                if (maxPrice - minPrice >= rangeMin && maxPrice <= rangeInput[1].max) {
-                    if (e.target.className === "min") {
-                        rangeInput[0].value = minPrice;
-                        range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
-                    } else {
-                        rangeInput[1].value = maxPrice;
-                        range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
-                    }
-                }
-            });
-        });
+
         var showfilter = function () {
             $('#dvfilter').removeClass('d-none');
         }
+
+
+
+
+
+
     </script>
 
-    <script>
+    @*<script>
         $(function () {
 
             // Initiate Slider
@@ -229,10 +267,10 @@
 
             $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
             $('.gear-two').css('transform', 'rotate(' + gearTwoAngle + 'deg)');
-            
+
             var typingTimer;                //timer identifier
             var doneTypingInterval = 100;
-            
+
             $('#slider-range').slider({
                 slide: function (event, ui) {
                     $('.range').html('<span class="range-value range-value_min" onchange="Filterdata()"><sup>₹</sup>' + ui.values[0].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span><span class="range-divider"></span><span class="range-value range-value_max"><sup>₹</sup>' + ui.values[1].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</span>');
@@ -287,5 +325,15 @@
         var getFileterdData = (min, max) => {
             console.log(min, max);
         }
-    </script>
+
+
+
+
+
+
+    </script>*@
+
+
+
+
 }
