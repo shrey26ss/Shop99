@@ -280,7 +280,7 @@ namespace Service.Offers
                    Select tempc.* FROM coupon(NOLOCK)  tempc
 				   LEFT JOIN  VariantGroup(NOLOCK)   vg on VG.CouponId=tempc.CouponId
 				   LEFT JOIN  CartItem(NOLOCK)  c on VG.Id=c.VariantID
-				   AND C.UserID=189) tt
+				   AND C.UserID=@LoginId) tt
 				   Where 
 				   (LOWER(PaymentModes)=LOWER(@PaymentModes)
 				     OR

@@ -414,7 +414,7 @@
             $("ul#appliedCoupons").html(_html);
             $('ul#totalDiscount').remove();
             if (totalDiscount > 0) {
-                $('ul.sub-total').after(`<ul id="totalDiscount">
+                $('ul.sub-total').after(`<ul id="totalDiscount" class="total">
                                                                                                                                                      <li>
                                                                                                                                                         <div class="row">
                                                                                                                                                            <div class="col-md-7">Total Coupon Discount</div>
@@ -425,8 +425,15 @@
                                                                                                                                                      </li></ul>`);
             }
             let _payable = parseFloat($('#totalPayable').data().totalPayable);
+            let userWA = 0
+            let WAuser = document.querySelector("#UWA");
             _payable = _payable - totalDiscount;
             $('#totalPayable').text(_payable);
+            if (WAuser) {
+                userWA = parseFloat(WAuser.textContent) || 0;
+                let payamount = _payable - userWA;
+                document.querySelector("#PA").textContent = payamount.toFixed(2);
+            }           
         };
     </script>
 }

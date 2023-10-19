@@ -165,7 +165,7 @@ namespace Service.CartWishList
         }
         public async Task<IResponse<CartItemsTotalVM>> GetCartItemlist(Request req, bool  IsBuyNow=false)
         {
-            string sp = @"Select * from vw_CartItems(nolock) where CustomerUserId = @LoginId";
+            string sp = @"Select V.*,U.Amount UserWalletAmount from vw_CartItems(nolock) V inner join UserWallets(nolock) U on  V.CustomerUserId=U.UserID where CustomerUserId = @LoginId";
             //if(IsBuyNow)
             //{
             //    sp = "Select top(1) * from vw_CartItems(nolock) where CustomerUserId = @LoginId order by CartItemId desc ";

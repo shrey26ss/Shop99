@@ -45,6 +45,7 @@ namespace Entities.Models
         public bool IsFixed { get; set; }
         public bool IsCouponApplied { get; set; }
         public int AvailableQuantity { get; set; }
+        public decimal UserWalletAmount { get; set; }
     }
     public class CartWishlistCount
     {

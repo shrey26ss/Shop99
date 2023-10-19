@@ -13,6 +13,7 @@
     decimal totaldiscountAmount = 0;
     bool IsFixed = Model.Result.CartItemSlides?.FirstOrDefault().IsFixed ?? false;
     bool IsCouponApplied = Model.Result.CartItemSlides?.FirstOrDefault().IsCouponApplied ?? false;
+    decimal userwalletamount = Model.Result?.CartItemSlides?.Select(x => x.UserWalletAmount).FirstOrDefault() ?? 0.0M;
 }
 
 <style>
@@ -125,6 +126,32 @@
                     </div>
                 </div>
             </li>
+            @if (userwalletamount >= 1)
+            {
+                <li>
+                    <div class="row">
+                        <div class="col-md-7">Wallet Amount</div>
+                        <div class="col-md-5 text-right">
+                            <span class="count">
+                                <i class="fa fa-inr" aria-hidden="true"></i>
+                                <label id="UWA" data-total-payable="@userwalletamount">@userwalletamount</label>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-md-7">Payable Amount</div>
+                        <div class="col-md-5 text-right">
+                            <span class="count">
+                                <i class="fa fa-inr" aria-hidden="true"></i>
+                                <label id="PA" data-total-payable="@(Total - userwalletamount)">@(Total - userwalletamount)</label>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            }
+            
         </ul>
     </div>
     <div class="payment-box">
