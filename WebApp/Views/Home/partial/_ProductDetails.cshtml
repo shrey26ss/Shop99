@@ -380,6 +380,12 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
 <script src='../assets/js/xzoom.min.js'></script>
 @*<script src='~/js/jquery.hammer.js'></script>*@<script src="~/assets/js/hammer.min.js"></script>
 <script>
@@ -720,4 +726,19 @@
         $('#thumbnail').find('a:eq(0)').click();
     });
 
+
+
+
+
+</script>
+
+<script>
+    $('.slider-container').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: true,
+        prevArrow: '<button class="slick-prev">Previous</button>',
+        nextArrow: '<button class="slick-next">Next</button>',
+    });
 </script>

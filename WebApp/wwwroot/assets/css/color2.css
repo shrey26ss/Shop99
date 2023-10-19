@@ -9813,7 +9813,7 @@ header {
     transition: all 0.3s ease;
 }
 
-.sticky {
+/*.sticky {
     position: fixed;
     top: 0;
     left: 0;
@@ -9826,7 +9826,7 @@ header {
     animation: slideInDown 300ms ease-in-out;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
-}
+}*/
 
     .sticky .header7 {
         padding-top: 0;
@@ -45630,7 +45630,7 @@ h4 {
     flex: 1;
     position: relative;
     border: 1px solid #f0f0f0;
-    padding: 8px;
+    padding: 10px;
 }
 
 .zoom-box {
@@ -46175,35 +46175,35 @@ td {
 }
 
 
-.ui-slider {
+/*.ui-slider {
     background: #efefef;
     border: 1px solid #d2d2d2;
     height: 12px;
     position: relative;
     border-radius: 100px;
-}
+}*/
 
-.ui-slider-range {
+/*.ui-slider-range {
     background: #2874f0 !important;
     height: 12px !important;
-   /* position: absolute !important;*/
+    position: absolute !important;
     border-top: 1px solid #5d99c8 !important;
     border-bottom: 1px solid #5d99c8 !important;
     transform: translateY(-1px) !important;
+}*/
+
+.ui-slider-range:after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
 }
 
-    .ui-slider-range:after {
-        content: "";
-        width: 100%;
-        height: 1px;
-        background: #fff;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.3;
-    }
-
-.ui-slider-handle {
+/*.ui-slider-handle {
     background: #555;
     position: absolute;
     width: 20px;
@@ -46220,17 +46220,17 @@ td {
     cursor: -webkit-grab;
     box-shadow: inset -2px -2px 6px 2px rgba(0, 0, 0, 0.1);
     transition: width 0.1s;
+}*/
+
+.ui-slider-handle:focus {
+    outline: none;
 }
 
-    .ui-slider-handle:focus {
-        outline: none;
-    }
-
-    .ui-slider-handle:active {
-        cursor: grabbing;
-        cursor: -moz-grabbing;
-        cursor: -webkit-grabbing;
-    }
+.ui-slider-handle:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
 
 .ui-state-active {
     width: fit-content;
@@ -46239,8 +46239,8 @@ td {
 .range-wrapper {
     position: absolute;
     top: -50px;
-   /* left: 50%;
-    transform: translateX(-50%);*/
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .range {
@@ -46267,13 +46267,13 @@ td {
         border-top: 6px solid #d2d2d2;
     }
 
-.range-value {
+/*.range-value {
     width: 74px;
     padding: 8px 0;
     text-align: center;
     display: inline-block;
     transition: background 0.1s;
-}
+}*/
 
 .range-divider {
     width: 1px;
@@ -46508,10 +46508,6 @@ td {
     }
 }
 
-.tab-product table
-{
-    width: 100%;
-}
 
 
 
@@ -46588,7 +46584,6 @@ td {
     }
 }
 
-
 .fa-refresh {
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
@@ -46609,5 +46604,192 @@ td {
     font-size: 16px;
 }
 
+.wrapper {
+    width: 170px;
+    border-radius: 10px;
+    padding: -9px 2px 5px;
+}
+
+/*
+.price-input {
+    width: 100%;
+    display: flex;
+    margin: 22px 0 21px
+}
+
+    .price-input .field {
+        display: flex;
+        width: 100%;
+        height: 40px;
+        align-items: center;
+    }
+
+.field input {
+    width: 100%;
+    height: 79%;
+    outline: none;
+    font-size: 13px;
+    margin-left: -7px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #999;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.price-input .separator {
+    width: 50px;
+    display: flex;
+    font-size: 19px;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider {
+    height: 5px;
+    position: relative;
+    background: #ddd;
+    border-radius: 5px;
+}
+
+    .slider .progress {
+        height: 100%;
+        left: 25%;
+        right: 25%;
+        position: absolute;
+        border-radius: 5px;
+        background: #17a2b8;
+    }
+
+.range-input {
+    position: relative;
+}
+
+    .range-input input {
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        top: -5px;
+        background: none;
+        pointer-events: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+input[type="range"]::-webkit-slider-thumb {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    background: #17a2b8;
+    pointer-events: auto;
+    -moz-appearance: none;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}*/
+
+/* Support */
+.support-box {
+    top: 2rem;
+    position: relative;
+    bottom: 0;
+    text-align: center;
+    display: block;
+}
+
+.b-btn {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+    .b-btn.paypal i {
+        color: blue;
+    }
+
+    .b-btn:hover {
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .b-btn i {
+        font-size: 20px;
+        color: yellow;
+        margin-top: 2rem;
+    }
+
+.price-input .field span {
+    z-index: 999;
+    position: relative;
+    left: 10px;
+    font-weight: 700;
+}
 
 
+
+
+
+
+
+
+
+
+
+.product-list {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.product-item {
+    position: relative;
+    padding: 20px;
+    text-align: center;
+}
+
+    .product-item img {
+        width: 100%;
+        aspect-ration: 3/2;
+        object-fit: contain;
+    }
+
+.button-container {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.slider-container {
+    width: 100%;
+}
+.cus-product-heading h1 {
+    font-size: 27px;
+    text-align: center;
+    text-decoration: underline;
+    font-family: sans-serif;
+    color: #379aef;
+    text-decoration-thickness: 4px;
+    text-decoration-thickness: auto;
+}
