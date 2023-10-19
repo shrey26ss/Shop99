@@ -99,6 +99,7 @@ namespace Entities.Models
         public double CouponApplicableValue { get; set; }
         public double SpecialDiscount { get; set; }
         public double SellingCost { get; set; }
+        public Guid OrderID { get; set; }
     }
     public class OrderReplacedConformReq
     {
@@ -142,6 +143,7 @@ namespace Entities.Models
         public int Pincode { get; set; }
         public string HouseNo { get; set; }
         public int ReturnInDays { get; set; }
+        public Guid OrderID { get; set; }
     }
     public class OrderTimeline
     {
@@ -154,6 +156,8 @@ namespace Entities.Models
     {
         public UsersOrderTrakingRes usersOrderTrakingRes { get; set; }
         public IEnumerable<OrderTimeline> OrderTimeline { get; set; }
+       
+
     }
     public class OrderGSTDetails
     {
