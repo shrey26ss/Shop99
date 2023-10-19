@@ -2,6 +2,7 @@
 using AppUtility.Helper;
 using Entities.Enums;
 using Entities.Models;
+using Infrastructure.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace WebApp.Controllers
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
-            _logger= logger;
+            _logger = logger;
             _httpInfo = httpInfo;
         }
         public IActionResult Index(StatusType type)
@@ -94,7 +95,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> MarkAsShippV(int Id)
         {
             var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId = Id });
-            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id,InvoiceNumber= res.InvoiceNo });
+            return PartialView("PartialView/_MarkAsShippV", new OrderShippedStatus { Id = Id, InvoiceNumber = res.InvoiceNo });
         }
         public IActionResult ShareTrackingDetails(TrackingModel model)
         {
@@ -125,7 +126,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ChangeStatus(OrderDetailsVM model)
         {
             var res = new Response();
-            if(model.StatusID == StatusType.Confirmed)
+            if (model.StatusID == StatusType.Confirmed)
                 model.InvoiceNumber = Helper.O.GenerateInvoiceNumber(model.ID);
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/ChangeStatus", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
             if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
@@ -136,7 +137,19 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> Invoice(int OrderId = 0)
         {
+
             var res = await _convert.GetItem<OrderInvoice>("OrderDetails/GetInvoiceDetails", User.GetLoggedInUserToken(), new OrderInvoiceRequest { OrderId = OrderId });
+
+            Guid orderId;
+            var res1 = await GetList(new OrderDetailsRequest()).ConfigureAwait(false);
+            foreach (var item in res1)
+            {
+                if (OrderId == item.ID)
+                {
+                    res.OrderID = item.OrderID;
+                    break;
+                }
+            }
             return View(res);
         }
         [HttpPost]
@@ -172,7 +185,7 @@ namespace WebApp.Controllers
         }
         public async Task<IActionResult> ReturnRequestList(OrderDetailsRequest req)
         {
-            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest",JsonConvert.SerializeObject(req), User.GetLoggedInUserToken());
+            var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetReturnRequest", JsonConvert.SerializeObject(req), User.GetLoggedInUserToken());
             var response = JsonConvert.DeserializeObject<Response<List<ReturnRequestList>>>(apiResponse.Result);
             return PartialView("PartialView/_ReturnRequestList", response.Result);
         }
@@ -192,17 +205,19 @@ namespace WebApp.Controllers
             OrderReplacedConformReq model = new OrderReplacedConformReq();
             model.ID = OrderId;
             var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/OrderDetails/GetUsersOrderTraking", JsonConvert.SerializeObject(model), User.GetLoggedInUserToken());
+          
             var response = JsonConvert.DeserializeObject<UsersOrderTrakingViewModel>(apiResponse.Result);
+            
             return View(response);
         }
 
         [HttpPost]
-        public IActionResult ReturnOrder(int ID=1)
+        public IActionResult ReturnOrder(int ID = 1)
         {
             OrderDetailsVM model = new OrderDetailsVM();
-         
+
             model.ID = ID;
-            return PartialView("PartialView/_ReturnOrder",  model);
+            return PartialView("PartialView/_ReturnOrder", model);
         }
 
         [HttpPost("PlaceReturnOrder")]
