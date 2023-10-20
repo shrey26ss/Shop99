@@ -73,13 +73,13 @@ else
                     <div class="row">
                         <div class="col-sm-4 col-md-4">
                             <div class="form-group">
-                                <label>Special Discount</label>
+                                <label>Promotional Discount</label>
                                 <input id="specialDiscount" class="form-control" value="@Model.variantDetailsByAttributes.SpecialDiscount" />
                             </div>
                         </div>
                         
                         <div class="col-sm-4 col-md-4">
-                            <label id="sdt">Special Discount Type</label>
+                            <label id="sdt">Promotional Discount Type</label>
                             <div class="form-group form-control">
                                 <input type="radio" name="spcldisctype" value="P" id="Percentage" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="Percentage" class="mr-5" style="font-weight:300">Percentage</label>
                                 <input type="radio" name="spcldisctype" value="F" id="FixedAmount" asp-for="@Model.variantDetailsByAttributes.SpecialDiscType"><label for="FixedAmount" style="font-weight:300">FixedAmount</label>
@@ -436,7 +436,7 @@ else
                     IsFeatured: $('#IsFeatured').is(':checked') ? 1 : 0,
                     IsShowOnHome: $('#IsShowOnHome').is(':checked') ? 1 : 0,
                     SpecialDiscount: $('#specialDiscount').val(),
-                    SpecialDiscType: $('#spcldisctype').val(),
+                    SpecialDiscType: $('input[name="spcldisctype"]:checked').val(),
                     CouponCode: commaSeparatedString,
                 };
                 groupInfo.push(groupDetail);
