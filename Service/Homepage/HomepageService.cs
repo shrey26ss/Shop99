@@ -277,6 +277,8 @@ left join Offers o on vg.OfferID=o.OfferId and o.IsActive=1
                     productRequest.OrderBy,
                     productRequest.MoreFilters.Id,
                     productRequest.MoreFilters.Attributes,
+                    productRequest.MoreFilters.priceto,
+                    productRequest.MoreFilters.pricefrom,
                     productRequest.CalledFrom
                 }, CommandType.StoredProcedure);
                 var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);

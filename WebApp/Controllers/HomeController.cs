@@ -356,6 +356,8 @@ namespace WebApp.Controllers
                             MoreFilters = new BrandFilter
                             {
                                 Attributes = filters,
+                                pricefrom = pricefrom,
+                                priceto = priceto,
                                 Id = cid,
                             },
                             Start = start,

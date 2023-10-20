@@ -62,5 +62,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string Attributes { get; set; }
+        public int pricefrom { get; set; }
+        public int priceto { get; set; }
     }
 }
