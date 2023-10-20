@@ -68,7 +68,7 @@
                         background: #ffffff;
                     }
 
-        #amount {
+        #slideramount {
             background: #f6f2f2;
             border: 1px dotted grey;
             padding: 7px;
@@ -109,7 +109,7 @@
                                 <div class="price-range-slider">
 
                                     <p class="range-value">
-                                        <input type="text" id="amount" readonly>
+                                        <input type="text" id="slideramount" readonly>
                                     </p>
                                     <div id="slider-range" class="range-bar"></div>
 
@@ -132,27 +132,26 @@
 @section scripts{
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js'></script>
+    
     <script id="rendered-js">
-        //-----JS for Price Range slider-----
-
         $(function () {
             $("#slider-range").slider({
                 range: true,
-                min: 130,
-                max: 500,
-                values: [130, 250],
+                min: 0,
+                max: 30000,
+                values: [0, 30000],
                 slide: function (event, ui) {
-                    $("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
+                    $("#slideramount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
+                 },
+                    stop: function (event, ui) {
+                    loadFilteredProduct(); // Call the function when slider stops
                 }
             });
-
-            $("#amount").val("₹" + $("#slider-range").slider("values", 0) +
+            $("#slideramount").val("₹" + $("#slider-range").slider("values", 0) +
                 " - ₹" + $("#slider-range").slider("values", 1));
+            
         });
-        //# sourceURL=pen.js
-    </script>
 
-    <script>
         $(document).ready(function () {
             loadFilters();
             showfilter();
@@ -172,6 +171,10 @@
             });
         };
         const loadFilteredProduct = function (filters = '') {
+            let slidervalue = $("#slideramount").val();
+            let range = slidervalue.split(' - ');
+            let inputMinValue = parseFloat(range[0].replace('₹', '').trim());
+            let inputMaxValue = parseFloat(range[1].replace('₹', '').trim());
             let url = new URL(window.location.href);
             let serachParam = url.pathname.split('/');
             console.log(serachParam)
@@ -182,6 +185,8 @@
             let param = {
                 filterBy: filterBy,
                 cid: getCategoryId(),
+                pricefrom: inputMinValue,
+                priceto: inputMaxValue,
                 sortBy: $('#sortItem').val(),
                 top: $('#productPerPage').val(),
                 filters

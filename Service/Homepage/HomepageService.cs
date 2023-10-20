@@ -47,6 +47,8 @@ namespace Service.Homepage
                     productRequest.OrderBy,
                     productRequest.MoreFilters.CategoryId,
                     productRequest.MoreFilters.Attributes,
+                    productRequest.MoreFilters.priceto,
+                    productRequest.MoreFilters.pricefrom,
                     productRequest.UserID,
                 }, CommandType.StoredProcedure);
                 var products = (List<ProductResponse>)result.GetType().GetProperty("Table1").GetValue(result, null);
