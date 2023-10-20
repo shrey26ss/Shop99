@@ -221,7 +221,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("products/" + nameof(Filtered))]
-        public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy, int top = 24, int start = 0) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top, start));
+        public async Task<IActionResult> Filtered(string filterBy, int cid, string filters, SortingOption sortBy, int top = 24, int start = 0, int pricefrom = 0, int priceto = 0) => PartialView("Partial/_ProductsByCategory", await FilteredResponse(filterBy, cid, filters, sortBy, top, start, pricefrom, priceto));
         
         [HttpPost]
         public async Task<IActionResult> CategoryProductPartial(ProductRequest<CategorFilter> productRequest)
@@ -318,7 +318,7 @@ namespace WebApp.Controllers
             return Ok(Request.Headers.ToList());
         }
 
-        private async Task<IResponse<JDataTableResponse<ProductResponse>>> FilteredResponse(string filterBy, int cid, string filters, SortingOption sortBy, int top, int start)
+        private async Task<IResponse<JDataTableResponse<ProductResponse>>> FilteredResponse(string filterBy, int cid, string filters, SortingOption sortBy, int top, int start, int pricefrom , int priceto)
         {
             filterBy = filterBy ?? string.Empty;
 
@@ -338,6 +338,8 @@ namespace WebApp.Controllers
                             MoreFilters = new CategorFilter
                             {
                                 Attributes = filters,
+                                pricefrom = pricefrom,
+                                priceto = priceto,
                                 CategoryId = cid,
                             },
                             Start = start

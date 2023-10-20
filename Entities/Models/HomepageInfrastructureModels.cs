@@ -38,6 +38,8 @@ namespace Entities.Models
     {
         public int CategoryId { get; set; }
         public string Attributes { get; set; }
+        public int pricefrom { get; set; }
+        public int priceto { get; set; }
     }
     public class HotDealsResponse: ProductResponse
     {
