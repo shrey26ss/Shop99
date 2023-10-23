@@ -58,5 +58,20 @@
     $(() => {
         callDataTable({ selector : 'table',  isSearch: true });        
     })
+
+        var addOrEdit = (TID) => {
+            Q.preloader.load();
+            $.post('/User/GENrate', { Id: id }).done((response) => {
+                let _title = id == '0' ? 'Add' : 'Edit';
+                Q.alert({
+                    title: _title,
+                    body: response,
+                });
+                Q.preloader.remove();
+            }).fail((xhr) => {
+                console.error(xhr.responsiveText);
+                Q.notify(-1, 'Server Error!');
+            });
+        }
 </script>
 }

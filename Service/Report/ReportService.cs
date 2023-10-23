@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Dapper;
+using Data;
 using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
@@ -71,16 +72,16 @@ inner join Products p(nolock) on p.Id = vg.ProductId
                 if (req.RoleId == Convert.ToInt32(Role.ADMIN))
                 {
                     string sp = @"if(@Status = 0)
-Select SUM(i.Qty) Qty,i.VarriantId,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
-inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
-inner join Products p(nolock) on p.Id = vg.ProductId
-group by i.Qty,p.[Name],vg.Title,i.VarriantId
-else
-Select SUM(i.Qty) Qty,i.VarriantId,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
-inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
-inner join Products p(nolock) on p.Id = vg.ProductId
-group by i.Qty,p.[Name],vg.Title,i.VarriantId
-having SUM(i.Qty) <= 10";
+                        Select SUM(i.Qty) Qty,i.VarriantId,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
+                        inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
+                        inner join Products p(nolock) on p.Id = vg.ProductId
+                        group by i.Qty,p.[Name],vg.Title,i.VarriantId
+                        else
+                        Select SUM(i.Qty) Qty,i.VarriantId,p.[Name] ProductName,vg.Title VariantTitle from Inventory i(nolock) 
+                        inner join VariantGroup vg(nolock) on vg.Id = i.VarriantId
+                        inner join Products p(nolock) on p.Id = vg.ProductId
+                        group by i.Qty,p.[Name],vg.Title,i.VarriantId
+                        having SUM(i.Qty) <= 10";
                     res.Result = await _dapper.GetAllAsync<Inventory>(sp, new { req.Data.Status }, CommandType.Text);
                     res.StatusCode = ResponseStatus.Success;
                     res.ResponseText = nameof(ResponseStatus.Success);
@@ -89,6 +90,21 @@ having SUM(i.Qty) <= 10";
                 {
                     res.ResponseText = "Unauthorised";
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+        public async Task<IResponse<IEnumerable<UserWalletledger>>> GetUserWalletLedger(string Phonenumber, int UserID)
+        {
+            var res = new Response<IEnumerable<UserWalletledger>>();
+            try
+            {
+                res.Result = await _dapper.GetAllAsync<UserWalletledger>("proc_GetWalletLedger", new { Phonenumber, UserID }, CommandType.StoredProcedure);
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
             }
             catch (Exception ex)
             {
@@ -105,6 +121,7 @@ having SUM(i.Qty) <= 10";
                 res.Result = await _dapper.GetAllAsync<ProductRatingReq>(sp, new { req.Id }, CommandType.Text);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
+
             }
             catch (Exception ex)
             {

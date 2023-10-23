@@ -141,7 +141,7 @@ namespace Data
                     return result.ToList();
                 }
             }
-            catch (Exception ex)
+             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return new List<T>();

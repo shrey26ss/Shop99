@@ -37,7 +37,9 @@ namespace WebApp.Controllers
         public async Task<IActionResult> TopBannerList(int Id = 0)
         {
             return PartialView("PartialView/_TopBannerList", await GetList(Id).ConfigureAwait(false));
-        }
+        } 
+
+
         public async Task<IActionResult> Edit(int Id = 0)
         {
             var res = new TopBannerViewModel();
