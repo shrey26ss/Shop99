@@ -17,6 +17,8 @@ namespace Entities.Models
         public int ReferenceId { get; set; }
     }
 
+    
+
     public class InitiatePaymentRequest
     {
         public StatusType Status { get; set; }
