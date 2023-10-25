@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Infrastructure.Interface;
 using PaymentGateWay.PaymentGateway.PayU;
 using System.Net;
+using WebApp.AppCode;
 
 namespace WebApp.Controllers
 {
