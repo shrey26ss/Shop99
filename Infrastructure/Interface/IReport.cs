@@ -13,5 +13,6 @@ namespace Infrastructure.Interface
         Task<IResponse<IEnumerable<ProductRatingReq>>> ReviewReport(SearchItem req);
         Task<IResponse<IEnumerable<NewsLatter>>> GetNewslatter();
         Task<IResponse<IEnumerable<InitiatePayment>>> GetPGReport(RequestBase<InitiatePaymentRequest> req);
+        Task<IResponse<IEnumerable<UserWalletledger>>> GetUserWalletLedger(string Phonenumber, int UserID);
     }
 }

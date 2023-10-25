@@ -30,6 +30,10 @@
             <td>@item.PGID</td>
             <td><span class="d-block">@item.Name</span><small>[@item.PhoneNumber]</small></td>
             <td class="text-right">@item.Amount</td>
+            <td class="text-nowrap">
+                <span data-item-id="@item.TID" class="fa fa-info-circle text-info a_modal" onclick="transactionDialog(this)" style="cursor:pointer" aria-hidden="true"></span>
+                &nbsp;@item.TID
+            </td>
             <td class="align-middle">
                 @if (item.Status == "S")
                 {
@@ -77,9 +81,9 @@
     }
     var PaymentStatuscheck = (params) => {
         $.post('/Report/TransactionStatuscheck', params)
-            .done(result => {
-                Q.notify(result.statusCode, result.responseText);
-                loadData();
-            }).fail(xhr => Q.notify(-1, xhr.responseText))
+         .done(result => {
+           Q.notify(result.statusCode, result.responseText);
+             loadData();
+         }).fail(xhr => Q.notify(-1, xhr.responseText))
     }
 </script>

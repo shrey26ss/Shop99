@@ -1,0 +1,66 @@
+﻿@using Entities.Enums;
+@using Entities.Models;
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row justify-content-end">
+                <div class="col-md-9 col-sm-6">
+                    <h2 class="float-left">
+                        User Wallet Ledger
+                    </h2>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <input type="text" id="txtSearch" class="form-control" placeholder="Search in Table" />
+                </div>
+                <div class="col-md-12 mt-2">
+                    <div class="col-md-12 mt-2">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="Grid">
+                                <thead>
+                                    <tr role="row">
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Transaction Type</th>
+                                        <th>Opening Balance</th>
+                                        <th class="text-nowrap">Amount</th>
+                                        <th class="text-nowrap">Closing Balance</th>
+                                        <th>Transaction  ID</th>
+                                        <th class="text-nowrap">Service Name</th>
+                                        <th>EntryOn</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(() => {
+            loadData();
+        })
+        $(() => {
+            let modelval = '@Model.Status';
+            if (modelval)
+                $('#status').val(modelval);
+            loadData();
+            $("#txtSearch").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $('#tblBody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        })
+        var loadData = () => {
+            $.post('/Report/UserWalletLedgerList', { Status: $('#status').val() }).done(function (result) {
+                console.log('Result:',result)
+                $('#tblBody').html(result);
+            }).fail(function (xhr) {
+            })
+        };
+    </script>
+}

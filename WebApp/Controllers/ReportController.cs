@@ -13,6 +13,8 @@ using AppUtility.APIRequest;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using Infrastructure.Interface;
+using WebApp.AppCode;
 
 namespace WebApp.Controllers
 {
@@ -21,11 +23,13 @@ namespace WebApp.Controllers
     {
         private string _apiBaseURL;
         private IGenericMethods _convert;
+        private readonly IHttpRequestInfo _httpInfo;
 
-        public ReportController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert)
+        public ReportController(ILogger<UserHomeController> logger, AppSettings appSettings, IGenericMethods convert, IHttpRequestInfo httpInfo)
         {
             _apiBaseURL = appSettings.WebAPIBaseUrl;
             _convert = convert;
+            _httpInfo = httpInfo;
         }
         public IActionResult _Inventory(StatusType status = StatusType.All)
         {
@@ -48,6 +52,18 @@ namespace WebApp.Controllers
             var res = await _convert.GetList<Inventory>("Report/GetInventoryLadgerReport", GetToken(), request);
             return PartialView("Partial/InventoryList", res);
         }
+        [Route("Report/UserWalletLedger")]
+        public async Task<IActionResult> UserWalletLedger(StatusType status = StatusType.All)
+        {
+            return View(new UserWalletledgerRequest { Status = status });
+        }
+        [HttpPost("Report/UserWalletLedgerList")]
+        public async Task<IActionResult> UserWalletLedgerList(string Phonenumber,int UserID)
+        {
+            var res = await _convert.GetList<UserWalletledger>("Report/UserWalletLedgerList", GetToken(), new {Phonenumber,UserID});
+            return PartialView("Partial/_UserWalletLedger", res);
+        }
+        
         [HttpPost("Report/ReviewReport")]
         public async Task<IActionResult> ReviewReport(SearchItem req)
         {

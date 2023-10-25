@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using WebAPI.Middleware;
 using Service.CartWishList;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace WebAPI.Controllers
 {
@@ -26,6 +27,14 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetInventoryLadgerReport(InventoryRequest req) => Ok(await _report.GetInventoryLadgerReport(new RequestBase<InventoryRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
         [Route("Report/GetInventoryReport")]
         public async Task<IActionResult> GetInventoryReport(InventoryRequest req) => Ok(await _report.GetInventoryReport(new RequestBase<InventoryRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
+
+        [Route("Report/UserWalletLedgerList")]
+        public async Task<IActionResult> UserWalletLedgerList(string Phonenumber)
+        {
+            int UserID = User.GetLoggedInUserId<int>();
+            var result = await _report.GetUserWalletLedger(Phonenumber, UserID);
+            return Ok(result);
+        }
         [Route("Report/ReviewReport")]
         public async Task<IActionResult> ReviewReport(SearchItem req) => Ok(await _report.ReviewReport(req));
 
