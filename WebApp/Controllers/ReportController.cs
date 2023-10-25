@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Infrastructure.Interface;
+using PaymentGateWay.PaymentGateway.PayU;
+using System.Net;
 using WebApp.AppCode;
 
 namespace WebApp.Controllers
@@ -44,7 +46,7 @@ namespace WebApp.Controllers
         [Route("Report/InventoryLedger")]
         public IActionResult Inventory(StatusType status = StatusType.All)
         {
-            return View(new InventoryRequest {  Status = status});
+            return View(new InventoryRequest { Status = status });
         }
         [HttpPost("Report/InventoryLedgerList")]
         public async Task<IActionResult> InventoryLedgerList(InventoryRequest request)
@@ -91,6 +93,32 @@ namespace WebApp.Controllers
         {
             return View();
         }
+
+        [HttpPost("Report/GetTransactionReqRes")]
+        public async Task<IActionResult> GetTransactionReqRes(string TID)
+        {
+            try
+            {
+                string _token = GetToken();
+                var apiResponse = await AppWebRequest.O.PostAsync($"{_apiBaseURL}/api/Report/GetTransactionReqRes/{TID}", TID, _token);
+
+                if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    var responseContent = JsonConvert.DeserializeObject<APIModelResponse>(apiResponse.Result);
+                    return PartialView(responseContent);
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok("Error");
+            }
+        }
+
+
         [HttpPost("Report/_PGReport")]
         public async Task<IActionResult> _PGReport(InitiatePaymentRequest request)
         {

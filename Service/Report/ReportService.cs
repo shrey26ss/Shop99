@@ -171,6 +171,7 @@ inner join Products p(nolock) on p.Id = vg.ProductId
             throw new NotImplementedException();
         }
 
+       
         public async Task<IResponse<IEnumerable<InitiatePayment>>> GetPGReport(RequestBase<InitiatePaymentRequest> req)
         {
             var res = new Response<IEnumerable<InitiatePayment>>();
@@ -178,7 +179,7 @@ inner join Products p(nolock) on p.Id = vg.ProductId
             {
                 if (req.RoleId == Convert.ToInt32(Role.ADMIN))
                 {
-                    string sp = @"SELECT i.TID,i.PGID,i.Amount,i.UserId,dbo.CustomFormat(i.EntryOn) EntryOn,dbo.CustomFormat(i.ModifyOn) ModifyOn,
+                    string sp = @"SELECT i.TID,i.PGID,i.Amount,i.TID,i.UserId,dbo.CustomFormat(i.EntryOn) EntryOn,dbo.CustomFormat(i.ModifyOn) ModifyOn,
                                          i.[Status],i.UTR,u.[Name],u.PhoneNumber 
                                   FROM InitiatePayment i(nolock) inner join Users u(nolock) on i.UserId = u.Id order by i.ModifyOn desc";
                     res.Result = await _dapper.GetAllAsync<InitiatePayment>(sp, new { req.Data.Status }, CommandType.Text);
@@ -196,5 +197,25 @@ inner join Products p(nolock) on p.Id = vg.ProductId
             }
             return res;
         }
+
+        public async Task<IResponse<IEnumerable<APIModel>>> GetTransactionReqRes(string TID)
+        {
+            var res = new Response<IEnumerable<APIModel>>();
+            try
+            {
+                string sp = @"SELECT * FROM APILog WHERE TID = @TID"; 
+                var result = await _dapper.GetAllAsync<APIModel>(sp, new { TID }, commandType: CommandType.Text);
+
+                res.Result = result;
+                res.StatusCode = ResponseStatus.Success;
+                res.ResponseText = nameof(ResponseStatus.Success);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return res;
+        }
+
     }
 }

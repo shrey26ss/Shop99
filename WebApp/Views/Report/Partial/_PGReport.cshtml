@@ -30,10 +30,13 @@
             <td>@item.PGID</td>
             <td><span class="d-block">@item.Name</span><small>[@item.PhoneNumber]</small></td>
             <td class="text-right">@item.Amount</td>
+
             <td class="text-nowrap">
                 <span data-item-id="@item.TID" class="fa fa-info-circle text-info a_modal" onclick="transactionDialog(this)" style="cursor:pointer" aria-hidden="true"></span>
                 &nbsp;@item.TID
             </td>
+
+
             <td class="align-middle">
                 @if (item.Status == "S")
                 {
@@ -85,5 +88,22 @@
            Q.notify(result.statusCode, result.responseText);
              loadData();
          }).fail(xhr => Q.notify(-1, xhr.responseText))
+    }
+
+    function transactionDialog(element) {
+        var tid = $(element).data('item-id');
+        $.post('/Report/GetTransactionReqRes', { TID: tid })
+            .done(result => {
+                console.log(result);
+                Q.alert({
+                    title: 'Payment Initiate',
+                    body: result,
+                    width: 800
+                });
+            })
+            .fail(xhr => {
+                console.error("Error:", xhr.responseText);
+            });
+
     }
 </script>
