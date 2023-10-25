@@ -13,12 +13,26 @@
             <td>@item.TID </td>
             <td>@item.Name</td>
             <td>@item.PhoneNumber</td>
-            <td style="color: @(item.TrType == "C" ? "green" : item.TrType == "D" ? "red" : "black")">@item.TrType R</td>
+             <td>
+                @if (item.TrType == "C")
+                {
+                    <span class="text-success">Cr</span>
+                }
+                else if (item.TrType == "D")
+                {
+                    <span class="text-danger">Dr</span>
+                }
+                else
+                {
+                    @item.TrType
+                }
+            </td>
             <td>@item.ServiceName</td>
-            <td>₹@item.Opening</td>
-            <td>₹@item.Amount</td>
-            <td>₹@item.Closing</td>
-            <td>@item.EntryOn.ToString("dd MMM yyyy")</td>
+            <td class="text-right">₹@item.Opening</td>
+            <td  class="text-right">₹@item.Amount</td>
+            <td  class="text-right">₹@item.Closing</td>
+           <td>@item.EntryOn.ToString("dd MMM yyyy HH:mm")</td>
+
         </tr>
     }
 }

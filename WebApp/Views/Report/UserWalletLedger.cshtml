@@ -10,10 +10,9 @@
                         User Ledger
                     </h3>
                 </div>
-                <div class="cus-output-form">
+                
                     <div class="row w-100">
-
-                        <div class="col-sm-2"></div>
+                        <div class="col-sm-5"></div>
                         <div class="col-sm-2 float-end">
                             <span class="text-bold">From</span>
                             <input aria-describedby="dtFromDate" class="form-control" id="dtFromDate" tabindex="5" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")" />
@@ -22,13 +21,16 @@
                             <span class="text-bold">To</span>
                             <input aria-describedby="dtToDate" class="form-control" id="dtToDate" tabindex="6" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")">
                         </div>
-                        <div class="col-sm-2 float-end">
-                        </div>
-                        <div class="col-sm-4 float-end">
-
+                        <div class="col-sm-3 float-end">
                             <span class="text-bold">Search Ledger</span>
                             <div class="input-group">
                                 <input type="text" id="txtSearch" class="form-control" placeholder="Search in Ledger" />
+                                <div class="input-group-append" style="cursor:pointer">
+                                <div class="input-group-text btn-primary" id="basic-addon">
+                                    <span class="fa-3x">
+                                        <i class="fa fa-search" style="font-size: 22px;"></i>
+                                    </span>
+                                </div>
 
                             </div>
                         </div>
@@ -45,9 +47,9 @@
                             <th>PhoneNumber</th>
                             <th>Transaction Type</th>
                             <th class="text-nowrap">Service</th>
-                            <th>Opening</th>
-                            <th class="text-nowrap">Closing</th>
-                            <th class="text-nowrap">Amount</th>
+                            <th class=text-right>Opening</th>
+                            <th class="text-right">Closing</th>
+                            <th class="text-right">Amount</th>
                             <th>EntryOn</th>
                         </tr>
                     </thead>
@@ -62,36 +64,29 @@
         $(document).ready(() => {
             loadData();
         })
-        $(() => {
-            let modelval = '@Model.Status';
-            if (modelval)
-                $('#status').val(modelval);
-
-            loadData();
-            $("#txtSearch ,#dtFromDate,#dtToDates").on("keyup", function () {
-                let value = $(this).val().toLowerCase();
-                $('#tblBody tr').filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        })
-        $('#dtFromDate, #dtToDate').on('change', function () {
-            loadData();
-        });
-        var loadData = () => {
-            $.post('/Report/UserWalletLedgerList', { Status: $('#status').val(), FromDate: $('#dtFromDate').val(), ToDate: $('#dtToDate').val() }).done(function (result) {
-                console.log('Result:', result)
-                $('#tblBody').html(result);
-            }).fail(function (xhr) {
-            })
+         var params = () => {
+            return {
+                Top: $('#Top').val(),
+                FromDate: $('#dtFromDate').val(),
+                ToDate: $('#dtToDate').val(),
+                SearchText: $('#txtSearch').val()
+            };
+        }
+        $('#basic-addon').click(() => loadData());
+        var loadData =  () => {
+            let param = params();
+            Q.btnLdr.Start($('#basic-addon'), '');
+             $.post('/Report/UserWalletLedgerList', param).done(function (result) {
+                $("#Grid tbody").empty();
+                $('#Grid tbody').append(result);
+                Q.btnLdr.Stop($('#basic-addon'), '');
+            }).fail(xhr => Q.notify(-1, xhrText[xhr.status]));
         };
-
         $('#dtFromDate, #dtToDate').datepicker({
             changeYear: true,
             changeMonth: true,
             dateFormat: 'dd M yy',
             autoClose: true
         });
-
     </script>
 }
