@@ -29,10 +29,10 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetInventoryReport(InventoryRequest req) => Ok(await _report.GetInventoryReport(new RequestBase<InventoryRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
 
         [Route("Report/UserWalletLedgerList")]
-        public async Task<IActionResult> UserWalletLedgerList(string Phonenumber)
+        public async Task<IActionResult> UserWalletLedgerList(UserWalletLedgerRequest request)
         {
-            int UserID = User.GetLoggedInUserId<int>();
-            var result = await _report.GetUserWalletLedger(Phonenumber, UserID);
+             request.UserID = User.GetLoggedInUserId<int>();
+            var result = await _report.GetUserWalletLedger(request);
             return Ok(result);
         }
         [Route("Report/ReviewReport")]

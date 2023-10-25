@@ -97,12 +97,12 @@ inner join Products p(nolock) on p.Id = vg.ProductId
             }
             return res;
         }
-        public async Task<IResponse<IEnumerable<UserWalletledger>>> GetUserWalletLedger(string Phonenumber, int UserID)
+        public async Task<IResponse<IEnumerable<UserWalletledger>>> GetUserWalletLedger(UserWalletLedgerRequest request)
         {
             var res = new Response<IEnumerable<UserWalletledger>>();
             try
             {
-                res.Result = await _dapper.GetAllAsync<UserWalletledger>("proc_GetWalletLedger", new { Phonenumber, UserID }, CommandType.StoredProcedure);
+                res.Result = await _dapper.GetAllAsync<UserWalletledger>("proc_GetWalletLedger", request, CommandType.StoredProcedure);
                 res.StatusCode = ResponseStatus.Success;
                 res.ResponseText = nameof(ResponseStatus.Success);
             }

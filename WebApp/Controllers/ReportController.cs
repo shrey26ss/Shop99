@@ -60,9 +60,9 @@ namespace WebApp.Controllers
             return View(new UserWalletledgerRequest { Status = status });
         }
         [HttpPost("Report/UserWalletLedgerList")]
-        public async Task<IActionResult> UserWalletLedgerList(string Phonenumber,int UserID)
+        public async Task<IActionResult> UserWalletLedgerList(UserWalletLedgerRequest request)
         {
-            var res = await _convert.GetList<UserWalletledger>("Report/UserWalletLedgerList", GetToken(), new {Phonenumber,UserID});
+            var res = await _convert.GetList<UserWalletledger>("Report/UserWalletLedgerList", GetToken(),request);
             return PartialView("Partial/_UserWalletLedger", res);
         }
         
