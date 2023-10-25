@@ -1,39 +1,58 @@
 ﻿@using Entities.Enums;
 @using Entities.Models;
-<div class="content">
-    <div class="card">
-        <div class="card-body">
-            <div class="row justify-content-end">
-                <div class="col-md-9 col-sm-6">
-                    <h2 class="float-left">
-                        User Wallet Ledger
-                    </h2>
+<div class="card">
+    <div class="card-body">
+        <div class="row justify-content-end">
+
+            <div id="cus-order-details">
+                <div class="col-sm-12">
+                    <h3 class="float-left cus-details-for-order text-center">
+                        User Ledger
+                    </h3>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <input type="text" id="txtSearch" class="form-control" placeholder="Search in Table" />
-                </div>
-                <div class="col-md-12 mt-2">
-                    <div class="col-md-12 mt-2">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="Grid">
-                                <thead>
-                                    <tr role="row">
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Transaction Type</th>
-                                        <th>Opening Balance</th>
-                                        <th class="text-nowrap">Amount</th>
-                                        <th class="text-nowrap">Closing Balance</th>
-                                        <th>Transaction  ID</th>
-                                        <th class="text-nowrap">Service Name</th>
-                                        <th>EntryOn</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblBody"></tbody>
-                            </table>
+                <div class="cus-output-form">
+                    <div class="row w-100">
+
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2 float-end">
+                            <span class="text-bold">From</span>
+                            <input aria-describedby="dtFromDate" class="form-control" id="dtFromDate" tabindex="5" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")" />
+                        </div>
+                        <div class="col-sm-2 float-end">
+                            <span class="text-bold">To</span>
+                            <input aria-describedby="dtToDate" class="form-control" id="dtToDate" tabindex="6" type="text" readonly="readonly" value="@DateTime.Now.ToString("dd MMM yyyy")">
+                        </div>
+                        <div class="col-sm-2 float-end">
+                        </div>
+                        <div class="col-sm-4 float-end">
+
+                            <span class="text-bold">Search Ledger</span>
+                            <div class="input-group">
+                                <input type="text" id="txtSearch" class="form-control" placeholder="Search in Ledger" />
+
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12 mt-2 table-responsive">
+                <table class="table table-bordered" id="Grid">
+                    <thead>
+                        <tr role="row">
+                            <th>#</th>
+                            <th>Transaction  ID</th>
+                            <th>Name</th>
+                            <th>PhoneNumber</th>
+                            <th>Transaction Type</th>
+                            <th class="text-nowrap">Service</th>
+                            <th>Opening</th>
+                            <th class="text-nowrap">Closing</th>
+                            <th class="text-nowrap">Amount</th>
+                            <th>EntryOn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -47,20 +66,32 @@
             let modelval = '@Model.Status';
             if (modelval)
                 $('#status').val(modelval);
+
             loadData();
-            $("#txtSearch").on("keyup", function () {
+            $("#txtSearch ,#dtFromDate,#dtToDates").on("keyup", function () {
                 let value = $(this).val().toLowerCase();
                 $('#tblBody tr').filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
         })
+        $('#dtFromDate, #dtToDate').on('change', function () {
+            loadData();
+        });
         var loadData = () => {
-            $.post('/Report/UserWalletLedgerList', { Status: $('#status').val() }).done(function (result) {
-                console.log('Result:',result)
+            $.post('/Report/UserWalletLedgerList', { Status: $('#status').val(), FromDate: $('#dtFromDate').val(), ToDate: $('#dtToDate').val() }).done(function (result) {
+                console.log('Result:', result)
                 $('#tblBody').html(result);
             }).fail(function (xhr) {
             })
         };
+
+        $('#dtFromDate, #dtToDate').datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'dd M yy',
+            autoClose: true
+        });
+
     </script>
 }

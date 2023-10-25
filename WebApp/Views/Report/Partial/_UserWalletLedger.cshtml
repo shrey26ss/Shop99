@@ -1,29 +1,31 @@
 ﻿@using Entities.Models;
 @model IEnumerable<UserWalletledger>
 
+    
 @if (Model != null && Model.Any())
 {
-    int counter = 0;
+    int i = 0;
     foreach (var item in Model)
     {
-        counter++;
+        i++;
         <tr>
+            <td>@i</td>
+            <td>@item.TID </td>
             <td>@item.Name</td>
             <td>@item.PhoneNumber</td>
-            <td>@item.TrType</td>
-            <td>@item.Opening</td>
-            <td>@item.Amount</td>
-            <td>@item.Closing</td>
-            <td>@item.TID</td>
+            <td style="color: @(item.TrType == "C" ? "green" : item.TrType == "D" ? "red" : "black")">@item.TrType R</td>
             <td>@item.ServiceName</td>
-            <td>@item.EntryOn</td>
+            <td>₹@item.Opening</td>
+            <td>₹@item.Amount</td>
+            <td>₹@item.Closing</td>
+            <td>@item.EntryOn.ToString("dd MMM yyyy")</td>
         </tr>
     }
 }
 else
 {
     <tr>
-        <td colspan="8"><center>No Data Found</center></td>
+        <td colspan="10"><center>No Data Found</center></td>
     </tr>
 }
 

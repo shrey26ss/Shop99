@@ -22,4 +22,12 @@ namespace Entities.Models
     {
         public StatusType Status { get; set; } = 0;
     }
+    public class UserWalletLedgerRequest
+    {
+        public string Phonenumber { get; set; }
+        public int UserID { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
+
 }
