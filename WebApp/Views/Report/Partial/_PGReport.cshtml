@@ -92,7 +92,6 @@
 
     function transactionDialog(element) {
         var tid = $(element).data('item-id');
-        console.log("TID:", tid);
         $.post('/Report/GetTransactionReqRes', { TID: tid })
             .done(result => {
                 console.log(result);

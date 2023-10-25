@@ -1,6 +1,12 @@
 ﻿@using Entities.Enums;
 @using Entities.Models;
 @model InventoryRequest
+
+<style>
+    #Grid_filter{
+        display:none;
+    }
+</style>
 <div class="content">
     <div class="card">
         <div class="card-body">
@@ -8,16 +14,17 @@
                 <div class="col-md-4 col-sm-6">
                     <h4 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0;">Payment Initiate</h4>
                 </div>
-                @*<div class="col-md-5 col-sm-6 text-right">
+                <div class="col-md-5 col-sm-6 text-right">
                     <div class="input-group">
-                        <input id="txtSearch" class="form-control" placeholder="Search in Table" />
+                        <input id="txtSearch" class="form-control" style="border-radius: 5px;" placeholder="Search in Table" />
+
                         <div class="input-group-append" id="search" style="">
                             <button id="searchBtn" class="btn btn-primary" style="cursor: pointer;">
                                 <span class="fas fa-search" style="margin: auto;"></span>
                             </button>
                         </div>
                     </div>
-                </div>*@
+                </div>
             </div>
         </div>
     </div>

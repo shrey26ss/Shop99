@@ -35,6 +35,7 @@ namespace WebAPI.Controllers
         [Route("Report/GetTransactionReqRes/{TID}")]
         public async Task<IActionResult> GetTransactionReqRes(string TID)
         {
+            
             var result = await _report.GetTransactionReqRes(TID);
             return Ok(result);
         }

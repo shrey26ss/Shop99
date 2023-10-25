@@ -89,7 +89,7 @@ namespace WebApp.Controllers
 
                 if (apiResponse.HttpStatusCode == HttpStatusCode.OK)
                 {
-                var  responseContent = JsonConvert.DeserializeObject<IEnumerable<APIModel>>(apiResponse.Result);
+                    var responseContent = JsonConvert.DeserializeObject<APIModelResponse>(apiResponse.Result);
                     return PartialView(responseContent);
                 }
                 else
