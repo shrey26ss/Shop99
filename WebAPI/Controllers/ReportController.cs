@@ -41,8 +41,17 @@ namespace WebAPI.Controllers
         [Route("Report/GetNewslatter")]
         public async Task<IActionResult> GetNewslatter() => Ok(await _report.GetNewslatter());
 
+        [Route("Report/GetTransactionReqRes/{TID}")]
+        public async Task<IActionResult> GetTransactionReqRes(string TID)
+        {
+            
+            var result = await _report.GetTransactionReqRes(TID);
+            return Ok(result);
+        }
+
+
         [HttpPost("Report/GetPGReport")]
-        public async Task<IActionResult> GetPGReport(InitiatePaymentRequest req) => Ok(await _report.GetPGReport(new RequestBase<InitiatePaymentRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));
+        public async Task<IActionResult> GetPGReport(InitiatePaymentRequest req) => Ok(await _report.GetPGReport(new RequestBase<InitiatePaymentRequest> { RoleId = User.GetLoggedInUserRole<int>(),Data= req }));
 
         [HttpPost("Report/UpdateTransactionStatus")]
         public async Task<IActionResult> UpdateTransactionStatus(TransactionStatusRequest req) => Ok(await _pgService.UpadateTransactionStatus(new RequestBase<TransactionStatusRequest> { RoleId = User.GetLoggedInUserRole<int>(), Data = req }));

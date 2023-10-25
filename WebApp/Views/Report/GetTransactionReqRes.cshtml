@@ -1,0 +1,171 @@
+﻿@using Entities.Models;
+@model APIModelResponse
+
+<style>
+    b {
+        font-weight: 700;
+    }
+
+    /* Truncated text with read more button */
+    .box input {
+        opacity: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .box p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .box input:focus ~ label {
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    .box input:checked + p {
+        -webkit-line-clamp: unset;
+    }
+
+    .box input:checked ~ label, .box p:not(.truncated) ~ label {
+        display: none;
+    }
+
+    /* End */
+
+    .box-shadow {
+        -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+        box-shadow: 0 2px 5px 0rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+    }
+
+    .message {
+        height: 90vh;
+    }
+</style>
+
+@if (Model.result.Any())
+{
+    var firstObj = Model.result.FirstOrDefault();
+    <div class="row text-monospace d-flex justify-content-between pl-2 pr-2" style="padding-top: 10px; border: 1px solid #0000001f; padding-bottom: 17px;">
+       
+        <div>
+            <b>TransactionID</b>
+            <span class="d-block">@firstObj.TID</span>
+        </div>
+        <div>
+            <b>Method</b>
+            <span class="d-block">@firstObj.Method</span>
+        </div>
+    </div>
+
+    @for (int i = 0; i < Model.result.Count(); i++)
+    {
+        var item = Model.result[i];
+        <div class="row">
+            <div class="col-sm-12">
+                <b>Request</b>
+                <span class="pull-right text-monospace text-danger">
+                    [<b>Date/Time : </b>@item.EntryOn]
+                </span>
+                <div class="box-2 p-2" style="background: #e1e0e0;">
+                    <p class="mb-0 truncated" id="RequestC_@i">
+                        @item.Request
+                    </p>
+
+                </div>
+                <div class="box">
+                    <p class="flex-row-reverse d-flex align-items-center">
+                        <span class="pull-right ml-2" onclick="jsonBeautifier(this)" style="cursor:pointer;color:#2262c6"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        <span class="pull-right ml-2" onclick="copyToClipboard(this.previousSibling)" style="cursor:pointer;color:#2262c6"><i class="fas fa-clone" aria-hidden="true"></i></span>
+                        <label class="pull-right btn-link mb-0" for="expandedR_@i" role="button">read more</label>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <b>Response</b>
+                <div class="box-2 p-2" style="background: #e1e0e0;">
+                    <p class="mb-0 truncated" id="RequestC_@i">
+                        @item.Response
+                    </p>
+                </div>
+
+                <div class="box">
+                    <input type="checkbox" id="expandedRs_@i">
+                    <p class="flex-row-reverse d-flex align-items-center">
+                        <span class="pull-right ml-2" onclick="jsonBeautifier(this)" style="cursor:pointer;color:#2262c6"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        <span class="pull-right ml-2" onclick="copyToClipboard(this.previousSibling)" style="cursor:pointer;color:#2262c6"><i class="fas fa-clone" aria-hidden"true"></i></span>
+                        <label class="pull-right btn-link mb-0" for="expandedRs_@i" role="button">read more</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+}
+else
+{
+    <div class="row text-monospace">
+        <div class="col-sm-12 text-center">
+            <h6>No Data Available</h6>
+        </div>
+    </div>
+}
+
+
+
+<script>
+    $(document).on('click', '.more', e => { 
+       let ele = $(e.currentTarget);
+        ele.closest('.box').find('.text-short,.text-full').toggleClass('text-short text-full');
+        let txt = ele.text();
+        txt = txt == 'more' ? 'less' : 'more';
+        ele.text(txt);
+    });
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $(element).append($temp);
+        let acturalText = $(element).text();
+        $temp.val(acturalText).select();
+        document.execCommand("copy");
+        $temp.remove();
+        Q.notify(1, "Copied");
+    }
+
+    function jsonBeautifier(element) {
+        let $boxElement = $(element).parents('.box');
+        let _text = $boxElement.siblings('.box-2').text();
+        console.log(_text);
+        if (_text) {
+            if (Q.IsValidJson(_text)) {
+                let jsonObj = JSON.parse(_text);
+                try {
+                    jsonObj = JSON.parse(jsonObj);
+                }
+                catch (ex) {
+
+                }
+                _text = JSON.stringify(jsonObj, null, 4);
+            }
+            Q.alert({
+                title: 'Beautifier',
+                body: `<div style="max-height:90vh;overflow:auto"><pre>${_text}</pre></div>`,
+            });
+        }
+    }
+
+    Q.IsValidJson = str => (/^[\],:{}\s]*$/.test(str.replace(/\\["\\\/bfnrtu]/g, '@@')
+        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+        replace(/(?:^|:|,)(?:\s*\[)+/g, '')));
+
+    Q.jsonBeautifier = text => {
+        if (text) {
+            var jsonObj = JSON.parse(text);
+            alert({
+                title: 'Beautifier',
+                body: `<div style="max-height:90vh;overflow:auto"><pre>${JSON.stringify(jsonObj, null, 4)}</pre></div>`,
+            });
+        }
+    }
+</script>
