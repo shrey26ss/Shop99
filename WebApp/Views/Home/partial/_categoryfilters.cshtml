@@ -7,52 +7,100 @@
     int i = 1;
     int count = 0;
     int j = 0;
+    int k = 0;
+    var bfilters = Model.Select(x => x.brandfilter).FirstOrDefault();
+    
 }
 
 @foreach (var item in Model)
 {
-
     string cls = count == 0 ? "open" : "mt-3";
     string styl = count == 0 ? "" : count == 1 ? "" : "display: none;";
     count++;
     string dispalyNone = "";
+    if (item.Name != "Brand")
+    {
+        <div class="collection-collapse-block p-3" id="@item.Name">
+            <h3 class="collapse-block-title mt-0">@item.Name</h3>
+            <div class="collection-collapse-block-content" style="@styl">
+                <div class="collection-brand-filter">
+                    @foreach (var attr in @item.attributes)
+                    {
+                        j++;
+                        if (j >= 4)
+                        {
+                            dispalyNone = "d-none";
+                        }
+                        <div class="custom-control collection-collapse-block custom-checkbox  form-check collection-filter-checkbox @dispalyNone">
+                            <input type="checkbox" class="custom-control-input form-check-input" value="@attr.AttributeValue" id="@i">
+                            <label class="custom-control-label form-check-label" for="@i">@attr.AttributeValue</label>
+                        </div>
 
-    <div class="collection-collapse-block p-3" id="@item.Name">
-        <h3 class="collapse-block-title mt-0">@item.Name</h3>
+                        i = i + 1;
+                    }
+                    <div class="showmore-container">
+                        <label class="pull-right showMore" style="margin-top:-15px">More</label>
+                        <label class="pull-right lessMore" style="margin-top:-15px;display:none">Less</label>
+                    </div>
+
+                    @if (j > 4)
+                    {
+                        j = 0;
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+}
+@for (int z = 1; z <= bfilters.Count(); z++)
+{
+    string cls = count == 0 ? "open" : "mt-3";
+    string styl = count == 0 ? "" : count == 1 ? "" : "display: none;";
+    count++;
+    string dispalyNone = "";
+    <div class="collection-collapse-block p-3" id="tid_@z">
+        <h3 class="collapse-block-title mt-0">Brands</h3>
         <div class="collection-collapse-block-content" style="@styl">
             <div class="collection-brand-filter">
-                @foreach (var attr in @item.attributes)
+                @foreach (var item in bfilters)
                 {
-                    j++;
-                    if (j >= 4)
+                    k++;
+                    if (k >= 4)
                     {
                         dispalyNone = "d-none";
                     }
                     <div class="custom-control collection-collapse-block custom-checkbox  form-check collection-filter-checkbox @dispalyNone">
-                        <input type="checkbox" class="custom-control-input form-check-input" value="@attr.AttributeValue" id="@i">
-                        <label class="custom-control-label form-check-label" for="@i">@attr.AttributeValue</label>
-                    </div>
+                        <input type="checkbox" class="custom-control-input form-check-input" value="@item.Bid" id="@z" onclick="redirectWithCheckboxValue(this)">
+                     <label class="custom-control-label form-check-label" for="@z">@item.Name</label>
+                     </div>
 
-                    i = i + 1;
+                    z = z + 1;
                 }
                 <div class="showmore-container">
                     <label class="pull-right showMore" style="margin-top:-15px">More</label>
                     <label class="pull-right lessMore" style="margin-top:-15px;display:none">Less</label>
                 </div>
 
-                @if (j > 4)
+                @if (k >4)
                 {
-                    j = 0;
+                    k = 0;
 
                 }
 
             </div>
         </div>
     </div>
-
 }
+
+    
+
+ 
+
 <script>
     $('.showMore').unbind().click(e => {
+        debugger;
         let element = $(e.currentTarget);
         let divId = element.closest('.collection-collapse-block').attr('id');
         let showElementCount = $('#' + divId).find('.collection-filter-checkbox :visible').length;
@@ -85,6 +133,16 @@
         let filt = val.join(',');
         loadFilteredProduct(filt);
     });
+
+    function redirectWithCheckboxValue(checkbox) {
+        debugger;
+        if (checkbox.checked) {
+            var value = checkbox.value; 
+            var domain = window.location.protocol + "//" + window.location.host; 
+            var targetUrl = domain + "/products/brand/" + value;
+            window.location.href = targetUrl;
+         }
+    }
 
     $('.collapse-block-title').on('click', function (e) {
         e.preventDefault;
