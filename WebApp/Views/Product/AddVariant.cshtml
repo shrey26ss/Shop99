@@ -121,10 +121,19 @@ else
                     return `<tr data-cId=${result.categoryId} data-id=${v.id} data-attribute-id="${v.id}" data-attribute-name="${v.name}">
                                             <td>${srNo}</td>
                                             <td>${v.name}</td>
-                                            <td><input type="text" class="form-control" id="attrValue" ></td>
+                                                    <td><input type="text" class="form-control discardSpecial" id="attrValue" ></td>
                                             </tr>`;
                 });
                 $('#dataTable1 tbody').html(_attributeHtml.join(''));
+                $('.discardSpecial').on('input', function () {
+                    var sanitizedValue = $(this).val().replace(/[^a-zA-Z0-9.]/g, '');
+                    var decimalCount = (sanitizedValue.match(/\./g) || []).length;
+                    if (decimalCount > 1) {
+                        var parts = sanitizedValue.split('.');
+                        sanitizedValue = parts[0] + '.' + parts.slice(1).join('');
+                    }
+                    $(this).val(sanitizedValue);
+                });
 
             })
         })()
