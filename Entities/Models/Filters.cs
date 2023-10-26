@@ -13,6 +13,12 @@ namespace Entities.Models
         [JsonIgnore]
         public string AttributeValue { get; set; }
         public IEnumerable<FiltersAttributes> attributes { get; set; }
+        public List<BrandFilters> brandfilter { get; set; }
+    }
+    public class BrandFilters
+    {
+        public int Bid { get; set; }
+        public string Name { get; set; }
     }
     public class FiltersAttributes
     {
