@@ -1,100 +1,94 @@
 ﻿@using Entities.Enums
 @using WebApp.Models.ViewModels
 @model TopBannerDashBoard;
-
-<section class="theme-slider home-slide b-g-white " id="home-slide">
-    <div class="custom-container">
-        <div class="row">
-            <div class="col">
-                <div class="slide-1">
-                    @if (Model != null && Model.topBanner.Any())
-                    {
-                        var banner = Model.topBanner;
-                        foreach (var item in banner)
+<style>
+    .shop a.btn {
+        border: 1px solid;
+        position: absolute;
+        bottom: 17px;
+        right: 18px;
+        padding: 4px;
+        font-size: 13px;
+        font-weight: 300 !important;
+        color:#fff!important;
+    }
+</style>
+<section class="theme-slider home-slide b-g-white custom-container" id="home-slide">
+    <div class="slide-1">
+        @if (Model != null && Model.topBanner.Any())
+        {
+            int i = 0;
+            var banner = Model.topBanner;
+            foreach (var item in banner)
+            {
+                i++;
+                <div class="slider-banner p-center slide-banner-1">
+                    <div class="slider-img">
+                        <ul class="layout1-slide-2">
+                            <li id="img-3" class="slide-center">
+                                <img src="@item.BannerPath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="slider" @Html.Raw(i==1?"":"loading='lazy'")>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="slider-banner-contain">
+                        <h1><span>@item.Title</span></h1>
+                        <h4>@item.Subtitle</h4>
+                        @if (!string.IsNullOrEmpty(item.BackLinkText))
                         {
-                            <div>
-                                <div class="slider-banner p-center slide-banner-1">
-                                    <div class="slider-img">
-                                        <ul class="layout1-slide-2">
-                                            <li id="img-3" class="slide-center">
-                                                <img src="@item.BannerPath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="slider">
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="slider-banner-contain">
-                                        <div>
-                                            <h1><span>@item.Title</span></h1>
-                                            <h4>@item.Subtitle</h4>
-                                            @if(!string.IsNullOrEmpty(item.BackLinkText)){
-                                            <a href="@item.BackLinkURL" class="btn btn-normal">
-                                                @item.BackLinkText
-                                            </a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <a href="@item.BackLinkURL" class="btn btn-normal">
+                                @item.BackLinkText
+                            </a>
                         }
-                    }
-                    else{
-                        <div>
-                            <div class="slider-banner p-center slide-banner-1">
-                                <div class="slider-img">
-                                    <ul class="layout1-slide-2">
-                                        <li id="img-3" class="slide-center">
-                                            <img src="/Image/default-banner.jpg" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="slider">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="slider-banner p-center slide-banner-1">
+                <div class="slider-img">
+                    <ul class="layout1-slide-2">
+                        <li id="img-3" class="slide-center">
+                            <img src="/Image/default-banner.jpg" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid" alt="slider" loading="lazy">
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </section>
 
 @if (Model != null && Model.topLowBanner.Any())
 {
     var topLowBanner = Model.topLowBanner;
-    <section class="collection-banner section-pt-space b-g-white ">
-        <div class="custom-container">
-            <div class="row collection2">
-                @foreach (var item in topLowBanner)
-                {
-                    <div class="col-md-4">
-                        <div class="collection-banner-main banner-1  p-right">
-                            <div class="collection-img">
-                                <img src="@item.BannerPath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid bg-img" alt="banner">
-                            </div>
-                            <div class="collection-banner-contain">
-                                <div>
-                                    <h3>@item.Title</h3>
-                                    <h4>@item.Subtitle</h4>
-                                    <div class="shop">
-                                        <a href="@item.BackLinkURL">
-                                            shop now
-                                        </a>
-                                    </div>
+    <section class="collection-banner section-pt-space b-g-white custom-container">
+        <div class="row collection2">
+            @foreach (var item in topLowBanner)
+            {
+                <div class="col-md-4">
+                    <div class="collection-banner-main banner-1  p-right">
+                        <div class="collection-img">
+                            <img src="@item.BannerPath" onerror="this.onerror=null;this.src='/assets/images/noimage.jpg'" class="img-fluid bg-img" alt="banner">
+                        </div>
+                        <div class="collection-banner-contain">
+
+                            <h3>@item.Title</h3>
+                            <h4>@item.Subtitle</h4>
+                            @if (!string.IsNullOrEmpty(@item.BackLinkText))
+                            {
+                                <div class="shop">
+                                    <a href="@item.BackLinkURL" class="btn">
+                                        @item.BackLinkText
+                                    </a>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
-
-
-                   
-                }
-            </div>
+                </div>
+            }
         </div>
     </section>
-
-
-
 }
-
-
-
 <script>
     $('.slide-1').slick({
         autoplay: true,
@@ -102,254 +96,4 @@
         nav: true,
         dots: false,
     });
-    $('.slide-1-section').slick({
-        dots: false,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 767,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 490,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-
-        ]
-    });
-    $('.slide-4').slick({
-        dots: false,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-
-        ]
-    });
-    $('.slide-5').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 5,
-        centerPadding: '15px',
-        responsive: [
-            {
-                breakpoint: 1470,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 820,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    infinite: true
-                }
-            }
-        ]
-    });
-    $('.slide-6').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 6,
-        slidesToScroll: 6,
-        responsive: [
-            {
-                breakpoint: 1367,
-                settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 5,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 767,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            }
-
-        ]
-    });
-    $('.slide-7').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 7,
-        slidesToScroll: 7,
-        responsive: [
-            {
-                breakpoint: 1367,
-                settings: {
-                    slidesToShow: 6,
-                    slidesToScroll: 6
-                }
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 5,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            }
-            // You can unslick at a given breakpoint now by adding:
-            // settings: "unslick"
-            // instead of a settings object
-        ]
-    });
-    $('.slide-10').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 10,
-        slidesToScroll: 10,
-        responsive: [
-            {
-                breakpoint: 1700,
-                settings: {
-                    slidesToShow: 8,
-                    slidesToScroll: 8
-                }
-            },
-            {
-                breakpoint: 1367,
-                settings: {
-                    slidesToShow: 6,
-                    slidesToScroll: 6
-                }
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 5,
-                    infinite: true
-                }
-            },
-            {
-                breakpoint: 800,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            }
-            // You can unslick at a given breakpoint now by adding:
-            // settings: "unslick"
-            // instead of a settings object
-        ]
-    });</script>
+</script>

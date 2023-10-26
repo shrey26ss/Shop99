@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Entities.Enums;
+﻿using Entities.Enums;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -19,9 +18,6 @@ using Microsoft.AspNetCore.Http;
 using Service.Models;
 using WebApp.AppCode.Attributes;
 using WebApp.AppCode.Enums;
-
-
-
 
 namespace WebApp.Controllers
 {
