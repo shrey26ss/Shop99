@@ -83,7 +83,7 @@
                     <label class="pull-right lessMore" style="margin-top:-15px;display:none">Less</label>
                 </div>
 
-                @if (k > 4)
+                @if (k >4)
                 {
                     k = 0;
 
@@ -141,30 +141,7 @@
             var domain = window.location.protocol + "//" + window.location.host; 
             var targetUrl = domain + "/products/brand/" + value;
             window.location.href = targetUrl;
-            //let slidervalue = $("#slideramount").val();
-            //let range = slidervalue.split(' - ');
-            //let inputMinValue = parseFloat(range[0].replace('₹', '').trim());
-            //let inputMaxValue = parseFloat(range[1].replace('₹', '').trim());
-            //let url = new URL(window.location.href);
-            //let serachParam = url.pathname.split('/');
-            //console.log(serachParam)
-            //let filterBy = 'brand';
-            //if (serachParam != null && serachParam.length >= 3) {
-            //    filterBy = serachParam[2];
-            //}
-            //let param = {
-            //    filterBy: filterBy,
-            //    cid: value,
-            //    pricefrom: inputMinValue,
-            //    priceto: inputMaxValue,
-            //    sortBy: $('#sortItem').val(),
-            //    top: $('#productPerPage').val(),
-            //    filters
-            //};
-            //$.post("/Products/Filtered", param).done(res => {
-            //    $('products').html(res);
-            //}).fail(xhr => Q.notify(-1, xhr.responseText)).always(() => "");
-        }
+         }
     }
 
     $('.collapse-block-title').on('click', function (e) {
