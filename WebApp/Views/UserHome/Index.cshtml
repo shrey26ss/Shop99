@@ -154,7 +154,7 @@
                             <table class="table table-bordered table-hover table-striped" id="ordertbl">
                                 <thead>
                                     <tr>
-                                        <th>Order #</th>
+                                        <th>#</th>
                                         <th>Order status</th>
                                         <th>Customer</th>
                                         <th>Order on</th>
@@ -210,9 +210,9 @@
                                                     <td>${count}</td>
                                                     <td><span class="grid-report-item ${statuscls} btn-sm">${statusTxt}</span></td>
                                                     <td>${v.title}</td>
-                                                    <td>${v.entryOn}</td>
+                                                            <td class="text-nowrap">${v.entryOn}</td>
                                                     <td class="button-column">
-                                                                                    <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}&orderid=${v.id}&date=${v.entryOn}"><i class="far fa-eye cus-fa-eye"></i>View</a>
+                                                    <a class="btn btn-default btn-sm" href="/OrderDetails/Index?type=${v.statusID}&orderid=${v.id}&date=${v.entryOn}"><i class="far fa-eye cus-fa-eye"></i>View</a>
                                                     </td>
                                                 </tr>`;
                         }

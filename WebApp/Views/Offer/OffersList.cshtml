@@ -12,7 +12,7 @@
             <td>@item.OfferDescription</td>
             <td>@item.OfferBeginOn</td>
             <td>@item.OfferEndOn</td>
-            <td>@item.AtRate</td>
+            <td class="text-right">@item.AtRate</td>
             <td>
                 <span class="switch switch-sm">
                 <input type="checkbox" class="switch" onclick="UpdateIsActive('@item.OfferId')" id="IsActive_@item.OfferId" @Html.Raw(item.IsActive ? "checked='checked'" : "")>

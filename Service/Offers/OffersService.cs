@@ -70,12 +70,13 @@ namespace Service.Offers
             {
                 if (request.Data.Id != 0 && request.Data.Id > 0)
                 {
-                    sp = @"select * from Offers where OfferId = @Id";
+                    sp = @" select OfferId,OfferTypeId,OfferTitle,offerDescription,convert(varchar,OfferBeginOn,106) OfferBeginOn	,IsFlat	,AtRate	,DiscountUpToAmount	,MinEligibleAmount	,convert(varchar,OfferEndOn,106) OfferEndOn from Offers where  offerId=@Id";
+
                     res.Result = await _dapper.GetAllAsync<GetOffers>(sp, new { request.Data.Id }, CommandType.Text);
                 }
                 else
                 {
-                    sp = @"select * from Offers";
+                    sp = @" select OfferId,OfferTypeId,OfferTitle	,offerDescription,convert(varchar,OfferBeginOn,106) OfferBeginOn	,IsFlat	,AtRate	,DiscountUpToAmount	,MinEligibleAmount	,convert(varchar,OfferEndOn,106) OfferEndOn from Offers order by OfferId";
                     res.Result = await _dapper.GetAllAsync<GetOffers>(sp, new { }, CommandType.Text);
                 }
                 res.StatusCode = ResponseStatus.Success;

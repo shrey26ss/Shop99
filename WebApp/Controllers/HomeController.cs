@@ -3,11 +3,8 @@ using Entities.Enums;
 using Entities.Models;
 using Infrastructure.Interface;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
 using Microsoft.AspNetCore.Routing;
-
 using Service.Models;
 using System;
 using System.Collections.Generic;
